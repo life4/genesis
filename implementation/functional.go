@@ -4,7 +4,7 @@ package implementation
 type T struct{}
 
 // Filter returns slice of T for which F returned true
-func Filter(f func(el T) bool, arr []T) []T {
+func Filter(arr []T, f func(el T) bool) []T {
 	result := make([]T, 0, len(arr))
 	for _, el := range arr {
 		if f(el) {
@@ -15,7 +15,7 @@ func Filter(f func(el T) bool, arr []T) []T {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
-func Map(f func(el T) T, arr []T) []T {
+func Map(arr []T, f func(el T) T) []T {
 	result := make([]T, 0, len(arr))
 	for _, el := range arr {
 		result = append(result, f(el))
@@ -24,7 +24,7 @@ func Map(f func(el T) T, arr []T) []T {
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
-func Reduce(f func(el T, acc T) T, arr []T, acc T) T {
+func Reduce(arr []T, acc T, f func(el T, acc T) T) T {
 	for _, el := range arr {
 		acc = f(el, acc)
 	}
@@ -35,7 +35,7 @@ func Reduce(f func(el T, acc T) T, arr []T, acc T) T {
 func Identity(t T) T { return t }
 
 // Any returns true if f returns true for any element in arr
-func Any(f func(el T) bool, arr []T) bool {
+func Any(arr []T, f func(el T) bool) bool {
 	for _, el := range arr {
 		if f(el) {
 			return true
@@ -45,7 +45,7 @@ func Any(f func(el T) bool, arr []T) bool {
 }
 
 // All returns true if f returns true for all elements in arr
-func All(f func(el T) bool, arr []T) bool {
+func All(arr []T, f func(el T) bool) bool {
 	for _, el := range arr {
 		if !f(el) {
 			return false

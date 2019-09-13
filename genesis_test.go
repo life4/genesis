@@ -8,7 +8,7 @@ import (
 
 func TestFilterInt32(t *testing.T) {
 	f := func(filter func(t int32) bool, given []int32, expected []int32) {
-		actual := FilterInt32(filter, given)
+		actual := FilterInt32(given, filter)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	filterPositive := func(t int32) bool { return t > 0 }
@@ -20,7 +20,7 @@ func TestFilterInt32(t *testing.T) {
 
 func TestMapInt32(t *testing.T) {
 	f := func(mapper func(t int32) int32, given []int32, expected []int32) {
-		actual := MapInt32(mapper, given)
+		actual := MapInt32(given, mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	double := func(t int32) int32 { return t * 2 }

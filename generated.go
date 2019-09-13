@@ -1,7 +1,7 @@
 package genesis
 
 // Filter returns slice of T for which F returned true
-func FilterBool(f func(el bool) bool, arr []bool) []bool {
+func FilterBool(arr []bool, f func(el bool) bool) []bool {
 	result := make([]bool, 0, len(arr))
 	for _, el := range arr {
 		if f(el) {
@@ -12,7 +12,7 @@ func FilterBool(f func(el bool) bool, arr []bool) []bool {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
-func MapBool(f func(el bool) bool, arr []bool) []bool {
+func MapBool(arr []bool, f func(el bool) bool) []bool {
 	result := make([]bool, 0, len(arr))
 	for _, el := range arr {
 		result = append(result, f(el))
@@ -21,7 +21,7 @@ func MapBool(f func(el bool) bool, arr []bool) []bool {
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceBool(f func(el bool, acc bool) bool, arr []bool, acc bool) bool {
+func ReduceBool(arr []bool, acc bool, f func(el bool, acc bool) bool) bool {
 	for _, el := range arr {
 		acc = f(el, acc)
 	}
@@ -32,7 +32,7 @@ func ReduceBool(f func(el bool, acc bool) bool, arr []bool, acc bool) bool {
 func IdentityBool(t bool) bool { return t }
 
 // Any returns true if f returns true for any element in arr
-func AnyBool(f func(el bool) bool, arr []bool) bool {
+func AnyBool(arr []bool, f func(el bool) bool) bool {
 	for _, el := range arr {
 		if f(el) {
 			return true
@@ -42,7 +42,7 @@ func AnyBool(f func(el bool) bool, arr []bool) bool {
 }
 
 // All returns true if f returns true for all elements in arr
-func AllBool(f func(el bool) bool, arr []bool) bool {
+func AllBool(arr []bool, f func(el bool) bool) bool {
 	for _, el := range arr {
 		if !f(el) {
 			return false
@@ -52,7 +52,7 @@ func AllBool(f func(el bool) bool, arr []bool) bool {
 }
 
 // Filter returns slice of T for which F returned true
-func FilterByte(f func(el byte) bool, arr []byte) []byte {
+func FilterByte(arr []byte, f func(el byte) bool) []byte {
 	result := make([]byte, 0, len(arr))
 	for _, el := range arr {
 		if f(el) {
@@ -63,7 +63,7 @@ func FilterByte(f func(el byte) bool, arr []byte) []byte {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
-func MapByte(f func(el byte) byte, arr []byte) []byte {
+func MapByte(arr []byte, f func(el byte) byte) []byte {
 	result := make([]byte, 0, len(arr))
 	for _, el := range arr {
 		result = append(result, f(el))
@@ -72,7 +72,7 @@ func MapByte(f func(el byte) byte, arr []byte) []byte {
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceByte(f func(el byte, acc byte) byte, arr []byte, acc byte) byte {
+func ReduceByte(arr []byte, acc byte, f func(el byte, acc byte) byte) byte {
 	for _, el := range arr {
 		acc = f(el, acc)
 	}
@@ -83,7 +83,7 @@ func ReduceByte(f func(el byte, acc byte) byte, arr []byte, acc byte) byte {
 func IdentityByte(t byte) byte { return t }
 
 // Any returns true if f returns true for any element in arr
-func AnyByte(f func(el byte) bool, arr []byte) bool {
+func AnyByte(arr []byte, f func(el byte) bool) bool {
 	for _, el := range arr {
 		if f(el) {
 			return true
@@ -93,7 +93,7 @@ func AnyByte(f func(el byte) bool, arr []byte) bool {
 }
 
 // All returns true if f returns true for all elements in arr
-func AllByte(f func(el byte) bool, arr []byte) bool {
+func AllByte(arr []byte, f func(el byte) bool) bool {
 	for _, el := range arr {
 		if !f(el) {
 			return false
@@ -103,7 +103,7 @@ func AllByte(f func(el byte) bool, arr []byte) bool {
 }
 
 // Filter returns slice of T for which F returned true
-func FilterFloat32(f func(el float32) bool, arr []float32) []float32 {
+func FilterFloat32(arr []float32, f func(el float32) bool) []float32 {
 	result := make([]float32, 0, len(arr))
 	for _, el := range arr {
 		if f(el) {
@@ -114,7 +114,7 @@ func FilterFloat32(f func(el float32) bool, arr []float32) []float32 {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
-func MapFloat32(f func(el float32) float32, arr []float32) []float32 {
+func MapFloat32(arr []float32, f func(el float32) float32) []float32 {
 	result := make([]float32, 0, len(arr))
 	for _, el := range arr {
 		result = append(result, f(el))
@@ -123,7 +123,7 @@ func MapFloat32(f func(el float32) float32, arr []float32) []float32 {
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceFloat32(f func(el float32, acc float32) float32, arr []float32, acc float32) float32 {
+func ReduceFloat32(arr []float32, acc float32, f func(el float32, acc float32) float32) float32 {
 	for _, el := range arr {
 		acc = f(el, acc)
 	}
@@ -134,7 +134,7 @@ func ReduceFloat32(f func(el float32, acc float32) float32, arr []float32, acc f
 func IdentityFloat32(t float32) float32 { return t }
 
 // Any returns true if f returns true for any element in arr
-func AnyFloat32(f func(el float32) bool, arr []float32) bool {
+func AnyFloat32(arr []float32, f func(el float32) bool) bool {
 	for _, el := range arr {
 		if f(el) {
 			return true
@@ -144,7 +144,7 @@ func AnyFloat32(f func(el float32) bool, arr []float32) bool {
 }
 
 // All returns true if f returns true for all elements in arr
-func AllFloat32(f func(el float32) bool, arr []float32) bool {
+func AllFloat32(arr []float32, f func(el float32) bool) bool {
 	for _, el := range arr {
 		if !f(el) {
 			return false
@@ -154,7 +154,7 @@ func AllFloat32(f func(el float32) bool, arr []float32) bool {
 }
 
 // Filter returns slice of T for which F returned true
-func FilterFloat64(f func(el float64) bool, arr []float64) []float64 {
+func FilterFloat64(arr []float64, f func(el float64) bool) []float64 {
 	result := make([]float64, 0, len(arr))
 	for _, el := range arr {
 		if f(el) {
@@ -165,7 +165,7 @@ func FilterFloat64(f func(el float64) bool, arr []float64) []float64 {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
-func MapFloat64(f func(el float64) float64, arr []float64) []float64 {
+func MapFloat64(arr []float64, f func(el float64) float64) []float64 {
 	result := make([]float64, 0, len(arr))
 	for _, el := range arr {
 		result = append(result, f(el))
@@ -174,7 +174,7 @@ func MapFloat64(f func(el float64) float64, arr []float64) []float64 {
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceFloat64(f func(el float64, acc float64) float64, arr []float64, acc float64) float64 {
+func ReduceFloat64(arr []float64, acc float64, f func(el float64, acc float64) float64) float64 {
 	for _, el := range arr {
 		acc = f(el, acc)
 	}
@@ -185,7 +185,7 @@ func ReduceFloat64(f func(el float64, acc float64) float64, arr []float64, acc f
 func IdentityFloat64(t float64) float64 { return t }
 
 // Any returns true if f returns true for any element in arr
-func AnyFloat64(f func(el float64) bool, arr []float64) bool {
+func AnyFloat64(arr []float64, f func(el float64) bool) bool {
 	for _, el := range arr {
 		if f(el) {
 			return true
@@ -195,7 +195,7 @@ func AnyFloat64(f func(el float64) bool, arr []float64) bool {
 }
 
 // All returns true if f returns true for all elements in arr
-func AllFloat64(f func(el float64) bool, arr []float64) bool {
+func AllFloat64(arr []float64, f func(el float64) bool) bool {
 	for _, el := range arr {
 		if !f(el) {
 			return false
@@ -205,7 +205,7 @@ func AllFloat64(f func(el float64) bool, arr []float64) bool {
 }
 
 // Filter returns slice of T for which F returned true
-func FilterInt(f func(el int) bool, arr []int) []int {
+func FilterInt(arr []int, f func(el int) bool) []int {
 	result := make([]int, 0, len(arr))
 	for _, el := range arr {
 		if f(el) {
@@ -216,7 +216,7 @@ func FilterInt(f func(el int) bool, arr []int) []int {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
-func MapInt(f func(el int) int, arr []int) []int {
+func MapInt(arr []int, f func(el int) int) []int {
 	result := make([]int, 0, len(arr))
 	for _, el := range arr {
 		result = append(result, f(el))
@@ -225,7 +225,7 @@ func MapInt(f func(el int) int, arr []int) []int {
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceInt(f func(el int, acc int) int, arr []int, acc int) int {
+func ReduceInt(arr []int, acc int, f func(el int, acc int) int) int {
 	for _, el := range arr {
 		acc = f(el, acc)
 	}
@@ -236,7 +236,7 @@ func ReduceInt(f func(el int, acc int) int, arr []int, acc int) int {
 func IdentityInt(t int) int { return t }
 
 // Any returns true if f returns true for any element in arr
-func AnyInt(f func(el int) bool, arr []int) bool {
+func AnyInt(arr []int, f func(el int) bool) bool {
 	for _, el := range arr {
 		if f(el) {
 			return true
@@ -246,7 +246,7 @@ func AnyInt(f func(el int) bool, arr []int) bool {
 }
 
 // All returns true if f returns true for all elements in arr
-func AllInt(f func(el int) bool, arr []int) bool {
+func AllInt(arr []int, f func(el int) bool) bool {
 	for _, el := range arr {
 		if !f(el) {
 			return false
@@ -256,7 +256,7 @@ func AllInt(f func(el int) bool, arr []int) bool {
 }
 
 // Filter returns slice of T for which F returned true
-func FilterInt16(f func(el int16) bool, arr []int16) []int16 {
+func FilterInt16(arr []int16, f func(el int16) bool) []int16 {
 	result := make([]int16, 0, len(arr))
 	for _, el := range arr {
 		if f(el) {
@@ -267,7 +267,7 @@ func FilterInt16(f func(el int16) bool, arr []int16) []int16 {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
-func MapInt16(f func(el int16) int16, arr []int16) []int16 {
+func MapInt16(arr []int16, f func(el int16) int16) []int16 {
 	result := make([]int16, 0, len(arr))
 	for _, el := range arr {
 		result = append(result, f(el))
@@ -276,7 +276,7 @@ func MapInt16(f func(el int16) int16, arr []int16) []int16 {
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceInt16(f func(el int16, acc int16) int16, arr []int16, acc int16) int16 {
+func ReduceInt16(arr []int16, acc int16, f func(el int16, acc int16) int16) int16 {
 	for _, el := range arr {
 		acc = f(el, acc)
 	}
@@ -287,7 +287,7 @@ func ReduceInt16(f func(el int16, acc int16) int16, arr []int16, acc int16) int1
 func IdentityInt16(t int16) int16 { return t }
 
 // Any returns true if f returns true for any element in arr
-func AnyInt16(f func(el int16) bool, arr []int16) bool {
+func AnyInt16(arr []int16, f func(el int16) bool) bool {
 	for _, el := range arr {
 		if f(el) {
 			return true
@@ -297,7 +297,7 @@ func AnyInt16(f func(el int16) bool, arr []int16) bool {
 }
 
 // All returns true if f returns true for all elements in arr
-func AllInt16(f func(el int16) bool, arr []int16) bool {
+func AllInt16(arr []int16, f func(el int16) bool) bool {
 	for _, el := range arr {
 		if !f(el) {
 			return false
@@ -307,7 +307,7 @@ func AllInt16(f func(el int16) bool, arr []int16) bool {
 }
 
 // Filter returns slice of T for which F returned true
-func FilterInt32(f func(el int32) bool, arr []int32) []int32 {
+func FilterInt32(arr []int32, f func(el int32) bool) []int32 {
 	result := make([]int32, 0, len(arr))
 	for _, el := range arr {
 		if f(el) {
@@ -318,7 +318,7 @@ func FilterInt32(f func(el int32) bool, arr []int32) []int32 {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
-func MapInt32(f func(el int32) int32, arr []int32) []int32 {
+func MapInt32(arr []int32, f func(el int32) int32) []int32 {
 	result := make([]int32, 0, len(arr))
 	for _, el := range arr {
 		result = append(result, f(el))
@@ -327,7 +327,7 @@ func MapInt32(f func(el int32) int32, arr []int32) []int32 {
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceInt32(f func(el int32, acc int32) int32, arr []int32, acc int32) int32 {
+func ReduceInt32(arr []int32, acc int32, f func(el int32, acc int32) int32) int32 {
 	for _, el := range arr {
 		acc = f(el, acc)
 	}
@@ -338,7 +338,7 @@ func ReduceInt32(f func(el int32, acc int32) int32, arr []int32, acc int32) int3
 func IdentityInt32(t int32) int32 { return t }
 
 // Any returns true if f returns true for any element in arr
-func AnyInt32(f func(el int32) bool, arr []int32) bool {
+func AnyInt32(arr []int32, f func(el int32) bool) bool {
 	for _, el := range arr {
 		if f(el) {
 			return true
@@ -348,7 +348,7 @@ func AnyInt32(f func(el int32) bool, arr []int32) bool {
 }
 
 // All returns true if f returns true for all elements in arr
-func AllInt32(f func(el int32) bool, arr []int32) bool {
+func AllInt32(arr []int32, f func(el int32) bool) bool {
 	for _, el := range arr {
 		if !f(el) {
 			return false
@@ -358,7 +358,7 @@ func AllInt32(f func(el int32) bool, arr []int32) bool {
 }
 
 // Filter returns slice of T for which F returned true
-func FilterInt64(f func(el int64) bool, arr []int64) []int64 {
+func FilterInt64(arr []int64, f func(el int64) bool) []int64 {
 	result := make([]int64, 0, len(arr))
 	for _, el := range arr {
 		if f(el) {
@@ -369,7 +369,7 @@ func FilterInt64(f func(el int64) bool, arr []int64) []int64 {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
-func MapInt64(f func(el int64) int64, arr []int64) []int64 {
+func MapInt64(arr []int64, f func(el int64) int64) []int64 {
 	result := make([]int64, 0, len(arr))
 	for _, el := range arr {
 		result = append(result, f(el))
@@ -378,7 +378,7 @@ func MapInt64(f func(el int64) int64, arr []int64) []int64 {
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceInt64(f func(el int64, acc int64) int64, arr []int64, acc int64) int64 {
+func ReduceInt64(arr []int64, acc int64, f func(el int64, acc int64) int64) int64 {
 	for _, el := range arr {
 		acc = f(el, acc)
 	}
@@ -389,7 +389,7 @@ func ReduceInt64(f func(el int64, acc int64) int64, arr []int64, acc int64) int6
 func IdentityInt64(t int64) int64 { return t }
 
 // Any returns true if f returns true for any element in arr
-func AnyInt64(f func(el int64) bool, arr []int64) bool {
+func AnyInt64(arr []int64, f func(el int64) bool) bool {
 	for _, el := range arr {
 		if f(el) {
 			return true
@@ -399,7 +399,7 @@ func AnyInt64(f func(el int64) bool, arr []int64) bool {
 }
 
 // All returns true if f returns true for all elements in arr
-func AllInt64(f func(el int64) bool, arr []int64) bool {
+func AllInt64(arr []int64, f func(el int64) bool) bool {
 	for _, el := range arr {
 		if !f(el) {
 			return false
@@ -409,7 +409,7 @@ func AllInt64(f func(el int64) bool, arr []int64) bool {
 }
 
 // Filter returns slice of T for which F returned true
-func FilterInt8(f func(el int8) bool, arr []int8) []int8 {
+func FilterInt8(arr []int8, f func(el int8) bool) []int8 {
 	result := make([]int8, 0, len(arr))
 	for _, el := range arr {
 		if f(el) {
@@ -420,7 +420,7 @@ func FilterInt8(f func(el int8) bool, arr []int8) []int8 {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
-func MapInt8(f func(el int8) int8, arr []int8) []int8 {
+func MapInt8(arr []int8, f func(el int8) int8) []int8 {
 	result := make([]int8, 0, len(arr))
 	for _, el := range arr {
 		result = append(result, f(el))
@@ -429,7 +429,7 @@ func MapInt8(f func(el int8) int8, arr []int8) []int8 {
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceInt8(f func(el int8, acc int8) int8, arr []int8, acc int8) int8 {
+func ReduceInt8(arr []int8, acc int8, f func(el int8, acc int8) int8) int8 {
 	for _, el := range arr {
 		acc = f(el, acc)
 	}
@@ -440,7 +440,7 @@ func ReduceInt8(f func(el int8, acc int8) int8, arr []int8, acc int8) int8 {
 func IdentityInt8(t int8) int8 { return t }
 
 // Any returns true if f returns true for any element in arr
-func AnyInt8(f func(el int8) bool, arr []int8) bool {
+func AnyInt8(arr []int8, f func(el int8) bool) bool {
 	for _, el := range arr {
 		if f(el) {
 			return true
@@ -450,7 +450,7 @@ func AnyInt8(f func(el int8) bool, arr []int8) bool {
 }
 
 // All returns true if f returns true for all elements in arr
-func AllInt8(f func(el int8) bool, arr []int8) bool {
+func AllInt8(arr []int8, f func(el int8) bool) bool {
 	for _, el := range arr {
 		if !f(el) {
 			return false
@@ -460,7 +460,7 @@ func AllInt8(f func(el int8) bool, arr []int8) bool {
 }
 
 // Filter returns slice of T for which F returned true
-func FilterString(f func(el string) bool, arr []string) []string {
+func FilterString(arr []string, f func(el string) bool) []string {
 	result := make([]string, 0, len(arr))
 	for _, el := range arr {
 		if f(el) {
@@ -471,7 +471,7 @@ func FilterString(f func(el string) bool, arr []string) []string {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
-func MapString(f func(el string) string, arr []string) []string {
+func MapString(arr []string, f func(el string) string) []string {
 	result := make([]string, 0, len(arr))
 	for _, el := range arr {
 		result = append(result, f(el))
@@ -480,7 +480,7 @@ func MapString(f func(el string) string, arr []string) []string {
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceString(f func(el string, acc string) string, arr []string, acc string) string {
+func ReduceString(arr []string, acc string, f func(el string, acc string) string) string {
 	for _, el := range arr {
 		acc = f(el, acc)
 	}
@@ -491,7 +491,7 @@ func ReduceString(f func(el string, acc string) string, arr []string, acc string
 func IdentityString(t string) string { return t }
 
 // Any returns true if f returns true for any element in arr
-func AnyString(f func(el string) bool, arr []string) bool {
+func AnyString(arr []string, f func(el string) bool) bool {
 	for _, el := range arr {
 		if f(el) {
 			return true
@@ -501,7 +501,7 @@ func AnyString(f func(el string) bool, arr []string) bool {
 }
 
 // All returns true if f returns true for all elements in arr
-func AllString(f func(el string) bool, arr []string) bool {
+func AllString(arr []string, f func(el string) bool) bool {
 	for _, el := range arr {
 		if !f(el) {
 			return false
@@ -511,7 +511,7 @@ func AllString(f func(el string) bool, arr []string) bool {
 }
 
 // Filter returns slice of T for which F returned true
-func FilterUint(f func(el uint) bool, arr []uint) []uint {
+func FilterUint(arr []uint, f func(el uint) bool) []uint {
 	result := make([]uint, 0, len(arr))
 	for _, el := range arr {
 		if f(el) {
@@ -522,7 +522,7 @@ func FilterUint(f func(el uint) bool, arr []uint) []uint {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
-func MapUint(f func(el uint) uint, arr []uint) []uint {
+func MapUint(arr []uint, f func(el uint) uint) []uint {
 	result := make([]uint, 0, len(arr))
 	for _, el := range arr {
 		result = append(result, f(el))
@@ -531,7 +531,7 @@ func MapUint(f func(el uint) uint, arr []uint) []uint {
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceUint(f func(el uint, acc uint) uint, arr []uint, acc uint) uint {
+func ReduceUint(arr []uint, acc uint, f func(el uint, acc uint) uint) uint {
 	for _, el := range arr {
 		acc = f(el, acc)
 	}
@@ -542,7 +542,7 @@ func ReduceUint(f func(el uint, acc uint) uint, arr []uint, acc uint) uint {
 func IdentityUint(t uint) uint { return t }
 
 // Any returns true if f returns true for any element in arr
-func AnyUint(f func(el uint) bool, arr []uint) bool {
+func AnyUint(arr []uint, f func(el uint) bool) bool {
 	for _, el := range arr {
 		if f(el) {
 			return true
@@ -552,7 +552,7 @@ func AnyUint(f func(el uint) bool, arr []uint) bool {
 }
 
 // All returns true if f returns true for all elements in arr
-func AllUint(f func(el uint) bool, arr []uint) bool {
+func AllUint(arr []uint, f func(el uint) bool) bool {
 	for _, el := range arr {
 		if !f(el) {
 			return false
@@ -562,7 +562,7 @@ func AllUint(f func(el uint) bool, arr []uint) bool {
 }
 
 // Filter returns slice of T for which F returned true
-func FilterUint16(f func(el uint16) bool, arr []uint16) []uint16 {
+func FilterUint16(arr []uint16, f func(el uint16) bool) []uint16 {
 	result := make([]uint16, 0, len(arr))
 	for _, el := range arr {
 		if f(el) {
@@ -573,7 +573,7 @@ func FilterUint16(f func(el uint16) bool, arr []uint16) []uint16 {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
-func MapUint16(f func(el uint16) uint16, arr []uint16) []uint16 {
+func MapUint16(arr []uint16, f func(el uint16) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
 	for _, el := range arr {
 		result = append(result, f(el))
@@ -582,7 +582,7 @@ func MapUint16(f func(el uint16) uint16, arr []uint16) []uint16 {
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceUint16(f func(el uint16, acc uint16) uint16, arr []uint16, acc uint16) uint16 {
+func ReduceUint16(arr []uint16, acc uint16, f func(el uint16, acc uint16) uint16) uint16 {
 	for _, el := range arr {
 		acc = f(el, acc)
 	}
@@ -593,7 +593,7 @@ func ReduceUint16(f func(el uint16, acc uint16) uint16, arr []uint16, acc uint16
 func IdentityUint16(t uint16) uint16 { return t }
 
 // Any returns true if f returns true for any element in arr
-func AnyUint16(f func(el uint16) bool, arr []uint16) bool {
+func AnyUint16(arr []uint16, f func(el uint16) bool) bool {
 	for _, el := range arr {
 		if f(el) {
 			return true
@@ -603,7 +603,7 @@ func AnyUint16(f func(el uint16) bool, arr []uint16) bool {
 }
 
 // All returns true if f returns true for all elements in arr
-func AllUint16(f func(el uint16) bool, arr []uint16) bool {
+func AllUint16(arr []uint16, f func(el uint16) bool) bool {
 	for _, el := range arr {
 		if !f(el) {
 			return false
@@ -613,7 +613,7 @@ func AllUint16(f func(el uint16) bool, arr []uint16) bool {
 }
 
 // Filter returns slice of T for which F returned true
-func FilterUint32(f func(el uint32) bool, arr []uint32) []uint32 {
+func FilterUint32(arr []uint32, f func(el uint32) bool) []uint32 {
 	result := make([]uint32, 0, len(arr))
 	for _, el := range arr {
 		if f(el) {
@@ -624,7 +624,7 @@ func FilterUint32(f func(el uint32) bool, arr []uint32) []uint32 {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
-func MapUint32(f func(el uint32) uint32, arr []uint32) []uint32 {
+func MapUint32(arr []uint32, f func(el uint32) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
 	for _, el := range arr {
 		result = append(result, f(el))
@@ -633,7 +633,7 @@ func MapUint32(f func(el uint32) uint32, arr []uint32) []uint32 {
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceUint32(f func(el uint32, acc uint32) uint32, arr []uint32, acc uint32) uint32 {
+func ReduceUint32(arr []uint32, acc uint32, f func(el uint32, acc uint32) uint32) uint32 {
 	for _, el := range arr {
 		acc = f(el, acc)
 	}
@@ -644,7 +644,7 @@ func ReduceUint32(f func(el uint32, acc uint32) uint32, arr []uint32, acc uint32
 func IdentityUint32(t uint32) uint32 { return t }
 
 // Any returns true if f returns true for any element in arr
-func AnyUint32(f func(el uint32) bool, arr []uint32) bool {
+func AnyUint32(arr []uint32, f func(el uint32) bool) bool {
 	for _, el := range arr {
 		if f(el) {
 			return true
@@ -654,7 +654,7 @@ func AnyUint32(f func(el uint32) bool, arr []uint32) bool {
 }
 
 // All returns true if f returns true for all elements in arr
-func AllUint32(f func(el uint32) bool, arr []uint32) bool {
+func AllUint32(arr []uint32, f func(el uint32) bool) bool {
 	for _, el := range arr {
 		if !f(el) {
 			return false
@@ -664,7 +664,7 @@ func AllUint32(f func(el uint32) bool, arr []uint32) bool {
 }
 
 // Filter returns slice of T for which F returned true
-func FilterUint64(f func(el uint64) bool, arr []uint64) []uint64 {
+func FilterUint64(arr []uint64, f func(el uint64) bool) []uint64 {
 	result := make([]uint64, 0, len(arr))
 	for _, el := range arr {
 		if f(el) {
@@ -675,7 +675,7 @@ func FilterUint64(f func(el uint64) bool, arr []uint64) []uint64 {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
-func MapUint64(f func(el uint64) uint64, arr []uint64) []uint64 {
+func MapUint64(arr []uint64, f func(el uint64) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
 	for _, el := range arr {
 		result = append(result, f(el))
@@ -684,7 +684,7 @@ func MapUint64(f func(el uint64) uint64, arr []uint64) []uint64 {
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceUint64(f func(el uint64, acc uint64) uint64, arr []uint64, acc uint64) uint64 {
+func ReduceUint64(arr []uint64, acc uint64, f func(el uint64, acc uint64) uint64) uint64 {
 	for _, el := range arr {
 		acc = f(el, acc)
 	}
@@ -695,7 +695,7 @@ func ReduceUint64(f func(el uint64, acc uint64) uint64, arr []uint64, acc uint64
 func IdentityUint64(t uint64) uint64 { return t }
 
 // Any returns true if f returns true for any element in arr
-func AnyUint64(f func(el uint64) bool, arr []uint64) bool {
+func AnyUint64(arr []uint64, f func(el uint64) bool) bool {
 	for _, el := range arr {
 		if f(el) {
 			return true
@@ -705,7 +705,7 @@ func AnyUint64(f func(el uint64) bool, arr []uint64) bool {
 }
 
 // All returns true if f returns true for all elements in arr
-func AllUint64(f func(el uint64) bool, arr []uint64) bool {
+func AllUint64(arr []uint64, f func(el uint64) bool) bool {
 	for _, el := range arr {
 		if !f(el) {
 			return false
@@ -715,7 +715,7 @@ func AllUint64(f func(el uint64) bool, arr []uint64) bool {
 }
 
 // Filter returns slice of T for which F returned true
-func FilterUint8(f func(el uint8) bool, arr []uint8) []uint8 {
+func FilterUint8(arr []uint8, f func(el uint8) bool) []uint8 {
 	result := make([]uint8, 0, len(arr))
 	for _, el := range arr {
 		if f(el) {
@@ -726,7 +726,7 @@ func FilterUint8(f func(el uint8) bool, arr []uint8) []uint8 {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
-func MapUint8(f func(el uint8) uint8, arr []uint8) []uint8 {
+func MapUint8(arr []uint8, f func(el uint8) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
 	for _, el := range arr {
 		result = append(result, f(el))
@@ -735,7 +735,7 @@ func MapUint8(f func(el uint8) uint8, arr []uint8) []uint8 {
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceUint8(f func(el uint8, acc uint8) uint8, arr []uint8, acc uint8) uint8 {
+func ReduceUint8(arr []uint8, acc uint8, f func(el uint8, acc uint8) uint8) uint8 {
 	for _, el := range arr {
 		acc = f(el, acc)
 	}
@@ -746,7 +746,7 @@ func ReduceUint8(f func(el uint8, acc uint8) uint8, arr []uint8, acc uint8) uint
 func IdentityUint8(t uint8) uint8 { return t }
 
 // Any returns true if f returns true for any element in arr
-func AnyUint8(f func(el uint8) bool, arr []uint8) bool {
+func AnyUint8(arr []uint8, f func(el uint8) bool) bool {
 	for _, el := range arr {
 		if f(el) {
 			return true
@@ -756,7 +756,7 @@ func AnyUint8(f func(el uint8) bool, arr []uint8) bool {
 }
 
 // All returns true if f returns true for all elements in arr
-func AllUint8(f func(el uint8) bool, arr []uint8) bool {
+func AllUint8(arr []uint8, f func(el uint8) bool) bool {
 	for _, el := range arr {
 		if !f(el) {
 			return false
