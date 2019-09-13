@@ -1734,6 +1734,179 @@ func TakeInt8(arr []int8, f func(el int8) bool) []int8 {
 }
 
 // Filter returns slice of T for which F returned true
+func Filter(arr []interface{}, f func(el interface{}) bool) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		if f(el) {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func Map(arr []interface{}, f func(el interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Each calls f for every element from arr
+func Each(arr []interface{}, f func(el interface{})) {
+	for _, el := range arr {
+		f(el)
+	}
+}
+
+// Identity accepts one argument and returns it
+func Identity(t interface{}) interface{} { return t }
+
+// Any returns true if f returns true for any element in arr
+func Any(arr []interface{}, f func(el interface{}) bool) bool {
+	for _, el := range arr {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+// All returns true if f returns true for all elements in arr
+func All(arr []interface{}, f func(el interface{}) bool) bool {
+	for _, el := range arr {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
+}
+
+// ChunkEvery returns slice of slices containing count elements each
+func ChunkEvery(arr []interface{}, count int) [][]interface{} {
+	chunks := make([][]interface{}, 0)
+	chunk := make([]interface{}, 0)
+	for i, el := range arr {
+		chunk = append(chunk, el)
+		if (i+1)%count == 0 {
+			chunks = append(chunks, chunk)
+			chunk = make([]interface{}, 0)
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// Concat concatenates given slices into a single slice.
+func Concat(arrs ...[]interface{}) []interface{} {
+	result := make([]interface{}, 0)
+	for _, arr := range arrs {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+// Contains returns true if el in arr.
+func Contains(arr []interface{}, el interface{}) bool {
+	for _, val := range arr {
+		if val == el {
+			return true
+		}
+	}
+	return false
+}
+
+// Dedup returns a given slice without consecutive duplicated elements
+func Dedup(arr []interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+
+	prev := arr[0]
+	result = append(result, prev)
+	for _, el := range arr[1:] {
+		if el != prev {
+			result = append(result, el)
+		}
+		prev = el
+	}
+	return result
+}
+
+// Find returns the first element for which f returns true
+func Find(arr []interface{}, def interface{}, f func(el interface{}) bool) interface{} {
+	for _, el := range arr {
+		if f(el) {
+			return el
+		}
+	}
+	return def
+}
+
+// FindIndex is like Find, but return element index instead of element itself
+// Returns -1 if element is not found
+func FindIndex(arr []interface{}, f func(el interface{}) bool) int {
+	for i, el := range arr {
+		if f(el) {
+			return i
+		}
+	}
+	return -1
+}
+
+// Intersperse inserts el between each element of arr
+func Intersperse(arr []interface{}, el interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr)*2-1)
+	result = append(result, arr[0])
+	for _, val := range arr[1:] {
+		result = append(result, el, val)
+	}
+	return result
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func Reduce(arr []interface{}, acc interface{}, f func(el interface{}, acc interface{}) interface{}) interface{} {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func ReduceWhile(arr []interface{}, acc interface{}, f func(el interface{}, acc interface{}) (interface{}, error)) (interface{}, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan is like Reduce, but returns slice of f results
+func Scan(arr []interface{}, acc interface{}, f func(el interface{}, acc interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Take takes elements from arr while f returns true
+func Take(arr []interface{}, f func(el interface{}) bool) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
+// Filter returns slice of T for which F returned true
 func FilterString(arr []string, f func(el string) bool) []string {
 	result := make([]string, 0, len(arr))
 	for _, el := range arr {
