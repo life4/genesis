@@ -130,6 +130,28 @@ func IntersperseBool(arr []bool, el bool) []bool {
 	return result
 }
 
+// Max returns the maximal element from arr
+func MaxBool(arr []bool) bool {
+	max := arr[0]
+	for _, el := range arr[1:] {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+// Min returns the minimal element from arr
+func MinBool(arr []bool) bool {
+	min := arr[0]
+	for _, el := range arr[1:] {
+		if el < min {
+			min = el
+		}
+	}
+	return min
+}
+
 // Filter returns slice of T for which F returned true
 func FilterByte(arr []byte, f func(el byte) bool) []byte {
 	result := make([]byte, 0, len(arr))
@@ -258,6 +280,28 @@ func IntersperseByte(arr []byte, el byte) []byte {
 		result = append(result, el, val)
 	}
 	return result
+}
+
+// Max returns the maximal element from arr
+func MaxByte(arr []byte) byte {
+	max := arr[0]
+	for _, el := range arr[1:] {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+// Min returns the minimal element from arr
+func MinByte(arr []byte) byte {
+	min := arr[0]
+	for _, el := range arr[1:] {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 // Filter returns slice of T for which F returned true
@@ -390,6 +434,28 @@ func IntersperseFloat32(arr []float32, el float32) []float32 {
 	return result
 }
 
+// Max returns the maximal element from arr
+func MaxFloat32(arr []float32) float32 {
+	max := arr[0]
+	for _, el := range arr[1:] {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+// Min returns the minimal element from arr
+func MinFloat32(arr []float32) float32 {
+	min := arr[0]
+	for _, el := range arr[1:] {
+		if el < min {
+			min = el
+		}
+	}
+	return min
+}
+
 // Filter returns slice of T for which F returned true
 func FilterFloat64(arr []float64, f func(el float64) bool) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -518,6 +584,28 @@ func IntersperseFloat64(arr []float64, el float64) []float64 {
 		result = append(result, el, val)
 	}
 	return result
+}
+
+// Max returns the maximal element from arr
+func MaxFloat64(arr []float64) float64 {
+	max := arr[0]
+	for _, el := range arr[1:] {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+// Min returns the minimal element from arr
+func MinFloat64(arr []float64) float64 {
+	min := arr[0]
+	for _, el := range arr[1:] {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 // Filter returns slice of T for which F returned true
@@ -650,6 +738,28 @@ func IntersperseInt(arr []int, el int) []int {
 	return result
 }
 
+// Max returns the maximal element from arr
+func MaxInt(arr []int) int {
+	max := arr[0]
+	for _, el := range arr[1:] {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+// Min returns the minimal element from arr
+func MinInt(arr []int) int {
+	min := arr[0]
+	for _, el := range arr[1:] {
+		if el < min {
+			min = el
+		}
+	}
+	return min
+}
+
 // Filter returns slice of T for which F returned true
 func FilterInt16(arr []int16, f func(el int16) bool) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -778,6 +888,28 @@ func IntersperseInt16(arr []int16, el int16) []int16 {
 		result = append(result, el, val)
 	}
 	return result
+}
+
+// Max returns the maximal element from arr
+func MaxInt16(arr []int16) int16 {
+	max := arr[0]
+	for _, el := range arr[1:] {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+// Min returns the minimal element from arr
+func MinInt16(arr []int16) int16 {
+	min := arr[0]
+	for _, el := range arr[1:] {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 // Filter returns slice of T for which F returned true
@@ -910,6 +1042,28 @@ func IntersperseInt32(arr []int32, el int32) []int32 {
 	return result
 }
 
+// Max returns the maximal element from arr
+func MaxInt32(arr []int32) int32 {
+	max := arr[0]
+	for _, el := range arr[1:] {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+// Min returns the minimal element from arr
+func MinInt32(arr []int32) int32 {
+	min := arr[0]
+	for _, el := range arr[1:] {
+		if el < min {
+			min = el
+		}
+	}
+	return min
+}
+
 // Filter returns slice of T for which F returned true
 func FilterInt64(arr []int64, f func(el int64) bool) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -1038,6 +1192,28 @@ func IntersperseInt64(arr []int64, el int64) []int64 {
 		result = append(result, el, val)
 	}
 	return result
+}
+
+// Max returns the maximal element from arr
+func MaxInt64(arr []int64) int64 {
+	max := arr[0]
+	for _, el := range arr[1:] {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+// Min returns the minimal element from arr
+func MinInt64(arr []int64) int64 {
+	min := arr[0]
+	for _, el := range arr[1:] {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 // Filter returns slice of T for which F returned true
@@ -1170,6 +1346,28 @@ func IntersperseInt8(arr []int8, el int8) []int8 {
 	return result
 }
 
+// Max returns the maximal element from arr
+func MaxInt8(arr []int8) int8 {
+	max := arr[0]
+	for _, el := range arr[1:] {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+// Min returns the minimal element from arr
+func MinInt8(arr []int8) int8 {
+	min := arr[0]
+	for _, el := range arr[1:] {
+		if el < min {
+			min = el
+		}
+	}
+	return min
+}
+
 // Filter returns slice of T for which F returned true
 func FilterString(arr []string, f func(el string) bool) []string {
 	result := make([]string, 0, len(arr))
@@ -1298,6 +1496,28 @@ func IntersperseString(arr []string, el string) []string {
 		result = append(result, el, val)
 	}
 	return result
+}
+
+// Max returns the maximal element from arr
+func MaxString(arr []string) string {
+	max := arr[0]
+	for _, el := range arr[1:] {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+// Min returns the minimal element from arr
+func MinString(arr []string) string {
+	min := arr[0]
+	for _, el := range arr[1:] {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 // Filter returns slice of T for which F returned true
@@ -1430,6 +1650,28 @@ func IntersperseUint(arr []uint, el uint) []uint {
 	return result
 }
 
+// Max returns the maximal element from arr
+func MaxUint(arr []uint) uint {
+	max := arr[0]
+	for _, el := range arr[1:] {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+// Min returns the minimal element from arr
+func MinUint(arr []uint) uint {
+	min := arr[0]
+	for _, el := range arr[1:] {
+		if el < min {
+			min = el
+		}
+	}
+	return min
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint16(arr []uint16, f func(el uint16) bool) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -1558,6 +1800,28 @@ func IntersperseUint16(arr []uint16, el uint16) []uint16 {
 		result = append(result, el, val)
 	}
 	return result
+}
+
+// Max returns the maximal element from arr
+func MaxUint16(arr []uint16) uint16 {
+	max := arr[0]
+	for _, el := range arr[1:] {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+// Min returns the minimal element from arr
+func MinUint16(arr []uint16) uint16 {
+	min := arr[0]
+	for _, el := range arr[1:] {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 // Filter returns slice of T for which F returned true
@@ -1690,6 +1954,28 @@ func IntersperseUint32(arr []uint32, el uint32) []uint32 {
 	return result
 }
 
+// Max returns the maximal element from arr
+func MaxUint32(arr []uint32) uint32 {
+	max := arr[0]
+	for _, el := range arr[1:] {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+// Min returns the minimal element from arr
+func MinUint32(arr []uint32) uint32 {
+	min := arr[0]
+	for _, el := range arr[1:] {
+		if el < min {
+			min = el
+		}
+	}
+	return min
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint64(arr []uint64, f func(el uint64) bool) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -1820,6 +2106,28 @@ func IntersperseUint64(arr []uint64, el uint64) []uint64 {
 	return result
 }
 
+// Max returns the maximal element from arr
+func MaxUint64(arr []uint64) uint64 {
+	max := arr[0]
+	for _, el := range arr[1:] {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+// Min returns the minimal element from arr
+func MinUint64(arr []uint64) uint64 {
+	min := arr[0]
+	for _, el := range arr[1:] {
+		if el < min {
+			min = el
+		}
+	}
+	return min
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint8(arr []uint8, f func(el uint8) bool) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -1948,4 +2256,26 @@ func IntersperseUint8(arr []uint8, el uint8) []uint8 {
 		result = append(result, el, val)
 	}
 	return result
+}
+
+// Max returns the maximal element from arr
+func MaxUint8(arr []uint8) uint8 {
+	max := arr[0]
+	for _, el := range arr[1:] {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+// Min returns the minimal element from arr
+func MinUint8(arr []uint8) uint8 {
+	min := arr[0]
+	for _, el := range arr[1:] {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }

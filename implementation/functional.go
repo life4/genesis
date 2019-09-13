@@ -1,7 +1,7 @@
 package implementation
 
 // T is a generic type
-type T struct{}
+type T int8
 
 // Filter returns slice of T for which F returned true
 func Filter(arr []T, f func(el T) bool) []T {
@@ -131,4 +131,26 @@ func Intersperse(arr []T, el T) []T {
 		result = append(result, el, val)
 	}
 	return result
+}
+
+// Max returns the maximal element from arr
+func Max(arr []T) T {
+	max := arr[0]
+	for _, el := range arr[1:] {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+// Min returns the minimal element from arr
+func Min(arr []T) T {
+	min := arr[0]
+	for _, el := range arr[1:] {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
