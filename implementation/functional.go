@@ -186,6 +186,17 @@ func Scan(arr []T, acc T, f func(el T, acc T) T) []T {
 	return result
 }
 
+// StartsWith returns true if slice starts with the given prefix slice.
+// If prefix is empty, it returns true.
+func StartsWith(arr []T, prefix []T) bool {
+	for i, el := range prefix {
+		if el != arr[i] {
+			return false
+		}
+	}
+	return true
+}
+
 // Take takes elements from arr while f returns true
 func Take(arr []T, f func(el T) bool) []T {
 	result := make([]T, 0, len(arr))

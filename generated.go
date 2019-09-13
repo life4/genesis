@@ -161,6 +161,17 @@ func ScanBool(arr []bool, acc bool, f func(el bool, acc bool) bool) []bool {
 	return result
 }
 
+// StartsWith returns true if slice starts with the given prefix slice.
+// If prefix is empty, it returns true.
+func StartsWithBool(arr []bool, prefix []bool) bool {
+	for i, el := range prefix {
+		if el != arr[i] {
+			return false
+		}
+	}
+	return true
+}
+
 // Take takes elements from arr while f returns true
 func TakeBool(arr []bool, f func(el bool) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -354,6 +365,17 @@ func ScanByte(arr []byte, acc byte, f func(el byte, acc byte) byte) []byte {
 		result = append(result, acc)
 	}
 	return result
+}
+
+// StartsWith returns true if slice starts with the given prefix slice.
+// If prefix is empty, it returns true.
+func StartsWithByte(arr []byte, prefix []byte) bool {
+	for i, el := range prefix {
+		if el != arr[i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Take takes elements from arr while f returns true
@@ -551,6 +573,17 @@ func ScanFloat32(arr []float32, acc float32, f func(el float32, acc float32) flo
 	return result
 }
 
+// StartsWith returns true if slice starts with the given prefix slice.
+// If prefix is empty, it returns true.
+func StartsWithFloat32(arr []float32, prefix []float32) bool {
+	for i, el := range prefix {
+		if el != arr[i] {
+			return false
+		}
+	}
+	return true
+}
+
 // Take takes elements from arr while f returns true
 func TakeFloat32(arr []float32, f func(el float32) bool) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -744,6 +777,17 @@ func ScanFloat64(arr []float64, acc float64, f func(el float64, acc float64) flo
 		result = append(result, acc)
 	}
 	return result
+}
+
+// StartsWith returns true if slice starts with the given prefix slice.
+// If prefix is empty, it returns true.
+func StartsWithFloat64(arr []float64, prefix []float64) bool {
+	for i, el := range prefix {
+		if el != arr[i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Take takes elements from arr while f returns true
@@ -941,6 +985,17 @@ func ScanInt(arr []int, acc int, f func(el int, acc int) int) []int {
 	return result
 }
 
+// StartsWith returns true if slice starts with the given prefix slice.
+// If prefix is empty, it returns true.
+func StartsWithInt(arr []int, prefix []int) bool {
+	for i, el := range prefix {
+		if el != arr[i] {
+			return false
+		}
+	}
+	return true
+}
+
 // Take takes elements from arr while f returns true
 func TakeInt(arr []int, f func(el int) bool) []int {
 	result := make([]int, 0, len(arr))
@@ -1134,6 +1189,17 @@ func ScanInt16(arr []int16, acc int16, f func(el int16, acc int16) int16) []int1
 		result = append(result, acc)
 	}
 	return result
+}
+
+// StartsWith returns true if slice starts with the given prefix slice.
+// If prefix is empty, it returns true.
+func StartsWithInt16(arr []int16, prefix []int16) bool {
+	for i, el := range prefix {
+		if el != arr[i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Take takes elements from arr while f returns true
@@ -1331,6 +1397,17 @@ func ScanInt32(arr []int32, acc int32, f func(el int32, acc int32) int32) []int3
 	return result
 }
 
+// StartsWith returns true if slice starts with the given prefix slice.
+// If prefix is empty, it returns true.
+func StartsWithInt32(arr []int32, prefix []int32) bool {
+	for i, el := range prefix {
+		if el != arr[i] {
+			return false
+		}
+	}
+	return true
+}
+
 // Take takes elements from arr while f returns true
 func TakeInt32(arr []int32, f func(el int32) bool) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -1524,6 +1601,17 @@ func ScanInt64(arr []int64, acc int64, f func(el int64, acc int64) int64) []int6
 		result = append(result, acc)
 	}
 	return result
+}
+
+// StartsWith returns true if slice starts with the given prefix slice.
+// If prefix is empty, it returns true.
+func StartsWithInt64(arr []int64, prefix []int64) bool {
+	for i, el := range prefix {
+		if el != arr[i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Take takes elements from arr while f returns true
@@ -1721,6 +1809,17 @@ func ScanInt8(arr []int8, acc int8, f func(el int8, acc int8) int8) []int8 {
 	return result
 }
 
+// StartsWith returns true if slice starts with the given prefix slice.
+// If prefix is empty, it returns true.
+func StartsWithInt8(arr []int8, prefix []int8) bool {
+	for i, el := range prefix {
+		if el != arr[i] {
+			return false
+		}
+	}
+	return true
+}
+
 // Take takes elements from arr while f returns true
 func TakeInt8(arr []int8, f func(el int8) bool) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -1892,6 +1991,17 @@ func Scan(arr []interface{}, acc interface{}, f func(el interface{}, acc interfa
 		result = append(result, acc)
 	}
 	return result
+}
+
+// StartsWith returns true if slice starts with the given prefix slice.
+// If prefix is empty, it returns true.
+func StartsWith(arr []interface{}, prefix []interface{}) bool {
+	for i, el := range prefix {
+		if el != arr[i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Take takes elements from arr while f returns true
@@ -2089,6 +2199,17 @@ func ScanString(arr []string, acc string, f func(el string, acc string) string) 
 	return result
 }
 
+// StartsWith returns true if slice starts with the given prefix slice.
+// If prefix is empty, it returns true.
+func StartsWithString(arr []string, prefix []string) bool {
+	for i, el := range prefix {
+		if el != arr[i] {
+			return false
+		}
+	}
+	return true
+}
+
 // Take takes elements from arr while f returns true
 func TakeString(arr []string, f func(el string) bool) []string {
 	result := make([]string, 0, len(arr))
@@ -2282,6 +2403,17 @@ func ScanUint(arr []uint, acc uint, f func(el uint, acc uint) uint) []uint {
 		result = append(result, acc)
 	}
 	return result
+}
+
+// StartsWith returns true if slice starts with the given prefix slice.
+// If prefix is empty, it returns true.
+func StartsWithUint(arr []uint, prefix []uint) bool {
+	for i, el := range prefix {
+		if el != arr[i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Take takes elements from arr while f returns true
@@ -2479,6 +2611,17 @@ func ScanUint16(arr []uint16, acc uint16, f func(el uint16, acc uint16) uint16) 
 	return result
 }
 
+// StartsWith returns true if slice starts with the given prefix slice.
+// If prefix is empty, it returns true.
+func StartsWithUint16(arr []uint16, prefix []uint16) bool {
+	for i, el := range prefix {
+		if el != arr[i] {
+			return false
+		}
+	}
+	return true
+}
+
 // Take takes elements from arr while f returns true
 func TakeUint16(arr []uint16, f func(el uint16) bool) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -2672,6 +2815,17 @@ func ScanUint32(arr []uint32, acc uint32, f func(el uint32, acc uint32) uint32) 
 		result = append(result, acc)
 	}
 	return result
+}
+
+// StartsWith returns true if slice starts with the given prefix slice.
+// If prefix is empty, it returns true.
+func StartsWithUint32(arr []uint32, prefix []uint32) bool {
+	for i, el := range prefix {
+		if el != arr[i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Take takes elements from arr while f returns true
@@ -2869,6 +3023,17 @@ func ScanUint64(arr []uint64, acc uint64, f func(el uint64, acc uint64) uint64) 
 	return result
 }
 
+// StartsWith returns true if slice starts with the given prefix slice.
+// If prefix is empty, it returns true.
+func StartsWithUint64(arr []uint64, prefix []uint64) bool {
+	for i, el := range prefix {
+		if el != arr[i] {
+			return false
+		}
+	}
+	return true
+}
+
 // Take takes elements from arr while f returns true
 func TakeUint64(arr []uint64, f func(el uint64) bool) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -3062,6 +3227,17 @@ func ScanUint8(arr []uint8, acc uint8, f func(el uint8, acc uint8) uint8) []uint
 		result = append(result, acc)
 	}
 	return result
+}
+
+// StartsWith returns true if slice starts with the given prefix slice.
+// If prefix is empty, it returns true.
+func StartsWithUint8(arr []uint8, prefix []uint8) bool {
+	for i, el := range prefix {
+		if el != arr[i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Take takes elements from arr while f returns true
