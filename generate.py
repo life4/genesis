@@ -3,7 +3,12 @@ from pathlib import Path
 from shutil import rmtree
 
 
-TYPES = ('int32', 'int64', 'float32', 'float64', 'bool', 'string')
+TYPES = (
+    'bool', 'byte', 'string',
+    'float32', 'float64',
+    'int', 'int8', 'int16', 'int32', 'int64',
+    'uint', 'uint8', 'uint16', 'uint32', 'uint64',
+)
 
 
 Path('generated').mkdir(exist_ok=True)
