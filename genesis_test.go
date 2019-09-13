@@ -14,4 +14,6 @@ func TestFilterInt32(t *testing.T) {
 	filterPositive := func(t int32) bool { return t > 0 }
 
 	f(filterPositive, []int32{1, -1, 2, -2, 3, -3}, []int32{1, 2, 3})
+	f(filterPositive, []int32{1, 2, 3}, []int32{1, 2, 3})
+	f(filterPositive, []int32{-1, -2, -3}, []int32{})
 }
