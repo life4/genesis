@@ -20,7 +20,7 @@ def generate():
         suffix = '' if t == 'interface{}' else t.title()
         subprocess.call([
             'go_generics',
-            '-i', 'implementation/functional.go',
+            '-i', 'implementation/slices.go',
             '-o', 'generated/{}.go'.format(t),
             '-p', 'genesis',
             '-suffix', suffix,
