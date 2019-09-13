@@ -36,3 +36,11 @@ func TestChunkEveryInt32(t *testing.T) {
 	f(2, []int32{1, 2, 3, 4}, [][]int32{[]int32{1, 2}, []int32{3, 4}})
 	f(2, []int32{1, 2, 3, 4, 5}, [][]int32{[]int32{1, 2}, []int32{3, 4}, []int32{5}})
 }
+
+func TestIntersperseInt32(t *testing.T) {
+	f := func(el int32, given []int32, expected []int32) {
+		actual := IntersperseInt32(given, el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, []int32{1, 2, 3}, []int32{1, 0, 2, 0, 3})
+}

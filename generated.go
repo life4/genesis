@@ -99,6 +99,37 @@ func DedupBool(arr []bool) []bool {
 	return result
 }
 
+// Find returns the first element for which f returns true
+func FindBool(arr []bool, def bool, f func(el bool) bool) bool {
+	for _, el := range arr {
+		if f(el) {
+			return el
+		}
+	}
+	return def
+}
+
+// FindIndex is like Find, but return element index instead of element itself
+// Returns -1 if element is not found
+func FindIndexBool(arr []bool, f func(el bool) bool) int {
+	for i, el := range arr {
+		if f(el) {
+			return i
+		}
+	}
+	return -1
+}
+
+// Intersperse inserts el between each element of arr
+func IntersperseBool(arr []bool, el bool) []bool {
+	result := make([]bool, 0, len(arr)*2-1)
+	result = append(result, arr[0])
+	for _, val := range arr[1:] {
+		result = append(result, el, val)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterByte(arr []byte, f func(el byte) bool) []byte {
 	result := make([]byte, 0, len(arr))
@@ -194,6 +225,37 @@ func DedupByte(arr []byte) []byte {
 			result = append(result, el)
 		}
 		prev = el
+	}
+	return result
+}
+
+// Find returns the first element for which f returns true
+func FindByte(arr []byte, def byte, f func(el byte) bool) byte {
+	for _, el := range arr {
+		if f(el) {
+			return el
+		}
+	}
+	return def
+}
+
+// FindIndex is like Find, but return element index instead of element itself
+// Returns -1 if element is not found
+func FindIndexByte(arr []byte, f func(el byte) bool) int {
+	for i, el := range arr {
+		if f(el) {
+			return i
+		}
+	}
+	return -1
+}
+
+// Intersperse inserts el between each element of arr
+func IntersperseByte(arr []byte, el byte) []byte {
+	result := make([]byte, 0, len(arr)*2-1)
+	result = append(result, arr[0])
+	for _, val := range arr[1:] {
+		result = append(result, el, val)
 	}
 	return result
 }
@@ -297,6 +359,37 @@ func DedupFloat32(arr []float32) []float32 {
 	return result
 }
 
+// Find returns the first element for which f returns true
+func FindFloat32(arr []float32, def float32, f func(el float32) bool) float32 {
+	for _, el := range arr {
+		if f(el) {
+			return el
+		}
+	}
+	return def
+}
+
+// FindIndex is like Find, but return element index instead of element itself
+// Returns -1 if element is not found
+func FindIndexFloat32(arr []float32, f func(el float32) bool) int {
+	for i, el := range arr {
+		if f(el) {
+			return i
+		}
+	}
+	return -1
+}
+
+// Intersperse inserts el between each element of arr
+func IntersperseFloat32(arr []float32, el float32) []float32 {
+	result := make([]float32, 0, len(arr)*2-1)
+	result = append(result, arr[0])
+	for _, val := range arr[1:] {
+		result = append(result, el, val)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterFloat64(arr []float64, f func(el float64) bool) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -392,6 +485,37 @@ func DedupFloat64(arr []float64) []float64 {
 			result = append(result, el)
 		}
 		prev = el
+	}
+	return result
+}
+
+// Find returns the first element for which f returns true
+func FindFloat64(arr []float64, def float64, f func(el float64) bool) float64 {
+	for _, el := range arr {
+		if f(el) {
+			return el
+		}
+	}
+	return def
+}
+
+// FindIndex is like Find, but return element index instead of element itself
+// Returns -1 if element is not found
+func FindIndexFloat64(arr []float64, f func(el float64) bool) int {
+	for i, el := range arr {
+		if f(el) {
+			return i
+		}
+	}
+	return -1
+}
+
+// Intersperse inserts el between each element of arr
+func IntersperseFloat64(arr []float64, el float64) []float64 {
+	result := make([]float64, 0, len(arr)*2-1)
+	result = append(result, arr[0])
+	for _, val := range arr[1:] {
+		result = append(result, el, val)
 	}
 	return result
 }
@@ -495,6 +619,37 @@ func DedupInt(arr []int) []int {
 	return result
 }
 
+// Find returns the first element for which f returns true
+func FindInt(arr []int, def int, f func(el int) bool) int {
+	for _, el := range arr {
+		if f(el) {
+			return el
+		}
+	}
+	return def
+}
+
+// FindIndex is like Find, but return element index instead of element itself
+// Returns -1 if element is not found
+func FindIndexInt(arr []int, f func(el int) bool) int {
+	for i, el := range arr {
+		if f(el) {
+			return i
+		}
+	}
+	return -1
+}
+
+// Intersperse inserts el between each element of arr
+func IntersperseInt(arr []int, el int) []int {
+	result := make([]int, 0, len(arr)*2-1)
+	result = append(result, arr[0])
+	for _, val := range arr[1:] {
+		result = append(result, el, val)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterInt16(arr []int16, f func(el int16) bool) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -590,6 +745,37 @@ func DedupInt16(arr []int16) []int16 {
 			result = append(result, el)
 		}
 		prev = el
+	}
+	return result
+}
+
+// Find returns the first element for which f returns true
+func FindInt16(arr []int16, def int16, f func(el int16) bool) int16 {
+	for _, el := range arr {
+		if f(el) {
+			return el
+		}
+	}
+	return def
+}
+
+// FindIndex is like Find, but return element index instead of element itself
+// Returns -1 if element is not found
+func FindIndexInt16(arr []int16, f func(el int16) bool) int {
+	for i, el := range arr {
+		if f(el) {
+			return i
+		}
+	}
+	return -1
+}
+
+// Intersperse inserts el between each element of arr
+func IntersperseInt16(arr []int16, el int16) []int16 {
+	result := make([]int16, 0, len(arr)*2-1)
+	result = append(result, arr[0])
+	for _, val := range arr[1:] {
+		result = append(result, el, val)
 	}
 	return result
 }
@@ -693,6 +879,37 @@ func DedupInt32(arr []int32) []int32 {
 	return result
 }
 
+// Find returns the first element for which f returns true
+func FindInt32(arr []int32, def int32, f func(el int32) bool) int32 {
+	for _, el := range arr {
+		if f(el) {
+			return el
+		}
+	}
+	return def
+}
+
+// FindIndex is like Find, but return element index instead of element itself
+// Returns -1 if element is not found
+func FindIndexInt32(arr []int32, f func(el int32) bool) int {
+	for i, el := range arr {
+		if f(el) {
+			return i
+		}
+	}
+	return -1
+}
+
+// Intersperse inserts el between each element of arr
+func IntersperseInt32(arr []int32, el int32) []int32 {
+	result := make([]int32, 0, len(arr)*2-1)
+	result = append(result, arr[0])
+	for _, val := range arr[1:] {
+		result = append(result, el, val)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterInt64(arr []int64, f func(el int64) bool) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -788,6 +1005,37 @@ func DedupInt64(arr []int64) []int64 {
 			result = append(result, el)
 		}
 		prev = el
+	}
+	return result
+}
+
+// Find returns the first element for which f returns true
+func FindInt64(arr []int64, def int64, f func(el int64) bool) int64 {
+	for _, el := range arr {
+		if f(el) {
+			return el
+		}
+	}
+	return def
+}
+
+// FindIndex is like Find, but return element index instead of element itself
+// Returns -1 if element is not found
+func FindIndexInt64(arr []int64, f func(el int64) bool) int {
+	for i, el := range arr {
+		if f(el) {
+			return i
+		}
+	}
+	return -1
+}
+
+// Intersperse inserts el between each element of arr
+func IntersperseInt64(arr []int64, el int64) []int64 {
+	result := make([]int64, 0, len(arr)*2-1)
+	result = append(result, arr[0])
+	for _, val := range arr[1:] {
+		result = append(result, el, val)
 	}
 	return result
 }
@@ -891,6 +1139,37 @@ func DedupInt8(arr []int8) []int8 {
 	return result
 }
 
+// Find returns the first element for which f returns true
+func FindInt8(arr []int8, def int8, f func(el int8) bool) int8 {
+	for _, el := range arr {
+		if f(el) {
+			return el
+		}
+	}
+	return def
+}
+
+// FindIndex is like Find, but return element index instead of element itself
+// Returns -1 if element is not found
+func FindIndexInt8(arr []int8, f func(el int8) bool) int {
+	for i, el := range arr {
+		if f(el) {
+			return i
+		}
+	}
+	return -1
+}
+
+// Intersperse inserts el between each element of arr
+func IntersperseInt8(arr []int8, el int8) []int8 {
+	result := make([]int8, 0, len(arr)*2-1)
+	result = append(result, arr[0])
+	for _, val := range arr[1:] {
+		result = append(result, el, val)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterString(arr []string, f func(el string) bool) []string {
 	result := make([]string, 0, len(arr))
@@ -986,6 +1265,37 @@ func DedupString(arr []string) []string {
 			result = append(result, el)
 		}
 		prev = el
+	}
+	return result
+}
+
+// Find returns the first element for which f returns true
+func FindString(arr []string, def string, f func(el string) bool) string {
+	for _, el := range arr {
+		if f(el) {
+			return el
+		}
+	}
+	return def
+}
+
+// FindIndex is like Find, but return element index instead of element itself
+// Returns -1 if element is not found
+func FindIndexString(arr []string, f func(el string) bool) int {
+	for i, el := range arr {
+		if f(el) {
+			return i
+		}
+	}
+	return -1
+}
+
+// Intersperse inserts el between each element of arr
+func IntersperseString(arr []string, el string) []string {
+	result := make([]string, 0, len(arr)*2-1)
+	result = append(result, arr[0])
+	for _, val := range arr[1:] {
+		result = append(result, el, val)
 	}
 	return result
 }
@@ -1089,6 +1399,37 @@ func DedupUint(arr []uint) []uint {
 	return result
 }
 
+// Find returns the first element for which f returns true
+func FindUint(arr []uint, def uint, f func(el uint) bool) uint {
+	for _, el := range arr {
+		if f(el) {
+			return el
+		}
+	}
+	return def
+}
+
+// FindIndex is like Find, but return element index instead of element itself
+// Returns -1 if element is not found
+func FindIndexUint(arr []uint, f func(el uint) bool) int {
+	for i, el := range arr {
+		if f(el) {
+			return i
+		}
+	}
+	return -1
+}
+
+// Intersperse inserts el between each element of arr
+func IntersperseUint(arr []uint, el uint) []uint {
+	result := make([]uint, 0, len(arr)*2-1)
+	result = append(result, arr[0])
+	for _, val := range arr[1:] {
+		result = append(result, el, val)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint16(arr []uint16, f func(el uint16) bool) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -1184,6 +1525,37 @@ func DedupUint16(arr []uint16) []uint16 {
 			result = append(result, el)
 		}
 		prev = el
+	}
+	return result
+}
+
+// Find returns the first element for which f returns true
+func FindUint16(arr []uint16, def uint16, f func(el uint16) bool) uint16 {
+	for _, el := range arr {
+		if f(el) {
+			return el
+		}
+	}
+	return def
+}
+
+// FindIndex is like Find, but return element index instead of element itself
+// Returns -1 if element is not found
+func FindIndexUint16(arr []uint16, f func(el uint16) bool) int {
+	for i, el := range arr {
+		if f(el) {
+			return i
+		}
+	}
+	return -1
+}
+
+// Intersperse inserts el between each element of arr
+func IntersperseUint16(arr []uint16, el uint16) []uint16 {
+	result := make([]uint16, 0, len(arr)*2-1)
+	result = append(result, arr[0])
+	for _, val := range arr[1:] {
+		result = append(result, el, val)
 	}
 	return result
 }
@@ -1287,6 +1659,37 @@ func DedupUint32(arr []uint32) []uint32 {
 	return result
 }
 
+// Find returns the first element for which f returns true
+func FindUint32(arr []uint32, def uint32, f func(el uint32) bool) uint32 {
+	for _, el := range arr {
+		if f(el) {
+			return el
+		}
+	}
+	return def
+}
+
+// FindIndex is like Find, but return element index instead of element itself
+// Returns -1 if element is not found
+func FindIndexUint32(arr []uint32, f func(el uint32) bool) int {
+	for i, el := range arr {
+		if f(el) {
+			return i
+		}
+	}
+	return -1
+}
+
+// Intersperse inserts el between each element of arr
+func IntersperseUint32(arr []uint32, el uint32) []uint32 {
+	result := make([]uint32, 0, len(arr)*2-1)
+	result = append(result, arr[0])
+	for _, val := range arr[1:] {
+		result = append(result, el, val)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint64(arr []uint64, f func(el uint64) bool) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -1386,6 +1789,37 @@ func DedupUint64(arr []uint64) []uint64 {
 	return result
 }
 
+// Find returns the first element for which f returns true
+func FindUint64(arr []uint64, def uint64, f func(el uint64) bool) uint64 {
+	for _, el := range arr {
+		if f(el) {
+			return el
+		}
+	}
+	return def
+}
+
+// FindIndex is like Find, but return element index instead of element itself
+// Returns -1 if element is not found
+func FindIndexUint64(arr []uint64, f func(el uint64) bool) int {
+	for i, el := range arr {
+		if f(el) {
+			return i
+		}
+	}
+	return -1
+}
+
+// Intersperse inserts el between each element of arr
+func IntersperseUint64(arr []uint64, el uint64) []uint64 {
+	result := make([]uint64, 0, len(arr)*2-1)
+	result = append(result, arr[0])
+	for _, val := range arr[1:] {
+		result = append(result, el, val)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint8(arr []uint8, f func(el uint8) bool) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -1481,6 +1915,37 @@ func DedupUint8(arr []uint8) []uint8 {
 			result = append(result, el)
 		}
 		prev = el
+	}
+	return result
+}
+
+// Find returns the first element for which f returns true
+func FindUint8(arr []uint8, def uint8, f func(el uint8) bool) uint8 {
+	for _, el := range arr {
+		if f(el) {
+			return el
+		}
+	}
+	return def
+}
+
+// FindIndex is like Find, but return element index instead of element itself
+// Returns -1 if element is not found
+func FindIndexUint8(arr []uint8, f func(el uint8) bool) int {
+	for i, el := range arr {
+		if f(el) {
+			return i
+		}
+	}
+	return -1
+}
+
+// Intersperse inserts el between each element of arr
+func IntersperseUint8(arr []uint8, el uint8) []uint8 {
+	result := make([]uint8, 0, len(arr)*2-1)
+	result = append(result, arr[0])
+	for _, val := range arr[1:] {
+		result = append(result, el, val)
 	}
 	return result
 }

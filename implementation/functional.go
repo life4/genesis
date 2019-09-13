@@ -101,3 +101,34 @@ func Dedup(arr []T) []T {
 	}
 	return result
 }
+
+// Find returns the first element for which f returns true
+func Find(arr []T, def T, f func(el T) bool) T {
+	for _, el := range arr {
+		if f(el) {
+			return el
+		}
+	}
+	return def
+}
+
+// FindIndex is like Find, but return element index instead of element itself
+// Returns -1 if element is not found
+func FindIndex(arr []T, f func(el T) bool) int {
+	for i, el := range arr {
+		if f(el) {
+			return i
+		}
+	}
+	return -1
+}
+
+// Intersperse inserts el between each element of arr
+func Intersperse(arr []T, el T) []T {
+	result := make([]T, 0, len(arr)*2-1)
+	result = append(result, arr[0])
+	for _, val := range arr[1:] {
+		result = append(result, el, val)
+	}
+	return result
+}
