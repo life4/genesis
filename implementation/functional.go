@@ -23,6 +23,13 @@ func Map(arr []T, f func(el T) T) []T {
 	return result
 }
 
+// Each calls f for every element from arr
+func Each(arr []T, f func(el T)) {
+	for _, el := range arr {
+		f(el)
+	}
+}
+
 // Reduce applies F to acc and every element in slice of T and returns acc
 func Reduce(arr []T, acc T, f func(el T, acc T) T) T {
 	for _, el := range arr {
@@ -69,4 +76,28 @@ func ChunkEvery(arr []T, count int) [][]T {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// Concat concatenates given slices into a single slice.
+func Concat(arrs ...[]T) []T {
+	result := make([]T, 0)
+	for _, arr := range arrs {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+// Dedup returns a given slice without consecutive duplicated elements
+func Dedup(arr []T) []T {
+	result := make([]T, 0, len(arr))
+
+	prev := arr[0]
+	result = append(result, prev)
+	for _, el := range arr[1:] {
+		if el != prev {
+			result = append(result, el)
+		}
+		prev = el
+	}
+	return result
 }

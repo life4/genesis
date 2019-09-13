@@ -20,6 +20,13 @@ func MapBool(arr []bool, f func(el bool) bool) []bool {
 	return result
 }
 
+// Each calls f for every element from arr
+func EachBool(arr []bool, f func(el bool)) {
+	for _, el := range arr {
+		f(el)
+	}
+}
+
 // Reduce applies F to acc and every element in slice of T and returns acc
 func ReduceBool(arr []bool, acc bool, f func(el bool, acc bool) bool) bool {
 	for _, el := range arr {
@@ -68,6 +75,30 @@ func ChunkEveryBool(arr []bool, count int) [][]bool {
 	return chunks
 }
 
+// Concat concatenates given slices into a single slice.
+func ConcatBool(arrs ...[]bool) []bool {
+	result := make([]bool, 0)
+	for _, arr := range arrs {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+// Dedup returns a given slice without consecutive duplicated elements
+func DedupBool(arr []bool) []bool {
+	result := make([]bool, 0, len(arr))
+
+	prev := arr[0]
+	result = append(result, prev)
+	for _, el := range arr[1:] {
+		if el != prev {
+			result = append(result, el)
+		}
+		prev = el
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterByte(arr []byte, f func(el byte) bool) []byte {
 	result := make([]byte, 0, len(arr))
@@ -86,6 +117,13 @@ func MapByte(arr []byte, f func(el byte) byte) []byte {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Each calls f for every element from arr
+func EachByte(arr []byte, f func(el byte)) {
+	for _, el := range arr {
+		f(el)
+	}
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
@@ -136,6 +174,30 @@ func ChunkEveryByte(arr []byte, count int) [][]byte {
 	return chunks
 }
 
+// Concat concatenates given slices into a single slice.
+func ConcatByte(arrs ...[]byte) []byte {
+	result := make([]byte, 0)
+	for _, arr := range arrs {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+// Dedup returns a given slice without consecutive duplicated elements
+func DedupByte(arr []byte) []byte {
+	result := make([]byte, 0, len(arr))
+
+	prev := arr[0]
+	result = append(result, prev)
+	for _, el := range arr[1:] {
+		if el != prev {
+			result = append(result, el)
+		}
+		prev = el
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterFloat32(arr []float32, f func(el float32) bool) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -154,6 +216,13 @@ func MapFloat32(arr []float32, f func(el float32) float32) []float32 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Each calls f for every element from arr
+func EachFloat32(arr []float32, f func(el float32)) {
+	for _, el := range arr {
+		f(el)
+	}
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
@@ -204,6 +273,30 @@ func ChunkEveryFloat32(arr []float32, count int) [][]float32 {
 	return chunks
 }
 
+// Concat concatenates given slices into a single slice.
+func ConcatFloat32(arrs ...[]float32) []float32 {
+	result := make([]float32, 0)
+	for _, arr := range arrs {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+// Dedup returns a given slice without consecutive duplicated elements
+func DedupFloat32(arr []float32) []float32 {
+	result := make([]float32, 0, len(arr))
+
+	prev := arr[0]
+	result = append(result, prev)
+	for _, el := range arr[1:] {
+		if el != prev {
+			result = append(result, el)
+		}
+		prev = el
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterFloat64(arr []float64, f func(el float64) bool) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -222,6 +315,13 @@ func MapFloat64(arr []float64, f func(el float64) float64) []float64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Each calls f for every element from arr
+func EachFloat64(arr []float64, f func(el float64)) {
+	for _, el := range arr {
+		f(el)
+	}
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
@@ -272,6 +372,30 @@ func ChunkEveryFloat64(arr []float64, count int) [][]float64 {
 	return chunks
 }
 
+// Concat concatenates given slices into a single slice.
+func ConcatFloat64(arrs ...[]float64) []float64 {
+	result := make([]float64, 0)
+	for _, arr := range arrs {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+// Dedup returns a given slice without consecutive duplicated elements
+func DedupFloat64(arr []float64) []float64 {
+	result := make([]float64, 0, len(arr))
+
+	prev := arr[0]
+	result = append(result, prev)
+	for _, el := range arr[1:] {
+		if el != prev {
+			result = append(result, el)
+		}
+		prev = el
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterInt(arr []int, f func(el int) bool) []int {
 	result := make([]int, 0, len(arr))
@@ -290,6 +414,13 @@ func MapInt(arr []int, f func(el int) int) []int {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Each calls f for every element from arr
+func EachInt(arr []int, f func(el int)) {
+	for _, el := range arr {
+		f(el)
+	}
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
@@ -340,6 +471,30 @@ func ChunkEveryInt(arr []int, count int) [][]int {
 	return chunks
 }
 
+// Concat concatenates given slices into a single slice.
+func ConcatInt(arrs ...[]int) []int {
+	result := make([]int, 0)
+	for _, arr := range arrs {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+// Dedup returns a given slice without consecutive duplicated elements
+func DedupInt(arr []int) []int {
+	result := make([]int, 0, len(arr))
+
+	prev := arr[0]
+	result = append(result, prev)
+	for _, el := range arr[1:] {
+		if el != prev {
+			result = append(result, el)
+		}
+		prev = el
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterInt16(arr []int16, f func(el int16) bool) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -358,6 +513,13 @@ func MapInt16(arr []int16, f func(el int16) int16) []int16 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Each calls f for every element from arr
+func EachInt16(arr []int16, f func(el int16)) {
+	for _, el := range arr {
+		f(el)
+	}
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
@@ -408,6 +570,30 @@ func ChunkEveryInt16(arr []int16, count int) [][]int16 {
 	return chunks
 }
 
+// Concat concatenates given slices into a single slice.
+func ConcatInt16(arrs ...[]int16) []int16 {
+	result := make([]int16, 0)
+	for _, arr := range arrs {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+// Dedup returns a given slice without consecutive duplicated elements
+func DedupInt16(arr []int16) []int16 {
+	result := make([]int16, 0, len(arr))
+
+	prev := arr[0]
+	result = append(result, prev)
+	for _, el := range arr[1:] {
+		if el != prev {
+			result = append(result, el)
+		}
+		prev = el
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterInt32(arr []int32, f func(el int32) bool) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -426,6 +612,13 @@ func MapInt32(arr []int32, f func(el int32) int32) []int32 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Each calls f for every element from arr
+func EachInt32(arr []int32, f func(el int32)) {
+	for _, el := range arr {
+		f(el)
+	}
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
@@ -476,6 +669,30 @@ func ChunkEveryInt32(arr []int32, count int) [][]int32 {
 	return chunks
 }
 
+// Concat concatenates given slices into a single slice.
+func ConcatInt32(arrs ...[]int32) []int32 {
+	result := make([]int32, 0)
+	for _, arr := range arrs {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+// Dedup returns a given slice without consecutive duplicated elements
+func DedupInt32(arr []int32) []int32 {
+	result := make([]int32, 0, len(arr))
+
+	prev := arr[0]
+	result = append(result, prev)
+	for _, el := range arr[1:] {
+		if el != prev {
+			result = append(result, el)
+		}
+		prev = el
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterInt64(arr []int64, f func(el int64) bool) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -494,6 +711,13 @@ func MapInt64(arr []int64, f func(el int64) int64) []int64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Each calls f for every element from arr
+func EachInt64(arr []int64, f func(el int64)) {
+	for _, el := range arr {
+		f(el)
+	}
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
@@ -544,6 +768,30 @@ func ChunkEveryInt64(arr []int64, count int) [][]int64 {
 	return chunks
 }
 
+// Concat concatenates given slices into a single slice.
+func ConcatInt64(arrs ...[]int64) []int64 {
+	result := make([]int64, 0)
+	for _, arr := range arrs {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+// Dedup returns a given slice without consecutive duplicated elements
+func DedupInt64(arr []int64) []int64 {
+	result := make([]int64, 0, len(arr))
+
+	prev := arr[0]
+	result = append(result, prev)
+	for _, el := range arr[1:] {
+		if el != prev {
+			result = append(result, el)
+		}
+		prev = el
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterInt8(arr []int8, f func(el int8) bool) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -562,6 +810,13 @@ func MapInt8(arr []int8, f func(el int8) int8) []int8 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Each calls f for every element from arr
+func EachInt8(arr []int8, f func(el int8)) {
+	for _, el := range arr {
+		f(el)
+	}
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
@@ -612,6 +867,30 @@ func ChunkEveryInt8(arr []int8, count int) [][]int8 {
 	return chunks
 }
 
+// Concat concatenates given slices into a single slice.
+func ConcatInt8(arrs ...[]int8) []int8 {
+	result := make([]int8, 0)
+	for _, arr := range arrs {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+// Dedup returns a given slice without consecutive duplicated elements
+func DedupInt8(arr []int8) []int8 {
+	result := make([]int8, 0, len(arr))
+
+	prev := arr[0]
+	result = append(result, prev)
+	for _, el := range arr[1:] {
+		if el != prev {
+			result = append(result, el)
+		}
+		prev = el
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterString(arr []string, f func(el string) bool) []string {
 	result := make([]string, 0, len(arr))
@@ -630,6 +909,13 @@ func MapString(arr []string, f func(el string) string) []string {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Each calls f for every element from arr
+func EachString(arr []string, f func(el string)) {
+	for _, el := range arr {
+		f(el)
+	}
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
@@ -680,6 +966,30 @@ func ChunkEveryString(arr []string, count int) [][]string {
 	return chunks
 }
 
+// Concat concatenates given slices into a single slice.
+func ConcatString(arrs ...[]string) []string {
+	result := make([]string, 0)
+	for _, arr := range arrs {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+// Dedup returns a given slice without consecutive duplicated elements
+func DedupString(arr []string) []string {
+	result := make([]string, 0, len(arr))
+
+	prev := arr[0]
+	result = append(result, prev)
+	for _, el := range arr[1:] {
+		if el != prev {
+			result = append(result, el)
+		}
+		prev = el
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint(arr []uint, f func(el uint) bool) []uint {
 	result := make([]uint, 0, len(arr))
@@ -698,6 +1008,13 @@ func MapUint(arr []uint, f func(el uint) uint) []uint {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Each calls f for every element from arr
+func EachUint(arr []uint, f func(el uint)) {
+	for _, el := range arr {
+		f(el)
+	}
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
@@ -748,6 +1065,30 @@ func ChunkEveryUint(arr []uint, count int) [][]uint {
 	return chunks
 }
 
+// Concat concatenates given slices into a single slice.
+func ConcatUint(arrs ...[]uint) []uint {
+	result := make([]uint, 0)
+	for _, arr := range arrs {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+// Dedup returns a given slice without consecutive duplicated elements
+func DedupUint(arr []uint) []uint {
+	result := make([]uint, 0, len(arr))
+
+	prev := arr[0]
+	result = append(result, prev)
+	for _, el := range arr[1:] {
+		if el != prev {
+			result = append(result, el)
+		}
+		prev = el
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint16(arr []uint16, f func(el uint16) bool) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -766,6 +1107,13 @@ func MapUint16(arr []uint16, f func(el uint16) uint16) []uint16 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Each calls f for every element from arr
+func EachUint16(arr []uint16, f func(el uint16)) {
+	for _, el := range arr {
+		f(el)
+	}
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
@@ -816,6 +1164,30 @@ func ChunkEveryUint16(arr []uint16, count int) [][]uint16 {
 	return chunks
 }
 
+// Concat concatenates given slices into a single slice.
+func ConcatUint16(arrs ...[]uint16) []uint16 {
+	result := make([]uint16, 0)
+	for _, arr := range arrs {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+// Dedup returns a given slice without consecutive duplicated elements
+func DedupUint16(arr []uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+
+	prev := arr[0]
+	result = append(result, prev)
+	for _, el := range arr[1:] {
+		if el != prev {
+			result = append(result, el)
+		}
+		prev = el
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint32(arr []uint32, f func(el uint32) bool) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -834,6 +1206,13 @@ func MapUint32(arr []uint32, f func(el uint32) uint32) []uint32 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Each calls f for every element from arr
+func EachUint32(arr []uint32, f func(el uint32)) {
+	for _, el := range arr {
+		f(el)
+	}
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
@@ -884,6 +1263,30 @@ func ChunkEveryUint32(arr []uint32, count int) [][]uint32 {
 	return chunks
 }
 
+// Concat concatenates given slices into a single slice.
+func ConcatUint32(arrs ...[]uint32) []uint32 {
+	result := make([]uint32, 0)
+	for _, arr := range arrs {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+// Dedup returns a given slice without consecutive duplicated elements
+func DedupUint32(arr []uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+
+	prev := arr[0]
+	result = append(result, prev)
+	for _, el := range arr[1:] {
+		if el != prev {
+			result = append(result, el)
+		}
+		prev = el
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint64(arr []uint64, f func(el uint64) bool) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -902,6 +1305,13 @@ func MapUint64(arr []uint64, f func(el uint64) uint64) []uint64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Each calls f for every element from arr
+func EachUint64(arr []uint64, f func(el uint64)) {
+	for _, el := range arr {
+		f(el)
+	}
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
@@ -952,6 +1362,30 @@ func ChunkEveryUint64(arr []uint64, count int) [][]uint64 {
 	return chunks
 }
 
+// Concat concatenates given slices into a single slice.
+func ConcatUint64(arrs ...[]uint64) []uint64 {
+	result := make([]uint64, 0)
+	for _, arr := range arrs {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+// Dedup returns a given slice without consecutive duplicated elements
+func DedupUint64(arr []uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+
+	prev := arr[0]
+	result = append(result, prev)
+	for _, el := range arr[1:] {
+		if el != prev {
+			result = append(result, el)
+		}
+		prev = el
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint8(arr []uint8, f func(el uint8) bool) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -970,6 +1404,13 @@ func MapUint8(arr []uint8, f func(el uint8) uint8) []uint8 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Each calls f for every element from arr
+func EachUint8(arr []uint8, f func(el uint8)) {
+	for _, el := range arr {
+		f(el)
+	}
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
@@ -1018,4 +1459,28 @@ func ChunkEveryUint8(arr []uint8, count int) [][]uint8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// Concat concatenates given slices into a single slice.
+func ConcatUint8(arrs ...[]uint8) []uint8 {
+	result := make([]uint8, 0)
+	for _, arr := range arrs {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+// Dedup returns a given slice without consecutive duplicated elements
+func DedupUint8(arr []uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+
+	prev := arr[0]
+	result = append(result, prev)
+	for _, el := range arr[1:] {
+		if el != prev {
+			result = append(result, el)
+		}
+		prev = el
+	}
+	return result
 }
