@@ -30,14 +30,6 @@ func Each(arr []T, f func(el T)) {
 	}
 }
 
-// Reduce applies F to acc and every element in slice of T and returns acc
-func Reduce(arr []T, acc T, f func(el T, acc T) T) T {
-	for _, el := range arr {
-		acc = f(el, acc)
-	}
-	return acc
-}
-
 // Identity accepts one argument and returns it
 func Identity(t T) T { return t }
 
@@ -85,6 +77,16 @@ func Concat(arrs ...[]T) []T {
 		result = append(result, arr...)
 	}
 	return result
+}
+
+// Contains returns true if el in arr.
+func Contains(arr []T, el T) bool {
+	for _, val := range arr {
+		if val == el {
+			return true
+		}
+	}
+	return false
 }
 
 // Dedup returns a given slice without consecutive duplicated elements
@@ -153,4 +155,45 @@ func Min(arr []T) T {
 		}
 	}
 	return min
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func Reduce(arr []T, acc T, f func(el T, acc T) T) T {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func ReduceWhile(arr []T, acc T, f func(el T, acc T) (T, error)) (T, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan is like Reduce, but returns slice of f results
+func Scan(arr []T, acc T, f func(el T, acc T) T) []T {
+	result := make([]T, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Take takes elements from arr while f returns true
+func Take(arr []T, f func(el T) bool) []T {
+	result := make([]T, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
 }

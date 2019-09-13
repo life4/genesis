@@ -27,14 +27,6 @@ func EachBool(arr []bool, f func(el bool)) {
 	}
 }
 
-// Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceBool(arr []bool, acc bool, f func(el bool, acc bool) bool) bool {
-	for _, el := range arr {
-		acc = f(el, acc)
-	}
-	return acc
-}
-
 // Identity accepts one argument and returns it
 func IdentityBool(t bool) bool { return t }
 
@@ -84,6 +76,16 @@ func ConcatBool(arrs ...[]bool) []bool {
 	return result
 }
 
+// Contains returns true if el in arr.
+func ContainsBool(arr []bool, el bool) bool {
+	for _, val := range arr {
+		if val == el {
+			return true
+		}
+	}
+	return false
+}
+
 // Dedup returns a given slice without consecutive duplicated elements
 func DedupBool(arr []bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -130,26 +132,45 @@ func IntersperseBool(arr []bool, el bool) []bool {
 	return result
 }
 
-// Max returns the maximal element from arr
-func MaxBool(arr []bool) bool {
-	max := arr[0]
-	for _, el := range arr[1:] {
-		if el > max {
-			max = el
-		}
+// Reduce applies F to acc and every element in slice of T and returns acc
+func ReduceBool(arr []bool, acc bool, f func(el bool, acc bool) bool) bool {
+	for _, el := range arr {
+		acc = f(el, acc)
 	}
-	return max
+	return acc
 }
 
-// Min returns the minimal element from arr
-func MinBool(arr []bool) bool {
-	min := arr[0]
-	for _, el := range arr[1:] {
-		if el < min {
-			min = el
+// ReduceWhile is like Reduce, but stops when f returns error
+func ReduceWhileBool(arr []bool, acc bool, f func(el bool, acc bool) (bool, error)) (bool, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
 		}
 	}
-	return min
+	return acc, nil
+}
+
+// Scan is like Reduce, but returns slice of f results
+func ScanBool(arr []bool, acc bool, f func(el bool, acc bool) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Take takes elements from arr while f returns true
+func TakeBool(arr []bool, f func(el bool) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
 }
 
 // Filter returns slice of T for which F returned true
@@ -177,14 +198,6 @@ func EachByte(arr []byte, f func(el byte)) {
 	for _, el := range arr {
 		f(el)
 	}
-}
-
-// Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceByte(arr []byte, acc byte, f func(el byte, acc byte) byte) byte {
-	for _, el := range arr {
-		acc = f(el, acc)
-	}
-	return acc
 }
 
 // Identity accepts one argument and returns it
@@ -234,6 +247,16 @@ func ConcatByte(arrs ...[]byte) []byte {
 		result = append(result, arr...)
 	}
 	return result
+}
+
+// Contains returns true if el in arr.
+func ContainsByte(arr []byte, el byte) bool {
+	for _, val := range arr {
+		if val == el {
+			return true
+		}
+	}
+	return false
 }
 
 // Dedup returns a given slice without consecutive duplicated elements
@@ -304,6 +327,47 @@ func MinByte(arr []byte) byte {
 	return min
 }
 
+// Reduce applies F to acc and every element in slice of T and returns acc
+func ReduceByte(arr []byte, acc byte, f func(el byte, acc byte) byte) byte {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func ReduceWhileByte(arr []byte, acc byte, f func(el byte, acc byte) (byte, error)) (byte, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan is like Reduce, but returns slice of f results
+func ScanByte(arr []byte, acc byte, f func(el byte, acc byte) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Take takes elements from arr while f returns true
+func TakeByte(arr []byte, f func(el byte) bool) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterFloat32(arr []float32, f func(el float32) bool) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -329,14 +393,6 @@ func EachFloat32(arr []float32, f func(el float32)) {
 	for _, el := range arr {
 		f(el)
 	}
-}
-
-// Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceFloat32(arr []float32, acc float32, f func(el float32, acc float32) float32) float32 {
-	for _, el := range arr {
-		acc = f(el, acc)
-	}
-	return acc
 }
 
 // Identity accepts one argument and returns it
@@ -386,6 +442,16 @@ func ConcatFloat32(arrs ...[]float32) []float32 {
 		result = append(result, arr...)
 	}
 	return result
+}
+
+// Contains returns true if el in arr.
+func ContainsFloat32(arr []float32, el float32) bool {
+	for _, val := range arr {
+		if val == el {
+			return true
+		}
+	}
+	return false
 }
 
 // Dedup returns a given slice without consecutive duplicated elements
@@ -456,6 +522,47 @@ func MinFloat32(arr []float32) float32 {
 	return min
 }
 
+// Reduce applies F to acc and every element in slice of T and returns acc
+func ReduceFloat32(arr []float32, acc float32, f func(el float32, acc float32) float32) float32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func ReduceWhileFloat32(arr []float32, acc float32, f func(el float32, acc float32) (float32, error)) (float32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan is like Reduce, but returns slice of f results
+func ScanFloat32(arr []float32, acc float32, f func(el float32, acc float32) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Take takes elements from arr while f returns true
+func TakeFloat32(arr []float32, f func(el float32) bool) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterFloat64(arr []float64, f func(el float64) bool) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -481,14 +588,6 @@ func EachFloat64(arr []float64, f func(el float64)) {
 	for _, el := range arr {
 		f(el)
 	}
-}
-
-// Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceFloat64(arr []float64, acc float64, f func(el float64, acc float64) float64) float64 {
-	for _, el := range arr {
-		acc = f(el, acc)
-	}
-	return acc
 }
 
 // Identity accepts one argument and returns it
@@ -538,6 +637,16 @@ func ConcatFloat64(arrs ...[]float64) []float64 {
 		result = append(result, arr...)
 	}
 	return result
+}
+
+// Contains returns true if el in arr.
+func ContainsFloat64(arr []float64, el float64) bool {
+	for _, val := range arr {
+		if val == el {
+			return true
+		}
+	}
+	return false
 }
 
 // Dedup returns a given slice without consecutive duplicated elements
@@ -608,6 +717,47 @@ func MinFloat64(arr []float64) float64 {
 	return min
 }
 
+// Reduce applies F to acc and every element in slice of T and returns acc
+func ReduceFloat64(arr []float64, acc float64, f func(el float64, acc float64) float64) float64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func ReduceWhileFloat64(arr []float64, acc float64, f func(el float64, acc float64) (float64, error)) (float64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan is like Reduce, but returns slice of f results
+func ScanFloat64(arr []float64, acc float64, f func(el float64, acc float64) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Take takes elements from arr while f returns true
+func TakeFloat64(arr []float64, f func(el float64) bool) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterInt(arr []int, f func(el int) bool) []int {
 	result := make([]int, 0, len(arr))
@@ -633,14 +783,6 @@ func EachInt(arr []int, f func(el int)) {
 	for _, el := range arr {
 		f(el)
 	}
-}
-
-// Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceInt(arr []int, acc int, f func(el int, acc int) int) int {
-	for _, el := range arr {
-		acc = f(el, acc)
-	}
-	return acc
 }
 
 // Identity accepts one argument and returns it
@@ -690,6 +832,16 @@ func ConcatInt(arrs ...[]int) []int {
 		result = append(result, arr...)
 	}
 	return result
+}
+
+// Contains returns true if el in arr.
+func ContainsInt(arr []int, el int) bool {
+	for _, val := range arr {
+		if val == el {
+			return true
+		}
+	}
+	return false
 }
 
 // Dedup returns a given slice without consecutive duplicated elements
@@ -760,6 +912,47 @@ func MinInt(arr []int) int {
 	return min
 }
 
+// Reduce applies F to acc and every element in slice of T and returns acc
+func ReduceInt(arr []int, acc int, f func(el int, acc int) int) int {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func ReduceWhileInt(arr []int, acc int, f func(el int, acc int) (int, error)) (int, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan is like Reduce, but returns slice of f results
+func ScanInt(arr []int, acc int, f func(el int, acc int) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Take takes elements from arr while f returns true
+func TakeInt(arr []int, f func(el int) bool) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterInt16(arr []int16, f func(el int16) bool) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -785,14 +978,6 @@ func EachInt16(arr []int16, f func(el int16)) {
 	for _, el := range arr {
 		f(el)
 	}
-}
-
-// Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceInt16(arr []int16, acc int16, f func(el int16, acc int16) int16) int16 {
-	for _, el := range arr {
-		acc = f(el, acc)
-	}
-	return acc
 }
 
 // Identity accepts one argument and returns it
@@ -842,6 +1027,16 @@ func ConcatInt16(arrs ...[]int16) []int16 {
 		result = append(result, arr...)
 	}
 	return result
+}
+
+// Contains returns true if el in arr.
+func ContainsInt16(arr []int16, el int16) bool {
+	for _, val := range arr {
+		if val == el {
+			return true
+		}
+	}
+	return false
 }
 
 // Dedup returns a given slice without consecutive duplicated elements
@@ -912,6 +1107,47 @@ func MinInt16(arr []int16) int16 {
 	return min
 }
 
+// Reduce applies F to acc and every element in slice of T and returns acc
+func ReduceInt16(arr []int16, acc int16, f func(el int16, acc int16) int16) int16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func ReduceWhileInt16(arr []int16, acc int16, f func(el int16, acc int16) (int16, error)) (int16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan is like Reduce, but returns slice of f results
+func ScanInt16(arr []int16, acc int16, f func(el int16, acc int16) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Take takes elements from arr while f returns true
+func TakeInt16(arr []int16, f func(el int16) bool) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterInt32(arr []int32, f func(el int32) bool) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -937,14 +1173,6 @@ func EachInt32(arr []int32, f func(el int32)) {
 	for _, el := range arr {
 		f(el)
 	}
-}
-
-// Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceInt32(arr []int32, acc int32, f func(el int32, acc int32) int32) int32 {
-	for _, el := range arr {
-		acc = f(el, acc)
-	}
-	return acc
 }
 
 // Identity accepts one argument and returns it
@@ -994,6 +1222,16 @@ func ConcatInt32(arrs ...[]int32) []int32 {
 		result = append(result, arr...)
 	}
 	return result
+}
+
+// Contains returns true if el in arr.
+func ContainsInt32(arr []int32, el int32) bool {
+	for _, val := range arr {
+		if val == el {
+			return true
+		}
+	}
+	return false
 }
 
 // Dedup returns a given slice without consecutive duplicated elements
@@ -1064,6 +1302,47 @@ func MinInt32(arr []int32) int32 {
 	return min
 }
 
+// Reduce applies F to acc and every element in slice of T and returns acc
+func ReduceInt32(arr []int32, acc int32, f func(el int32, acc int32) int32) int32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func ReduceWhileInt32(arr []int32, acc int32, f func(el int32, acc int32) (int32, error)) (int32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan is like Reduce, but returns slice of f results
+func ScanInt32(arr []int32, acc int32, f func(el int32, acc int32) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Take takes elements from arr while f returns true
+func TakeInt32(arr []int32, f func(el int32) bool) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterInt64(arr []int64, f func(el int64) bool) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -1089,14 +1368,6 @@ func EachInt64(arr []int64, f func(el int64)) {
 	for _, el := range arr {
 		f(el)
 	}
-}
-
-// Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceInt64(arr []int64, acc int64, f func(el int64, acc int64) int64) int64 {
-	for _, el := range arr {
-		acc = f(el, acc)
-	}
-	return acc
 }
 
 // Identity accepts one argument and returns it
@@ -1146,6 +1417,16 @@ func ConcatInt64(arrs ...[]int64) []int64 {
 		result = append(result, arr...)
 	}
 	return result
+}
+
+// Contains returns true if el in arr.
+func ContainsInt64(arr []int64, el int64) bool {
+	for _, val := range arr {
+		if val == el {
+			return true
+		}
+	}
+	return false
 }
 
 // Dedup returns a given slice without consecutive duplicated elements
@@ -1216,6 +1497,47 @@ func MinInt64(arr []int64) int64 {
 	return min
 }
 
+// Reduce applies F to acc and every element in slice of T and returns acc
+func ReduceInt64(arr []int64, acc int64, f func(el int64, acc int64) int64) int64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func ReduceWhileInt64(arr []int64, acc int64, f func(el int64, acc int64) (int64, error)) (int64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan is like Reduce, but returns slice of f results
+func ScanInt64(arr []int64, acc int64, f func(el int64, acc int64) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Take takes elements from arr while f returns true
+func TakeInt64(arr []int64, f func(el int64) bool) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterInt8(arr []int8, f func(el int8) bool) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -1241,14 +1563,6 @@ func EachInt8(arr []int8, f func(el int8)) {
 	for _, el := range arr {
 		f(el)
 	}
-}
-
-// Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceInt8(arr []int8, acc int8, f func(el int8, acc int8) int8) int8 {
-	for _, el := range arr {
-		acc = f(el, acc)
-	}
-	return acc
 }
 
 // Identity accepts one argument and returns it
@@ -1298,6 +1612,16 @@ func ConcatInt8(arrs ...[]int8) []int8 {
 		result = append(result, arr...)
 	}
 	return result
+}
+
+// Contains returns true if el in arr.
+func ContainsInt8(arr []int8, el int8) bool {
+	for _, val := range arr {
+		if val == el {
+			return true
+		}
+	}
+	return false
 }
 
 // Dedup returns a given slice without consecutive duplicated elements
@@ -1368,6 +1692,47 @@ func MinInt8(arr []int8) int8 {
 	return min
 }
 
+// Reduce applies F to acc and every element in slice of T and returns acc
+func ReduceInt8(arr []int8, acc int8, f func(el int8, acc int8) int8) int8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func ReduceWhileInt8(arr []int8, acc int8, f func(el int8, acc int8) (int8, error)) (int8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan is like Reduce, but returns slice of f results
+func ScanInt8(arr []int8, acc int8, f func(el int8, acc int8) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Take takes elements from arr while f returns true
+func TakeInt8(arr []int8, f func(el int8) bool) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterString(arr []string, f func(el string) bool) []string {
 	result := make([]string, 0, len(arr))
@@ -1393,14 +1758,6 @@ func EachString(arr []string, f func(el string)) {
 	for _, el := range arr {
 		f(el)
 	}
-}
-
-// Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceString(arr []string, acc string, f func(el string, acc string) string) string {
-	for _, el := range arr {
-		acc = f(el, acc)
-	}
-	return acc
 }
 
 // Identity accepts one argument and returns it
@@ -1450,6 +1807,16 @@ func ConcatString(arrs ...[]string) []string {
 		result = append(result, arr...)
 	}
 	return result
+}
+
+// Contains returns true if el in arr.
+func ContainsString(arr []string, el string) bool {
+	for _, val := range arr {
+		if val == el {
+			return true
+		}
+	}
+	return false
 }
 
 // Dedup returns a given slice without consecutive duplicated elements
@@ -1520,6 +1887,47 @@ func MinString(arr []string) string {
 	return min
 }
 
+// Reduce applies F to acc and every element in slice of T and returns acc
+func ReduceString(arr []string, acc string, f func(el string, acc string) string) string {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func ReduceWhileString(arr []string, acc string, f func(el string, acc string) (string, error)) (string, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan is like Reduce, but returns slice of f results
+func ScanString(arr []string, acc string, f func(el string, acc string) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Take takes elements from arr while f returns true
+func TakeString(arr []string, f func(el string) bool) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint(arr []uint, f func(el uint) bool) []uint {
 	result := make([]uint, 0, len(arr))
@@ -1545,14 +1953,6 @@ func EachUint(arr []uint, f func(el uint)) {
 	for _, el := range arr {
 		f(el)
 	}
-}
-
-// Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceUint(arr []uint, acc uint, f func(el uint, acc uint) uint) uint {
-	for _, el := range arr {
-		acc = f(el, acc)
-	}
-	return acc
 }
 
 // Identity accepts one argument and returns it
@@ -1602,6 +2002,16 @@ func ConcatUint(arrs ...[]uint) []uint {
 		result = append(result, arr...)
 	}
 	return result
+}
+
+// Contains returns true if el in arr.
+func ContainsUint(arr []uint, el uint) bool {
+	for _, val := range arr {
+		if val == el {
+			return true
+		}
+	}
+	return false
 }
 
 // Dedup returns a given slice without consecutive duplicated elements
@@ -1672,6 +2082,47 @@ func MinUint(arr []uint) uint {
 	return min
 }
 
+// Reduce applies F to acc and every element in slice of T and returns acc
+func ReduceUint(arr []uint, acc uint, f func(el uint, acc uint) uint) uint {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func ReduceWhileUint(arr []uint, acc uint, f func(el uint, acc uint) (uint, error)) (uint, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan is like Reduce, but returns slice of f results
+func ScanUint(arr []uint, acc uint, f func(el uint, acc uint) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Take takes elements from arr while f returns true
+func TakeUint(arr []uint, f func(el uint) bool) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint16(arr []uint16, f func(el uint16) bool) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -1697,14 +2148,6 @@ func EachUint16(arr []uint16, f func(el uint16)) {
 	for _, el := range arr {
 		f(el)
 	}
-}
-
-// Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceUint16(arr []uint16, acc uint16, f func(el uint16, acc uint16) uint16) uint16 {
-	for _, el := range arr {
-		acc = f(el, acc)
-	}
-	return acc
 }
 
 // Identity accepts one argument and returns it
@@ -1754,6 +2197,16 @@ func ConcatUint16(arrs ...[]uint16) []uint16 {
 		result = append(result, arr...)
 	}
 	return result
+}
+
+// Contains returns true if el in arr.
+func ContainsUint16(arr []uint16, el uint16) bool {
+	for _, val := range arr {
+		if val == el {
+			return true
+		}
+	}
+	return false
 }
 
 // Dedup returns a given slice without consecutive duplicated elements
@@ -1824,6 +2277,47 @@ func MinUint16(arr []uint16) uint16 {
 	return min
 }
 
+// Reduce applies F to acc and every element in slice of T and returns acc
+func ReduceUint16(arr []uint16, acc uint16, f func(el uint16, acc uint16) uint16) uint16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func ReduceWhileUint16(arr []uint16, acc uint16, f func(el uint16, acc uint16) (uint16, error)) (uint16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan is like Reduce, but returns slice of f results
+func ScanUint16(arr []uint16, acc uint16, f func(el uint16, acc uint16) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Take takes elements from arr while f returns true
+func TakeUint16(arr []uint16, f func(el uint16) bool) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint32(arr []uint32, f func(el uint32) bool) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -1849,14 +2343,6 @@ func EachUint32(arr []uint32, f func(el uint32)) {
 	for _, el := range arr {
 		f(el)
 	}
-}
-
-// Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceUint32(arr []uint32, acc uint32, f func(el uint32, acc uint32) uint32) uint32 {
-	for _, el := range arr {
-		acc = f(el, acc)
-	}
-	return acc
 }
 
 // Identity accepts one argument and returns it
@@ -1906,6 +2392,16 @@ func ConcatUint32(arrs ...[]uint32) []uint32 {
 		result = append(result, arr...)
 	}
 	return result
+}
+
+// Contains returns true if el in arr.
+func ContainsUint32(arr []uint32, el uint32) bool {
+	for _, val := range arr {
+		if val == el {
+			return true
+		}
+	}
+	return false
 }
 
 // Dedup returns a given slice without consecutive duplicated elements
@@ -1976,6 +2472,47 @@ func MinUint32(arr []uint32) uint32 {
 	return min
 }
 
+// Reduce applies F to acc and every element in slice of T and returns acc
+func ReduceUint32(arr []uint32, acc uint32, f func(el uint32, acc uint32) uint32) uint32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func ReduceWhileUint32(arr []uint32, acc uint32, f func(el uint32, acc uint32) (uint32, error)) (uint32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan is like Reduce, but returns slice of f results
+func ScanUint32(arr []uint32, acc uint32, f func(el uint32, acc uint32) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Take takes elements from arr while f returns true
+func TakeUint32(arr []uint32, f func(el uint32) bool) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint64(arr []uint64, f func(el uint64) bool) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -2001,14 +2538,6 @@ func EachUint64(arr []uint64, f func(el uint64)) {
 	for _, el := range arr {
 		f(el)
 	}
-}
-
-// Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceUint64(arr []uint64, acc uint64, f func(el uint64, acc uint64) uint64) uint64 {
-	for _, el := range arr {
-		acc = f(el, acc)
-	}
-	return acc
 }
 
 // Identity accepts one argument and returns it
@@ -2058,6 +2587,16 @@ func ConcatUint64(arrs ...[]uint64) []uint64 {
 		result = append(result, arr...)
 	}
 	return result
+}
+
+// Contains returns true if el in arr.
+func ContainsUint64(arr []uint64, el uint64) bool {
+	for _, val := range arr {
+		if val == el {
+			return true
+		}
+	}
+	return false
 }
 
 // Dedup returns a given slice without consecutive duplicated elements
@@ -2128,6 +2667,47 @@ func MinUint64(arr []uint64) uint64 {
 	return min
 }
 
+// Reduce applies F to acc and every element in slice of T and returns acc
+func ReduceUint64(arr []uint64, acc uint64, f func(el uint64, acc uint64) uint64) uint64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func ReduceWhileUint64(arr []uint64, acc uint64, f func(el uint64, acc uint64) (uint64, error)) (uint64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan is like Reduce, but returns slice of f results
+func ScanUint64(arr []uint64, acc uint64, f func(el uint64, acc uint64) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Take takes elements from arr while f returns true
+func TakeUint64(arr []uint64, f func(el uint64) bool) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint8(arr []uint8, f func(el uint8) bool) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -2153,14 +2733,6 @@ func EachUint8(arr []uint8, f func(el uint8)) {
 	for _, el := range arr {
 		f(el)
 	}
-}
-
-// Reduce applies F to acc and every element in slice of T and returns acc
-func ReduceUint8(arr []uint8, acc uint8, f func(el uint8, acc uint8) uint8) uint8 {
-	for _, el := range arr {
-		acc = f(el, acc)
-	}
-	return acc
 }
 
 // Identity accepts one argument and returns it
@@ -2210,6 +2782,16 @@ func ConcatUint8(arrs ...[]uint8) []uint8 {
 		result = append(result, arr...)
 	}
 	return result
+}
+
+// Contains returns true if el in arr.
+func ContainsUint8(arr []uint8, el uint8) bool {
+	for _, val := range arr {
+		if val == el {
+			return true
+		}
+	}
+	return false
 }
 
 // Dedup returns a given slice without consecutive duplicated elements
@@ -2278,4 +2860,45 @@ func MinUint8(arr []uint8) uint8 {
 		}
 	}
 	return min
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func ReduceUint8(arr []uint8, acc uint8, f func(el uint8, acc uint8) uint8) uint8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func ReduceWhileUint8(arr []uint8, acc uint8, f func(el uint8, acc uint8) (uint8, error)) (uint8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan is like Reduce, but returns slice of f results
+func ScanUint8(arr []uint8, acc uint8, f func(el uint8, acc uint8) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Take takes elements from arr while f returns true
+func TakeUint8(arr []uint8, f func(el uint8) bool) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
 }
