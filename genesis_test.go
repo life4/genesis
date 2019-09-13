@@ -27,3 +27,12 @@ func TestMapInt32(t *testing.T) {
 
 	f(double, []int32{1, 2, 3}, []int32{2, 4, 6})
 }
+
+func TestChunkEveryInt32(t *testing.T) {
+	f := func(count int, given []int32, expected [][]int32) {
+		actual := ChunkEveryInt32(given, count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, []int32{1, 2, 3, 4}, [][]int32{[]int32{1, 2}, []int32{3, 4}})
+	f(2, []int32{1, 2, 3, 4, 5}, [][]int32{[]int32{1, 2}, []int32{3, 4}, []int32{5}})
+}

@@ -53,3 +53,20 @@ func All(arr []T, f func(el T) bool) bool {
 	}
 	return true
 }
+
+// ChunkEvery returns slice of slices containing count elements each
+func ChunkEvery(arr []T, count int) [][]T {
+	chunks := make([][]T, 0)
+	chunk := make([]T, 0)
+	for i, el := range arr {
+		chunk = append(chunk, el)
+		if (i+1)%count == 0 {
+			chunks = append(chunks, chunk)
+			chunk = make([]T, 0)
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}

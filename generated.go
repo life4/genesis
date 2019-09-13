@@ -51,6 +51,23 @@ func AllBool(arr []bool, f func(el bool) bool) bool {
 	return true
 }
 
+// ChunkEvery returns slice of slices containing count elements each
+func ChunkEveryBool(arr []bool, count int) [][]bool {
+	chunks := make([][]bool, 0)
+	chunk := make([]bool, 0)
+	for i, el := range arr {
+		chunk = append(chunk, el)
+		if (i+1)%count == 0 {
+			chunks = append(chunks, chunk)
+			chunk = make([]bool, 0)
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Filter returns slice of T for which F returned true
 func FilterByte(arr []byte, f func(el byte) bool) []byte {
 	result := make([]byte, 0, len(arr))
@@ -100,6 +117,23 @@ func AllByte(arr []byte, f func(el byte) bool) bool {
 		}
 	}
 	return true
+}
+
+// ChunkEvery returns slice of slices containing count elements each
+func ChunkEveryByte(arr []byte, count int) [][]byte {
+	chunks := make([][]byte, 0)
+	chunk := make([]byte, 0)
+	for i, el := range arr {
+		chunk = append(chunk, el)
+		if (i+1)%count == 0 {
+			chunks = append(chunks, chunk)
+			chunk = make([]byte, 0)
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Filter returns slice of T for which F returned true
@@ -153,6 +187,23 @@ func AllFloat32(arr []float32, f func(el float32) bool) bool {
 	return true
 }
 
+// ChunkEvery returns slice of slices containing count elements each
+func ChunkEveryFloat32(arr []float32, count int) [][]float32 {
+	chunks := make([][]float32, 0)
+	chunk := make([]float32, 0)
+	for i, el := range arr {
+		chunk = append(chunk, el)
+		if (i+1)%count == 0 {
+			chunks = append(chunks, chunk)
+			chunk = make([]float32, 0)
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Filter returns slice of T for which F returned true
 func FilterFloat64(arr []float64, f func(el float64) bool) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -202,6 +253,23 @@ func AllFloat64(arr []float64, f func(el float64) bool) bool {
 		}
 	}
 	return true
+}
+
+// ChunkEvery returns slice of slices containing count elements each
+func ChunkEveryFloat64(arr []float64, count int) [][]float64 {
+	chunks := make([][]float64, 0)
+	chunk := make([]float64, 0)
+	for i, el := range arr {
+		chunk = append(chunk, el)
+		if (i+1)%count == 0 {
+			chunks = append(chunks, chunk)
+			chunk = make([]float64, 0)
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Filter returns slice of T for which F returned true
@@ -255,6 +323,23 @@ func AllInt(arr []int, f func(el int) bool) bool {
 	return true
 }
 
+// ChunkEvery returns slice of slices containing count elements each
+func ChunkEveryInt(arr []int, count int) [][]int {
+	chunks := make([][]int, 0)
+	chunk := make([]int, 0)
+	for i, el := range arr {
+		chunk = append(chunk, el)
+		if (i+1)%count == 0 {
+			chunks = append(chunks, chunk)
+			chunk = make([]int, 0)
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Filter returns slice of T for which F returned true
 func FilterInt16(arr []int16, f func(el int16) bool) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -304,6 +389,23 @@ func AllInt16(arr []int16, f func(el int16) bool) bool {
 		}
 	}
 	return true
+}
+
+// ChunkEvery returns slice of slices containing count elements each
+func ChunkEveryInt16(arr []int16, count int) [][]int16 {
+	chunks := make([][]int16, 0)
+	chunk := make([]int16, 0)
+	for i, el := range arr {
+		chunk = append(chunk, el)
+		if (i+1)%count == 0 {
+			chunks = append(chunks, chunk)
+			chunk = make([]int16, 0)
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Filter returns slice of T for which F returned true
@@ -357,6 +459,23 @@ func AllInt32(arr []int32, f func(el int32) bool) bool {
 	return true
 }
 
+// ChunkEvery returns slice of slices containing count elements each
+func ChunkEveryInt32(arr []int32, count int) [][]int32 {
+	chunks := make([][]int32, 0)
+	chunk := make([]int32, 0)
+	for i, el := range arr {
+		chunk = append(chunk, el)
+		if (i+1)%count == 0 {
+			chunks = append(chunks, chunk)
+			chunk = make([]int32, 0)
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Filter returns slice of T for which F returned true
 func FilterInt64(arr []int64, f func(el int64) bool) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -406,6 +525,23 @@ func AllInt64(arr []int64, f func(el int64) bool) bool {
 		}
 	}
 	return true
+}
+
+// ChunkEvery returns slice of slices containing count elements each
+func ChunkEveryInt64(arr []int64, count int) [][]int64 {
+	chunks := make([][]int64, 0)
+	chunk := make([]int64, 0)
+	for i, el := range arr {
+		chunk = append(chunk, el)
+		if (i+1)%count == 0 {
+			chunks = append(chunks, chunk)
+			chunk = make([]int64, 0)
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Filter returns slice of T for which F returned true
@@ -459,6 +595,23 @@ func AllInt8(arr []int8, f func(el int8) bool) bool {
 	return true
 }
 
+// ChunkEvery returns slice of slices containing count elements each
+func ChunkEveryInt8(arr []int8, count int) [][]int8 {
+	chunks := make([][]int8, 0)
+	chunk := make([]int8, 0)
+	for i, el := range arr {
+		chunk = append(chunk, el)
+		if (i+1)%count == 0 {
+			chunks = append(chunks, chunk)
+			chunk = make([]int8, 0)
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Filter returns slice of T for which F returned true
 func FilterString(arr []string, f func(el string) bool) []string {
 	result := make([]string, 0, len(arr))
@@ -508,6 +661,23 @@ func AllString(arr []string, f func(el string) bool) bool {
 		}
 	}
 	return true
+}
+
+// ChunkEvery returns slice of slices containing count elements each
+func ChunkEveryString(arr []string, count int) [][]string {
+	chunks := make([][]string, 0)
+	chunk := make([]string, 0)
+	for i, el := range arr {
+		chunk = append(chunk, el)
+		if (i+1)%count == 0 {
+			chunks = append(chunks, chunk)
+			chunk = make([]string, 0)
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Filter returns slice of T for which F returned true
@@ -561,6 +731,23 @@ func AllUint(arr []uint, f func(el uint) bool) bool {
 	return true
 }
 
+// ChunkEvery returns slice of slices containing count elements each
+func ChunkEveryUint(arr []uint, count int) [][]uint {
+	chunks := make([][]uint, 0)
+	chunk := make([]uint, 0)
+	for i, el := range arr {
+		chunk = append(chunk, el)
+		if (i+1)%count == 0 {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint, 0)
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint16(arr []uint16, f func(el uint16) bool) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -610,6 +797,23 @@ func AllUint16(arr []uint16, f func(el uint16) bool) bool {
 		}
 	}
 	return true
+}
+
+// ChunkEvery returns slice of slices containing count elements each
+func ChunkEveryUint16(arr []uint16, count int) [][]uint16 {
+	chunks := make([][]uint16, 0)
+	chunk := make([]uint16, 0)
+	for i, el := range arr {
+		chunk = append(chunk, el)
+		if (i+1)%count == 0 {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint16, 0)
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Filter returns slice of T for which F returned true
@@ -663,6 +867,23 @@ func AllUint32(arr []uint32, f func(el uint32) bool) bool {
 	return true
 }
 
+// ChunkEvery returns slice of slices containing count elements each
+func ChunkEveryUint32(arr []uint32, count int) [][]uint32 {
+	chunks := make([][]uint32, 0)
+	chunk := make([]uint32, 0)
+	for i, el := range arr {
+		chunk = append(chunk, el)
+		if (i+1)%count == 0 {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint32, 0)
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint64(arr []uint64, f func(el uint64) bool) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -714,6 +935,23 @@ func AllUint64(arr []uint64, f func(el uint64) bool) bool {
 	return true
 }
 
+// ChunkEvery returns slice of slices containing count elements each
+func ChunkEveryUint64(arr []uint64, count int) [][]uint64 {
+	chunks := make([][]uint64, 0)
+	chunk := make([]uint64, 0)
+	for i, el := range arr {
+		chunk = append(chunk, el)
+		if (i+1)%count == 0 {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint64, 0)
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint8(arr []uint8, f func(el uint8) bool) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -763,4 +1001,21 @@ func AllUint8(arr []uint8, f func(el uint8) bool) bool {
 		}
 	}
 	return true
+}
+
+// ChunkEvery returns slice of slices containing count elements each
+func ChunkEveryUint8(arr []uint8, count int) [][]uint8 {
+	chunks := make([][]uint8, 0)
+	chunk := make([]uint8, 0)
+	for i, el := range arr {
+		chunk = append(chunk, el)
+		if (i+1)%count == 0 {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint8, 0)
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
