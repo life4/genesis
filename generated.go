@@ -3251,3 +3251,2307 @@ func TakeUint8(arr []uint8, f func(el uint8) bool) []uint8 {
 	}
 	return result
 }
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2BoolBool(arr []bool, f func(el bool) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2BoolByte(arr []bool, f func(el bool) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2BoolFloat32(arr []bool, f func(el bool) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2BoolFloat64(arr []bool, f func(el bool) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2BoolInt(arr []bool, f func(el bool) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2BoolInt16(arr []bool, f func(el bool) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2BoolInt32(arr []bool, f func(el bool) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2BoolInt64(arr []bool, f func(el bool) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2BoolInt8(arr []bool, f func(el bool) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2BoolInterface(arr []bool, f func(el bool) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2BoolString(arr []bool, f func(el bool) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2BoolUint(arr []bool, f func(el bool) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2BoolUint16(arr []bool, f func(el bool) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2BoolUint32(arr []bool, f func(el bool) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2BoolUint64(arr []bool, f func(el bool) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2BoolUint8(arr []bool, f func(el bool) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2ByteBool(arr []byte, f func(el byte) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2ByteByte(arr []byte, f func(el byte) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2ByteFloat32(arr []byte, f func(el byte) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2ByteFloat64(arr []byte, f func(el byte) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2ByteInt(arr []byte, f func(el byte) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2ByteInt16(arr []byte, f func(el byte) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2ByteInt32(arr []byte, f func(el byte) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2ByteInt64(arr []byte, f func(el byte) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2ByteInt8(arr []byte, f func(el byte) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2ByteInterface(arr []byte, f func(el byte) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2ByteString(arr []byte, f func(el byte) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2ByteUint(arr []byte, f func(el byte) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2ByteUint16(arr []byte, f func(el byte) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2ByteUint32(arr []byte, f func(el byte) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2ByteUint64(arr []byte, f func(el byte) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2ByteUint8(arr []byte, f func(el byte) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float32Bool(arr []float32, f func(el float32) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float32Byte(arr []float32, f func(el float32) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float32Float32(arr []float32, f func(el float32) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float32Float64(arr []float32, f func(el float32) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float32Int(arr []float32, f func(el float32) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float32Int16(arr []float32, f func(el float32) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float32Int32(arr []float32, f func(el float32) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float32Int64(arr []float32, f func(el float32) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float32Int8(arr []float32, f func(el float32) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float32Interface(arr []float32, f func(el float32) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float32String(arr []float32, f func(el float32) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float32Uint(arr []float32, f func(el float32) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float32Uint16(arr []float32, f func(el float32) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float32Uint32(arr []float32, f func(el float32) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float32Uint64(arr []float32, f func(el float32) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float32Uint8(arr []float32, f func(el float32) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float64Bool(arr []float64, f func(el float64) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float64Byte(arr []float64, f func(el float64) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float64Float32(arr []float64, f func(el float64) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float64Float64(arr []float64, f func(el float64) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float64Int(arr []float64, f func(el float64) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float64Int16(arr []float64, f func(el float64) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float64Int32(arr []float64, f func(el float64) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float64Int64(arr []float64, f func(el float64) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float64Int8(arr []float64, f func(el float64) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float64Interface(arr []float64, f func(el float64) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float64String(arr []float64, f func(el float64) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float64Uint(arr []float64, f func(el float64) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float64Uint16(arr []float64, f func(el float64) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float64Uint32(arr []float64, f func(el float64) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float64Uint64(arr []float64, f func(el float64) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Float64Uint8(arr []float64, f func(el float64) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int16Bool(arr []int16, f func(el int16) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int16Byte(arr []int16, f func(el int16) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int16Float32(arr []int16, f func(el int16) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int16Float64(arr []int16, f func(el int16) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int16Int(arr []int16, f func(el int16) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int16Int16(arr []int16, f func(el int16) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int16Int32(arr []int16, f func(el int16) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int16Int64(arr []int16, f func(el int16) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int16Int8(arr []int16, f func(el int16) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int16Interface(arr []int16, f func(el int16) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int16String(arr []int16, f func(el int16) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int16Uint(arr []int16, f func(el int16) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int16Uint16(arr []int16, f func(el int16) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int16Uint32(arr []int16, f func(el int16) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int16Uint64(arr []int16, f func(el int16) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int16Uint8(arr []int16, f func(el int16) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int32Bool(arr []int32, f func(el int32) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int32Byte(arr []int32, f func(el int32) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int32Float32(arr []int32, f func(el int32) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int32Float64(arr []int32, f func(el int32) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int32Int(arr []int32, f func(el int32) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int32Int16(arr []int32, f func(el int32) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int32Int32(arr []int32, f func(el int32) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int32Int64(arr []int32, f func(el int32) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int32Int8(arr []int32, f func(el int32) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int32Interface(arr []int32, f func(el int32) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int32String(arr []int32, f func(el int32) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int32Uint(arr []int32, f func(el int32) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int32Uint16(arr []int32, f func(el int32) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int32Uint32(arr []int32, f func(el int32) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int32Uint64(arr []int32, f func(el int32) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int32Uint8(arr []int32, f func(el int32) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int64Bool(arr []int64, f func(el int64) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int64Byte(arr []int64, f func(el int64) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int64Float32(arr []int64, f func(el int64) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int64Float64(arr []int64, f func(el int64) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int64Int(arr []int64, f func(el int64) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int64Int16(arr []int64, f func(el int64) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int64Int32(arr []int64, f func(el int64) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int64Int64(arr []int64, f func(el int64) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int64Int8(arr []int64, f func(el int64) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int64Interface(arr []int64, f func(el int64) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int64String(arr []int64, f func(el int64) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int64Uint(arr []int64, f func(el int64) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int64Uint16(arr []int64, f func(el int64) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int64Uint32(arr []int64, f func(el int64) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int64Uint64(arr []int64, f func(el int64) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int64Uint8(arr []int64, f func(el int64) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int8Bool(arr []int8, f func(el int8) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int8Byte(arr []int8, f func(el int8) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int8Float32(arr []int8, f func(el int8) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int8Float64(arr []int8, f func(el int8) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int8Int(arr []int8, f func(el int8) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int8Int16(arr []int8, f func(el int8) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int8Int32(arr []int8, f func(el int8) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int8Int64(arr []int8, f func(el int8) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int8Int8(arr []int8, f func(el int8) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int8Interface(arr []int8, f func(el int8) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int8String(arr []int8, f func(el int8) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int8Uint(arr []int8, f func(el int8) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int8Uint16(arr []int8, f func(el int8) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int8Uint32(arr []int8, f func(el int8) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int8Uint64(arr []int8, f func(el int8) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Int8Uint8(arr []int8, f func(el int8) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2IntBool(arr []int, f func(el int) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2IntByte(arr []int, f func(el int) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2InterfaceBool(arr []interface{}, f func(el interface{}) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2InterfaceByte(arr []interface{}, f func(el interface{}) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2InterfaceFloat32(arr []interface{}, f func(el interface{}) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2InterfaceFloat64(arr []interface{}, f func(el interface{}) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2InterfaceInt(arr []interface{}, f func(el interface{}) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2InterfaceInt16(arr []interface{}, f func(el interface{}) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2InterfaceInt32(arr []interface{}, f func(el interface{}) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2InterfaceInt64(arr []interface{}, f func(el interface{}) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2InterfaceInt8(arr []interface{}, f func(el interface{}) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2InterfaceInterface(arr []interface{}, f func(el interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2InterfaceString(arr []interface{}, f func(el interface{}) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2InterfaceUint(arr []interface{}, f func(el interface{}) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2InterfaceUint16(arr []interface{}, f func(el interface{}) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2InterfaceUint32(arr []interface{}, f func(el interface{}) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2InterfaceUint64(arr []interface{}, f func(el interface{}) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2InterfaceUint8(arr []interface{}, f func(el interface{}) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2IntFloat32(arr []int, f func(el int) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2IntFloat64(arr []int, f func(el int) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2IntInt(arr []int, f func(el int) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2IntInt16(arr []int, f func(el int) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2IntInt32(arr []int, f func(el int) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2IntInt64(arr []int, f func(el int) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2IntInt8(arr []int, f func(el int) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2IntInterface(arr []int, f func(el int) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2IntString(arr []int, f func(el int) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2IntUint(arr []int, f func(el int) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2IntUint16(arr []int, f func(el int) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2IntUint32(arr []int, f func(el int) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2IntUint64(arr []int, f func(el int) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2IntUint8(arr []int, f func(el int) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2StringBool(arr []string, f func(el string) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2StringByte(arr []string, f func(el string) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2StringFloat32(arr []string, f func(el string) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2StringFloat64(arr []string, f func(el string) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2StringInt(arr []string, f func(el string) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2StringInt16(arr []string, f func(el string) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2StringInt32(arr []string, f func(el string) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2StringInt64(arr []string, f func(el string) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2StringInt8(arr []string, f func(el string) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2StringInterface(arr []string, f func(el string) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2StringString(arr []string, f func(el string) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2StringUint(arr []string, f func(el string) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2StringUint16(arr []string, f func(el string) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2StringUint32(arr []string, f func(el string) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2StringUint64(arr []string, f func(el string) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2StringUint8(arr []string, f func(el string) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint16Bool(arr []uint16, f func(el uint16) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint16Byte(arr []uint16, f func(el uint16) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint16Float32(arr []uint16, f func(el uint16) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint16Float64(arr []uint16, f func(el uint16) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint16Int(arr []uint16, f func(el uint16) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint16Int16(arr []uint16, f func(el uint16) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint16Int32(arr []uint16, f func(el uint16) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint16Int64(arr []uint16, f func(el uint16) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint16Int8(arr []uint16, f func(el uint16) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint16Interface(arr []uint16, f func(el uint16) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint16String(arr []uint16, f func(el uint16) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint16Uint(arr []uint16, f func(el uint16) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint16Uint16(arr []uint16, f func(el uint16) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint16Uint32(arr []uint16, f func(el uint16) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint16Uint64(arr []uint16, f func(el uint16) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint16Uint8(arr []uint16, f func(el uint16) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint32Bool(arr []uint32, f func(el uint32) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint32Byte(arr []uint32, f func(el uint32) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint32Float32(arr []uint32, f func(el uint32) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint32Float64(arr []uint32, f func(el uint32) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint32Int(arr []uint32, f func(el uint32) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint32Int16(arr []uint32, f func(el uint32) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint32Int32(arr []uint32, f func(el uint32) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint32Int64(arr []uint32, f func(el uint32) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint32Int8(arr []uint32, f func(el uint32) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint32Interface(arr []uint32, f func(el uint32) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint32String(arr []uint32, f func(el uint32) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint32Uint(arr []uint32, f func(el uint32) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint32Uint16(arr []uint32, f func(el uint32) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint32Uint32(arr []uint32, f func(el uint32) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint32Uint64(arr []uint32, f func(el uint32) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint32Uint8(arr []uint32, f func(el uint32) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint64Bool(arr []uint64, f func(el uint64) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint64Byte(arr []uint64, f func(el uint64) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint64Float32(arr []uint64, f func(el uint64) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint64Float64(arr []uint64, f func(el uint64) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint64Int(arr []uint64, f func(el uint64) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint64Int16(arr []uint64, f func(el uint64) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint64Int32(arr []uint64, f func(el uint64) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint64Int64(arr []uint64, f func(el uint64) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint64Int8(arr []uint64, f func(el uint64) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint64Interface(arr []uint64, f func(el uint64) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint64String(arr []uint64, f func(el uint64) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint64Uint(arr []uint64, f func(el uint64) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint64Uint16(arr []uint64, f func(el uint64) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint64Uint32(arr []uint64, f func(el uint64) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint64Uint64(arr []uint64, f func(el uint64) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint64Uint8(arr []uint64, f func(el uint64) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint8Bool(arr []uint8, f func(el uint8) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint8Byte(arr []uint8, f func(el uint8) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint8Float32(arr []uint8, f func(el uint8) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint8Float64(arr []uint8, f func(el uint8) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint8Int(arr []uint8, f func(el uint8) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint8Int16(arr []uint8, f func(el uint8) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint8Int32(arr []uint8, f func(el uint8) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint8Int64(arr []uint8, f func(el uint8) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint8Int8(arr []uint8, f func(el uint8) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint8Interface(arr []uint8, f func(el uint8) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint8String(arr []uint8, f func(el uint8) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint8Uint(arr []uint8, f func(el uint8) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint8Uint16(arr []uint8, f func(el uint8) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint8Uint32(arr []uint8, f func(el uint8) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint8Uint64(arr []uint8, f func(el uint8) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2Uint8Uint8(arr []uint8, f func(el uint8) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2UintBool(arr []uint, f func(el uint) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2UintByte(arr []uint, f func(el uint) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2UintFloat32(arr []uint, f func(el uint) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2UintFloat64(arr []uint, f func(el uint) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2UintInt(arr []uint, f func(el uint) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2UintInt16(arr []uint, f func(el uint) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2UintInt32(arr []uint, f func(el uint) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2UintInt64(arr []uint, f func(el uint) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2UintInt8(arr []uint, f func(el uint) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2UintInterface(arr []uint, f func(el uint) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2UintString(arr []uint, f func(el uint) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2UintUint(arr []uint, f func(el uint) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2UintUint16(arr []uint, f func(el uint) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2UintUint32(arr []uint, f func(el uint) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2UintUint64(arr []uint, f func(el uint) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map2 applies F to all elements in slice of T and returns slice of results
+func Map2UintUint8(arr []uint, f func(el uint) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		result = append(result, f(el))
+	}
+	return result
+}

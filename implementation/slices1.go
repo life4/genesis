@@ -1,8 +1,5 @@
 package implementation
 
-// T is a generic type
-type T int8
-
 // Filter returns slice of T for which F returned true
 func Filter(arr []T, f func(el T) bool) []T {
 	result := make([]T, 0, len(arr))
