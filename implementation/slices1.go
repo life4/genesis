@@ -101,6 +101,18 @@ func Dedup(arr []T) []T {
 	return result
 }
 
+// DropEvery returns a slice of every nth element in the enumerable dropped,
+// starting with the first element.
+func DropEvery(arr []T, nth int) []T {
+	result := make([]T, 0, len(arr)/nth)
+	for i, el := range arr {
+		if (i+1)%nth != 0 {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // Find returns the first element for which f returns true
 func Find(arr []T, def T, f func(el T) bool) T {
 	for _, el := range arr {

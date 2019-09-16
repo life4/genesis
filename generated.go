@@ -101,6 +101,18 @@ func DedupBool(arr []bool) []bool {
 	return result
 }
 
+// DropEvery returns a slice of every nth element in the enumerable dropped,
+// starting with the first element.
+func DropEveryBool(arr []bool, nth int) []bool {
+	result := make([]bool, 0, len(arr)/nth)
+	for i, el := range arr {
+		if (i+1)%nth != 0 {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // Find returns the first element for which f returns true
 func FindBool(arr []bool, def bool, f func(el bool) bool) bool {
 	for _, el := range arr {
@@ -281,6 +293,18 @@ func DedupByte(arr []byte) []byte {
 			result = append(result, el)
 		}
 		prev = el
+	}
+	return result
+}
+
+// DropEvery returns a slice of every nth element in the enumerable dropped,
+// starting with the first element.
+func DropEveryByte(arr []byte, nth int) []byte {
+	result := make([]byte, 0, len(arr)/nth)
+	for i, el := range arr {
+		if (i+1)%nth != 0 {
+			result = append(result, el)
+		}
 	}
 	return result
 }
@@ -491,6 +515,18 @@ func DedupFloat32(arr []float32) []float32 {
 	return result
 }
 
+// DropEvery returns a slice of every nth element in the enumerable dropped,
+// starting with the first element.
+func DropEveryFloat32(arr []float32, nth int) []float32 {
+	result := make([]float32, 0, len(arr)/nth)
+	for i, el := range arr {
+		if (i+1)%nth != 0 {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // Find returns the first element for which f returns true
 func FindFloat32(arr []float32, def float32, f func(el float32) bool) float32 {
 	for _, el := range arr {
@@ -693,6 +729,18 @@ func DedupFloat64(arr []float64) []float64 {
 			result = append(result, el)
 		}
 		prev = el
+	}
+	return result
+}
+
+// DropEvery returns a slice of every nth element in the enumerable dropped,
+// starting with the first element.
+func DropEveryFloat64(arr []float64, nth int) []float64 {
+	result := make([]float64, 0, len(arr)/nth)
+	for i, el := range arr {
+		if (i+1)%nth != 0 {
+			result = append(result, el)
+		}
 	}
 	return result
 }
@@ -903,6 +951,18 @@ func DedupInt(arr []int) []int {
 	return result
 }
 
+// DropEvery returns a slice of every nth element in the enumerable dropped,
+// starting with the first element.
+func DropEveryInt(arr []int, nth int) []int {
+	result := make([]int, 0, len(arr)/nth)
+	for i, el := range arr {
+		if (i+1)%nth != 0 {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // Find returns the first element for which f returns true
 func FindInt(arr []int, def int, f func(el int) bool) int {
 	for _, el := range arr {
@@ -1105,6 +1165,18 @@ func DedupInt16(arr []int16) []int16 {
 			result = append(result, el)
 		}
 		prev = el
+	}
+	return result
+}
+
+// DropEvery returns a slice of every nth element in the enumerable dropped,
+// starting with the first element.
+func DropEveryInt16(arr []int16, nth int) []int16 {
+	result := make([]int16, 0, len(arr)/nth)
+	for i, el := range arr {
+		if (i+1)%nth != 0 {
+			result = append(result, el)
+		}
 	}
 	return result
 }
@@ -1315,6 +1387,18 @@ func DedupInt32(arr []int32) []int32 {
 	return result
 }
 
+// DropEvery returns a slice of every nth element in the enumerable dropped,
+// starting with the first element.
+func DropEveryInt32(arr []int32, nth int) []int32 {
+	result := make([]int32, 0, len(arr)/nth)
+	for i, el := range arr {
+		if (i+1)%nth != 0 {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // Find returns the first element for which f returns true
 func FindInt32(arr []int32, def int32, f func(el int32) bool) int32 {
 	for _, el := range arr {
@@ -1517,6 +1601,18 @@ func DedupInt64(arr []int64) []int64 {
 			result = append(result, el)
 		}
 		prev = el
+	}
+	return result
+}
+
+// DropEvery returns a slice of every nth element in the enumerable dropped,
+// starting with the first element.
+func DropEveryInt64(arr []int64, nth int) []int64 {
+	result := make([]int64, 0, len(arr)/nth)
+	for i, el := range arr {
+		if (i+1)%nth != 0 {
+			result = append(result, el)
+		}
 	}
 	return result
 }
@@ -1727,6 +1823,18 @@ func DedupInt8(arr []int8) []int8 {
 	return result
 }
 
+// DropEvery returns a slice of every nth element in the enumerable dropped,
+// starting with the first element.
+func DropEveryInt8(arr []int8, nth int) []int8 {
+	result := make([]int8, 0, len(arr)/nth)
+	for i, el := range arr {
+		if (i+1)%nth != 0 {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // Find returns the first element for which f returns true
 func FindInt8(arr []int8, def int8, f func(el int8) bool) int8 {
 	for _, el := range arr {
@@ -1933,6 +2041,18 @@ func Dedup(arr []interface{}) []interface{} {
 	return result
 }
 
+// DropEvery returns a slice of every nth element in the enumerable dropped,
+// starting with the first element.
+func DropEvery(arr []interface{}, nth int) []interface{} {
+	result := make([]interface{}, 0, len(arr)/nth)
+	for i, el := range arr {
+		if (i+1)%nth != 0 {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // Find returns the first element for which f returns true
 func Find(arr []interface{}, def interface{}, f func(el interface{}) bool) interface{} {
 	for _, el := range arr {
@@ -2113,6 +2233,18 @@ func DedupString(arr []string) []string {
 			result = append(result, el)
 		}
 		prev = el
+	}
+	return result
+}
+
+// DropEvery returns a slice of every nth element in the enumerable dropped,
+// starting with the first element.
+func DropEveryString(arr []string, nth int) []string {
+	result := make([]string, 0, len(arr)/nth)
+	for i, el := range arr {
+		if (i+1)%nth != 0 {
+			result = append(result, el)
+		}
 	}
 	return result
 }
@@ -2323,6 +2455,18 @@ func DedupUint(arr []uint) []uint {
 	return result
 }
 
+// DropEvery returns a slice of every nth element in the enumerable dropped,
+// starting with the first element.
+func DropEveryUint(arr []uint, nth int) []uint {
+	result := make([]uint, 0, len(arr)/nth)
+	for i, el := range arr {
+		if (i+1)%nth != 0 {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // Find returns the first element for which f returns true
 func FindUint(arr []uint, def uint, f func(el uint) bool) uint {
 	for _, el := range arr {
@@ -2525,6 +2669,18 @@ func DedupUint16(arr []uint16) []uint16 {
 			result = append(result, el)
 		}
 		prev = el
+	}
+	return result
+}
+
+// DropEvery returns a slice of every nth element in the enumerable dropped,
+// starting with the first element.
+func DropEveryUint16(arr []uint16, nth int) []uint16 {
+	result := make([]uint16, 0, len(arr)/nth)
+	for i, el := range arr {
+		if (i+1)%nth != 0 {
+			result = append(result, el)
+		}
 	}
 	return result
 }
@@ -2735,6 +2891,18 @@ func DedupUint32(arr []uint32) []uint32 {
 	return result
 }
 
+// DropEvery returns a slice of every nth element in the enumerable dropped,
+// starting with the first element.
+func DropEveryUint32(arr []uint32, nth int) []uint32 {
+	result := make([]uint32, 0, len(arr)/nth)
+	for i, el := range arr {
+		if (i+1)%nth != 0 {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // Find returns the first element for which f returns true
 func FindUint32(arr []uint32, def uint32, f func(el uint32) bool) uint32 {
 	for _, el := range arr {
@@ -2941,6 +3109,18 @@ func DedupUint64(arr []uint64) []uint64 {
 	return result
 }
 
+// DropEvery returns a slice of every nth element in the enumerable dropped,
+// starting with the first element.
+func DropEveryUint64(arr []uint64, nth int) []uint64 {
+	result := make([]uint64, 0, len(arr)/nth)
+	for i, el := range arr {
+		if (i+1)%nth != 0 {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // Find returns the first element for which f returns true
 func FindUint64(arr []uint64, def uint64, f func(el uint64) bool) uint64 {
 	for _, el := range arr {
@@ -3143,6 +3323,18 @@ func DedupUint8(arr []uint8) []uint8 {
 			result = append(result, el)
 		}
 		prev = el
+	}
+	return result
+}
+
+// DropEvery returns a slice of every nth element in the enumerable dropped,
+// starting with the first element.
+func DropEveryUint8(arr []uint8, nth int) []uint8 {
+	result := make([]uint8, 0, len(arr)/nth)
+	for i, el := range arr {
+		if (i+1)%nth != 0 {
+			result = append(result, el)
+		}
 	}
 	return result
 }
