@@ -16,3 +16,24 @@ func Reduce2(arr []T, acc G, f func(el T, acc G) G) G {
 	}
 	return acc
 }
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhile2(arr []T, acc G, f func(el T, acc G) (G, error)) (G, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func Scan2(arr []T, acc G, f func(el T, acc G) G) []G {
+	result := make([]G, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}

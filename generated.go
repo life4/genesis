@@ -3269,6 +3269,27 @@ func ReduceBoolByte(arr []bool, acc byte, f func(el bool, acc byte) byte) byte {
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileBoolByte(arr []bool, acc byte, f func(el bool, acc byte) (byte, error)) (byte, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanBoolByte(arr []bool, acc byte, f func(el bool, acc byte) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolFloat32(arr []bool, f func(el bool) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -3284,6 +3305,27 @@ func ReduceBoolFloat32(arr []bool, acc float32, f func(el bool, acc float32) flo
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileBoolFloat32(arr []bool, acc float32, f func(el bool, acc float32) (float32, error)) (float32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanBoolFloat32(arr []bool, acc float32, f func(el bool, acc float32) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3303,6 +3345,27 @@ func ReduceBoolFloat64(arr []bool, acc float64, f func(el bool, acc float64) flo
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileBoolFloat64(arr []bool, acc float64, f func(el bool, acc float64) (float64, error)) (float64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanBoolFloat64(arr []bool, acc float64, f func(el bool, acc float64) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolInt(arr []bool, f func(el bool) int) []int {
 	result := make([]int, 0, len(arr))
@@ -3318,6 +3381,27 @@ func ReduceBoolInt(arr []bool, acc int, f func(el bool, acc int) int) int {
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileBoolInt(arr []bool, acc int, f func(el bool, acc int) (int, error)) (int, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanBoolInt(arr []bool, acc int, f func(el bool, acc int) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3337,6 +3421,27 @@ func ReduceBoolInt16(arr []bool, acc int16, f func(el bool, acc int16) int16) in
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileBoolInt16(arr []bool, acc int16, f func(el bool, acc int16) (int16, error)) (int16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanBoolInt16(arr []bool, acc int16, f func(el bool, acc int16) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolInt32(arr []bool, f func(el bool) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -3352,6 +3457,27 @@ func ReduceBoolInt32(arr []bool, acc int32, f func(el bool, acc int32) int32) in
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileBoolInt32(arr []bool, acc int32, f func(el bool, acc int32) (int32, error)) (int32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanBoolInt32(arr []bool, acc int32, f func(el bool, acc int32) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3371,6 +3497,27 @@ func ReduceBoolInt64(arr []bool, acc int64, f func(el bool, acc int64) int64) in
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileBoolInt64(arr []bool, acc int64, f func(el bool, acc int64) (int64, error)) (int64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanBoolInt64(arr []bool, acc int64, f func(el bool, acc int64) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolInt8(arr []bool, f func(el bool) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -3386,6 +3533,27 @@ func ReduceBoolInt8(arr []bool, acc int8, f func(el bool, acc int8) int8) int8 {
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileBoolInt8(arr []bool, acc int8, f func(el bool, acc int8) (int8, error)) (int8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanBoolInt8(arr []bool, acc int8, f func(el bool, acc int8) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3405,6 +3573,27 @@ func ReduceBoolInterface(arr []bool, acc interface{}, f func(el bool, acc interf
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileBoolInterface(arr []bool, acc interface{}, f func(el bool, acc interface{}) (interface{}, error)) (interface{}, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanBoolInterface(arr []bool, acc interface{}, f func(el bool, acc interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolString(arr []bool, f func(el bool) string) []string {
 	result := make([]string, 0, len(arr))
@@ -3420,6 +3609,27 @@ func ReduceBoolString(arr []bool, acc string, f func(el bool, acc string) string
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileBoolString(arr []bool, acc string, f func(el bool, acc string) (string, error)) (string, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanBoolString(arr []bool, acc string, f func(el bool, acc string) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3439,6 +3649,27 @@ func ReduceBoolUint(arr []bool, acc uint, f func(el bool, acc uint) uint) uint {
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileBoolUint(arr []bool, acc uint, f func(el bool, acc uint) (uint, error)) (uint, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanBoolUint(arr []bool, acc uint, f func(el bool, acc uint) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolUint16(arr []bool, f func(el bool) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -3454,6 +3685,27 @@ func ReduceBoolUint16(arr []bool, acc uint16, f func(el bool, acc uint16) uint16
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileBoolUint16(arr []bool, acc uint16, f func(el bool, acc uint16) (uint16, error)) (uint16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanBoolUint16(arr []bool, acc uint16, f func(el bool, acc uint16) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3473,6 +3725,27 @@ func ReduceBoolUint32(arr []bool, acc uint32, f func(el bool, acc uint32) uint32
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileBoolUint32(arr []bool, acc uint32, f func(el bool, acc uint32) (uint32, error)) (uint32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanBoolUint32(arr []bool, acc uint32, f func(el bool, acc uint32) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolUint64(arr []bool, f func(el bool) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -3488,6 +3761,27 @@ func ReduceBoolUint64(arr []bool, acc uint64, f func(el bool, acc uint64) uint64
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileBoolUint64(arr []bool, acc uint64, f func(el bool, acc uint64) (uint64, error)) (uint64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanBoolUint64(arr []bool, acc uint64, f func(el bool, acc uint64) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3507,6 +3801,27 @@ func ReduceBoolUint8(arr []bool, acc uint8, f func(el bool, acc uint8) uint8) ui
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileBoolUint8(arr []bool, acc uint8, f func(el bool, acc uint8) (uint8, error)) (uint8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanBoolUint8(arr []bool, acc uint8, f func(el bool, acc uint8) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteBool(arr []byte, f func(el byte) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -3522,6 +3837,27 @@ func ReduceByteBool(arr []byte, acc bool, f func(el byte, acc bool) bool) bool {
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileByteBool(arr []byte, acc bool, f func(el byte, acc bool) (bool, error)) (bool, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanByteBool(arr []byte, acc bool, f func(el byte, acc bool) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3541,6 +3877,27 @@ func ReduceByteFloat32(arr []byte, acc float32, f func(el byte, acc float32) flo
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileByteFloat32(arr []byte, acc float32, f func(el byte, acc float32) (float32, error)) (float32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanByteFloat32(arr []byte, acc float32, f func(el byte, acc float32) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteFloat64(arr []byte, f func(el byte) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -3556,6 +3913,27 @@ func ReduceByteFloat64(arr []byte, acc float64, f func(el byte, acc float64) flo
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileByteFloat64(arr []byte, acc float64, f func(el byte, acc float64) (float64, error)) (float64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanByteFloat64(arr []byte, acc float64, f func(el byte, acc float64) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3575,6 +3953,27 @@ func ReduceByteInt(arr []byte, acc int, f func(el byte, acc int) int) int {
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileByteInt(arr []byte, acc int, f func(el byte, acc int) (int, error)) (int, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanByteInt(arr []byte, acc int, f func(el byte, acc int) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteInt16(arr []byte, f func(el byte) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -3590,6 +3989,27 @@ func ReduceByteInt16(arr []byte, acc int16, f func(el byte, acc int16) int16) in
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileByteInt16(arr []byte, acc int16, f func(el byte, acc int16) (int16, error)) (int16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanByteInt16(arr []byte, acc int16, f func(el byte, acc int16) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3609,6 +4029,27 @@ func ReduceByteInt32(arr []byte, acc int32, f func(el byte, acc int32) int32) in
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileByteInt32(arr []byte, acc int32, f func(el byte, acc int32) (int32, error)) (int32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanByteInt32(arr []byte, acc int32, f func(el byte, acc int32) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteInt64(arr []byte, f func(el byte) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -3624,6 +4065,27 @@ func ReduceByteInt64(arr []byte, acc int64, f func(el byte, acc int64) int64) in
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileByteInt64(arr []byte, acc int64, f func(el byte, acc int64) (int64, error)) (int64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanByteInt64(arr []byte, acc int64, f func(el byte, acc int64) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3643,6 +4105,27 @@ func ReduceByteInt8(arr []byte, acc int8, f func(el byte, acc int8) int8) int8 {
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileByteInt8(arr []byte, acc int8, f func(el byte, acc int8) (int8, error)) (int8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanByteInt8(arr []byte, acc int8, f func(el byte, acc int8) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteInterface(arr []byte, f func(el byte) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -3658,6 +4141,27 @@ func ReduceByteInterface(arr []byte, acc interface{}, f func(el byte, acc interf
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileByteInterface(arr []byte, acc interface{}, f func(el byte, acc interface{}) (interface{}, error)) (interface{}, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanByteInterface(arr []byte, acc interface{}, f func(el byte, acc interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3677,6 +4181,27 @@ func ReduceByteString(arr []byte, acc string, f func(el byte, acc string) string
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileByteString(arr []byte, acc string, f func(el byte, acc string) (string, error)) (string, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanByteString(arr []byte, acc string, f func(el byte, acc string) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteUint(arr []byte, f func(el byte) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -3692,6 +4217,27 @@ func ReduceByteUint(arr []byte, acc uint, f func(el byte, acc uint) uint) uint {
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileByteUint(arr []byte, acc uint, f func(el byte, acc uint) (uint, error)) (uint, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanByteUint(arr []byte, acc uint, f func(el byte, acc uint) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3711,6 +4257,27 @@ func ReduceByteUint16(arr []byte, acc uint16, f func(el byte, acc uint16) uint16
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileByteUint16(arr []byte, acc uint16, f func(el byte, acc uint16) (uint16, error)) (uint16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanByteUint16(arr []byte, acc uint16, f func(el byte, acc uint16) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteUint32(arr []byte, f func(el byte) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -3726,6 +4293,27 @@ func ReduceByteUint32(arr []byte, acc uint32, f func(el byte, acc uint32) uint32
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileByteUint32(arr []byte, acc uint32, f func(el byte, acc uint32) (uint32, error)) (uint32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanByteUint32(arr []byte, acc uint32, f func(el byte, acc uint32) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3745,6 +4333,27 @@ func ReduceByteUint64(arr []byte, acc uint64, f func(el byte, acc uint64) uint64
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileByteUint64(arr []byte, acc uint64, f func(el byte, acc uint64) (uint64, error)) (uint64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanByteUint64(arr []byte, acc uint64, f func(el byte, acc uint64) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteUint8(arr []byte, f func(el byte) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -3760,6 +4369,27 @@ func ReduceByteUint8(arr []byte, acc uint8, f func(el byte, acc uint8) uint8) ui
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileByteUint8(arr []byte, acc uint8, f func(el byte, acc uint8) (uint8, error)) (uint8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanByteUint8(arr []byte, acc uint8, f func(el byte, acc uint8) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3779,6 +4409,27 @@ func ReduceFloat32Bool(arr []float32, acc bool, f func(el float32, acc bool) boo
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat32Bool(arr []float32, acc bool, f func(el float32, acc bool) (bool, error)) (bool, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat32Bool(arr []float32, acc bool, f func(el float32, acc bool) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Byte(arr []float32, f func(el float32) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -3794,6 +4445,27 @@ func ReduceFloat32Byte(arr []float32, acc byte, f func(el float32, acc byte) byt
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat32Byte(arr []float32, acc byte, f func(el float32, acc byte) (byte, error)) (byte, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat32Byte(arr []float32, acc byte, f func(el float32, acc byte) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3813,6 +4485,27 @@ func ReduceFloat32Float64(arr []float32, acc float64, f func(el float32, acc flo
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat32Float64(arr []float32, acc float64, f func(el float32, acc float64) (float64, error)) (float64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat32Float64(arr []float32, acc float64, f func(el float32, acc float64) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Int(arr []float32, f func(el float32) int) []int {
 	result := make([]int, 0, len(arr))
@@ -3828,6 +4521,27 @@ func ReduceFloat32Int(arr []float32, acc int, f func(el float32, acc int) int) i
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat32Int(arr []float32, acc int, f func(el float32, acc int) (int, error)) (int, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat32Int(arr []float32, acc int, f func(el float32, acc int) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3847,6 +4561,27 @@ func ReduceFloat32Int16(arr []float32, acc int16, f func(el float32, acc int16) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat32Int16(arr []float32, acc int16, f func(el float32, acc int16) (int16, error)) (int16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat32Int16(arr []float32, acc int16, f func(el float32, acc int16) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Int32(arr []float32, f func(el float32) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -3862,6 +4597,27 @@ func ReduceFloat32Int32(arr []float32, acc int32, f func(el float32, acc int32) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat32Int32(arr []float32, acc int32, f func(el float32, acc int32) (int32, error)) (int32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat32Int32(arr []float32, acc int32, f func(el float32, acc int32) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3881,6 +4637,27 @@ func ReduceFloat32Int64(arr []float32, acc int64, f func(el float32, acc int64) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat32Int64(arr []float32, acc int64, f func(el float32, acc int64) (int64, error)) (int64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat32Int64(arr []float32, acc int64, f func(el float32, acc int64) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Int8(arr []float32, f func(el float32) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -3896,6 +4673,27 @@ func ReduceFloat32Int8(arr []float32, acc int8, f func(el float32, acc int8) int
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat32Int8(arr []float32, acc int8, f func(el float32, acc int8) (int8, error)) (int8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat32Int8(arr []float32, acc int8, f func(el float32, acc int8) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3915,6 +4713,27 @@ func ReduceFloat32Interface(arr []float32, acc interface{}, f func(el float32, a
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat32Interface(arr []float32, acc interface{}, f func(el float32, acc interface{}) (interface{}, error)) (interface{}, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat32Interface(arr []float32, acc interface{}, f func(el float32, acc interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32String(arr []float32, f func(el float32) string) []string {
 	result := make([]string, 0, len(arr))
@@ -3930,6 +4749,27 @@ func ReduceFloat32String(arr []float32, acc string, f func(el float32, acc strin
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat32String(arr []float32, acc string, f func(el float32, acc string) (string, error)) (string, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat32String(arr []float32, acc string, f func(el float32, acc string) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3949,6 +4789,27 @@ func ReduceFloat32Uint(arr []float32, acc uint, f func(el float32, acc uint) uin
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat32Uint(arr []float32, acc uint, f func(el float32, acc uint) (uint, error)) (uint, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat32Uint(arr []float32, acc uint, f func(el float32, acc uint) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Uint16(arr []float32, f func(el float32) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -3964,6 +4825,27 @@ func ReduceFloat32Uint16(arr []float32, acc uint16, f func(el float32, acc uint1
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat32Uint16(arr []float32, acc uint16, f func(el float32, acc uint16) (uint16, error)) (uint16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat32Uint16(arr []float32, acc uint16, f func(el float32, acc uint16) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3983,6 +4865,27 @@ func ReduceFloat32Uint32(arr []float32, acc uint32, f func(el float32, acc uint3
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat32Uint32(arr []float32, acc uint32, f func(el float32, acc uint32) (uint32, error)) (uint32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat32Uint32(arr []float32, acc uint32, f func(el float32, acc uint32) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Uint64(arr []float32, f func(el float32) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -3998,6 +4901,27 @@ func ReduceFloat32Uint64(arr []float32, acc uint64, f func(el float32, acc uint6
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat32Uint64(arr []float32, acc uint64, f func(el float32, acc uint64) (uint64, error)) (uint64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat32Uint64(arr []float32, acc uint64, f func(el float32, acc uint64) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4017,6 +4941,27 @@ func ReduceFloat32Uint8(arr []float32, acc uint8, f func(el float32, acc uint8) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat32Uint8(arr []float32, acc uint8, f func(el float32, acc uint8) (uint8, error)) (uint8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat32Uint8(arr []float32, acc uint8, f func(el float32, acc uint8) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Bool(arr []float64, f func(el float64) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -4032,6 +4977,27 @@ func ReduceFloat64Bool(arr []float64, acc bool, f func(el float64, acc bool) boo
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat64Bool(arr []float64, acc bool, f func(el float64, acc bool) (bool, error)) (bool, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat64Bool(arr []float64, acc bool, f func(el float64, acc bool) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4051,6 +5017,27 @@ func ReduceFloat64Byte(arr []float64, acc byte, f func(el float64, acc byte) byt
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat64Byte(arr []float64, acc byte, f func(el float64, acc byte) (byte, error)) (byte, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat64Byte(arr []float64, acc byte, f func(el float64, acc byte) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Float32(arr []float64, f func(el float64) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -4066,6 +5053,27 @@ func ReduceFloat64Float32(arr []float64, acc float32, f func(el float64, acc flo
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat64Float32(arr []float64, acc float32, f func(el float64, acc float32) (float32, error)) (float32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat64Float32(arr []float64, acc float32, f func(el float64, acc float32) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4085,6 +5093,27 @@ func ReduceFloat64Int(arr []float64, acc int, f func(el float64, acc int) int) i
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat64Int(arr []float64, acc int, f func(el float64, acc int) (int, error)) (int, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat64Int(arr []float64, acc int, f func(el float64, acc int) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Int16(arr []float64, f func(el float64) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -4100,6 +5129,27 @@ func ReduceFloat64Int16(arr []float64, acc int16, f func(el float64, acc int16) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat64Int16(arr []float64, acc int16, f func(el float64, acc int16) (int16, error)) (int16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat64Int16(arr []float64, acc int16, f func(el float64, acc int16) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4119,6 +5169,27 @@ func ReduceFloat64Int32(arr []float64, acc int32, f func(el float64, acc int32) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat64Int32(arr []float64, acc int32, f func(el float64, acc int32) (int32, error)) (int32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat64Int32(arr []float64, acc int32, f func(el float64, acc int32) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Int64(arr []float64, f func(el float64) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -4134,6 +5205,27 @@ func ReduceFloat64Int64(arr []float64, acc int64, f func(el float64, acc int64) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat64Int64(arr []float64, acc int64, f func(el float64, acc int64) (int64, error)) (int64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat64Int64(arr []float64, acc int64, f func(el float64, acc int64) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4153,6 +5245,27 @@ func ReduceFloat64Int8(arr []float64, acc int8, f func(el float64, acc int8) int
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat64Int8(arr []float64, acc int8, f func(el float64, acc int8) (int8, error)) (int8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat64Int8(arr []float64, acc int8, f func(el float64, acc int8) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Interface(arr []float64, f func(el float64) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -4168,6 +5281,27 @@ func ReduceFloat64Interface(arr []float64, acc interface{}, f func(el float64, a
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat64Interface(arr []float64, acc interface{}, f func(el float64, acc interface{}) (interface{}, error)) (interface{}, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat64Interface(arr []float64, acc interface{}, f func(el float64, acc interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4187,6 +5321,27 @@ func ReduceFloat64String(arr []float64, acc string, f func(el float64, acc strin
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat64String(arr []float64, acc string, f func(el float64, acc string) (string, error)) (string, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat64String(arr []float64, acc string, f func(el float64, acc string) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Uint(arr []float64, f func(el float64) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -4202,6 +5357,27 @@ func ReduceFloat64Uint(arr []float64, acc uint, f func(el float64, acc uint) uin
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat64Uint(arr []float64, acc uint, f func(el float64, acc uint) (uint, error)) (uint, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat64Uint(arr []float64, acc uint, f func(el float64, acc uint) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4221,6 +5397,27 @@ func ReduceFloat64Uint16(arr []float64, acc uint16, f func(el float64, acc uint1
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat64Uint16(arr []float64, acc uint16, f func(el float64, acc uint16) (uint16, error)) (uint16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat64Uint16(arr []float64, acc uint16, f func(el float64, acc uint16) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Uint32(arr []float64, f func(el float64) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -4236,6 +5433,27 @@ func ReduceFloat64Uint32(arr []float64, acc uint32, f func(el float64, acc uint3
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat64Uint32(arr []float64, acc uint32, f func(el float64, acc uint32) (uint32, error)) (uint32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat64Uint32(arr []float64, acc uint32, f func(el float64, acc uint32) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4255,6 +5473,27 @@ func ReduceFloat64Uint64(arr []float64, acc uint64, f func(el float64, acc uint6
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat64Uint64(arr []float64, acc uint64, f func(el float64, acc uint64) (uint64, error)) (uint64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat64Uint64(arr []float64, acc uint64, f func(el float64, acc uint64) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Uint8(arr []float64, f func(el float64) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -4270,6 +5509,27 @@ func ReduceFloat64Uint8(arr []float64, acc uint8, f func(el float64, acc uint8) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileFloat64Uint8(arr []float64, acc uint8, f func(el float64, acc uint8) (uint8, error)) (uint8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanFloat64Uint8(arr []float64, acc uint8, f func(el float64, acc uint8) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4289,6 +5549,27 @@ func ReduceInt16Bool(arr []int16, acc bool, f func(el int16, acc bool) bool) boo
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt16Bool(arr []int16, acc bool, f func(el int16, acc bool) (bool, error)) (bool, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt16Bool(arr []int16, acc bool, f func(el int16, acc bool) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Byte(arr []int16, f func(el int16) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -4304,6 +5585,27 @@ func ReduceInt16Byte(arr []int16, acc byte, f func(el int16, acc byte) byte) byt
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt16Byte(arr []int16, acc byte, f func(el int16, acc byte) (byte, error)) (byte, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt16Byte(arr []int16, acc byte, f func(el int16, acc byte) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4323,6 +5625,27 @@ func ReduceInt16Float32(arr []int16, acc float32, f func(el int16, acc float32) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt16Float32(arr []int16, acc float32, f func(el int16, acc float32) (float32, error)) (float32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt16Float32(arr []int16, acc float32, f func(el int16, acc float32) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Float64(arr []int16, f func(el int16) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -4338,6 +5661,27 @@ func ReduceInt16Float64(arr []int16, acc float64, f func(el int16, acc float64) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt16Float64(arr []int16, acc float64, f func(el int16, acc float64) (float64, error)) (float64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt16Float64(arr []int16, acc float64, f func(el int16, acc float64) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4357,6 +5701,27 @@ func ReduceInt16Int(arr []int16, acc int, f func(el int16, acc int) int) int {
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt16Int(arr []int16, acc int, f func(el int16, acc int) (int, error)) (int, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt16Int(arr []int16, acc int, f func(el int16, acc int) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Int32(arr []int16, f func(el int16) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -4372,6 +5737,27 @@ func ReduceInt16Int32(arr []int16, acc int32, f func(el int16, acc int32) int32)
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt16Int32(arr []int16, acc int32, f func(el int16, acc int32) (int32, error)) (int32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt16Int32(arr []int16, acc int32, f func(el int16, acc int32) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4391,6 +5777,27 @@ func ReduceInt16Int64(arr []int16, acc int64, f func(el int16, acc int64) int64)
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt16Int64(arr []int16, acc int64, f func(el int16, acc int64) (int64, error)) (int64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt16Int64(arr []int16, acc int64, f func(el int16, acc int64) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Int8(arr []int16, f func(el int16) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -4406,6 +5813,27 @@ func ReduceInt16Int8(arr []int16, acc int8, f func(el int16, acc int8) int8) int
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt16Int8(arr []int16, acc int8, f func(el int16, acc int8) (int8, error)) (int8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt16Int8(arr []int16, acc int8, f func(el int16, acc int8) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4425,6 +5853,27 @@ func ReduceInt16Interface(arr []int16, acc interface{}, f func(el int16, acc int
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt16Interface(arr []int16, acc interface{}, f func(el int16, acc interface{}) (interface{}, error)) (interface{}, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt16Interface(arr []int16, acc interface{}, f func(el int16, acc interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16String(arr []int16, f func(el int16) string) []string {
 	result := make([]string, 0, len(arr))
@@ -4440,6 +5889,27 @@ func ReduceInt16String(arr []int16, acc string, f func(el int16, acc string) str
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt16String(arr []int16, acc string, f func(el int16, acc string) (string, error)) (string, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt16String(arr []int16, acc string, f func(el int16, acc string) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4459,6 +5929,27 @@ func ReduceInt16Uint(arr []int16, acc uint, f func(el int16, acc uint) uint) uin
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt16Uint(arr []int16, acc uint, f func(el int16, acc uint) (uint, error)) (uint, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt16Uint(arr []int16, acc uint, f func(el int16, acc uint) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Uint16(arr []int16, f func(el int16) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -4474,6 +5965,27 @@ func ReduceInt16Uint16(arr []int16, acc uint16, f func(el int16, acc uint16) uin
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt16Uint16(arr []int16, acc uint16, f func(el int16, acc uint16) (uint16, error)) (uint16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt16Uint16(arr []int16, acc uint16, f func(el int16, acc uint16) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4493,6 +6005,27 @@ func ReduceInt16Uint32(arr []int16, acc uint32, f func(el int16, acc uint32) uin
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt16Uint32(arr []int16, acc uint32, f func(el int16, acc uint32) (uint32, error)) (uint32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt16Uint32(arr []int16, acc uint32, f func(el int16, acc uint32) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Uint64(arr []int16, f func(el int16) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -4508,6 +6041,27 @@ func ReduceInt16Uint64(arr []int16, acc uint64, f func(el int16, acc uint64) uin
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt16Uint64(arr []int16, acc uint64, f func(el int16, acc uint64) (uint64, error)) (uint64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt16Uint64(arr []int16, acc uint64, f func(el int16, acc uint64) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4527,6 +6081,27 @@ func ReduceInt16Uint8(arr []int16, acc uint8, f func(el int16, acc uint8) uint8)
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt16Uint8(arr []int16, acc uint8, f func(el int16, acc uint8) (uint8, error)) (uint8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt16Uint8(arr []int16, acc uint8, f func(el int16, acc uint8) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Bool(arr []int32, f func(el int32) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -4542,6 +6117,27 @@ func ReduceInt32Bool(arr []int32, acc bool, f func(el int32, acc bool) bool) boo
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt32Bool(arr []int32, acc bool, f func(el int32, acc bool) (bool, error)) (bool, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt32Bool(arr []int32, acc bool, f func(el int32, acc bool) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4561,6 +6157,27 @@ func ReduceInt32Byte(arr []int32, acc byte, f func(el int32, acc byte) byte) byt
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt32Byte(arr []int32, acc byte, f func(el int32, acc byte) (byte, error)) (byte, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt32Byte(arr []int32, acc byte, f func(el int32, acc byte) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Float32(arr []int32, f func(el int32) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -4576,6 +6193,27 @@ func ReduceInt32Float32(arr []int32, acc float32, f func(el int32, acc float32) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt32Float32(arr []int32, acc float32, f func(el int32, acc float32) (float32, error)) (float32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt32Float32(arr []int32, acc float32, f func(el int32, acc float32) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4595,6 +6233,27 @@ func ReduceInt32Float64(arr []int32, acc float64, f func(el int32, acc float64) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt32Float64(arr []int32, acc float64, f func(el int32, acc float64) (float64, error)) (float64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt32Float64(arr []int32, acc float64, f func(el int32, acc float64) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Int(arr []int32, f func(el int32) int) []int {
 	result := make([]int, 0, len(arr))
@@ -4610,6 +6269,27 @@ func ReduceInt32Int(arr []int32, acc int, f func(el int32, acc int) int) int {
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt32Int(arr []int32, acc int, f func(el int32, acc int) (int, error)) (int, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt32Int(arr []int32, acc int, f func(el int32, acc int) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4629,6 +6309,27 @@ func ReduceInt32Int16(arr []int32, acc int16, f func(el int32, acc int16) int16)
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt32Int16(arr []int32, acc int16, f func(el int32, acc int16) (int16, error)) (int16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt32Int16(arr []int32, acc int16, f func(el int32, acc int16) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Int64(arr []int32, f func(el int32) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -4644,6 +6345,27 @@ func ReduceInt32Int64(arr []int32, acc int64, f func(el int32, acc int64) int64)
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt32Int64(arr []int32, acc int64, f func(el int32, acc int64) (int64, error)) (int64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt32Int64(arr []int32, acc int64, f func(el int32, acc int64) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4663,6 +6385,27 @@ func ReduceInt32Int8(arr []int32, acc int8, f func(el int32, acc int8) int8) int
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt32Int8(arr []int32, acc int8, f func(el int32, acc int8) (int8, error)) (int8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt32Int8(arr []int32, acc int8, f func(el int32, acc int8) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Interface(arr []int32, f func(el int32) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -4678,6 +6421,27 @@ func ReduceInt32Interface(arr []int32, acc interface{}, f func(el int32, acc int
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt32Interface(arr []int32, acc interface{}, f func(el int32, acc interface{}) (interface{}, error)) (interface{}, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt32Interface(arr []int32, acc interface{}, f func(el int32, acc interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4697,6 +6461,27 @@ func ReduceInt32String(arr []int32, acc string, f func(el int32, acc string) str
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt32String(arr []int32, acc string, f func(el int32, acc string) (string, error)) (string, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt32String(arr []int32, acc string, f func(el int32, acc string) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Uint(arr []int32, f func(el int32) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -4712,6 +6497,27 @@ func ReduceInt32Uint(arr []int32, acc uint, f func(el int32, acc uint) uint) uin
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt32Uint(arr []int32, acc uint, f func(el int32, acc uint) (uint, error)) (uint, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt32Uint(arr []int32, acc uint, f func(el int32, acc uint) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4731,6 +6537,27 @@ func ReduceInt32Uint16(arr []int32, acc uint16, f func(el int32, acc uint16) uin
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt32Uint16(arr []int32, acc uint16, f func(el int32, acc uint16) (uint16, error)) (uint16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt32Uint16(arr []int32, acc uint16, f func(el int32, acc uint16) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Uint32(arr []int32, f func(el int32) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -4746,6 +6573,27 @@ func ReduceInt32Uint32(arr []int32, acc uint32, f func(el int32, acc uint32) uin
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt32Uint32(arr []int32, acc uint32, f func(el int32, acc uint32) (uint32, error)) (uint32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt32Uint32(arr []int32, acc uint32, f func(el int32, acc uint32) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4765,6 +6613,27 @@ func ReduceInt32Uint64(arr []int32, acc uint64, f func(el int32, acc uint64) uin
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt32Uint64(arr []int32, acc uint64, f func(el int32, acc uint64) (uint64, error)) (uint64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt32Uint64(arr []int32, acc uint64, f func(el int32, acc uint64) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Uint8(arr []int32, f func(el int32) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -4780,6 +6649,27 @@ func ReduceInt32Uint8(arr []int32, acc uint8, f func(el int32, acc uint8) uint8)
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt32Uint8(arr []int32, acc uint8, f func(el int32, acc uint8) (uint8, error)) (uint8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt32Uint8(arr []int32, acc uint8, f func(el int32, acc uint8) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4799,6 +6689,27 @@ func ReduceInt64Bool(arr []int64, acc bool, f func(el int64, acc bool) bool) boo
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt64Bool(arr []int64, acc bool, f func(el int64, acc bool) (bool, error)) (bool, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt64Bool(arr []int64, acc bool, f func(el int64, acc bool) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Byte(arr []int64, f func(el int64) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -4814,6 +6725,27 @@ func ReduceInt64Byte(arr []int64, acc byte, f func(el int64, acc byte) byte) byt
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt64Byte(arr []int64, acc byte, f func(el int64, acc byte) (byte, error)) (byte, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt64Byte(arr []int64, acc byte, f func(el int64, acc byte) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4833,6 +6765,27 @@ func ReduceInt64Float32(arr []int64, acc float32, f func(el int64, acc float32) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt64Float32(arr []int64, acc float32, f func(el int64, acc float32) (float32, error)) (float32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt64Float32(arr []int64, acc float32, f func(el int64, acc float32) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Float64(arr []int64, f func(el int64) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -4848,6 +6801,27 @@ func ReduceInt64Float64(arr []int64, acc float64, f func(el int64, acc float64) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt64Float64(arr []int64, acc float64, f func(el int64, acc float64) (float64, error)) (float64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt64Float64(arr []int64, acc float64, f func(el int64, acc float64) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4867,6 +6841,27 @@ func ReduceInt64Int(arr []int64, acc int, f func(el int64, acc int) int) int {
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt64Int(arr []int64, acc int, f func(el int64, acc int) (int, error)) (int, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt64Int(arr []int64, acc int, f func(el int64, acc int) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Int16(arr []int64, f func(el int64) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -4882,6 +6877,27 @@ func ReduceInt64Int16(arr []int64, acc int16, f func(el int64, acc int16) int16)
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt64Int16(arr []int64, acc int16, f func(el int64, acc int16) (int16, error)) (int16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt64Int16(arr []int64, acc int16, f func(el int64, acc int16) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4901,6 +6917,27 @@ func ReduceInt64Int32(arr []int64, acc int32, f func(el int64, acc int32) int32)
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt64Int32(arr []int64, acc int32, f func(el int64, acc int32) (int32, error)) (int32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt64Int32(arr []int64, acc int32, f func(el int64, acc int32) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Int8(arr []int64, f func(el int64) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -4916,6 +6953,27 @@ func ReduceInt64Int8(arr []int64, acc int8, f func(el int64, acc int8) int8) int
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt64Int8(arr []int64, acc int8, f func(el int64, acc int8) (int8, error)) (int8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt64Int8(arr []int64, acc int8, f func(el int64, acc int8) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4935,6 +6993,27 @@ func ReduceInt64Interface(arr []int64, acc interface{}, f func(el int64, acc int
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt64Interface(arr []int64, acc interface{}, f func(el int64, acc interface{}) (interface{}, error)) (interface{}, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt64Interface(arr []int64, acc interface{}, f func(el int64, acc interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64String(arr []int64, f func(el int64) string) []string {
 	result := make([]string, 0, len(arr))
@@ -4950,6 +7029,27 @@ func ReduceInt64String(arr []int64, acc string, f func(el int64, acc string) str
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt64String(arr []int64, acc string, f func(el int64, acc string) (string, error)) (string, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt64String(arr []int64, acc string, f func(el int64, acc string) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4969,6 +7069,27 @@ func ReduceInt64Uint(arr []int64, acc uint, f func(el int64, acc uint) uint) uin
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt64Uint(arr []int64, acc uint, f func(el int64, acc uint) (uint, error)) (uint, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt64Uint(arr []int64, acc uint, f func(el int64, acc uint) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Uint16(arr []int64, f func(el int64) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -4984,6 +7105,27 @@ func ReduceInt64Uint16(arr []int64, acc uint16, f func(el int64, acc uint16) uin
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt64Uint16(arr []int64, acc uint16, f func(el int64, acc uint16) (uint16, error)) (uint16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt64Uint16(arr []int64, acc uint16, f func(el int64, acc uint16) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5003,6 +7145,27 @@ func ReduceInt64Uint32(arr []int64, acc uint32, f func(el int64, acc uint32) uin
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt64Uint32(arr []int64, acc uint32, f func(el int64, acc uint32) (uint32, error)) (uint32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt64Uint32(arr []int64, acc uint32, f func(el int64, acc uint32) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Uint64(arr []int64, f func(el int64) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -5018,6 +7181,27 @@ func ReduceInt64Uint64(arr []int64, acc uint64, f func(el int64, acc uint64) uin
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt64Uint64(arr []int64, acc uint64, f func(el int64, acc uint64) (uint64, error)) (uint64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt64Uint64(arr []int64, acc uint64, f func(el int64, acc uint64) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5037,6 +7221,27 @@ func ReduceInt64Uint8(arr []int64, acc uint8, f func(el int64, acc uint8) uint8)
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt64Uint8(arr []int64, acc uint8, f func(el int64, acc uint8) (uint8, error)) (uint8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt64Uint8(arr []int64, acc uint8, f func(el int64, acc uint8) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Bool(arr []int8, f func(el int8) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -5052,6 +7257,27 @@ func ReduceInt8Bool(arr []int8, acc bool, f func(el int8, acc bool) bool) bool {
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt8Bool(arr []int8, acc bool, f func(el int8, acc bool) (bool, error)) (bool, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt8Bool(arr []int8, acc bool, f func(el int8, acc bool) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5071,6 +7297,27 @@ func ReduceInt8Byte(arr []int8, acc byte, f func(el int8, acc byte) byte) byte {
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt8Byte(arr []int8, acc byte, f func(el int8, acc byte) (byte, error)) (byte, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt8Byte(arr []int8, acc byte, f func(el int8, acc byte) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Float32(arr []int8, f func(el int8) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -5086,6 +7333,27 @@ func ReduceInt8Float32(arr []int8, acc float32, f func(el int8, acc float32) flo
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt8Float32(arr []int8, acc float32, f func(el int8, acc float32) (float32, error)) (float32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt8Float32(arr []int8, acc float32, f func(el int8, acc float32) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5105,6 +7373,27 @@ func ReduceInt8Float64(arr []int8, acc float64, f func(el int8, acc float64) flo
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt8Float64(arr []int8, acc float64, f func(el int8, acc float64) (float64, error)) (float64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt8Float64(arr []int8, acc float64, f func(el int8, acc float64) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Int(arr []int8, f func(el int8) int) []int {
 	result := make([]int, 0, len(arr))
@@ -5120,6 +7409,27 @@ func ReduceInt8Int(arr []int8, acc int, f func(el int8, acc int) int) int {
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt8Int(arr []int8, acc int, f func(el int8, acc int) (int, error)) (int, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt8Int(arr []int8, acc int, f func(el int8, acc int) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5139,6 +7449,27 @@ func ReduceInt8Int16(arr []int8, acc int16, f func(el int8, acc int16) int16) in
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt8Int16(arr []int8, acc int16, f func(el int8, acc int16) (int16, error)) (int16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt8Int16(arr []int8, acc int16, f func(el int8, acc int16) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Int32(arr []int8, f func(el int8) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -5154,6 +7485,27 @@ func ReduceInt8Int32(arr []int8, acc int32, f func(el int8, acc int32) int32) in
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt8Int32(arr []int8, acc int32, f func(el int8, acc int32) (int32, error)) (int32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt8Int32(arr []int8, acc int32, f func(el int8, acc int32) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5173,6 +7525,27 @@ func ReduceInt8Int64(arr []int8, acc int64, f func(el int8, acc int64) int64) in
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt8Int64(arr []int8, acc int64, f func(el int8, acc int64) (int64, error)) (int64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt8Int64(arr []int8, acc int64, f func(el int8, acc int64) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Interface(arr []int8, f func(el int8) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -5188,6 +7561,27 @@ func ReduceInt8Interface(arr []int8, acc interface{}, f func(el int8, acc interf
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt8Interface(arr []int8, acc interface{}, f func(el int8, acc interface{}) (interface{}, error)) (interface{}, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt8Interface(arr []int8, acc interface{}, f func(el int8, acc interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5207,6 +7601,27 @@ func ReduceInt8String(arr []int8, acc string, f func(el int8, acc string) string
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt8String(arr []int8, acc string, f func(el int8, acc string) (string, error)) (string, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt8String(arr []int8, acc string, f func(el int8, acc string) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Uint(arr []int8, f func(el int8) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -5222,6 +7637,27 @@ func ReduceInt8Uint(arr []int8, acc uint, f func(el int8, acc uint) uint) uint {
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt8Uint(arr []int8, acc uint, f func(el int8, acc uint) (uint, error)) (uint, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt8Uint(arr []int8, acc uint, f func(el int8, acc uint) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5241,6 +7677,27 @@ func ReduceInt8Uint16(arr []int8, acc uint16, f func(el int8, acc uint16) uint16
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt8Uint16(arr []int8, acc uint16, f func(el int8, acc uint16) (uint16, error)) (uint16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt8Uint16(arr []int8, acc uint16, f func(el int8, acc uint16) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Uint32(arr []int8, f func(el int8) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -5256,6 +7713,27 @@ func ReduceInt8Uint32(arr []int8, acc uint32, f func(el int8, acc uint32) uint32
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt8Uint32(arr []int8, acc uint32, f func(el int8, acc uint32) (uint32, error)) (uint32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt8Uint32(arr []int8, acc uint32, f func(el int8, acc uint32) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5275,6 +7753,27 @@ func ReduceInt8Uint64(arr []int8, acc uint64, f func(el int8, acc uint64) uint64
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt8Uint64(arr []int8, acc uint64, f func(el int8, acc uint64) (uint64, error)) (uint64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt8Uint64(arr []int8, acc uint64, f func(el int8, acc uint64) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Uint8(arr []int8, f func(el int8) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -5290,6 +7789,27 @@ func ReduceInt8Uint8(arr []int8, acc uint8, f func(el int8, acc uint8) uint8) ui
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInt8Uint8(arr []int8, acc uint8, f func(el int8, acc uint8) (uint8, error)) (uint8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInt8Uint8(arr []int8, acc uint8, f func(el int8, acc uint8) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5309,6 +7829,27 @@ func ReduceIntBool(arr []int, acc bool, f func(el int, acc bool) bool) bool {
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileIntBool(arr []int, acc bool, f func(el int, acc bool) (bool, error)) (bool, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanIntBool(arr []int, acc bool, f func(el int, acc bool) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntByte(arr []int, f func(el int) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -5324,6 +7865,27 @@ func ReduceIntByte(arr []int, acc byte, f func(el int, acc byte) byte) byte {
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileIntByte(arr []int, acc byte, f func(el int, acc byte) (byte, error)) (byte, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanIntByte(arr []int, acc byte, f func(el int, acc byte) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5343,6 +7905,27 @@ func ReduceInterfaceBool(arr []interface{}, acc bool, f func(el interface{}, acc
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInterfaceBool(arr []interface{}, acc bool, f func(el interface{}, acc bool) (bool, error)) (bool, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInterfaceBool(arr []interface{}, acc bool, f func(el interface{}, acc bool) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceByte(arr []interface{}, f func(el interface{}) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -5358,6 +7941,27 @@ func ReduceInterfaceByte(arr []interface{}, acc byte, f func(el interface{}, acc
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInterfaceByte(arr []interface{}, acc byte, f func(el interface{}, acc byte) (byte, error)) (byte, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInterfaceByte(arr []interface{}, acc byte, f func(el interface{}, acc byte) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5377,6 +7981,27 @@ func ReduceInterfaceFloat32(arr []interface{}, acc float32, f func(el interface{
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInterfaceFloat32(arr []interface{}, acc float32, f func(el interface{}, acc float32) (float32, error)) (float32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInterfaceFloat32(arr []interface{}, acc float32, f func(el interface{}, acc float32) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceFloat64(arr []interface{}, f func(el interface{}) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -5392,6 +8017,27 @@ func ReduceInterfaceFloat64(arr []interface{}, acc float64, f func(el interface{
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInterfaceFloat64(arr []interface{}, acc float64, f func(el interface{}, acc float64) (float64, error)) (float64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInterfaceFloat64(arr []interface{}, acc float64, f func(el interface{}, acc float64) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5411,6 +8057,27 @@ func ReduceInterfaceInt(arr []interface{}, acc int, f func(el interface{}, acc i
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInterfaceInt(arr []interface{}, acc int, f func(el interface{}, acc int) (int, error)) (int, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInterfaceInt(arr []interface{}, acc int, f func(el interface{}, acc int) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceInt16(arr []interface{}, f func(el interface{}) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -5426,6 +8093,27 @@ func ReduceInterfaceInt16(arr []interface{}, acc int16, f func(el interface{}, a
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInterfaceInt16(arr []interface{}, acc int16, f func(el interface{}, acc int16) (int16, error)) (int16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInterfaceInt16(arr []interface{}, acc int16, f func(el interface{}, acc int16) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5445,6 +8133,27 @@ func ReduceInterfaceInt32(arr []interface{}, acc int32, f func(el interface{}, a
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInterfaceInt32(arr []interface{}, acc int32, f func(el interface{}, acc int32) (int32, error)) (int32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInterfaceInt32(arr []interface{}, acc int32, f func(el interface{}, acc int32) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceInt64(arr []interface{}, f func(el interface{}) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -5460,6 +8169,27 @@ func ReduceInterfaceInt64(arr []interface{}, acc int64, f func(el interface{}, a
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInterfaceInt64(arr []interface{}, acc int64, f func(el interface{}, acc int64) (int64, error)) (int64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInterfaceInt64(arr []interface{}, acc int64, f func(el interface{}, acc int64) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5479,6 +8209,27 @@ func ReduceInterfaceInt8(arr []interface{}, acc int8, f func(el interface{}, acc
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInterfaceInt8(arr []interface{}, acc int8, f func(el interface{}, acc int8) (int8, error)) (int8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInterfaceInt8(arr []interface{}, acc int8, f func(el interface{}, acc int8) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceString(arr []interface{}, f func(el interface{}) string) []string {
 	result := make([]string, 0, len(arr))
@@ -5494,6 +8245,27 @@ func ReduceInterfaceString(arr []interface{}, acc string, f func(el interface{},
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInterfaceString(arr []interface{}, acc string, f func(el interface{}, acc string) (string, error)) (string, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInterfaceString(arr []interface{}, acc string, f func(el interface{}, acc string) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5513,6 +8285,27 @@ func ReduceInterfaceUint(arr []interface{}, acc uint, f func(el interface{}, acc
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInterfaceUint(arr []interface{}, acc uint, f func(el interface{}, acc uint) (uint, error)) (uint, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInterfaceUint(arr []interface{}, acc uint, f func(el interface{}, acc uint) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceUint16(arr []interface{}, f func(el interface{}) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -5528,6 +8321,27 @@ func ReduceInterfaceUint16(arr []interface{}, acc uint16, f func(el interface{},
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInterfaceUint16(arr []interface{}, acc uint16, f func(el interface{}, acc uint16) (uint16, error)) (uint16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInterfaceUint16(arr []interface{}, acc uint16, f func(el interface{}, acc uint16) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5547,6 +8361,27 @@ func ReduceInterfaceUint32(arr []interface{}, acc uint32, f func(el interface{},
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInterfaceUint32(arr []interface{}, acc uint32, f func(el interface{}, acc uint32) (uint32, error)) (uint32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInterfaceUint32(arr []interface{}, acc uint32, f func(el interface{}, acc uint32) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceUint64(arr []interface{}, f func(el interface{}) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -5562,6 +8397,27 @@ func ReduceInterfaceUint64(arr []interface{}, acc uint64, f func(el interface{},
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInterfaceUint64(arr []interface{}, acc uint64, f func(el interface{}, acc uint64) (uint64, error)) (uint64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInterfaceUint64(arr []interface{}, acc uint64, f func(el interface{}, acc uint64) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5581,6 +8437,27 @@ func ReduceInterfaceUint8(arr []interface{}, acc uint8, f func(el interface{}, a
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileInterfaceUint8(arr []interface{}, acc uint8, f func(el interface{}, acc uint8) (uint8, error)) (uint8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanInterfaceUint8(arr []interface{}, acc uint8, f func(el interface{}, acc uint8) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntFloat32(arr []int, f func(el int) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -5596,6 +8473,27 @@ func ReduceIntFloat32(arr []int, acc float32, f func(el int, acc float32) float3
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileIntFloat32(arr []int, acc float32, f func(el int, acc float32) (float32, error)) (float32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanIntFloat32(arr []int, acc float32, f func(el int, acc float32) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5615,6 +8513,27 @@ func ReduceIntFloat64(arr []int, acc float64, f func(el int, acc float64) float6
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileIntFloat64(arr []int, acc float64, f func(el int, acc float64) (float64, error)) (float64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanIntFloat64(arr []int, acc float64, f func(el int, acc float64) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntInt16(arr []int, f func(el int) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -5630,6 +8549,27 @@ func ReduceIntInt16(arr []int, acc int16, f func(el int, acc int16) int16) int16
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileIntInt16(arr []int, acc int16, f func(el int, acc int16) (int16, error)) (int16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanIntInt16(arr []int, acc int16, f func(el int, acc int16) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5649,6 +8589,27 @@ func ReduceIntInt32(arr []int, acc int32, f func(el int, acc int32) int32) int32
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileIntInt32(arr []int, acc int32, f func(el int, acc int32) (int32, error)) (int32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanIntInt32(arr []int, acc int32, f func(el int, acc int32) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntInt64(arr []int, f func(el int) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -5664,6 +8625,27 @@ func ReduceIntInt64(arr []int, acc int64, f func(el int, acc int64) int64) int64
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileIntInt64(arr []int, acc int64, f func(el int, acc int64) (int64, error)) (int64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanIntInt64(arr []int, acc int64, f func(el int, acc int64) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5683,6 +8665,27 @@ func ReduceIntInt8(arr []int, acc int8, f func(el int, acc int8) int8) int8 {
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileIntInt8(arr []int, acc int8, f func(el int, acc int8) (int8, error)) (int8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanIntInt8(arr []int, acc int8, f func(el int, acc int8) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntInterface(arr []int, f func(el int) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -5698,6 +8701,27 @@ func ReduceIntInterface(arr []int, acc interface{}, f func(el int, acc interface
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileIntInterface(arr []int, acc interface{}, f func(el int, acc interface{}) (interface{}, error)) (interface{}, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanIntInterface(arr []int, acc interface{}, f func(el int, acc interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5717,6 +8741,27 @@ func ReduceIntString(arr []int, acc string, f func(el int, acc string) string) s
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileIntString(arr []int, acc string, f func(el int, acc string) (string, error)) (string, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanIntString(arr []int, acc string, f func(el int, acc string) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntUint(arr []int, f func(el int) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -5732,6 +8777,27 @@ func ReduceIntUint(arr []int, acc uint, f func(el int, acc uint) uint) uint {
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileIntUint(arr []int, acc uint, f func(el int, acc uint) (uint, error)) (uint, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanIntUint(arr []int, acc uint, f func(el int, acc uint) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5751,6 +8817,27 @@ func ReduceIntUint16(arr []int, acc uint16, f func(el int, acc uint16) uint16) u
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileIntUint16(arr []int, acc uint16, f func(el int, acc uint16) (uint16, error)) (uint16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanIntUint16(arr []int, acc uint16, f func(el int, acc uint16) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntUint32(arr []int, f func(el int) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -5766,6 +8853,27 @@ func ReduceIntUint32(arr []int, acc uint32, f func(el int, acc uint32) uint32) u
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileIntUint32(arr []int, acc uint32, f func(el int, acc uint32) (uint32, error)) (uint32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanIntUint32(arr []int, acc uint32, f func(el int, acc uint32) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5785,6 +8893,27 @@ func ReduceIntUint64(arr []int, acc uint64, f func(el int, acc uint64) uint64) u
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileIntUint64(arr []int, acc uint64, f func(el int, acc uint64) (uint64, error)) (uint64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanIntUint64(arr []int, acc uint64, f func(el int, acc uint64) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntUint8(arr []int, f func(el int) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -5800,6 +8929,27 @@ func ReduceIntUint8(arr []int, acc uint8, f func(el int, acc uint8) uint8) uint8
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileIntUint8(arr []int, acc uint8, f func(el int, acc uint8) (uint8, error)) (uint8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanIntUint8(arr []int, acc uint8, f func(el int, acc uint8) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5819,6 +8969,27 @@ func ReduceStringBool(arr []string, acc bool, f func(el string, acc bool) bool) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileStringBool(arr []string, acc bool, f func(el string, acc bool) (bool, error)) (bool, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanStringBool(arr []string, acc bool, f func(el string, acc bool) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringByte(arr []string, f func(el string) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -5834,6 +9005,27 @@ func ReduceStringByte(arr []string, acc byte, f func(el string, acc byte) byte) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileStringByte(arr []string, acc byte, f func(el string, acc byte) (byte, error)) (byte, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanStringByte(arr []string, acc byte, f func(el string, acc byte) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5853,6 +9045,27 @@ func ReduceStringFloat32(arr []string, acc float32, f func(el string, acc float3
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileStringFloat32(arr []string, acc float32, f func(el string, acc float32) (float32, error)) (float32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanStringFloat32(arr []string, acc float32, f func(el string, acc float32) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringFloat64(arr []string, f func(el string) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -5868,6 +9081,27 @@ func ReduceStringFloat64(arr []string, acc float64, f func(el string, acc float6
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileStringFloat64(arr []string, acc float64, f func(el string, acc float64) (float64, error)) (float64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanStringFloat64(arr []string, acc float64, f func(el string, acc float64) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5887,6 +9121,27 @@ func ReduceStringInt(arr []string, acc int, f func(el string, acc int) int) int 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileStringInt(arr []string, acc int, f func(el string, acc int) (int, error)) (int, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanStringInt(arr []string, acc int, f func(el string, acc int) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringInt16(arr []string, f func(el string) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -5902,6 +9157,27 @@ func ReduceStringInt16(arr []string, acc int16, f func(el string, acc int16) int
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileStringInt16(arr []string, acc int16, f func(el string, acc int16) (int16, error)) (int16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanStringInt16(arr []string, acc int16, f func(el string, acc int16) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5921,6 +9197,27 @@ func ReduceStringInt32(arr []string, acc int32, f func(el string, acc int32) int
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileStringInt32(arr []string, acc int32, f func(el string, acc int32) (int32, error)) (int32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanStringInt32(arr []string, acc int32, f func(el string, acc int32) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringInt64(arr []string, f func(el string) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -5936,6 +9233,27 @@ func ReduceStringInt64(arr []string, acc int64, f func(el string, acc int64) int
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileStringInt64(arr []string, acc int64, f func(el string, acc int64) (int64, error)) (int64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanStringInt64(arr []string, acc int64, f func(el string, acc int64) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5955,6 +9273,27 @@ func ReduceStringInt8(arr []string, acc int8, f func(el string, acc int8) int8) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileStringInt8(arr []string, acc int8, f func(el string, acc int8) (int8, error)) (int8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanStringInt8(arr []string, acc int8, f func(el string, acc int8) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringInterface(arr []string, f func(el string) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -5970,6 +9309,27 @@ func ReduceStringInterface(arr []string, acc interface{}, f func(el string, acc 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileStringInterface(arr []string, acc interface{}, f func(el string, acc interface{}) (interface{}, error)) (interface{}, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanStringInterface(arr []string, acc interface{}, f func(el string, acc interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5989,6 +9349,27 @@ func ReduceStringUint(arr []string, acc uint, f func(el string, acc uint) uint) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileStringUint(arr []string, acc uint, f func(el string, acc uint) (uint, error)) (uint, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanStringUint(arr []string, acc uint, f func(el string, acc uint) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringUint16(arr []string, f func(el string) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -6004,6 +9385,27 @@ func ReduceStringUint16(arr []string, acc uint16, f func(el string, acc uint16) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileStringUint16(arr []string, acc uint16, f func(el string, acc uint16) (uint16, error)) (uint16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanStringUint16(arr []string, acc uint16, f func(el string, acc uint16) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6023,6 +9425,27 @@ func ReduceStringUint32(arr []string, acc uint32, f func(el string, acc uint32) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileStringUint32(arr []string, acc uint32, f func(el string, acc uint32) (uint32, error)) (uint32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanStringUint32(arr []string, acc uint32, f func(el string, acc uint32) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringUint64(arr []string, f func(el string) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -6038,6 +9461,27 @@ func ReduceStringUint64(arr []string, acc uint64, f func(el string, acc uint64) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileStringUint64(arr []string, acc uint64, f func(el string, acc uint64) (uint64, error)) (uint64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanStringUint64(arr []string, acc uint64, f func(el string, acc uint64) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6057,6 +9501,27 @@ func ReduceStringUint8(arr []string, acc uint8, f func(el string, acc uint8) uin
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileStringUint8(arr []string, acc uint8, f func(el string, acc uint8) (uint8, error)) (uint8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanStringUint8(arr []string, acc uint8, f func(el string, acc uint8) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Bool(arr []uint16, f func(el uint16) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -6072,6 +9537,27 @@ func ReduceUint16Bool(arr []uint16, acc bool, f func(el uint16, acc bool) bool) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint16Bool(arr []uint16, acc bool, f func(el uint16, acc bool) (bool, error)) (bool, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint16Bool(arr []uint16, acc bool, f func(el uint16, acc bool) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6091,6 +9577,27 @@ func ReduceUint16Byte(arr []uint16, acc byte, f func(el uint16, acc byte) byte) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint16Byte(arr []uint16, acc byte, f func(el uint16, acc byte) (byte, error)) (byte, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint16Byte(arr []uint16, acc byte, f func(el uint16, acc byte) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Float32(arr []uint16, f func(el uint16) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -6106,6 +9613,27 @@ func ReduceUint16Float32(arr []uint16, acc float32, f func(el uint16, acc float3
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint16Float32(arr []uint16, acc float32, f func(el uint16, acc float32) (float32, error)) (float32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint16Float32(arr []uint16, acc float32, f func(el uint16, acc float32) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6125,6 +9653,27 @@ func ReduceUint16Float64(arr []uint16, acc float64, f func(el uint16, acc float6
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint16Float64(arr []uint16, acc float64, f func(el uint16, acc float64) (float64, error)) (float64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint16Float64(arr []uint16, acc float64, f func(el uint16, acc float64) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Int(arr []uint16, f func(el uint16) int) []int {
 	result := make([]int, 0, len(arr))
@@ -6140,6 +9689,27 @@ func ReduceUint16Int(arr []uint16, acc int, f func(el uint16, acc int) int) int 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint16Int(arr []uint16, acc int, f func(el uint16, acc int) (int, error)) (int, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint16Int(arr []uint16, acc int, f func(el uint16, acc int) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6159,6 +9729,27 @@ func ReduceUint16Int16(arr []uint16, acc int16, f func(el uint16, acc int16) int
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint16Int16(arr []uint16, acc int16, f func(el uint16, acc int16) (int16, error)) (int16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint16Int16(arr []uint16, acc int16, f func(el uint16, acc int16) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Int32(arr []uint16, f func(el uint16) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -6174,6 +9765,27 @@ func ReduceUint16Int32(arr []uint16, acc int32, f func(el uint16, acc int32) int
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint16Int32(arr []uint16, acc int32, f func(el uint16, acc int32) (int32, error)) (int32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint16Int32(arr []uint16, acc int32, f func(el uint16, acc int32) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6193,6 +9805,27 @@ func ReduceUint16Int64(arr []uint16, acc int64, f func(el uint16, acc int64) int
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint16Int64(arr []uint16, acc int64, f func(el uint16, acc int64) (int64, error)) (int64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint16Int64(arr []uint16, acc int64, f func(el uint16, acc int64) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Int8(arr []uint16, f func(el uint16) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -6208,6 +9841,27 @@ func ReduceUint16Int8(arr []uint16, acc int8, f func(el uint16, acc int8) int8) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint16Int8(arr []uint16, acc int8, f func(el uint16, acc int8) (int8, error)) (int8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint16Int8(arr []uint16, acc int8, f func(el uint16, acc int8) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6227,6 +9881,27 @@ func ReduceUint16Interface(arr []uint16, acc interface{}, f func(el uint16, acc 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint16Interface(arr []uint16, acc interface{}, f func(el uint16, acc interface{}) (interface{}, error)) (interface{}, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint16Interface(arr []uint16, acc interface{}, f func(el uint16, acc interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16String(arr []uint16, f func(el uint16) string) []string {
 	result := make([]string, 0, len(arr))
@@ -6242,6 +9917,27 @@ func ReduceUint16String(arr []uint16, acc string, f func(el uint16, acc string) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint16String(arr []uint16, acc string, f func(el uint16, acc string) (string, error)) (string, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint16String(arr []uint16, acc string, f func(el uint16, acc string) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6261,6 +9957,27 @@ func ReduceUint16Uint(arr []uint16, acc uint, f func(el uint16, acc uint) uint) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint16Uint(arr []uint16, acc uint, f func(el uint16, acc uint) (uint, error)) (uint, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint16Uint(arr []uint16, acc uint, f func(el uint16, acc uint) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Uint32(arr []uint16, f func(el uint16) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -6276,6 +9993,27 @@ func ReduceUint16Uint32(arr []uint16, acc uint32, f func(el uint16, acc uint32) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint16Uint32(arr []uint16, acc uint32, f func(el uint16, acc uint32) (uint32, error)) (uint32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint16Uint32(arr []uint16, acc uint32, f func(el uint16, acc uint32) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6295,6 +10033,27 @@ func ReduceUint16Uint64(arr []uint16, acc uint64, f func(el uint16, acc uint64) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint16Uint64(arr []uint16, acc uint64, f func(el uint16, acc uint64) (uint64, error)) (uint64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint16Uint64(arr []uint16, acc uint64, f func(el uint16, acc uint64) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Uint8(arr []uint16, f func(el uint16) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -6310,6 +10069,27 @@ func ReduceUint16Uint8(arr []uint16, acc uint8, f func(el uint16, acc uint8) uin
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint16Uint8(arr []uint16, acc uint8, f func(el uint16, acc uint8) (uint8, error)) (uint8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint16Uint8(arr []uint16, acc uint8, f func(el uint16, acc uint8) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6329,6 +10109,27 @@ func ReduceUint32Bool(arr []uint32, acc bool, f func(el uint32, acc bool) bool) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint32Bool(arr []uint32, acc bool, f func(el uint32, acc bool) (bool, error)) (bool, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint32Bool(arr []uint32, acc bool, f func(el uint32, acc bool) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Byte(arr []uint32, f func(el uint32) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -6344,6 +10145,27 @@ func ReduceUint32Byte(arr []uint32, acc byte, f func(el uint32, acc byte) byte) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint32Byte(arr []uint32, acc byte, f func(el uint32, acc byte) (byte, error)) (byte, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint32Byte(arr []uint32, acc byte, f func(el uint32, acc byte) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6363,6 +10185,27 @@ func ReduceUint32Float32(arr []uint32, acc float32, f func(el uint32, acc float3
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint32Float32(arr []uint32, acc float32, f func(el uint32, acc float32) (float32, error)) (float32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint32Float32(arr []uint32, acc float32, f func(el uint32, acc float32) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Float64(arr []uint32, f func(el uint32) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -6378,6 +10221,27 @@ func ReduceUint32Float64(arr []uint32, acc float64, f func(el uint32, acc float6
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint32Float64(arr []uint32, acc float64, f func(el uint32, acc float64) (float64, error)) (float64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint32Float64(arr []uint32, acc float64, f func(el uint32, acc float64) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6397,6 +10261,27 @@ func ReduceUint32Int(arr []uint32, acc int, f func(el uint32, acc int) int) int 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint32Int(arr []uint32, acc int, f func(el uint32, acc int) (int, error)) (int, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint32Int(arr []uint32, acc int, f func(el uint32, acc int) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Int16(arr []uint32, f func(el uint32) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -6412,6 +10297,27 @@ func ReduceUint32Int16(arr []uint32, acc int16, f func(el uint32, acc int16) int
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint32Int16(arr []uint32, acc int16, f func(el uint32, acc int16) (int16, error)) (int16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint32Int16(arr []uint32, acc int16, f func(el uint32, acc int16) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6431,6 +10337,27 @@ func ReduceUint32Int32(arr []uint32, acc int32, f func(el uint32, acc int32) int
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint32Int32(arr []uint32, acc int32, f func(el uint32, acc int32) (int32, error)) (int32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint32Int32(arr []uint32, acc int32, f func(el uint32, acc int32) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Int64(arr []uint32, f func(el uint32) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -6446,6 +10373,27 @@ func ReduceUint32Int64(arr []uint32, acc int64, f func(el uint32, acc int64) int
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint32Int64(arr []uint32, acc int64, f func(el uint32, acc int64) (int64, error)) (int64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint32Int64(arr []uint32, acc int64, f func(el uint32, acc int64) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6465,6 +10413,27 @@ func ReduceUint32Int8(arr []uint32, acc int8, f func(el uint32, acc int8) int8) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint32Int8(arr []uint32, acc int8, f func(el uint32, acc int8) (int8, error)) (int8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint32Int8(arr []uint32, acc int8, f func(el uint32, acc int8) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Interface(arr []uint32, f func(el uint32) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -6480,6 +10449,27 @@ func ReduceUint32Interface(arr []uint32, acc interface{}, f func(el uint32, acc 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint32Interface(arr []uint32, acc interface{}, f func(el uint32, acc interface{}) (interface{}, error)) (interface{}, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint32Interface(arr []uint32, acc interface{}, f func(el uint32, acc interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6499,6 +10489,27 @@ func ReduceUint32String(arr []uint32, acc string, f func(el uint32, acc string) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint32String(arr []uint32, acc string, f func(el uint32, acc string) (string, error)) (string, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint32String(arr []uint32, acc string, f func(el uint32, acc string) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Uint(arr []uint32, f func(el uint32) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -6514,6 +10525,27 @@ func ReduceUint32Uint(arr []uint32, acc uint, f func(el uint32, acc uint) uint) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint32Uint(arr []uint32, acc uint, f func(el uint32, acc uint) (uint, error)) (uint, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint32Uint(arr []uint32, acc uint, f func(el uint32, acc uint) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6533,6 +10565,27 @@ func ReduceUint32Uint16(arr []uint32, acc uint16, f func(el uint32, acc uint16) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint32Uint16(arr []uint32, acc uint16, f func(el uint32, acc uint16) (uint16, error)) (uint16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint32Uint16(arr []uint32, acc uint16, f func(el uint32, acc uint16) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Uint64(arr []uint32, f func(el uint32) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -6548,6 +10601,27 @@ func ReduceUint32Uint64(arr []uint32, acc uint64, f func(el uint32, acc uint64) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint32Uint64(arr []uint32, acc uint64, f func(el uint32, acc uint64) (uint64, error)) (uint64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint32Uint64(arr []uint32, acc uint64, f func(el uint32, acc uint64) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6567,6 +10641,27 @@ func ReduceUint32Uint8(arr []uint32, acc uint8, f func(el uint32, acc uint8) uin
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint32Uint8(arr []uint32, acc uint8, f func(el uint32, acc uint8) (uint8, error)) (uint8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint32Uint8(arr []uint32, acc uint8, f func(el uint32, acc uint8) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Bool(arr []uint64, f func(el uint64) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -6582,6 +10677,27 @@ func ReduceUint64Bool(arr []uint64, acc bool, f func(el uint64, acc bool) bool) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint64Bool(arr []uint64, acc bool, f func(el uint64, acc bool) (bool, error)) (bool, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint64Bool(arr []uint64, acc bool, f func(el uint64, acc bool) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6601,6 +10717,27 @@ func ReduceUint64Byte(arr []uint64, acc byte, f func(el uint64, acc byte) byte) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint64Byte(arr []uint64, acc byte, f func(el uint64, acc byte) (byte, error)) (byte, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint64Byte(arr []uint64, acc byte, f func(el uint64, acc byte) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Float32(arr []uint64, f func(el uint64) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -6616,6 +10753,27 @@ func ReduceUint64Float32(arr []uint64, acc float32, f func(el uint64, acc float3
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint64Float32(arr []uint64, acc float32, f func(el uint64, acc float32) (float32, error)) (float32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint64Float32(arr []uint64, acc float32, f func(el uint64, acc float32) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6635,6 +10793,27 @@ func ReduceUint64Float64(arr []uint64, acc float64, f func(el uint64, acc float6
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint64Float64(arr []uint64, acc float64, f func(el uint64, acc float64) (float64, error)) (float64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint64Float64(arr []uint64, acc float64, f func(el uint64, acc float64) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Int(arr []uint64, f func(el uint64) int) []int {
 	result := make([]int, 0, len(arr))
@@ -6650,6 +10829,27 @@ func ReduceUint64Int(arr []uint64, acc int, f func(el uint64, acc int) int) int 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint64Int(arr []uint64, acc int, f func(el uint64, acc int) (int, error)) (int, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint64Int(arr []uint64, acc int, f func(el uint64, acc int) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6669,6 +10869,27 @@ func ReduceUint64Int16(arr []uint64, acc int16, f func(el uint64, acc int16) int
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint64Int16(arr []uint64, acc int16, f func(el uint64, acc int16) (int16, error)) (int16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint64Int16(arr []uint64, acc int16, f func(el uint64, acc int16) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Int32(arr []uint64, f func(el uint64) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -6684,6 +10905,27 @@ func ReduceUint64Int32(arr []uint64, acc int32, f func(el uint64, acc int32) int
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint64Int32(arr []uint64, acc int32, f func(el uint64, acc int32) (int32, error)) (int32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint64Int32(arr []uint64, acc int32, f func(el uint64, acc int32) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6703,6 +10945,27 @@ func ReduceUint64Int64(arr []uint64, acc int64, f func(el uint64, acc int64) int
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint64Int64(arr []uint64, acc int64, f func(el uint64, acc int64) (int64, error)) (int64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint64Int64(arr []uint64, acc int64, f func(el uint64, acc int64) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Int8(arr []uint64, f func(el uint64) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -6718,6 +10981,27 @@ func ReduceUint64Int8(arr []uint64, acc int8, f func(el uint64, acc int8) int8) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint64Int8(arr []uint64, acc int8, f func(el uint64, acc int8) (int8, error)) (int8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint64Int8(arr []uint64, acc int8, f func(el uint64, acc int8) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6737,6 +11021,27 @@ func ReduceUint64Interface(arr []uint64, acc interface{}, f func(el uint64, acc 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint64Interface(arr []uint64, acc interface{}, f func(el uint64, acc interface{}) (interface{}, error)) (interface{}, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint64Interface(arr []uint64, acc interface{}, f func(el uint64, acc interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64String(arr []uint64, f func(el uint64) string) []string {
 	result := make([]string, 0, len(arr))
@@ -6752,6 +11057,27 @@ func ReduceUint64String(arr []uint64, acc string, f func(el uint64, acc string) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint64String(arr []uint64, acc string, f func(el uint64, acc string) (string, error)) (string, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint64String(arr []uint64, acc string, f func(el uint64, acc string) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6771,6 +11097,27 @@ func ReduceUint64Uint(arr []uint64, acc uint, f func(el uint64, acc uint) uint) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint64Uint(arr []uint64, acc uint, f func(el uint64, acc uint) (uint, error)) (uint, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint64Uint(arr []uint64, acc uint, f func(el uint64, acc uint) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Uint16(arr []uint64, f func(el uint64) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -6786,6 +11133,27 @@ func ReduceUint64Uint16(arr []uint64, acc uint16, f func(el uint64, acc uint16) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint64Uint16(arr []uint64, acc uint16, f func(el uint64, acc uint16) (uint16, error)) (uint16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint64Uint16(arr []uint64, acc uint16, f func(el uint64, acc uint16) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6805,6 +11173,27 @@ func ReduceUint64Uint32(arr []uint64, acc uint32, f func(el uint64, acc uint32) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint64Uint32(arr []uint64, acc uint32, f func(el uint64, acc uint32) (uint32, error)) (uint32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint64Uint32(arr []uint64, acc uint32, f func(el uint64, acc uint32) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Uint8(arr []uint64, f func(el uint64) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -6820,6 +11209,27 @@ func ReduceUint64Uint8(arr []uint64, acc uint8, f func(el uint64, acc uint8) uin
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint64Uint8(arr []uint64, acc uint8, f func(el uint64, acc uint8) (uint8, error)) (uint8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint64Uint8(arr []uint64, acc uint8, f func(el uint64, acc uint8) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6839,6 +11249,27 @@ func ReduceUint8Bool(arr []uint8, acc bool, f func(el uint8, acc bool) bool) boo
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint8Bool(arr []uint8, acc bool, f func(el uint8, acc bool) (bool, error)) (bool, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint8Bool(arr []uint8, acc bool, f func(el uint8, acc bool) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Byte(arr []uint8, f func(el uint8) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -6854,6 +11285,27 @@ func ReduceUint8Byte(arr []uint8, acc byte, f func(el uint8, acc byte) byte) byt
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint8Byte(arr []uint8, acc byte, f func(el uint8, acc byte) (byte, error)) (byte, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint8Byte(arr []uint8, acc byte, f func(el uint8, acc byte) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6873,6 +11325,27 @@ func ReduceUint8Float32(arr []uint8, acc float32, f func(el uint8, acc float32) 
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint8Float32(arr []uint8, acc float32, f func(el uint8, acc float32) (float32, error)) (float32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint8Float32(arr []uint8, acc float32, f func(el uint8, acc float32) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Float64(arr []uint8, f func(el uint8) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -6888,6 +11361,27 @@ func ReduceUint8Float64(arr []uint8, acc float64, f func(el uint8, acc float64) 
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint8Float64(arr []uint8, acc float64, f func(el uint8, acc float64) (float64, error)) (float64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint8Float64(arr []uint8, acc float64, f func(el uint8, acc float64) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6907,6 +11401,27 @@ func ReduceUint8Int(arr []uint8, acc int, f func(el uint8, acc int) int) int {
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint8Int(arr []uint8, acc int, f func(el uint8, acc int) (int, error)) (int, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint8Int(arr []uint8, acc int, f func(el uint8, acc int) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Int16(arr []uint8, f func(el uint8) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -6922,6 +11437,27 @@ func ReduceUint8Int16(arr []uint8, acc int16, f func(el uint8, acc int16) int16)
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint8Int16(arr []uint8, acc int16, f func(el uint8, acc int16) (int16, error)) (int16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint8Int16(arr []uint8, acc int16, f func(el uint8, acc int16) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6941,6 +11477,27 @@ func ReduceUint8Int32(arr []uint8, acc int32, f func(el uint8, acc int32) int32)
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint8Int32(arr []uint8, acc int32, f func(el uint8, acc int32) (int32, error)) (int32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint8Int32(arr []uint8, acc int32, f func(el uint8, acc int32) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Int64(arr []uint8, f func(el uint8) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -6956,6 +11513,27 @@ func ReduceUint8Int64(arr []uint8, acc int64, f func(el uint8, acc int64) int64)
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint8Int64(arr []uint8, acc int64, f func(el uint8, acc int64) (int64, error)) (int64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint8Int64(arr []uint8, acc int64, f func(el uint8, acc int64) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6975,6 +11553,27 @@ func ReduceUint8Int8(arr []uint8, acc int8, f func(el uint8, acc int8) int8) int
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint8Int8(arr []uint8, acc int8, f func(el uint8, acc int8) (int8, error)) (int8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint8Int8(arr []uint8, acc int8, f func(el uint8, acc int8) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Interface(arr []uint8, f func(el uint8) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -6990,6 +11589,27 @@ func ReduceUint8Interface(arr []uint8, acc interface{}, f func(el uint8, acc int
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint8Interface(arr []uint8, acc interface{}, f func(el uint8, acc interface{}) (interface{}, error)) (interface{}, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint8Interface(arr []uint8, acc interface{}, f func(el uint8, acc interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7009,6 +11629,27 @@ func ReduceUint8String(arr []uint8, acc string, f func(el uint8, acc string) str
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint8String(arr []uint8, acc string, f func(el uint8, acc string) (string, error)) (string, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint8String(arr []uint8, acc string, f func(el uint8, acc string) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Uint(arr []uint8, f func(el uint8) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -7024,6 +11665,27 @@ func ReduceUint8Uint(arr []uint8, acc uint, f func(el uint8, acc uint) uint) uin
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint8Uint(arr []uint8, acc uint, f func(el uint8, acc uint) (uint, error)) (uint, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint8Uint(arr []uint8, acc uint, f func(el uint8, acc uint) uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7043,6 +11705,27 @@ func ReduceUint8Uint16(arr []uint8, acc uint16, f func(el uint8, acc uint16) uin
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint8Uint16(arr []uint8, acc uint16, f func(el uint8, acc uint16) (uint16, error)) (uint16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint8Uint16(arr []uint8, acc uint16, f func(el uint8, acc uint16) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Uint32(arr []uint8, f func(el uint8) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -7058,6 +11741,27 @@ func ReduceUint8Uint32(arr []uint8, acc uint32, f func(el uint8, acc uint32) uin
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint8Uint32(arr []uint8, acc uint32, f func(el uint8, acc uint32) (uint32, error)) (uint32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint8Uint32(arr []uint8, acc uint32, f func(el uint8, acc uint32) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7077,6 +11781,27 @@ func ReduceUint8Uint64(arr []uint8, acc uint64, f func(el uint8, acc uint64) uin
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUint8Uint64(arr []uint8, acc uint64, f func(el uint8, acc uint64) (uint64, error)) (uint64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUint8Uint64(arr []uint8, acc uint64, f func(el uint8, acc uint64) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintBool(arr []uint, f func(el uint) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -7092,6 +11817,27 @@ func ReduceUintBool(arr []uint, acc bool, f func(el uint, acc bool) bool) bool {
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUintBool(arr []uint, acc bool, f func(el uint, acc bool) (bool, error)) (bool, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUintBool(arr []uint, acc bool, f func(el uint, acc bool) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7111,6 +11857,27 @@ func ReduceUintByte(arr []uint, acc byte, f func(el uint, acc byte) byte) byte {
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUintByte(arr []uint, acc byte, f func(el uint, acc byte) (byte, error)) (byte, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUintByte(arr []uint, acc byte, f func(el uint, acc byte) byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintFloat32(arr []uint, f func(el uint) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -7126,6 +11893,27 @@ func ReduceUintFloat32(arr []uint, acc float32, f func(el uint, acc float32) flo
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUintFloat32(arr []uint, acc float32, f func(el uint, acc float32) (float32, error)) (float32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUintFloat32(arr []uint, acc float32, f func(el uint, acc float32) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7145,6 +11933,27 @@ func ReduceUintFloat64(arr []uint, acc float64, f func(el uint, acc float64) flo
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUintFloat64(arr []uint, acc float64, f func(el uint, acc float64) (float64, error)) (float64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUintFloat64(arr []uint, acc float64, f func(el uint, acc float64) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintInt(arr []uint, f func(el uint) int) []int {
 	result := make([]int, 0, len(arr))
@@ -7160,6 +11969,27 @@ func ReduceUintInt(arr []uint, acc int, f func(el uint, acc int) int) int {
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUintInt(arr []uint, acc int, f func(el uint, acc int) (int, error)) (int, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUintInt(arr []uint, acc int, f func(el uint, acc int) int) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7179,6 +12009,27 @@ func ReduceUintInt16(arr []uint, acc int16, f func(el uint, acc int16) int16) in
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUintInt16(arr []uint, acc int16, f func(el uint, acc int16) (int16, error)) (int16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUintInt16(arr []uint, acc int16, f func(el uint, acc int16) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintInt32(arr []uint, f func(el uint) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -7194,6 +12045,27 @@ func ReduceUintInt32(arr []uint, acc int32, f func(el uint, acc int32) int32) in
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUintInt32(arr []uint, acc int32, f func(el uint, acc int32) (int32, error)) (int32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUintInt32(arr []uint, acc int32, f func(el uint, acc int32) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7213,6 +12085,27 @@ func ReduceUintInt64(arr []uint, acc int64, f func(el uint, acc int64) int64) in
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUintInt64(arr []uint, acc int64, f func(el uint, acc int64) (int64, error)) (int64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUintInt64(arr []uint, acc int64, f func(el uint, acc int64) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintInt8(arr []uint, f func(el uint) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -7228,6 +12121,27 @@ func ReduceUintInt8(arr []uint, acc int8, f func(el uint, acc int8) int8) int8 {
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUintInt8(arr []uint, acc int8, f func(el uint, acc int8) (int8, error)) (int8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUintInt8(arr []uint, acc int8, f func(el uint, acc int8) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7247,6 +12161,27 @@ func ReduceUintInterface(arr []uint, acc interface{}, f func(el uint, acc interf
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUintInterface(arr []uint, acc interface{}, f func(el uint, acc interface{}) (interface{}, error)) (interface{}, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUintInterface(arr []uint, acc interface{}, f func(el uint, acc interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintString(arr []uint, f func(el uint) string) []string {
 	result := make([]string, 0, len(arr))
@@ -7262,6 +12197,27 @@ func ReduceUintString(arr []uint, acc string, f func(el uint, acc string) string
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUintString(arr []uint, acc string, f func(el uint, acc string) (string, error)) (string, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUintString(arr []uint, acc string, f func(el uint, acc string) string) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7281,6 +12237,27 @@ func ReduceUintUint16(arr []uint, acc uint16, f func(el uint, acc uint16) uint16
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUintUint16(arr []uint, acc uint16, f func(el uint, acc uint16) (uint16, error)) (uint16, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUintUint16(arr []uint, acc uint16, f func(el uint, acc uint16) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintUint32(arr []uint, f func(el uint) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -7296,6 +12273,27 @@ func ReduceUintUint32(arr []uint, acc uint32, f func(el uint, acc uint32) uint32
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUintUint32(arr []uint, acc uint32, f func(el uint, acc uint32) (uint32, error)) (uint32, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUintUint32(arr []uint, acc uint32, f func(el uint, acc uint32) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7315,6 +12313,27 @@ func ReduceUintUint64(arr []uint, acc uint64, f func(el uint, acc uint64) uint64
 	return acc
 }
 
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUintUint64(arr []uint, acc uint64, f func(el uint, acc uint64) (uint64, error)) (uint64, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUintUint64(arr []uint, acc uint64, f func(el uint, acc uint64) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintUint8(arr []uint, f func(el uint) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -7330,4 +12349,25 @@ func ReduceUintUint8(arr []uint, acc uint8, f func(el uint, acc uint8) uint8) ui
 		acc = f(el, acc)
 	}
 	return acc
+}
+
+// ReduceWhile2 is like Reduce, but stops when f returns error
+func ReduceWhileUintUint8(arr []uint, acc uint8, f func(el uint, acc uint8) (uint8, error)) (uint8, error) {
+	for _, el := range arr {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Scan2 is like Reduce2, but returns slice of f results
+func ScanUintUint8(arr []uint, acc uint8, f func(el uint, acc uint8) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
