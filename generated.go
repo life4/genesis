@@ -3697,6 +3697,20 @@ func ChunkByBoolByte(arr []bool, f func(el bool) byte) [][]bool {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByBoolByte(arr []bool, f func(el bool) byte) map[byte][]bool {
+	result := make(map[byte][]bool)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]bool, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolFloat32(arr []bool, f func(el bool) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -3756,6 +3770,20 @@ func ChunkByBoolFloat32(arr []bool, f func(el bool) float32) [][]bool {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByBoolFloat32(arr []bool, f func(el bool) float32) map[float32][]bool {
+	result := make(map[float32][]bool)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]bool, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3819,6 +3847,20 @@ func ChunkByBoolFloat64(arr []bool, f func(el bool) float64) [][]bool {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByBoolFloat64(arr []bool, f func(el bool) float64) map[float64][]bool {
+	result := make(map[float64][]bool)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]bool, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolInt(arr []bool, f func(el bool) int) []int {
 	result := make([]int, 0, len(arr))
@@ -3878,6 +3920,20 @@ func ChunkByBoolInt(arr []bool, f func(el bool) int) [][]bool {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByBoolInt(arr []bool, f func(el bool) int) map[int][]bool {
+	result := make(map[int][]bool)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]bool, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3941,6 +3997,20 @@ func ChunkByBoolInt16(arr []bool, f func(el bool) int16) [][]bool {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByBoolInt16(arr []bool, f func(el bool) int16) map[int16][]bool {
+	result := make(map[int16][]bool)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]bool, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolInt32(arr []bool, f func(el bool) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -4000,6 +4070,20 @@ func ChunkByBoolInt32(arr []bool, f func(el bool) int32) [][]bool {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByBoolInt32(arr []bool, f func(el bool) int32) map[int32][]bool {
+	result := make(map[int32][]bool)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]bool, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4063,6 +4147,20 @@ func ChunkByBoolInt64(arr []bool, f func(el bool) int64) [][]bool {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByBoolInt64(arr []bool, f func(el bool) int64) map[int64][]bool {
+	result := make(map[int64][]bool)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]bool, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolInt8(arr []bool, f func(el bool) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -4122,6 +4220,20 @@ func ChunkByBoolInt8(arr []bool, f func(el bool) int8) [][]bool {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByBoolInt8(arr []bool, f func(el bool) int8) map[int8][]bool {
+	result := make(map[int8][]bool)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]bool, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4185,6 +4297,20 @@ func ChunkByBoolInterface(arr []bool, f func(el bool) interface{}) [][]bool {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByBoolInterface(arr []bool, f func(el bool) interface{}) map[interface{}][]bool {
+	result := make(map[interface{}][]bool)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]bool, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolString(arr []bool, f func(el bool) string) []string {
 	result := make([]string, 0, len(arr))
@@ -4244,6 +4370,20 @@ func ChunkByBoolString(arr []bool, f func(el bool) string) [][]bool {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByBoolString(arr []bool, f func(el bool) string) map[string][]bool {
+	result := make(map[string][]bool)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]bool, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4307,6 +4447,20 @@ func ChunkByBoolUint(arr []bool, f func(el bool) uint) [][]bool {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByBoolUint(arr []bool, f func(el bool) uint) map[uint][]bool {
+	result := make(map[uint][]bool)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]bool, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolUint16(arr []bool, f func(el bool) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -4366,6 +4520,20 @@ func ChunkByBoolUint16(arr []bool, f func(el bool) uint16) [][]bool {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByBoolUint16(arr []bool, f func(el bool) uint16) map[uint16][]bool {
+	result := make(map[uint16][]bool)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]bool, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4429,6 +4597,20 @@ func ChunkByBoolUint32(arr []bool, f func(el bool) uint32) [][]bool {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByBoolUint32(arr []bool, f func(el bool) uint32) map[uint32][]bool {
+	result := make(map[uint32][]bool)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]bool, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolUint64(arr []bool, f func(el bool) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -4488,6 +4670,20 @@ func ChunkByBoolUint64(arr []bool, f func(el bool) uint64) [][]bool {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByBoolUint64(arr []bool, f func(el bool) uint64) map[uint64][]bool {
+	result := make(map[uint64][]bool)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]bool, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4551,6 +4747,20 @@ func ChunkByBoolUint8(arr []bool, f func(el bool) uint8) [][]bool {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByBoolUint8(arr []bool, f func(el bool) uint8) map[uint8][]bool {
+	result := make(map[uint8][]bool)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]bool, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteBool(arr []byte, f func(el byte) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -4610,6 +4820,20 @@ func ChunkByByteBool(arr []byte, f func(el byte) bool) [][]byte {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByByteBool(arr []byte, f func(el byte) bool) map[bool][]byte {
+	result := make(map[bool][]byte)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]byte, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4673,6 +4897,20 @@ func ChunkByByteFloat32(arr []byte, f func(el byte) float32) [][]byte {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByByteFloat32(arr []byte, f func(el byte) float32) map[float32][]byte {
+	result := make(map[float32][]byte)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]byte, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteFloat64(arr []byte, f func(el byte) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -4732,6 +4970,20 @@ func ChunkByByteFloat64(arr []byte, f func(el byte) float64) [][]byte {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByByteFloat64(arr []byte, f func(el byte) float64) map[float64][]byte {
+	result := make(map[float64][]byte)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]byte, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4795,6 +5047,20 @@ func ChunkByByteInt(arr []byte, f func(el byte) int) [][]byte {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByByteInt(arr []byte, f func(el byte) int) map[int][]byte {
+	result := make(map[int][]byte)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]byte, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteInt16(arr []byte, f func(el byte) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -4854,6 +5120,20 @@ func ChunkByByteInt16(arr []byte, f func(el byte) int16) [][]byte {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByByteInt16(arr []byte, f func(el byte) int16) map[int16][]byte {
+	result := make(map[int16][]byte)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]byte, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4917,6 +5197,20 @@ func ChunkByByteInt32(arr []byte, f func(el byte) int32) [][]byte {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByByteInt32(arr []byte, f func(el byte) int32) map[int32][]byte {
+	result := make(map[int32][]byte)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]byte, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteInt64(arr []byte, f func(el byte) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -4976,6 +5270,20 @@ func ChunkByByteInt64(arr []byte, f func(el byte) int64) [][]byte {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByByteInt64(arr []byte, f func(el byte) int64) map[int64][]byte {
+	result := make(map[int64][]byte)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]byte, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5039,6 +5347,20 @@ func ChunkByByteInt8(arr []byte, f func(el byte) int8) [][]byte {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByByteInt8(arr []byte, f func(el byte) int8) map[int8][]byte {
+	result := make(map[int8][]byte)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]byte, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteInterface(arr []byte, f func(el byte) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -5098,6 +5420,20 @@ func ChunkByByteInterface(arr []byte, f func(el byte) interface{}) [][]byte {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByByteInterface(arr []byte, f func(el byte) interface{}) map[interface{}][]byte {
+	result := make(map[interface{}][]byte)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]byte, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5161,6 +5497,20 @@ func ChunkByByteString(arr []byte, f func(el byte) string) [][]byte {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByByteString(arr []byte, f func(el byte) string) map[string][]byte {
+	result := make(map[string][]byte)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]byte, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteUint(arr []byte, f func(el byte) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -5220,6 +5570,20 @@ func ChunkByByteUint(arr []byte, f func(el byte) uint) [][]byte {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByByteUint(arr []byte, f func(el byte) uint) map[uint][]byte {
+	result := make(map[uint][]byte)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]byte, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5283,6 +5647,20 @@ func ChunkByByteUint16(arr []byte, f func(el byte) uint16) [][]byte {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByByteUint16(arr []byte, f func(el byte) uint16) map[uint16][]byte {
+	result := make(map[uint16][]byte)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]byte, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteUint32(arr []byte, f func(el byte) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -5342,6 +5720,20 @@ func ChunkByByteUint32(arr []byte, f func(el byte) uint32) [][]byte {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByByteUint32(arr []byte, f func(el byte) uint32) map[uint32][]byte {
+	result := make(map[uint32][]byte)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]byte, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5405,6 +5797,20 @@ func ChunkByByteUint64(arr []byte, f func(el byte) uint64) [][]byte {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByByteUint64(arr []byte, f func(el byte) uint64) map[uint64][]byte {
+	result := make(map[uint64][]byte)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]byte, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteUint8(arr []byte, f func(el byte) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -5464,6 +5870,20 @@ func ChunkByByteUint8(arr []byte, f func(el byte) uint8) [][]byte {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByByteUint8(arr []byte, f func(el byte) uint8) map[uint8][]byte {
+	result := make(map[uint8][]byte)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]byte, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5527,6 +5947,20 @@ func ChunkByFloat32Bool(arr []float32, f func(el float32) bool) [][]float32 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByFloat32Bool(arr []float32, f func(el float32) bool) map[bool][]float32 {
+	result := make(map[bool][]float32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Byte(arr []float32, f func(el float32) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -5586,6 +6020,20 @@ func ChunkByFloat32Byte(arr []float32, f func(el float32) byte) [][]float32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByFloat32Byte(arr []float32, f func(el float32) byte) map[byte][]float32 {
+	result := make(map[byte][]float32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5649,6 +6097,20 @@ func ChunkByFloat32Float64(arr []float32, f func(el float32) float64) [][]float3
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByFloat32Float64(arr []float32, f func(el float32) float64) map[float64][]float32 {
+	result := make(map[float64][]float32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Int(arr []float32, f func(el float32) int) []int {
 	result := make([]int, 0, len(arr))
@@ -5708,6 +6170,20 @@ func ChunkByFloat32Int(arr []float32, f func(el float32) int) [][]float32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByFloat32Int(arr []float32, f func(el float32) int) map[int][]float32 {
+	result := make(map[int][]float32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5771,6 +6247,20 @@ func ChunkByFloat32Int16(arr []float32, f func(el float32) int16) [][]float32 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByFloat32Int16(arr []float32, f func(el float32) int16) map[int16][]float32 {
+	result := make(map[int16][]float32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Int32(arr []float32, f func(el float32) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -5830,6 +6320,20 @@ func ChunkByFloat32Int32(arr []float32, f func(el float32) int32) [][]float32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByFloat32Int32(arr []float32, f func(el float32) int32) map[int32][]float32 {
+	result := make(map[int32][]float32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5893,6 +6397,20 @@ func ChunkByFloat32Int64(arr []float32, f func(el float32) int64) [][]float32 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByFloat32Int64(arr []float32, f func(el float32) int64) map[int64][]float32 {
+	result := make(map[int64][]float32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Int8(arr []float32, f func(el float32) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -5952,6 +6470,20 @@ func ChunkByFloat32Int8(arr []float32, f func(el float32) int8) [][]float32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByFloat32Int8(arr []float32, f func(el float32) int8) map[int8][]float32 {
+	result := make(map[int8][]float32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6015,6 +6547,20 @@ func ChunkByFloat32Interface(arr []float32, f func(el float32) interface{}) [][]
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByFloat32Interface(arr []float32, f func(el float32) interface{}) map[interface{}][]float32 {
+	result := make(map[interface{}][]float32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32String(arr []float32, f func(el float32) string) []string {
 	result := make([]string, 0, len(arr))
@@ -6074,6 +6620,20 @@ func ChunkByFloat32String(arr []float32, f func(el float32) string) [][]float32 
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByFloat32String(arr []float32, f func(el float32) string) map[string][]float32 {
+	result := make(map[string][]float32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6137,6 +6697,20 @@ func ChunkByFloat32Uint(arr []float32, f func(el float32) uint) [][]float32 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByFloat32Uint(arr []float32, f func(el float32) uint) map[uint][]float32 {
+	result := make(map[uint][]float32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Uint16(arr []float32, f func(el float32) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -6196,6 +6770,20 @@ func ChunkByFloat32Uint16(arr []float32, f func(el float32) uint16) [][]float32 
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByFloat32Uint16(arr []float32, f func(el float32) uint16) map[uint16][]float32 {
+	result := make(map[uint16][]float32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6259,6 +6847,20 @@ func ChunkByFloat32Uint32(arr []float32, f func(el float32) uint32) [][]float32 
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByFloat32Uint32(arr []float32, f func(el float32) uint32) map[uint32][]float32 {
+	result := make(map[uint32][]float32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Uint64(arr []float32, f func(el float32) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -6318,6 +6920,20 @@ func ChunkByFloat32Uint64(arr []float32, f func(el float32) uint64) [][]float32 
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByFloat32Uint64(arr []float32, f func(el float32) uint64) map[uint64][]float32 {
+	result := make(map[uint64][]float32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6381,6 +6997,20 @@ func ChunkByFloat32Uint8(arr []float32, f func(el float32) uint8) [][]float32 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByFloat32Uint8(arr []float32, f func(el float32) uint8) map[uint8][]float32 {
+	result := make(map[uint8][]float32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Bool(arr []float64, f func(el float64) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -6440,6 +7070,20 @@ func ChunkByFloat64Bool(arr []float64, f func(el float64) bool) [][]float64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByFloat64Bool(arr []float64, f func(el float64) bool) map[bool][]float64 {
+	result := make(map[bool][]float64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6503,6 +7147,20 @@ func ChunkByFloat64Byte(arr []float64, f func(el float64) byte) [][]float64 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByFloat64Byte(arr []float64, f func(el float64) byte) map[byte][]float64 {
+	result := make(map[byte][]float64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Float32(arr []float64, f func(el float64) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -6562,6 +7220,20 @@ func ChunkByFloat64Float32(arr []float64, f func(el float64) float32) [][]float6
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByFloat64Float32(arr []float64, f func(el float64) float32) map[float32][]float64 {
+	result := make(map[float32][]float64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6625,6 +7297,20 @@ func ChunkByFloat64Int(arr []float64, f func(el float64) int) [][]float64 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByFloat64Int(arr []float64, f func(el float64) int) map[int][]float64 {
+	result := make(map[int][]float64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Int16(arr []float64, f func(el float64) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -6684,6 +7370,20 @@ func ChunkByFloat64Int16(arr []float64, f func(el float64) int16) [][]float64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByFloat64Int16(arr []float64, f func(el float64) int16) map[int16][]float64 {
+	result := make(map[int16][]float64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6747,6 +7447,20 @@ func ChunkByFloat64Int32(arr []float64, f func(el float64) int32) [][]float64 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByFloat64Int32(arr []float64, f func(el float64) int32) map[int32][]float64 {
+	result := make(map[int32][]float64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Int64(arr []float64, f func(el float64) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -6806,6 +7520,20 @@ func ChunkByFloat64Int64(arr []float64, f func(el float64) int64) [][]float64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByFloat64Int64(arr []float64, f func(el float64) int64) map[int64][]float64 {
+	result := make(map[int64][]float64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6869,6 +7597,20 @@ func ChunkByFloat64Int8(arr []float64, f func(el float64) int8) [][]float64 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByFloat64Int8(arr []float64, f func(el float64) int8) map[int8][]float64 {
+	result := make(map[int8][]float64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Interface(arr []float64, f func(el float64) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -6928,6 +7670,20 @@ func ChunkByFloat64Interface(arr []float64, f func(el float64) interface{}) [][]
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByFloat64Interface(arr []float64, f func(el float64) interface{}) map[interface{}][]float64 {
+	result := make(map[interface{}][]float64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6991,6 +7747,20 @@ func ChunkByFloat64String(arr []float64, f func(el float64) string) [][]float64 
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByFloat64String(arr []float64, f func(el float64) string) map[string][]float64 {
+	result := make(map[string][]float64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Uint(arr []float64, f func(el float64) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -7050,6 +7820,20 @@ func ChunkByFloat64Uint(arr []float64, f func(el float64) uint) [][]float64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByFloat64Uint(arr []float64, f func(el float64) uint) map[uint][]float64 {
+	result := make(map[uint][]float64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7113,6 +7897,20 @@ func ChunkByFloat64Uint16(arr []float64, f func(el float64) uint16) [][]float64 
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByFloat64Uint16(arr []float64, f func(el float64) uint16) map[uint16][]float64 {
+	result := make(map[uint16][]float64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Uint32(arr []float64, f func(el float64) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -7172,6 +7970,20 @@ func ChunkByFloat64Uint32(arr []float64, f func(el float64) uint32) [][]float64 
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByFloat64Uint32(arr []float64, f func(el float64) uint32) map[uint32][]float64 {
+	result := make(map[uint32][]float64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7235,6 +8047,20 @@ func ChunkByFloat64Uint64(arr []float64, f func(el float64) uint64) [][]float64 
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByFloat64Uint64(arr []float64, f func(el float64) uint64) map[uint64][]float64 {
+	result := make(map[uint64][]float64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Uint8(arr []float64, f func(el float64) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -7294,6 +8120,20 @@ func ChunkByFloat64Uint8(arr []float64, f func(el float64) uint8) [][]float64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByFloat64Uint8(arr []float64, f func(el float64) uint8) map[uint8][]float64 {
+	result := make(map[uint8][]float64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7357,6 +8197,20 @@ func ChunkByInt16Bool(arr []int16, f func(el int16) bool) [][]int16 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt16Bool(arr []int16, f func(el int16) bool) map[bool][]int16 {
+	result := make(map[bool][]int16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Byte(arr []int16, f func(el int16) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -7416,6 +8270,20 @@ func ChunkByInt16Byte(arr []int16, f func(el int16) byte) [][]int16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt16Byte(arr []int16, f func(el int16) byte) map[byte][]int16 {
+	result := make(map[byte][]int16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7479,6 +8347,20 @@ func ChunkByInt16Float32(arr []int16, f func(el int16) float32) [][]int16 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt16Float32(arr []int16, f func(el int16) float32) map[float32][]int16 {
+	result := make(map[float32][]int16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Float64(arr []int16, f func(el int16) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -7538,6 +8420,20 @@ func ChunkByInt16Float64(arr []int16, f func(el int16) float64) [][]int16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt16Float64(arr []int16, f func(el int16) float64) map[float64][]int16 {
+	result := make(map[float64][]int16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7601,6 +8497,20 @@ func ChunkByInt16Int(arr []int16, f func(el int16) int) [][]int16 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt16Int(arr []int16, f func(el int16) int) map[int][]int16 {
+	result := make(map[int][]int16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Int32(arr []int16, f func(el int16) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -7660,6 +8570,20 @@ func ChunkByInt16Int32(arr []int16, f func(el int16) int32) [][]int16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt16Int32(arr []int16, f func(el int16) int32) map[int32][]int16 {
+	result := make(map[int32][]int16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7723,6 +8647,20 @@ func ChunkByInt16Int64(arr []int16, f func(el int16) int64) [][]int16 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt16Int64(arr []int16, f func(el int16) int64) map[int64][]int16 {
+	result := make(map[int64][]int16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Int8(arr []int16, f func(el int16) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -7782,6 +8720,20 @@ func ChunkByInt16Int8(arr []int16, f func(el int16) int8) [][]int16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt16Int8(arr []int16, f func(el int16) int8) map[int8][]int16 {
+	result := make(map[int8][]int16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7845,6 +8797,20 @@ func ChunkByInt16Interface(arr []int16, f func(el int16) interface{}) [][]int16 
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt16Interface(arr []int16, f func(el int16) interface{}) map[interface{}][]int16 {
+	result := make(map[interface{}][]int16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16String(arr []int16, f func(el int16) string) []string {
 	result := make([]string, 0, len(arr))
@@ -7904,6 +8870,20 @@ func ChunkByInt16String(arr []int16, f func(el int16) string) [][]int16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt16String(arr []int16, f func(el int16) string) map[string][]int16 {
+	result := make(map[string][]int16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7967,6 +8947,20 @@ func ChunkByInt16Uint(arr []int16, f func(el int16) uint) [][]int16 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt16Uint(arr []int16, f func(el int16) uint) map[uint][]int16 {
+	result := make(map[uint][]int16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Uint16(arr []int16, f func(el int16) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -8026,6 +9020,20 @@ func ChunkByInt16Uint16(arr []int16, f func(el int16) uint16) [][]int16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt16Uint16(arr []int16, f func(el int16) uint16) map[uint16][]int16 {
+	result := make(map[uint16][]int16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8089,6 +9097,20 @@ func ChunkByInt16Uint32(arr []int16, f func(el int16) uint32) [][]int16 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt16Uint32(arr []int16, f func(el int16) uint32) map[uint32][]int16 {
+	result := make(map[uint32][]int16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Uint64(arr []int16, f func(el int16) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -8148,6 +9170,20 @@ func ChunkByInt16Uint64(arr []int16, f func(el int16) uint64) [][]int16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt16Uint64(arr []int16, f func(el int16) uint64) map[uint64][]int16 {
+	result := make(map[uint64][]int16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8211,6 +9247,20 @@ func ChunkByInt16Uint8(arr []int16, f func(el int16) uint8) [][]int16 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt16Uint8(arr []int16, f func(el int16) uint8) map[uint8][]int16 {
+	result := make(map[uint8][]int16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Bool(arr []int32, f func(el int32) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -8270,6 +9320,20 @@ func ChunkByInt32Bool(arr []int32, f func(el int32) bool) [][]int32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt32Bool(arr []int32, f func(el int32) bool) map[bool][]int32 {
+	result := make(map[bool][]int32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8333,6 +9397,20 @@ func ChunkByInt32Byte(arr []int32, f func(el int32) byte) [][]int32 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt32Byte(arr []int32, f func(el int32) byte) map[byte][]int32 {
+	result := make(map[byte][]int32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Float32(arr []int32, f func(el int32) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -8392,6 +9470,20 @@ func ChunkByInt32Float32(arr []int32, f func(el int32) float32) [][]int32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt32Float32(arr []int32, f func(el int32) float32) map[float32][]int32 {
+	result := make(map[float32][]int32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8455,6 +9547,20 @@ func ChunkByInt32Float64(arr []int32, f func(el int32) float64) [][]int32 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt32Float64(arr []int32, f func(el int32) float64) map[float64][]int32 {
+	result := make(map[float64][]int32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Int(arr []int32, f func(el int32) int) []int {
 	result := make([]int, 0, len(arr))
@@ -8514,6 +9620,20 @@ func ChunkByInt32Int(arr []int32, f func(el int32) int) [][]int32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt32Int(arr []int32, f func(el int32) int) map[int][]int32 {
+	result := make(map[int][]int32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8577,6 +9697,20 @@ func ChunkByInt32Int16(arr []int32, f func(el int32) int16) [][]int32 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt32Int16(arr []int32, f func(el int32) int16) map[int16][]int32 {
+	result := make(map[int16][]int32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Int64(arr []int32, f func(el int32) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -8636,6 +9770,20 @@ func ChunkByInt32Int64(arr []int32, f func(el int32) int64) [][]int32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt32Int64(arr []int32, f func(el int32) int64) map[int64][]int32 {
+	result := make(map[int64][]int32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8699,6 +9847,20 @@ func ChunkByInt32Int8(arr []int32, f func(el int32) int8) [][]int32 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt32Int8(arr []int32, f func(el int32) int8) map[int8][]int32 {
+	result := make(map[int8][]int32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Interface(arr []int32, f func(el int32) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -8758,6 +9920,20 @@ func ChunkByInt32Interface(arr []int32, f func(el int32) interface{}) [][]int32 
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt32Interface(arr []int32, f func(el int32) interface{}) map[interface{}][]int32 {
+	result := make(map[interface{}][]int32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8821,6 +9997,20 @@ func ChunkByInt32String(arr []int32, f func(el int32) string) [][]int32 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt32String(arr []int32, f func(el int32) string) map[string][]int32 {
+	result := make(map[string][]int32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Uint(arr []int32, f func(el int32) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -8880,6 +10070,20 @@ func ChunkByInt32Uint(arr []int32, f func(el int32) uint) [][]int32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt32Uint(arr []int32, f func(el int32) uint) map[uint][]int32 {
+	result := make(map[uint][]int32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8943,6 +10147,20 @@ func ChunkByInt32Uint16(arr []int32, f func(el int32) uint16) [][]int32 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt32Uint16(arr []int32, f func(el int32) uint16) map[uint16][]int32 {
+	result := make(map[uint16][]int32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Uint32(arr []int32, f func(el int32) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -9002,6 +10220,20 @@ func ChunkByInt32Uint32(arr []int32, f func(el int32) uint32) [][]int32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt32Uint32(arr []int32, f func(el int32) uint32) map[uint32][]int32 {
+	result := make(map[uint32][]int32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9065,6 +10297,20 @@ func ChunkByInt32Uint64(arr []int32, f func(el int32) uint64) [][]int32 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt32Uint64(arr []int32, f func(el int32) uint64) map[uint64][]int32 {
+	result := make(map[uint64][]int32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Uint8(arr []int32, f func(el int32) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -9124,6 +10370,20 @@ func ChunkByInt32Uint8(arr []int32, f func(el int32) uint8) [][]int32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt32Uint8(arr []int32, f func(el int32) uint8) map[uint8][]int32 {
+	result := make(map[uint8][]int32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9187,6 +10447,20 @@ func ChunkByInt64Bool(arr []int64, f func(el int64) bool) [][]int64 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt64Bool(arr []int64, f func(el int64) bool) map[bool][]int64 {
+	result := make(map[bool][]int64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Byte(arr []int64, f func(el int64) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -9246,6 +10520,20 @@ func ChunkByInt64Byte(arr []int64, f func(el int64) byte) [][]int64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt64Byte(arr []int64, f func(el int64) byte) map[byte][]int64 {
+	result := make(map[byte][]int64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9309,6 +10597,20 @@ func ChunkByInt64Float32(arr []int64, f func(el int64) float32) [][]int64 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt64Float32(arr []int64, f func(el int64) float32) map[float32][]int64 {
+	result := make(map[float32][]int64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Float64(arr []int64, f func(el int64) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -9368,6 +10670,20 @@ func ChunkByInt64Float64(arr []int64, f func(el int64) float64) [][]int64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt64Float64(arr []int64, f func(el int64) float64) map[float64][]int64 {
+	result := make(map[float64][]int64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9431,6 +10747,20 @@ func ChunkByInt64Int(arr []int64, f func(el int64) int) [][]int64 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt64Int(arr []int64, f func(el int64) int) map[int][]int64 {
+	result := make(map[int][]int64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Int16(arr []int64, f func(el int64) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -9490,6 +10820,20 @@ func ChunkByInt64Int16(arr []int64, f func(el int64) int16) [][]int64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt64Int16(arr []int64, f func(el int64) int16) map[int16][]int64 {
+	result := make(map[int16][]int64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9553,6 +10897,20 @@ func ChunkByInt64Int32(arr []int64, f func(el int64) int32) [][]int64 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt64Int32(arr []int64, f func(el int64) int32) map[int32][]int64 {
+	result := make(map[int32][]int64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Int8(arr []int64, f func(el int64) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -9612,6 +10970,20 @@ func ChunkByInt64Int8(arr []int64, f func(el int64) int8) [][]int64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt64Int8(arr []int64, f func(el int64) int8) map[int8][]int64 {
+	result := make(map[int8][]int64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9675,6 +11047,20 @@ func ChunkByInt64Interface(arr []int64, f func(el int64) interface{}) [][]int64 
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt64Interface(arr []int64, f func(el int64) interface{}) map[interface{}][]int64 {
+	result := make(map[interface{}][]int64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64String(arr []int64, f func(el int64) string) []string {
 	result := make([]string, 0, len(arr))
@@ -9734,6 +11120,20 @@ func ChunkByInt64String(arr []int64, f func(el int64) string) [][]int64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt64String(arr []int64, f func(el int64) string) map[string][]int64 {
+	result := make(map[string][]int64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9797,6 +11197,20 @@ func ChunkByInt64Uint(arr []int64, f func(el int64) uint) [][]int64 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt64Uint(arr []int64, f func(el int64) uint) map[uint][]int64 {
+	result := make(map[uint][]int64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Uint16(arr []int64, f func(el int64) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -9856,6 +11270,20 @@ func ChunkByInt64Uint16(arr []int64, f func(el int64) uint16) [][]int64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt64Uint16(arr []int64, f func(el int64) uint16) map[uint16][]int64 {
+	result := make(map[uint16][]int64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9919,6 +11347,20 @@ func ChunkByInt64Uint32(arr []int64, f func(el int64) uint32) [][]int64 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt64Uint32(arr []int64, f func(el int64) uint32) map[uint32][]int64 {
+	result := make(map[uint32][]int64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Uint64(arr []int64, f func(el int64) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -9978,6 +11420,20 @@ func ChunkByInt64Uint64(arr []int64, f func(el int64) uint64) [][]int64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt64Uint64(arr []int64, f func(el int64) uint64) map[uint64][]int64 {
+	result := make(map[uint64][]int64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10041,6 +11497,20 @@ func ChunkByInt64Uint8(arr []int64, f func(el int64) uint8) [][]int64 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt64Uint8(arr []int64, f func(el int64) uint8) map[uint8][]int64 {
+	result := make(map[uint8][]int64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Bool(arr []int8, f func(el int8) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -10100,6 +11570,20 @@ func ChunkByInt8Bool(arr []int8, f func(el int8) bool) [][]int8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt8Bool(arr []int8, f func(el int8) bool) map[bool][]int8 {
+	result := make(map[bool][]int8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10163,6 +11647,20 @@ func ChunkByInt8Byte(arr []int8, f func(el int8) byte) [][]int8 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt8Byte(arr []int8, f func(el int8) byte) map[byte][]int8 {
+	result := make(map[byte][]int8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Float32(arr []int8, f func(el int8) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -10222,6 +11720,20 @@ func ChunkByInt8Float32(arr []int8, f func(el int8) float32) [][]int8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt8Float32(arr []int8, f func(el int8) float32) map[float32][]int8 {
+	result := make(map[float32][]int8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10285,6 +11797,20 @@ func ChunkByInt8Float64(arr []int8, f func(el int8) float64) [][]int8 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt8Float64(arr []int8, f func(el int8) float64) map[float64][]int8 {
+	result := make(map[float64][]int8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Int(arr []int8, f func(el int8) int) []int {
 	result := make([]int, 0, len(arr))
@@ -10344,6 +11870,20 @@ func ChunkByInt8Int(arr []int8, f func(el int8) int) [][]int8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt8Int(arr []int8, f func(el int8) int) map[int][]int8 {
+	result := make(map[int][]int8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10407,6 +11947,20 @@ func ChunkByInt8Int16(arr []int8, f func(el int8) int16) [][]int8 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt8Int16(arr []int8, f func(el int8) int16) map[int16][]int8 {
+	result := make(map[int16][]int8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Int32(arr []int8, f func(el int8) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -10466,6 +12020,20 @@ func ChunkByInt8Int32(arr []int8, f func(el int8) int32) [][]int8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt8Int32(arr []int8, f func(el int8) int32) map[int32][]int8 {
+	result := make(map[int32][]int8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10529,6 +12097,20 @@ func ChunkByInt8Int64(arr []int8, f func(el int8) int64) [][]int8 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt8Int64(arr []int8, f func(el int8) int64) map[int64][]int8 {
+	result := make(map[int64][]int8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Interface(arr []int8, f func(el int8) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -10588,6 +12170,20 @@ func ChunkByInt8Interface(arr []int8, f func(el int8) interface{}) [][]int8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt8Interface(arr []int8, f func(el int8) interface{}) map[interface{}][]int8 {
+	result := make(map[interface{}][]int8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10651,6 +12247,20 @@ func ChunkByInt8String(arr []int8, f func(el int8) string) [][]int8 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt8String(arr []int8, f func(el int8) string) map[string][]int8 {
+	result := make(map[string][]int8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Uint(arr []int8, f func(el int8) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -10710,6 +12320,20 @@ func ChunkByInt8Uint(arr []int8, f func(el int8) uint) [][]int8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt8Uint(arr []int8, f func(el int8) uint) map[uint][]int8 {
+	result := make(map[uint][]int8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10773,6 +12397,20 @@ func ChunkByInt8Uint16(arr []int8, f func(el int8) uint16) [][]int8 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt8Uint16(arr []int8, f func(el int8) uint16) map[uint16][]int8 {
+	result := make(map[uint16][]int8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Uint32(arr []int8, f func(el int8) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -10832,6 +12470,20 @@ func ChunkByInt8Uint32(arr []int8, f func(el int8) uint32) [][]int8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt8Uint32(arr []int8, f func(el int8) uint32) map[uint32][]int8 {
+	result := make(map[uint32][]int8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10895,6 +12547,20 @@ func ChunkByInt8Uint64(arr []int8, f func(el int8) uint64) [][]int8 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInt8Uint64(arr []int8, f func(el int8) uint64) map[uint64][]int8 {
+	result := make(map[uint64][]int8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Uint8(arr []int8, f func(el int8) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -10954,6 +12620,20 @@ func ChunkByInt8Uint8(arr []int8, f func(el int8) uint8) [][]int8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInt8Uint8(arr []int8, f func(el int8) uint8) map[uint8][]int8 {
+	result := make(map[uint8][]int8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11017,6 +12697,20 @@ func ChunkByIntBool(arr []int, f func(el int) bool) [][]int {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByIntBool(arr []int, f func(el int) bool) map[bool][]int {
+	result := make(map[bool][]int)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntByte(arr []int, f func(el int) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -11076,6 +12770,20 @@ func ChunkByIntByte(arr []int, f func(el int) byte) [][]int {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByIntByte(arr []int, f func(el int) byte) map[byte][]int {
+	result := make(map[byte][]int)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11139,6 +12847,20 @@ func ChunkByInterfaceBool(arr []interface{}, f func(el interface{}) bool) [][]in
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInterfaceBool(arr []interface{}, f func(el interface{}) bool) map[bool][]interface{} {
+	result := make(map[bool][]interface{})
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]interface{}, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceByte(arr []interface{}, f func(el interface{}) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -11198,6 +12920,20 @@ func ChunkByInterfaceByte(arr []interface{}, f func(el interface{}) byte) [][]in
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInterfaceByte(arr []interface{}, f func(el interface{}) byte) map[byte][]interface{} {
+	result := make(map[byte][]interface{})
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]interface{}, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11261,6 +12997,20 @@ func ChunkByInterfaceFloat32(arr []interface{}, f func(el interface{}) float32) 
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInterfaceFloat32(arr []interface{}, f func(el interface{}) float32) map[float32][]interface{} {
+	result := make(map[float32][]interface{})
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]interface{}, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceFloat64(arr []interface{}, f func(el interface{}) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -11320,6 +13070,20 @@ func ChunkByInterfaceFloat64(arr []interface{}, f func(el interface{}) float64) 
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInterfaceFloat64(arr []interface{}, f func(el interface{}) float64) map[float64][]interface{} {
+	result := make(map[float64][]interface{})
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]interface{}, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11383,6 +13147,20 @@ func ChunkByInterfaceInt(arr []interface{}, f func(el interface{}) int) [][]inte
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInterfaceInt(arr []interface{}, f func(el interface{}) int) map[int][]interface{} {
+	result := make(map[int][]interface{})
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]interface{}, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceInt16(arr []interface{}, f func(el interface{}) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -11442,6 +13220,20 @@ func ChunkByInterfaceInt16(arr []interface{}, f func(el interface{}) int16) [][]
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInterfaceInt16(arr []interface{}, f func(el interface{}) int16) map[int16][]interface{} {
+	result := make(map[int16][]interface{})
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]interface{}, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11505,6 +13297,20 @@ func ChunkByInterfaceInt32(arr []interface{}, f func(el interface{}) int32) [][]
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInterfaceInt32(arr []interface{}, f func(el interface{}) int32) map[int32][]interface{} {
+	result := make(map[int32][]interface{})
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]interface{}, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceInt64(arr []interface{}, f func(el interface{}) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -11564,6 +13370,20 @@ func ChunkByInterfaceInt64(arr []interface{}, f func(el interface{}) int64) [][]
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInterfaceInt64(arr []interface{}, f func(el interface{}) int64) map[int64][]interface{} {
+	result := make(map[int64][]interface{})
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]interface{}, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11627,6 +13447,20 @@ func ChunkByInterfaceInt8(arr []interface{}, f func(el interface{}) int8) [][]in
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInterfaceInt8(arr []interface{}, f func(el interface{}) int8) map[int8][]interface{} {
+	result := make(map[int8][]interface{})
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]interface{}, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceString(arr []interface{}, f func(el interface{}) string) []string {
 	result := make([]string, 0, len(arr))
@@ -11686,6 +13520,20 @@ func ChunkByInterfaceString(arr []interface{}, f func(el interface{}) string) []
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInterfaceString(arr []interface{}, f func(el interface{}) string) map[string][]interface{} {
+	result := make(map[string][]interface{})
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]interface{}, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11749,6 +13597,20 @@ func ChunkByInterfaceUint(arr []interface{}, f func(el interface{}) uint) [][]in
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInterfaceUint(arr []interface{}, f func(el interface{}) uint) map[uint][]interface{} {
+	result := make(map[uint][]interface{})
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]interface{}, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceUint16(arr []interface{}, f func(el interface{}) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -11808,6 +13670,20 @@ func ChunkByInterfaceUint16(arr []interface{}, f func(el interface{}) uint16) []
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInterfaceUint16(arr []interface{}, f func(el interface{}) uint16) map[uint16][]interface{} {
+	result := make(map[uint16][]interface{})
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]interface{}, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11871,6 +13747,20 @@ func ChunkByInterfaceUint32(arr []interface{}, f func(el interface{}) uint32) []
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInterfaceUint32(arr []interface{}, f func(el interface{}) uint32) map[uint32][]interface{} {
+	result := make(map[uint32][]interface{})
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]interface{}, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceUint64(arr []interface{}, f func(el interface{}) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -11930,6 +13820,20 @@ func ChunkByInterfaceUint64(arr []interface{}, f func(el interface{}) uint64) []
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByInterfaceUint64(arr []interface{}, f func(el interface{}) uint64) map[uint64][]interface{} {
+	result := make(map[uint64][]interface{})
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]interface{}, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11993,6 +13897,20 @@ func ChunkByInterfaceUint8(arr []interface{}, f func(el interface{}) uint8) [][]
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByInterfaceUint8(arr []interface{}, f func(el interface{}) uint8) map[uint8][]interface{} {
+	result := make(map[uint8][]interface{})
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]interface{}, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntFloat32(arr []int, f func(el int) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -12052,6 +13970,20 @@ func ChunkByIntFloat32(arr []int, f func(el int) float32) [][]int {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByIntFloat32(arr []int, f func(el int) float32) map[float32][]int {
+	result := make(map[float32][]int)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -12115,6 +14047,20 @@ func ChunkByIntFloat64(arr []int, f func(el int) float64) [][]int {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByIntFloat64(arr []int, f func(el int) float64) map[float64][]int {
+	result := make(map[float64][]int)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntInt16(arr []int, f func(el int) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -12174,6 +14120,20 @@ func ChunkByIntInt16(arr []int, f func(el int) int16) [][]int {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByIntInt16(arr []int, f func(el int) int16) map[int16][]int {
+	result := make(map[int16][]int)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -12237,6 +14197,20 @@ func ChunkByIntInt32(arr []int, f func(el int) int32) [][]int {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByIntInt32(arr []int, f func(el int) int32) map[int32][]int {
+	result := make(map[int32][]int)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntInt64(arr []int, f func(el int) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -12296,6 +14270,20 @@ func ChunkByIntInt64(arr []int, f func(el int) int64) [][]int {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByIntInt64(arr []int, f func(el int) int64) map[int64][]int {
+	result := make(map[int64][]int)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -12359,6 +14347,20 @@ func ChunkByIntInt8(arr []int, f func(el int) int8) [][]int {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByIntInt8(arr []int, f func(el int) int8) map[int8][]int {
+	result := make(map[int8][]int)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntInterface(arr []int, f func(el int) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -12418,6 +14420,20 @@ func ChunkByIntInterface(arr []int, f func(el int) interface{}) [][]int {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByIntInterface(arr []int, f func(el int) interface{}) map[interface{}][]int {
+	result := make(map[interface{}][]int)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -12481,6 +14497,20 @@ func ChunkByIntString(arr []int, f func(el int) string) [][]int {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByIntString(arr []int, f func(el int) string) map[string][]int {
+	result := make(map[string][]int)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntUint(arr []int, f func(el int) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -12540,6 +14570,20 @@ func ChunkByIntUint(arr []int, f func(el int) uint) [][]int {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByIntUint(arr []int, f func(el int) uint) map[uint][]int {
+	result := make(map[uint][]int)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -12603,6 +14647,20 @@ func ChunkByIntUint16(arr []int, f func(el int) uint16) [][]int {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByIntUint16(arr []int, f func(el int) uint16) map[uint16][]int {
+	result := make(map[uint16][]int)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntUint32(arr []int, f func(el int) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -12662,6 +14720,20 @@ func ChunkByIntUint32(arr []int, f func(el int) uint32) [][]int {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByIntUint32(arr []int, f func(el int) uint32) map[uint32][]int {
+	result := make(map[uint32][]int)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -12725,6 +14797,20 @@ func ChunkByIntUint64(arr []int, f func(el int) uint64) [][]int {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByIntUint64(arr []int, f func(el int) uint64) map[uint64][]int {
+	result := make(map[uint64][]int)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntUint8(arr []int, f func(el int) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -12784,6 +14870,20 @@ func ChunkByIntUint8(arr []int, f func(el int) uint8) [][]int {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByIntUint8(arr []int, f func(el int) uint8) map[uint8][]int {
+	result := make(map[uint8][]int)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -12847,6 +14947,20 @@ func ChunkByStringBool(arr []string, f func(el string) bool) [][]string {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByStringBool(arr []string, f func(el string) bool) map[bool][]string {
+	result := make(map[bool][]string)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]string, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringByte(arr []string, f func(el string) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -12906,6 +15020,20 @@ func ChunkByStringByte(arr []string, f func(el string) byte) [][]string {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByStringByte(arr []string, f func(el string) byte) map[byte][]string {
+	result := make(map[byte][]string)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]string, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -12969,6 +15097,20 @@ func ChunkByStringFloat32(arr []string, f func(el string) float32) [][]string {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByStringFloat32(arr []string, f func(el string) float32) map[float32][]string {
+	result := make(map[float32][]string)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]string, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringFloat64(arr []string, f func(el string) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -13028,6 +15170,20 @@ func ChunkByStringFloat64(arr []string, f func(el string) float64) [][]string {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByStringFloat64(arr []string, f func(el string) float64) map[float64][]string {
+	result := make(map[float64][]string)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]string, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -13091,6 +15247,20 @@ func ChunkByStringInt(arr []string, f func(el string) int) [][]string {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByStringInt(arr []string, f func(el string) int) map[int][]string {
+	result := make(map[int][]string)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]string, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringInt16(arr []string, f func(el string) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -13150,6 +15320,20 @@ func ChunkByStringInt16(arr []string, f func(el string) int16) [][]string {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByStringInt16(arr []string, f func(el string) int16) map[int16][]string {
+	result := make(map[int16][]string)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]string, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -13213,6 +15397,20 @@ func ChunkByStringInt32(arr []string, f func(el string) int32) [][]string {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByStringInt32(arr []string, f func(el string) int32) map[int32][]string {
+	result := make(map[int32][]string)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]string, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringInt64(arr []string, f func(el string) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -13272,6 +15470,20 @@ func ChunkByStringInt64(arr []string, f func(el string) int64) [][]string {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByStringInt64(arr []string, f func(el string) int64) map[int64][]string {
+	result := make(map[int64][]string)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]string, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -13335,6 +15547,20 @@ func ChunkByStringInt8(arr []string, f func(el string) int8) [][]string {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByStringInt8(arr []string, f func(el string) int8) map[int8][]string {
+	result := make(map[int8][]string)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]string, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringInterface(arr []string, f func(el string) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -13394,6 +15620,20 @@ func ChunkByStringInterface(arr []string, f func(el string) interface{}) [][]str
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByStringInterface(arr []string, f func(el string) interface{}) map[interface{}][]string {
+	result := make(map[interface{}][]string)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]string, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -13457,6 +15697,20 @@ func ChunkByStringUint(arr []string, f func(el string) uint) [][]string {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByStringUint(arr []string, f func(el string) uint) map[uint][]string {
+	result := make(map[uint][]string)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]string, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringUint16(arr []string, f func(el string) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -13516,6 +15770,20 @@ func ChunkByStringUint16(arr []string, f func(el string) uint16) [][]string {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByStringUint16(arr []string, f func(el string) uint16) map[uint16][]string {
+	result := make(map[uint16][]string)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]string, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -13579,6 +15847,20 @@ func ChunkByStringUint32(arr []string, f func(el string) uint32) [][]string {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByStringUint32(arr []string, f func(el string) uint32) map[uint32][]string {
+	result := make(map[uint32][]string)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]string, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringUint64(arr []string, f func(el string) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -13638,6 +15920,20 @@ func ChunkByStringUint64(arr []string, f func(el string) uint64) [][]string {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByStringUint64(arr []string, f func(el string) uint64) map[uint64][]string {
+	result := make(map[uint64][]string)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]string, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -13701,6 +15997,20 @@ func ChunkByStringUint8(arr []string, f func(el string) uint8) [][]string {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByStringUint8(arr []string, f func(el string) uint8) map[uint8][]string {
+	result := make(map[uint8][]string)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]string, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Bool(arr []uint16, f func(el uint16) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -13760,6 +16070,20 @@ func ChunkByUint16Bool(arr []uint16, f func(el uint16) bool) [][]uint16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint16Bool(arr []uint16, f func(el uint16) bool) map[bool][]uint16 {
+	result := make(map[bool][]uint16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -13823,6 +16147,20 @@ func ChunkByUint16Byte(arr []uint16, f func(el uint16) byte) [][]uint16 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint16Byte(arr []uint16, f func(el uint16) byte) map[byte][]uint16 {
+	result := make(map[byte][]uint16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Float32(arr []uint16, f func(el uint16) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -13882,6 +16220,20 @@ func ChunkByUint16Float32(arr []uint16, f func(el uint16) float32) [][]uint16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint16Float32(arr []uint16, f func(el uint16) float32) map[float32][]uint16 {
+	result := make(map[float32][]uint16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -13945,6 +16297,20 @@ func ChunkByUint16Float64(arr []uint16, f func(el uint16) float64) [][]uint16 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint16Float64(arr []uint16, f func(el uint16) float64) map[float64][]uint16 {
+	result := make(map[float64][]uint16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Int(arr []uint16, f func(el uint16) int) []int {
 	result := make([]int, 0, len(arr))
@@ -14004,6 +16370,20 @@ func ChunkByUint16Int(arr []uint16, f func(el uint16) int) [][]uint16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint16Int(arr []uint16, f func(el uint16) int) map[int][]uint16 {
+	result := make(map[int][]uint16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -14067,6 +16447,20 @@ func ChunkByUint16Int16(arr []uint16, f func(el uint16) int16) [][]uint16 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint16Int16(arr []uint16, f func(el uint16) int16) map[int16][]uint16 {
+	result := make(map[int16][]uint16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Int32(arr []uint16, f func(el uint16) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -14126,6 +16520,20 @@ func ChunkByUint16Int32(arr []uint16, f func(el uint16) int32) [][]uint16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint16Int32(arr []uint16, f func(el uint16) int32) map[int32][]uint16 {
+	result := make(map[int32][]uint16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -14189,6 +16597,20 @@ func ChunkByUint16Int64(arr []uint16, f func(el uint16) int64) [][]uint16 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint16Int64(arr []uint16, f func(el uint16) int64) map[int64][]uint16 {
+	result := make(map[int64][]uint16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Int8(arr []uint16, f func(el uint16) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -14248,6 +16670,20 @@ func ChunkByUint16Int8(arr []uint16, f func(el uint16) int8) [][]uint16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint16Int8(arr []uint16, f func(el uint16) int8) map[int8][]uint16 {
+	result := make(map[int8][]uint16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -14311,6 +16747,20 @@ func ChunkByUint16Interface(arr []uint16, f func(el uint16) interface{}) [][]uin
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint16Interface(arr []uint16, f func(el uint16) interface{}) map[interface{}][]uint16 {
+	result := make(map[interface{}][]uint16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16String(arr []uint16, f func(el uint16) string) []string {
 	result := make([]string, 0, len(arr))
@@ -14370,6 +16820,20 @@ func ChunkByUint16String(arr []uint16, f func(el uint16) string) [][]uint16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint16String(arr []uint16, f func(el uint16) string) map[string][]uint16 {
+	result := make(map[string][]uint16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -14433,6 +16897,20 @@ func ChunkByUint16Uint(arr []uint16, f func(el uint16) uint) [][]uint16 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint16Uint(arr []uint16, f func(el uint16) uint) map[uint][]uint16 {
+	result := make(map[uint][]uint16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Uint32(arr []uint16, f func(el uint16) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -14492,6 +16970,20 @@ func ChunkByUint16Uint32(arr []uint16, f func(el uint16) uint32) [][]uint16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint16Uint32(arr []uint16, f func(el uint16) uint32) map[uint32][]uint16 {
+	result := make(map[uint32][]uint16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -14555,6 +17047,20 @@ func ChunkByUint16Uint64(arr []uint16, f func(el uint16) uint64) [][]uint16 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint16Uint64(arr []uint16, f func(el uint16) uint64) map[uint64][]uint16 {
+	result := make(map[uint64][]uint16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Uint8(arr []uint16, f func(el uint16) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -14614,6 +17120,20 @@ func ChunkByUint16Uint8(arr []uint16, f func(el uint16) uint8) [][]uint16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint16Uint8(arr []uint16, f func(el uint16) uint8) map[uint8][]uint16 {
+	result := make(map[uint8][]uint16)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -14677,6 +17197,20 @@ func ChunkByUint32Bool(arr []uint32, f func(el uint32) bool) [][]uint32 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint32Bool(arr []uint32, f func(el uint32) bool) map[bool][]uint32 {
+	result := make(map[bool][]uint32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Byte(arr []uint32, f func(el uint32) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -14736,6 +17270,20 @@ func ChunkByUint32Byte(arr []uint32, f func(el uint32) byte) [][]uint32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint32Byte(arr []uint32, f func(el uint32) byte) map[byte][]uint32 {
+	result := make(map[byte][]uint32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -14799,6 +17347,20 @@ func ChunkByUint32Float32(arr []uint32, f func(el uint32) float32) [][]uint32 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint32Float32(arr []uint32, f func(el uint32) float32) map[float32][]uint32 {
+	result := make(map[float32][]uint32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Float64(arr []uint32, f func(el uint32) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -14858,6 +17420,20 @@ func ChunkByUint32Float64(arr []uint32, f func(el uint32) float64) [][]uint32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint32Float64(arr []uint32, f func(el uint32) float64) map[float64][]uint32 {
+	result := make(map[float64][]uint32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -14921,6 +17497,20 @@ func ChunkByUint32Int(arr []uint32, f func(el uint32) int) [][]uint32 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint32Int(arr []uint32, f func(el uint32) int) map[int][]uint32 {
+	result := make(map[int][]uint32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Int16(arr []uint32, f func(el uint32) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -14980,6 +17570,20 @@ func ChunkByUint32Int16(arr []uint32, f func(el uint32) int16) [][]uint32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint32Int16(arr []uint32, f func(el uint32) int16) map[int16][]uint32 {
+	result := make(map[int16][]uint32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -15043,6 +17647,20 @@ func ChunkByUint32Int32(arr []uint32, f func(el uint32) int32) [][]uint32 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint32Int32(arr []uint32, f func(el uint32) int32) map[int32][]uint32 {
+	result := make(map[int32][]uint32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Int64(arr []uint32, f func(el uint32) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -15102,6 +17720,20 @@ func ChunkByUint32Int64(arr []uint32, f func(el uint32) int64) [][]uint32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint32Int64(arr []uint32, f func(el uint32) int64) map[int64][]uint32 {
+	result := make(map[int64][]uint32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -15165,6 +17797,20 @@ func ChunkByUint32Int8(arr []uint32, f func(el uint32) int8) [][]uint32 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint32Int8(arr []uint32, f func(el uint32) int8) map[int8][]uint32 {
+	result := make(map[int8][]uint32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Interface(arr []uint32, f func(el uint32) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -15224,6 +17870,20 @@ func ChunkByUint32Interface(arr []uint32, f func(el uint32) interface{}) [][]uin
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint32Interface(arr []uint32, f func(el uint32) interface{}) map[interface{}][]uint32 {
+	result := make(map[interface{}][]uint32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -15287,6 +17947,20 @@ func ChunkByUint32String(arr []uint32, f func(el uint32) string) [][]uint32 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint32String(arr []uint32, f func(el uint32) string) map[string][]uint32 {
+	result := make(map[string][]uint32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Uint(arr []uint32, f func(el uint32) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -15346,6 +18020,20 @@ func ChunkByUint32Uint(arr []uint32, f func(el uint32) uint) [][]uint32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint32Uint(arr []uint32, f func(el uint32) uint) map[uint][]uint32 {
+	result := make(map[uint][]uint32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -15409,6 +18097,20 @@ func ChunkByUint32Uint16(arr []uint32, f func(el uint32) uint16) [][]uint32 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint32Uint16(arr []uint32, f func(el uint32) uint16) map[uint16][]uint32 {
+	result := make(map[uint16][]uint32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Uint64(arr []uint32, f func(el uint32) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -15468,6 +18170,20 @@ func ChunkByUint32Uint64(arr []uint32, f func(el uint32) uint64) [][]uint32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint32Uint64(arr []uint32, f func(el uint32) uint64) map[uint64][]uint32 {
+	result := make(map[uint64][]uint32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -15531,6 +18247,20 @@ func ChunkByUint32Uint8(arr []uint32, f func(el uint32) uint8) [][]uint32 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint32Uint8(arr []uint32, f func(el uint32) uint8) map[uint8][]uint32 {
+	result := make(map[uint8][]uint32)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Bool(arr []uint64, f func(el uint64) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -15590,6 +18320,20 @@ func ChunkByUint64Bool(arr []uint64, f func(el uint64) bool) [][]uint64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint64Bool(arr []uint64, f func(el uint64) bool) map[bool][]uint64 {
+	result := make(map[bool][]uint64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -15653,6 +18397,20 @@ func ChunkByUint64Byte(arr []uint64, f func(el uint64) byte) [][]uint64 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint64Byte(arr []uint64, f func(el uint64) byte) map[byte][]uint64 {
+	result := make(map[byte][]uint64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Float32(arr []uint64, f func(el uint64) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -15712,6 +18470,20 @@ func ChunkByUint64Float32(arr []uint64, f func(el uint64) float32) [][]uint64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint64Float32(arr []uint64, f func(el uint64) float32) map[float32][]uint64 {
+	result := make(map[float32][]uint64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -15775,6 +18547,20 @@ func ChunkByUint64Float64(arr []uint64, f func(el uint64) float64) [][]uint64 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint64Float64(arr []uint64, f func(el uint64) float64) map[float64][]uint64 {
+	result := make(map[float64][]uint64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Int(arr []uint64, f func(el uint64) int) []int {
 	result := make([]int, 0, len(arr))
@@ -15834,6 +18620,20 @@ func ChunkByUint64Int(arr []uint64, f func(el uint64) int) [][]uint64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint64Int(arr []uint64, f func(el uint64) int) map[int][]uint64 {
+	result := make(map[int][]uint64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -15897,6 +18697,20 @@ func ChunkByUint64Int16(arr []uint64, f func(el uint64) int16) [][]uint64 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint64Int16(arr []uint64, f func(el uint64) int16) map[int16][]uint64 {
+	result := make(map[int16][]uint64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Int32(arr []uint64, f func(el uint64) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -15956,6 +18770,20 @@ func ChunkByUint64Int32(arr []uint64, f func(el uint64) int32) [][]uint64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint64Int32(arr []uint64, f func(el uint64) int32) map[int32][]uint64 {
+	result := make(map[int32][]uint64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -16019,6 +18847,20 @@ func ChunkByUint64Int64(arr []uint64, f func(el uint64) int64) [][]uint64 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint64Int64(arr []uint64, f func(el uint64) int64) map[int64][]uint64 {
+	result := make(map[int64][]uint64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Int8(arr []uint64, f func(el uint64) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -16078,6 +18920,20 @@ func ChunkByUint64Int8(arr []uint64, f func(el uint64) int8) [][]uint64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint64Int8(arr []uint64, f func(el uint64) int8) map[int8][]uint64 {
+	result := make(map[int8][]uint64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -16141,6 +18997,20 @@ func ChunkByUint64Interface(arr []uint64, f func(el uint64) interface{}) [][]uin
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint64Interface(arr []uint64, f func(el uint64) interface{}) map[interface{}][]uint64 {
+	result := make(map[interface{}][]uint64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64String(arr []uint64, f func(el uint64) string) []string {
 	result := make([]string, 0, len(arr))
@@ -16200,6 +19070,20 @@ func ChunkByUint64String(arr []uint64, f func(el uint64) string) [][]uint64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint64String(arr []uint64, f func(el uint64) string) map[string][]uint64 {
+	result := make(map[string][]uint64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -16263,6 +19147,20 @@ func ChunkByUint64Uint(arr []uint64, f func(el uint64) uint) [][]uint64 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint64Uint(arr []uint64, f func(el uint64) uint) map[uint][]uint64 {
+	result := make(map[uint][]uint64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Uint16(arr []uint64, f func(el uint64) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -16322,6 +19220,20 @@ func ChunkByUint64Uint16(arr []uint64, f func(el uint64) uint16) [][]uint64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint64Uint16(arr []uint64, f func(el uint64) uint16) map[uint16][]uint64 {
+	result := make(map[uint16][]uint64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -16385,6 +19297,20 @@ func ChunkByUint64Uint32(arr []uint64, f func(el uint64) uint32) [][]uint64 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint64Uint32(arr []uint64, f func(el uint64) uint32) map[uint32][]uint64 {
+	result := make(map[uint32][]uint64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Uint8(arr []uint64, f func(el uint64) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -16444,6 +19370,20 @@ func ChunkByUint64Uint8(arr []uint64, f func(el uint64) uint8) [][]uint64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint64Uint8(arr []uint64, f func(el uint64) uint8) map[uint8][]uint64 {
+	result := make(map[uint8][]uint64)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -16507,6 +19447,20 @@ func ChunkByUint8Bool(arr []uint8, f func(el uint8) bool) [][]uint8 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint8Bool(arr []uint8, f func(el uint8) bool) map[bool][]uint8 {
+	result := make(map[bool][]uint8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Byte(arr []uint8, f func(el uint8) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -16566,6 +19520,20 @@ func ChunkByUint8Byte(arr []uint8, f func(el uint8) byte) [][]uint8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint8Byte(arr []uint8, f func(el uint8) byte) map[byte][]uint8 {
+	result := make(map[byte][]uint8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -16629,6 +19597,20 @@ func ChunkByUint8Float32(arr []uint8, f func(el uint8) float32) [][]uint8 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint8Float32(arr []uint8, f func(el uint8) float32) map[float32][]uint8 {
+	result := make(map[float32][]uint8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Float64(arr []uint8, f func(el uint8) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -16688,6 +19670,20 @@ func ChunkByUint8Float64(arr []uint8, f func(el uint8) float64) [][]uint8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint8Float64(arr []uint8, f func(el uint8) float64) map[float64][]uint8 {
+	result := make(map[float64][]uint8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -16751,6 +19747,20 @@ func ChunkByUint8Int(arr []uint8, f func(el uint8) int) [][]uint8 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint8Int(arr []uint8, f func(el uint8) int) map[int][]uint8 {
+	result := make(map[int][]uint8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Int16(arr []uint8, f func(el uint8) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -16810,6 +19820,20 @@ func ChunkByUint8Int16(arr []uint8, f func(el uint8) int16) [][]uint8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint8Int16(arr []uint8, f func(el uint8) int16) map[int16][]uint8 {
+	result := make(map[int16][]uint8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -16873,6 +19897,20 @@ func ChunkByUint8Int32(arr []uint8, f func(el uint8) int32) [][]uint8 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint8Int32(arr []uint8, f func(el uint8) int32) map[int32][]uint8 {
+	result := make(map[int32][]uint8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Int64(arr []uint8, f func(el uint8) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -16932,6 +19970,20 @@ func ChunkByUint8Int64(arr []uint8, f func(el uint8) int64) [][]uint8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint8Int64(arr []uint8, f func(el uint8) int64) map[int64][]uint8 {
+	result := make(map[int64][]uint8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -16995,6 +20047,20 @@ func ChunkByUint8Int8(arr []uint8, f func(el uint8) int8) [][]uint8 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint8Int8(arr []uint8, f func(el uint8) int8) map[int8][]uint8 {
+	result := make(map[int8][]uint8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Interface(arr []uint8, f func(el uint8) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -17054,6 +20120,20 @@ func ChunkByUint8Interface(arr []uint8, f func(el uint8) interface{}) [][]uint8 
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint8Interface(arr []uint8, f func(el uint8) interface{}) map[interface{}][]uint8 {
+	result := make(map[interface{}][]uint8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -17117,6 +20197,20 @@ func ChunkByUint8String(arr []uint8, f func(el uint8) string) [][]uint8 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint8String(arr []uint8, f func(el uint8) string) map[string][]uint8 {
+	result := make(map[string][]uint8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Uint(arr []uint8, f func(el uint8) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -17176,6 +20270,20 @@ func ChunkByUint8Uint(arr []uint8, f func(el uint8) uint) [][]uint8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint8Uint(arr []uint8, f func(el uint8) uint) map[uint][]uint8 {
+	result := make(map[uint][]uint8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -17239,6 +20347,20 @@ func ChunkByUint8Uint16(arr []uint8, f func(el uint8) uint16) [][]uint8 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint8Uint16(arr []uint8, f func(el uint8) uint16) map[uint16][]uint8 {
+	result := make(map[uint16][]uint8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Uint32(arr []uint8, f func(el uint8) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -17298,6 +20420,20 @@ func ChunkByUint8Uint32(arr []uint8, f func(el uint8) uint32) [][]uint8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUint8Uint32(arr []uint8, f func(el uint8) uint32) map[uint32][]uint8 {
+	result := make(map[uint32][]uint8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -17361,6 +20497,20 @@ func ChunkByUint8Uint64(arr []uint8, f func(el uint8) uint64) [][]uint8 {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUint8Uint64(arr []uint8, f func(el uint8) uint64) map[uint64][]uint8 {
+	result := make(map[uint64][]uint8)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintBool(arr []uint, f func(el uint) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -17420,6 +20570,20 @@ func ChunkByUintBool(arr []uint, f func(el uint) bool) [][]uint {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUintBool(arr []uint, f func(el uint) bool) map[bool][]uint {
+	result := make(map[bool][]uint)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -17483,6 +20647,20 @@ func ChunkByUintByte(arr []uint, f func(el uint) byte) [][]uint {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUintByte(arr []uint, f func(el uint) byte) map[byte][]uint {
+	result := make(map[byte][]uint)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintFloat32(arr []uint, f func(el uint) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -17542,6 +20720,20 @@ func ChunkByUintFloat32(arr []uint, f func(el uint) float32) [][]uint {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUintFloat32(arr []uint, f func(el uint) float32) map[float32][]uint {
+	result := make(map[float32][]uint)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -17605,6 +20797,20 @@ func ChunkByUintFloat64(arr []uint, f func(el uint) float64) [][]uint {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUintFloat64(arr []uint, f func(el uint) float64) map[float64][]uint {
+	result := make(map[float64][]uint)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintInt(arr []uint, f func(el uint) int) []int {
 	result := make([]int, 0, len(arr))
@@ -17664,6 +20870,20 @@ func ChunkByUintInt(arr []uint, f func(el uint) int) [][]uint {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUintInt(arr []uint, f func(el uint) int) map[int][]uint {
+	result := make(map[int][]uint)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -17727,6 +20947,20 @@ func ChunkByUintInt16(arr []uint, f func(el uint) int16) [][]uint {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUintInt16(arr []uint, f func(el uint) int16) map[int16][]uint {
+	result := make(map[int16][]uint)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintInt32(arr []uint, f func(el uint) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -17786,6 +21020,20 @@ func ChunkByUintInt32(arr []uint, f func(el uint) int32) [][]uint {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUintInt32(arr []uint, f func(el uint) int32) map[int32][]uint {
+	result := make(map[int32][]uint)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -17849,6 +21097,20 @@ func ChunkByUintInt64(arr []uint, f func(el uint) int64) [][]uint {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUintInt64(arr []uint, f func(el uint) int64) map[int64][]uint {
+	result := make(map[int64][]uint)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintInt8(arr []uint, f func(el uint) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -17908,6 +21170,20 @@ func ChunkByUintInt8(arr []uint, f func(el uint) int8) [][]uint {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUintInt8(arr []uint, f func(el uint) int8) map[int8][]uint {
+	result := make(map[int8][]uint)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -17971,6 +21247,20 @@ func ChunkByUintInterface(arr []uint, f func(el uint) interface{}) [][]uint {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUintInterface(arr []uint, f func(el uint) interface{}) map[interface{}][]uint {
+	result := make(map[interface{}][]uint)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintString(arr []uint, f func(el uint) string) []string {
 	result := make([]string, 0, len(arr))
@@ -18030,6 +21320,20 @@ func ChunkByUintString(arr []uint, f func(el uint) string) [][]uint {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUintString(arr []uint, f func(el uint) string) map[string][]uint {
+	result := make(map[string][]uint)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -18093,6 +21397,20 @@ func ChunkByUintUint16(arr []uint, f func(el uint) uint16) [][]uint {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUintUint16(arr []uint, f func(el uint) uint16) map[uint16][]uint {
+	result := make(map[uint16][]uint)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintUint32(arr []uint, f func(el uint) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -18152,6 +21470,20 @@ func ChunkByUintUint32(arr []uint, f func(el uint) uint32) [][]uint {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUintUint32(arr []uint, f func(el uint) uint32) map[uint32][]uint {
+	result := make(map[uint32][]uint)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -18215,6 +21547,20 @@ func ChunkByUintUint64(arr []uint, f func(el uint) uint64) [][]uint {
 	return chunks
 }
 
+// GroupBy groups element from array by value returned by f
+func GroupByUintUint64(arr []uint, f func(el uint) uint64) map[uint64][]uint {
+	result := make(map[uint64][]uint)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintUint8(arr []uint, f func(el uint) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -18274,4 +21620,18 @@ func ChunkByUintUint8(arr []uint, f func(el uint) uint8) [][]uint {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// GroupBy groups element from array by value returned by f
+func GroupByUintUint8(arr []uint, f func(el uint) uint8) map[uint8][]uint {
+	result := make(map[uint8][]uint)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
 }

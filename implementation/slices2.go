@@ -60,3 +60,17 @@ func ChunkBy(arr []T, f func(el T) G) [][]T {
 	}
 	return chunks
 }
+
+// GroupBy groups element from array by value returned by f
+func GroupBy(arr []T, f func(el T) G) map[G][]T {
+	result := make(map[G][]T)
+	for _, el := range arr {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]T, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
