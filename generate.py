@@ -53,6 +53,10 @@ def generate(in_path: Path, out_path: Path):
         # generate function definition for every type
         generics_count = int(module.stem[-1])
         for types in product(TYPES, repeat=generics_count):
+            # do not generate multi-generic functions with all the same types
+            if len(types) > 1 and len(set(types)) == 1:
+                continue
+
             print('   ', ', '.join(types))
             output_name = module.stem + ''.join(types).replace('{', '').replace('}', '')
             cmd = [
