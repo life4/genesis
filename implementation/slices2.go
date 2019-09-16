@@ -37,3 +37,26 @@ func Scan2(arr []T, acc G, f func(el T, acc G) G) []G {
 	}
 	return result
 }
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkBy(arr []T, f func(el T) G) [][]T {
+	chunks := make([][]T, 0)
+	chunk := make([]T, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]T, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}

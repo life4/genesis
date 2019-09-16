@@ -3290,6 +3290,29 @@ func ScanBoolByte(arr []bool, acc byte, f func(el bool, acc byte) byte) []byte {
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByBoolByte(arr []bool, f func(el bool) byte) [][]bool {
+	chunks := make([][]bool, 0)
+	chunk := make([]bool, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]bool, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolFloat32(arr []bool, f func(el bool) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -3326,6 +3349,29 @@ func ScanBoolFloat32(arr []bool, acc float32, f func(el bool, acc float32) float
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByBoolFloat32(arr []bool, f func(el bool) float32) [][]bool {
+	chunks := make([][]bool, 0)
+	chunk := make([]bool, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]bool, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3366,6 +3412,29 @@ func ScanBoolFloat64(arr []bool, acc float64, f func(el bool, acc float64) float
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByBoolFloat64(arr []bool, f func(el bool) float64) [][]bool {
+	chunks := make([][]bool, 0)
+	chunk := make([]bool, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]bool, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolInt(arr []bool, f func(el bool) int) []int {
 	result := make([]int, 0, len(arr))
@@ -3402,6 +3471,29 @@ func ScanBoolInt(arr []bool, acc int, f func(el bool, acc int) int) []int {
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByBoolInt(arr []bool, f func(el bool) int) [][]bool {
+	chunks := make([][]bool, 0)
+	chunk := make([]bool, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]bool, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3442,6 +3534,29 @@ func ScanBoolInt16(arr []bool, acc int16, f func(el bool, acc int16) int16) []in
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByBoolInt16(arr []bool, f func(el bool) int16) [][]bool {
+	chunks := make([][]bool, 0)
+	chunk := make([]bool, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]bool, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolInt32(arr []bool, f func(el bool) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -3478,6 +3593,29 @@ func ScanBoolInt32(arr []bool, acc int32, f func(el bool, acc int32) int32) []in
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByBoolInt32(arr []bool, f func(el bool) int32) [][]bool {
+	chunks := make([][]bool, 0)
+	chunk := make([]bool, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]bool, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3518,6 +3656,29 @@ func ScanBoolInt64(arr []bool, acc int64, f func(el bool, acc int64) int64) []in
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByBoolInt64(arr []bool, f func(el bool) int64) [][]bool {
+	chunks := make([][]bool, 0)
+	chunk := make([]bool, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]bool, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolInt8(arr []bool, f func(el bool) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -3554,6 +3715,29 @@ func ScanBoolInt8(arr []bool, acc int8, f func(el bool, acc int8) int8) []int8 {
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByBoolInt8(arr []bool, f func(el bool) int8) [][]bool {
+	chunks := make([][]bool, 0)
+	chunk := make([]bool, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]bool, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3594,6 +3778,29 @@ func ScanBoolInterface(arr []bool, acc interface{}, f func(el bool, acc interfac
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByBoolInterface(arr []bool, f func(el bool) interface{}) [][]bool {
+	chunks := make([][]bool, 0)
+	chunk := make([]bool, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]bool, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolString(arr []bool, f func(el bool) string) []string {
 	result := make([]string, 0, len(arr))
@@ -3630,6 +3837,29 @@ func ScanBoolString(arr []bool, acc string, f func(el bool, acc string) string) 
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByBoolString(arr []bool, f func(el bool) string) [][]bool {
+	chunks := make([][]bool, 0)
+	chunk := make([]bool, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]bool, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3670,6 +3900,29 @@ func ScanBoolUint(arr []bool, acc uint, f func(el bool, acc uint) uint) []uint {
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByBoolUint(arr []bool, f func(el bool) uint) [][]bool {
+	chunks := make([][]bool, 0)
+	chunk := make([]bool, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]bool, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolUint16(arr []bool, f func(el bool) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -3706,6 +3959,29 @@ func ScanBoolUint16(arr []bool, acc uint16, f func(el bool, acc uint16) uint16) 
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByBoolUint16(arr []bool, f func(el bool) uint16) [][]bool {
+	chunks := make([][]bool, 0)
+	chunk := make([]bool, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]bool, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3746,6 +4022,29 @@ func ScanBoolUint32(arr []bool, acc uint32, f func(el bool, acc uint32) uint32) 
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByBoolUint32(arr []bool, f func(el bool) uint32) [][]bool {
+	chunks := make([][]bool, 0)
+	chunk := make([]bool, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]bool, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolUint64(arr []bool, f func(el bool) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -3782,6 +4081,29 @@ func ScanBoolUint64(arr []bool, acc uint64, f func(el bool, acc uint64) uint64) 
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByBoolUint64(arr []bool, f func(el bool) uint64) [][]bool {
+	chunks := make([][]bool, 0)
+	chunk := make([]bool, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]bool, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3822,6 +4144,29 @@ func ScanBoolUint8(arr []bool, acc uint8, f func(el bool, acc uint8) uint8) []ui
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByBoolUint8(arr []bool, f func(el bool) uint8) [][]bool {
+	chunks := make([][]bool, 0)
+	chunk := make([]bool, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]bool, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteBool(arr []byte, f func(el byte) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -3858,6 +4203,29 @@ func ScanByteBool(arr []byte, acc bool, f func(el byte, acc bool) bool) []bool {
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByByteBool(arr []byte, f func(el byte) bool) [][]byte {
+	chunks := make([][]byte, 0)
+	chunk := make([]byte, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]byte, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3898,6 +4266,29 @@ func ScanByteFloat32(arr []byte, acc float32, f func(el byte, acc float32) float
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByByteFloat32(arr []byte, f func(el byte) float32) [][]byte {
+	chunks := make([][]byte, 0)
+	chunk := make([]byte, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]byte, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteFloat64(arr []byte, f func(el byte) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -3934,6 +4325,29 @@ func ScanByteFloat64(arr []byte, acc float64, f func(el byte, acc float64) float
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByByteFloat64(arr []byte, f func(el byte) float64) [][]byte {
+	chunks := make([][]byte, 0)
+	chunk := make([]byte, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]byte, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3974,6 +4388,29 @@ func ScanByteInt(arr []byte, acc int, f func(el byte, acc int) int) []int {
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByByteInt(arr []byte, f func(el byte) int) [][]byte {
+	chunks := make([][]byte, 0)
+	chunk := make([]byte, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]byte, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteInt16(arr []byte, f func(el byte) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -4010,6 +4447,29 @@ func ScanByteInt16(arr []byte, acc int16, f func(el byte, acc int16) int16) []in
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByByteInt16(arr []byte, f func(el byte) int16) [][]byte {
+	chunks := make([][]byte, 0)
+	chunk := make([]byte, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]byte, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4050,6 +4510,29 @@ func ScanByteInt32(arr []byte, acc int32, f func(el byte, acc int32) int32) []in
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByByteInt32(arr []byte, f func(el byte) int32) [][]byte {
+	chunks := make([][]byte, 0)
+	chunk := make([]byte, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]byte, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteInt64(arr []byte, f func(el byte) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -4086,6 +4569,29 @@ func ScanByteInt64(arr []byte, acc int64, f func(el byte, acc int64) int64) []in
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByByteInt64(arr []byte, f func(el byte) int64) [][]byte {
+	chunks := make([][]byte, 0)
+	chunk := make([]byte, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]byte, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4126,6 +4632,29 @@ func ScanByteInt8(arr []byte, acc int8, f func(el byte, acc int8) int8) []int8 {
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByByteInt8(arr []byte, f func(el byte) int8) [][]byte {
+	chunks := make([][]byte, 0)
+	chunk := make([]byte, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]byte, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteInterface(arr []byte, f func(el byte) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -4162,6 +4691,29 @@ func ScanByteInterface(arr []byte, acc interface{}, f func(el byte, acc interfac
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByByteInterface(arr []byte, f func(el byte) interface{}) [][]byte {
+	chunks := make([][]byte, 0)
+	chunk := make([]byte, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]byte, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4202,6 +4754,29 @@ func ScanByteString(arr []byte, acc string, f func(el byte, acc string) string) 
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByByteString(arr []byte, f func(el byte) string) [][]byte {
+	chunks := make([][]byte, 0)
+	chunk := make([]byte, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]byte, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteUint(arr []byte, f func(el byte) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -4238,6 +4813,29 @@ func ScanByteUint(arr []byte, acc uint, f func(el byte, acc uint) uint) []uint {
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByByteUint(arr []byte, f func(el byte) uint) [][]byte {
+	chunks := make([][]byte, 0)
+	chunk := make([]byte, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]byte, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4278,6 +4876,29 @@ func ScanByteUint16(arr []byte, acc uint16, f func(el byte, acc uint16) uint16) 
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByByteUint16(arr []byte, f func(el byte) uint16) [][]byte {
+	chunks := make([][]byte, 0)
+	chunk := make([]byte, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]byte, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteUint32(arr []byte, f func(el byte) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -4314,6 +4935,29 @@ func ScanByteUint32(arr []byte, acc uint32, f func(el byte, acc uint32) uint32) 
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByByteUint32(arr []byte, f func(el byte) uint32) [][]byte {
+	chunks := make([][]byte, 0)
+	chunk := make([]byte, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]byte, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4354,6 +4998,29 @@ func ScanByteUint64(arr []byte, acc uint64, f func(el byte, acc uint64) uint64) 
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByByteUint64(arr []byte, f func(el byte) uint64) [][]byte {
+	chunks := make([][]byte, 0)
+	chunk := make([]byte, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]byte, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteUint8(arr []byte, f func(el byte) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -4390,6 +5057,29 @@ func ScanByteUint8(arr []byte, acc uint8, f func(el byte, acc uint8) uint8) []ui
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByByteUint8(arr []byte, f func(el byte) uint8) [][]byte {
+	chunks := make([][]byte, 0)
+	chunk := make([]byte, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]byte, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4430,6 +5120,29 @@ func ScanFloat32Bool(arr []float32, acc bool, f func(el float32, acc bool) bool)
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat32Bool(arr []float32, f func(el float32) bool) [][]float32 {
+	chunks := make([][]float32, 0)
+	chunk := make([]float32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Byte(arr []float32, f func(el float32) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -4466,6 +5179,29 @@ func ScanFloat32Byte(arr []float32, acc byte, f func(el float32, acc byte) byte)
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat32Byte(arr []float32, f func(el float32) byte) [][]float32 {
+	chunks := make([][]float32, 0)
+	chunk := make([]float32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4506,6 +5242,29 @@ func ScanFloat32Float64(arr []float32, acc float64, f func(el float32, acc float
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat32Float64(arr []float32, f func(el float32) float64) [][]float32 {
+	chunks := make([][]float32, 0)
+	chunk := make([]float32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Int(arr []float32, f func(el float32) int) []int {
 	result := make([]int, 0, len(arr))
@@ -4542,6 +5301,29 @@ func ScanFloat32Int(arr []float32, acc int, f func(el float32, acc int) int) []i
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat32Int(arr []float32, f func(el float32) int) [][]float32 {
+	chunks := make([][]float32, 0)
+	chunk := make([]float32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4582,6 +5364,29 @@ func ScanFloat32Int16(arr []float32, acc int16, f func(el float32, acc int16) in
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat32Int16(arr []float32, f func(el float32) int16) [][]float32 {
+	chunks := make([][]float32, 0)
+	chunk := make([]float32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Int32(arr []float32, f func(el float32) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -4618,6 +5423,29 @@ func ScanFloat32Int32(arr []float32, acc int32, f func(el float32, acc int32) in
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat32Int32(arr []float32, f func(el float32) int32) [][]float32 {
+	chunks := make([][]float32, 0)
+	chunk := make([]float32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4658,6 +5486,29 @@ func ScanFloat32Int64(arr []float32, acc int64, f func(el float32, acc int64) in
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat32Int64(arr []float32, f func(el float32) int64) [][]float32 {
+	chunks := make([][]float32, 0)
+	chunk := make([]float32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Int8(arr []float32, f func(el float32) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -4694,6 +5545,29 @@ func ScanFloat32Int8(arr []float32, acc int8, f func(el float32, acc int8) int8)
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat32Int8(arr []float32, f func(el float32) int8) [][]float32 {
+	chunks := make([][]float32, 0)
+	chunk := make([]float32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4734,6 +5608,29 @@ func ScanFloat32Interface(arr []float32, acc interface{}, f func(el float32, acc
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat32Interface(arr []float32, f func(el float32) interface{}) [][]float32 {
+	chunks := make([][]float32, 0)
+	chunk := make([]float32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32String(arr []float32, f func(el float32) string) []string {
 	result := make([]string, 0, len(arr))
@@ -4770,6 +5667,29 @@ func ScanFloat32String(arr []float32, acc string, f func(el float32, acc string)
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat32String(arr []float32, f func(el float32) string) [][]float32 {
+	chunks := make([][]float32, 0)
+	chunk := make([]float32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4810,6 +5730,29 @@ func ScanFloat32Uint(arr []float32, acc uint, f func(el float32, acc uint) uint)
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat32Uint(arr []float32, f func(el float32) uint) [][]float32 {
+	chunks := make([][]float32, 0)
+	chunk := make([]float32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Uint16(arr []float32, f func(el float32) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -4846,6 +5789,29 @@ func ScanFloat32Uint16(arr []float32, acc uint16, f func(el float32, acc uint16)
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat32Uint16(arr []float32, f func(el float32) uint16) [][]float32 {
+	chunks := make([][]float32, 0)
+	chunk := make([]float32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4886,6 +5852,29 @@ func ScanFloat32Uint32(arr []float32, acc uint32, f func(el float32, acc uint32)
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat32Uint32(arr []float32, f func(el float32) uint32) [][]float32 {
+	chunks := make([][]float32, 0)
+	chunk := make([]float32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Uint64(arr []float32, f func(el float32) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -4922,6 +5911,29 @@ func ScanFloat32Uint64(arr []float32, acc uint64, f func(el float32, acc uint64)
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat32Uint64(arr []float32, f func(el float32) uint64) [][]float32 {
+	chunks := make([][]float32, 0)
+	chunk := make([]float32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4962,6 +5974,29 @@ func ScanFloat32Uint8(arr []float32, acc uint8, f func(el float32, acc uint8) ui
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat32Uint8(arr []float32, f func(el float32) uint8) [][]float32 {
+	chunks := make([][]float32, 0)
+	chunk := make([]float32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Bool(arr []float64, f func(el float64) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -4998,6 +6033,29 @@ func ScanFloat64Bool(arr []float64, acc bool, f func(el float64, acc bool) bool)
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat64Bool(arr []float64, f func(el float64) bool) [][]float64 {
+	chunks := make([][]float64, 0)
+	chunk := make([]float64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5038,6 +6096,29 @@ func ScanFloat64Byte(arr []float64, acc byte, f func(el float64, acc byte) byte)
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat64Byte(arr []float64, f func(el float64) byte) [][]float64 {
+	chunks := make([][]float64, 0)
+	chunk := make([]float64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Float32(arr []float64, f func(el float64) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -5074,6 +6155,29 @@ func ScanFloat64Float32(arr []float64, acc float32, f func(el float64, acc float
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat64Float32(arr []float64, f func(el float64) float32) [][]float64 {
+	chunks := make([][]float64, 0)
+	chunk := make([]float64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5114,6 +6218,29 @@ func ScanFloat64Int(arr []float64, acc int, f func(el float64, acc int) int) []i
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat64Int(arr []float64, f func(el float64) int) [][]float64 {
+	chunks := make([][]float64, 0)
+	chunk := make([]float64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Int16(arr []float64, f func(el float64) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -5150,6 +6277,29 @@ func ScanFloat64Int16(arr []float64, acc int16, f func(el float64, acc int16) in
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat64Int16(arr []float64, f func(el float64) int16) [][]float64 {
+	chunks := make([][]float64, 0)
+	chunk := make([]float64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5190,6 +6340,29 @@ func ScanFloat64Int32(arr []float64, acc int32, f func(el float64, acc int32) in
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat64Int32(arr []float64, f func(el float64) int32) [][]float64 {
+	chunks := make([][]float64, 0)
+	chunk := make([]float64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Int64(arr []float64, f func(el float64) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -5226,6 +6399,29 @@ func ScanFloat64Int64(arr []float64, acc int64, f func(el float64, acc int64) in
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat64Int64(arr []float64, f func(el float64) int64) [][]float64 {
+	chunks := make([][]float64, 0)
+	chunk := make([]float64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5266,6 +6462,29 @@ func ScanFloat64Int8(arr []float64, acc int8, f func(el float64, acc int8) int8)
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat64Int8(arr []float64, f func(el float64) int8) [][]float64 {
+	chunks := make([][]float64, 0)
+	chunk := make([]float64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Interface(arr []float64, f func(el float64) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -5302,6 +6521,29 @@ func ScanFloat64Interface(arr []float64, acc interface{}, f func(el float64, acc
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat64Interface(arr []float64, f func(el float64) interface{}) [][]float64 {
+	chunks := make([][]float64, 0)
+	chunk := make([]float64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5342,6 +6584,29 @@ func ScanFloat64String(arr []float64, acc string, f func(el float64, acc string)
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat64String(arr []float64, f func(el float64) string) [][]float64 {
+	chunks := make([][]float64, 0)
+	chunk := make([]float64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Uint(arr []float64, f func(el float64) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -5378,6 +6643,29 @@ func ScanFloat64Uint(arr []float64, acc uint, f func(el float64, acc uint) uint)
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat64Uint(arr []float64, f func(el float64) uint) [][]float64 {
+	chunks := make([][]float64, 0)
+	chunk := make([]float64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5418,6 +6706,29 @@ func ScanFloat64Uint16(arr []float64, acc uint16, f func(el float64, acc uint16)
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat64Uint16(arr []float64, f func(el float64) uint16) [][]float64 {
+	chunks := make([][]float64, 0)
+	chunk := make([]float64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Uint32(arr []float64, f func(el float64) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -5454,6 +6765,29 @@ func ScanFloat64Uint32(arr []float64, acc uint32, f func(el float64, acc uint32)
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat64Uint32(arr []float64, f func(el float64) uint32) [][]float64 {
+	chunks := make([][]float64, 0)
+	chunk := make([]float64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5494,6 +6828,29 @@ func ScanFloat64Uint64(arr []float64, acc uint64, f func(el float64, acc uint64)
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat64Uint64(arr []float64, f func(el float64) uint64) [][]float64 {
+	chunks := make([][]float64, 0)
+	chunk := make([]float64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Uint8(arr []float64, f func(el float64) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -5530,6 +6887,29 @@ func ScanFloat64Uint8(arr []float64, acc uint8, f func(el float64, acc uint8) ui
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByFloat64Uint8(arr []float64, f func(el float64) uint8) [][]float64 {
+	chunks := make([][]float64, 0)
+	chunk := make([]float64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5570,6 +6950,29 @@ func ScanInt16Bool(arr []int16, acc bool, f func(el int16, acc bool) bool) []boo
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt16Bool(arr []int16, f func(el int16) bool) [][]int16 {
+	chunks := make([][]int16, 0)
+	chunk := make([]int16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Byte(arr []int16, f func(el int16) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -5606,6 +7009,29 @@ func ScanInt16Byte(arr []int16, acc byte, f func(el int16, acc byte) byte) []byt
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt16Byte(arr []int16, f func(el int16) byte) [][]int16 {
+	chunks := make([][]int16, 0)
+	chunk := make([]int16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5646,6 +7072,29 @@ func ScanInt16Float32(arr []int16, acc float32, f func(el int16, acc float32) fl
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt16Float32(arr []int16, f func(el int16) float32) [][]int16 {
+	chunks := make([][]int16, 0)
+	chunk := make([]int16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Float64(arr []int16, f func(el int16) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -5682,6 +7131,29 @@ func ScanInt16Float64(arr []int16, acc float64, f func(el int16, acc float64) fl
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt16Float64(arr []int16, f func(el int16) float64) [][]int16 {
+	chunks := make([][]int16, 0)
+	chunk := make([]int16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5722,6 +7194,29 @@ func ScanInt16Int(arr []int16, acc int, f func(el int16, acc int) int) []int {
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt16Int(arr []int16, f func(el int16) int) [][]int16 {
+	chunks := make([][]int16, 0)
+	chunk := make([]int16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Int32(arr []int16, f func(el int16) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -5758,6 +7253,29 @@ func ScanInt16Int32(arr []int16, acc int32, f func(el int16, acc int32) int32) [
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt16Int32(arr []int16, f func(el int16) int32) [][]int16 {
+	chunks := make([][]int16, 0)
+	chunk := make([]int16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5798,6 +7316,29 @@ func ScanInt16Int64(arr []int16, acc int64, f func(el int16, acc int64) int64) [
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt16Int64(arr []int16, f func(el int16) int64) [][]int16 {
+	chunks := make([][]int16, 0)
+	chunk := make([]int16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Int8(arr []int16, f func(el int16) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -5834,6 +7375,29 @@ func ScanInt16Int8(arr []int16, acc int8, f func(el int16, acc int8) int8) []int
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt16Int8(arr []int16, f func(el int16) int8) [][]int16 {
+	chunks := make([][]int16, 0)
+	chunk := make([]int16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5874,6 +7438,29 @@ func ScanInt16Interface(arr []int16, acc interface{}, f func(el int16, acc inter
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt16Interface(arr []int16, f func(el int16) interface{}) [][]int16 {
+	chunks := make([][]int16, 0)
+	chunk := make([]int16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16String(arr []int16, f func(el int16) string) []string {
 	result := make([]string, 0, len(arr))
@@ -5910,6 +7497,29 @@ func ScanInt16String(arr []int16, acc string, f func(el int16, acc string) strin
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt16String(arr []int16, f func(el int16) string) [][]int16 {
+	chunks := make([][]int16, 0)
+	chunk := make([]int16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5950,6 +7560,29 @@ func ScanInt16Uint(arr []int16, acc uint, f func(el int16, acc uint) uint) []uin
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt16Uint(arr []int16, f func(el int16) uint) [][]int16 {
+	chunks := make([][]int16, 0)
+	chunk := make([]int16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Uint16(arr []int16, f func(el int16) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -5986,6 +7619,29 @@ func ScanInt16Uint16(arr []int16, acc uint16, f func(el int16, acc uint16) uint1
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt16Uint16(arr []int16, f func(el int16) uint16) [][]int16 {
+	chunks := make([][]int16, 0)
+	chunk := make([]int16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6026,6 +7682,29 @@ func ScanInt16Uint32(arr []int16, acc uint32, f func(el int16, acc uint32) uint3
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt16Uint32(arr []int16, f func(el int16) uint32) [][]int16 {
+	chunks := make([][]int16, 0)
+	chunk := make([]int16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Uint64(arr []int16, f func(el int16) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -6062,6 +7741,29 @@ func ScanInt16Uint64(arr []int16, acc uint64, f func(el int16, acc uint64) uint6
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt16Uint64(arr []int16, f func(el int16) uint64) [][]int16 {
+	chunks := make([][]int16, 0)
+	chunk := make([]int16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6102,6 +7804,29 @@ func ScanInt16Uint8(arr []int16, acc uint8, f func(el int16, acc uint8) uint8) [
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt16Uint8(arr []int16, f func(el int16) uint8) [][]int16 {
+	chunks := make([][]int16, 0)
+	chunk := make([]int16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Bool(arr []int32, f func(el int32) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -6138,6 +7863,29 @@ func ScanInt32Bool(arr []int32, acc bool, f func(el int32, acc bool) bool) []boo
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt32Bool(arr []int32, f func(el int32) bool) [][]int32 {
+	chunks := make([][]int32, 0)
+	chunk := make([]int32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6178,6 +7926,29 @@ func ScanInt32Byte(arr []int32, acc byte, f func(el int32, acc byte) byte) []byt
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt32Byte(arr []int32, f func(el int32) byte) [][]int32 {
+	chunks := make([][]int32, 0)
+	chunk := make([]int32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Float32(arr []int32, f func(el int32) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -6214,6 +7985,29 @@ func ScanInt32Float32(arr []int32, acc float32, f func(el int32, acc float32) fl
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt32Float32(arr []int32, f func(el int32) float32) [][]int32 {
+	chunks := make([][]int32, 0)
+	chunk := make([]int32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6254,6 +8048,29 @@ func ScanInt32Float64(arr []int32, acc float64, f func(el int32, acc float64) fl
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt32Float64(arr []int32, f func(el int32) float64) [][]int32 {
+	chunks := make([][]int32, 0)
+	chunk := make([]int32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Int(arr []int32, f func(el int32) int) []int {
 	result := make([]int, 0, len(arr))
@@ -6290,6 +8107,29 @@ func ScanInt32Int(arr []int32, acc int, f func(el int32, acc int) int) []int {
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt32Int(arr []int32, f func(el int32) int) [][]int32 {
+	chunks := make([][]int32, 0)
+	chunk := make([]int32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6330,6 +8170,29 @@ func ScanInt32Int16(arr []int32, acc int16, f func(el int32, acc int16) int16) [
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt32Int16(arr []int32, f func(el int32) int16) [][]int32 {
+	chunks := make([][]int32, 0)
+	chunk := make([]int32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Int64(arr []int32, f func(el int32) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -6366,6 +8229,29 @@ func ScanInt32Int64(arr []int32, acc int64, f func(el int32, acc int64) int64) [
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt32Int64(arr []int32, f func(el int32) int64) [][]int32 {
+	chunks := make([][]int32, 0)
+	chunk := make([]int32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6406,6 +8292,29 @@ func ScanInt32Int8(arr []int32, acc int8, f func(el int32, acc int8) int8) []int
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt32Int8(arr []int32, f func(el int32) int8) [][]int32 {
+	chunks := make([][]int32, 0)
+	chunk := make([]int32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Interface(arr []int32, f func(el int32) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -6442,6 +8351,29 @@ func ScanInt32Interface(arr []int32, acc interface{}, f func(el int32, acc inter
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt32Interface(arr []int32, f func(el int32) interface{}) [][]int32 {
+	chunks := make([][]int32, 0)
+	chunk := make([]int32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6482,6 +8414,29 @@ func ScanInt32String(arr []int32, acc string, f func(el int32, acc string) strin
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt32String(arr []int32, f func(el int32) string) [][]int32 {
+	chunks := make([][]int32, 0)
+	chunk := make([]int32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Uint(arr []int32, f func(el int32) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -6518,6 +8473,29 @@ func ScanInt32Uint(arr []int32, acc uint, f func(el int32, acc uint) uint) []uin
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt32Uint(arr []int32, f func(el int32) uint) [][]int32 {
+	chunks := make([][]int32, 0)
+	chunk := make([]int32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6558,6 +8536,29 @@ func ScanInt32Uint16(arr []int32, acc uint16, f func(el int32, acc uint16) uint1
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt32Uint16(arr []int32, f func(el int32) uint16) [][]int32 {
+	chunks := make([][]int32, 0)
+	chunk := make([]int32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Uint32(arr []int32, f func(el int32) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -6594,6 +8595,29 @@ func ScanInt32Uint32(arr []int32, acc uint32, f func(el int32, acc uint32) uint3
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt32Uint32(arr []int32, f func(el int32) uint32) [][]int32 {
+	chunks := make([][]int32, 0)
+	chunk := make([]int32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6634,6 +8658,29 @@ func ScanInt32Uint64(arr []int32, acc uint64, f func(el int32, acc uint64) uint6
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt32Uint64(arr []int32, f func(el int32) uint64) [][]int32 {
+	chunks := make([][]int32, 0)
+	chunk := make([]int32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Uint8(arr []int32, f func(el int32) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -6670,6 +8717,29 @@ func ScanInt32Uint8(arr []int32, acc uint8, f func(el int32, acc uint8) uint8) [
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt32Uint8(arr []int32, f func(el int32) uint8) [][]int32 {
+	chunks := make([][]int32, 0)
+	chunk := make([]int32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6710,6 +8780,29 @@ func ScanInt64Bool(arr []int64, acc bool, f func(el int64, acc bool) bool) []boo
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt64Bool(arr []int64, f func(el int64) bool) [][]int64 {
+	chunks := make([][]int64, 0)
+	chunk := make([]int64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Byte(arr []int64, f func(el int64) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -6746,6 +8839,29 @@ func ScanInt64Byte(arr []int64, acc byte, f func(el int64, acc byte) byte) []byt
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt64Byte(arr []int64, f func(el int64) byte) [][]int64 {
+	chunks := make([][]int64, 0)
+	chunk := make([]int64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6786,6 +8902,29 @@ func ScanInt64Float32(arr []int64, acc float32, f func(el int64, acc float32) fl
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt64Float32(arr []int64, f func(el int64) float32) [][]int64 {
+	chunks := make([][]int64, 0)
+	chunk := make([]int64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Float64(arr []int64, f func(el int64) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -6822,6 +8961,29 @@ func ScanInt64Float64(arr []int64, acc float64, f func(el int64, acc float64) fl
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt64Float64(arr []int64, f func(el int64) float64) [][]int64 {
+	chunks := make([][]int64, 0)
+	chunk := make([]int64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6862,6 +9024,29 @@ func ScanInt64Int(arr []int64, acc int, f func(el int64, acc int) int) []int {
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt64Int(arr []int64, f func(el int64) int) [][]int64 {
+	chunks := make([][]int64, 0)
+	chunk := make([]int64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Int16(arr []int64, f func(el int64) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -6898,6 +9083,29 @@ func ScanInt64Int16(arr []int64, acc int16, f func(el int64, acc int16) int16) [
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt64Int16(arr []int64, f func(el int64) int16) [][]int64 {
+	chunks := make([][]int64, 0)
+	chunk := make([]int64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -6938,6 +9146,29 @@ func ScanInt64Int32(arr []int64, acc int32, f func(el int64, acc int32) int32) [
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt64Int32(arr []int64, f func(el int64) int32) [][]int64 {
+	chunks := make([][]int64, 0)
+	chunk := make([]int64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Int8(arr []int64, f func(el int64) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -6974,6 +9205,29 @@ func ScanInt64Int8(arr []int64, acc int8, f func(el int64, acc int8) int8) []int
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt64Int8(arr []int64, f func(el int64) int8) [][]int64 {
+	chunks := make([][]int64, 0)
+	chunk := make([]int64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7014,6 +9268,29 @@ func ScanInt64Interface(arr []int64, acc interface{}, f func(el int64, acc inter
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt64Interface(arr []int64, f func(el int64) interface{}) [][]int64 {
+	chunks := make([][]int64, 0)
+	chunk := make([]int64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64String(arr []int64, f func(el int64) string) []string {
 	result := make([]string, 0, len(arr))
@@ -7050,6 +9327,29 @@ func ScanInt64String(arr []int64, acc string, f func(el int64, acc string) strin
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt64String(arr []int64, f func(el int64) string) [][]int64 {
+	chunks := make([][]int64, 0)
+	chunk := make([]int64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7090,6 +9390,29 @@ func ScanInt64Uint(arr []int64, acc uint, f func(el int64, acc uint) uint) []uin
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt64Uint(arr []int64, f func(el int64) uint) [][]int64 {
+	chunks := make([][]int64, 0)
+	chunk := make([]int64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Uint16(arr []int64, f func(el int64) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -7126,6 +9449,29 @@ func ScanInt64Uint16(arr []int64, acc uint16, f func(el int64, acc uint16) uint1
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt64Uint16(arr []int64, f func(el int64) uint16) [][]int64 {
+	chunks := make([][]int64, 0)
+	chunk := make([]int64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7166,6 +9512,29 @@ func ScanInt64Uint32(arr []int64, acc uint32, f func(el int64, acc uint32) uint3
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt64Uint32(arr []int64, f func(el int64) uint32) [][]int64 {
+	chunks := make([][]int64, 0)
+	chunk := make([]int64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Uint64(arr []int64, f func(el int64) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -7202,6 +9571,29 @@ func ScanInt64Uint64(arr []int64, acc uint64, f func(el int64, acc uint64) uint6
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt64Uint64(arr []int64, f func(el int64) uint64) [][]int64 {
+	chunks := make([][]int64, 0)
+	chunk := make([]int64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7242,6 +9634,29 @@ func ScanInt64Uint8(arr []int64, acc uint8, f func(el int64, acc uint8) uint8) [
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt64Uint8(arr []int64, f func(el int64) uint8) [][]int64 {
+	chunks := make([][]int64, 0)
+	chunk := make([]int64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Bool(arr []int8, f func(el int8) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -7278,6 +9693,29 @@ func ScanInt8Bool(arr []int8, acc bool, f func(el int8, acc bool) bool) []bool {
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt8Bool(arr []int8, f func(el int8) bool) [][]int8 {
+	chunks := make([][]int8, 0)
+	chunk := make([]int8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7318,6 +9756,29 @@ func ScanInt8Byte(arr []int8, acc byte, f func(el int8, acc byte) byte) []byte {
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt8Byte(arr []int8, f func(el int8) byte) [][]int8 {
+	chunks := make([][]int8, 0)
+	chunk := make([]int8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Float32(arr []int8, f func(el int8) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -7354,6 +9815,29 @@ func ScanInt8Float32(arr []int8, acc float32, f func(el int8, acc float32) float
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt8Float32(arr []int8, f func(el int8) float32) [][]int8 {
+	chunks := make([][]int8, 0)
+	chunk := make([]int8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7394,6 +9878,29 @@ func ScanInt8Float64(arr []int8, acc float64, f func(el int8, acc float64) float
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt8Float64(arr []int8, f func(el int8) float64) [][]int8 {
+	chunks := make([][]int8, 0)
+	chunk := make([]int8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Int(arr []int8, f func(el int8) int) []int {
 	result := make([]int, 0, len(arr))
@@ -7430,6 +9937,29 @@ func ScanInt8Int(arr []int8, acc int, f func(el int8, acc int) int) []int {
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt8Int(arr []int8, f func(el int8) int) [][]int8 {
+	chunks := make([][]int8, 0)
+	chunk := make([]int8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7470,6 +10000,29 @@ func ScanInt8Int16(arr []int8, acc int16, f func(el int8, acc int16) int16) []in
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt8Int16(arr []int8, f func(el int8) int16) [][]int8 {
+	chunks := make([][]int8, 0)
+	chunk := make([]int8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Int32(arr []int8, f func(el int8) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -7506,6 +10059,29 @@ func ScanInt8Int32(arr []int8, acc int32, f func(el int8, acc int32) int32) []in
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt8Int32(arr []int8, f func(el int8) int32) [][]int8 {
+	chunks := make([][]int8, 0)
+	chunk := make([]int8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7546,6 +10122,29 @@ func ScanInt8Int64(arr []int8, acc int64, f func(el int8, acc int64) int64) []in
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt8Int64(arr []int8, f func(el int8) int64) [][]int8 {
+	chunks := make([][]int8, 0)
+	chunk := make([]int8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Interface(arr []int8, f func(el int8) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -7582,6 +10181,29 @@ func ScanInt8Interface(arr []int8, acc interface{}, f func(el int8, acc interfac
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt8Interface(arr []int8, f func(el int8) interface{}) [][]int8 {
+	chunks := make([][]int8, 0)
+	chunk := make([]int8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7622,6 +10244,29 @@ func ScanInt8String(arr []int8, acc string, f func(el int8, acc string) string) 
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt8String(arr []int8, f func(el int8) string) [][]int8 {
+	chunks := make([][]int8, 0)
+	chunk := make([]int8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Uint(arr []int8, f func(el int8) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -7658,6 +10303,29 @@ func ScanInt8Uint(arr []int8, acc uint, f func(el int8, acc uint) uint) []uint {
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt8Uint(arr []int8, f func(el int8) uint) [][]int8 {
+	chunks := make([][]int8, 0)
+	chunk := make([]int8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7698,6 +10366,29 @@ func ScanInt8Uint16(arr []int8, acc uint16, f func(el int8, acc uint16) uint16) 
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt8Uint16(arr []int8, f func(el int8) uint16) [][]int8 {
+	chunks := make([][]int8, 0)
+	chunk := make([]int8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Uint32(arr []int8, f func(el int8) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -7734,6 +10425,29 @@ func ScanInt8Uint32(arr []int8, acc uint32, f func(el int8, acc uint32) uint32) 
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt8Uint32(arr []int8, f func(el int8) uint32) [][]int8 {
+	chunks := make([][]int8, 0)
+	chunk := make([]int8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7774,6 +10488,29 @@ func ScanInt8Uint64(arr []int8, acc uint64, f func(el int8, acc uint64) uint64) 
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt8Uint64(arr []int8, f func(el int8) uint64) [][]int8 {
+	chunks := make([][]int8, 0)
+	chunk := make([]int8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Uint8(arr []int8, f func(el int8) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -7810,6 +10547,29 @@ func ScanInt8Uint8(arr []int8, acc uint8, f func(el int8, acc uint8) uint8) []ui
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInt8Uint8(arr []int8, f func(el int8) uint8) [][]int8 {
+	chunks := make([][]int8, 0)
+	chunk := make([]int8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7850,6 +10610,29 @@ func ScanIntBool(arr []int, acc bool, f func(el int, acc bool) bool) []bool {
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByIntBool(arr []int, f func(el int) bool) [][]int {
+	chunks := make([][]int, 0)
+	chunk := make([]int, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntByte(arr []int, f func(el int) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -7886,6 +10669,29 @@ func ScanIntByte(arr []int, acc byte, f func(el int, acc byte) byte) []byte {
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByIntByte(arr []int, f func(el int) byte) [][]int {
+	chunks := make([][]int, 0)
+	chunk := make([]int, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -7926,6 +10732,29 @@ func ScanInterfaceBool(arr []interface{}, acc bool, f func(el interface{}, acc b
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInterfaceBool(arr []interface{}, f func(el interface{}) bool) [][]interface{} {
+	chunks := make([][]interface{}, 0)
+	chunk := make([]interface{}, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]interface{}, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceByte(arr []interface{}, f func(el interface{}) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -7962,6 +10791,29 @@ func ScanInterfaceByte(arr []interface{}, acc byte, f func(el interface{}, acc b
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInterfaceByte(arr []interface{}, f func(el interface{}) byte) [][]interface{} {
+	chunks := make([][]interface{}, 0)
+	chunk := make([]interface{}, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]interface{}, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8002,6 +10854,29 @@ func ScanInterfaceFloat32(arr []interface{}, acc float32, f func(el interface{},
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInterfaceFloat32(arr []interface{}, f func(el interface{}) float32) [][]interface{} {
+	chunks := make([][]interface{}, 0)
+	chunk := make([]interface{}, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]interface{}, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceFloat64(arr []interface{}, f func(el interface{}) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -8038,6 +10913,29 @@ func ScanInterfaceFloat64(arr []interface{}, acc float64, f func(el interface{},
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInterfaceFloat64(arr []interface{}, f func(el interface{}) float64) [][]interface{} {
+	chunks := make([][]interface{}, 0)
+	chunk := make([]interface{}, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]interface{}, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8078,6 +10976,29 @@ func ScanInterfaceInt(arr []interface{}, acc int, f func(el interface{}, acc int
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInterfaceInt(arr []interface{}, f func(el interface{}) int) [][]interface{} {
+	chunks := make([][]interface{}, 0)
+	chunk := make([]interface{}, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]interface{}, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceInt16(arr []interface{}, f func(el interface{}) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -8114,6 +11035,29 @@ func ScanInterfaceInt16(arr []interface{}, acc int16, f func(el interface{}, acc
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInterfaceInt16(arr []interface{}, f func(el interface{}) int16) [][]interface{} {
+	chunks := make([][]interface{}, 0)
+	chunk := make([]interface{}, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]interface{}, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8154,6 +11098,29 @@ func ScanInterfaceInt32(arr []interface{}, acc int32, f func(el interface{}, acc
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInterfaceInt32(arr []interface{}, f func(el interface{}) int32) [][]interface{} {
+	chunks := make([][]interface{}, 0)
+	chunk := make([]interface{}, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]interface{}, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceInt64(arr []interface{}, f func(el interface{}) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -8190,6 +11157,29 @@ func ScanInterfaceInt64(arr []interface{}, acc int64, f func(el interface{}, acc
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInterfaceInt64(arr []interface{}, f func(el interface{}) int64) [][]interface{} {
+	chunks := make([][]interface{}, 0)
+	chunk := make([]interface{}, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]interface{}, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8230,6 +11220,29 @@ func ScanInterfaceInt8(arr []interface{}, acc int8, f func(el interface{}, acc i
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInterfaceInt8(arr []interface{}, f func(el interface{}) int8) [][]interface{} {
+	chunks := make([][]interface{}, 0)
+	chunk := make([]interface{}, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]interface{}, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceString(arr []interface{}, f func(el interface{}) string) []string {
 	result := make([]string, 0, len(arr))
@@ -8266,6 +11279,29 @@ func ScanInterfaceString(arr []interface{}, acc string, f func(el interface{}, a
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInterfaceString(arr []interface{}, f func(el interface{}) string) [][]interface{} {
+	chunks := make([][]interface{}, 0)
+	chunk := make([]interface{}, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]interface{}, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8306,6 +11342,29 @@ func ScanInterfaceUint(arr []interface{}, acc uint, f func(el interface{}, acc u
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInterfaceUint(arr []interface{}, f func(el interface{}) uint) [][]interface{} {
+	chunks := make([][]interface{}, 0)
+	chunk := make([]interface{}, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]interface{}, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceUint16(arr []interface{}, f func(el interface{}) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -8342,6 +11401,29 @@ func ScanInterfaceUint16(arr []interface{}, acc uint16, f func(el interface{}, a
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInterfaceUint16(arr []interface{}, f func(el interface{}) uint16) [][]interface{} {
+	chunks := make([][]interface{}, 0)
+	chunk := make([]interface{}, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]interface{}, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8382,6 +11464,29 @@ func ScanInterfaceUint32(arr []interface{}, acc uint32, f func(el interface{}, a
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInterfaceUint32(arr []interface{}, f func(el interface{}) uint32) [][]interface{} {
+	chunks := make([][]interface{}, 0)
+	chunk := make([]interface{}, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]interface{}, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceUint64(arr []interface{}, f func(el interface{}) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -8418,6 +11523,29 @@ func ScanInterfaceUint64(arr []interface{}, acc uint64, f func(el interface{}, a
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInterfaceUint64(arr []interface{}, f func(el interface{}) uint64) [][]interface{} {
+	chunks := make([][]interface{}, 0)
+	chunk := make([]interface{}, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]interface{}, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8458,6 +11586,29 @@ func ScanInterfaceUint8(arr []interface{}, acc uint8, f func(el interface{}, acc
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByInterfaceUint8(arr []interface{}, f func(el interface{}) uint8) [][]interface{} {
+	chunks := make([][]interface{}, 0)
+	chunk := make([]interface{}, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]interface{}, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntFloat32(arr []int, f func(el int) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -8494,6 +11645,29 @@ func ScanIntFloat32(arr []int, acc float32, f func(el int, acc float32) float32)
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByIntFloat32(arr []int, f func(el int) float32) [][]int {
+	chunks := make([][]int, 0)
+	chunk := make([]int, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8534,6 +11708,29 @@ func ScanIntFloat64(arr []int, acc float64, f func(el int, acc float64) float64)
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByIntFloat64(arr []int, f func(el int) float64) [][]int {
+	chunks := make([][]int, 0)
+	chunk := make([]int, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntInt16(arr []int, f func(el int) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -8570,6 +11767,29 @@ func ScanIntInt16(arr []int, acc int16, f func(el int, acc int16) int16) []int16
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByIntInt16(arr []int, f func(el int) int16) [][]int {
+	chunks := make([][]int, 0)
+	chunk := make([]int, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8610,6 +11830,29 @@ func ScanIntInt32(arr []int, acc int32, f func(el int, acc int32) int32) []int32
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByIntInt32(arr []int, f func(el int) int32) [][]int {
+	chunks := make([][]int, 0)
+	chunk := make([]int, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntInt64(arr []int, f func(el int) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -8646,6 +11889,29 @@ func ScanIntInt64(arr []int, acc int64, f func(el int, acc int64) int64) []int64
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByIntInt64(arr []int, f func(el int) int64) [][]int {
+	chunks := make([][]int, 0)
+	chunk := make([]int, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8686,6 +11952,29 @@ func ScanIntInt8(arr []int, acc int8, f func(el int, acc int8) int8) []int8 {
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByIntInt8(arr []int, f func(el int) int8) [][]int {
+	chunks := make([][]int, 0)
+	chunk := make([]int, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntInterface(arr []int, f func(el int) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -8722,6 +12011,29 @@ func ScanIntInterface(arr []int, acc interface{}, f func(el int, acc interface{}
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByIntInterface(arr []int, f func(el int) interface{}) [][]int {
+	chunks := make([][]int, 0)
+	chunk := make([]int, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8762,6 +12074,29 @@ func ScanIntString(arr []int, acc string, f func(el int, acc string) string) []s
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByIntString(arr []int, f func(el int) string) [][]int {
+	chunks := make([][]int, 0)
+	chunk := make([]int, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntUint(arr []int, f func(el int) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -8798,6 +12133,29 @@ func ScanIntUint(arr []int, acc uint, f func(el int, acc uint) uint) []uint {
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByIntUint(arr []int, f func(el int) uint) [][]int {
+	chunks := make([][]int, 0)
+	chunk := make([]int, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8838,6 +12196,29 @@ func ScanIntUint16(arr []int, acc uint16, f func(el int, acc uint16) uint16) []u
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByIntUint16(arr []int, f func(el int) uint16) [][]int {
+	chunks := make([][]int, 0)
+	chunk := make([]int, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntUint32(arr []int, f func(el int) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -8874,6 +12255,29 @@ func ScanIntUint32(arr []int, acc uint32, f func(el int, acc uint32) uint32) []u
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByIntUint32(arr []int, f func(el int) uint32) [][]int {
+	chunks := make([][]int, 0)
+	chunk := make([]int, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8914,6 +12318,29 @@ func ScanIntUint64(arr []int, acc uint64, f func(el int, acc uint64) uint64) []u
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByIntUint64(arr []int, f func(el int) uint64) [][]int {
+	chunks := make([][]int, 0)
+	chunk := make([]int, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntUint8(arr []int, f func(el int) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -8950,6 +12377,29 @@ func ScanIntUint8(arr []int, acc uint8, f func(el int, acc uint8) uint8) []uint8
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByIntUint8(arr []int, f func(el int) uint8) [][]int {
+	chunks := make([][]int, 0)
+	chunk := make([]int, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -8990,6 +12440,29 @@ func ScanStringBool(arr []string, acc bool, f func(el string, acc bool) bool) []
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByStringBool(arr []string, f func(el string) bool) [][]string {
+	chunks := make([][]string, 0)
+	chunk := make([]string, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]string, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringByte(arr []string, f func(el string) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -9026,6 +12499,29 @@ func ScanStringByte(arr []string, acc byte, f func(el string, acc byte) byte) []
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByStringByte(arr []string, f func(el string) byte) [][]string {
+	chunks := make([][]string, 0)
+	chunk := make([]string, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]string, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9066,6 +12562,29 @@ func ScanStringFloat32(arr []string, acc float32, f func(el string, acc float32)
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByStringFloat32(arr []string, f func(el string) float32) [][]string {
+	chunks := make([][]string, 0)
+	chunk := make([]string, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]string, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringFloat64(arr []string, f func(el string) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -9102,6 +12621,29 @@ func ScanStringFloat64(arr []string, acc float64, f func(el string, acc float64)
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByStringFloat64(arr []string, f func(el string) float64) [][]string {
+	chunks := make([][]string, 0)
+	chunk := make([]string, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]string, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9142,6 +12684,29 @@ func ScanStringInt(arr []string, acc int, f func(el string, acc int) int) []int 
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByStringInt(arr []string, f func(el string) int) [][]string {
+	chunks := make([][]string, 0)
+	chunk := make([]string, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]string, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringInt16(arr []string, f func(el string) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -9178,6 +12743,29 @@ func ScanStringInt16(arr []string, acc int16, f func(el string, acc int16) int16
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByStringInt16(arr []string, f func(el string) int16) [][]string {
+	chunks := make([][]string, 0)
+	chunk := make([]string, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]string, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9218,6 +12806,29 @@ func ScanStringInt32(arr []string, acc int32, f func(el string, acc int32) int32
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByStringInt32(arr []string, f func(el string) int32) [][]string {
+	chunks := make([][]string, 0)
+	chunk := make([]string, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]string, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringInt64(arr []string, f func(el string) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -9254,6 +12865,29 @@ func ScanStringInt64(arr []string, acc int64, f func(el string, acc int64) int64
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByStringInt64(arr []string, f func(el string) int64) [][]string {
+	chunks := make([][]string, 0)
+	chunk := make([]string, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]string, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9294,6 +12928,29 @@ func ScanStringInt8(arr []string, acc int8, f func(el string, acc int8) int8) []
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByStringInt8(arr []string, f func(el string) int8) [][]string {
+	chunks := make([][]string, 0)
+	chunk := make([]string, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]string, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringInterface(arr []string, f func(el string) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -9330,6 +12987,29 @@ func ScanStringInterface(arr []string, acc interface{}, f func(el string, acc in
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByStringInterface(arr []string, f func(el string) interface{}) [][]string {
+	chunks := make([][]string, 0)
+	chunk := make([]string, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]string, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9370,6 +13050,29 @@ func ScanStringUint(arr []string, acc uint, f func(el string, acc uint) uint) []
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByStringUint(arr []string, f func(el string) uint) [][]string {
+	chunks := make([][]string, 0)
+	chunk := make([]string, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]string, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringUint16(arr []string, f func(el string) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -9406,6 +13109,29 @@ func ScanStringUint16(arr []string, acc uint16, f func(el string, acc uint16) ui
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByStringUint16(arr []string, f func(el string) uint16) [][]string {
+	chunks := make([][]string, 0)
+	chunk := make([]string, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]string, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9446,6 +13172,29 @@ func ScanStringUint32(arr []string, acc uint32, f func(el string, acc uint32) ui
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByStringUint32(arr []string, f func(el string) uint32) [][]string {
+	chunks := make([][]string, 0)
+	chunk := make([]string, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]string, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringUint64(arr []string, f func(el string) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -9482,6 +13231,29 @@ func ScanStringUint64(arr []string, acc uint64, f func(el string, acc uint64) ui
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByStringUint64(arr []string, f func(el string) uint64) [][]string {
+	chunks := make([][]string, 0)
+	chunk := make([]string, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]string, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9522,6 +13294,29 @@ func ScanStringUint8(arr []string, acc uint8, f func(el string, acc uint8) uint8
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByStringUint8(arr []string, f func(el string) uint8) [][]string {
+	chunks := make([][]string, 0)
+	chunk := make([]string, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]string, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Bool(arr []uint16, f func(el uint16) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -9558,6 +13353,29 @@ func ScanUint16Bool(arr []uint16, acc bool, f func(el uint16, acc bool) bool) []
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint16Bool(arr []uint16, f func(el uint16) bool) [][]uint16 {
+	chunks := make([][]uint16, 0)
+	chunk := make([]uint16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9598,6 +13416,29 @@ func ScanUint16Byte(arr []uint16, acc byte, f func(el uint16, acc byte) byte) []
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint16Byte(arr []uint16, f func(el uint16) byte) [][]uint16 {
+	chunks := make([][]uint16, 0)
+	chunk := make([]uint16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Float32(arr []uint16, f func(el uint16) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -9634,6 +13475,29 @@ func ScanUint16Float32(arr []uint16, acc float32, f func(el uint16, acc float32)
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint16Float32(arr []uint16, f func(el uint16) float32) [][]uint16 {
+	chunks := make([][]uint16, 0)
+	chunk := make([]uint16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9674,6 +13538,29 @@ func ScanUint16Float64(arr []uint16, acc float64, f func(el uint16, acc float64)
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint16Float64(arr []uint16, f func(el uint16) float64) [][]uint16 {
+	chunks := make([][]uint16, 0)
+	chunk := make([]uint16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Int(arr []uint16, f func(el uint16) int) []int {
 	result := make([]int, 0, len(arr))
@@ -9710,6 +13597,29 @@ func ScanUint16Int(arr []uint16, acc int, f func(el uint16, acc int) int) []int 
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint16Int(arr []uint16, f func(el uint16) int) [][]uint16 {
+	chunks := make([][]uint16, 0)
+	chunk := make([]uint16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9750,6 +13660,29 @@ func ScanUint16Int16(arr []uint16, acc int16, f func(el uint16, acc int16) int16
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint16Int16(arr []uint16, f func(el uint16) int16) [][]uint16 {
+	chunks := make([][]uint16, 0)
+	chunk := make([]uint16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Int32(arr []uint16, f func(el uint16) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -9786,6 +13719,29 @@ func ScanUint16Int32(arr []uint16, acc int32, f func(el uint16, acc int32) int32
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint16Int32(arr []uint16, f func(el uint16) int32) [][]uint16 {
+	chunks := make([][]uint16, 0)
+	chunk := make([]uint16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9826,6 +13782,29 @@ func ScanUint16Int64(arr []uint16, acc int64, f func(el uint16, acc int64) int64
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint16Int64(arr []uint16, f func(el uint16) int64) [][]uint16 {
+	chunks := make([][]uint16, 0)
+	chunk := make([]uint16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Int8(arr []uint16, f func(el uint16) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -9862,6 +13841,29 @@ func ScanUint16Int8(arr []uint16, acc int8, f func(el uint16, acc int8) int8) []
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint16Int8(arr []uint16, f func(el uint16) int8) [][]uint16 {
+	chunks := make([][]uint16, 0)
+	chunk := make([]uint16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9902,6 +13904,29 @@ func ScanUint16Interface(arr []uint16, acc interface{}, f func(el uint16, acc in
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint16Interface(arr []uint16, f func(el uint16) interface{}) [][]uint16 {
+	chunks := make([][]uint16, 0)
+	chunk := make([]uint16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16String(arr []uint16, f func(el uint16) string) []string {
 	result := make([]string, 0, len(arr))
@@ -9938,6 +13963,29 @@ func ScanUint16String(arr []uint16, acc string, f func(el uint16, acc string) st
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint16String(arr []uint16, f func(el uint16) string) [][]uint16 {
+	chunks := make([][]uint16, 0)
+	chunk := make([]uint16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -9978,6 +14026,29 @@ func ScanUint16Uint(arr []uint16, acc uint, f func(el uint16, acc uint) uint) []
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint16Uint(arr []uint16, f func(el uint16) uint) [][]uint16 {
+	chunks := make([][]uint16, 0)
+	chunk := make([]uint16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Uint32(arr []uint16, f func(el uint16) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -10014,6 +14085,29 @@ func ScanUint16Uint32(arr []uint16, acc uint32, f func(el uint16, acc uint32) ui
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint16Uint32(arr []uint16, f func(el uint16) uint32) [][]uint16 {
+	chunks := make([][]uint16, 0)
+	chunk := make([]uint16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10054,6 +14148,29 @@ func ScanUint16Uint64(arr []uint16, acc uint64, f func(el uint16, acc uint64) ui
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint16Uint64(arr []uint16, f func(el uint16) uint64) [][]uint16 {
+	chunks := make([][]uint16, 0)
+	chunk := make([]uint16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Uint8(arr []uint16, f func(el uint16) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -10090,6 +14207,29 @@ func ScanUint16Uint8(arr []uint16, acc uint8, f func(el uint16, acc uint8) uint8
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint16Uint8(arr []uint16, f func(el uint16) uint8) [][]uint16 {
+	chunks := make([][]uint16, 0)
+	chunk := make([]uint16, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint16, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10130,6 +14270,29 @@ func ScanUint32Bool(arr []uint32, acc bool, f func(el uint32, acc bool) bool) []
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint32Bool(arr []uint32, f func(el uint32) bool) [][]uint32 {
+	chunks := make([][]uint32, 0)
+	chunk := make([]uint32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Byte(arr []uint32, f func(el uint32) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -10166,6 +14329,29 @@ func ScanUint32Byte(arr []uint32, acc byte, f func(el uint32, acc byte) byte) []
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint32Byte(arr []uint32, f func(el uint32) byte) [][]uint32 {
+	chunks := make([][]uint32, 0)
+	chunk := make([]uint32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10206,6 +14392,29 @@ func ScanUint32Float32(arr []uint32, acc float32, f func(el uint32, acc float32)
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint32Float32(arr []uint32, f func(el uint32) float32) [][]uint32 {
+	chunks := make([][]uint32, 0)
+	chunk := make([]uint32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Float64(arr []uint32, f func(el uint32) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -10242,6 +14451,29 @@ func ScanUint32Float64(arr []uint32, acc float64, f func(el uint32, acc float64)
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint32Float64(arr []uint32, f func(el uint32) float64) [][]uint32 {
+	chunks := make([][]uint32, 0)
+	chunk := make([]uint32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10282,6 +14514,29 @@ func ScanUint32Int(arr []uint32, acc int, f func(el uint32, acc int) int) []int 
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint32Int(arr []uint32, f func(el uint32) int) [][]uint32 {
+	chunks := make([][]uint32, 0)
+	chunk := make([]uint32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Int16(arr []uint32, f func(el uint32) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -10318,6 +14573,29 @@ func ScanUint32Int16(arr []uint32, acc int16, f func(el uint32, acc int16) int16
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint32Int16(arr []uint32, f func(el uint32) int16) [][]uint32 {
+	chunks := make([][]uint32, 0)
+	chunk := make([]uint32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10358,6 +14636,29 @@ func ScanUint32Int32(arr []uint32, acc int32, f func(el uint32, acc int32) int32
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint32Int32(arr []uint32, f func(el uint32) int32) [][]uint32 {
+	chunks := make([][]uint32, 0)
+	chunk := make([]uint32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Int64(arr []uint32, f func(el uint32) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -10394,6 +14695,29 @@ func ScanUint32Int64(arr []uint32, acc int64, f func(el uint32, acc int64) int64
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint32Int64(arr []uint32, f func(el uint32) int64) [][]uint32 {
+	chunks := make([][]uint32, 0)
+	chunk := make([]uint32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10434,6 +14758,29 @@ func ScanUint32Int8(arr []uint32, acc int8, f func(el uint32, acc int8) int8) []
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint32Int8(arr []uint32, f func(el uint32) int8) [][]uint32 {
+	chunks := make([][]uint32, 0)
+	chunk := make([]uint32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Interface(arr []uint32, f func(el uint32) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -10470,6 +14817,29 @@ func ScanUint32Interface(arr []uint32, acc interface{}, f func(el uint32, acc in
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint32Interface(arr []uint32, f func(el uint32) interface{}) [][]uint32 {
+	chunks := make([][]uint32, 0)
+	chunk := make([]uint32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10510,6 +14880,29 @@ func ScanUint32String(arr []uint32, acc string, f func(el uint32, acc string) st
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint32String(arr []uint32, f func(el uint32) string) [][]uint32 {
+	chunks := make([][]uint32, 0)
+	chunk := make([]uint32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Uint(arr []uint32, f func(el uint32) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -10546,6 +14939,29 @@ func ScanUint32Uint(arr []uint32, acc uint, f func(el uint32, acc uint) uint) []
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint32Uint(arr []uint32, f func(el uint32) uint) [][]uint32 {
+	chunks := make([][]uint32, 0)
+	chunk := make([]uint32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10586,6 +15002,29 @@ func ScanUint32Uint16(arr []uint32, acc uint16, f func(el uint32, acc uint16) ui
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint32Uint16(arr []uint32, f func(el uint32) uint16) [][]uint32 {
+	chunks := make([][]uint32, 0)
+	chunk := make([]uint32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Uint64(arr []uint32, f func(el uint32) uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -10622,6 +15061,29 @@ func ScanUint32Uint64(arr []uint32, acc uint64, f func(el uint32, acc uint64) ui
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint32Uint64(arr []uint32, f func(el uint32) uint64) [][]uint32 {
+	chunks := make([][]uint32, 0)
+	chunk := make([]uint32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10662,6 +15124,29 @@ func ScanUint32Uint8(arr []uint32, acc uint8, f func(el uint32, acc uint8) uint8
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint32Uint8(arr []uint32, f func(el uint32) uint8) [][]uint32 {
+	chunks := make([][]uint32, 0)
+	chunk := make([]uint32, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint32, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Bool(arr []uint64, f func(el uint64) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -10698,6 +15183,29 @@ func ScanUint64Bool(arr []uint64, acc bool, f func(el uint64, acc bool) bool) []
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint64Bool(arr []uint64, f func(el uint64) bool) [][]uint64 {
+	chunks := make([][]uint64, 0)
+	chunk := make([]uint64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10738,6 +15246,29 @@ func ScanUint64Byte(arr []uint64, acc byte, f func(el uint64, acc byte) byte) []
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint64Byte(arr []uint64, f func(el uint64) byte) [][]uint64 {
+	chunks := make([][]uint64, 0)
+	chunk := make([]uint64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Float32(arr []uint64, f func(el uint64) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -10774,6 +15305,29 @@ func ScanUint64Float32(arr []uint64, acc float32, f func(el uint64, acc float32)
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint64Float32(arr []uint64, f func(el uint64) float32) [][]uint64 {
+	chunks := make([][]uint64, 0)
+	chunk := make([]uint64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10814,6 +15368,29 @@ func ScanUint64Float64(arr []uint64, acc float64, f func(el uint64, acc float64)
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint64Float64(arr []uint64, f func(el uint64) float64) [][]uint64 {
+	chunks := make([][]uint64, 0)
+	chunk := make([]uint64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Int(arr []uint64, f func(el uint64) int) []int {
 	result := make([]int, 0, len(arr))
@@ -10850,6 +15427,29 @@ func ScanUint64Int(arr []uint64, acc int, f func(el uint64, acc int) int) []int 
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint64Int(arr []uint64, f func(el uint64) int) [][]uint64 {
+	chunks := make([][]uint64, 0)
+	chunk := make([]uint64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10890,6 +15490,29 @@ func ScanUint64Int16(arr []uint64, acc int16, f func(el uint64, acc int16) int16
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint64Int16(arr []uint64, f func(el uint64) int16) [][]uint64 {
+	chunks := make([][]uint64, 0)
+	chunk := make([]uint64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Int32(arr []uint64, f func(el uint64) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -10926,6 +15549,29 @@ func ScanUint64Int32(arr []uint64, acc int32, f func(el uint64, acc int32) int32
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint64Int32(arr []uint64, f func(el uint64) int32) [][]uint64 {
+	chunks := make([][]uint64, 0)
+	chunk := make([]uint64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -10966,6 +15612,29 @@ func ScanUint64Int64(arr []uint64, acc int64, f func(el uint64, acc int64) int64
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint64Int64(arr []uint64, f func(el uint64) int64) [][]uint64 {
+	chunks := make([][]uint64, 0)
+	chunk := make([]uint64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Int8(arr []uint64, f func(el uint64) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -11002,6 +15671,29 @@ func ScanUint64Int8(arr []uint64, acc int8, f func(el uint64, acc int8) int8) []
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint64Int8(arr []uint64, f func(el uint64) int8) [][]uint64 {
+	chunks := make([][]uint64, 0)
+	chunk := make([]uint64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11042,6 +15734,29 @@ func ScanUint64Interface(arr []uint64, acc interface{}, f func(el uint64, acc in
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint64Interface(arr []uint64, f func(el uint64) interface{}) [][]uint64 {
+	chunks := make([][]uint64, 0)
+	chunk := make([]uint64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64String(arr []uint64, f func(el uint64) string) []string {
 	result := make([]string, 0, len(arr))
@@ -11078,6 +15793,29 @@ func ScanUint64String(arr []uint64, acc string, f func(el uint64, acc string) st
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint64String(arr []uint64, f func(el uint64) string) [][]uint64 {
+	chunks := make([][]uint64, 0)
+	chunk := make([]uint64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11118,6 +15856,29 @@ func ScanUint64Uint(arr []uint64, acc uint, f func(el uint64, acc uint) uint) []
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint64Uint(arr []uint64, f func(el uint64) uint) [][]uint64 {
+	chunks := make([][]uint64, 0)
+	chunk := make([]uint64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Uint16(arr []uint64, f func(el uint64) uint16) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -11154,6 +15915,29 @@ func ScanUint64Uint16(arr []uint64, acc uint16, f func(el uint64, acc uint16) ui
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint64Uint16(arr []uint64, f func(el uint64) uint16) [][]uint64 {
+	chunks := make([][]uint64, 0)
+	chunk := make([]uint64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11194,6 +15978,29 @@ func ScanUint64Uint32(arr []uint64, acc uint32, f func(el uint64, acc uint32) ui
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint64Uint32(arr []uint64, f func(el uint64) uint32) [][]uint64 {
+	chunks := make([][]uint64, 0)
+	chunk := make([]uint64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Uint8(arr []uint64, f func(el uint64) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -11230,6 +16037,29 @@ func ScanUint64Uint8(arr []uint64, acc uint8, f func(el uint64, acc uint8) uint8
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint64Uint8(arr []uint64, f func(el uint64) uint8) [][]uint64 {
+	chunks := make([][]uint64, 0)
+	chunk := make([]uint64, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint64, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11270,6 +16100,29 @@ func ScanUint8Bool(arr []uint8, acc bool, f func(el uint8, acc bool) bool) []boo
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint8Bool(arr []uint8, f func(el uint8) bool) [][]uint8 {
+	chunks := make([][]uint8, 0)
+	chunk := make([]uint8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Byte(arr []uint8, f func(el uint8) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -11306,6 +16159,29 @@ func ScanUint8Byte(arr []uint8, acc byte, f func(el uint8, acc byte) byte) []byt
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint8Byte(arr []uint8, f func(el uint8) byte) [][]uint8 {
+	chunks := make([][]uint8, 0)
+	chunk := make([]uint8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11346,6 +16222,29 @@ func ScanUint8Float32(arr []uint8, acc float32, f func(el uint8, acc float32) fl
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint8Float32(arr []uint8, f func(el uint8) float32) [][]uint8 {
+	chunks := make([][]uint8, 0)
+	chunk := make([]uint8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Float64(arr []uint8, f func(el uint8) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -11382,6 +16281,29 @@ func ScanUint8Float64(arr []uint8, acc float64, f func(el uint8, acc float64) fl
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint8Float64(arr []uint8, f func(el uint8) float64) [][]uint8 {
+	chunks := make([][]uint8, 0)
+	chunk := make([]uint8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11422,6 +16344,29 @@ func ScanUint8Int(arr []uint8, acc int, f func(el uint8, acc int) int) []int {
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint8Int(arr []uint8, f func(el uint8) int) [][]uint8 {
+	chunks := make([][]uint8, 0)
+	chunk := make([]uint8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Int16(arr []uint8, f func(el uint8) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -11458,6 +16403,29 @@ func ScanUint8Int16(arr []uint8, acc int16, f func(el uint8, acc int16) int16) [
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint8Int16(arr []uint8, f func(el uint8) int16) [][]uint8 {
+	chunks := make([][]uint8, 0)
+	chunk := make([]uint8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11498,6 +16466,29 @@ func ScanUint8Int32(arr []uint8, acc int32, f func(el uint8, acc int32) int32) [
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint8Int32(arr []uint8, f func(el uint8) int32) [][]uint8 {
+	chunks := make([][]uint8, 0)
+	chunk := make([]uint8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Int64(arr []uint8, f func(el uint8) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -11534,6 +16525,29 @@ func ScanUint8Int64(arr []uint8, acc int64, f func(el uint8, acc int64) int64) [
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint8Int64(arr []uint8, f func(el uint8) int64) [][]uint8 {
+	chunks := make([][]uint8, 0)
+	chunk := make([]uint8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11574,6 +16588,29 @@ func ScanUint8Int8(arr []uint8, acc int8, f func(el uint8, acc int8) int8) []int
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint8Int8(arr []uint8, f func(el uint8) int8) [][]uint8 {
+	chunks := make([][]uint8, 0)
+	chunk := make([]uint8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Interface(arr []uint8, f func(el uint8) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -11610,6 +16647,29 @@ func ScanUint8Interface(arr []uint8, acc interface{}, f func(el uint8, acc inter
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint8Interface(arr []uint8, f func(el uint8) interface{}) [][]uint8 {
+	chunks := make([][]uint8, 0)
+	chunk := make([]uint8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11650,6 +16710,29 @@ func ScanUint8String(arr []uint8, acc string, f func(el uint8, acc string) strin
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint8String(arr []uint8, f func(el uint8) string) [][]uint8 {
+	chunks := make([][]uint8, 0)
+	chunk := make([]uint8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Uint(arr []uint8, f func(el uint8) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -11686,6 +16769,29 @@ func ScanUint8Uint(arr []uint8, acc uint, f func(el uint8, acc uint) uint) []uin
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint8Uint(arr []uint8, f func(el uint8) uint) [][]uint8 {
+	chunks := make([][]uint8, 0)
+	chunk := make([]uint8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11726,6 +16832,29 @@ func ScanUint8Uint16(arr []uint8, acc uint16, f func(el uint8, acc uint16) uint1
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint8Uint16(arr []uint8, f func(el uint8) uint16) [][]uint8 {
+	chunks := make([][]uint8, 0)
+	chunk := make([]uint8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Uint32(arr []uint8, f func(el uint8) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -11762,6 +16891,29 @@ func ScanUint8Uint32(arr []uint8, acc uint32, f func(el uint8, acc uint32) uint3
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint8Uint32(arr []uint8, f func(el uint8) uint32) [][]uint8 {
+	chunks := make([][]uint8, 0)
+	chunk := make([]uint8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11802,6 +16954,29 @@ func ScanUint8Uint64(arr []uint8, acc uint64, f func(el uint8, acc uint64) uint6
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUint8Uint64(arr []uint8, f func(el uint8) uint64) [][]uint8 {
+	chunks := make([][]uint8, 0)
+	chunk := make([]uint8, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint8, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintBool(arr []uint, f func(el uint) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -11838,6 +17013,29 @@ func ScanUintBool(arr []uint, acc bool, f func(el uint, acc bool) bool) []bool {
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUintBool(arr []uint, f func(el uint) bool) [][]uint {
+	chunks := make([][]uint, 0)
+	chunk := make([]uint, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11878,6 +17076,29 @@ func ScanUintByte(arr []uint, acc byte, f func(el uint, acc byte) byte) []byte {
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUintByte(arr []uint, f func(el uint) byte) [][]uint {
+	chunks := make([][]uint, 0)
+	chunk := make([]uint, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintFloat32(arr []uint, f func(el uint) float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -11914,6 +17135,29 @@ func ScanUintFloat32(arr []uint, acc float32, f func(el uint, acc float32) float
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUintFloat32(arr []uint, f func(el uint) float32) [][]uint {
+	chunks := make([][]uint, 0)
+	chunk := make([]uint, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -11954,6 +17198,29 @@ func ScanUintFloat64(arr []uint, acc float64, f func(el uint, acc float64) float
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUintFloat64(arr []uint, f func(el uint) float64) [][]uint {
+	chunks := make([][]uint, 0)
+	chunk := make([]uint, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintInt(arr []uint, f func(el uint) int) []int {
 	result := make([]int, 0, len(arr))
@@ -11990,6 +17257,29 @@ func ScanUintInt(arr []uint, acc int, f func(el uint, acc int) int) []int {
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUintInt(arr []uint, f func(el uint) int) [][]uint {
+	chunks := make([][]uint, 0)
+	chunk := make([]uint, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -12030,6 +17320,29 @@ func ScanUintInt16(arr []uint, acc int16, f func(el uint, acc int16) int16) []in
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUintInt16(arr []uint, f func(el uint) int16) [][]uint {
+	chunks := make([][]uint, 0)
+	chunk := make([]uint, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintInt32(arr []uint, f func(el uint) int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -12066,6 +17379,29 @@ func ScanUintInt32(arr []uint, acc int32, f func(el uint, acc int32) int32) []in
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUintInt32(arr []uint, f func(el uint) int32) [][]uint {
+	chunks := make([][]uint, 0)
+	chunk := make([]uint, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -12106,6 +17442,29 @@ func ScanUintInt64(arr []uint, acc int64, f func(el uint, acc int64) int64) []in
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUintInt64(arr []uint, f func(el uint) int64) [][]uint {
+	chunks := make([][]uint, 0)
+	chunk := make([]uint, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintInt8(arr []uint, f func(el uint) int8) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -12142,6 +17501,29 @@ func ScanUintInt8(arr []uint, acc int8, f func(el uint, acc int8) int8) []int8 {
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUintInt8(arr []uint, f func(el uint) int8) [][]uint {
+	chunks := make([][]uint, 0)
+	chunk := make([]uint, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -12182,6 +17564,29 @@ func ScanUintInterface(arr []uint, acc interface{}, f func(el uint, acc interfac
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUintInterface(arr []uint, f func(el uint) interface{}) [][]uint {
+	chunks := make([][]uint, 0)
+	chunk := make([]uint, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintString(arr []uint, f func(el uint) string) []string {
 	result := make([]string, 0, len(arr))
@@ -12218,6 +17623,29 @@ func ScanUintString(arr []uint, acc string, f func(el uint, acc string) string) 
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUintString(arr []uint, f func(el uint) string) [][]uint {
+	chunks := make([][]uint, 0)
+	chunk := make([]uint, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -12258,6 +17686,29 @@ func ScanUintUint16(arr []uint, acc uint16, f func(el uint, acc uint16) uint16) 
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUintUint16(arr []uint, f func(el uint) uint16) [][]uint {
+	chunks := make([][]uint, 0)
+	chunk := make([]uint, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintUint32(arr []uint, f func(el uint) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -12294,6 +17745,29 @@ func ScanUintUint32(arr []uint, acc uint32, f func(el uint, acc uint32) uint32) 
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUintUint32(arr []uint, f func(el uint) uint32) [][]uint {
+	chunks := make([][]uint, 0)
+	chunk := make([]uint, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -12334,6 +17808,29 @@ func ScanUintUint64(arr []uint, acc uint64, f func(el uint, acc uint64) uint64) 
 	return result
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUintUint64(arr []uint, f func(el uint) uint64) [][]uint {
+	chunks := make([][]uint, 0)
+	chunk := make([]uint, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintUint8(arr []uint, f func(el uint) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -12370,4 +17867,27 @@ func ScanUintUint8(arr []uint, acc uint8, f func(el uint, acc uint8) uint8) []ui
 		result = append(result, acc)
 	}
 	return result
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func ChunkByUintUint8(arr []uint, f func(el uint) uint8) [][]uint {
+	chunks := make([][]uint, 0)
+	chunk := make([]uint, 0)
+
+	prev := f(arr[0])
+	chunk = append(chunk, arr[0])
+
+	for _, el := range arr[1:] {
+		chunk = append(chunk, el)
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint, 0)
+			prev = curr
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
 }
