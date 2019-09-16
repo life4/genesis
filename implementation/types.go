@@ -4,4 +4,4 @@ package implementation
 type T int8
 
 // G is a generic type
-type G int8
+type G int16

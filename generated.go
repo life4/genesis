@@ -3261,6 +3261,14 @@ func MapBoolBool(arr []bool, f func(el bool) bool) []bool {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceBoolBool(arr []bool, acc bool, f func(el bool, acc bool) bool) bool {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolByte(arr []bool, f func(el bool) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -3268,6 +3276,14 @@ func MapBoolByte(arr []bool, f func(el bool) byte) []byte {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceBoolByte(arr []bool, acc byte, f func(el bool, acc byte) byte) byte {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3279,6 +3295,14 @@ func MapBoolFloat32(arr []bool, f func(el bool) float32) []float32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceBoolFloat32(arr []bool, acc float32, f func(el bool, acc float32) float32) float32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolFloat64(arr []bool, f func(el bool) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -3286,6 +3310,14 @@ func MapBoolFloat64(arr []bool, f func(el bool) float64) []float64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceBoolFloat64(arr []bool, acc float64, f func(el bool, acc float64) float64) float64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3297,6 +3329,14 @@ func MapBoolInt(arr []bool, f func(el bool) int) []int {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceBoolInt(arr []bool, acc int, f func(el bool, acc int) int) int {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolInt16(arr []bool, f func(el bool) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -3304,6 +3344,14 @@ func MapBoolInt16(arr []bool, f func(el bool) int16) []int16 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceBoolInt16(arr []bool, acc int16, f func(el bool, acc int16) int16) int16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3315,6 +3363,14 @@ func MapBoolInt32(arr []bool, f func(el bool) int32) []int32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceBoolInt32(arr []bool, acc int32, f func(el bool, acc int32) int32) int32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolInt64(arr []bool, f func(el bool) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -3322,6 +3378,14 @@ func MapBoolInt64(arr []bool, f func(el bool) int64) []int64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceBoolInt64(arr []bool, acc int64, f func(el bool, acc int64) int64) int64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3333,6 +3397,14 @@ func MapBoolInt8(arr []bool, f func(el bool) int8) []int8 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceBoolInt8(arr []bool, acc int8, f func(el bool, acc int8) int8) int8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolInterface(arr []bool, f func(el bool) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -3340,6 +3412,14 @@ func MapBoolInterface(arr []bool, f func(el bool) interface{}) []interface{} {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceBoolInterface(arr []bool, acc interface{}, f func(el bool, acc interface{}) interface{}) interface{} {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3351,6 +3431,14 @@ func MapBoolString(arr []bool, f func(el bool) string) []string {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceBoolString(arr []bool, acc string, f func(el bool, acc string) string) string {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolUint(arr []bool, f func(el bool) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -3358,6 +3446,14 @@ func MapBoolUint(arr []bool, f func(el bool) uint) []uint {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceBoolUint(arr []bool, acc uint, f func(el bool, acc uint) uint) uint {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3369,6 +3465,14 @@ func MapBoolUint16(arr []bool, f func(el bool) uint16) []uint16 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceBoolUint16(arr []bool, acc uint16, f func(el bool, acc uint16) uint16) uint16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolUint32(arr []bool, f func(el bool) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -3376,6 +3480,14 @@ func MapBoolUint32(arr []bool, f func(el bool) uint32) []uint32 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceBoolUint32(arr []bool, acc uint32, f func(el bool, acc uint32) uint32) uint32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3387,6 +3499,14 @@ func MapBoolUint64(arr []bool, f func(el bool) uint64) []uint64 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceBoolUint64(arr []bool, acc uint64, f func(el bool, acc uint64) uint64) uint64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapBoolUint8(arr []bool, f func(el bool) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -3394,6 +3514,14 @@ func MapBoolUint8(arr []bool, f func(el bool) uint8) []uint8 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceBoolUint8(arr []bool, acc uint8, f func(el bool, acc uint8) uint8) uint8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3405,6 +3533,14 @@ func MapByteBool(arr []byte, f func(el byte) bool) []bool {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceByteBool(arr []byte, acc bool, f func(el byte, acc bool) bool) bool {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteByte(arr []byte, f func(el byte) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -3412,6 +3548,14 @@ func MapByteByte(arr []byte, f func(el byte) byte) []byte {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceByteByte(arr []byte, acc byte, f func(el byte, acc byte) byte) byte {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3423,6 +3567,14 @@ func MapByteFloat32(arr []byte, f func(el byte) float32) []float32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceByteFloat32(arr []byte, acc float32, f func(el byte, acc float32) float32) float32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteFloat64(arr []byte, f func(el byte) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -3430,6 +3582,14 @@ func MapByteFloat64(arr []byte, f func(el byte) float64) []float64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceByteFloat64(arr []byte, acc float64, f func(el byte, acc float64) float64) float64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3441,6 +3601,14 @@ func MapByteInt(arr []byte, f func(el byte) int) []int {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceByteInt(arr []byte, acc int, f func(el byte, acc int) int) int {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteInt16(arr []byte, f func(el byte) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -3448,6 +3616,14 @@ func MapByteInt16(arr []byte, f func(el byte) int16) []int16 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceByteInt16(arr []byte, acc int16, f func(el byte, acc int16) int16) int16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3459,6 +3635,14 @@ func MapByteInt32(arr []byte, f func(el byte) int32) []int32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceByteInt32(arr []byte, acc int32, f func(el byte, acc int32) int32) int32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteInt64(arr []byte, f func(el byte) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -3466,6 +3650,14 @@ func MapByteInt64(arr []byte, f func(el byte) int64) []int64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceByteInt64(arr []byte, acc int64, f func(el byte, acc int64) int64) int64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3477,6 +3669,14 @@ func MapByteInt8(arr []byte, f func(el byte) int8) []int8 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceByteInt8(arr []byte, acc int8, f func(el byte, acc int8) int8) int8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteInterface(arr []byte, f func(el byte) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -3484,6 +3684,14 @@ func MapByteInterface(arr []byte, f func(el byte) interface{}) []interface{} {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceByteInterface(arr []byte, acc interface{}, f func(el byte, acc interface{}) interface{}) interface{} {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3495,6 +3703,14 @@ func MapByteString(arr []byte, f func(el byte) string) []string {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceByteString(arr []byte, acc string, f func(el byte, acc string) string) string {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteUint(arr []byte, f func(el byte) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -3502,6 +3718,14 @@ func MapByteUint(arr []byte, f func(el byte) uint) []uint {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceByteUint(arr []byte, acc uint, f func(el byte, acc uint) uint) uint {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3513,6 +3737,14 @@ func MapByteUint16(arr []byte, f func(el byte) uint16) []uint16 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceByteUint16(arr []byte, acc uint16, f func(el byte, acc uint16) uint16) uint16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteUint32(arr []byte, f func(el byte) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -3520,6 +3752,14 @@ func MapByteUint32(arr []byte, f func(el byte) uint32) []uint32 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceByteUint32(arr []byte, acc uint32, f func(el byte, acc uint32) uint32) uint32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3531,6 +3771,14 @@ func MapByteUint64(arr []byte, f func(el byte) uint64) []uint64 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceByteUint64(arr []byte, acc uint64, f func(el byte, acc uint64) uint64) uint64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapByteUint8(arr []byte, f func(el byte) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -3538,6 +3786,14 @@ func MapByteUint8(arr []byte, f func(el byte) uint8) []uint8 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceByteUint8(arr []byte, acc uint8, f func(el byte, acc uint8) uint8) uint8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3549,6 +3805,14 @@ func MapFloat32Bool(arr []float32, f func(el float32) bool) []bool {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat32Bool(arr []float32, acc bool, f func(el float32, acc bool) bool) bool {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Byte(arr []float32, f func(el float32) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -3556,6 +3820,14 @@ func MapFloat32Byte(arr []float32, f func(el float32) byte) []byte {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat32Byte(arr []float32, acc byte, f func(el float32, acc byte) byte) byte {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3567,6 +3839,14 @@ func MapFloat32Float32(arr []float32, f func(el float32) float32) []float32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat32Float32(arr []float32, acc float32, f func(el float32, acc float32) float32) float32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Float64(arr []float32, f func(el float32) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -3574,6 +3854,14 @@ func MapFloat32Float64(arr []float32, f func(el float32) float64) []float64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat32Float64(arr []float32, acc float64, f func(el float32, acc float64) float64) float64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3585,6 +3873,14 @@ func MapFloat32Int(arr []float32, f func(el float32) int) []int {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat32Int(arr []float32, acc int, f func(el float32, acc int) int) int {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Int16(arr []float32, f func(el float32) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -3592,6 +3888,14 @@ func MapFloat32Int16(arr []float32, f func(el float32) int16) []int16 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat32Int16(arr []float32, acc int16, f func(el float32, acc int16) int16) int16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3603,6 +3907,14 @@ func MapFloat32Int32(arr []float32, f func(el float32) int32) []int32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat32Int32(arr []float32, acc int32, f func(el float32, acc int32) int32) int32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Int64(arr []float32, f func(el float32) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -3610,6 +3922,14 @@ func MapFloat32Int64(arr []float32, f func(el float32) int64) []int64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat32Int64(arr []float32, acc int64, f func(el float32, acc int64) int64) int64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3621,6 +3941,14 @@ func MapFloat32Int8(arr []float32, f func(el float32) int8) []int8 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat32Int8(arr []float32, acc int8, f func(el float32, acc int8) int8) int8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Interface(arr []float32, f func(el float32) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -3628,6 +3956,14 @@ func MapFloat32Interface(arr []float32, f func(el float32) interface{}) []interf
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat32Interface(arr []float32, acc interface{}, f func(el float32, acc interface{}) interface{}) interface{} {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3639,6 +3975,14 @@ func MapFloat32String(arr []float32, f func(el float32) string) []string {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat32String(arr []float32, acc string, f func(el float32, acc string) string) string {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Uint(arr []float32, f func(el float32) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -3646,6 +3990,14 @@ func MapFloat32Uint(arr []float32, f func(el float32) uint) []uint {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat32Uint(arr []float32, acc uint, f func(el float32, acc uint) uint) uint {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3657,6 +4009,14 @@ func MapFloat32Uint16(arr []float32, f func(el float32) uint16) []uint16 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat32Uint16(arr []float32, acc uint16, f func(el float32, acc uint16) uint16) uint16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Uint32(arr []float32, f func(el float32) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -3664,6 +4024,14 @@ func MapFloat32Uint32(arr []float32, f func(el float32) uint32) []uint32 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat32Uint32(arr []float32, acc uint32, f func(el float32, acc uint32) uint32) uint32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3675,6 +4043,14 @@ func MapFloat32Uint64(arr []float32, f func(el float32) uint64) []uint64 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat32Uint64(arr []float32, acc uint64, f func(el float32, acc uint64) uint64) uint64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat32Uint8(arr []float32, f func(el float32) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -3682,6 +4058,14 @@ func MapFloat32Uint8(arr []float32, f func(el float32) uint8) []uint8 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat32Uint8(arr []float32, acc uint8, f func(el float32, acc uint8) uint8) uint8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3693,6 +4077,14 @@ func MapFloat64Bool(arr []float64, f func(el float64) bool) []bool {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat64Bool(arr []float64, acc bool, f func(el float64, acc bool) bool) bool {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Byte(arr []float64, f func(el float64) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -3700,6 +4092,14 @@ func MapFloat64Byte(arr []float64, f func(el float64) byte) []byte {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat64Byte(arr []float64, acc byte, f func(el float64, acc byte) byte) byte {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3711,6 +4111,14 @@ func MapFloat64Float32(arr []float64, f func(el float64) float32) []float32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat64Float32(arr []float64, acc float32, f func(el float64, acc float32) float32) float32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Float64(arr []float64, f func(el float64) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -3718,6 +4126,14 @@ func MapFloat64Float64(arr []float64, f func(el float64) float64) []float64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat64Float64(arr []float64, acc float64, f func(el float64, acc float64) float64) float64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3729,6 +4145,14 @@ func MapFloat64Int(arr []float64, f func(el float64) int) []int {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat64Int(arr []float64, acc int, f func(el float64, acc int) int) int {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Int16(arr []float64, f func(el float64) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -3736,6 +4160,14 @@ func MapFloat64Int16(arr []float64, f func(el float64) int16) []int16 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat64Int16(arr []float64, acc int16, f func(el float64, acc int16) int16) int16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3747,6 +4179,14 @@ func MapFloat64Int32(arr []float64, f func(el float64) int32) []int32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat64Int32(arr []float64, acc int32, f func(el float64, acc int32) int32) int32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Int64(arr []float64, f func(el float64) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -3754,6 +4194,14 @@ func MapFloat64Int64(arr []float64, f func(el float64) int64) []int64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat64Int64(arr []float64, acc int64, f func(el float64, acc int64) int64) int64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3765,6 +4213,14 @@ func MapFloat64Int8(arr []float64, f func(el float64) int8) []int8 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat64Int8(arr []float64, acc int8, f func(el float64, acc int8) int8) int8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Interface(arr []float64, f func(el float64) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -3772,6 +4228,14 @@ func MapFloat64Interface(arr []float64, f func(el float64) interface{}) []interf
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat64Interface(arr []float64, acc interface{}, f func(el float64, acc interface{}) interface{}) interface{} {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3783,6 +4247,14 @@ func MapFloat64String(arr []float64, f func(el float64) string) []string {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat64String(arr []float64, acc string, f func(el float64, acc string) string) string {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Uint(arr []float64, f func(el float64) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -3790,6 +4262,14 @@ func MapFloat64Uint(arr []float64, f func(el float64) uint) []uint {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat64Uint(arr []float64, acc uint, f func(el float64, acc uint) uint) uint {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3801,6 +4281,14 @@ func MapFloat64Uint16(arr []float64, f func(el float64) uint16) []uint16 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat64Uint16(arr []float64, acc uint16, f func(el float64, acc uint16) uint16) uint16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Uint32(arr []float64, f func(el float64) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -3808,6 +4296,14 @@ func MapFloat64Uint32(arr []float64, f func(el float64) uint32) []uint32 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat64Uint32(arr []float64, acc uint32, f func(el float64, acc uint32) uint32) uint32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3819,6 +4315,14 @@ func MapFloat64Uint64(arr []float64, f func(el float64) uint64) []uint64 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat64Uint64(arr []float64, acc uint64, f func(el float64, acc uint64) uint64) uint64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapFloat64Uint8(arr []float64, f func(el float64) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -3826,6 +4330,14 @@ func MapFloat64Uint8(arr []float64, f func(el float64) uint8) []uint8 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceFloat64Uint8(arr []float64, acc uint8, f func(el float64, acc uint8) uint8) uint8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3837,6 +4349,14 @@ func MapInt16Bool(arr []int16, f func(el int16) bool) []bool {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt16Bool(arr []int16, acc bool, f func(el int16, acc bool) bool) bool {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Byte(arr []int16, f func(el int16) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -3844,6 +4364,14 @@ func MapInt16Byte(arr []int16, f func(el int16) byte) []byte {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt16Byte(arr []int16, acc byte, f func(el int16, acc byte) byte) byte {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3855,6 +4383,14 @@ func MapInt16Float32(arr []int16, f func(el int16) float32) []float32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt16Float32(arr []int16, acc float32, f func(el int16, acc float32) float32) float32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Float64(arr []int16, f func(el int16) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -3862,6 +4398,14 @@ func MapInt16Float64(arr []int16, f func(el int16) float64) []float64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt16Float64(arr []int16, acc float64, f func(el int16, acc float64) float64) float64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3873,6 +4417,14 @@ func MapInt16Int(arr []int16, f func(el int16) int) []int {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt16Int(arr []int16, acc int, f func(el int16, acc int) int) int {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Int16(arr []int16, f func(el int16) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -3880,6 +4432,14 @@ func MapInt16Int16(arr []int16, f func(el int16) int16) []int16 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt16Int16(arr []int16, acc int16, f func(el int16, acc int16) int16) int16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3891,6 +4451,14 @@ func MapInt16Int32(arr []int16, f func(el int16) int32) []int32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt16Int32(arr []int16, acc int32, f func(el int16, acc int32) int32) int32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Int64(arr []int16, f func(el int16) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -3898,6 +4466,14 @@ func MapInt16Int64(arr []int16, f func(el int16) int64) []int64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt16Int64(arr []int16, acc int64, f func(el int16, acc int64) int64) int64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3909,6 +4485,14 @@ func MapInt16Int8(arr []int16, f func(el int16) int8) []int8 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt16Int8(arr []int16, acc int8, f func(el int16, acc int8) int8) int8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Interface(arr []int16, f func(el int16) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -3916,6 +4500,14 @@ func MapInt16Interface(arr []int16, f func(el int16) interface{}) []interface{} 
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt16Interface(arr []int16, acc interface{}, f func(el int16, acc interface{}) interface{}) interface{} {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3927,6 +4519,14 @@ func MapInt16String(arr []int16, f func(el int16) string) []string {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt16String(arr []int16, acc string, f func(el int16, acc string) string) string {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Uint(arr []int16, f func(el int16) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -3934,6 +4534,14 @@ func MapInt16Uint(arr []int16, f func(el int16) uint) []uint {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt16Uint(arr []int16, acc uint, f func(el int16, acc uint) uint) uint {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3945,6 +4553,14 @@ func MapInt16Uint16(arr []int16, f func(el int16) uint16) []uint16 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt16Uint16(arr []int16, acc uint16, f func(el int16, acc uint16) uint16) uint16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Uint32(arr []int16, f func(el int16) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -3952,6 +4568,14 @@ func MapInt16Uint32(arr []int16, f func(el int16) uint32) []uint32 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt16Uint32(arr []int16, acc uint32, f func(el int16, acc uint32) uint32) uint32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3963,6 +4587,14 @@ func MapInt16Uint64(arr []int16, f func(el int16) uint64) []uint64 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt16Uint64(arr []int16, acc uint64, f func(el int16, acc uint64) uint64) uint64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt16Uint8(arr []int16, f func(el int16) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -3970,6 +4602,14 @@ func MapInt16Uint8(arr []int16, f func(el int16) uint8) []uint8 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt16Uint8(arr []int16, acc uint8, f func(el int16, acc uint8) uint8) uint8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3981,6 +4621,14 @@ func MapInt32Bool(arr []int32, f func(el int32) bool) []bool {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt32Bool(arr []int32, acc bool, f func(el int32, acc bool) bool) bool {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Byte(arr []int32, f func(el int32) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -3988,6 +4636,14 @@ func MapInt32Byte(arr []int32, f func(el int32) byte) []byte {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt32Byte(arr []int32, acc byte, f func(el int32, acc byte) byte) byte {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -3999,6 +4655,14 @@ func MapInt32Float32(arr []int32, f func(el int32) float32) []float32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt32Float32(arr []int32, acc float32, f func(el int32, acc float32) float32) float32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Float64(arr []int32, f func(el int32) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -4006,6 +4670,14 @@ func MapInt32Float64(arr []int32, f func(el int32) float64) []float64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt32Float64(arr []int32, acc float64, f func(el int32, acc float64) float64) float64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4017,6 +4689,14 @@ func MapInt32Int(arr []int32, f func(el int32) int) []int {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt32Int(arr []int32, acc int, f func(el int32, acc int) int) int {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Int16(arr []int32, f func(el int32) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -4024,6 +4704,14 @@ func MapInt32Int16(arr []int32, f func(el int32) int16) []int16 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt32Int16(arr []int32, acc int16, f func(el int32, acc int16) int16) int16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4035,6 +4723,14 @@ func MapInt32Int32(arr []int32, f func(el int32) int32) []int32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt32Int32(arr []int32, acc int32, f func(el int32, acc int32) int32) int32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Int64(arr []int32, f func(el int32) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -4042,6 +4738,14 @@ func MapInt32Int64(arr []int32, f func(el int32) int64) []int64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt32Int64(arr []int32, acc int64, f func(el int32, acc int64) int64) int64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4053,6 +4757,14 @@ func MapInt32Int8(arr []int32, f func(el int32) int8) []int8 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt32Int8(arr []int32, acc int8, f func(el int32, acc int8) int8) int8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Interface(arr []int32, f func(el int32) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -4060,6 +4772,14 @@ func MapInt32Interface(arr []int32, f func(el int32) interface{}) []interface{} 
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt32Interface(arr []int32, acc interface{}, f func(el int32, acc interface{}) interface{}) interface{} {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4071,6 +4791,14 @@ func MapInt32String(arr []int32, f func(el int32) string) []string {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt32String(arr []int32, acc string, f func(el int32, acc string) string) string {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Uint(arr []int32, f func(el int32) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -4078,6 +4806,14 @@ func MapInt32Uint(arr []int32, f func(el int32) uint) []uint {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt32Uint(arr []int32, acc uint, f func(el int32, acc uint) uint) uint {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4089,6 +4825,14 @@ func MapInt32Uint16(arr []int32, f func(el int32) uint16) []uint16 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt32Uint16(arr []int32, acc uint16, f func(el int32, acc uint16) uint16) uint16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Uint32(arr []int32, f func(el int32) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -4096,6 +4840,14 @@ func MapInt32Uint32(arr []int32, f func(el int32) uint32) []uint32 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt32Uint32(arr []int32, acc uint32, f func(el int32, acc uint32) uint32) uint32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4107,6 +4859,14 @@ func MapInt32Uint64(arr []int32, f func(el int32) uint64) []uint64 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt32Uint64(arr []int32, acc uint64, f func(el int32, acc uint64) uint64) uint64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt32Uint8(arr []int32, f func(el int32) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -4114,6 +4874,14 @@ func MapInt32Uint8(arr []int32, f func(el int32) uint8) []uint8 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt32Uint8(arr []int32, acc uint8, f func(el int32, acc uint8) uint8) uint8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4125,6 +4893,14 @@ func MapInt64Bool(arr []int64, f func(el int64) bool) []bool {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt64Bool(arr []int64, acc bool, f func(el int64, acc bool) bool) bool {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Byte(arr []int64, f func(el int64) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -4132,6 +4908,14 @@ func MapInt64Byte(arr []int64, f func(el int64) byte) []byte {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt64Byte(arr []int64, acc byte, f func(el int64, acc byte) byte) byte {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4143,6 +4927,14 @@ func MapInt64Float32(arr []int64, f func(el int64) float32) []float32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt64Float32(arr []int64, acc float32, f func(el int64, acc float32) float32) float32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Float64(arr []int64, f func(el int64) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -4150,6 +4942,14 @@ func MapInt64Float64(arr []int64, f func(el int64) float64) []float64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt64Float64(arr []int64, acc float64, f func(el int64, acc float64) float64) float64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4161,6 +4961,14 @@ func MapInt64Int(arr []int64, f func(el int64) int) []int {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt64Int(arr []int64, acc int, f func(el int64, acc int) int) int {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Int16(arr []int64, f func(el int64) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -4168,6 +4976,14 @@ func MapInt64Int16(arr []int64, f func(el int64) int16) []int16 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt64Int16(arr []int64, acc int16, f func(el int64, acc int16) int16) int16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4179,6 +4995,14 @@ func MapInt64Int32(arr []int64, f func(el int64) int32) []int32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt64Int32(arr []int64, acc int32, f func(el int64, acc int32) int32) int32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Int64(arr []int64, f func(el int64) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -4186,6 +5010,14 @@ func MapInt64Int64(arr []int64, f func(el int64) int64) []int64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt64Int64(arr []int64, acc int64, f func(el int64, acc int64) int64) int64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4197,6 +5029,14 @@ func MapInt64Int8(arr []int64, f func(el int64) int8) []int8 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt64Int8(arr []int64, acc int8, f func(el int64, acc int8) int8) int8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Interface(arr []int64, f func(el int64) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -4204,6 +5044,14 @@ func MapInt64Interface(arr []int64, f func(el int64) interface{}) []interface{} 
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt64Interface(arr []int64, acc interface{}, f func(el int64, acc interface{}) interface{}) interface{} {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4215,6 +5063,14 @@ func MapInt64String(arr []int64, f func(el int64) string) []string {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt64String(arr []int64, acc string, f func(el int64, acc string) string) string {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Uint(arr []int64, f func(el int64) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -4222,6 +5078,14 @@ func MapInt64Uint(arr []int64, f func(el int64) uint) []uint {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt64Uint(arr []int64, acc uint, f func(el int64, acc uint) uint) uint {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4233,6 +5097,14 @@ func MapInt64Uint16(arr []int64, f func(el int64) uint16) []uint16 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt64Uint16(arr []int64, acc uint16, f func(el int64, acc uint16) uint16) uint16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Uint32(arr []int64, f func(el int64) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -4240,6 +5112,14 @@ func MapInt64Uint32(arr []int64, f func(el int64) uint32) []uint32 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt64Uint32(arr []int64, acc uint32, f func(el int64, acc uint32) uint32) uint32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4251,6 +5131,14 @@ func MapInt64Uint64(arr []int64, f func(el int64) uint64) []uint64 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt64Uint64(arr []int64, acc uint64, f func(el int64, acc uint64) uint64) uint64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt64Uint8(arr []int64, f func(el int64) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -4258,6 +5146,14 @@ func MapInt64Uint8(arr []int64, f func(el int64) uint8) []uint8 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt64Uint8(arr []int64, acc uint8, f func(el int64, acc uint8) uint8) uint8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4269,6 +5165,14 @@ func MapInt8Bool(arr []int8, f func(el int8) bool) []bool {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt8Bool(arr []int8, acc bool, f func(el int8, acc bool) bool) bool {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Byte(arr []int8, f func(el int8) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -4276,6 +5180,14 @@ func MapInt8Byte(arr []int8, f func(el int8) byte) []byte {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt8Byte(arr []int8, acc byte, f func(el int8, acc byte) byte) byte {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4287,6 +5199,14 @@ func MapInt8Float32(arr []int8, f func(el int8) float32) []float32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt8Float32(arr []int8, acc float32, f func(el int8, acc float32) float32) float32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Float64(arr []int8, f func(el int8) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -4294,6 +5214,14 @@ func MapInt8Float64(arr []int8, f func(el int8) float64) []float64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt8Float64(arr []int8, acc float64, f func(el int8, acc float64) float64) float64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4305,6 +5233,14 @@ func MapInt8Int(arr []int8, f func(el int8) int) []int {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt8Int(arr []int8, acc int, f func(el int8, acc int) int) int {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Int16(arr []int8, f func(el int8) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -4312,6 +5248,14 @@ func MapInt8Int16(arr []int8, f func(el int8) int16) []int16 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt8Int16(arr []int8, acc int16, f func(el int8, acc int16) int16) int16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4323,6 +5267,14 @@ func MapInt8Int32(arr []int8, f func(el int8) int32) []int32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt8Int32(arr []int8, acc int32, f func(el int8, acc int32) int32) int32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Int64(arr []int8, f func(el int8) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -4330,6 +5282,14 @@ func MapInt8Int64(arr []int8, f func(el int8) int64) []int64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt8Int64(arr []int8, acc int64, f func(el int8, acc int64) int64) int64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4341,6 +5301,14 @@ func MapInt8Int8(arr []int8, f func(el int8) int8) []int8 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt8Int8(arr []int8, acc int8, f func(el int8, acc int8) int8) int8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Interface(arr []int8, f func(el int8) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -4348,6 +5316,14 @@ func MapInt8Interface(arr []int8, f func(el int8) interface{}) []interface{} {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt8Interface(arr []int8, acc interface{}, f func(el int8, acc interface{}) interface{}) interface{} {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4359,6 +5335,14 @@ func MapInt8String(arr []int8, f func(el int8) string) []string {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt8String(arr []int8, acc string, f func(el int8, acc string) string) string {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Uint(arr []int8, f func(el int8) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -4366,6 +5350,14 @@ func MapInt8Uint(arr []int8, f func(el int8) uint) []uint {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt8Uint(arr []int8, acc uint, f func(el int8, acc uint) uint) uint {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4377,6 +5369,14 @@ func MapInt8Uint16(arr []int8, f func(el int8) uint16) []uint16 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt8Uint16(arr []int8, acc uint16, f func(el int8, acc uint16) uint16) uint16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Uint32(arr []int8, f func(el int8) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -4384,6 +5384,14 @@ func MapInt8Uint32(arr []int8, f func(el int8) uint32) []uint32 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt8Uint32(arr []int8, acc uint32, f func(el int8, acc uint32) uint32) uint32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4395,6 +5403,14 @@ func MapInt8Uint64(arr []int8, f func(el int8) uint64) []uint64 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt8Uint64(arr []int8, acc uint64, f func(el int8, acc uint64) uint64) uint64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInt8Uint8(arr []int8, f func(el int8) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -4402,6 +5418,14 @@ func MapInt8Uint8(arr []int8, f func(el int8) uint8) []uint8 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInt8Uint8(arr []int8, acc uint8, f func(el int8, acc uint8) uint8) uint8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4413,6 +5437,14 @@ func MapIntBool(arr []int, f func(el int) bool) []bool {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceIntBool(arr []int, acc bool, f func(el int, acc bool) bool) bool {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntByte(arr []int, f func(el int) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -4420,6 +5452,14 @@ func MapIntByte(arr []int, f func(el int) byte) []byte {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceIntByte(arr []int, acc byte, f func(el int, acc byte) byte) byte {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4431,6 +5471,14 @@ func MapInterfaceBool(arr []interface{}, f func(el interface{}) bool) []bool {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInterfaceBool(arr []interface{}, acc bool, f func(el interface{}, acc bool) bool) bool {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceByte(arr []interface{}, f func(el interface{}) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -4438,6 +5486,14 @@ func MapInterfaceByte(arr []interface{}, f func(el interface{}) byte) []byte {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInterfaceByte(arr []interface{}, acc byte, f func(el interface{}, acc byte) byte) byte {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4449,6 +5505,14 @@ func MapInterfaceFloat32(arr []interface{}, f func(el interface{}) float32) []fl
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInterfaceFloat32(arr []interface{}, acc float32, f func(el interface{}, acc float32) float32) float32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceFloat64(arr []interface{}, f func(el interface{}) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -4456,6 +5520,14 @@ func MapInterfaceFloat64(arr []interface{}, f func(el interface{}) float64) []fl
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInterfaceFloat64(arr []interface{}, acc float64, f func(el interface{}, acc float64) float64) float64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4467,6 +5539,14 @@ func MapInterfaceInt(arr []interface{}, f func(el interface{}) int) []int {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInterfaceInt(arr []interface{}, acc int, f func(el interface{}, acc int) int) int {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceInt16(arr []interface{}, f func(el interface{}) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -4474,6 +5554,14 @@ func MapInterfaceInt16(arr []interface{}, f func(el interface{}) int16) []int16 
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInterfaceInt16(arr []interface{}, acc int16, f func(el interface{}, acc int16) int16) int16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4485,6 +5573,14 @@ func MapInterfaceInt32(arr []interface{}, f func(el interface{}) int32) []int32 
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInterfaceInt32(arr []interface{}, acc int32, f func(el interface{}, acc int32) int32) int32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceInt64(arr []interface{}, f func(el interface{}) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -4492,6 +5588,14 @@ func MapInterfaceInt64(arr []interface{}, f func(el interface{}) int64) []int64 
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInterfaceInt64(arr []interface{}, acc int64, f func(el interface{}, acc int64) int64) int64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4503,6 +5607,14 @@ func MapInterfaceInt8(arr []interface{}, f func(el interface{}) int8) []int8 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInterfaceInt8(arr []interface{}, acc int8, f func(el interface{}, acc int8) int8) int8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceInterface(arr []interface{}, f func(el interface{}) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -4510,6 +5622,14 @@ func MapInterfaceInterface(arr []interface{}, f func(el interface{}) interface{}
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInterfaceInterface(arr []interface{}, acc interface{}, f func(el interface{}, acc interface{}) interface{}) interface{} {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4521,6 +5641,14 @@ func MapInterfaceString(arr []interface{}, f func(el interface{}) string) []stri
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInterfaceString(arr []interface{}, acc string, f func(el interface{}, acc string) string) string {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceUint(arr []interface{}, f func(el interface{}) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -4528,6 +5656,14 @@ func MapInterfaceUint(arr []interface{}, f func(el interface{}) uint) []uint {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInterfaceUint(arr []interface{}, acc uint, f func(el interface{}, acc uint) uint) uint {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4539,6 +5675,14 @@ func MapInterfaceUint16(arr []interface{}, f func(el interface{}) uint16) []uint
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInterfaceUint16(arr []interface{}, acc uint16, f func(el interface{}, acc uint16) uint16) uint16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceUint32(arr []interface{}, f func(el interface{}) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -4546,6 +5690,14 @@ func MapInterfaceUint32(arr []interface{}, f func(el interface{}) uint32) []uint
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInterfaceUint32(arr []interface{}, acc uint32, f func(el interface{}, acc uint32) uint32) uint32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4557,6 +5709,14 @@ func MapInterfaceUint64(arr []interface{}, f func(el interface{}) uint64) []uint
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInterfaceUint64(arr []interface{}, acc uint64, f func(el interface{}, acc uint64) uint64) uint64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapInterfaceUint8(arr []interface{}, f func(el interface{}) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -4564,6 +5724,14 @@ func MapInterfaceUint8(arr []interface{}, f func(el interface{}) uint8) []uint8 
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceInterfaceUint8(arr []interface{}, acc uint8, f func(el interface{}, acc uint8) uint8) uint8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4575,6 +5743,14 @@ func MapIntFloat32(arr []int, f func(el int) float32) []float32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceIntFloat32(arr []int, acc float32, f func(el int, acc float32) float32) float32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntFloat64(arr []int, f func(el int) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -4582,6 +5758,14 @@ func MapIntFloat64(arr []int, f func(el int) float64) []float64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceIntFloat64(arr []int, acc float64, f func(el int, acc float64) float64) float64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4593,6 +5777,14 @@ func MapIntInt(arr []int, f func(el int) int) []int {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceIntInt(arr []int, acc int, f func(el int, acc int) int) int {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntInt16(arr []int, f func(el int) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -4600,6 +5792,14 @@ func MapIntInt16(arr []int, f func(el int) int16) []int16 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceIntInt16(arr []int, acc int16, f func(el int, acc int16) int16) int16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4611,6 +5811,14 @@ func MapIntInt32(arr []int, f func(el int) int32) []int32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceIntInt32(arr []int, acc int32, f func(el int, acc int32) int32) int32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntInt64(arr []int, f func(el int) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -4618,6 +5826,14 @@ func MapIntInt64(arr []int, f func(el int) int64) []int64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceIntInt64(arr []int, acc int64, f func(el int, acc int64) int64) int64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4629,6 +5845,14 @@ func MapIntInt8(arr []int, f func(el int) int8) []int8 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceIntInt8(arr []int, acc int8, f func(el int, acc int8) int8) int8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntInterface(arr []int, f func(el int) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -4636,6 +5860,14 @@ func MapIntInterface(arr []int, f func(el int) interface{}) []interface{} {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceIntInterface(arr []int, acc interface{}, f func(el int, acc interface{}) interface{}) interface{} {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4647,6 +5879,14 @@ func MapIntString(arr []int, f func(el int) string) []string {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceIntString(arr []int, acc string, f func(el int, acc string) string) string {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntUint(arr []int, f func(el int) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -4654,6 +5894,14 @@ func MapIntUint(arr []int, f func(el int) uint) []uint {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceIntUint(arr []int, acc uint, f func(el int, acc uint) uint) uint {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4665,6 +5913,14 @@ func MapIntUint16(arr []int, f func(el int) uint16) []uint16 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceIntUint16(arr []int, acc uint16, f func(el int, acc uint16) uint16) uint16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntUint32(arr []int, f func(el int) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -4672,6 +5928,14 @@ func MapIntUint32(arr []int, f func(el int) uint32) []uint32 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceIntUint32(arr []int, acc uint32, f func(el int, acc uint32) uint32) uint32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4683,6 +5947,14 @@ func MapIntUint64(arr []int, f func(el int) uint64) []uint64 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceIntUint64(arr []int, acc uint64, f func(el int, acc uint64) uint64) uint64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapIntUint8(arr []int, f func(el int) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -4690,6 +5962,14 @@ func MapIntUint8(arr []int, f func(el int) uint8) []uint8 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceIntUint8(arr []int, acc uint8, f func(el int, acc uint8) uint8) uint8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4701,6 +5981,14 @@ func MapStringBool(arr []string, f func(el string) bool) []bool {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceStringBool(arr []string, acc bool, f func(el string, acc bool) bool) bool {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringByte(arr []string, f func(el string) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -4708,6 +5996,14 @@ func MapStringByte(arr []string, f func(el string) byte) []byte {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceStringByte(arr []string, acc byte, f func(el string, acc byte) byte) byte {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4719,6 +6015,14 @@ func MapStringFloat32(arr []string, f func(el string) float32) []float32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceStringFloat32(arr []string, acc float32, f func(el string, acc float32) float32) float32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringFloat64(arr []string, f func(el string) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -4726,6 +6030,14 @@ func MapStringFloat64(arr []string, f func(el string) float64) []float64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceStringFloat64(arr []string, acc float64, f func(el string, acc float64) float64) float64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4737,6 +6049,14 @@ func MapStringInt(arr []string, f func(el string) int) []int {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceStringInt(arr []string, acc int, f func(el string, acc int) int) int {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringInt16(arr []string, f func(el string) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -4744,6 +6064,14 @@ func MapStringInt16(arr []string, f func(el string) int16) []int16 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceStringInt16(arr []string, acc int16, f func(el string, acc int16) int16) int16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4755,6 +6083,14 @@ func MapStringInt32(arr []string, f func(el string) int32) []int32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceStringInt32(arr []string, acc int32, f func(el string, acc int32) int32) int32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringInt64(arr []string, f func(el string) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -4762,6 +6098,14 @@ func MapStringInt64(arr []string, f func(el string) int64) []int64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceStringInt64(arr []string, acc int64, f func(el string, acc int64) int64) int64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4773,6 +6117,14 @@ func MapStringInt8(arr []string, f func(el string) int8) []int8 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceStringInt8(arr []string, acc int8, f func(el string, acc int8) int8) int8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringInterface(arr []string, f func(el string) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -4780,6 +6132,14 @@ func MapStringInterface(arr []string, f func(el string) interface{}) []interface
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceStringInterface(arr []string, acc interface{}, f func(el string, acc interface{}) interface{}) interface{} {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4791,6 +6151,14 @@ func MapStringString(arr []string, f func(el string) string) []string {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceStringString(arr []string, acc string, f func(el string, acc string) string) string {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringUint(arr []string, f func(el string) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -4798,6 +6166,14 @@ func MapStringUint(arr []string, f func(el string) uint) []uint {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceStringUint(arr []string, acc uint, f func(el string, acc uint) uint) uint {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4809,6 +6185,14 @@ func MapStringUint16(arr []string, f func(el string) uint16) []uint16 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceStringUint16(arr []string, acc uint16, f func(el string, acc uint16) uint16) uint16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringUint32(arr []string, f func(el string) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -4816,6 +6200,14 @@ func MapStringUint32(arr []string, f func(el string) uint32) []uint32 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceStringUint32(arr []string, acc uint32, f func(el string, acc uint32) uint32) uint32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4827,6 +6219,14 @@ func MapStringUint64(arr []string, f func(el string) uint64) []uint64 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceStringUint64(arr []string, acc uint64, f func(el string, acc uint64) uint64) uint64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapStringUint8(arr []string, f func(el string) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -4834,6 +6234,14 @@ func MapStringUint8(arr []string, f func(el string) uint8) []uint8 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceStringUint8(arr []string, acc uint8, f func(el string, acc uint8) uint8) uint8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4845,6 +6253,14 @@ func MapUint16Bool(arr []uint16, f func(el uint16) bool) []bool {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint16Bool(arr []uint16, acc bool, f func(el uint16, acc bool) bool) bool {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Byte(arr []uint16, f func(el uint16) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -4852,6 +6268,14 @@ func MapUint16Byte(arr []uint16, f func(el uint16) byte) []byte {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint16Byte(arr []uint16, acc byte, f func(el uint16, acc byte) byte) byte {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4863,6 +6287,14 @@ func MapUint16Float32(arr []uint16, f func(el uint16) float32) []float32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint16Float32(arr []uint16, acc float32, f func(el uint16, acc float32) float32) float32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Float64(arr []uint16, f func(el uint16) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -4870,6 +6302,14 @@ func MapUint16Float64(arr []uint16, f func(el uint16) float64) []float64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint16Float64(arr []uint16, acc float64, f func(el uint16, acc float64) float64) float64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4881,6 +6321,14 @@ func MapUint16Int(arr []uint16, f func(el uint16) int) []int {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint16Int(arr []uint16, acc int, f func(el uint16, acc int) int) int {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Int16(arr []uint16, f func(el uint16) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -4888,6 +6336,14 @@ func MapUint16Int16(arr []uint16, f func(el uint16) int16) []int16 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint16Int16(arr []uint16, acc int16, f func(el uint16, acc int16) int16) int16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4899,6 +6355,14 @@ func MapUint16Int32(arr []uint16, f func(el uint16) int32) []int32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint16Int32(arr []uint16, acc int32, f func(el uint16, acc int32) int32) int32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Int64(arr []uint16, f func(el uint16) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -4906,6 +6370,14 @@ func MapUint16Int64(arr []uint16, f func(el uint16) int64) []int64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint16Int64(arr []uint16, acc int64, f func(el uint16, acc int64) int64) int64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4917,6 +6389,14 @@ func MapUint16Int8(arr []uint16, f func(el uint16) int8) []int8 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint16Int8(arr []uint16, acc int8, f func(el uint16, acc int8) int8) int8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Interface(arr []uint16, f func(el uint16) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -4924,6 +6404,14 @@ func MapUint16Interface(arr []uint16, f func(el uint16) interface{}) []interface
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint16Interface(arr []uint16, acc interface{}, f func(el uint16, acc interface{}) interface{}) interface{} {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4935,6 +6423,14 @@ func MapUint16String(arr []uint16, f func(el uint16) string) []string {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint16String(arr []uint16, acc string, f func(el uint16, acc string) string) string {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Uint(arr []uint16, f func(el uint16) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -4942,6 +6438,14 @@ func MapUint16Uint(arr []uint16, f func(el uint16) uint) []uint {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint16Uint(arr []uint16, acc uint, f func(el uint16, acc uint) uint) uint {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4953,6 +6457,14 @@ func MapUint16Uint16(arr []uint16, f func(el uint16) uint16) []uint16 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint16Uint16(arr []uint16, acc uint16, f func(el uint16, acc uint16) uint16) uint16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Uint32(arr []uint16, f func(el uint16) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -4960,6 +6472,14 @@ func MapUint16Uint32(arr []uint16, f func(el uint16) uint32) []uint32 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint16Uint32(arr []uint16, acc uint32, f func(el uint16, acc uint32) uint32) uint32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4971,6 +6491,14 @@ func MapUint16Uint64(arr []uint16, f func(el uint16) uint64) []uint64 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint16Uint64(arr []uint16, acc uint64, f func(el uint16, acc uint64) uint64) uint64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint16Uint8(arr []uint16, f func(el uint16) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -4978,6 +6506,14 @@ func MapUint16Uint8(arr []uint16, f func(el uint16) uint8) []uint8 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint16Uint8(arr []uint16, acc uint8, f func(el uint16, acc uint8) uint8) uint8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -4989,6 +6525,14 @@ func MapUint32Bool(arr []uint32, f func(el uint32) bool) []bool {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint32Bool(arr []uint32, acc bool, f func(el uint32, acc bool) bool) bool {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Byte(arr []uint32, f func(el uint32) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -4996,6 +6540,14 @@ func MapUint32Byte(arr []uint32, f func(el uint32) byte) []byte {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint32Byte(arr []uint32, acc byte, f func(el uint32, acc byte) byte) byte {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5007,6 +6559,14 @@ func MapUint32Float32(arr []uint32, f func(el uint32) float32) []float32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint32Float32(arr []uint32, acc float32, f func(el uint32, acc float32) float32) float32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Float64(arr []uint32, f func(el uint32) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -5014,6 +6574,14 @@ func MapUint32Float64(arr []uint32, f func(el uint32) float64) []float64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint32Float64(arr []uint32, acc float64, f func(el uint32, acc float64) float64) float64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5025,6 +6593,14 @@ func MapUint32Int(arr []uint32, f func(el uint32) int) []int {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint32Int(arr []uint32, acc int, f func(el uint32, acc int) int) int {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Int16(arr []uint32, f func(el uint32) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -5032,6 +6608,14 @@ func MapUint32Int16(arr []uint32, f func(el uint32) int16) []int16 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint32Int16(arr []uint32, acc int16, f func(el uint32, acc int16) int16) int16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5043,6 +6627,14 @@ func MapUint32Int32(arr []uint32, f func(el uint32) int32) []int32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint32Int32(arr []uint32, acc int32, f func(el uint32, acc int32) int32) int32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Int64(arr []uint32, f func(el uint32) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -5050,6 +6642,14 @@ func MapUint32Int64(arr []uint32, f func(el uint32) int64) []int64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint32Int64(arr []uint32, acc int64, f func(el uint32, acc int64) int64) int64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5061,6 +6661,14 @@ func MapUint32Int8(arr []uint32, f func(el uint32) int8) []int8 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint32Int8(arr []uint32, acc int8, f func(el uint32, acc int8) int8) int8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Interface(arr []uint32, f func(el uint32) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -5068,6 +6676,14 @@ func MapUint32Interface(arr []uint32, f func(el uint32) interface{}) []interface
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint32Interface(arr []uint32, acc interface{}, f func(el uint32, acc interface{}) interface{}) interface{} {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5079,6 +6695,14 @@ func MapUint32String(arr []uint32, f func(el uint32) string) []string {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint32String(arr []uint32, acc string, f func(el uint32, acc string) string) string {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Uint(arr []uint32, f func(el uint32) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -5086,6 +6710,14 @@ func MapUint32Uint(arr []uint32, f func(el uint32) uint) []uint {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint32Uint(arr []uint32, acc uint, f func(el uint32, acc uint) uint) uint {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5097,6 +6729,14 @@ func MapUint32Uint16(arr []uint32, f func(el uint32) uint16) []uint16 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint32Uint16(arr []uint32, acc uint16, f func(el uint32, acc uint16) uint16) uint16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Uint32(arr []uint32, f func(el uint32) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -5104,6 +6744,14 @@ func MapUint32Uint32(arr []uint32, f func(el uint32) uint32) []uint32 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint32Uint32(arr []uint32, acc uint32, f func(el uint32, acc uint32) uint32) uint32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5115,6 +6763,14 @@ func MapUint32Uint64(arr []uint32, f func(el uint32) uint64) []uint64 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint32Uint64(arr []uint32, acc uint64, f func(el uint32, acc uint64) uint64) uint64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint32Uint8(arr []uint32, f func(el uint32) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -5122,6 +6778,14 @@ func MapUint32Uint8(arr []uint32, f func(el uint32) uint8) []uint8 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint32Uint8(arr []uint32, acc uint8, f func(el uint32, acc uint8) uint8) uint8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5133,6 +6797,14 @@ func MapUint64Bool(arr []uint64, f func(el uint64) bool) []bool {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint64Bool(arr []uint64, acc bool, f func(el uint64, acc bool) bool) bool {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Byte(arr []uint64, f func(el uint64) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -5140,6 +6812,14 @@ func MapUint64Byte(arr []uint64, f func(el uint64) byte) []byte {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint64Byte(arr []uint64, acc byte, f func(el uint64, acc byte) byte) byte {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5151,6 +6831,14 @@ func MapUint64Float32(arr []uint64, f func(el uint64) float32) []float32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint64Float32(arr []uint64, acc float32, f func(el uint64, acc float32) float32) float32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Float64(arr []uint64, f func(el uint64) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -5158,6 +6846,14 @@ func MapUint64Float64(arr []uint64, f func(el uint64) float64) []float64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint64Float64(arr []uint64, acc float64, f func(el uint64, acc float64) float64) float64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5169,6 +6865,14 @@ func MapUint64Int(arr []uint64, f func(el uint64) int) []int {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint64Int(arr []uint64, acc int, f func(el uint64, acc int) int) int {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Int16(arr []uint64, f func(el uint64) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -5176,6 +6880,14 @@ func MapUint64Int16(arr []uint64, f func(el uint64) int16) []int16 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint64Int16(arr []uint64, acc int16, f func(el uint64, acc int16) int16) int16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5187,6 +6899,14 @@ func MapUint64Int32(arr []uint64, f func(el uint64) int32) []int32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint64Int32(arr []uint64, acc int32, f func(el uint64, acc int32) int32) int32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Int64(arr []uint64, f func(el uint64) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -5194,6 +6914,14 @@ func MapUint64Int64(arr []uint64, f func(el uint64) int64) []int64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint64Int64(arr []uint64, acc int64, f func(el uint64, acc int64) int64) int64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5205,6 +6933,14 @@ func MapUint64Int8(arr []uint64, f func(el uint64) int8) []int8 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint64Int8(arr []uint64, acc int8, f func(el uint64, acc int8) int8) int8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Interface(arr []uint64, f func(el uint64) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -5212,6 +6948,14 @@ func MapUint64Interface(arr []uint64, f func(el uint64) interface{}) []interface
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint64Interface(arr []uint64, acc interface{}, f func(el uint64, acc interface{}) interface{}) interface{} {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5223,6 +6967,14 @@ func MapUint64String(arr []uint64, f func(el uint64) string) []string {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint64String(arr []uint64, acc string, f func(el uint64, acc string) string) string {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Uint(arr []uint64, f func(el uint64) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -5230,6 +6982,14 @@ func MapUint64Uint(arr []uint64, f func(el uint64) uint) []uint {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint64Uint(arr []uint64, acc uint, f func(el uint64, acc uint) uint) uint {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5241,6 +7001,14 @@ func MapUint64Uint16(arr []uint64, f func(el uint64) uint16) []uint16 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint64Uint16(arr []uint64, acc uint16, f func(el uint64, acc uint16) uint16) uint16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Uint32(arr []uint64, f func(el uint64) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -5248,6 +7016,14 @@ func MapUint64Uint32(arr []uint64, f func(el uint64) uint32) []uint32 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint64Uint32(arr []uint64, acc uint32, f func(el uint64, acc uint32) uint32) uint32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5259,6 +7035,14 @@ func MapUint64Uint64(arr []uint64, f func(el uint64) uint64) []uint64 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint64Uint64(arr []uint64, acc uint64, f func(el uint64, acc uint64) uint64) uint64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint64Uint8(arr []uint64, f func(el uint64) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -5266,6 +7050,14 @@ func MapUint64Uint8(arr []uint64, f func(el uint64) uint8) []uint8 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint64Uint8(arr []uint64, acc uint8, f func(el uint64, acc uint8) uint8) uint8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5277,6 +7069,14 @@ func MapUint8Bool(arr []uint8, f func(el uint8) bool) []bool {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint8Bool(arr []uint8, acc bool, f func(el uint8, acc bool) bool) bool {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Byte(arr []uint8, f func(el uint8) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -5284,6 +7084,14 @@ func MapUint8Byte(arr []uint8, f func(el uint8) byte) []byte {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint8Byte(arr []uint8, acc byte, f func(el uint8, acc byte) byte) byte {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5295,6 +7103,14 @@ func MapUint8Float32(arr []uint8, f func(el uint8) float32) []float32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint8Float32(arr []uint8, acc float32, f func(el uint8, acc float32) float32) float32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Float64(arr []uint8, f func(el uint8) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -5302,6 +7118,14 @@ func MapUint8Float64(arr []uint8, f func(el uint8) float64) []float64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint8Float64(arr []uint8, acc float64, f func(el uint8, acc float64) float64) float64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5313,6 +7137,14 @@ func MapUint8Int(arr []uint8, f func(el uint8) int) []int {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint8Int(arr []uint8, acc int, f func(el uint8, acc int) int) int {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Int16(arr []uint8, f func(el uint8) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -5320,6 +7152,14 @@ func MapUint8Int16(arr []uint8, f func(el uint8) int16) []int16 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint8Int16(arr []uint8, acc int16, f func(el uint8, acc int16) int16) int16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5331,6 +7171,14 @@ func MapUint8Int32(arr []uint8, f func(el uint8) int32) []int32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint8Int32(arr []uint8, acc int32, f func(el uint8, acc int32) int32) int32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Int64(arr []uint8, f func(el uint8) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -5338,6 +7186,14 @@ func MapUint8Int64(arr []uint8, f func(el uint8) int64) []int64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint8Int64(arr []uint8, acc int64, f func(el uint8, acc int64) int64) int64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5349,6 +7205,14 @@ func MapUint8Int8(arr []uint8, f func(el uint8) int8) []int8 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint8Int8(arr []uint8, acc int8, f func(el uint8, acc int8) int8) int8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Interface(arr []uint8, f func(el uint8) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -5356,6 +7220,14 @@ func MapUint8Interface(arr []uint8, f func(el uint8) interface{}) []interface{} 
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint8Interface(arr []uint8, acc interface{}, f func(el uint8, acc interface{}) interface{}) interface{} {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5367,6 +7239,14 @@ func MapUint8String(arr []uint8, f func(el uint8) string) []string {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint8String(arr []uint8, acc string, f func(el uint8, acc string) string) string {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Uint(arr []uint8, f func(el uint8) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -5374,6 +7254,14 @@ func MapUint8Uint(arr []uint8, f func(el uint8) uint) []uint {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint8Uint(arr []uint8, acc uint, f func(el uint8, acc uint) uint) uint {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5385,6 +7273,14 @@ func MapUint8Uint16(arr []uint8, f func(el uint8) uint16) []uint16 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint8Uint16(arr []uint8, acc uint16, f func(el uint8, acc uint16) uint16) uint16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Uint32(arr []uint8, f func(el uint8) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -5392,6 +7288,14 @@ func MapUint8Uint32(arr []uint8, f func(el uint8) uint32) []uint32 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint8Uint32(arr []uint8, acc uint32, f func(el uint8, acc uint32) uint32) uint32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5403,6 +7307,14 @@ func MapUint8Uint64(arr []uint8, f func(el uint8) uint64) []uint64 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint8Uint64(arr []uint8, acc uint64, f func(el uint8, acc uint64) uint64) uint64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUint8Uint8(arr []uint8, f func(el uint8) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -5410,6 +7322,14 @@ func MapUint8Uint8(arr []uint8, f func(el uint8) uint8) []uint8 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUint8Uint8(arr []uint8, acc uint8, f func(el uint8, acc uint8) uint8) uint8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5421,6 +7341,14 @@ func MapUintBool(arr []uint, f func(el uint) bool) []bool {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUintBool(arr []uint, acc bool, f func(el uint, acc bool) bool) bool {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintByte(arr []uint, f func(el uint) byte) []byte {
 	result := make([]byte, 0, len(arr))
@@ -5428,6 +7356,14 @@ func MapUintByte(arr []uint, f func(el uint) byte) []byte {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUintByte(arr []uint, acc byte, f func(el uint, acc byte) byte) byte {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5439,6 +7375,14 @@ func MapUintFloat32(arr []uint, f func(el uint) float32) []float32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUintFloat32(arr []uint, acc float32, f func(el uint, acc float32) float32) float32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintFloat64(arr []uint, f func(el uint) float64) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -5446,6 +7390,14 @@ func MapUintFloat64(arr []uint, f func(el uint) float64) []float64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUintFloat64(arr []uint, acc float64, f func(el uint, acc float64) float64) float64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5457,6 +7409,14 @@ func MapUintInt(arr []uint, f func(el uint) int) []int {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUintInt(arr []uint, acc int, f func(el uint, acc int) int) int {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintInt16(arr []uint, f func(el uint) int16) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -5464,6 +7424,14 @@ func MapUintInt16(arr []uint, f func(el uint) int16) []int16 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUintInt16(arr []uint, acc int16, f func(el uint, acc int16) int16) int16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5475,6 +7443,14 @@ func MapUintInt32(arr []uint, f func(el uint) int32) []int32 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUintInt32(arr []uint, acc int32, f func(el uint, acc int32) int32) int32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintInt64(arr []uint, f func(el uint) int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -5482,6 +7458,14 @@ func MapUintInt64(arr []uint, f func(el uint) int64) []int64 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUintInt64(arr []uint, acc int64, f func(el uint, acc int64) int64) int64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5493,6 +7477,14 @@ func MapUintInt8(arr []uint, f func(el uint) int8) []int8 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUintInt8(arr []uint, acc int8, f func(el uint, acc int8) int8) int8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintInterface(arr []uint, f func(el uint) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -5500,6 +7492,14 @@ func MapUintInterface(arr []uint, f func(el uint) interface{}) []interface{} {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUintInterface(arr []uint, acc interface{}, f func(el uint, acc interface{}) interface{}) interface{} {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5511,6 +7511,14 @@ func MapUintString(arr []uint, f func(el uint) string) []string {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUintString(arr []uint, acc string, f func(el uint, acc string) string) string {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintUint(arr []uint, f func(el uint) uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -5518,6 +7526,14 @@ func MapUintUint(arr []uint, f func(el uint) uint) []uint {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUintUint(arr []uint, acc uint, f func(el uint, acc uint) uint) uint {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5529,6 +7545,14 @@ func MapUintUint16(arr []uint, f func(el uint) uint16) []uint16 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUintUint16(arr []uint, acc uint16, f func(el uint, acc uint16) uint16) uint16 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintUint32(arr []uint, f func(el uint) uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -5536,6 +7560,14 @@ func MapUintUint32(arr []uint, f func(el uint) uint32) []uint32 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUintUint32(arr []uint, acc uint32, f func(el uint, acc uint32) uint32) uint32 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }
 
 // Map2 applies F to all elements in slice of T and returns slice of results
@@ -5547,6 +7579,14 @@ func MapUintUint64(arr []uint, f func(el uint) uint64) []uint64 {
 	return result
 }
 
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUintUint64(arr []uint, acc uint64, f func(el uint, acc uint64) uint64) uint64 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
 // Map2 applies F to all elements in slice of T and returns slice of results
 func MapUintUint8(arr []uint, f func(el uint) uint8) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -5554,4 +7594,12 @@ func MapUintUint8(arr []uint, f func(el uint) uint8) []uint8 {
 		result = append(result, f(el))
 	}
 	return result
+}
+
+// Reduce2 applies F to acc and every element in slice of T and returns acc
+func ReduceUintUint8(arr []uint, acc uint8, f func(el uint, acc uint8) uint8) uint8 {
+	for _, el := range arr {
+		acc = f(el, acc)
+	}
+	return acc
 }

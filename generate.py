@@ -77,7 +77,11 @@ def merge(in_path: Path, out_path: Path):
 
 def _is_excluded_type(line: str) -> bool:
     # exclude generic type declaration
-    if line.startswith('type') and line.rstrip().endswith('int8'):
+    if not line.startswith('type'):
+        return False
+    if line.rstrip().endswith('int8'):
+        return True
+    if line.rstrip().endswith('int16'):
         return True
     return False
 
