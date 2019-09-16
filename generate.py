@@ -1,3 +1,4 @@
+import re
 import subprocess
 from itertools import product
 from pathlib import Path
@@ -14,6 +15,7 @@ TYPES = (
 )
 EXCLUDE = ('MaxBool', 'MinBool', 'Max', 'Min')
 GENERICS = ('T', 'G')
+REX_DROP_SUFFIX = re.compile(r'func\s([a-zA-Z]+)[245]([A-Z]+)')
 
 
 def _make_suffix(types: Sequence[str]) -> str:
@@ -89,6 +91,13 @@ def _is_excluded_func(line: str) -> bool:
     return False
 
 
+def _rename(line: str) -> str:
+    match = REX_DROP_SUFFIX.match(line)
+    if not match:
+        return line
+    return REX_DROP_SUFFIX.sub(r'func \1\2', line, count=1)
+
+
 def clean(path: Path):
     lines = path.read_text().split('\n')
     cleaned = []
@@ -112,7 +121,7 @@ def clean(path: Path):
             continue
 
         if not inside_of_bad:
-            cleaned.append(line)
+            cleaned.append(_rename(line))
 
     path.write_text('\n'.join(cleaned))
 
