@@ -113,6 +113,18 @@ func DropEvery(arr []T, nth int) []T {
 	return result
 }
 
+// DropWhile drops elements from arr while f returns true
+func DropWhile(arr []T, f func(arr T) bool) []T {
+	result := make([]T, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Find returns the first element for which f returns true
 func Find(arr []T, def T, f func(el T) bool) T {
 	for _, el := range arr {

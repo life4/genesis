@@ -113,6 +113,18 @@ func DropEveryBool(arr []bool, nth int) []bool {
 	return result
 }
 
+// DropWhile drops elements from arr while f returns true
+func DropWhileBool(arr []bool, f func(arr bool) bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Find returns the first element for which f returns true
 func FindBool(arr []bool, def bool, f func(el bool) bool) bool {
 	for _, el := range arr {
@@ -305,6 +317,18 @@ func DropEveryByte(arr []byte, nth int) []byte {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
+	}
+	return result
+}
+
+// DropWhile drops elements from arr while f returns true
+func DropWhileByte(arr []byte, f func(arr byte) bool) []byte {
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
 	}
 	return result
 }
@@ -527,6 +551,18 @@ func DropEveryFloat32(arr []float32, nth int) []float32 {
 	return result
 }
 
+// DropWhile drops elements from arr while f returns true
+func DropWhileFloat32(arr []float32, f func(arr float32) bool) []float32 {
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Find returns the first element for which f returns true
 func FindFloat32(arr []float32, def float32, f func(el float32) bool) float32 {
 	for _, el := range arr {
@@ -741,6 +777,18 @@ func DropEveryFloat64(arr []float64, nth int) []float64 {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
+	}
+	return result
+}
+
+// DropWhile drops elements from arr while f returns true
+func DropWhileFloat64(arr []float64, f func(arr float64) bool) []float64 {
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
 	}
 	return result
 }
@@ -963,6 +1011,18 @@ func DropEveryInt(arr []int, nth int) []int {
 	return result
 }
 
+// DropWhile drops elements from arr while f returns true
+func DropWhileInt(arr []int, f func(arr int) bool) []int {
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Find returns the first element for which f returns true
 func FindInt(arr []int, def int, f func(el int) bool) int {
 	for _, el := range arr {
@@ -1177,6 +1237,18 @@ func DropEveryInt16(arr []int16, nth int) []int16 {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
+	}
+	return result
+}
+
+// DropWhile drops elements from arr while f returns true
+func DropWhileInt16(arr []int16, f func(arr int16) bool) []int16 {
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
 	}
 	return result
 }
@@ -1399,6 +1471,18 @@ func DropEveryInt32(arr []int32, nth int) []int32 {
 	return result
 }
 
+// DropWhile drops elements from arr while f returns true
+func DropWhileInt32(arr []int32, f func(arr int32) bool) []int32 {
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Find returns the first element for which f returns true
 func FindInt32(arr []int32, def int32, f func(el int32) bool) int32 {
 	for _, el := range arr {
@@ -1613,6 +1697,18 @@ func DropEveryInt64(arr []int64, nth int) []int64 {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
+	}
+	return result
+}
+
+// DropWhile drops elements from arr while f returns true
+func DropWhileInt64(arr []int64, f func(arr int64) bool) []int64 {
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
 	}
 	return result
 }
@@ -1835,6 +1931,18 @@ func DropEveryInt8(arr []int8, nth int) []int8 {
 	return result
 }
 
+// DropWhile drops elements from arr while f returns true
+func DropWhileInt8(arr []int8, f func(arr int8) bool) []int8 {
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Find returns the first element for which f returns true
 func FindInt8(arr []int8, def int8, f func(el int8) bool) int8 {
 	for _, el := range arr {
@@ -2053,6 +2161,18 @@ func DropEvery(arr []interface{}, nth int) []interface{} {
 	return result
 }
 
+// DropWhile drops elements from arr while f returns true
+func DropWhile(arr []interface{}, f func(arr interface{}) bool) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Find returns the first element for which f returns true
 func Find(arr []interface{}, def interface{}, f func(el interface{}) bool) interface{} {
 	for _, el := range arr {
@@ -2245,6 +2365,18 @@ func DropEveryString(arr []string, nth int) []string {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
+	}
+	return result
+}
+
+// DropWhile drops elements from arr while f returns true
+func DropWhileString(arr []string, f func(arr string) bool) []string {
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
 	}
 	return result
 }
@@ -2467,6 +2599,18 @@ func DropEveryUint(arr []uint, nth int) []uint {
 	return result
 }
 
+// DropWhile drops elements from arr while f returns true
+func DropWhileUint(arr []uint, f func(arr uint) bool) []uint {
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Find returns the first element for which f returns true
 func FindUint(arr []uint, def uint, f func(el uint) bool) uint {
 	for _, el := range arr {
@@ -2681,6 +2825,18 @@ func DropEveryUint16(arr []uint16, nth int) []uint16 {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
+	}
+	return result
+}
+
+// DropWhile drops elements from arr while f returns true
+func DropWhileUint16(arr []uint16, f func(arr uint16) bool) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
 	}
 	return result
 }
@@ -2903,6 +3059,18 @@ func DropEveryUint32(arr []uint32, nth int) []uint32 {
 	return result
 }
 
+// DropWhile drops elements from arr while f returns true
+func DropWhileUint32(arr []uint32, f func(arr uint32) bool) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Find returns the first element for which f returns true
 func FindUint32(arr []uint32, def uint32, f func(el uint32) bool) uint32 {
 	for _, el := range arr {
@@ -3121,6 +3289,18 @@ func DropEveryUint64(arr []uint64, nth int) []uint64 {
 	return result
 }
 
+// DropWhile drops elements from arr while f returns true
+func DropWhileUint64(arr []uint64, f func(arr uint64) bool) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Find returns the first element for which f returns true
 func FindUint64(arr []uint64, def uint64, f func(el uint64) bool) uint64 {
 	for _, el := range arr {
@@ -3335,6 +3515,18 @@ func DropEveryUint8(arr []uint8, nth int) []uint8 {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
+	}
+	return result
+}
+
+// DropWhile drops elements from arr while f returns true
+func DropWhileUint8(arr []uint8, f func(arr uint8) bool) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
 	}
 	return result
 }
