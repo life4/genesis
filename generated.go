@@ -15,6 +15,38 @@ func CycleBool(arr []bool) chan bool {
 
 // Exponential generates elements from start with
 
+// Product returns cortesian product of elements
+// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+func ProductBool(arrs ...[]bool) chan []bool {
+	c := make(chan []bool, 1)
+	go productBool(c, arrs, []bool{}, 0)
+	return c
+}
+
+func productBool(c chan []bool, arrs [][]bool, left []bool, pos int) {
+
+	if pos == len(arrs)-1 {
+		for _, el := range arrs[pos] {
+			result := make([]bool, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range arrs[pos] {
+		result := make([]bool, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		productBool(c, arrs, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
 // Repeat returns channel that produces val infinite times
 func RepeatBool(val bool) chan bool {
 	c := make(chan bool, 1)
@@ -58,6 +90,38 @@ func CycleByte(arr []byte) chan byte {
 }
 
 // Exponential generates elements from start with
+
+// Product returns cortesian product of elements
+// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+func ProductByte(arrs ...[]byte) chan []byte {
+	c := make(chan []byte, 1)
+	go productByte(c, arrs, []byte{}, 0)
+	return c
+}
+
+func productByte(c chan []byte, arrs [][]byte, left []byte, pos int) {
+
+	if pos == len(arrs)-1 {
+		for _, el := range arrs[pos] {
+			result := make([]byte, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range arrs[pos] {
+		result := make([]byte, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		productByte(c, arrs, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
 
 // Repeat returns channel that produces val infinite times
 func RepeatByte(val byte) chan byte {
@@ -124,6 +188,38 @@ func ExponentialFloat32(start float32, factor float32) chan float32 {
 		}
 	}()
 	return c
+}
+
+// Product returns cortesian product of elements
+// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+func ProductFloat32(arrs ...[]float32) chan []float32 {
+	c := make(chan []float32, 1)
+	go productFloat32(c, arrs, []float32{}, 0)
+	return c
+}
+
+func productFloat32(c chan []float32, arrs [][]float32, left []float32, pos int) {
+
+	if pos == len(arrs)-1 {
+		for _, el := range arrs[pos] {
+			result := make([]float32, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range arrs[pos] {
+		result := make([]float32, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		productFloat32(c, arrs, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
 }
 
 // Range generates elements from start to end with given step
@@ -207,6 +303,38 @@ func ExponentialFloat64(start float64, factor float64) chan float64 {
 	return c
 }
 
+// Product returns cortesian product of elements
+// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+func ProductFloat64(arrs ...[]float64) chan []float64 {
+	c := make(chan []float64, 1)
+	go productFloat64(c, arrs, []float64{}, 0)
+	return c
+}
+
+func productFloat64(c chan []float64, arrs [][]float64, left []float64, pos int) {
+
+	if pos == len(arrs)-1 {
+		for _, el := range arrs[pos] {
+			result := make([]float64, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range arrs[pos] {
+		result := make([]float64, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		productFloat64(c, arrs, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
 // Range generates elements from start to end with given step
 func RangeFloat64(start float64, end float64, step float64) chan float64 {
 	c := make(chan float64, 1)
@@ -286,6 +414,38 @@ func ExponentialInt(start int, factor int) chan int {
 		}
 	}()
 	return c
+}
+
+// Product returns cortesian product of elements
+// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+func ProductInt(arrs ...[]int) chan []int {
+	c := make(chan []int, 1)
+	go productInt(c, arrs, []int{}, 0)
+	return c
+}
+
+func productInt(c chan []int, arrs [][]int, left []int, pos int) {
+
+	if pos == len(arrs)-1 {
+		for _, el := range arrs[pos] {
+			result := make([]int, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range arrs[pos] {
+		result := make([]int, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		productInt(c, arrs, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
 }
 
 // Range generates elements from start to end with given step
@@ -369,6 +529,38 @@ func ExponentialInt16(start int16, factor int16) chan int16 {
 	return c
 }
 
+// Product returns cortesian product of elements
+// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+func ProductInt16(arrs ...[]int16) chan []int16 {
+	c := make(chan []int16, 1)
+	go productInt16(c, arrs, []int16{}, 0)
+	return c
+}
+
+func productInt16(c chan []int16, arrs [][]int16, left []int16, pos int) {
+
+	if pos == len(arrs)-1 {
+		for _, el := range arrs[pos] {
+			result := make([]int16, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range arrs[pos] {
+		result := make([]int16, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		productInt16(c, arrs, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
 // Range generates elements from start to end with given step
 func RangeInt16(start int16, end int16, step int16) chan int16 {
 	c := make(chan int16, 1)
@@ -448,6 +640,38 @@ func ExponentialInt32(start int32, factor int32) chan int32 {
 		}
 	}()
 	return c
+}
+
+// Product returns cortesian product of elements
+// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+func ProductInt32(arrs ...[]int32) chan []int32 {
+	c := make(chan []int32, 1)
+	go productInt32(c, arrs, []int32{}, 0)
+	return c
+}
+
+func productInt32(c chan []int32, arrs [][]int32, left []int32, pos int) {
+
+	if pos == len(arrs)-1 {
+		for _, el := range arrs[pos] {
+			result := make([]int32, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range arrs[pos] {
+		result := make([]int32, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		productInt32(c, arrs, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
 }
 
 // Range generates elements from start to end with given step
@@ -531,6 +755,38 @@ func ExponentialInt64(start int64, factor int64) chan int64 {
 	return c
 }
 
+// Product returns cortesian product of elements
+// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+func ProductInt64(arrs ...[]int64) chan []int64 {
+	c := make(chan []int64, 1)
+	go productInt64(c, arrs, []int64{}, 0)
+	return c
+}
+
+func productInt64(c chan []int64, arrs [][]int64, left []int64, pos int) {
+
+	if pos == len(arrs)-1 {
+		for _, el := range arrs[pos] {
+			result := make([]int64, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range arrs[pos] {
+		result := make([]int64, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		productInt64(c, arrs, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
 // Range generates elements from start to end with given step
 func RangeInt64(start int64, end int64, step int64) chan int64 {
 	c := make(chan int64, 1)
@@ -612,6 +868,38 @@ func ExponentialInt8(start int8, factor int8) chan int8 {
 	return c
 }
 
+// Product returns cortesian product of elements
+// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+func ProductInt8(arrs ...[]int8) chan []int8 {
+	c := make(chan []int8, 1)
+	go productInt8(c, arrs, []int8{}, 0)
+	return c
+}
+
+func productInt8(c chan []int8, arrs [][]int8, left []int8, pos int) {
+
+	if pos == len(arrs)-1 {
+		for _, el := range arrs[pos] {
+			result := make([]int8, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range arrs[pos] {
+		result := make([]int8, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		productInt8(c, arrs, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
 // Range generates elements from start to end with given step
 func RangeInt8(start int8, end int8, step int8) chan int8 {
 	c := make(chan int8, 1)
@@ -670,6 +958,38 @@ func Cycle(arr []interface{}) chan interface{} {
 
 // Exponential generates elements from start with
 
+// Product returns cortesian product of elements
+// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+func Product(arrs ...[]interface{}) chan []interface{} {
+	c := make(chan []interface{}, 1)
+	go product(c, arrs, []interface{}{}, 0)
+	return c
+}
+
+func product(c chan []interface{}, arrs [][]interface{}, left []interface{}, pos int) {
+
+	if pos == len(arrs)-1 {
+		for _, el := range arrs[pos] {
+			result := make([]interface{}, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range arrs[pos] {
+		result := make([]interface{}, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		product(c, arrs, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
 // Repeat returns channel that produces val infinite times
 func Repeat(val interface{}) chan interface{} {
 	c := make(chan interface{}, 1)
@@ -713,6 +1033,38 @@ func CycleString(arr []string) chan string {
 }
 
 // Exponential generates elements from start with
+
+// Product returns cortesian product of elements
+// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+func ProductString(arrs ...[]string) chan []string {
+	c := make(chan []string, 1)
+	go productString(c, arrs, []string{}, 0)
+	return c
+}
+
+func productString(c chan []string, arrs [][]string, left []string, pos int) {
+
+	if pos == len(arrs)-1 {
+		for _, el := range arrs[pos] {
+			result := make([]string, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range arrs[pos] {
+		result := make([]string, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		productString(c, arrs, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
 
 // Repeat returns channel that produces val infinite times
 func RepeatString(val string) chan string {
@@ -779,6 +1131,38 @@ func ExponentialUint(start uint, factor uint) chan uint {
 		}
 	}()
 	return c
+}
+
+// Product returns cortesian product of elements
+// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+func ProductUint(arrs ...[]uint) chan []uint {
+	c := make(chan []uint, 1)
+	go productUint(c, arrs, []uint{}, 0)
+	return c
+}
+
+func productUint(c chan []uint, arrs [][]uint, left []uint, pos int) {
+
+	if pos == len(arrs)-1 {
+		for _, el := range arrs[pos] {
+			result := make([]uint, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range arrs[pos] {
+		result := make([]uint, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		productUint(c, arrs, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
 }
 
 // Range generates elements from start to end with given step
@@ -862,6 +1246,38 @@ func ExponentialUint16(start uint16, factor uint16) chan uint16 {
 	return c
 }
 
+// Product returns cortesian product of elements
+// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+func ProductUint16(arrs ...[]uint16) chan []uint16 {
+	c := make(chan []uint16, 1)
+	go productUint16(c, arrs, []uint16{}, 0)
+	return c
+}
+
+func productUint16(c chan []uint16, arrs [][]uint16, left []uint16, pos int) {
+
+	if pos == len(arrs)-1 {
+		for _, el := range arrs[pos] {
+			result := make([]uint16, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range arrs[pos] {
+		result := make([]uint16, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		productUint16(c, arrs, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
 // Range generates elements from start to end with given step
 func RangeUint16(start uint16, end uint16, step uint16) chan uint16 {
 	c := make(chan uint16, 1)
@@ -941,6 +1357,38 @@ func ExponentialUint32(start uint32, factor uint32) chan uint32 {
 		}
 	}()
 	return c
+}
+
+// Product returns cortesian product of elements
+// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+func ProductUint32(arrs ...[]uint32) chan []uint32 {
+	c := make(chan []uint32, 1)
+	go productUint32(c, arrs, []uint32{}, 0)
+	return c
+}
+
+func productUint32(c chan []uint32, arrs [][]uint32, left []uint32, pos int) {
+
+	if pos == len(arrs)-1 {
+		for _, el := range arrs[pos] {
+			result := make([]uint32, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range arrs[pos] {
+		result := make([]uint32, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		productUint32(c, arrs, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
 }
 
 // Range generates elements from start to end with given step
@@ -1024,6 +1472,38 @@ func ExponentialUint64(start uint64, factor uint64) chan uint64 {
 	return c
 }
 
+// Product returns cortesian product of elements
+// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+func ProductUint64(arrs ...[]uint64) chan []uint64 {
+	c := make(chan []uint64, 1)
+	go productUint64(c, arrs, []uint64{}, 0)
+	return c
+}
+
+func productUint64(c chan []uint64, arrs [][]uint64, left []uint64, pos int) {
+
+	if pos == len(arrs)-1 {
+		for _, el := range arrs[pos] {
+			result := make([]uint64, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range arrs[pos] {
+		result := make([]uint64, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		productUint64(c, arrs, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
 // Range generates elements from start to end with given step
 func RangeUint64(start uint64, end uint64, step uint64) chan uint64 {
 	c := make(chan uint64, 1)
@@ -1103,6 +1583,38 @@ func ExponentialUint8(start uint8, factor uint8) chan uint8 {
 		}
 	}()
 	return c
+}
+
+// Product returns cortesian product of elements
+// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+func ProductUint8(arrs ...[]uint8) chan []uint8 {
+	c := make(chan []uint8, 1)
+	go productUint8(c, arrs, []uint8{}, 0)
+	return c
+}
+
+func productUint8(c chan []uint8, arrs [][]uint8, left []uint8, pos int) {
+
+	if pos == len(arrs)-1 {
+		for _, el := range arrs[pos] {
+			result := make([]uint8, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range arrs[pos] {
+		result := make([]uint8, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		productUint8(c, arrs, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
 }
 
 // Range generates elements from start to end with given step
@@ -1535,6 +2047,21 @@ func SameBool(arr []bool) bool {
 	return true
 }
 
+// Split splits arr by sep
+func SplitBool(arr []bool, sep bool) [][]bool {
+	result := make([][]bool, 0)
+	curr := make([]bool, 0)
+	for _, el := range arr {
+		if el == sep {
+			result = append(result, curr)
+		} else {
+			curr = append(curr, el)
+		}
+	}
+	result = append(result, curr)
+	return result
+}
+
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func StartsWithBool(arr []bool, prefix []bool) bool {
@@ -1752,6 +2279,21 @@ func SameByte(arr []byte) bool {
 		}
 	}
 	return true
+}
+
+// Split splits arr by sep
+func SplitByte(arr []byte, sep byte) [][]byte {
+	result := make([][]byte, 0)
+	curr := make([]byte, 0)
+	for _, el := range arr {
+		if el == sep {
+			result = append(result, curr)
+		} else {
+			curr = append(curr, el)
+		}
+	}
+	result = append(result, curr)
+	return result
 }
 
 // StartsWith returns true if slice starts with the given prefix slice.
@@ -1973,6 +2515,21 @@ func SameFloat32(arr []float32) bool {
 	return true
 }
 
+// Split splits arr by sep
+func SplitFloat32(arr []float32, sep float32) [][]float32 {
+	result := make([][]float32, 0)
+	curr := make([]float32, 0)
+	for _, el := range arr {
+		if el == sep {
+			result = append(result, curr)
+		} else {
+			curr = append(curr, el)
+		}
+	}
+	result = append(result, curr)
+	return result
+}
+
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func StartsWithFloat32(arr []float32, prefix []float32) bool {
@@ -2190,6 +2747,21 @@ func SameFloat64(arr []float64) bool {
 		}
 	}
 	return true
+}
+
+// Split splits arr by sep
+func SplitFloat64(arr []float64, sep float64) [][]float64 {
+	result := make([][]float64, 0)
+	curr := make([]float64, 0)
+	for _, el := range arr {
+		if el == sep {
+			result = append(result, curr)
+		} else {
+			curr = append(curr, el)
+		}
+	}
+	result = append(result, curr)
+	return result
 }
 
 // StartsWith returns true if slice starts with the given prefix slice.
@@ -2411,6 +2983,21 @@ func SameInt(arr []int) bool {
 	return true
 }
 
+// Split splits arr by sep
+func SplitInt(arr []int, sep int) [][]int {
+	result := make([][]int, 0)
+	curr := make([]int, 0)
+	for _, el := range arr {
+		if el == sep {
+			result = append(result, curr)
+		} else {
+			curr = append(curr, el)
+		}
+	}
+	result = append(result, curr)
+	return result
+}
+
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func StartsWithInt(arr []int, prefix []int) bool {
@@ -2628,6 +3215,21 @@ func SameInt16(arr []int16) bool {
 		}
 	}
 	return true
+}
+
+// Split splits arr by sep
+func SplitInt16(arr []int16, sep int16) [][]int16 {
+	result := make([][]int16, 0)
+	curr := make([]int16, 0)
+	for _, el := range arr {
+		if el == sep {
+			result = append(result, curr)
+		} else {
+			curr = append(curr, el)
+		}
+	}
+	result = append(result, curr)
+	return result
 }
 
 // StartsWith returns true if slice starts with the given prefix slice.
@@ -2849,6 +3451,21 @@ func SameInt32(arr []int32) bool {
 	return true
 }
 
+// Split splits arr by sep
+func SplitInt32(arr []int32, sep int32) [][]int32 {
+	result := make([][]int32, 0)
+	curr := make([]int32, 0)
+	for _, el := range arr {
+		if el == sep {
+			result = append(result, curr)
+		} else {
+			curr = append(curr, el)
+		}
+	}
+	result = append(result, curr)
+	return result
+}
+
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func StartsWithInt32(arr []int32, prefix []int32) bool {
@@ -3066,6 +3683,21 @@ func SameInt64(arr []int64) bool {
 		}
 	}
 	return true
+}
+
+// Split splits arr by sep
+func SplitInt64(arr []int64, sep int64) [][]int64 {
+	result := make([][]int64, 0)
+	curr := make([]int64, 0)
+	for _, el := range arr {
+		if el == sep {
+			result = append(result, curr)
+		} else {
+			curr = append(curr, el)
+		}
+	}
+	result = append(result, curr)
+	return result
 }
 
 // StartsWith returns true if slice starts with the given prefix slice.
@@ -3287,6 +3919,21 @@ func SameInt8(arr []int8) bool {
 	return true
 }
 
+// Split splits arr by sep
+func SplitInt8(arr []int8, sep int8) [][]int8 {
+	result := make([][]int8, 0)
+	curr := make([]int8, 0)
+	for _, el := range arr {
+		if el == sep {
+			result = append(result, curr)
+		} else {
+			curr = append(curr, el)
+		}
+	}
+	result = append(result, curr)
+	return result
+}
+
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func StartsWithInt8(arr []int8, prefix []int8) bool {
@@ -3482,6 +4129,21 @@ func Same(arr []interface{}) bool {
 		}
 	}
 	return true
+}
+
+// Split splits arr by sep
+func Split(arr []interface{}, sep interface{}) [][]interface{} {
+	result := make([][]interface{}, 0)
+	curr := make([]interface{}, 0)
+	for _, el := range arr {
+		if el == sep {
+			result = append(result, curr)
+		} else {
+			curr = append(curr, el)
+		}
+	}
+	result = append(result, curr)
+	return result
 }
 
 // StartsWith returns true if slice starts with the given prefix slice.
@@ -3703,6 +4365,21 @@ func SameString(arr []string) bool {
 	return true
 }
 
+// Split splits arr by sep
+func SplitString(arr []string, sep string) [][]string {
+	result := make([][]string, 0)
+	curr := make([]string, 0)
+	for _, el := range arr {
+		if el == sep {
+			result = append(result, curr)
+		} else {
+			curr = append(curr, el)
+		}
+	}
+	result = append(result, curr)
+	return result
+}
+
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func StartsWithString(arr []string, prefix []string) bool {
@@ -3920,6 +4597,21 @@ func SameUint(arr []uint) bool {
 		}
 	}
 	return true
+}
+
+// Split splits arr by sep
+func SplitUint(arr []uint, sep uint) [][]uint {
+	result := make([][]uint, 0)
+	curr := make([]uint, 0)
+	for _, el := range arr {
+		if el == sep {
+			result = append(result, curr)
+		} else {
+			curr = append(curr, el)
+		}
+	}
+	result = append(result, curr)
+	return result
 }
 
 // StartsWith returns true if slice starts with the given prefix slice.
@@ -4141,6 +4833,21 @@ func SameUint16(arr []uint16) bool {
 	return true
 }
 
+// Split splits arr by sep
+func SplitUint16(arr []uint16, sep uint16) [][]uint16 {
+	result := make([][]uint16, 0)
+	curr := make([]uint16, 0)
+	for _, el := range arr {
+		if el == sep {
+			result = append(result, curr)
+		} else {
+			curr = append(curr, el)
+		}
+	}
+	result = append(result, curr)
+	return result
+}
+
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func StartsWithUint16(arr []uint16, prefix []uint16) bool {
@@ -4358,6 +5065,21 @@ func SameUint32(arr []uint32) bool {
 		}
 	}
 	return true
+}
+
+// Split splits arr by sep
+func SplitUint32(arr []uint32, sep uint32) [][]uint32 {
+	result := make([][]uint32, 0)
+	curr := make([]uint32, 0)
+	for _, el := range arr {
+		if el == sep {
+			result = append(result, curr)
+		} else {
+			curr = append(curr, el)
+		}
+	}
+	result = append(result, curr)
+	return result
 }
 
 // StartsWith returns true if slice starts with the given prefix slice.
@@ -4579,6 +5301,21 @@ func SameUint64(arr []uint64) bool {
 	return true
 }
 
+// Split splits arr by sep
+func SplitUint64(arr []uint64, sep uint64) [][]uint64 {
+	result := make([][]uint64, 0)
+	curr := make([]uint64, 0)
+	for _, el := range arr {
+		if el == sep {
+			result = append(result, curr)
+		} else {
+			curr = append(curr, el)
+		}
+	}
+	result = append(result, curr)
+	return result
+}
+
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func StartsWithUint64(arr []uint64, prefix []uint64) bool {
@@ -4796,6 +5533,21 @@ func SameUint8(arr []uint8) bool {
 		}
 	}
 	return true
+}
+
+// Split splits arr by sep
+func SplitUint8(arr []uint8, sep uint8) [][]uint8 {
+	result := make([][]uint8, 0)
+	curr := make([]uint8, 0)
+	for _, el := range arr {
+		if el == sep {
+			result = append(result, curr)
+		} else {
+			curr = append(curr, el)
+		}
+	}
+	result = append(result, curr)
+	return result
 }
 
 // StartsWith returns true if slice starts with the given prefix slice.

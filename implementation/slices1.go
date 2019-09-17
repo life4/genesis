@@ -185,6 +185,21 @@ func Same(arr []T) bool {
 	return true
 }
 
+// Split splits arr by sep
+func Split(arr []T, sep T) [][]T {
+	result := make([][]T, 0)
+	curr := make([]T, 0)
+	for _, el := range arr {
+		if el == sep {
+			result = append(result, curr)
+		} else {
+			curr = append(curr, el)
+		}
+	}
+	result = append(result, curr)
+	return result
+}
+
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func StartsWith(arr []T, prefix []T) bool {
