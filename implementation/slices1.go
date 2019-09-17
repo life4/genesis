@@ -243,6 +243,22 @@ func TakeWhile(arr []T, f func(el T) bool) []T {
 	return result
 }
 
+// Uniq returns arr with only first occurences of every element.
+func Uniq(arr []T) []T {
+	added := make(map[T]struct{})
+	nothing := struct{}{}
+	result := make([]T, 0, len(arr))
+	for _, el := range arr {
+		_, exists := added[el]
+		if !exists {
+			result = append(result, el)
+			added[el] = nothing
+		}
+	}
+	return result
+
+}
+
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
 func Window(arr []T, size int) [][]T {

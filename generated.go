@@ -2414,6 +2414,22 @@ func TakeWhileBool(arr []bool, f func(el bool) bool) []bool {
 	return result
 }
 
+// Uniq returns arr with only first occurences of every element.
+func UniqBool(arr []bool) []bool {
+	added := make(map[bool]struct{})
+	nothing := struct{}{}
+	result := make([]bool, 0, len(arr))
+	for _, el := range arr {
+		_, exists := added[el]
+		if !exists {
+			result = append(result, el)
+			added[el] = nothing
+		}
+	}
+	return result
+
+}
+
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
 func WindowBool(arr []bool, size int) [][]bool {
@@ -2676,6 +2692,22 @@ func TakeWhileByte(arr []byte, f func(el byte) bool) []byte {
 		result = append(result, el)
 	}
 	return result
+}
+
+// Uniq returns arr with only first occurences of every element.
+func UniqByte(arr []byte) []byte {
+	added := make(map[byte]struct{})
+	nothing := struct{}{}
+	result := make([]byte, 0, len(arr))
+	for _, el := range arr {
+		_, exists := added[el]
+		if !exists {
+			result = append(result, el)
+			added[el] = nothing
+		}
+	}
+	return result
+
 }
 
 // Window makes sliding window for a given slice:
@@ -2953,6 +2985,22 @@ func TakeWhileFloat32(arr []float32, f func(el float32) bool) []float32 {
 	return result
 }
 
+// Uniq returns arr with only first occurences of every element.
+func UniqFloat32(arr []float32) []float32 {
+	added := make(map[float32]struct{})
+	nothing := struct{}{}
+	result := make([]float32, 0, len(arr))
+	for _, el := range arr {
+		_, exists := added[el]
+		if !exists {
+			result = append(result, el)
+			added[el] = nothing
+		}
+	}
+	return result
+
+}
+
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
 func WindowFloat32(arr []float32, size int) [][]float32 {
@@ -3226,6 +3274,22 @@ func TakeWhileFloat64(arr []float64, f func(el float64) bool) []float64 {
 		result = append(result, el)
 	}
 	return result
+}
+
+// Uniq returns arr with only first occurences of every element.
+func UniqFloat64(arr []float64) []float64 {
+	added := make(map[float64]struct{})
+	nothing := struct{}{}
+	result := make([]float64, 0, len(arr))
+	for _, el := range arr {
+		_, exists := added[el]
+		if !exists {
+			result = append(result, el)
+			added[el] = nothing
+		}
+	}
+	return result
+
 }
 
 // Window makes sliding window for a given slice:
@@ -3503,6 +3567,22 @@ func TakeWhileInt(arr []int, f func(el int) bool) []int {
 	return result
 }
 
+// Uniq returns arr with only first occurences of every element.
+func UniqInt(arr []int) []int {
+	added := make(map[int]struct{})
+	nothing := struct{}{}
+	result := make([]int, 0, len(arr))
+	for _, el := range arr {
+		_, exists := added[el]
+		if !exists {
+			result = append(result, el)
+			added[el] = nothing
+		}
+	}
+	return result
+
+}
+
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
 func WindowInt(arr []int, size int) [][]int {
@@ -3776,6 +3856,22 @@ func TakeWhileInt16(arr []int16, f func(el int16) bool) []int16 {
 		result = append(result, el)
 	}
 	return result
+}
+
+// Uniq returns arr with only first occurences of every element.
+func UniqInt16(arr []int16) []int16 {
+	added := make(map[int16]struct{})
+	nothing := struct{}{}
+	result := make([]int16, 0, len(arr))
+	for _, el := range arr {
+		_, exists := added[el]
+		if !exists {
+			result = append(result, el)
+			added[el] = nothing
+		}
+	}
+	return result
+
 }
 
 // Window makes sliding window for a given slice:
@@ -4053,6 +4149,22 @@ func TakeWhileInt32(arr []int32, f func(el int32) bool) []int32 {
 	return result
 }
 
+// Uniq returns arr with only first occurences of every element.
+func UniqInt32(arr []int32) []int32 {
+	added := make(map[int32]struct{})
+	nothing := struct{}{}
+	result := make([]int32, 0, len(arr))
+	for _, el := range arr {
+		_, exists := added[el]
+		if !exists {
+			result = append(result, el)
+			added[el] = nothing
+		}
+	}
+	return result
+
+}
+
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
 func WindowInt32(arr []int32, size int) [][]int32 {
@@ -4326,6 +4438,22 @@ func TakeWhileInt64(arr []int64, f func(el int64) bool) []int64 {
 		result = append(result, el)
 	}
 	return result
+}
+
+// Uniq returns arr with only first occurences of every element.
+func UniqInt64(arr []int64) []int64 {
+	added := make(map[int64]struct{})
+	nothing := struct{}{}
+	result := make([]int64, 0, len(arr))
+	for _, el := range arr {
+		_, exists := added[el]
+		if !exists {
+			result = append(result, el)
+			added[el] = nothing
+		}
+	}
+	return result
+
 }
 
 // Window makes sliding window for a given slice:
@@ -4603,6 +4731,22 @@ func TakeWhileInt8(arr []int8, f func(el int8) bool) []int8 {
 	return result
 }
 
+// Uniq returns arr with only first occurences of every element.
+func UniqInt8(arr []int8) []int8 {
+	added := make(map[int8]struct{})
+	nothing := struct{}{}
+	result := make([]int8, 0, len(arr))
+	for _, el := range arr {
+		_, exists := added[el]
+		if !exists {
+			result = append(result, el)
+			added[el] = nothing
+		}
+	}
+	return result
+
+}
+
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
 func WindowInt8(arr []int8, size int) [][]int8 {
@@ -4843,6 +4987,22 @@ func TakeWhile(arr []interface{}, f func(el interface{}) bool) []interface{} {
 		result = append(result, el)
 	}
 	return result
+}
+
+// Uniq returns arr with only first occurences of every element.
+func Uniq(arr []interface{}) []interface{} {
+	added := make(map[interface{}]struct{})
+	nothing := struct{}{}
+	result := make([]interface{}, 0, len(arr))
+	for _, el := range arr {
+		_, exists := added[el]
+		if !exists {
+			result = append(result, el)
+			added[el] = nothing
+		}
+	}
+	return result
+
 }
 
 // Window makes sliding window for a given slice:
@@ -5107,6 +5267,22 @@ func TakeWhileString(arr []string, f func(el string) bool) []string {
 		result = append(result, el)
 	}
 	return result
+}
+
+// Uniq returns arr with only first occurences of every element.
+func UniqString(arr []string) []string {
+	added := make(map[string]struct{})
+	nothing := struct{}{}
+	result := make([]string, 0, len(arr))
+	for _, el := range arr {
+		_, exists := added[el]
+		if !exists {
+			result = append(result, el)
+			added[el] = nothing
+		}
+	}
+	return result
+
 }
 
 // Window makes sliding window for a given slice:
@@ -5384,6 +5560,22 @@ func TakeWhileUint(arr []uint, f func(el uint) bool) []uint {
 	return result
 }
 
+// Uniq returns arr with only first occurences of every element.
+func UniqUint(arr []uint) []uint {
+	added := make(map[uint]struct{})
+	nothing := struct{}{}
+	result := make([]uint, 0, len(arr))
+	for _, el := range arr {
+		_, exists := added[el]
+		if !exists {
+			result = append(result, el)
+			added[el] = nothing
+		}
+	}
+	return result
+
+}
+
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
 func WindowUint(arr []uint, size int) [][]uint {
@@ -5657,6 +5849,22 @@ func TakeWhileUint16(arr []uint16, f func(el uint16) bool) []uint16 {
 		result = append(result, el)
 	}
 	return result
+}
+
+// Uniq returns arr with only first occurences of every element.
+func UniqUint16(arr []uint16) []uint16 {
+	added := make(map[uint16]struct{})
+	nothing := struct{}{}
+	result := make([]uint16, 0, len(arr))
+	for _, el := range arr {
+		_, exists := added[el]
+		if !exists {
+			result = append(result, el)
+			added[el] = nothing
+		}
+	}
+	return result
+
 }
 
 // Window makes sliding window for a given slice:
@@ -5934,6 +6142,22 @@ func TakeWhileUint32(arr []uint32, f func(el uint32) bool) []uint32 {
 	return result
 }
 
+// Uniq returns arr with only first occurences of every element.
+func UniqUint32(arr []uint32) []uint32 {
+	added := make(map[uint32]struct{})
+	nothing := struct{}{}
+	result := make([]uint32, 0, len(arr))
+	for _, el := range arr {
+		_, exists := added[el]
+		if !exists {
+			result = append(result, el)
+			added[el] = nothing
+		}
+	}
+	return result
+
+}
+
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
 func WindowUint32(arr []uint32, size int) [][]uint32 {
@@ -6209,6 +6433,22 @@ func TakeWhileUint64(arr []uint64, f func(el uint64) bool) []uint64 {
 	return result
 }
 
+// Uniq returns arr with only first occurences of every element.
+func UniqUint64(arr []uint64) []uint64 {
+	added := make(map[uint64]struct{})
+	nothing := struct{}{}
+	result := make([]uint64, 0, len(arr))
+	for _, el := range arr {
+		_, exists := added[el]
+		if !exists {
+			result = append(result, el)
+			added[el] = nothing
+		}
+	}
+	return result
+
+}
+
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
 func WindowUint64(arr []uint64, size int) [][]uint64 {
@@ -6482,6 +6722,22 @@ func TakeWhileUint8(arr []uint8, f func(el uint8) bool) []uint8 {
 		result = append(result, el)
 	}
 	return result
+}
+
+// Uniq returns arr with only first occurences of every element.
+func UniqUint8(arr []uint8) []uint8 {
+	added := make(map[uint8]struct{})
+	nothing := struct{}{}
+	result := make([]uint8, 0, len(arr))
+	for _, el := range arr {
+		_, exists := added[el]
+		if !exists {
+			result = append(result, el)
+			added[el] = nothing
+		}
+	}
+	return result
+
 }
 
 // Window makes sliding window for a given slice:
