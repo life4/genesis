@@ -9,13 +9,13 @@ func ChunkBy(arr []T, f func(el T) G) [][]T {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]T, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)

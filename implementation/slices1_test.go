@@ -27,16 +27,6 @@ func TestFilter(t *testing.T) {
 	f(filterPositive, []T{-1, -2, -3}, []T{})
 }
 
-func TestMap(t *testing.T) {
-	f := func(mapper func(t T) G, given []T, expected []G) {
-		actual := Map(given, mapper)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	double := func(t T) G { return G((t * 2)) }
-
-	f(double, []T{1, 2, 3}, []G{2, 4, 6})
-}
-
 func TestIntersperse(t *testing.T) {
 	f := func(el T, given []T, expected []T) {
 		actual := Intersperse(given, el)
