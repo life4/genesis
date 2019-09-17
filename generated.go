@@ -20,6 +20,15 @@ func TakeBool(c chan bool, n int) []bool {
 	return result
 }
 
+// TakeAll takes all elements from channel c.
+func TakeAllBool(c chan bool) []bool {
+	result := make([]bool, 0)
+	for val := range c {
+		result = append(result, val)
+	}
+	return result
+}
+
 // Repeat returns channel that produces val infinite times
 func RepeatByte(val byte) chan byte {
 	c := make(chan byte, 1)
@@ -38,6 +47,29 @@ func TakeByte(c chan byte, n int) []byte {
 		result = append(result, <-c)
 	}
 	return result
+}
+
+// TakeAll takes all elements from channel c.
+func TakeAllByte(c chan byte) []byte {
+	result := make([]byte, 0)
+	for val := range c {
+		result = append(result, val)
+	}
+	return result
+}
+
+// Range generates elements from start to end with given step
+func RangeFloat32(start float32, end float32, step float32) chan float32 {
+	c := make(chan float32, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
 }
 
 // Repeat returns channel that produces val infinite times
@@ -60,6 +92,29 @@ func TakeFloat32(c chan float32, n int) []float32 {
 	return result
 }
 
+// TakeAll takes all elements from channel c.
+func TakeAllFloat32(c chan float32) []float32 {
+	result := make([]float32, 0)
+	for val := range c {
+		result = append(result, val)
+	}
+	return result
+}
+
+// Range generates elements from start to end with given step
+func RangeFloat64(start float64, end float64, step float64) chan float64 {
+	c := make(chan float64, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
 // Repeat returns channel that produces val infinite times
 func RepeatFloat64(val float64) chan float64 {
 	c := make(chan float64, 1)
@@ -78,6 +133,29 @@ func TakeFloat64(c chan float64, n int) []float64 {
 		result = append(result, <-c)
 	}
 	return result
+}
+
+// TakeAll takes all elements from channel c.
+func TakeAllFloat64(c chan float64) []float64 {
+	result := make([]float64, 0)
+	for val := range c {
+		result = append(result, val)
+	}
+	return result
+}
+
+// Range generates elements from start to end with given step
+func RangeInt(start int, end int, step int) chan int {
+	c := make(chan int, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
 }
 
 // Repeat returns channel that produces val infinite times
@@ -100,6 +178,29 @@ func TakeInt(c chan int, n int) []int {
 	return result
 }
 
+// TakeAll takes all elements from channel c.
+func TakeAllInt(c chan int) []int {
+	result := make([]int, 0)
+	for val := range c {
+		result = append(result, val)
+	}
+	return result
+}
+
+// Range generates elements from start to end with given step
+func RangeInt16(start int16, end int16, step int16) chan int16 {
+	c := make(chan int16, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
 // Repeat returns channel that produces val infinite times
 func RepeatInt16(val int16) chan int16 {
 	c := make(chan int16, 1)
@@ -118,6 +219,29 @@ func TakeInt16(c chan int16, n int) []int16 {
 		result = append(result, <-c)
 	}
 	return result
+}
+
+// TakeAll takes all elements from channel c.
+func TakeAllInt16(c chan int16) []int16 {
+	result := make([]int16, 0)
+	for val := range c {
+		result = append(result, val)
+	}
+	return result
+}
+
+// Range generates elements from start to end with given step
+func RangeInt32(start int32, end int32, step int32) chan int32 {
+	c := make(chan int32, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
 }
 
 // Repeat returns channel that produces val infinite times
@@ -140,6 +264,29 @@ func TakeInt32(c chan int32, n int) []int32 {
 	return result
 }
 
+// TakeAll takes all elements from channel c.
+func TakeAllInt32(c chan int32) []int32 {
+	result := make([]int32, 0)
+	for val := range c {
+		result = append(result, val)
+	}
+	return result
+}
+
+// Range generates elements from start to end with given step
+func RangeInt64(start int64, end int64, step int64) chan int64 {
+	c := make(chan int64, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
 // Repeat returns channel that produces val infinite times
 func RepeatInt64(val int64) chan int64 {
 	c := make(chan int64, 1)
@@ -160,6 +307,29 @@ func TakeInt64(c chan int64, n int) []int64 {
 	return result
 }
 
+// TakeAll takes all elements from channel c.
+func TakeAllInt64(c chan int64) []int64 {
+	result := make([]int64, 0)
+	for val := range c {
+		result = append(result, val)
+	}
+	return result
+}
+
+// Range generates elements from start to end with given step
+func RangeInt8(start int8, end int8, step int8) chan int8 {
+	c := make(chan int8, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
 // Repeat returns channel that produces val infinite times
 func RepeatInt8(val int8) chan int8 {
 	c := make(chan int8, 1)
@@ -176,6 +346,15 @@ func TakeInt8(c chan int8, n int) []int8 {
 	result := make([]int8, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c)
+	}
+	return result
+}
+
+// TakeAll takes all elements from channel c.
+func TakeAllInt8(c chan int8) []int8 {
+	result := make([]int8, 0)
+	for val := range c {
+		result = append(result, val)
 	}
 	return result
 }
@@ -200,6 +379,15 @@ func Take(c chan interface{}, n int) []interface{} {
 	return result
 }
 
+// TakeAll takes all elements from channel c.
+func TakeAll(c chan interface{}) []interface{} {
+	result := make([]interface{}, 0)
+	for val := range c {
+		result = append(result, val)
+	}
+	return result
+}
+
 // Repeat returns channel that produces val infinite times
 func RepeatString(val string) chan string {
 	c := make(chan string, 1)
@@ -218,6 +406,29 @@ func TakeString(c chan string, n int) []string {
 		result = append(result, <-c)
 	}
 	return result
+}
+
+// TakeAll takes all elements from channel c.
+func TakeAllString(c chan string) []string {
+	result := make([]string, 0)
+	for val := range c {
+		result = append(result, val)
+	}
+	return result
+}
+
+// Range generates elements from start to end with given step
+func RangeUint(start uint, end uint, step uint) chan uint {
+	c := make(chan uint, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
 }
 
 // Repeat returns channel that produces val infinite times
@@ -240,6 +451,29 @@ func TakeUint(c chan uint, n int) []uint {
 	return result
 }
 
+// TakeAll takes all elements from channel c.
+func TakeAllUint(c chan uint) []uint {
+	result := make([]uint, 0)
+	for val := range c {
+		result = append(result, val)
+	}
+	return result
+}
+
+// Range generates elements from start to end with given step
+func RangeUint16(start uint16, end uint16, step uint16) chan uint16 {
+	c := make(chan uint16, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
 // Repeat returns channel that produces val infinite times
 func RepeatUint16(val uint16) chan uint16 {
 	c := make(chan uint16, 1)
@@ -258,6 +492,29 @@ func TakeUint16(c chan uint16, n int) []uint16 {
 		result = append(result, <-c)
 	}
 	return result
+}
+
+// TakeAll takes all elements from channel c.
+func TakeAllUint16(c chan uint16) []uint16 {
+	result := make([]uint16, 0)
+	for val := range c {
+		result = append(result, val)
+	}
+	return result
+}
+
+// Range generates elements from start to end with given step
+func RangeUint32(start uint32, end uint32, step uint32) chan uint32 {
+	c := make(chan uint32, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
 }
 
 // Repeat returns channel that produces val infinite times
@@ -280,6 +537,29 @@ func TakeUint32(c chan uint32, n int) []uint32 {
 	return result
 }
 
+// TakeAll takes all elements from channel c.
+func TakeAllUint32(c chan uint32) []uint32 {
+	result := make([]uint32, 0)
+	for val := range c {
+		result = append(result, val)
+	}
+	return result
+}
+
+// Range generates elements from start to end with given step
+func RangeUint64(start uint64, end uint64, step uint64) chan uint64 {
+	c := make(chan uint64, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
 // Repeat returns channel that produces val infinite times
 func RepeatUint64(val uint64) chan uint64 {
 	c := make(chan uint64, 1)
@@ -300,6 +580,29 @@ func TakeUint64(c chan uint64, n int) []uint64 {
 	return result
 }
 
+// TakeAll takes all elements from channel c.
+func TakeAllUint64(c chan uint64) []uint64 {
+	result := make([]uint64, 0)
+	for val := range c {
+		result = append(result, val)
+	}
+	return result
+}
+
+// Range generates elements from start to end with given step
+func RangeUint8(start uint8, end uint8, step uint8) chan uint8 {
+	c := make(chan uint8, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
 // Repeat returns channel that produces val infinite times
 func RepeatUint8(val uint8) chan uint8 {
 	c := make(chan uint8, 1)
@@ -316,6 +619,15 @@ func TakeUint8(c chan uint8, n int) []uint8 {
 	result := make([]uint8, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c)
+	}
+	return result
+}
+
+// TakeAll takes all elements from channel c.
+func TakeAllUint8(c chan uint8) []uint8 {
+	result := make([]uint8, 0)
+	for val := range c {
+		result = append(result, val)
 	}
 	return result
 }
@@ -3709,13 +4021,13 @@ func ChunkByBool(arr []bool, f func(el bool) bool) [][]bool {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]bool, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -3784,13 +4096,13 @@ func ChunkByBoolByte(arr []bool, f func(el bool) byte) [][]bool {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]bool, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -3859,13 +4171,13 @@ func ChunkByBoolFloat32(arr []bool, f func(el bool) float32) [][]bool {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]bool, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -3934,13 +4246,13 @@ func ChunkByBoolFloat64(arr []bool, f func(el bool) float64) [][]bool {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]bool, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -4009,13 +4321,13 @@ func ChunkByBoolInt(arr []bool, f func(el bool) int) [][]bool {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]bool, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -4084,13 +4396,13 @@ func ChunkByBoolInt16(arr []bool, f func(el bool) int16) [][]bool {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]bool, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -4159,13 +4471,13 @@ func ChunkByBoolInt32(arr []bool, f func(el bool) int32) [][]bool {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]bool, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -4234,13 +4546,13 @@ func ChunkByBoolInt64(arr []bool, f func(el bool) int64) [][]bool {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]bool, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -4309,13 +4621,13 @@ func ChunkByBoolInt8(arr []bool, f func(el bool) int8) [][]bool {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]bool, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -4384,13 +4696,13 @@ func ChunkByBoolInterface(arr []bool, f func(el bool) interface{}) [][]bool {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]bool, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -4459,13 +4771,13 @@ func ChunkByBoolString(arr []bool, f func(el bool) string) [][]bool {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]bool, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -4534,13 +4846,13 @@ func ChunkByBoolUint(arr []bool, f func(el bool) uint) [][]bool {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]bool, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -4609,13 +4921,13 @@ func ChunkByBoolUint16(arr []bool, f func(el bool) uint16) [][]bool {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]bool, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -4684,13 +4996,13 @@ func ChunkByBoolUint32(arr []bool, f func(el bool) uint32) [][]bool {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]bool, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -4759,13 +5071,13 @@ func ChunkByBoolUint64(arr []bool, f func(el bool) uint64) [][]bool {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]bool, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -4834,13 +5146,13 @@ func ChunkByBoolUint8(arr []bool, f func(el bool) uint8) [][]bool {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]bool, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -4909,13 +5221,13 @@ func ChunkByByteBool(arr []byte, f func(el byte) bool) [][]byte {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]byte, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -4984,13 +5296,13 @@ func ChunkByByte(arr []byte, f func(el byte) byte) [][]byte {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]byte, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -5059,13 +5371,13 @@ func ChunkByByteFloat32(arr []byte, f func(el byte) float32) [][]byte {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]byte, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -5134,13 +5446,13 @@ func ChunkByByteFloat64(arr []byte, f func(el byte) float64) [][]byte {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]byte, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -5209,13 +5521,13 @@ func ChunkByByteInt(arr []byte, f func(el byte) int) [][]byte {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]byte, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -5284,13 +5596,13 @@ func ChunkByByteInt16(arr []byte, f func(el byte) int16) [][]byte {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]byte, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -5359,13 +5671,13 @@ func ChunkByByteInt32(arr []byte, f func(el byte) int32) [][]byte {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]byte, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -5434,13 +5746,13 @@ func ChunkByByteInt64(arr []byte, f func(el byte) int64) [][]byte {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]byte, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -5509,13 +5821,13 @@ func ChunkByByteInt8(arr []byte, f func(el byte) int8) [][]byte {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]byte, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -5584,13 +5896,13 @@ func ChunkByByteInterface(arr []byte, f func(el byte) interface{}) [][]byte {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]byte, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -5659,13 +5971,13 @@ func ChunkByByteString(arr []byte, f func(el byte) string) [][]byte {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]byte, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -5734,13 +6046,13 @@ func ChunkByByteUint(arr []byte, f func(el byte) uint) [][]byte {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]byte, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -5809,13 +6121,13 @@ func ChunkByByteUint16(arr []byte, f func(el byte) uint16) [][]byte {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]byte, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -5884,13 +6196,13 @@ func ChunkByByteUint32(arr []byte, f func(el byte) uint32) [][]byte {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]byte, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -5959,13 +6271,13 @@ func ChunkByByteUint64(arr []byte, f func(el byte) uint64) [][]byte {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]byte, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -6034,13 +6346,13 @@ func ChunkByByteUint8(arr []byte, f func(el byte) uint8) [][]byte {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]byte, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -6109,13 +6421,13 @@ func ChunkByFloat32Bool(arr []float32, f func(el float32) bool) [][]float32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -6184,13 +6496,13 @@ func ChunkByFloat32Byte(arr []float32, f func(el float32) byte) [][]float32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -6259,13 +6571,13 @@ func ChunkByFloat32(arr []float32, f func(el float32) float32) [][]float32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -6334,13 +6646,13 @@ func ChunkByFloat32Float64(arr []float32, f func(el float32) float64) [][]float3
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -6409,13 +6721,13 @@ func ChunkByFloat32Int(arr []float32, f func(el float32) int) [][]float32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -6484,13 +6796,13 @@ func ChunkByFloat32Int16(arr []float32, f func(el float32) int16) [][]float32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -6559,13 +6871,13 @@ func ChunkByFloat32Int32(arr []float32, f func(el float32) int32) [][]float32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -6634,13 +6946,13 @@ func ChunkByFloat32Int64(arr []float32, f func(el float32) int64) [][]float32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -6709,13 +7021,13 @@ func ChunkByFloat32Int8(arr []float32, f func(el float32) int8) [][]float32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -6784,13 +7096,13 @@ func ChunkByFloat32Interface(arr []float32, f func(el float32) interface{}) [][]
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -6859,13 +7171,13 @@ func ChunkByFloat32String(arr []float32, f func(el float32) string) [][]float32 
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -6934,13 +7246,13 @@ func ChunkByFloat32Uint(arr []float32, f func(el float32) uint) [][]float32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -7009,13 +7321,13 @@ func ChunkByFloat32Uint16(arr []float32, f func(el float32) uint16) [][]float32 
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -7084,13 +7396,13 @@ func ChunkByFloat32Uint32(arr []float32, f func(el float32) uint32) [][]float32 
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -7159,13 +7471,13 @@ func ChunkByFloat32Uint64(arr []float32, f func(el float32) uint64) [][]float32 
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -7234,13 +7546,13 @@ func ChunkByFloat32Uint8(arr []float32, f func(el float32) uint8) [][]float32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -7309,13 +7621,13 @@ func ChunkByFloat64Bool(arr []float64, f func(el float64) bool) [][]float64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -7384,13 +7696,13 @@ func ChunkByFloat64Byte(arr []float64, f func(el float64) byte) [][]float64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -7459,13 +7771,13 @@ func ChunkByFloat64Float32(arr []float64, f func(el float64) float32) [][]float6
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -7534,13 +7846,13 @@ func ChunkByFloat64(arr []float64, f func(el float64) float64) [][]float64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -7609,13 +7921,13 @@ func ChunkByFloat64Int(arr []float64, f func(el float64) int) [][]float64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -7684,13 +7996,13 @@ func ChunkByFloat64Int16(arr []float64, f func(el float64) int16) [][]float64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -7759,13 +8071,13 @@ func ChunkByFloat64Int32(arr []float64, f func(el float64) int32) [][]float64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -7834,13 +8146,13 @@ func ChunkByFloat64Int64(arr []float64, f func(el float64) int64) [][]float64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -7909,13 +8221,13 @@ func ChunkByFloat64Int8(arr []float64, f func(el float64) int8) [][]float64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -7984,13 +8296,13 @@ func ChunkByFloat64Interface(arr []float64, f func(el float64) interface{}) [][]
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -8059,13 +8371,13 @@ func ChunkByFloat64String(arr []float64, f func(el float64) string) [][]float64 
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -8134,13 +8446,13 @@ func ChunkByFloat64Uint(arr []float64, f func(el float64) uint) [][]float64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -8209,13 +8521,13 @@ func ChunkByFloat64Uint16(arr []float64, f func(el float64) uint16) [][]float64 
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -8284,13 +8596,13 @@ func ChunkByFloat64Uint32(arr []float64, f func(el float64) uint32) [][]float64 
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -8359,13 +8671,13 @@ func ChunkByFloat64Uint64(arr []float64, f func(el float64) uint64) [][]float64 
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -8434,13 +8746,13 @@ func ChunkByFloat64Uint8(arr []float64, f func(el float64) uint8) [][]float64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]float64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -8509,13 +8821,13 @@ func ChunkByInt16Bool(arr []int16, f func(el int16) bool) [][]int16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -8584,13 +8896,13 @@ func ChunkByInt16Byte(arr []int16, f func(el int16) byte) [][]int16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -8659,13 +8971,13 @@ func ChunkByInt16Float32(arr []int16, f func(el int16) float32) [][]int16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -8734,13 +9046,13 @@ func ChunkByInt16Float64(arr []int16, f func(el int16) float64) [][]int16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -8809,13 +9121,13 @@ func ChunkByInt16Int(arr []int16, f func(el int16) int) [][]int16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -8884,13 +9196,13 @@ func ChunkByInt16(arr []int16, f func(el int16) int16) [][]int16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -8959,13 +9271,13 @@ func ChunkByInt16Int32(arr []int16, f func(el int16) int32) [][]int16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -9034,13 +9346,13 @@ func ChunkByInt16Int64(arr []int16, f func(el int16) int64) [][]int16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -9109,13 +9421,13 @@ func ChunkByInt16Int8(arr []int16, f func(el int16) int8) [][]int16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -9184,13 +9496,13 @@ func ChunkByInt16Interface(arr []int16, f func(el int16) interface{}) [][]int16 
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -9259,13 +9571,13 @@ func ChunkByInt16String(arr []int16, f func(el int16) string) [][]int16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -9334,13 +9646,13 @@ func ChunkByInt16Uint(arr []int16, f func(el int16) uint) [][]int16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -9409,13 +9721,13 @@ func ChunkByInt16Uint16(arr []int16, f func(el int16) uint16) [][]int16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -9484,13 +9796,13 @@ func ChunkByInt16Uint32(arr []int16, f func(el int16) uint32) [][]int16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -9559,13 +9871,13 @@ func ChunkByInt16Uint64(arr []int16, f func(el int16) uint64) [][]int16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -9634,13 +9946,13 @@ func ChunkByInt16Uint8(arr []int16, f func(el int16) uint8) [][]int16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -9709,13 +10021,13 @@ func ChunkByInt32Bool(arr []int32, f func(el int32) bool) [][]int32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -9784,13 +10096,13 @@ func ChunkByInt32Byte(arr []int32, f func(el int32) byte) [][]int32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -9859,13 +10171,13 @@ func ChunkByInt32Float32(arr []int32, f func(el int32) float32) [][]int32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -9934,13 +10246,13 @@ func ChunkByInt32Float64(arr []int32, f func(el int32) float64) [][]int32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -10009,13 +10321,13 @@ func ChunkByInt32Int(arr []int32, f func(el int32) int) [][]int32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -10084,13 +10396,13 @@ func ChunkByInt32Int16(arr []int32, f func(el int32) int16) [][]int32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -10159,13 +10471,13 @@ func ChunkByInt32(arr []int32, f func(el int32) int32) [][]int32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -10234,13 +10546,13 @@ func ChunkByInt32Int64(arr []int32, f func(el int32) int64) [][]int32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -10309,13 +10621,13 @@ func ChunkByInt32Int8(arr []int32, f func(el int32) int8) [][]int32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -10384,13 +10696,13 @@ func ChunkByInt32Interface(arr []int32, f func(el int32) interface{}) [][]int32 
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -10459,13 +10771,13 @@ func ChunkByInt32String(arr []int32, f func(el int32) string) [][]int32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -10534,13 +10846,13 @@ func ChunkByInt32Uint(arr []int32, f func(el int32) uint) [][]int32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -10609,13 +10921,13 @@ func ChunkByInt32Uint16(arr []int32, f func(el int32) uint16) [][]int32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -10684,13 +10996,13 @@ func ChunkByInt32Uint32(arr []int32, f func(el int32) uint32) [][]int32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -10759,13 +11071,13 @@ func ChunkByInt32Uint64(arr []int32, f func(el int32) uint64) [][]int32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -10834,13 +11146,13 @@ func ChunkByInt32Uint8(arr []int32, f func(el int32) uint8) [][]int32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -10909,13 +11221,13 @@ func ChunkByInt64Bool(arr []int64, f func(el int64) bool) [][]int64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -10984,13 +11296,13 @@ func ChunkByInt64Byte(arr []int64, f func(el int64) byte) [][]int64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -11059,13 +11371,13 @@ func ChunkByInt64Float32(arr []int64, f func(el int64) float32) [][]int64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -11134,13 +11446,13 @@ func ChunkByInt64Float64(arr []int64, f func(el int64) float64) [][]int64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -11209,13 +11521,13 @@ func ChunkByInt64Int(arr []int64, f func(el int64) int) [][]int64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -11284,13 +11596,13 @@ func ChunkByInt64Int16(arr []int64, f func(el int64) int16) [][]int64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -11359,13 +11671,13 @@ func ChunkByInt64Int32(arr []int64, f func(el int64) int32) [][]int64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -11434,13 +11746,13 @@ func ChunkByInt64(arr []int64, f func(el int64) int64) [][]int64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -11509,13 +11821,13 @@ func ChunkByInt64Int8(arr []int64, f func(el int64) int8) [][]int64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -11584,13 +11896,13 @@ func ChunkByInt64Interface(arr []int64, f func(el int64) interface{}) [][]int64 
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -11659,13 +11971,13 @@ func ChunkByInt64String(arr []int64, f func(el int64) string) [][]int64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -11734,13 +12046,13 @@ func ChunkByInt64Uint(arr []int64, f func(el int64) uint) [][]int64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -11809,13 +12121,13 @@ func ChunkByInt64Uint16(arr []int64, f func(el int64) uint16) [][]int64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -11884,13 +12196,13 @@ func ChunkByInt64Uint32(arr []int64, f func(el int64) uint32) [][]int64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -11959,13 +12271,13 @@ func ChunkByInt64Uint64(arr []int64, f func(el int64) uint64) [][]int64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -12034,13 +12346,13 @@ func ChunkByInt64Uint8(arr []int64, f func(el int64) uint8) [][]int64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -12109,13 +12421,13 @@ func ChunkByInt8Bool(arr []int8, f func(el int8) bool) [][]int8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -12184,13 +12496,13 @@ func ChunkByInt8Byte(arr []int8, f func(el int8) byte) [][]int8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -12259,13 +12571,13 @@ func ChunkByInt8Float32(arr []int8, f func(el int8) float32) [][]int8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -12334,13 +12646,13 @@ func ChunkByInt8Float64(arr []int8, f func(el int8) float64) [][]int8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -12409,13 +12721,13 @@ func ChunkByInt8Int(arr []int8, f func(el int8) int) [][]int8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -12484,13 +12796,13 @@ func ChunkByInt8Int16(arr []int8, f func(el int8) int16) [][]int8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -12559,13 +12871,13 @@ func ChunkByInt8Int32(arr []int8, f func(el int8) int32) [][]int8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -12634,13 +12946,13 @@ func ChunkByInt8Int64(arr []int8, f func(el int8) int64) [][]int8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -12709,13 +13021,13 @@ func ChunkByInt8(arr []int8, f func(el int8) int8) [][]int8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -12784,13 +13096,13 @@ func ChunkByInt8Interface(arr []int8, f func(el int8) interface{}) [][]int8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -12859,13 +13171,13 @@ func ChunkByInt8String(arr []int8, f func(el int8) string) [][]int8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -12934,13 +13246,13 @@ func ChunkByInt8Uint(arr []int8, f func(el int8) uint) [][]int8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -13009,13 +13321,13 @@ func ChunkByInt8Uint16(arr []int8, f func(el int8) uint16) [][]int8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -13084,13 +13396,13 @@ func ChunkByInt8Uint32(arr []int8, f func(el int8) uint32) [][]int8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -13159,13 +13471,13 @@ func ChunkByInt8Uint64(arr []int8, f func(el int8) uint64) [][]int8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -13234,13 +13546,13 @@ func ChunkByInt8Uint8(arr []int8, f func(el int8) uint8) [][]int8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -13309,13 +13621,13 @@ func ChunkByIntBool(arr []int, f func(el int) bool) [][]int {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -13384,13 +13696,13 @@ func ChunkByIntByte(arr []int, f func(el int) byte) [][]int {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -13459,13 +13771,13 @@ func ChunkByInterfaceBool(arr []interface{}, f func(el interface{}) bool) [][]in
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]interface{}, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -13534,13 +13846,13 @@ func ChunkByInterfaceByte(arr []interface{}, f func(el interface{}) byte) [][]in
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]interface{}, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -13609,13 +13921,13 @@ func ChunkByInterfaceFloat32(arr []interface{}, f func(el interface{}) float32) 
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]interface{}, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -13684,13 +13996,13 @@ func ChunkByInterfaceFloat64(arr []interface{}, f func(el interface{}) float64) 
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]interface{}, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -13759,13 +14071,13 @@ func ChunkByInterfaceInt(arr []interface{}, f func(el interface{}) int) [][]inte
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]interface{}, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -13834,13 +14146,13 @@ func ChunkByInterfaceInt16(arr []interface{}, f func(el interface{}) int16) [][]
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]interface{}, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -13909,13 +14221,13 @@ func ChunkByInterfaceInt32(arr []interface{}, f func(el interface{}) int32) [][]
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]interface{}, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -13984,13 +14296,13 @@ func ChunkByInterfaceInt64(arr []interface{}, f func(el interface{}) int64) [][]
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]interface{}, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -14059,13 +14371,13 @@ func ChunkByInterfaceInt8(arr []interface{}, f func(el interface{}) int8) [][]in
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]interface{}, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -14134,13 +14446,13 @@ func ChunkByInterface(arr []interface{}, f func(el interface{}) interface{}) [][
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]interface{}, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -14209,13 +14521,13 @@ func ChunkByInterfaceString(arr []interface{}, f func(el interface{}) string) []
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]interface{}, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -14284,13 +14596,13 @@ func ChunkByInterfaceUint(arr []interface{}, f func(el interface{}) uint) [][]in
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]interface{}, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -14359,13 +14671,13 @@ func ChunkByInterfaceUint16(arr []interface{}, f func(el interface{}) uint16) []
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]interface{}, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -14434,13 +14746,13 @@ func ChunkByInterfaceUint32(arr []interface{}, f func(el interface{}) uint32) []
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]interface{}, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -14509,13 +14821,13 @@ func ChunkByInterfaceUint64(arr []interface{}, f func(el interface{}) uint64) []
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]interface{}, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -14584,13 +14896,13 @@ func ChunkByInterfaceUint8(arr []interface{}, f func(el interface{}) uint8) [][]
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]interface{}, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -14659,13 +14971,13 @@ func ChunkByIntFloat32(arr []int, f func(el int) float32) [][]int {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -14734,13 +15046,13 @@ func ChunkByIntFloat64(arr []int, f func(el int) float64) [][]int {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -14809,13 +15121,13 @@ func ChunkByInt(arr []int, f func(el int) int) [][]int {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -14884,13 +15196,13 @@ func ChunkByIntInt16(arr []int, f func(el int) int16) [][]int {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -14959,13 +15271,13 @@ func ChunkByIntInt32(arr []int, f func(el int) int32) [][]int {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -15034,13 +15346,13 @@ func ChunkByIntInt64(arr []int, f func(el int) int64) [][]int {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -15109,13 +15421,13 @@ func ChunkByIntInt8(arr []int, f func(el int) int8) [][]int {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -15184,13 +15496,13 @@ func ChunkByIntInterface(arr []int, f func(el int) interface{}) [][]int {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -15259,13 +15571,13 @@ func ChunkByIntString(arr []int, f func(el int) string) [][]int {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -15334,13 +15646,13 @@ func ChunkByIntUint(arr []int, f func(el int) uint) [][]int {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -15409,13 +15721,13 @@ func ChunkByIntUint16(arr []int, f func(el int) uint16) [][]int {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -15484,13 +15796,13 @@ func ChunkByIntUint32(arr []int, f func(el int) uint32) [][]int {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -15559,13 +15871,13 @@ func ChunkByIntUint64(arr []int, f func(el int) uint64) [][]int {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -15634,13 +15946,13 @@ func ChunkByIntUint8(arr []int, f func(el int) uint8) [][]int {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]int, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -15709,13 +16021,13 @@ func ChunkByStringBool(arr []string, f func(el string) bool) [][]string {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]string, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -15784,13 +16096,13 @@ func ChunkByStringByte(arr []string, f func(el string) byte) [][]string {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]string, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -15859,13 +16171,13 @@ func ChunkByStringFloat32(arr []string, f func(el string) float32) [][]string {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]string, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -15934,13 +16246,13 @@ func ChunkByStringFloat64(arr []string, f func(el string) float64) [][]string {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]string, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -16009,13 +16321,13 @@ func ChunkByStringInt(arr []string, f func(el string) int) [][]string {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]string, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -16084,13 +16396,13 @@ func ChunkByStringInt16(arr []string, f func(el string) int16) [][]string {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]string, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -16159,13 +16471,13 @@ func ChunkByStringInt32(arr []string, f func(el string) int32) [][]string {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]string, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -16234,13 +16546,13 @@ func ChunkByStringInt64(arr []string, f func(el string) int64) [][]string {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]string, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -16309,13 +16621,13 @@ func ChunkByStringInt8(arr []string, f func(el string) int8) [][]string {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]string, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -16384,13 +16696,13 @@ func ChunkByStringInterface(arr []string, f func(el string) interface{}) [][]str
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]string, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -16459,13 +16771,13 @@ func ChunkByString(arr []string, f func(el string) string) [][]string {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]string, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -16534,13 +16846,13 @@ func ChunkByStringUint(arr []string, f func(el string) uint) [][]string {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]string, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -16609,13 +16921,13 @@ func ChunkByStringUint16(arr []string, f func(el string) uint16) [][]string {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]string, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -16684,13 +16996,13 @@ func ChunkByStringUint32(arr []string, f func(el string) uint32) [][]string {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]string, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -16759,13 +17071,13 @@ func ChunkByStringUint64(arr []string, f func(el string) uint64) [][]string {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]string, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -16834,13 +17146,13 @@ func ChunkByStringUint8(arr []string, f func(el string) uint8) [][]string {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]string, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -16909,13 +17221,13 @@ func ChunkByUint16Bool(arr []uint16, f func(el uint16) bool) [][]uint16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -16984,13 +17296,13 @@ func ChunkByUint16Byte(arr []uint16, f func(el uint16) byte) [][]uint16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -17059,13 +17371,13 @@ func ChunkByUint16Float32(arr []uint16, f func(el uint16) float32) [][]uint16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -17134,13 +17446,13 @@ func ChunkByUint16Float64(arr []uint16, f func(el uint16) float64) [][]uint16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -17209,13 +17521,13 @@ func ChunkByUint16Int(arr []uint16, f func(el uint16) int) [][]uint16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -17284,13 +17596,13 @@ func ChunkByUint16Int16(arr []uint16, f func(el uint16) int16) [][]uint16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -17359,13 +17671,13 @@ func ChunkByUint16Int32(arr []uint16, f func(el uint16) int32) [][]uint16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -17434,13 +17746,13 @@ func ChunkByUint16Int64(arr []uint16, f func(el uint16) int64) [][]uint16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -17509,13 +17821,13 @@ func ChunkByUint16Int8(arr []uint16, f func(el uint16) int8) [][]uint16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -17584,13 +17896,13 @@ func ChunkByUint16Interface(arr []uint16, f func(el uint16) interface{}) [][]uin
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -17659,13 +17971,13 @@ func ChunkByUint16String(arr []uint16, f func(el uint16) string) [][]uint16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -17734,13 +18046,13 @@ func ChunkByUint16Uint(arr []uint16, f func(el uint16) uint) [][]uint16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -17809,13 +18121,13 @@ func ChunkByUint16(arr []uint16, f func(el uint16) uint16) [][]uint16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -17884,13 +18196,13 @@ func ChunkByUint16Uint32(arr []uint16, f func(el uint16) uint32) [][]uint16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -17959,13 +18271,13 @@ func ChunkByUint16Uint64(arr []uint16, f func(el uint16) uint64) [][]uint16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -18034,13 +18346,13 @@ func ChunkByUint16Uint8(arr []uint16, f func(el uint16) uint8) [][]uint16 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint16, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -18109,13 +18421,13 @@ func ChunkByUint32Bool(arr []uint32, f func(el uint32) bool) [][]uint32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -18184,13 +18496,13 @@ func ChunkByUint32Byte(arr []uint32, f func(el uint32) byte) [][]uint32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -18259,13 +18571,13 @@ func ChunkByUint32Float32(arr []uint32, f func(el uint32) float32) [][]uint32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -18334,13 +18646,13 @@ func ChunkByUint32Float64(arr []uint32, f func(el uint32) float64) [][]uint32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -18409,13 +18721,13 @@ func ChunkByUint32Int(arr []uint32, f func(el uint32) int) [][]uint32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -18484,13 +18796,13 @@ func ChunkByUint32Int16(arr []uint32, f func(el uint32) int16) [][]uint32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -18559,13 +18871,13 @@ func ChunkByUint32Int32(arr []uint32, f func(el uint32) int32) [][]uint32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -18634,13 +18946,13 @@ func ChunkByUint32Int64(arr []uint32, f func(el uint32) int64) [][]uint32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -18709,13 +19021,13 @@ func ChunkByUint32Int8(arr []uint32, f func(el uint32) int8) [][]uint32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -18784,13 +19096,13 @@ func ChunkByUint32Interface(arr []uint32, f func(el uint32) interface{}) [][]uin
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -18859,13 +19171,13 @@ func ChunkByUint32String(arr []uint32, f func(el uint32) string) [][]uint32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -18934,13 +19246,13 @@ func ChunkByUint32Uint(arr []uint32, f func(el uint32) uint) [][]uint32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -19009,13 +19321,13 @@ func ChunkByUint32Uint16(arr []uint32, f func(el uint32) uint16) [][]uint32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -19084,13 +19396,13 @@ func ChunkByUint32(arr []uint32, f func(el uint32) uint32) [][]uint32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -19159,13 +19471,13 @@ func ChunkByUint32Uint64(arr []uint32, f func(el uint32) uint64) [][]uint32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -19234,13 +19546,13 @@ func ChunkByUint32Uint8(arr []uint32, f func(el uint32) uint8) [][]uint32 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint32, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -19309,13 +19621,13 @@ func ChunkByUint64Bool(arr []uint64, f func(el uint64) bool) [][]uint64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -19384,13 +19696,13 @@ func ChunkByUint64Byte(arr []uint64, f func(el uint64) byte) [][]uint64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -19459,13 +19771,13 @@ func ChunkByUint64Float32(arr []uint64, f func(el uint64) float32) [][]uint64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -19534,13 +19846,13 @@ func ChunkByUint64Float64(arr []uint64, f func(el uint64) float64) [][]uint64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -19609,13 +19921,13 @@ func ChunkByUint64Int(arr []uint64, f func(el uint64) int) [][]uint64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -19684,13 +19996,13 @@ func ChunkByUint64Int16(arr []uint64, f func(el uint64) int16) [][]uint64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -19759,13 +20071,13 @@ func ChunkByUint64Int32(arr []uint64, f func(el uint64) int32) [][]uint64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -19834,13 +20146,13 @@ func ChunkByUint64Int64(arr []uint64, f func(el uint64) int64) [][]uint64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -19909,13 +20221,13 @@ func ChunkByUint64Int8(arr []uint64, f func(el uint64) int8) [][]uint64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -19984,13 +20296,13 @@ func ChunkByUint64Interface(arr []uint64, f func(el uint64) interface{}) [][]uin
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -20059,13 +20371,13 @@ func ChunkByUint64String(arr []uint64, f func(el uint64) string) [][]uint64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -20134,13 +20446,13 @@ func ChunkByUint64Uint(arr []uint64, f func(el uint64) uint) [][]uint64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -20209,13 +20521,13 @@ func ChunkByUint64Uint16(arr []uint64, f func(el uint64) uint16) [][]uint64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -20284,13 +20596,13 @@ func ChunkByUint64Uint32(arr []uint64, f func(el uint64) uint32) [][]uint64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -20359,13 +20671,13 @@ func ChunkByUint64(arr []uint64, f func(el uint64) uint64) [][]uint64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -20434,13 +20746,13 @@ func ChunkByUint64Uint8(arr []uint64, f func(el uint64) uint8) [][]uint64 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint64, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -20509,13 +20821,13 @@ func ChunkByUint8Bool(arr []uint8, f func(el uint8) bool) [][]uint8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -20584,13 +20896,13 @@ func ChunkByUint8Byte(arr []uint8, f func(el uint8) byte) [][]uint8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -20659,13 +20971,13 @@ func ChunkByUint8Float32(arr []uint8, f func(el uint8) float32) [][]uint8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -20734,13 +21046,13 @@ func ChunkByUint8Float64(arr []uint8, f func(el uint8) float64) [][]uint8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -20809,13 +21121,13 @@ func ChunkByUint8Int(arr []uint8, f func(el uint8) int) [][]uint8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -20884,13 +21196,13 @@ func ChunkByUint8Int16(arr []uint8, f func(el uint8) int16) [][]uint8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -20959,13 +21271,13 @@ func ChunkByUint8Int32(arr []uint8, f func(el uint8) int32) [][]uint8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -21034,13 +21346,13 @@ func ChunkByUint8Int64(arr []uint8, f func(el uint8) int64) [][]uint8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -21109,13 +21421,13 @@ func ChunkByUint8Int8(arr []uint8, f func(el uint8) int8) [][]uint8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -21184,13 +21496,13 @@ func ChunkByUint8Interface(arr []uint8, f func(el uint8) interface{}) [][]uint8 
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -21259,13 +21571,13 @@ func ChunkByUint8String(arr []uint8, f func(el uint8) string) [][]uint8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -21334,13 +21646,13 @@ func ChunkByUint8Uint(arr []uint8, f func(el uint8) uint) [][]uint8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -21409,13 +21721,13 @@ func ChunkByUint8Uint16(arr []uint8, f func(el uint8) uint16) [][]uint8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -21484,13 +21796,13 @@ func ChunkByUint8Uint32(arr []uint8, f func(el uint8) uint32) [][]uint8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -21559,13 +21871,13 @@ func ChunkByUint8Uint64(arr []uint8, f func(el uint8) uint64) [][]uint8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -21634,13 +21946,13 @@ func ChunkByUint8(arr []uint8, f func(el uint8) uint8) [][]uint8 {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint8, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -21709,13 +22021,13 @@ func ChunkByUintBool(arr []uint, f func(el uint) bool) [][]uint {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -21784,13 +22096,13 @@ func ChunkByUintByte(arr []uint, f func(el uint) byte) [][]uint {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -21859,13 +22171,13 @@ func ChunkByUintFloat32(arr []uint, f func(el uint) float32) [][]uint {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -21934,13 +22246,13 @@ func ChunkByUintFloat64(arr []uint, f func(el uint) float64) [][]uint {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -22009,13 +22321,13 @@ func ChunkByUintInt(arr []uint, f func(el uint) int) [][]uint {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -22084,13 +22396,13 @@ func ChunkByUintInt16(arr []uint, f func(el uint) int16) [][]uint {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -22159,13 +22471,13 @@ func ChunkByUintInt32(arr []uint, f func(el uint) int32) [][]uint {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -22234,13 +22546,13 @@ func ChunkByUintInt64(arr []uint, f func(el uint) int64) [][]uint {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -22309,13 +22621,13 @@ func ChunkByUintInt8(arr []uint, f func(el uint) int8) [][]uint {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -22384,13 +22696,13 @@ func ChunkByUintInterface(arr []uint, f func(el uint) interface{}) [][]uint {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -22459,13 +22771,13 @@ func ChunkByUintString(arr []uint, f func(el uint) string) [][]uint {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -22534,13 +22846,13 @@ func ChunkByUint(arr []uint, f func(el uint) uint) [][]uint {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -22609,13 +22921,13 @@ func ChunkByUintUint16(arr []uint, f func(el uint) uint16) [][]uint {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -22684,13 +22996,13 @@ func ChunkByUintUint32(arr []uint, f func(el uint) uint32) [][]uint {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -22759,13 +23071,13 @@ func ChunkByUintUint64(arr []uint, f func(el uint) uint64) [][]uint {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
@@ -22834,13 +23146,13 @@ func ChunkByUintUint8(arr []uint, f func(el uint) uint8) [][]uint {
 	chunk = append(chunk, arr[0])
 
 	for _, el := range arr[1:] {
-		chunk = append(chunk, el)
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)
 			chunk = make([]uint, 0)
 			prev = curr
 		}
+		chunk = append(chunk, el)
 	}
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)

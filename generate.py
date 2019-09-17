@@ -13,7 +13,10 @@ TYPES = (
     'uint', 'uint8', 'uint16', 'uint32', 'uint64',
     'interface{}',
 )
-EXCLUDE = ('MaxBool', 'MinBool', 'Max', 'Min')
+EXCLUDE = (
+    'MaxBool', 'MinBool', 'Max', 'Min',
+    'RangeBool', 'RangeByte', 'RangeString', 'Range',
+)
 GENERICS = ('T', 'G')
 REX_DROP_SUFFIX = re.compile(r'func\s([a-zA-Z]+)[245]([A-Z]+)')
 
