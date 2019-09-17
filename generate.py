@@ -44,6 +44,8 @@ def generate(in_path: Path, out_path: Path):
         print(module.stem)
         if module.stem == 'types':
             continue
+        if module.stem.endswith('_test'):
+            continue
         tmp_path = out_path / 'tmp.go'
         with tmp_path.open('w') as stream:
             lines = module.read_text().split('\n')

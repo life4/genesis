@@ -13,7 +13,7 @@ func RepeatBool(val bool) chan bool {
 
 // Take takes first n elements from channel c.
 func TakeBool(c chan bool, n int) []bool {
-	result := make([]bool, n)
+	result := make([]bool, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c)
 	}
@@ -33,7 +33,7 @@ func RepeatByte(val byte) chan byte {
 
 // Take takes first n elements from channel c.
 func TakeByte(c chan byte, n int) []byte {
-	result := make([]byte, n)
+	result := make([]byte, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c)
 	}
@@ -53,7 +53,7 @@ func RepeatFloat32(val float32) chan float32 {
 
 // Take takes first n elements from channel c.
 func TakeFloat32(c chan float32, n int) []float32 {
-	result := make([]float32, n)
+	result := make([]float32, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c)
 	}
@@ -73,7 +73,7 @@ func RepeatFloat64(val float64) chan float64 {
 
 // Take takes first n elements from channel c.
 func TakeFloat64(c chan float64, n int) []float64 {
-	result := make([]float64, n)
+	result := make([]float64, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c)
 	}
@@ -93,7 +93,7 @@ func RepeatInt(val int) chan int {
 
 // Take takes first n elements from channel c.
 func TakeInt(c chan int, n int) []int {
-	result := make([]int, n)
+	result := make([]int, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c)
 	}
@@ -113,7 +113,7 @@ func RepeatInt16(val int16) chan int16 {
 
 // Take takes first n elements from channel c.
 func TakeInt16(c chan int16, n int) []int16 {
-	result := make([]int16, n)
+	result := make([]int16, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c)
 	}
@@ -133,7 +133,7 @@ func RepeatInt32(val int32) chan int32 {
 
 // Take takes first n elements from channel c.
 func TakeInt32(c chan int32, n int) []int32 {
-	result := make([]int32, n)
+	result := make([]int32, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c)
 	}
@@ -153,7 +153,7 @@ func RepeatInt64(val int64) chan int64 {
 
 // Take takes first n elements from channel c.
 func TakeInt64(c chan int64, n int) []int64 {
-	result := make([]int64, n)
+	result := make([]int64, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c)
 	}
@@ -173,7 +173,7 @@ func RepeatInt8(val int8) chan int8 {
 
 // Take takes first n elements from channel c.
 func TakeInt8(c chan int8, n int) []int8 {
-	result := make([]int8, n)
+	result := make([]int8, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c)
 	}
@@ -193,7 +193,7 @@ func Repeat(val interface{}) chan interface{} {
 
 // Take takes first n elements from channel c.
 func Take(c chan interface{}, n int) []interface{} {
-	result := make([]interface{}, n)
+	result := make([]interface{}, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c)
 	}
@@ -213,7 +213,7 @@ func RepeatString(val string) chan string {
 
 // Take takes first n elements from channel c.
 func TakeString(c chan string, n int) []string {
-	result := make([]string, n)
+	result := make([]string, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c)
 	}
@@ -233,7 +233,7 @@ func RepeatUint(val uint) chan uint {
 
 // Take takes first n elements from channel c.
 func TakeUint(c chan uint, n int) []uint {
-	result := make([]uint, n)
+	result := make([]uint, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c)
 	}
@@ -253,7 +253,7 @@ func RepeatUint16(val uint16) chan uint16 {
 
 // Take takes first n elements from channel c.
 func TakeUint16(c chan uint16, n int) []uint16 {
-	result := make([]uint16, n)
+	result := make([]uint16, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c)
 	}
@@ -273,7 +273,7 @@ func RepeatUint32(val uint32) chan uint32 {
 
 // Take takes first n elements from channel c.
 func TakeUint32(c chan uint32, n int) []uint32 {
-	result := make([]uint32, n)
+	result := make([]uint32, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c)
 	}
@@ -293,7 +293,7 @@ func RepeatUint64(val uint64) chan uint64 {
 
 // Take takes first n elements from channel c.
 func TakeUint64(c chan uint64, n int) []uint64 {
-	result := make([]uint64, n)
+	result := make([]uint64, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c)
 	}
@@ -313,7 +313,7 @@ func RepeatUint8(val uint8) chan uint8 {
 
 // Take takes first n elements from channel c.
 func TakeUint8(c chan uint8, n int) []uint8 {
-	result := make([]uint8, n)
+	result := make([]uint8, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c)
 	}
