@@ -1,5 +1,30 @@
 package implementation
 
+// Count is like Range, but infinite
+func Count(start T, step T) chan T {
+	c := make(chan T, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+// Cycle is an infinite loop over arr
+func Cycle(arr []T) chan T {
+	c := make(chan T, 1)
+	go func() {
+		for {
+			for _, val := range arr {
+				c <- val
+			}
+		}
+	}()
+	return c
+}
+
 // Range generates elements from start to end with given step
 func Range(start T, end T, step T) chan T {
 	c := make(chan T, 1)

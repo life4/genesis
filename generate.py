@@ -14,6 +14,7 @@ TYPES = (
     'interface{}',
 )
 EXCLUDE = (
+    'CountBool', 'CountByte', 'CountString', 'Count',
     'MaxBool', 'MinBool', 'Max', 'Min',
     'RangeBool', 'RangeByte', 'RangeString', 'Range',
 )

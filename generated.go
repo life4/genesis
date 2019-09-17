@@ -1,5 +1,18 @@
 package genesis
 
+// Cycle is an infinite loop over arr
+func CycleBool(arr []bool) chan bool {
+	c := make(chan bool, 1)
+	go func() {
+		for {
+			for _, val := range arr {
+				c <- val
+			}
+		}
+	}()
+	return c
+}
+
 // Repeat returns channel that produces val infinite times
 func RepeatBool(val bool) chan bool {
 	c := make(chan bool, 1)
@@ -29,6 +42,19 @@ func TakeAllBool(c chan bool) []bool {
 	return result
 }
 
+// Cycle is an infinite loop over arr
+func CycleByte(arr []byte) chan byte {
+	c := make(chan byte, 1)
+	go func() {
+		for {
+			for _, val := range arr {
+				c <- val
+			}
+		}
+	}()
+	return c
+}
+
 // Repeat returns channel that produces val infinite times
 func RepeatByte(val byte) chan byte {
 	c := make(chan byte, 1)
@@ -56,6 +82,31 @@ func TakeAllByte(c chan byte) []byte {
 		result = append(result, val)
 	}
 	return result
+}
+
+// Count is like Range, but infinite
+func CountFloat32(start float32, step float32) chan float32 {
+	c := make(chan float32, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+// Cycle is an infinite loop over arr
+func CycleFloat32(arr []float32) chan float32 {
+	c := make(chan float32, 1)
+	go func() {
+		for {
+			for _, val := range arr {
+				c <- val
+			}
+		}
+	}()
+	return c
 }
 
 // Range generates elements from start to end with given step
@@ -101,6 +152,31 @@ func TakeAllFloat32(c chan float32) []float32 {
 	return result
 }
 
+// Count is like Range, but infinite
+func CountFloat64(start float64, step float64) chan float64 {
+	c := make(chan float64, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+// Cycle is an infinite loop over arr
+func CycleFloat64(arr []float64) chan float64 {
+	c := make(chan float64, 1)
+	go func() {
+		for {
+			for _, val := range arr {
+				c <- val
+			}
+		}
+	}()
+	return c
+}
+
 // Range generates elements from start to end with given step
 func RangeFloat64(start float64, end float64, step float64) chan float64 {
 	c := make(chan float64, 1)
@@ -142,6 +218,31 @@ func TakeAllFloat64(c chan float64) []float64 {
 		result = append(result, val)
 	}
 	return result
+}
+
+// Count is like Range, but infinite
+func CountInt(start int, step int) chan int {
+	c := make(chan int, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+// Cycle is an infinite loop over arr
+func CycleInt(arr []int) chan int {
+	c := make(chan int, 1)
+	go func() {
+		for {
+			for _, val := range arr {
+				c <- val
+			}
+		}
+	}()
+	return c
 }
 
 // Range generates elements from start to end with given step
@@ -187,6 +288,31 @@ func TakeAllInt(c chan int) []int {
 	return result
 }
 
+// Count is like Range, but infinite
+func CountInt16(start int16, step int16) chan int16 {
+	c := make(chan int16, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+// Cycle is an infinite loop over arr
+func CycleInt16(arr []int16) chan int16 {
+	c := make(chan int16, 1)
+	go func() {
+		for {
+			for _, val := range arr {
+				c <- val
+			}
+		}
+	}()
+	return c
+}
+
 // Range generates elements from start to end with given step
 func RangeInt16(start int16, end int16, step int16) chan int16 {
 	c := make(chan int16, 1)
@@ -228,6 +354,31 @@ func TakeAllInt16(c chan int16) []int16 {
 		result = append(result, val)
 	}
 	return result
+}
+
+// Count is like Range, but infinite
+func CountInt32(start int32, step int32) chan int32 {
+	c := make(chan int32, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+// Cycle is an infinite loop over arr
+func CycleInt32(arr []int32) chan int32 {
+	c := make(chan int32, 1)
+	go func() {
+		for {
+			for _, val := range arr {
+				c <- val
+			}
+		}
+	}()
+	return c
 }
 
 // Range generates elements from start to end with given step
@@ -273,6 +424,31 @@ func TakeAllInt32(c chan int32) []int32 {
 	return result
 }
 
+// Count is like Range, but infinite
+func CountInt64(start int64, step int64) chan int64 {
+	c := make(chan int64, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+// Cycle is an infinite loop over arr
+func CycleInt64(arr []int64) chan int64 {
+	c := make(chan int64, 1)
+	go func() {
+		for {
+			for _, val := range arr {
+				c <- val
+			}
+		}
+	}()
+	return c
+}
+
 // Range generates elements from start to end with given step
 func RangeInt64(start int64, end int64, step int64) chan int64 {
 	c := make(chan int64, 1)
@@ -314,6 +490,31 @@ func TakeAllInt64(c chan int64) []int64 {
 		result = append(result, val)
 	}
 	return result
+}
+
+// Count is like Range, but infinite
+func CountInt8(start int8, step int8) chan int8 {
+	c := make(chan int8, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+// Cycle is an infinite loop over arr
+func CycleInt8(arr []int8) chan int8 {
+	c := make(chan int8, 1)
+	go func() {
+		for {
+			for _, val := range arr {
+				c <- val
+			}
+		}
+	}()
+	return c
 }
 
 // Range generates elements from start to end with given step
@@ -359,6 +560,19 @@ func TakeAllInt8(c chan int8) []int8 {
 	return result
 }
 
+// Cycle is an infinite loop over arr
+func Cycle(arr []interface{}) chan interface{} {
+	c := make(chan interface{}, 1)
+	go func() {
+		for {
+			for _, val := range arr {
+				c <- val
+			}
+		}
+	}()
+	return c
+}
+
 // Repeat returns channel that produces val infinite times
 func Repeat(val interface{}) chan interface{} {
 	c := make(chan interface{}, 1)
@@ -388,6 +602,19 @@ func TakeAll(c chan interface{}) []interface{} {
 	return result
 }
 
+// Cycle is an infinite loop over arr
+func CycleString(arr []string) chan string {
+	c := make(chan string, 1)
+	go func() {
+		for {
+			for _, val := range arr {
+				c <- val
+			}
+		}
+	}()
+	return c
+}
+
 // Repeat returns channel that produces val infinite times
 func RepeatString(val string) chan string {
 	c := make(chan string, 1)
@@ -415,6 +642,31 @@ func TakeAllString(c chan string) []string {
 		result = append(result, val)
 	}
 	return result
+}
+
+// Count is like Range, but infinite
+func CountUint(start uint, step uint) chan uint {
+	c := make(chan uint, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+// Cycle is an infinite loop over arr
+func CycleUint(arr []uint) chan uint {
+	c := make(chan uint, 1)
+	go func() {
+		for {
+			for _, val := range arr {
+				c <- val
+			}
+		}
+	}()
+	return c
 }
 
 // Range generates elements from start to end with given step
@@ -460,6 +712,31 @@ func TakeAllUint(c chan uint) []uint {
 	return result
 }
 
+// Count is like Range, but infinite
+func CountUint16(start uint16, step uint16) chan uint16 {
+	c := make(chan uint16, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+// Cycle is an infinite loop over arr
+func CycleUint16(arr []uint16) chan uint16 {
+	c := make(chan uint16, 1)
+	go func() {
+		for {
+			for _, val := range arr {
+				c <- val
+			}
+		}
+	}()
+	return c
+}
+
 // Range generates elements from start to end with given step
 func RangeUint16(start uint16, end uint16, step uint16) chan uint16 {
 	c := make(chan uint16, 1)
@@ -501,6 +778,31 @@ func TakeAllUint16(c chan uint16) []uint16 {
 		result = append(result, val)
 	}
 	return result
+}
+
+// Count is like Range, but infinite
+func CountUint32(start uint32, step uint32) chan uint32 {
+	c := make(chan uint32, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+// Cycle is an infinite loop over arr
+func CycleUint32(arr []uint32) chan uint32 {
+	c := make(chan uint32, 1)
+	go func() {
+		for {
+			for _, val := range arr {
+				c <- val
+			}
+		}
+	}()
+	return c
 }
 
 // Range generates elements from start to end with given step
@@ -546,6 +848,31 @@ func TakeAllUint32(c chan uint32) []uint32 {
 	return result
 }
 
+// Count is like Range, but infinite
+func CountUint64(start uint64, step uint64) chan uint64 {
+	c := make(chan uint64, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+// Cycle is an infinite loop over arr
+func CycleUint64(arr []uint64) chan uint64 {
+	c := make(chan uint64, 1)
+	go func() {
+		for {
+			for _, val := range arr {
+				c <- val
+			}
+		}
+	}()
+	return c
+}
+
 // Range generates elements from start to end with given step
 func RangeUint64(start uint64, end uint64, step uint64) chan uint64 {
 	c := make(chan uint64, 1)
@@ -587,6 +914,31 @@ func TakeAllUint64(c chan uint64) []uint64 {
 		result = append(result, val)
 	}
 	return result
+}
+
+// Count is like Range, but infinite
+func CountUint8(start uint8, step uint8) chan uint8 {
+	c := make(chan uint8, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+// Cycle is an infinite loop over arr
+func CycleUint8(arr []uint8) chan uint8 {
+	c := make(chan uint8, 1)
+	go func() {
+		for {
+			for _, val := range arr {
+				c <- val
+			}
+		}
+	}()
+	return c
 }
 
 // Range generates elements from start to end with given step
