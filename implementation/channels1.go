@@ -25,6 +25,23 @@ func Cycle(arr []T) chan T {
 	return c
 }
 
+// Drop drops first n elements from channel c and returns a new channel with the rest.
+// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
+func Drop(c chan T, n int) chan T {
+	result := make(chan T, 1)
+	go func() {
+		i := 0
+		for el := range c {
+			if i >= n {
+				result <- el
+			}
+			i++
+		}
+		close(result)
+	}()
+	return result
+}
+
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
 func Exponential(start T, factor T) chan T {

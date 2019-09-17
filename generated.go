@@ -25,6 +25,23 @@ func CycleBool(arr []bool) chan bool {
 	return c
 }
 
+// Drop drops first n elements from channel c and returns a new channel with the rest.
+// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
+func DropBool(c chan bool, n int) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		i := 0
+		for el := range c {
+			if i >= n {
+				result <- el
+			}
+			i++
+		}
+		close(result)
+	}()
+	return result
+}
+
 // Exponential generates elements from start with
 
 // Product returns cortesian product of elements
@@ -113,6 +130,23 @@ func CycleByte(arr []byte) chan byte {
 	return c
 }
 
+// Drop drops first n elements from channel c and returns a new channel with the rest.
+// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
+func DropByte(c chan byte, n int) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		i := 0
+		for el := range c {
+			if i >= n {
+				result <- el
+			}
+			i++
+		}
+		close(result)
+	}()
+	return result
+}
+
 // Exponential generates elements from start with
 
 // Product returns cortesian product of elements
@@ -199,6 +233,23 @@ func CycleFloat32(arr []float32) chan float32 {
 		}
 	}()
 	return c
+}
+
+// Drop drops first n elements from channel c and returns a new channel with the rest.
+// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
+func DropFloat32(c chan float32, n int) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		i := 0
+		for el := range c {
+			if i >= n {
+				result <- el
+			}
+			i++
+		}
+		close(result)
+	}()
+	return result
 }
 
 // Exponential generates elements from start with
@@ -314,6 +365,23 @@ func CycleFloat64(arr []float64) chan float64 {
 	return c
 }
 
+// Drop drops first n elements from channel c and returns a new channel with the rest.
+// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
+func DropFloat64(c chan float64, n int) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		i := 0
+		for el := range c {
+			if i >= n {
+				result <- el
+			}
+			i++
+		}
+		close(result)
+	}()
+	return result
+}
+
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
 func ExponentialFloat64(start float64, factor float64) chan float64 {
@@ -425,6 +493,23 @@ func CycleInt(arr []int) chan int {
 		}
 	}()
 	return c
+}
+
+// Drop drops first n elements from channel c and returns a new channel with the rest.
+// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
+func DropInt(c chan int, n int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		i := 0
+		for el := range c {
+			if i >= n {
+				result <- el
+			}
+			i++
+		}
+		close(result)
+	}()
+	return result
 }
 
 // Exponential generates elements from start with
@@ -540,6 +625,23 @@ func CycleInt16(arr []int16) chan int16 {
 	return c
 }
 
+// Drop drops first n elements from channel c and returns a new channel with the rest.
+// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
+func DropInt16(c chan int16, n int) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		i := 0
+		for el := range c {
+			if i >= n {
+				result <- el
+			}
+			i++
+		}
+		close(result)
+	}()
+	return result
+}
+
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
 func ExponentialInt16(start int16, factor int16) chan int16 {
@@ -651,6 +753,23 @@ func CycleInt32(arr []int32) chan int32 {
 		}
 	}()
 	return c
+}
+
+// Drop drops first n elements from channel c and returns a new channel with the rest.
+// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
+func DropInt32(c chan int32, n int) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		i := 0
+		for el := range c {
+			if i >= n {
+				result <- el
+			}
+			i++
+		}
+		close(result)
+	}()
+	return result
 }
 
 // Exponential generates elements from start with
@@ -766,6 +885,23 @@ func CycleInt64(arr []int64) chan int64 {
 	return c
 }
 
+// Drop drops first n elements from channel c and returns a new channel with the rest.
+// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
+func DropInt64(c chan int64, n int) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		i := 0
+		for el := range c {
+			if i >= n {
+				result <- el
+			}
+			i++
+		}
+		close(result)
+	}()
+	return result
+}
+
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
 func ExponentialInt64(start int64, factor int64) chan int64 {
@@ -877,6 +1013,23 @@ func CycleInt8(arr []int8) chan int8 {
 		}
 	}()
 	return c
+}
+
+// Drop drops first n elements from channel c and returns a new channel with the rest.
+// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
+func DropInt8(c chan int8, n int) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		i := 0
+		for el := range c {
+			if i >= n {
+				result <- el
+			}
+			i++
+		}
+		close(result)
+	}()
+	return result
 }
 
 // Exponential generates elements from start with
@@ -992,6 +1145,23 @@ func Cycle(arr []interface{}) chan interface{} {
 	return c
 }
 
+// Drop drops first n elements from channel c and returns a new channel with the rest.
+// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
+func Drop(c chan interface{}, n int) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		i := 0
+		for el := range c {
+			if i >= n {
+				result <- el
+			}
+			i++
+		}
+		close(result)
+	}()
+	return result
+}
+
 // Exponential generates elements from start with
 
 // Product returns cortesian product of elements
@@ -1080,6 +1250,23 @@ func CycleString(arr []string) chan string {
 	return c
 }
 
+// Drop drops first n elements from channel c and returns a new channel with the rest.
+// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
+func DropString(c chan string, n int) chan string {
+	result := make(chan string, 1)
+	go func() {
+		i := 0
+		for el := range c {
+			if i >= n {
+				result <- el
+			}
+			i++
+		}
+		close(result)
+	}()
+	return result
+}
+
 // Exponential generates elements from start with
 
 // Product returns cortesian product of elements
@@ -1166,6 +1353,23 @@ func CycleUint(arr []uint) chan uint {
 		}
 	}()
 	return c
+}
+
+// Drop drops first n elements from channel c and returns a new channel with the rest.
+// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
+func DropUint(c chan uint, n int) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		i := 0
+		for el := range c {
+			if i >= n {
+				result <- el
+			}
+			i++
+		}
+		close(result)
+	}()
+	return result
 }
 
 // Exponential generates elements from start with
@@ -1281,6 +1485,23 @@ func CycleUint16(arr []uint16) chan uint16 {
 	return c
 }
 
+// Drop drops first n elements from channel c and returns a new channel with the rest.
+// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
+func DropUint16(c chan uint16, n int) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		i := 0
+		for el := range c {
+			if i >= n {
+				result <- el
+			}
+			i++
+		}
+		close(result)
+	}()
+	return result
+}
+
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
 func ExponentialUint16(start uint16, factor uint16) chan uint16 {
@@ -1392,6 +1613,23 @@ func CycleUint32(arr []uint32) chan uint32 {
 		}
 	}()
 	return c
+}
+
+// Drop drops first n elements from channel c and returns a new channel with the rest.
+// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
+func DropUint32(c chan uint32, n int) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		i := 0
+		for el := range c {
+			if i >= n {
+				result <- el
+			}
+			i++
+		}
+		close(result)
+	}()
+	return result
 }
 
 // Exponential generates elements from start with
@@ -1507,6 +1745,23 @@ func CycleUint64(arr []uint64) chan uint64 {
 	return c
 }
 
+// Drop drops first n elements from channel c and returns a new channel with the rest.
+// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
+func DropUint64(c chan uint64, n int) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		i := 0
+		for el := range c {
+			if i >= n {
+				result <- el
+			}
+			i++
+		}
+		close(result)
+	}()
+	return result
+}
+
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
 func ExponentialUint64(start uint64, factor uint64) chan uint64 {
@@ -1618,6 +1873,23 @@ func CycleUint8(arr []uint8) chan uint8 {
 		}
 	}()
 	return c
+}
+
+// Drop drops first n elements from channel c and returns a new channel with the rest.
+// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
+func DropUint8(c chan uint8, n int) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		i := 0
+		for el := range c {
+			if i >= n {
+				result <- el
+			}
+			i++
+		}
+		close(result)
+	}()
+	return result
 }
 
 // Exponential generates elements from start with
