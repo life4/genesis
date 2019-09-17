@@ -156,7 +156,7 @@ func Intersperse(arr []T, el T) []T {
 }
 
 // Max returns the maximal element from arr
-func Max(arr []T) T {
+func Max(arr ...T) T {
 	max := arr[0]
 	for _, el := range arr[1:] {
 		if el > max {
@@ -167,7 +167,7 @@ func Max(arr []T) T {
 }
 
 // Min returns the minimal element from arr
-func Min(arr []T) T {
+func Min(arr ...T) T {
 	min := arr[0]
 	for _, el := range arr[1:] {
 		if el < min {
@@ -223,7 +223,7 @@ func StartsWith(arr []T, prefix []T) bool {
 }
 
 // Sum return sum of all elements from arr
-func Sum(arr []T) T {
+func Sum(arr ...T) T {
 	var sum T
 	for _, el := range arr {
 		sum += el

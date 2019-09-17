@@ -2394,7 +2394,7 @@ func StartsWithBool(arr []bool, prefix []bool) bool {
 }
 
 // Sum return sum of all elements from arr
-func SumBool(arr []bool) bool {
+func SumBool(arr ...bool) bool {
 	var sum bool
 	for _, el := range arr {
 		sum += el
@@ -2591,7 +2591,7 @@ func IntersperseByte(arr []byte, el byte) []byte {
 }
 
 // Max returns the maximal element from arr
-func MaxByte(arr []byte) byte {
+func MaxByte(arr ...byte) byte {
 	max := arr[0]
 	for _, el := range arr[1:] {
 		if el > max {
@@ -2602,7 +2602,7 @@ func MaxByte(arr []byte) byte {
 }
 
 // Min returns the minimal element from arr
-func MinByte(arr []byte) byte {
+func MinByte(arr ...byte) byte {
 	min := arr[0]
 	for _, el := range arr[1:] {
 		if el < min {
@@ -2658,7 +2658,7 @@ func StartsWithByte(arr []byte, prefix []byte) bool {
 }
 
 // Sum return sum of all elements from arr
-func SumByte(arr []byte) byte {
+func SumByte(arr ...byte) byte {
 	var sum byte
 	for _, el := range arr {
 		sum += el
@@ -2866,7 +2866,7 @@ func IntersperseFloat32(arr []float32, el float32) []float32 {
 }
 
 // Max returns the maximal element from arr
-func MaxFloat32(arr []float32) float32 {
+func MaxFloat32(arr ...float32) float32 {
 	max := arr[0]
 	for _, el := range arr[1:] {
 		if el > max {
@@ -2877,7 +2877,7 @@ func MaxFloat32(arr []float32) float32 {
 }
 
 // Min returns the minimal element from arr
-func MinFloat32(arr []float32) float32 {
+func MinFloat32(arr ...float32) float32 {
 	min := arr[0]
 	for _, el := range arr[1:] {
 		if el < min {
@@ -2933,7 +2933,7 @@ func StartsWithFloat32(arr []float32, prefix []float32) bool {
 }
 
 // Sum return sum of all elements from arr
-func SumFloat32(arr []float32) float32 {
+func SumFloat32(arr ...float32) float32 {
 	var sum float32
 	for _, el := range arr {
 		sum += el
@@ -3141,7 +3141,7 @@ func IntersperseFloat64(arr []float64, el float64) []float64 {
 }
 
 // Max returns the maximal element from arr
-func MaxFloat64(arr []float64) float64 {
+func MaxFloat64(arr ...float64) float64 {
 	max := arr[0]
 	for _, el := range arr[1:] {
 		if el > max {
@@ -3152,7 +3152,7 @@ func MaxFloat64(arr []float64) float64 {
 }
 
 // Min returns the minimal element from arr
-func MinFloat64(arr []float64) float64 {
+func MinFloat64(arr ...float64) float64 {
 	min := arr[0]
 	for _, el := range arr[1:] {
 		if el < min {
@@ -3208,7 +3208,7 @@ func StartsWithFloat64(arr []float64, prefix []float64) bool {
 }
 
 // Sum return sum of all elements from arr
-func SumFloat64(arr []float64) float64 {
+func SumFloat64(arr ...float64) float64 {
 	var sum float64
 	for _, el := range arr {
 		sum += el
@@ -3416,7 +3416,7 @@ func IntersperseInt(arr []int, el int) []int {
 }
 
 // Max returns the maximal element from arr
-func MaxInt(arr []int) int {
+func MaxInt(arr ...int) int {
 	max := arr[0]
 	for _, el := range arr[1:] {
 		if el > max {
@@ -3427,7 +3427,7 @@ func MaxInt(arr []int) int {
 }
 
 // Min returns the minimal element from arr
-func MinInt(arr []int) int {
+func MinInt(arr ...int) int {
 	min := arr[0]
 	for _, el := range arr[1:] {
 		if el < min {
@@ -3483,7 +3483,7 @@ func StartsWithInt(arr []int, prefix []int) bool {
 }
 
 // Sum return sum of all elements from arr
-func SumInt(arr []int) int {
+func SumInt(arr ...int) int {
 	var sum int
 	for _, el := range arr {
 		sum += el
@@ -3691,7 +3691,7 @@ func IntersperseInt16(arr []int16, el int16) []int16 {
 }
 
 // Max returns the maximal element from arr
-func MaxInt16(arr []int16) int16 {
+func MaxInt16(arr ...int16) int16 {
 	max := arr[0]
 	for _, el := range arr[1:] {
 		if el > max {
@@ -3702,7 +3702,7 @@ func MaxInt16(arr []int16) int16 {
 }
 
 // Min returns the minimal element from arr
-func MinInt16(arr []int16) int16 {
+func MinInt16(arr ...int16) int16 {
 	min := arr[0]
 	for _, el := range arr[1:] {
 		if el < min {
@@ -3758,7 +3758,7 @@ func StartsWithInt16(arr []int16, prefix []int16) bool {
 }
 
 // Sum return sum of all elements from arr
-func SumInt16(arr []int16) int16 {
+func SumInt16(arr ...int16) int16 {
 	var sum int16
 	for _, el := range arr {
 		sum += el
@@ -3966,7 +3966,7 @@ func IntersperseInt32(arr []int32, el int32) []int32 {
 }
 
 // Max returns the maximal element from arr
-func MaxInt32(arr []int32) int32 {
+func MaxInt32(arr ...int32) int32 {
 	max := arr[0]
 	for _, el := range arr[1:] {
 		if el > max {
@@ -3977,7 +3977,7 @@ func MaxInt32(arr []int32) int32 {
 }
 
 // Min returns the minimal element from arr
-func MinInt32(arr []int32) int32 {
+func MinInt32(arr ...int32) int32 {
 	min := arr[0]
 	for _, el := range arr[1:] {
 		if el < min {
@@ -4033,7 +4033,7 @@ func StartsWithInt32(arr []int32, prefix []int32) bool {
 }
 
 // Sum return sum of all elements from arr
-func SumInt32(arr []int32) int32 {
+func SumInt32(arr ...int32) int32 {
 	var sum int32
 	for _, el := range arr {
 		sum += el
@@ -4241,7 +4241,7 @@ func IntersperseInt64(arr []int64, el int64) []int64 {
 }
 
 // Max returns the maximal element from arr
-func MaxInt64(arr []int64) int64 {
+func MaxInt64(arr ...int64) int64 {
 	max := arr[0]
 	for _, el := range arr[1:] {
 		if el > max {
@@ -4252,7 +4252,7 @@ func MaxInt64(arr []int64) int64 {
 }
 
 // Min returns the minimal element from arr
-func MinInt64(arr []int64) int64 {
+func MinInt64(arr ...int64) int64 {
 	min := arr[0]
 	for _, el := range arr[1:] {
 		if el < min {
@@ -4308,7 +4308,7 @@ func StartsWithInt64(arr []int64, prefix []int64) bool {
 }
 
 // Sum return sum of all elements from arr
-func SumInt64(arr []int64) int64 {
+func SumInt64(arr ...int64) int64 {
 	var sum int64
 	for _, el := range arr {
 		sum += el
@@ -4516,7 +4516,7 @@ func IntersperseInt8(arr []int8, el int8) []int8 {
 }
 
 // Max returns the maximal element from arr
-func MaxInt8(arr []int8) int8 {
+func MaxInt8(arr ...int8) int8 {
 	max := arr[0]
 	for _, el := range arr[1:] {
 		if el > max {
@@ -4527,7 +4527,7 @@ func MaxInt8(arr []int8) int8 {
 }
 
 // Min returns the minimal element from arr
-func MinInt8(arr []int8) int8 {
+func MinInt8(arr ...int8) int8 {
 	min := arr[0]
 	for _, el := range arr[1:] {
 		if el < min {
@@ -4583,7 +4583,7 @@ func StartsWithInt8(arr []int8, prefix []int8) bool {
 }
 
 // Sum return sum of all elements from arr
-func SumInt8(arr []int8) int8 {
+func SumInt8(arr ...int8) int8 {
 	var sum int8
 	for _, el := range arr {
 		sum += el
@@ -4825,7 +4825,7 @@ func StartsWith(arr []interface{}, prefix []interface{}) bool {
 }
 
 // Sum return sum of all elements from arr
-func Sum(arr []interface{}) interface{} {
+func Sum(arr ...interface{}) interface{} {
 	var sum interface{}
 	for _, el := range arr {
 		sum += el
@@ -5022,7 +5022,7 @@ func IntersperseString(arr []string, el string) []string {
 }
 
 // Max returns the maximal element from arr
-func MaxString(arr []string) string {
+func MaxString(arr ...string) string {
 	max := arr[0]
 	for _, el := range arr[1:] {
 		if el > max {
@@ -5033,7 +5033,7 @@ func MaxString(arr []string) string {
 }
 
 // Min returns the minimal element from arr
-func MinString(arr []string) string {
+func MinString(arr ...string) string {
 	min := arr[0]
 	for _, el := range arr[1:] {
 		if el < min {
@@ -5089,7 +5089,7 @@ func StartsWithString(arr []string, prefix []string) bool {
 }
 
 // Sum return sum of all elements from arr
-func SumString(arr []string) string {
+func SumString(arr ...string) string {
 	var sum string
 	for _, el := range arr {
 		sum += el
@@ -5297,7 +5297,7 @@ func IntersperseUint(arr []uint, el uint) []uint {
 }
 
 // Max returns the maximal element from arr
-func MaxUint(arr []uint) uint {
+func MaxUint(arr ...uint) uint {
 	max := arr[0]
 	for _, el := range arr[1:] {
 		if el > max {
@@ -5308,7 +5308,7 @@ func MaxUint(arr []uint) uint {
 }
 
 // Min returns the minimal element from arr
-func MinUint(arr []uint) uint {
+func MinUint(arr ...uint) uint {
 	min := arr[0]
 	for _, el := range arr[1:] {
 		if el < min {
@@ -5364,7 +5364,7 @@ func StartsWithUint(arr []uint, prefix []uint) bool {
 }
 
 // Sum return sum of all elements from arr
-func SumUint(arr []uint) uint {
+func SumUint(arr ...uint) uint {
 	var sum uint
 	for _, el := range arr {
 		sum += el
@@ -5572,7 +5572,7 @@ func IntersperseUint16(arr []uint16, el uint16) []uint16 {
 }
 
 // Max returns the maximal element from arr
-func MaxUint16(arr []uint16) uint16 {
+func MaxUint16(arr ...uint16) uint16 {
 	max := arr[0]
 	for _, el := range arr[1:] {
 		if el > max {
@@ -5583,7 +5583,7 @@ func MaxUint16(arr []uint16) uint16 {
 }
 
 // Min returns the minimal element from arr
-func MinUint16(arr []uint16) uint16 {
+func MinUint16(arr ...uint16) uint16 {
 	min := arr[0]
 	for _, el := range arr[1:] {
 		if el < min {
@@ -5639,7 +5639,7 @@ func StartsWithUint16(arr []uint16, prefix []uint16) bool {
 }
 
 // Sum return sum of all elements from arr
-func SumUint16(arr []uint16) uint16 {
+func SumUint16(arr ...uint16) uint16 {
 	var sum uint16
 	for _, el := range arr {
 		sum += el
@@ -5847,7 +5847,7 @@ func IntersperseUint32(arr []uint32, el uint32) []uint32 {
 }
 
 // Max returns the maximal element from arr
-func MaxUint32(arr []uint32) uint32 {
+func MaxUint32(arr ...uint32) uint32 {
 	max := arr[0]
 	for _, el := range arr[1:] {
 		if el > max {
@@ -5858,7 +5858,7 @@ func MaxUint32(arr []uint32) uint32 {
 }
 
 // Min returns the minimal element from arr
-func MinUint32(arr []uint32) uint32 {
+func MinUint32(arr ...uint32) uint32 {
 	min := arr[0]
 	for _, el := range arr[1:] {
 		if el < min {
@@ -5914,7 +5914,7 @@ func StartsWithUint32(arr []uint32, prefix []uint32) bool {
 }
 
 // Sum return sum of all elements from arr
-func SumUint32(arr []uint32) uint32 {
+func SumUint32(arr ...uint32) uint32 {
 	var sum uint32
 	for _, el := range arr {
 		sum += el
@@ -6122,7 +6122,7 @@ func IntersperseUint64(arr []uint64, el uint64) []uint64 {
 }
 
 // Max returns the maximal element from arr
-func MaxUint64(arr []uint64) uint64 {
+func MaxUint64(arr ...uint64) uint64 {
 	max := arr[0]
 	for _, el := range arr[1:] {
 		if el > max {
@@ -6133,7 +6133,7 @@ func MaxUint64(arr []uint64) uint64 {
 }
 
 // Min returns the minimal element from arr
-func MinUint64(arr []uint64) uint64 {
+func MinUint64(arr ...uint64) uint64 {
 	min := arr[0]
 	for _, el := range arr[1:] {
 		if el < min {
@@ -6189,7 +6189,7 @@ func StartsWithUint64(arr []uint64, prefix []uint64) bool {
 }
 
 // Sum return sum of all elements from arr
-func SumUint64(arr []uint64) uint64 {
+func SumUint64(arr ...uint64) uint64 {
 	var sum uint64
 	for _, el := range arr {
 		sum += el
@@ -6397,7 +6397,7 @@ func IntersperseUint8(arr []uint8, el uint8) []uint8 {
 }
 
 // Max returns the maximal element from arr
-func MaxUint8(arr []uint8) uint8 {
+func MaxUint8(arr ...uint8) uint8 {
 	max := arr[0]
 	for _, el := range arr[1:] {
 		if el > max {
@@ -6408,7 +6408,7 @@ func MaxUint8(arr []uint8) uint8 {
 }
 
 // Min returns the minimal element from arr
-func MinUint8(arr []uint8) uint8 {
+func MinUint8(arr ...uint8) uint8 {
 	min := arr[0]
 	for _, el := range arr[1:] {
 		if el < min {
@@ -6464,7 +6464,7 @@ func StartsWithUint8(arr []uint8, prefix []uint8) bool {
 }
 
 // Sum return sum of all elements from arr
-func SumUint8(arr []uint8) uint8 {
+func SumUint8(arr ...uint8) uint8 {
 	var sum uint8
 	for _, el := range arr {
 		sum += el
