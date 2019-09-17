@@ -21,6 +21,10 @@ REX_DROP_SUFFIX = re.compile(r'func\s([a-zA-Z]+)[245]([A-Z]+)')
 def _make_suffix(types: Sequence[str]) -> str:
     if len(types) == 1 and types[0] == 'interface{}':
         return ''
+
+    if len(set(types)) == 1:
+        types = types[:1]
+
     suffixes = []
     for t in types:
         if t == 'interface{}':
@@ -53,10 +57,6 @@ def generate(in_path: Path, out_path: Path):
         # generate function definition for every type
         generics_count = int(module.stem[-1])
         for types in product(TYPES, repeat=generics_count):
-            # do not generate multi-generic functions with all the same types
-            if len(types) > 1 and len(set(types)) == 1:
-                continue
-
             print('   ', ', '.join(types))
             output_name = module.stem + ''.join(types).replace('{', '').replace('}', '')
             cmd = [

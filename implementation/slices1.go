@@ -11,15 +11,6 @@ func Filter(arr []T, f func(el T) bool) []T {
 	return result
 }
 
-// Map applies F to all elements in slice of T and returns slice of results
-func Map(arr []T, f func(el T) T) []T {
-	result := make([]T, 0, len(arr))
-	for _, el := range arr {
-		result = append(result, f(el))
-	}
-	return result
-}
-
 // Each calls f for every element from arr
 func Each(arr []T, f func(el T)) {
 	for _, el := range arr {
@@ -176,35 +167,6 @@ func Min(arr []T) T {
 		}
 	}
 	return min
-}
-
-// Reduce applies F to acc and every element in slice of T and returns acc
-func Reduce(arr []T, acc T, f func(el T, acc T) T) T {
-	for _, el := range arr {
-		acc = f(el, acc)
-	}
-	return acc
-}
-
-// ReduceWhile is like Reduce, but stops when f returns error
-func ReduceWhile(arr []T, acc T, f func(el T, acc T) (T, error)) (T, error) {
-	for _, el := range arr {
-		acc, err := f(el, acc)
-		if err != nil {
-			return acc, err
-		}
-	}
-	return acc, nil
-}
-
-// Scan is like Reduce, but returns slice of f results
-func Scan(arr []T, acc T, f func(el T, acc T) T) []T {
-	result := make([]T, 0, len(arr))
-	for _, el := range arr {
-		acc = f(el, acc)
-		result = append(result, acc)
-	}
-	return result
 }
 
 // StartsWith returns true if slice starts with the given prefix slice.
