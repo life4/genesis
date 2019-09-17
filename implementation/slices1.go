@@ -166,6 +166,15 @@ func Min(arr []T) T {
 	return min
 }
 
+// Reverse returns given arr in reversed order
+func Reverse(arr []T) []T {
+	result := make([]T, 0, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		result = append(result, arr[i])
+	}
+	return result
+}
+
 // Same returns true if all element in arr the same
 func Same(arr []T) bool {
 	for i := 0; i < len(arr)-1; i++ {

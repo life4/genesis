@@ -1352,6 +1352,15 @@ func IntersperseBool(arr []bool, el bool) []bool {
 	return result
 }
 
+// Reverse returns given arr in reversed order
+func ReverseBool(arr []bool) []bool {
+	result := make([]bool, 0, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		result = append(result, arr[i])
+	}
+	return result
+}
+
 // Same returns true if all element in arr the same
 func SameBool(arr []bool) bool {
 	for i := 0; i < len(arr)-1; i++ {
@@ -1560,6 +1569,15 @@ func MinByte(arr []byte) byte {
 		}
 	}
 	return min
+}
+
+// Reverse returns given arr in reversed order
+func ReverseByte(arr []byte) []byte {
+	result := make([]byte, 0, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		result = append(result, arr[i])
+	}
+	return result
 }
 
 // Same returns true if all element in arr the same
@@ -1772,6 +1790,15 @@ func MinFloat32(arr []float32) float32 {
 	return min
 }
 
+// Reverse returns given arr in reversed order
+func ReverseFloat32(arr []float32) []float32 {
+	result := make([]float32, 0, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		result = append(result, arr[i])
+	}
+	return result
+}
+
 // Same returns true if all element in arr the same
 func SameFloat32(arr []float32) bool {
 	for i := 0; i < len(arr)-1; i++ {
@@ -1980,6 +2007,15 @@ func MinFloat64(arr []float64) float64 {
 		}
 	}
 	return min
+}
+
+// Reverse returns given arr in reversed order
+func ReverseFloat64(arr []float64) []float64 {
+	result := make([]float64, 0, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		result = append(result, arr[i])
+	}
+	return result
 }
 
 // Same returns true if all element in arr the same
@@ -2192,6 +2228,15 @@ func MinInt(arr []int) int {
 	return min
 }
 
+// Reverse returns given arr in reversed order
+func ReverseInt(arr []int) []int {
+	result := make([]int, 0, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		result = append(result, arr[i])
+	}
+	return result
+}
+
 // Same returns true if all element in arr the same
 func SameInt(arr []int) bool {
 	for i := 0; i < len(arr)-1; i++ {
@@ -2400,6 +2445,15 @@ func MinInt16(arr []int16) int16 {
 		}
 	}
 	return min
+}
+
+// Reverse returns given arr in reversed order
+func ReverseInt16(arr []int16) []int16 {
+	result := make([]int16, 0, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		result = append(result, arr[i])
+	}
+	return result
 }
 
 // Same returns true if all element in arr the same
@@ -2612,6 +2666,15 @@ func MinInt32(arr []int32) int32 {
 	return min
 }
 
+// Reverse returns given arr in reversed order
+func ReverseInt32(arr []int32) []int32 {
+	result := make([]int32, 0, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		result = append(result, arr[i])
+	}
+	return result
+}
+
 // Same returns true if all element in arr the same
 func SameInt32(arr []int32) bool {
 	for i := 0; i < len(arr)-1; i++ {
@@ -2820,6 +2883,15 @@ func MinInt64(arr []int64) int64 {
 		}
 	}
 	return min
+}
+
+// Reverse returns given arr in reversed order
+func ReverseInt64(arr []int64) []int64 {
+	result := make([]int64, 0, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		result = append(result, arr[i])
+	}
+	return result
 }
 
 // Same returns true if all element in arr the same
@@ -3032,6 +3104,15 @@ func MinInt8(arr []int8) int8 {
 	return min
 }
 
+// Reverse returns given arr in reversed order
+func ReverseInt8(arr []int8) []int8 {
+	result := make([]int8, 0, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		result = append(result, arr[i])
+	}
+	return result
+}
+
 // Same returns true if all element in arr the same
 func SameInt8(arr []int8) bool {
 	for i := 0; i < len(arr)-1; i++ {
@@ -3216,6 +3297,15 @@ func Intersperse(arr []interface{}, el interface{}) []interface{} {
 	result = append(result, arr[0])
 	for _, val := range arr[1:] {
 		result = append(result, el, val)
+	}
+	return result
+}
+
+// Reverse returns given arr in reversed order
+func Reverse(arr []interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		result = append(result, arr[i])
 	}
 	return result
 }
@@ -3430,6 +3520,15 @@ func MinString(arr []string) string {
 	return min
 }
 
+// Reverse returns given arr in reversed order
+func ReverseString(arr []string) []string {
+	result := make([]string, 0, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		result = append(result, arr[i])
+	}
+	return result
+}
+
 // Same returns true if all element in arr the same
 func SameString(arr []string) bool {
 	for i := 0; i < len(arr)-1; i++ {
@@ -3638,6 +3737,15 @@ func MinUint(arr []uint) uint {
 		}
 	}
 	return min
+}
+
+// Reverse returns given arr in reversed order
+func ReverseUint(arr []uint) []uint {
+	result := make([]uint, 0, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		result = append(result, arr[i])
+	}
+	return result
 }
 
 // Same returns true if all element in arr the same
@@ -3850,6 +3958,15 @@ func MinUint16(arr []uint16) uint16 {
 	return min
 }
 
+// Reverse returns given arr in reversed order
+func ReverseUint16(arr []uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		result = append(result, arr[i])
+	}
+	return result
+}
+
 // Same returns true if all element in arr the same
 func SameUint16(arr []uint16) bool {
 	for i := 0; i < len(arr)-1; i++ {
@@ -4058,6 +4175,15 @@ func MinUint32(arr []uint32) uint32 {
 		}
 	}
 	return min
+}
+
+// Reverse returns given arr in reversed order
+func ReverseUint32(arr []uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		result = append(result, arr[i])
+	}
+	return result
 }
 
 // Same returns true if all element in arr the same
@@ -4270,6 +4396,15 @@ func MinUint64(arr []uint64) uint64 {
 	return min
 }
 
+// Reverse returns given arr in reversed order
+func ReverseUint64(arr []uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		result = append(result, arr[i])
+	}
+	return result
+}
+
 // Same returns true if all element in arr the same
 func SameUint64(arr []uint64) bool {
 	for i := 0; i < len(arr)-1; i++ {
@@ -4478,6 +4613,15 @@ func MinUint8(arr []uint8) uint8 {
 		}
 	}
 	return min
+}
+
+// Reverse returns given arr in reversed order
+func ReverseUint8(arr []uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		result = append(result, arr[i])
+	}
+	return result
 }
 
 // Same returns true if all element in arr the same
