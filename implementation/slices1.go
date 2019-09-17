@@ -166,6 +166,16 @@ func Min(arr []T) T {
 	return min
 }
 
+// Same returns true if all element in arr the same
+func Same(arr []T) bool {
+	for i := 0; i < len(arr)-1; i++ {
+		if arr[i] != arr[i+1] {
+			return false
+		}
+	}
+	return true
+}
+
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func StartsWith(arr []T, prefix []T) bool {

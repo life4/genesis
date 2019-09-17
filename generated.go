@@ -1000,6 +1000,16 @@ func IntersperseBool(arr []bool, el bool) []bool {
 	return result
 }
 
+// Same returns true if all element in arr the same
+func SameBool(arr []bool) bool {
+	for i := 0; i < len(arr)-1; i++ {
+		if arr[i] != arr[i+1] {
+			return false
+		}
+	}
+	return true
+}
+
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func StartsWithBool(arr []bool, prefix []bool) bool {
@@ -1198,6 +1208,16 @@ func MinByte(arr []byte) byte {
 		}
 	}
 	return min
+}
+
+// Same returns true if all element in arr the same
+func SameByte(arr []byte) bool {
+	for i := 0; i < len(arr)-1; i++ {
+		if arr[i] != arr[i+1] {
+			return false
+		}
+	}
+	return true
 }
 
 // StartsWith returns true if slice starts with the given prefix slice.
@@ -1400,6 +1420,16 @@ func MinFloat32(arr []float32) float32 {
 	return min
 }
 
+// Same returns true if all element in arr the same
+func SameFloat32(arr []float32) bool {
+	for i := 0; i < len(arr)-1; i++ {
+		if arr[i] != arr[i+1] {
+			return false
+		}
+	}
+	return true
+}
+
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func StartsWithFloat32(arr []float32, prefix []float32) bool {
@@ -1598,6 +1628,16 @@ func MinFloat64(arr []float64) float64 {
 		}
 	}
 	return min
+}
+
+// Same returns true if all element in arr the same
+func SameFloat64(arr []float64) bool {
+	for i := 0; i < len(arr)-1; i++ {
+		if arr[i] != arr[i+1] {
+			return false
+		}
+	}
+	return true
 }
 
 // StartsWith returns true if slice starts with the given prefix slice.
@@ -1800,6 +1840,16 @@ func MinInt(arr []int) int {
 	return min
 }
 
+// Same returns true if all element in arr the same
+func SameInt(arr []int) bool {
+	for i := 0; i < len(arr)-1; i++ {
+		if arr[i] != arr[i+1] {
+			return false
+		}
+	}
+	return true
+}
+
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func StartsWithInt(arr []int, prefix []int) bool {
@@ -1998,6 +2048,16 @@ func MinInt16(arr []int16) int16 {
 		}
 	}
 	return min
+}
+
+// Same returns true if all element in arr the same
+func SameInt16(arr []int16) bool {
+	for i := 0; i < len(arr)-1; i++ {
+		if arr[i] != arr[i+1] {
+			return false
+		}
+	}
+	return true
 }
 
 // StartsWith returns true if slice starts with the given prefix slice.
@@ -2200,6 +2260,16 @@ func MinInt32(arr []int32) int32 {
 	return min
 }
 
+// Same returns true if all element in arr the same
+func SameInt32(arr []int32) bool {
+	for i := 0; i < len(arr)-1; i++ {
+		if arr[i] != arr[i+1] {
+			return false
+		}
+	}
+	return true
+}
+
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func StartsWithInt32(arr []int32, prefix []int32) bool {
@@ -2398,6 +2468,16 @@ func MinInt64(arr []int64) int64 {
 		}
 	}
 	return min
+}
+
+// Same returns true if all element in arr the same
+func SameInt64(arr []int64) bool {
+	for i := 0; i < len(arr)-1; i++ {
+		if arr[i] != arr[i+1] {
+			return false
+		}
+	}
+	return true
 }
 
 // StartsWith returns true if slice starts with the given prefix slice.
@@ -2600,6 +2680,16 @@ func MinInt8(arr []int8) int8 {
 	return min
 }
 
+// Same returns true if all element in arr the same
+func SameInt8(arr []int8) bool {
+	for i := 0; i < len(arr)-1; i++ {
+		if arr[i] != arr[i+1] {
+			return false
+		}
+	}
+	return true
+}
+
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func StartsWithInt8(arr []int8, prefix []int8) bool {
@@ -2776,6 +2866,16 @@ func Intersperse(arr []interface{}, el interface{}) []interface{} {
 		result = append(result, el, val)
 	}
 	return result
+}
+
+// Same returns true if all element in arr the same
+func Same(arr []interface{}) bool {
+	for i := 0; i < len(arr)-1; i++ {
+		if arr[i] != arr[i+1] {
+			return false
+		}
+	}
+	return true
 }
 
 // StartsWith returns true if slice starts with the given prefix slice.
@@ -2978,6 +3078,16 @@ func MinString(arr []string) string {
 	return min
 }
 
+// Same returns true if all element in arr the same
+func SameString(arr []string) bool {
+	for i := 0; i < len(arr)-1; i++ {
+		if arr[i] != arr[i+1] {
+			return false
+		}
+	}
+	return true
+}
+
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func StartsWithString(arr []string, prefix []string) bool {
@@ -3176,6 +3286,16 @@ func MinUint(arr []uint) uint {
 		}
 	}
 	return min
+}
+
+// Same returns true if all element in arr the same
+func SameUint(arr []uint) bool {
+	for i := 0; i < len(arr)-1; i++ {
+		if arr[i] != arr[i+1] {
+			return false
+		}
+	}
+	return true
 }
 
 // StartsWith returns true if slice starts with the given prefix slice.
@@ -3378,6 +3498,16 @@ func MinUint16(arr []uint16) uint16 {
 	return min
 }
 
+// Same returns true if all element in arr the same
+func SameUint16(arr []uint16) bool {
+	for i := 0; i < len(arr)-1; i++ {
+		if arr[i] != arr[i+1] {
+			return false
+		}
+	}
+	return true
+}
+
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func StartsWithUint16(arr []uint16, prefix []uint16) bool {
@@ -3576,6 +3706,16 @@ func MinUint32(arr []uint32) uint32 {
 		}
 	}
 	return min
+}
+
+// Same returns true if all element in arr the same
+func SameUint32(arr []uint32) bool {
+	for i := 0; i < len(arr)-1; i++ {
+		if arr[i] != arr[i+1] {
+			return false
+		}
+	}
+	return true
 }
 
 // StartsWith returns true if slice starts with the given prefix slice.
@@ -3778,6 +3918,16 @@ func MinUint64(arr []uint64) uint64 {
 	return min
 }
 
+// Same returns true if all element in arr the same
+func SameUint64(arr []uint64) bool {
+	for i := 0; i < len(arr)-1; i++ {
+		if arr[i] != arr[i+1] {
+			return false
+		}
+	}
+	return true
+}
+
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func StartsWithUint64(arr []uint64, prefix []uint64) bool {
@@ -3976,6 +4126,16 @@ func MinUint8(arr []uint8) uint8 {
 		}
 	}
 	return min
+}
+
+// Same returns true if all element in arr the same
+func SameUint8(arr []uint8) bool {
+	for i := 0; i < len(arr)-1; i++ {
+		if arr[i] != arr[i+1] {
+			return false
+		}
+	}
+	return true
 }
 
 // StartsWith returns true if slice starts with the given prefix slice.
