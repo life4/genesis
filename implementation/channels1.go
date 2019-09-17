@@ -13,7 +13,7 @@ func Repeat(val T) chan T {
 
 // Take takes first n elements from channel c.
 func Take(c chan T, n int) []T {
-	result := make([]T, n)
+	result := make([]T, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c)
 	}
