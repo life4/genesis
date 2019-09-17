@@ -25,6 +25,19 @@ func Cycle(arr []T) chan T {
 	return c
 }
 
+// Exponential generates elements from start with
+// multiplication of value on factor on every step
+func Exponential(start T, factor T) chan T {
+	c := make(chan T, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
 // Range generates elements from start to end with given step
 func Range(start T, end T, step T) chan T {
 	c := make(chan T, 1)

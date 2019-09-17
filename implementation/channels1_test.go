@@ -6,6 +6,13 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestExponential(t *testing.T) {
+	f := func(start T, factor T, count int, expected []T) {
+		actual := Take(Exponential(start, factor), count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 2, 4, []T{1, 2, 4, 8})
+}
 func TestRange(t *testing.T) {
 	f := func(start T, stop T, step T, expected []T) {
 		actual := TakeAll(Range(start, stop, step))

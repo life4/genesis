@@ -13,6 +13,19 @@ func CycleBool(arr []bool) chan bool {
 	return c
 }
 
+// Exponential generates elements from start with
+// multiplication of value on factor on every step
+func ExponentialBool(start bool, factor bool) chan bool {
+	c := make(chan bool, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
 // Repeat returns channel that produces val infinite times
 func RepeatBool(val bool) chan bool {
 	c := make(chan bool, 1)
@@ -50,6 +63,19 @@ func CycleByte(arr []byte) chan byte {
 			for _, val := range arr {
 				c <- val
 			}
+		}
+	}()
+	return c
+}
+
+// Exponential generates elements from start with
+// multiplication of value on factor on every step
+func ExponentialByte(start byte, factor byte) chan byte {
+	c := make(chan byte, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
 		}
 	}()
 	return c
@@ -104,6 +130,19 @@ func CycleFloat32(arr []float32) chan float32 {
 			for _, val := range arr {
 				c <- val
 			}
+		}
+	}()
+	return c
+}
+
+// Exponential generates elements from start with
+// multiplication of value on factor on every step
+func ExponentialFloat32(start float32, factor float32) chan float32 {
+	c := make(chan float32, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
 		}
 	}()
 	return c
@@ -177,6 +216,19 @@ func CycleFloat64(arr []float64) chan float64 {
 	return c
 }
 
+// Exponential generates elements from start with
+// multiplication of value on factor on every step
+func ExponentialFloat64(start float64, factor float64) chan float64 {
+	c := make(chan float64, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
 // Range generates elements from start to end with given step
 func RangeFloat64(start float64, end float64, step float64) chan float64 {
 	c := make(chan float64, 1)
@@ -240,6 +292,19 @@ func CycleInt(arr []int) chan int {
 			for _, val := range arr {
 				c <- val
 			}
+		}
+	}()
+	return c
+}
+
+// Exponential generates elements from start with
+// multiplication of value on factor on every step
+func ExponentialInt(start int, factor int) chan int {
+	c := make(chan int, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
 		}
 	}()
 	return c
@@ -313,6 +378,19 @@ func CycleInt16(arr []int16) chan int16 {
 	return c
 }
 
+// Exponential generates elements from start with
+// multiplication of value on factor on every step
+func ExponentialInt16(start int16, factor int16) chan int16 {
+	c := make(chan int16, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
 // Range generates elements from start to end with given step
 func RangeInt16(start int16, end int16, step int16) chan int16 {
 	c := make(chan int16, 1)
@@ -376,6 +454,19 @@ func CycleInt32(arr []int32) chan int32 {
 			for _, val := range arr {
 				c <- val
 			}
+		}
+	}()
+	return c
+}
+
+// Exponential generates elements from start with
+// multiplication of value on factor on every step
+func ExponentialInt32(start int32, factor int32) chan int32 {
+	c := make(chan int32, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
 		}
 	}()
 	return c
@@ -449,6 +540,19 @@ func CycleInt64(arr []int64) chan int64 {
 	return c
 }
 
+// Exponential generates elements from start with
+// multiplication of value on factor on every step
+func ExponentialInt64(start int64, factor int64) chan int64 {
+	c := make(chan int64, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
 // Range generates elements from start to end with given step
 func RangeInt64(start int64, end int64, step int64) chan int64 {
 	c := make(chan int64, 1)
@@ -517,6 +621,19 @@ func CycleInt8(arr []int8) chan int8 {
 	return c
 }
 
+// Exponential generates elements from start with
+// multiplication of value on factor on every step
+func ExponentialInt8(start int8, factor int8) chan int8 {
+	c := make(chan int8, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
 // Range generates elements from start to end with given step
 func RangeInt8(start int8, end int8, step int8) chan int8 {
 	c := make(chan int8, 1)
@@ -573,6 +690,19 @@ func Cycle(arr []interface{}) chan interface{} {
 	return c
 }
 
+// Exponential generates elements from start with
+// multiplication of value on factor on every step
+func Exponential(start interface{}, factor interface{}) chan interface{} {
+	c := make(chan interface{}, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
 // Repeat returns channel that produces val infinite times
 func Repeat(val interface{}) chan interface{} {
 	c := make(chan interface{}, 1)
@@ -610,6 +740,19 @@ func CycleString(arr []string) chan string {
 			for _, val := range arr {
 				c <- val
 			}
+		}
+	}()
+	return c
+}
+
+// Exponential generates elements from start with
+// multiplication of value on factor on every step
+func ExponentialString(start string, factor string) chan string {
+	c := make(chan string, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
 		}
 	}()
 	return c
@@ -664,6 +807,19 @@ func CycleUint(arr []uint) chan uint {
 			for _, val := range arr {
 				c <- val
 			}
+		}
+	}()
+	return c
+}
+
+// Exponential generates elements from start with
+// multiplication of value on factor on every step
+func ExponentialUint(start uint, factor uint) chan uint {
+	c := make(chan uint, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
 		}
 	}()
 	return c
@@ -737,6 +893,19 @@ func CycleUint16(arr []uint16) chan uint16 {
 	return c
 }
 
+// Exponential generates elements from start with
+// multiplication of value on factor on every step
+func ExponentialUint16(start uint16, factor uint16) chan uint16 {
+	c := make(chan uint16, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
 // Range generates elements from start to end with given step
 func RangeUint16(start uint16, end uint16, step uint16) chan uint16 {
 	c := make(chan uint16, 1)
@@ -800,6 +969,19 @@ func CycleUint32(arr []uint32) chan uint32 {
 			for _, val := range arr {
 				c <- val
 			}
+		}
+	}()
+	return c
+}
+
+// Exponential generates elements from start with
+// multiplication of value on factor on every step
+func ExponentialUint32(start uint32, factor uint32) chan uint32 {
+	c := make(chan uint32, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
 		}
 	}()
 	return c
@@ -873,6 +1055,19 @@ func CycleUint64(arr []uint64) chan uint64 {
 	return c
 }
 
+// Exponential generates elements from start with
+// multiplication of value on factor on every step
+func ExponentialUint64(start uint64, factor uint64) chan uint64 {
+	c := make(chan uint64, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
 // Range generates elements from start to end with given step
 func RangeUint64(start uint64, end uint64, step uint64) chan uint64 {
 	c := make(chan uint64, 1)
@@ -936,6 +1131,19 @@ func CycleUint8(arr []uint8) chan uint8 {
 			for _, val := range arr {
 				c <- val
 			}
+		}
+	}()
+	return c
+}
+
+// Exponential generates elements from start with
+// multiplication of value on factor on every step
+func ExponentialUint8(start uint8, factor uint8) chan uint8 {
+	c := make(chan uint8, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
 		}
 	}()
 	return c
