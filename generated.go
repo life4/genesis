@@ -14,17 +14,6 @@ func CycleBool(arr []bool) chan bool {
 }
 
 // Exponential generates elements from start with
-// multiplication of value on factor on every step
-func ExponentialBool(start bool, factor bool) chan bool {
-	c := make(chan bool, 1)
-	go func() {
-		for {
-			c <- start
-			start *= factor
-		}
-	}()
-	return c
-}
 
 // Repeat returns channel that produces val infinite times
 func RepeatBool(val bool) chan bool {
@@ -69,17 +58,6 @@ func CycleByte(arr []byte) chan byte {
 }
 
 // Exponential generates elements from start with
-// multiplication of value on factor on every step
-func ExponentialByte(start byte, factor byte) chan byte {
-	c := make(chan byte, 1)
-	go func() {
-		for {
-			c <- start
-			start *= factor
-		}
-	}()
-	return c
-}
 
 // Repeat returns channel that produces val infinite times
 func RepeatByte(val byte) chan byte {
@@ -691,17 +669,6 @@ func Cycle(arr []interface{}) chan interface{} {
 }
 
 // Exponential generates elements from start with
-// multiplication of value on factor on every step
-func Exponential(start interface{}, factor interface{}) chan interface{} {
-	c := make(chan interface{}, 1)
-	go func() {
-		for {
-			c <- start
-			start *= factor
-		}
-	}()
-	return c
-}
 
 // Repeat returns channel that produces val infinite times
 func Repeat(val interface{}) chan interface{} {
@@ -746,17 +713,6 @@ func CycleString(arr []string) chan string {
 }
 
 // Exponential generates elements from start with
-// multiplication of value on factor on every step
-func ExponentialString(start string, factor string) chan string {
-	c := make(chan string, 1)
-	go func() {
-		for {
-			c <- start
-			start *= factor
-		}
-	}()
-	return c
-}
 
 // Repeat returns channel that produces val infinite times
 func RepeatString(val string) chan string {

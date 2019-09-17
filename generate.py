@@ -15,6 +15,7 @@ TYPES = (
 )
 EXCLUDE = (
     'CountBool', 'CountByte', 'CountString', 'Count',
+    'ExponentialBool', 'ExponentialByte', 'ExponentialString', 'Exponential',
     'MaxBool', 'MinBool', 'Max', 'Min',
     'RangeBool', 'RangeByte', 'RangeString', 'Range',
 )
