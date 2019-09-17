@@ -18,6 +18,18 @@ func TestChunkBy(t *testing.T) {
 	f(remainder, []T{1, 3, 2, 4, 5}, [][]T{{1, 3}, {2, 4}, {5}})
 }
 
+func TestGroupBy(t *testing.T) {
+	f := func(mapper func(t T) G, given []T, expected map[G][]T) {
+		actual := GroupBy(given, mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	remainder := func(t T) G { return G((t % 2)) }
+
+	f(remainder, []T{}, map[G][]T{})
+	f(remainder, []T{1}, map[G][]T{1: {1}})
+	f(remainder, []T{1, 3, 2, 4, 5}, map[G][]T{0: {2, 4}, 1: {1, 3, 5}})
+}
+
 func TestMap(t *testing.T) {
 	f := func(mapper func(t T) G, given []T, expected []G) {
 		actual := Map(given, mapper)
