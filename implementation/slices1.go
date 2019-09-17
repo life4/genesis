@@ -222,6 +222,15 @@ func StartsWith(arr []T, prefix []T) bool {
 	return true
 }
 
+// Sum return sum of all elements from arr
+func Sum(arr []T) T {
+	var sum T
+	for _, el := range arr {
+		sum += el
+	}
+	return sum
+}
+
 // TakeWhile takes elements from arr while f returns true
 func TakeWhile(arr []T, f func(el T) bool) []T {
 	result := make([]T, 0, len(arr))

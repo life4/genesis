@@ -2121,6 +2121,15 @@ func StartsWithBool(arr []bool, prefix []bool) bool {
 	return true
 }
 
+// Sum return sum of all elements from arr
+func SumBool(arr []bool) bool {
+	var sum bool
+	for _, el := range arr {
+		sum += el
+	}
+	return sum
+}
+
 // TakeWhile takes elements from arr while f returns true
 func TakeWhileBool(arr []bool, f func(el bool) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -2374,6 +2383,15 @@ func StartsWithByte(arr []byte, prefix []byte) bool {
 		}
 	}
 	return true
+}
+
+// Sum return sum of all elements from arr
+func SumByte(arr []byte) byte {
+	var sum byte
+	for _, el := range arr {
+		sum += el
+	}
+	return sum
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -2642,6 +2660,15 @@ func StartsWithFloat32(arr []float32, prefix []float32) bool {
 	return true
 }
 
+// Sum return sum of all elements from arr
+func SumFloat32(arr []float32) float32 {
+	var sum float32
+	for _, el := range arr {
+		sum += el
+	}
+	return sum
+}
+
 // TakeWhile takes elements from arr while f returns true
 func TakeWhileFloat32(arr []float32, f func(el float32) bool) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -2906,6 +2933,15 @@ func StartsWithFloat64(arr []float64, prefix []float64) bool {
 		}
 	}
 	return true
+}
+
+// Sum return sum of all elements from arr
+func SumFloat64(arr []float64) float64 {
+	var sum float64
+	for _, el := range arr {
+		sum += el
+	}
+	return sum
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -3174,6 +3210,15 @@ func StartsWithInt(arr []int, prefix []int) bool {
 	return true
 }
 
+// Sum return sum of all elements from arr
+func SumInt(arr []int) int {
+	var sum int
+	for _, el := range arr {
+		sum += el
+	}
+	return sum
+}
+
 // TakeWhile takes elements from arr while f returns true
 func TakeWhileInt(arr []int, f func(el int) bool) []int {
 	result := make([]int, 0, len(arr))
@@ -3438,6 +3483,15 @@ func StartsWithInt16(arr []int16, prefix []int16) bool {
 		}
 	}
 	return true
+}
+
+// Sum return sum of all elements from arr
+func SumInt16(arr []int16) int16 {
+	var sum int16
+	for _, el := range arr {
+		sum += el
+	}
+	return sum
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -3706,6 +3760,15 @@ func StartsWithInt32(arr []int32, prefix []int32) bool {
 	return true
 }
 
+// Sum return sum of all elements from arr
+func SumInt32(arr []int32) int32 {
+	var sum int32
+	for _, el := range arr {
+		sum += el
+	}
+	return sum
+}
+
 // TakeWhile takes elements from arr while f returns true
 func TakeWhileInt32(arr []int32, f func(el int32) bool) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -3970,6 +4033,15 @@ func StartsWithInt64(arr []int64, prefix []int64) bool {
 		}
 	}
 	return true
+}
+
+// Sum return sum of all elements from arr
+func SumInt64(arr []int64) int64 {
+	var sum int64
+	for _, el := range arr {
+		sum += el
+	}
+	return sum
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -4238,6 +4310,15 @@ func StartsWithInt8(arr []int8, prefix []int8) bool {
 	return true
 }
 
+// Sum return sum of all elements from arr
+func SumInt8(arr []int8) int8 {
+	var sum int8
+	for _, el := range arr {
+		sum += el
+	}
+	return sum
+}
+
 // TakeWhile takes elements from arr while f returns true
 func TakeWhileInt8(arr []int8, f func(el int8) bool) []int8 {
 	result := make([]int8, 0, len(arr))
@@ -4469,6 +4550,15 @@ func StartsWith(arr []interface{}, prefix []interface{}) bool {
 		}
 	}
 	return true
+}
+
+// Sum return sum of all elements from arr
+func Sum(arr []interface{}) interface{} {
+	var sum interface{}
+	for _, el := range arr {
+		sum += el
+	}
+	return sum
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -4724,6 +4814,15 @@ func StartsWithString(arr []string, prefix []string) bool {
 		}
 	}
 	return true
+}
+
+// Sum return sum of all elements from arr
+func SumString(arr []string) string {
+	var sum string
+	for _, el := range arr {
+		sum += el
+	}
+	return sum
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -4992,6 +5091,15 @@ func StartsWithUint(arr []uint, prefix []uint) bool {
 	return true
 }
 
+// Sum return sum of all elements from arr
+func SumUint(arr []uint) uint {
+	var sum uint
+	for _, el := range arr {
+		sum += el
+	}
+	return sum
+}
+
 // TakeWhile takes elements from arr while f returns true
 func TakeWhileUint(arr []uint, f func(el uint) bool) []uint {
 	result := make([]uint, 0, len(arr))
@@ -5256,6 +5364,15 @@ func StartsWithUint16(arr []uint16, prefix []uint16) bool {
 		}
 	}
 	return true
+}
+
+// Sum return sum of all elements from arr
+func SumUint16(arr []uint16) uint16 {
+	var sum uint16
+	for _, el := range arr {
+		sum += el
+	}
+	return sum
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -5524,6 +5641,15 @@ func StartsWithUint32(arr []uint32, prefix []uint32) bool {
 	return true
 }
 
+// Sum return sum of all elements from arr
+func SumUint32(arr []uint32) uint32 {
+	var sum uint32
+	for _, el := range arr {
+		sum += el
+	}
+	return sum
+}
+
 // TakeWhile takes elements from arr while f returns true
 func TakeWhileUint32(arr []uint32, f func(el uint32) bool) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -5790,6 +5916,15 @@ func StartsWithUint64(arr []uint64, prefix []uint64) bool {
 	return true
 }
 
+// Sum return sum of all elements from arr
+func SumUint64(arr []uint64) uint64 {
+	var sum uint64
+	for _, el := range arr {
+		sum += el
+	}
+	return sum
+}
+
 // TakeWhile takes elements from arr while f returns true
 func TakeWhileUint64(arr []uint64, f func(el uint64) bool) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -6054,6 +6189,15 @@ func StartsWithUint8(arr []uint8, prefix []uint8) bool {
 		}
 	}
 	return true
+}
+
+// Sum return sum of all elements from arr
+func SumUint8(arr []uint8) uint8 {
+	var sum uint8
+	for _, el := range arr {
+		sum += el
+	}
+	return sum
 }
 
 // TakeWhile takes elements from arr while f returns true
