@@ -2144,6 +2144,27 @@ func WindowBool(arr []bool, size int) [][]bool {
 	return result
 }
 
+// Zip returns array of arrays of elements from given arrs
+// on the same position
+func ZipBool(arrs ...[]bool) [][]bool {
+	size := len(arrs[0])
+	for _, arr := range arrs[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]bool, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]bool, 0, len(arrs))
+		for _, arr := range arrs {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterByte(arr []byte, f func(el byte) bool) []byte {
 	result := make([]byte, 0, len(arr))
@@ -2373,6 +2394,27 @@ func WindowByte(arr []byte, size int) [][]byte {
 	result := make([][]byte, 0, len(arr)/size)
 	for i := 0; i <= len(arr)-size; i++ {
 		chunk := arr[i : i+size]
+		result = append(result, chunk)
+	}
+	return result
+}
+
+// Zip returns array of arrays of elements from given arrs
+// on the same position
+func ZipByte(arrs ...[]byte) [][]byte {
+	size := len(arrs[0])
+	for _, arr := range arrs[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]byte, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]byte, 0, len(arrs))
+		for _, arr := range arrs {
+			chunk = append(chunk, arr[i])
+		}
 		result = append(result, chunk)
 	}
 	return result
@@ -2623,6 +2665,27 @@ func WindowFloat32(arr []float32, size int) [][]float32 {
 	return result
 }
 
+// Zip returns array of arrays of elements from given arrs
+// on the same position
+func ZipFloat32(arrs ...[]float32) [][]float32 {
+	size := len(arrs[0])
+	for _, arr := range arrs[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]float32, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]float32, 0, len(arrs))
+		for _, arr := range arrs {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterFloat64(arr []float64, f func(el float64) bool) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -2863,6 +2926,27 @@ func WindowFloat64(arr []float64, size int) [][]float64 {
 	result := make([][]float64, 0, len(arr)/size)
 	for i := 0; i <= len(arr)-size; i++ {
 		chunk := arr[i : i+size]
+		result = append(result, chunk)
+	}
+	return result
+}
+
+// Zip returns array of arrays of elements from given arrs
+// on the same position
+func ZipFloat64(arrs ...[]float64) [][]float64 {
+	size := len(arrs[0])
+	for _, arr := range arrs[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]float64, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]float64, 0, len(arrs))
+		for _, arr := range arrs {
+			chunk = append(chunk, arr[i])
+		}
 		result = append(result, chunk)
 	}
 	return result
@@ -3113,6 +3197,27 @@ func WindowInt(arr []int, size int) [][]int {
 	return result
 }
 
+// Zip returns array of arrays of elements from given arrs
+// on the same position
+func ZipInt(arrs ...[]int) [][]int {
+	size := len(arrs[0])
+	for _, arr := range arrs[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]int, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]int, 0, len(arrs))
+		for _, arr := range arrs {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterInt16(arr []int16, f func(el int16) bool) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -3353,6 +3458,27 @@ func WindowInt16(arr []int16, size int) [][]int16 {
 	result := make([][]int16, 0, len(arr)/size)
 	for i := 0; i <= len(arr)-size; i++ {
 		chunk := arr[i : i+size]
+		result = append(result, chunk)
+	}
+	return result
+}
+
+// Zip returns array of arrays of elements from given arrs
+// on the same position
+func ZipInt16(arrs ...[]int16) [][]int16 {
+	size := len(arrs[0])
+	for _, arr := range arrs[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]int16, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]int16, 0, len(arrs))
+		for _, arr := range arrs {
+			chunk = append(chunk, arr[i])
+		}
 		result = append(result, chunk)
 	}
 	return result
@@ -3603,6 +3729,27 @@ func WindowInt32(arr []int32, size int) [][]int32 {
 	return result
 }
 
+// Zip returns array of arrays of elements from given arrs
+// on the same position
+func ZipInt32(arrs ...[]int32) [][]int32 {
+	size := len(arrs[0])
+	for _, arr := range arrs[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]int32, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]int32, 0, len(arrs))
+		for _, arr := range arrs {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterInt64(arr []int64, f func(el int64) bool) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -3843,6 +3990,27 @@ func WindowInt64(arr []int64, size int) [][]int64 {
 	result := make([][]int64, 0, len(arr)/size)
 	for i := 0; i <= len(arr)-size; i++ {
 		chunk := arr[i : i+size]
+		result = append(result, chunk)
+	}
+	return result
+}
+
+// Zip returns array of arrays of elements from given arrs
+// on the same position
+func ZipInt64(arrs ...[]int64) [][]int64 {
+	size := len(arrs[0])
+	for _, arr := range arrs[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]int64, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]int64, 0, len(arrs))
+		for _, arr := range arrs {
+			chunk = append(chunk, arr[i])
+		}
 		result = append(result, chunk)
 	}
 	return result
@@ -4093,6 +4261,27 @@ func WindowInt8(arr []int8, size int) [][]int8 {
 	return result
 }
 
+// Zip returns array of arrays of elements from given arrs
+// on the same position
+func ZipInt8(arrs ...[]int8) [][]int8 {
+	size := len(arrs[0])
+	for _, arr := range arrs[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]int8, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]int8, 0, len(arrs))
+		for _, arr := range arrs {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func Filter(arr []interface{}, f func(el interface{}) bool) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -4300,6 +4489,27 @@ func Window(arr []interface{}, size int) [][]interface{} {
 	result := make([][]interface{}, 0, len(arr)/size)
 	for i := 0; i <= len(arr)-size; i++ {
 		chunk := arr[i : i+size]
+		result = append(result, chunk)
+	}
+	return result
+}
+
+// Zip returns array of arrays of elements from given arrs
+// on the same position
+func Zip(arrs ...[]interface{}) [][]interface{} {
+	size := len(arrs[0])
+	for _, arr := range arrs[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]interface{}, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]interface{}, 0, len(arrs))
+		for _, arr := range arrs {
+			chunk = append(chunk, arr[i])
+		}
 		result = append(result, chunk)
 	}
 	return result
@@ -4534,6 +4744,27 @@ func WindowString(arr []string, size int) [][]string {
 	result := make([][]string, 0, len(arr)/size)
 	for i := 0; i <= len(arr)-size; i++ {
 		chunk := arr[i : i+size]
+		result = append(result, chunk)
+	}
+	return result
+}
+
+// Zip returns array of arrays of elements from given arrs
+// on the same position
+func ZipString(arrs ...[]string) [][]string {
+	size := len(arrs[0])
+	for _, arr := range arrs[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]string, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]string, 0, len(arrs))
+		for _, arr := range arrs {
+			chunk = append(chunk, arr[i])
+		}
 		result = append(result, chunk)
 	}
 	return result
@@ -4784,6 +5015,27 @@ func WindowUint(arr []uint, size int) [][]uint {
 	return result
 }
 
+// Zip returns array of arrays of elements from given arrs
+// on the same position
+func ZipUint(arrs ...[]uint) [][]uint {
+	size := len(arrs[0])
+	for _, arr := range arrs[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]uint, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]uint, 0, len(arrs))
+		for _, arr := range arrs {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint16(arr []uint16, f func(el uint16) bool) []uint16 {
 	result := make([]uint16, 0, len(arr))
@@ -5024,6 +5276,27 @@ func WindowUint16(arr []uint16, size int) [][]uint16 {
 	result := make([][]uint16, 0, len(arr)/size)
 	for i := 0; i <= len(arr)-size; i++ {
 		chunk := arr[i : i+size]
+		result = append(result, chunk)
+	}
+	return result
+}
+
+// Zip returns array of arrays of elements from given arrs
+// on the same position
+func ZipUint16(arrs ...[]uint16) [][]uint16 {
+	size := len(arrs[0])
+	for _, arr := range arrs[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]uint16, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]uint16, 0, len(arrs))
+		for _, arr := range arrs {
+			chunk = append(chunk, arr[i])
+		}
 		result = append(result, chunk)
 	}
 	return result
@@ -5274,6 +5547,27 @@ func WindowUint32(arr []uint32, size int) [][]uint32 {
 	return result
 }
 
+// Zip returns array of arrays of elements from given arrs
+// on the same position
+func ZipUint32(arrs ...[]uint32) [][]uint32 {
+	size := len(arrs[0])
+	for _, arr := range arrs[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]uint32, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]uint32, 0, len(arrs))
+		for _, arr := range arrs {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint64(arr []uint64, f func(el uint64) bool) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -5519,6 +5813,27 @@ func WindowUint64(arr []uint64, size int) [][]uint64 {
 	return result
 }
 
+// Zip returns array of arrays of elements from given arrs
+// on the same position
+func ZipUint64(arrs ...[]uint64) [][]uint64 {
+	size := len(arrs[0])
+	for _, arr := range arrs[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]uint64, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]uint64, 0, len(arrs))
+		for _, arr := range arrs {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint8(arr []uint8, f func(el uint8) bool) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -5759,6 +6074,27 @@ func WindowUint8(arr []uint8, size int) [][]uint8 {
 	result := make([][]uint8, 0, len(arr)/size)
 	for i := 0; i <= len(arr)-size; i++ {
 		chunk := arr[i : i+size]
+		result = append(result, chunk)
+	}
+	return result
+}
+
+// Zip returns array of arrays of elements from given arrs
+// on the same position
+func ZipUint8(arrs ...[]uint8) [][]uint8 {
+	size := len(arrs[0])
+	for _, arr := range arrs[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]uint8, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]uint8, 0, len(arrs))
+		for _, arr := range arrs {
+			chunk = append(chunk, arr[i])
+		}
 		result = append(result, chunk)
 	}
 	return result

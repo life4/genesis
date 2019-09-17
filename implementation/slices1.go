@@ -244,3 +244,24 @@ func Window(arr []T, size int) [][]T {
 	}
 	return result
 }
+
+// Zip returns array of arrays of elements from given arrs
+// on the same position
+func Zip(arrs ...[]T) [][]T {
+	size := len(arrs[0])
+	for _, arr := range arrs[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]T, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]T, 0, len(arrs))
+		for _, arr := range arrs {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
