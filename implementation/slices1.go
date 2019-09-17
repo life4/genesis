@@ -188,3 +188,14 @@ func Take(arr []T, f func(el T) bool) []T {
 	}
 	return result
 }
+
+// Window makes sliding window for a given slice:
+// ({1,2,3}, 2) -> (1,2), (2,3)
+func Window(arr []T, size int) [][]T {
+	result := make([][]T, 0, len(arr)/size)
+	for i := 0; i <= len(arr)-size; i++ {
+		chunk := arr[i : i+size]
+		result = append(result, chunk)
+	}
+	return result
+}

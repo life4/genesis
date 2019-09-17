@@ -391,6 +391,17 @@ func TakeBool(arr []bool, f func(el bool) bool) []bool {
 	return result
 }
 
+// Window makes sliding window for a given slice:
+// ({1,2,3}, 2) -> (1,2), (2,3)
+func WindowBool(arr []bool, size int) [][]bool {
+	result := make([][]bool, 0, len(arr)/size)
+	for i := 0; i <= len(arr)-size; i++ {
+		chunk := arr[i : i+size]
+		result = append(result, chunk)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterByte(arr []byte, f func(el byte) bool) []byte {
 	result := make([]byte, 0, len(arr))
@@ -576,6 +587,17 @@ func TakeByte(arr []byte, f func(el byte) bool) []byte {
 			return result
 		}
 		result = append(result, el)
+	}
+	return result
+}
+
+// Window makes sliding window for a given slice:
+// ({1,2,3}, 2) -> (1,2), (2,3)
+func WindowByte(arr []byte, size int) [][]byte {
+	result := make([][]byte, 0, len(arr)/size)
+	for i := 0; i <= len(arr)-size; i++ {
+		chunk := arr[i : i+size]
+		result = append(result, chunk)
 	}
 	return result
 }
@@ -769,6 +791,17 @@ func TakeFloat32(arr []float32, f func(el float32) bool) []float32 {
 	return result
 }
 
+// Window makes sliding window for a given slice:
+// ({1,2,3}, 2) -> (1,2), (2,3)
+func WindowFloat32(arr []float32, size int) [][]float32 {
+	result := make([][]float32, 0, len(arr)/size)
+	for i := 0; i <= len(arr)-size; i++ {
+		chunk := arr[i : i+size]
+		result = append(result, chunk)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterFloat64(arr []float64, f func(el float64) bool) []float64 {
 	result := make([]float64, 0, len(arr))
@@ -954,6 +987,17 @@ func TakeFloat64(arr []float64, f func(el float64) bool) []float64 {
 			return result
 		}
 		result = append(result, el)
+	}
+	return result
+}
+
+// Window makes sliding window for a given slice:
+// ({1,2,3}, 2) -> (1,2), (2,3)
+func WindowFloat64(arr []float64, size int) [][]float64 {
+	result := make([][]float64, 0, len(arr)/size)
+	for i := 0; i <= len(arr)-size; i++ {
+		chunk := arr[i : i+size]
+		result = append(result, chunk)
 	}
 	return result
 }
@@ -1147,6 +1191,17 @@ func TakeInt(arr []int, f func(el int) bool) []int {
 	return result
 }
 
+// Window makes sliding window for a given slice:
+// ({1,2,3}, 2) -> (1,2), (2,3)
+func WindowInt(arr []int, size int) [][]int {
+	result := make([][]int, 0, len(arr)/size)
+	for i := 0; i <= len(arr)-size; i++ {
+		chunk := arr[i : i+size]
+		result = append(result, chunk)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterInt16(arr []int16, f func(el int16) bool) []int16 {
 	result := make([]int16, 0, len(arr))
@@ -1332,6 +1387,17 @@ func TakeInt16(arr []int16, f func(el int16) bool) []int16 {
 			return result
 		}
 		result = append(result, el)
+	}
+	return result
+}
+
+// Window makes sliding window for a given slice:
+// ({1,2,3}, 2) -> (1,2), (2,3)
+func WindowInt16(arr []int16, size int) [][]int16 {
+	result := make([][]int16, 0, len(arr)/size)
+	for i := 0; i <= len(arr)-size; i++ {
+		chunk := arr[i : i+size]
+		result = append(result, chunk)
 	}
 	return result
 }
@@ -1525,6 +1591,17 @@ func TakeInt32(arr []int32, f func(el int32) bool) []int32 {
 	return result
 }
 
+// Window makes sliding window for a given slice:
+// ({1,2,3}, 2) -> (1,2), (2,3)
+func WindowInt32(arr []int32, size int) [][]int32 {
+	result := make([][]int32, 0, len(arr)/size)
+	for i := 0; i <= len(arr)-size; i++ {
+		chunk := arr[i : i+size]
+		result = append(result, chunk)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterInt64(arr []int64, f func(el int64) bool) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -1710,6 +1787,17 @@ func TakeInt64(arr []int64, f func(el int64) bool) []int64 {
 			return result
 		}
 		result = append(result, el)
+	}
+	return result
+}
+
+// Window makes sliding window for a given slice:
+// ({1,2,3}, 2) -> (1,2), (2,3)
+func WindowInt64(arr []int64, size int) [][]int64 {
+	result := make([][]int64, 0, len(arr)/size)
+	for i := 0; i <= len(arr)-size; i++ {
+		chunk := arr[i : i+size]
+		result = append(result, chunk)
 	}
 	return result
 }
@@ -1903,6 +1991,17 @@ func TakeInt8(arr []int8, f func(el int8) bool) []int8 {
 	return result
 }
 
+// Window makes sliding window for a given slice:
+// ({1,2,3}, 2) -> (1,2), (2,3)
+func WindowInt8(arr []int8, size int) [][]int8 {
+	result := make([][]int8, 0, len(arr)/size)
+	for i := 0; i <= len(arr)-size; i++ {
+		chunk := arr[i : i+size]
+		result = append(result, chunk)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func Filter(arr []interface{}, f func(el interface{}) bool) []interface{} {
 	result := make([]interface{}, 0, len(arr))
@@ -2066,6 +2165,17 @@ func Take(arr []interface{}, f func(el interface{}) bool) []interface{} {
 			return result
 		}
 		result = append(result, el)
+	}
+	return result
+}
+
+// Window makes sliding window for a given slice:
+// ({1,2,3}, 2) -> (1,2), (2,3)
+func Window(arr []interface{}, size int) [][]interface{} {
+	result := make([][]interface{}, 0, len(arr)/size)
+	for i := 0; i <= len(arr)-size; i++ {
+		chunk := arr[i : i+size]
+		result = append(result, chunk)
 	}
 	return result
 }
@@ -2259,6 +2369,17 @@ func TakeString(arr []string, f func(el string) bool) []string {
 	return result
 }
 
+// Window makes sliding window for a given slice:
+// ({1,2,3}, 2) -> (1,2), (2,3)
+func WindowString(arr []string, size int) [][]string {
+	result := make([][]string, 0, len(arr)/size)
+	for i := 0; i <= len(arr)-size; i++ {
+		chunk := arr[i : i+size]
+		result = append(result, chunk)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint(arr []uint, f func(el uint) bool) []uint {
 	result := make([]uint, 0, len(arr))
@@ -2444,6 +2565,17 @@ func TakeUint(arr []uint, f func(el uint) bool) []uint {
 			return result
 		}
 		result = append(result, el)
+	}
+	return result
+}
+
+// Window makes sliding window for a given slice:
+// ({1,2,3}, 2) -> (1,2), (2,3)
+func WindowUint(arr []uint, size int) [][]uint {
+	result := make([][]uint, 0, len(arr)/size)
+	for i := 0; i <= len(arr)-size; i++ {
+		chunk := arr[i : i+size]
+		result = append(result, chunk)
 	}
 	return result
 }
@@ -2637,6 +2769,17 @@ func TakeUint16(arr []uint16, f func(el uint16) bool) []uint16 {
 	return result
 }
 
+// Window makes sliding window for a given slice:
+// ({1,2,3}, 2) -> (1,2), (2,3)
+func WindowUint16(arr []uint16, size int) [][]uint16 {
+	result := make([][]uint16, 0, len(arr)/size)
+	for i := 0; i <= len(arr)-size; i++ {
+		chunk := arr[i : i+size]
+		result = append(result, chunk)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint32(arr []uint32, f func(el uint32) bool) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -2822,6 +2965,17 @@ func TakeUint32(arr []uint32, f func(el uint32) bool) []uint32 {
 			return result
 		}
 		result = append(result, el)
+	}
+	return result
+}
+
+// Window makes sliding window for a given slice:
+// ({1,2,3}, 2) -> (1,2), (2,3)
+func WindowUint32(arr []uint32, size int) [][]uint32 {
+	result := make([][]uint32, 0, len(arr)/size)
+	for i := 0; i <= len(arr)-size; i++ {
+		chunk := arr[i : i+size]
+		result = append(result, chunk)
 	}
 	return result
 }
@@ -3015,6 +3169,17 @@ func TakeUint64(arr []uint64, f func(el uint64) bool) []uint64 {
 	return result
 }
 
+// Window makes sliding window for a given slice:
+// ({1,2,3}, 2) -> (1,2), (2,3)
+func WindowUint64(arr []uint64, size int) [][]uint64 {
+	result := make([][]uint64, 0, len(arr)/size)
+	for i := 0; i <= len(arr)-size; i++ {
+		chunk := arr[i : i+size]
+		result = append(result, chunk)
+	}
+	return result
+}
+
 // Filter returns slice of T for which F returned true
 func FilterUint8(arr []uint8, f func(el uint8) bool) []uint8 {
 	result := make([]uint8, 0, len(arr))
@@ -3200,6 +3365,17 @@ func TakeUint8(arr []uint8, f func(el uint8) bool) []uint8 {
 			return result
 		}
 		result = append(result, el)
+	}
+	return result
+}
+
+// Window makes sliding window for a given slice:
+// ({1,2,3}, 2) -> (1,2), (2,3)
+func WindowUint8(arr []uint8, size int) [][]uint8 {
+	result := make([][]uint8, 0, len(arr)/size)
+	for i := 0; i <= len(arr)-size; i++ {
+		chunk := arr[i : i+size]
+		result = append(result, chunk)
 	}
 	return result
 }
