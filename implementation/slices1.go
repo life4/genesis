@@ -177,8 +177,8 @@ func StartsWith(arr []T, prefix []T) bool {
 	return true
 }
 
-// Take takes elements from arr while f returns true
-func Take(arr []T, f func(el T) bool) []T {
+// TakeWhile takes elements from arr while f returns true
+func TakeWhile(arr []T, f func(el T) bool) []T {
 	result := make([]T, 0, len(arr))
 	for _, el := range arr {
 		if !f(el) {

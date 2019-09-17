@@ -1,5 +1,325 @@
 package genesis
 
+// Repeat returns channel that produces val infinite times
+func RepeatBool(val bool) chan bool {
+	c := make(chan bool, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+// Take takes first n elements from channel c.
+func TakeBool(c chan bool, n int) []bool {
+	result := make([]bool, n)
+	for i := 0; i < n; i++ {
+		result = append(result, <-c)
+	}
+	return result
+}
+
+// Repeat returns channel that produces val infinite times
+func RepeatByte(val byte) chan byte {
+	c := make(chan byte, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+// Take takes first n elements from channel c.
+func TakeByte(c chan byte, n int) []byte {
+	result := make([]byte, n)
+	for i := 0; i < n; i++ {
+		result = append(result, <-c)
+	}
+	return result
+}
+
+// Repeat returns channel that produces val infinite times
+func RepeatFloat32(val float32) chan float32 {
+	c := make(chan float32, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+// Take takes first n elements from channel c.
+func TakeFloat32(c chan float32, n int) []float32 {
+	result := make([]float32, n)
+	for i := 0; i < n; i++ {
+		result = append(result, <-c)
+	}
+	return result
+}
+
+// Repeat returns channel that produces val infinite times
+func RepeatFloat64(val float64) chan float64 {
+	c := make(chan float64, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+// Take takes first n elements from channel c.
+func TakeFloat64(c chan float64, n int) []float64 {
+	result := make([]float64, n)
+	for i := 0; i < n; i++ {
+		result = append(result, <-c)
+	}
+	return result
+}
+
+// Repeat returns channel that produces val infinite times
+func RepeatInt(val int) chan int {
+	c := make(chan int, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+// Take takes first n elements from channel c.
+func TakeInt(c chan int, n int) []int {
+	result := make([]int, n)
+	for i := 0; i < n; i++ {
+		result = append(result, <-c)
+	}
+	return result
+}
+
+// Repeat returns channel that produces val infinite times
+func RepeatInt16(val int16) chan int16 {
+	c := make(chan int16, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+// Take takes first n elements from channel c.
+func TakeInt16(c chan int16, n int) []int16 {
+	result := make([]int16, n)
+	for i := 0; i < n; i++ {
+		result = append(result, <-c)
+	}
+	return result
+}
+
+// Repeat returns channel that produces val infinite times
+func RepeatInt32(val int32) chan int32 {
+	c := make(chan int32, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+// Take takes first n elements from channel c.
+func TakeInt32(c chan int32, n int) []int32 {
+	result := make([]int32, n)
+	for i := 0; i < n; i++ {
+		result = append(result, <-c)
+	}
+	return result
+}
+
+// Repeat returns channel that produces val infinite times
+func RepeatInt64(val int64) chan int64 {
+	c := make(chan int64, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+// Take takes first n elements from channel c.
+func TakeInt64(c chan int64, n int) []int64 {
+	result := make([]int64, n)
+	for i := 0; i < n; i++ {
+		result = append(result, <-c)
+	}
+	return result
+}
+
+// Repeat returns channel that produces val infinite times
+func RepeatInt8(val int8) chan int8 {
+	c := make(chan int8, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+// Take takes first n elements from channel c.
+func TakeInt8(c chan int8, n int) []int8 {
+	result := make([]int8, n)
+	for i := 0; i < n; i++ {
+		result = append(result, <-c)
+	}
+	return result
+}
+
+// Repeat returns channel that produces val infinite times
+func Repeat(val interface{}) chan interface{} {
+	c := make(chan interface{}, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+// Take takes first n elements from channel c.
+func Take(c chan interface{}, n int) []interface{} {
+	result := make([]interface{}, n)
+	for i := 0; i < n; i++ {
+		result = append(result, <-c)
+	}
+	return result
+}
+
+// Repeat returns channel that produces val infinite times
+func RepeatString(val string) chan string {
+	c := make(chan string, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+// Take takes first n elements from channel c.
+func TakeString(c chan string, n int) []string {
+	result := make([]string, n)
+	for i := 0; i < n; i++ {
+		result = append(result, <-c)
+	}
+	return result
+}
+
+// Repeat returns channel that produces val infinite times
+func RepeatUint(val uint) chan uint {
+	c := make(chan uint, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+// Take takes first n elements from channel c.
+func TakeUint(c chan uint, n int) []uint {
+	result := make([]uint, n)
+	for i := 0; i < n; i++ {
+		result = append(result, <-c)
+	}
+	return result
+}
+
+// Repeat returns channel that produces val infinite times
+func RepeatUint16(val uint16) chan uint16 {
+	c := make(chan uint16, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+// Take takes first n elements from channel c.
+func TakeUint16(c chan uint16, n int) []uint16 {
+	result := make([]uint16, n)
+	for i := 0; i < n; i++ {
+		result = append(result, <-c)
+	}
+	return result
+}
+
+// Repeat returns channel that produces val infinite times
+func RepeatUint32(val uint32) chan uint32 {
+	c := make(chan uint32, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+// Take takes first n elements from channel c.
+func TakeUint32(c chan uint32, n int) []uint32 {
+	result := make([]uint32, n)
+	for i := 0; i < n; i++ {
+		result = append(result, <-c)
+	}
+	return result
+}
+
+// Repeat returns channel that produces val infinite times
+func RepeatUint64(val uint64) chan uint64 {
+	c := make(chan uint64, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+// Take takes first n elements from channel c.
+func TakeUint64(c chan uint64, n int) []uint64 {
+	result := make([]uint64, n)
+	for i := 0; i < n; i++ {
+		result = append(result, <-c)
+	}
+	return result
+}
+
+// Repeat returns channel that produces val infinite times
+func RepeatUint8(val uint8) chan uint8 {
+	c := make(chan uint8, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+// Take takes first n elements from channel c.
+func TakeUint8(c chan uint8, n int) []uint8 {
+	result := make([]uint8, n)
+	for i := 0; i < n; i++ {
+		result = append(result, <-c)
+	}
+	return result
+}
+
 // Identity accepts one argument and returns it
 func IdentityBool(t bool) bool { return t }
 
@@ -379,8 +699,8 @@ func StartsWithBool(arr []bool, prefix []bool) bool {
 	return true
 }
 
-// Take takes elements from arr while f returns true
-func TakeBool(arr []bool, f func(el bool) bool) []bool {
+// TakeWhile takes elements from arr while f returns true
+func TakeWhileBool(arr []bool, f func(el bool) bool) []bool {
 	result := make([]bool, 0, len(arr))
 	for _, el := range arr {
 		if !f(el) {
@@ -579,8 +899,8 @@ func StartsWithByte(arr []byte, prefix []byte) bool {
 	return true
 }
 
-// Take takes elements from arr while f returns true
-func TakeByte(arr []byte, f func(el byte) bool) []byte {
+// TakeWhile takes elements from arr while f returns true
+func TakeWhileByte(arr []byte, f func(el byte) bool) []byte {
 	result := make([]byte, 0, len(arr))
 	for _, el := range arr {
 		if !f(el) {
@@ -779,8 +1099,8 @@ func StartsWithFloat32(arr []float32, prefix []float32) bool {
 	return true
 }
 
-// Take takes elements from arr while f returns true
-func TakeFloat32(arr []float32, f func(el float32) bool) []float32 {
+// TakeWhile takes elements from arr while f returns true
+func TakeWhileFloat32(arr []float32, f func(el float32) bool) []float32 {
 	result := make([]float32, 0, len(arr))
 	for _, el := range arr {
 		if !f(el) {
@@ -979,8 +1299,8 @@ func StartsWithFloat64(arr []float64, prefix []float64) bool {
 	return true
 }
 
-// Take takes elements from arr while f returns true
-func TakeFloat64(arr []float64, f func(el float64) bool) []float64 {
+// TakeWhile takes elements from arr while f returns true
+func TakeWhileFloat64(arr []float64, f func(el float64) bool) []float64 {
 	result := make([]float64, 0, len(arr))
 	for _, el := range arr {
 		if !f(el) {
@@ -1179,8 +1499,8 @@ func StartsWithInt(arr []int, prefix []int) bool {
 	return true
 }
 
-// Take takes elements from arr while f returns true
-func TakeInt(arr []int, f func(el int) bool) []int {
+// TakeWhile takes elements from arr while f returns true
+func TakeWhileInt(arr []int, f func(el int) bool) []int {
 	result := make([]int, 0, len(arr))
 	for _, el := range arr {
 		if !f(el) {
@@ -1379,8 +1699,8 @@ func StartsWithInt16(arr []int16, prefix []int16) bool {
 	return true
 }
 
-// Take takes elements from arr while f returns true
-func TakeInt16(arr []int16, f func(el int16) bool) []int16 {
+// TakeWhile takes elements from arr while f returns true
+func TakeWhileInt16(arr []int16, f func(el int16) bool) []int16 {
 	result := make([]int16, 0, len(arr))
 	for _, el := range arr {
 		if !f(el) {
@@ -1579,8 +1899,8 @@ func StartsWithInt32(arr []int32, prefix []int32) bool {
 	return true
 }
 
-// Take takes elements from arr while f returns true
-func TakeInt32(arr []int32, f func(el int32) bool) []int32 {
+// TakeWhile takes elements from arr while f returns true
+func TakeWhileInt32(arr []int32, f func(el int32) bool) []int32 {
 	result := make([]int32, 0, len(arr))
 	for _, el := range arr {
 		if !f(el) {
@@ -1779,8 +2099,8 @@ func StartsWithInt64(arr []int64, prefix []int64) bool {
 	return true
 }
 
-// Take takes elements from arr while f returns true
-func TakeInt64(arr []int64, f func(el int64) bool) []int64 {
+// TakeWhile takes elements from arr while f returns true
+func TakeWhileInt64(arr []int64, f func(el int64) bool) []int64 {
 	result := make([]int64, 0, len(arr))
 	for _, el := range arr {
 		if !f(el) {
@@ -1979,8 +2299,8 @@ func StartsWithInt8(arr []int8, prefix []int8) bool {
 	return true
 }
 
-// Take takes elements from arr while f returns true
-func TakeInt8(arr []int8, f func(el int8) bool) []int8 {
+// TakeWhile takes elements from arr while f returns true
+func TakeWhileInt8(arr []int8, f func(el int8) bool) []int8 {
 	result := make([]int8, 0, len(arr))
 	for _, el := range arr {
 		if !f(el) {
@@ -2157,8 +2477,8 @@ func StartsWith(arr []interface{}, prefix []interface{}) bool {
 	return true
 }
 
-// Take takes elements from arr while f returns true
-func Take(arr []interface{}, f func(el interface{}) bool) []interface{} {
+// TakeWhile takes elements from arr while f returns true
+func TakeWhile(arr []interface{}, f func(el interface{}) bool) []interface{} {
 	result := make([]interface{}, 0, len(arr))
 	for _, el := range arr {
 		if !f(el) {
@@ -2357,8 +2677,8 @@ func StartsWithString(arr []string, prefix []string) bool {
 	return true
 }
 
-// Take takes elements from arr while f returns true
-func TakeString(arr []string, f func(el string) bool) []string {
+// TakeWhile takes elements from arr while f returns true
+func TakeWhileString(arr []string, f func(el string) bool) []string {
 	result := make([]string, 0, len(arr))
 	for _, el := range arr {
 		if !f(el) {
@@ -2557,8 +2877,8 @@ func StartsWithUint(arr []uint, prefix []uint) bool {
 	return true
 }
 
-// Take takes elements from arr while f returns true
-func TakeUint(arr []uint, f func(el uint) bool) []uint {
+// TakeWhile takes elements from arr while f returns true
+func TakeWhileUint(arr []uint, f func(el uint) bool) []uint {
 	result := make([]uint, 0, len(arr))
 	for _, el := range arr {
 		if !f(el) {
@@ -2757,8 +3077,8 @@ func StartsWithUint16(arr []uint16, prefix []uint16) bool {
 	return true
 }
 
-// Take takes elements from arr while f returns true
-func TakeUint16(arr []uint16, f func(el uint16) bool) []uint16 {
+// TakeWhile takes elements from arr while f returns true
+func TakeWhileUint16(arr []uint16, f func(el uint16) bool) []uint16 {
 	result := make([]uint16, 0, len(arr))
 	for _, el := range arr {
 		if !f(el) {
@@ -2957,8 +3277,8 @@ func StartsWithUint32(arr []uint32, prefix []uint32) bool {
 	return true
 }
 
-// Take takes elements from arr while f returns true
-func TakeUint32(arr []uint32, f func(el uint32) bool) []uint32 {
+// TakeWhile takes elements from arr while f returns true
+func TakeWhileUint32(arr []uint32, f func(el uint32) bool) []uint32 {
 	result := make([]uint32, 0, len(arr))
 	for _, el := range arr {
 		if !f(el) {
@@ -3157,8 +3477,8 @@ func StartsWithUint64(arr []uint64, prefix []uint64) bool {
 	return true
 }
 
-// Take takes elements from arr while f returns true
-func TakeUint64(arr []uint64, f func(el uint64) bool) []uint64 {
+// TakeWhile takes elements from arr while f returns true
+func TakeWhileUint64(arr []uint64, f func(el uint64) bool) []uint64 {
 	result := make([]uint64, 0, len(arr))
 	for _, el := range arr {
 		if !f(el) {
@@ -3357,8 +3677,8 @@ func StartsWithUint8(arr []uint8, prefix []uint8) bool {
 	return true
 }
 
-// Take takes elements from arr while f returns true
-func TakeUint8(arr []uint8, f func(el uint8) bool) []uint8 {
+// TakeWhile takes elements from arr while f returns true
+func TakeWhileUint8(arr []uint8, f func(el uint8) bool) []uint8 {
 	result := make([]uint8, 0, len(arr))
 	for _, el := range arr {
 		if !f(el) {
