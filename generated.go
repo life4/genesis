@@ -1,5 +1,229 @@
 package genesis
 
+// Identity accepts one argument and returns it
+func IdentityBool(t bool) bool { return t }
+
+// Composition makes a new function that calls given functions one-by-one
+// for given argument. EverySecond function accepts result of first function and so on.
+func CompositionBool(fs ...func(val bool) bool) func(val bool) bool {
+	return func(val bool) bool {
+		for _, f := range fs {
+			val = f(val)
+		}
+		return val
+	}
+}
+
+// Identity accepts one argument and returns it
+func IdentityByte(t byte) byte { return t }
+
+// Composition makes a new function that calls given functions one-by-one
+// for given argument. EverySecond function accepts result of first function and so on.
+func CompositionByte(fs ...func(val byte) byte) func(val byte) byte {
+	return func(val byte) byte {
+		for _, f := range fs {
+			val = f(val)
+		}
+		return val
+	}
+}
+
+// Identity accepts one argument and returns it
+func IdentityFloat32(t float32) float32 { return t }
+
+// Composition makes a new function that calls given functions one-by-one
+// for given argument. EverySecond function accepts result of first function and so on.
+func CompositionFloat32(fs ...func(val float32) float32) func(val float32) float32 {
+	return func(val float32) float32 {
+		for _, f := range fs {
+			val = f(val)
+		}
+		return val
+	}
+}
+
+// Identity accepts one argument and returns it
+func IdentityFloat64(t float64) float64 { return t }
+
+// Composition makes a new function that calls given functions one-by-one
+// for given argument. EverySecond function accepts result of first function and so on.
+func CompositionFloat64(fs ...func(val float64) float64) func(val float64) float64 {
+	return func(val float64) float64 {
+		for _, f := range fs {
+			val = f(val)
+		}
+		return val
+	}
+}
+
+// Identity accepts one argument and returns it
+func IdentityInt(t int) int { return t }
+
+// Composition makes a new function that calls given functions one-by-one
+// for given argument. EverySecond function accepts result of first function and so on.
+func CompositionInt(fs ...func(val int) int) func(val int) int {
+	return func(val int) int {
+		for _, f := range fs {
+			val = f(val)
+		}
+		return val
+	}
+}
+
+// Identity accepts one argument and returns it
+func IdentityInt16(t int16) int16 { return t }
+
+// Composition makes a new function that calls given functions one-by-one
+// for given argument. EverySecond function accepts result of first function and so on.
+func CompositionInt16(fs ...func(val int16) int16) func(val int16) int16 {
+	return func(val int16) int16 {
+		for _, f := range fs {
+			val = f(val)
+		}
+		return val
+	}
+}
+
+// Identity accepts one argument and returns it
+func IdentityInt32(t int32) int32 { return t }
+
+// Composition makes a new function that calls given functions one-by-one
+// for given argument. EverySecond function accepts result of first function and so on.
+func CompositionInt32(fs ...func(val int32) int32) func(val int32) int32 {
+	return func(val int32) int32 {
+		for _, f := range fs {
+			val = f(val)
+		}
+		return val
+	}
+}
+
+// Identity accepts one argument and returns it
+func IdentityInt64(t int64) int64 { return t }
+
+// Composition makes a new function that calls given functions one-by-one
+// for given argument. EverySecond function accepts result of first function and so on.
+func CompositionInt64(fs ...func(val int64) int64) func(val int64) int64 {
+	return func(val int64) int64 {
+		for _, f := range fs {
+			val = f(val)
+		}
+		return val
+	}
+}
+
+// Identity accepts one argument and returns it
+func IdentityInt8(t int8) int8 { return t }
+
+// Composition makes a new function that calls given functions one-by-one
+// for given argument. EverySecond function accepts result of first function and so on.
+func CompositionInt8(fs ...func(val int8) int8) func(val int8) int8 {
+	return func(val int8) int8 {
+		for _, f := range fs {
+			val = f(val)
+		}
+		return val
+	}
+}
+
+// Identity accepts one argument and returns it
+func Identity(t interface{}) interface{} { return t }
+
+// Composition makes a new function that calls given functions one-by-one
+// for given argument. EverySecond function accepts result of first function and so on.
+func Composition(fs ...func(val interface{}) interface{}) func(val interface{}) interface{} {
+	return func(val interface{}) interface{} {
+		for _, f := range fs {
+			val = f(val)
+		}
+		return val
+	}
+}
+
+// Identity accepts one argument and returns it
+func IdentityString(t string) string { return t }
+
+// Composition makes a new function that calls given functions one-by-one
+// for given argument. EverySecond function accepts result of first function and so on.
+func CompositionString(fs ...func(val string) string) func(val string) string {
+	return func(val string) string {
+		for _, f := range fs {
+			val = f(val)
+		}
+		return val
+	}
+}
+
+// Identity accepts one argument and returns it
+func IdentityUint(t uint) uint { return t }
+
+// Composition makes a new function that calls given functions one-by-one
+// for given argument. EverySecond function accepts result of first function and so on.
+func CompositionUint(fs ...func(val uint) uint) func(val uint) uint {
+	return func(val uint) uint {
+		for _, f := range fs {
+			val = f(val)
+		}
+		return val
+	}
+}
+
+// Identity accepts one argument and returns it
+func IdentityUint16(t uint16) uint16 { return t }
+
+// Composition makes a new function that calls given functions one-by-one
+// for given argument. EverySecond function accepts result of first function and so on.
+func CompositionUint16(fs ...func(val uint16) uint16) func(val uint16) uint16 {
+	return func(val uint16) uint16 {
+		for _, f := range fs {
+			val = f(val)
+		}
+		return val
+	}
+}
+
+// Identity accepts one argument and returns it
+func IdentityUint32(t uint32) uint32 { return t }
+
+// Composition makes a new function that calls given functions one-by-one
+// for given argument. EverySecond function accepts result of first function and so on.
+func CompositionUint32(fs ...func(val uint32) uint32) func(val uint32) uint32 {
+	return func(val uint32) uint32 {
+		for _, f := range fs {
+			val = f(val)
+		}
+		return val
+	}
+}
+
+// Identity accepts one argument and returns it
+func IdentityUint64(t uint64) uint64 { return t }
+
+// Composition makes a new function that calls given functions one-by-one
+// for given argument. EverySecond function accepts result of first function and so on.
+func CompositionUint64(fs ...func(val uint64) uint64) func(val uint64) uint64 {
+	return func(val uint64) uint64 {
+		for _, f := range fs {
+			val = f(val)
+		}
+		return val
+	}
+}
+
+// Identity accepts one argument and returns it
+func IdentityUint8(t uint8) uint8 { return t }
+
+// Composition makes a new function that calls given functions one-by-one
+// for given argument. EverySecond function accepts result of first function and so on.
+func CompositionUint8(fs ...func(val uint8) uint8) func(val uint8) uint8 {
+	return func(val uint8) uint8 {
+		for _, f := range fs {
+			val = f(val)
+		}
+		return val
+	}
+}
+
 // Filter returns slice of T for which F returned true
 func FilterBool(arr []bool, f func(el bool) bool) []bool {
 	result := make([]bool, 0, len(arr))
@@ -17,9 +241,6 @@ func EachBool(arr []bool, f func(el bool)) {
 		f(el)
 	}
 }
-
-// Identity accepts one argument and returns it
-func IdentityBool(t bool) bool { return t }
 
 // Any returns true if f returns true for any element in arr
 func AnyBool(arr []bool, f func(el bool) bool) bool {
@@ -187,9 +408,6 @@ func EachByte(arr []byte, f func(el byte)) {
 		f(el)
 	}
 }
-
-// Identity accepts one argument and returns it
-func IdentityByte(t byte) byte { return t }
 
 // Any returns true if f returns true for any element in arr
 func AnyByte(arr []byte, f func(el byte) bool) bool {
@@ -380,9 +598,6 @@ func EachFloat32(arr []float32, f func(el float32)) {
 	}
 }
 
-// Identity accepts one argument and returns it
-func IdentityFloat32(t float32) float32 { return t }
-
 // Any returns true if f returns true for any element in arr
 func AnyFloat32(arr []float32, f func(el float32) bool) bool {
 	for _, el := range arr {
@@ -571,9 +786,6 @@ func EachFloat64(arr []float64, f func(el float64)) {
 		f(el)
 	}
 }
-
-// Identity accepts one argument and returns it
-func IdentityFloat64(t float64) float64 { return t }
 
 // Any returns true if f returns true for any element in arr
 func AnyFloat64(arr []float64, f func(el float64) bool) bool {
@@ -764,9 +976,6 @@ func EachInt(arr []int, f func(el int)) {
 	}
 }
 
-// Identity accepts one argument and returns it
-func IdentityInt(t int) int { return t }
-
 // Any returns true if f returns true for any element in arr
 func AnyInt(arr []int, f func(el int) bool) bool {
 	for _, el := range arr {
@@ -955,9 +1164,6 @@ func EachInt16(arr []int16, f func(el int16)) {
 		f(el)
 	}
 }
-
-// Identity accepts one argument and returns it
-func IdentityInt16(t int16) int16 { return t }
 
 // Any returns true if f returns true for any element in arr
 func AnyInt16(arr []int16, f func(el int16) bool) bool {
@@ -1148,9 +1354,6 @@ func EachInt32(arr []int32, f func(el int32)) {
 	}
 }
 
-// Identity accepts one argument and returns it
-func IdentityInt32(t int32) int32 { return t }
-
 // Any returns true if f returns true for any element in arr
 func AnyInt32(arr []int32, f func(el int32) bool) bool {
 	for _, el := range arr {
@@ -1339,9 +1542,6 @@ func EachInt64(arr []int64, f func(el int64)) {
 		f(el)
 	}
 }
-
-// Identity accepts one argument and returns it
-func IdentityInt64(t int64) int64 { return t }
 
 // Any returns true if f returns true for any element in arr
 func AnyInt64(arr []int64, f func(el int64) bool) bool {
@@ -1532,9 +1732,6 @@ func EachInt8(arr []int8, f func(el int8)) {
 	}
 }
 
-// Identity accepts one argument and returns it
-func IdentityInt8(t int8) int8 { return t }
-
 // Any returns true if f returns true for any element in arr
 func AnyInt8(arr []int8, f func(el int8) bool) bool {
 	for _, el := range arr {
@@ -1724,9 +1921,6 @@ func Each(arr []interface{}, f func(el interface{})) {
 	}
 }
 
-// Identity accepts one argument and returns it
-func Identity(t interface{}) interface{} { return t }
-
 // Any returns true if f returns true for any element in arr
 func Any(arr []interface{}, f func(el interface{}) bool) bool {
 	for _, el := range arr {
@@ -1893,9 +2087,6 @@ func EachString(arr []string, f func(el string)) {
 		f(el)
 	}
 }
-
-// Identity accepts one argument and returns it
-func IdentityString(t string) string { return t }
 
 // Any returns true if f returns true for any element in arr
 func AnyString(arr []string, f func(el string) bool) bool {
@@ -2086,9 +2277,6 @@ func EachUint(arr []uint, f func(el uint)) {
 	}
 }
 
-// Identity accepts one argument and returns it
-func IdentityUint(t uint) uint { return t }
-
 // Any returns true if f returns true for any element in arr
 func AnyUint(arr []uint, f func(el uint) bool) bool {
 	for _, el := range arr {
@@ -2277,9 +2465,6 @@ func EachUint16(arr []uint16, f func(el uint16)) {
 		f(el)
 	}
 }
-
-// Identity accepts one argument and returns it
-func IdentityUint16(t uint16) uint16 { return t }
 
 // Any returns true if f returns true for any element in arr
 func AnyUint16(arr []uint16, f func(el uint16) bool) bool {
@@ -2470,9 +2655,6 @@ func EachUint32(arr []uint32, f func(el uint32)) {
 	}
 }
 
-// Identity accepts one argument and returns it
-func IdentityUint32(t uint32) uint32 { return t }
-
 // Any returns true if f returns true for any element in arr
 func AnyUint32(arr []uint32, f func(el uint32) bool) bool {
 	for _, el := range arr {
@@ -2662,9 +2844,6 @@ func EachUint64(arr []uint64, f func(el uint64)) {
 	}
 }
 
-// Identity accepts one argument and returns it
-func IdentityUint64(t uint64) uint64 { return t }
-
 // Any returns true if f returns true for any element in arr
 func AnyUint64(arr []uint64, f func(el uint64) bool) bool {
 	for _, el := range arr {
@@ -2853,9 +3032,6 @@ func EachUint8(arr []uint8, f func(el uint8)) {
 		f(el)
 	}
 }
-
-// Identity accepts one argument and returns it
-func IdentityUint8(t uint8) uint8 { return t }
 
 // Any returns true if f returns true for any element in arr
 func AnyUint8(arr []uint8, f func(el uint8) bool) bool {

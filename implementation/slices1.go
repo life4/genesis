@@ -18,9 +18,6 @@ func Each(arr []T, f func(el T)) {
 	}
 }
 
-// Identity accepts one argument and returns it
-func Identity(t T) T { return t }
-
 // Any returns true if f returns true for any element in arr
 func Any(arr []T, f func(el T) bool) bool {
 	for _, el := range arr {
