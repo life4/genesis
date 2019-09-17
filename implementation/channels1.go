@@ -1,7 +1,7 @@
 package implementation
 
-// Count is like Range, but infinite
-func Count(start T, step T) chan T {
+// Counter is like Range, but infinite
+func Counter(start T, step T) chan T {
 	c := make(chan T, 1)
 	go func() {
 		for {

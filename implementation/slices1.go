@@ -74,6 +74,17 @@ func Contains(arr []T, el T) bool {
 	return false
 }
 
+// Count return count of el occurences in arr.
+func Count(arr []T, el T) int {
+	count := 0
+	for _, val := range arr {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 // Dedup returns a given slice without consecutive duplicated elements
 func Dedup(arr []T) []T {
 	result := make([]T, 0, len(arr))

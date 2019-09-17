@@ -1,5 +1,17 @@
 package genesis
 
+// Counter is like Range, but infinite
+func CounterBool(start bool, step bool) chan bool {
+	c := make(chan bool, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
 // Cycle is an infinite loop over arr
 func CycleBool(arr []bool) chan bool {
 	c := make(chan bool, 1)
@@ -74,6 +86,18 @@ func TakeAllBool(c chan bool) []bool {
 		result = append(result, val)
 	}
 	return result
+}
+
+// Counter is like Range, but infinite
+func CounterByte(start byte, step byte) chan byte {
+	c := make(chan byte, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
 }
 
 // Cycle is an infinite loop over arr
@@ -152,8 +176,8 @@ func TakeAllByte(c chan byte) []byte {
 	return result
 }
 
-// Count is like Range, but infinite
-func CountFloat32(start float32, step float32) chan float32 {
+// Counter is like Range, but infinite
+func CounterFloat32(start float32, step float32) chan float32 {
 	c := make(chan float32, 1)
 	go func() {
 		for {
@@ -265,8 +289,8 @@ func TakeAllFloat32(c chan float32) []float32 {
 	return result
 }
 
-// Count is like Range, but infinite
-func CountFloat64(start float64, step float64) chan float64 {
+// Counter is like Range, but infinite
+func CounterFloat64(start float64, step float64) chan float64 {
 	c := make(chan float64, 1)
 	go func() {
 		for {
@@ -378,8 +402,8 @@ func TakeAllFloat64(c chan float64) []float64 {
 	return result
 }
 
-// Count is like Range, but infinite
-func CountInt(start int, step int) chan int {
+// Counter is like Range, but infinite
+func CounterInt(start int, step int) chan int {
 	c := make(chan int, 1)
 	go func() {
 		for {
@@ -491,8 +515,8 @@ func TakeAllInt(c chan int) []int {
 	return result
 }
 
-// Count is like Range, but infinite
-func CountInt16(start int16, step int16) chan int16 {
+// Counter is like Range, but infinite
+func CounterInt16(start int16, step int16) chan int16 {
 	c := make(chan int16, 1)
 	go func() {
 		for {
@@ -604,8 +628,8 @@ func TakeAllInt16(c chan int16) []int16 {
 	return result
 }
 
-// Count is like Range, but infinite
-func CountInt32(start int32, step int32) chan int32 {
+// Counter is like Range, but infinite
+func CounterInt32(start int32, step int32) chan int32 {
 	c := make(chan int32, 1)
 	go func() {
 		for {
@@ -717,8 +741,8 @@ func TakeAllInt32(c chan int32) []int32 {
 	return result
 }
 
-// Count is like Range, but infinite
-func CountInt64(start int64, step int64) chan int64 {
+// Counter is like Range, but infinite
+func CounterInt64(start int64, step int64) chan int64 {
 	c := make(chan int64, 1)
 	go func() {
 		for {
@@ -830,8 +854,8 @@ func TakeAllInt64(c chan int64) []int64 {
 	return result
 }
 
-// Count is like Range, but infinite
-func CountInt8(start int8, step int8) chan int8 {
+// Counter is like Range, but infinite
+func CounterInt8(start int8, step int8) chan int8 {
 	c := make(chan int8, 1)
 	go func() {
 		for {
@@ -943,6 +967,18 @@ func TakeAllInt8(c chan int8) []int8 {
 	return result
 }
 
+// Counter is like Range, but infinite
+func Counter(start interface{}, step interface{}) chan interface{} {
+	c := make(chan interface{}, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
 // Cycle is an infinite loop over arr
 func Cycle(arr []interface{}) chan interface{} {
 	c := make(chan interface{}, 1)
@@ -1017,6 +1053,18 @@ func TakeAll(c chan interface{}) []interface{} {
 		result = append(result, val)
 	}
 	return result
+}
+
+// Counter is like Range, but infinite
+func CounterString(start string, step string) chan string {
+	c := make(chan string, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
 }
 
 // Cycle is an infinite loop over arr
@@ -1095,8 +1143,8 @@ func TakeAllString(c chan string) []string {
 	return result
 }
 
-// Count is like Range, but infinite
-func CountUint(start uint, step uint) chan uint {
+// Counter is like Range, but infinite
+func CounterUint(start uint, step uint) chan uint {
 	c := make(chan uint, 1)
 	go func() {
 		for {
@@ -1208,8 +1256,8 @@ func TakeAllUint(c chan uint) []uint {
 	return result
 }
 
-// Count is like Range, but infinite
-func CountUint16(start uint16, step uint16) chan uint16 {
+// Counter is like Range, but infinite
+func CounterUint16(start uint16, step uint16) chan uint16 {
 	c := make(chan uint16, 1)
 	go func() {
 		for {
@@ -1321,8 +1369,8 @@ func TakeAllUint16(c chan uint16) []uint16 {
 	return result
 }
 
-// Count is like Range, but infinite
-func CountUint32(start uint32, step uint32) chan uint32 {
+// Counter is like Range, but infinite
+func CounterUint32(start uint32, step uint32) chan uint32 {
 	c := make(chan uint32, 1)
 	go func() {
 		for {
@@ -1434,8 +1482,8 @@ func TakeAllUint32(c chan uint32) []uint32 {
 	return result
 }
 
-// Count is like Range, but infinite
-func CountUint64(start uint64, step uint64) chan uint64 {
+// Counter is like Range, but infinite
+func CounterUint64(start uint64, step uint64) chan uint64 {
 	c := make(chan uint64, 1)
 	go func() {
 		for {
@@ -1547,8 +1595,8 @@ func TakeAllUint64(c chan uint64) []uint64 {
 	return result
 }
 
-// Count is like Range, but infinite
-func CountUint8(start uint8, step uint8) chan uint8 {
+// Counter is like Range, but infinite
+func CounterUint8(start uint8, step uint8) chan uint8 {
 	c := make(chan uint8, 1)
 	go func() {
 		for {
@@ -2404,6 +2452,17 @@ func ContainsFloat32(arr []float32, el float32) bool {
 	return false
 }
 
+// Count return count of el occurences in arr.
+func CountFloat32(arr []float32, el float32) int {
+	count := 0
+	for _, val := range arr {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 // Dedup returns a given slice without consecutive duplicated elements
 func DedupFloat32(arr []float32) []float32 {
 	result := make([]float32, 0, len(arr))
@@ -2636,6 +2695,17 @@ func ContainsFloat64(arr []float64, el float64) bool {
 		}
 	}
 	return false
+}
+
+// Count return count of el occurences in arr.
+func CountFloat64(arr []float64, el float64) int {
+	count := 0
+	for _, val := range arr {
+		if val == el {
+			count++
+		}
+	}
+	return count
 }
 
 // Dedup returns a given slice without consecutive duplicated elements
@@ -2872,6 +2942,17 @@ func ContainsInt(arr []int, el int) bool {
 	return false
 }
 
+// Count return count of el occurences in arr.
+func CountInt(arr []int, el int) int {
+	count := 0
+	for _, val := range arr {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 // Dedup returns a given slice without consecutive duplicated elements
 func DedupInt(arr []int) []int {
 	result := make([]int, 0, len(arr))
@@ -3104,6 +3185,17 @@ func ContainsInt16(arr []int16, el int16) bool {
 		}
 	}
 	return false
+}
+
+// Count return count of el occurences in arr.
+func CountInt16(arr []int16, el int16) int {
+	count := 0
+	for _, val := range arr {
+		if val == el {
+			count++
+		}
+	}
+	return count
 }
 
 // Dedup returns a given slice without consecutive duplicated elements
@@ -3340,6 +3432,17 @@ func ContainsInt32(arr []int32, el int32) bool {
 	return false
 }
 
+// Count return count of el occurences in arr.
+func CountInt32(arr []int32, el int32) int {
+	count := 0
+	for _, val := range arr {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 // Dedup returns a given slice without consecutive duplicated elements
 func DedupInt32(arr []int32) []int32 {
 	result := make([]int32, 0, len(arr))
@@ -3574,6 +3677,17 @@ func ContainsInt64(arr []int64, el int64) bool {
 	return false
 }
 
+// Count return count of el occurences in arr.
+func CountInt64(arr []int64, el int64) int {
+	count := 0
+	for _, val := range arr {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 // Dedup returns a given slice without consecutive duplicated elements
 func DedupInt64(arr []int64) []int64 {
 	result := make([]int64, 0, len(arr))
@@ -3806,6 +3920,17 @@ func ContainsInt8(arr []int8, el int8) bool {
 		}
 	}
 	return false
+}
+
+// Count return count of el occurences in arr.
+func CountInt8(arr []int8, el int8) int {
+	count := 0
+	for _, val := range arr {
+		if val == el {
+			count++
+		}
+	}
+	return count
 }
 
 // Dedup returns a given slice without consecutive duplicated elements
@@ -4488,6 +4613,17 @@ func ContainsUint(arr []uint, el uint) bool {
 	return false
 }
 
+// Count return count of el occurences in arr.
+func CountUint(arr []uint, el uint) int {
+	count := 0
+	for _, val := range arr {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 // Dedup returns a given slice without consecutive duplicated elements
 func DedupUint(arr []uint) []uint {
 	result := make([]uint, 0, len(arr))
@@ -4720,6 +4856,17 @@ func ContainsUint16(arr []uint16, el uint16) bool {
 		}
 	}
 	return false
+}
+
+// Count return count of el occurences in arr.
+func CountUint16(arr []uint16, el uint16) int {
+	count := 0
+	for _, val := range arr {
+		if val == el {
+			count++
+		}
+	}
+	return count
 }
 
 // Dedup returns a given slice without consecutive duplicated elements
@@ -4956,6 +5103,17 @@ func ContainsUint32(arr []uint32, el uint32) bool {
 	return false
 }
 
+// Count return count of el occurences in arr.
+func CountUint32(arr []uint32, el uint32) int {
+	count := 0
+	for _, val := range arr {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 // Dedup returns a given slice without consecutive duplicated elements
 func DedupUint32(arr []uint32) []uint32 {
 	result := make([]uint32, 0, len(arr))
@@ -5190,6 +5348,17 @@ func ContainsUint64(arr []uint64, el uint64) bool {
 	return false
 }
 
+// Count return count of el occurences in arr.
+func CountUint64(arr []uint64, el uint64) int {
+	count := 0
+	for _, val := range arr {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 // Dedup returns a given slice without consecutive duplicated elements
 func DedupUint64(arr []uint64) []uint64 {
 	result := make([]uint64, 0, len(arr))
@@ -5422,6 +5591,17 @@ func ContainsUint8(arr []uint8, el uint8) bool {
 		}
 	}
 	return false
+}
+
+// Count return count of el occurences in arr.
+func CountUint8(arr []uint8, el uint8) int {
+	count := 0
+	for _, val := range arr {
+		if val == el {
+			count++
+		}
+	}
+	return count
 }
 
 // Dedup returns a given slice without consecutive duplicated elements

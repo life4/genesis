@@ -13,6 +13,7 @@ func TestExponential(t *testing.T) {
 	}
 	f(1, 2, 4, []T{1, 2, 4, 8})
 }
+
 func TestProduct(t *testing.T) {
 	f := func(arrs [][]T, expected [][]T) {
 		actual := make([][]T, 0)
