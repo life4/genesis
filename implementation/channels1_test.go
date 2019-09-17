@@ -13,6 +13,23 @@ func TestExponential(t *testing.T) {
 	}
 	f(1, 2, 4, []T{1, 2, 4, 8})
 }
+func TestProduct(t *testing.T) {
+	f := func(arrs [][]T, expected [][]T) {
+		actual := make([][]T, 0)
+		i := 0
+		for el := range Product(arrs...) {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([][]T{{1, 2}, {3, 4}}, [][]T{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
+	f([][]T{{1, 2}, {3}, {4, 5}}, [][]T{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+}
+
 func TestRange(t *testing.T) {
 	f := func(start T, stop T, step T, expected []T) {
 		actual := TakeAll(Range(start, stop, step))
