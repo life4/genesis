@@ -94,8 +94,8 @@ func Dedup(arr []T) []T {
 	for _, el := range arr[1:] {
 		if el != prev {
 			result = append(result, el)
+			prev = el
 		}
-		prev = el
 	}
 	return result
 }

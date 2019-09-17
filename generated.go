@@ -2015,8 +2015,8 @@ func DedupBool(arr []bool) []bool {
 	for _, el := range arr[1:] {
 		if el != prev {
 			result = append(result, el)
+			prev = el
 		}
-		prev = el
 	}
 	return result
 }
@@ -2257,8 +2257,8 @@ func DedupByte(arr []byte) []byte {
 	for _, el := range arr[1:] {
 		if el != prev {
 			result = append(result, el)
+			prev = el
 		}
-		prev = el
 	}
 	return result
 }
@@ -2532,8 +2532,8 @@ func DedupFloat32(arr []float32) []float32 {
 	for _, el := range arr[1:] {
 		if el != prev {
 			result = append(result, el)
+			prev = el
 		}
-		prev = el
 	}
 	return result
 }
@@ -2807,8 +2807,8 @@ func DedupFloat64(arr []float64) []float64 {
 	for _, el := range arr[1:] {
 		if el != prev {
 			result = append(result, el)
+			prev = el
 		}
-		prev = el
 	}
 	return result
 }
@@ -3082,8 +3082,8 @@ func DedupInt(arr []int) []int {
 	for _, el := range arr[1:] {
 		if el != prev {
 			result = append(result, el)
+			prev = el
 		}
-		prev = el
 	}
 	return result
 }
@@ -3357,8 +3357,8 @@ func DedupInt16(arr []int16) []int16 {
 	for _, el := range arr[1:] {
 		if el != prev {
 			result = append(result, el)
+			prev = el
 		}
-		prev = el
 	}
 	return result
 }
@@ -3632,8 +3632,8 @@ func DedupInt32(arr []int32) []int32 {
 	for _, el := range arr[1:] {
 		if el != prev {
 			result = append(result, el)
+			prev = el
 		}
-		prev = el
 	}
 	return result
 }
@@ -3907,8 +3907,8 @@ func DedupInt64(arr []int64) []int64 {
 	for _, el := range arr[1:] {
 		if el != prev {
 			result = append(result, el)
+			prev = el
 		}
-		prev = el
 	}
 	return result
 }
@@ -4182,8 +4182,8 @@ func DedupInt8(arr []int8) []int8 {
 	for _, el := range arr[1:] {
 		if el != prev {
 			result = append(result, el)
+			prev = el
 		}
-		prev = el
 	}
 	return result
 }
@@ -4446,8 +4446,8 @@ func Dedup(arr []interface{}) []interface{} {
 	for _, el := range arr[1:] {
 		if el != prev {
 			result = append(result, el)
+			prev = el
 		}
-		prev = el
 	}
 	return result
 }
@@ -4688,8 +4688,8 @@ func DedupString(arr []string) []string {
 	for _, el := range arr[1:] {
 		if el != prev {
 			result = append(result, el)
+			prev = el
 		}
-		prev = el
 	}
 	return result
 }
@@ -4963,8 +4963,8 @@ func DedupUint(arr []uint) []uint {
 	for _, el := range arr[1:] {
 		if el != prev {
 			result = append(result, el)
+			prev = el
 		}
-		prev = el
 	}
 	return result
 }
@@ -5238,8 +5238,8 @@ func DedupUint16(arr []uint16) []uint16 {
 	for _, el := range arr[1:] {
 		if el != prev {
 			result = append(result, el)
+			prev = el
 		}
-		prev = el
 	}
 	return result
 }
@@ -5513,8 +5513,8 @@ func DedupUint32(arr []uint32) []uint32 {
 	for _, el := range arr[1:] {
 		if el != prev {
 			result = append(result, el)
+			prev = el
 		}
-		prev = el
 	}
 	return result
 }
@@ -5788,8 +5788,8 @@ func DedupUint64(arr []uint64) []uint64 {
 	for _, el := range arr[1:] {
 		if el != prev {
 			result = append(result, el)
+			prev = el
 		}
-		prev = el
 	}
 	return result
 }
@@ -6063,8 +6063,8 @@ func DedupUint8(arr []uint8) []uint8 {
 	for _, el := range arr[1:] {
 		if el != prev {
 			result = append(result, el)
+			prev = el
 		}
-		prev = el
 	}
 	return result
 }
@@ -6267,6 +6267,23 @@ func ChunkByBool(arr []bool, f func(el bool) bool) [][]bool {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByBool(arr []bool, f func(el bool) bool) []bool {
+	result := make([]bool, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByBool(arr []bool, f func(el bool) bool) map[bool][]bool {
 	result := make(map[bool][]bool)
@@ -6340,6 +6357,23 @@ func ChunkByBoolByte(arr []bool, f func(el bool) byte) [][]bool {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByBoolByte(arr []bool, f func(el bool) byte) []bool {
+	result := make([]bool, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -6417,6 +6451,23 @@ func ChunkByBoolFloat32(arr []bool, f func(el bool) float32) [][]bool {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByBoolFloat32(arr []bool, f func(el bool) float32) []bool {
+	result := make([]bool, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByBoolFloat32(arr []bool, f func(el bool) float32) map[float32][]bool {
 	result := make(map[float32][]bool)
@@ -6490,6 +6541,23 @@ func ChunkByBoolFloat64(arr []bool, f func(el bool) float64) [][]bool {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByBoolFloat64(arr []bool, f func(el bool) float64) []bool {
+	result := make([]bool, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -6567,6 +6635,23 @@ func ChunkByBoolInt(arr []bool, f func(el bool) int) [][]bool {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByBoolInt(arr []bool, f func(el bool) int) []bool {
+	result := make([]bool, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByBoolInt(arr []bool, f func(el bool) int) map[int][]bool {
 	result := make(map[int][]bool)
@@ -6640,6 +6725,23 @@ func ChunkByBoolInt16(arr []bool, f func(el bool) int16) [][]bool {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByBoolInt16(arr []bool, f func(el bool) int16) []bool {
+	result := make([]bool, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -6717,6 +6819,23 @@ func ChunkByBoolInt32(arr []bool, f func(el bool) int32) [][]bool {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByBoolInt32(arr []bool, f func(el bool) int32) []bool {
+	result := make([]bool, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByBoolInt32(arr []bool, f func(el bool) int32) map[int32][]bool {
 	result := make(map[int32][]bool)
@@ -6790,6 +6909,23 @@ func ChunkByBoolInt64(arr []bool, f func(el bool) int64) [][]bool {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByBoolInt64(arr []bool, f func(el bool) int64) []bool {
+	result := make([]bool, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -6867,6 +7003,23 @@ func ChunkByBoolInt8(arr []bool, f func(el bool) int8) [][]bool {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByBoolInt8(arr []bool, f func(el bool) int8) []bool {
+	result := make([]bool, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByBoolInt8(arr []bool, f func(el bool) int8) map[int8][]bool {
 	result := make(map[int8][]bool)
@@ -6940,6 +7093,23 @@ func ChunkByBoolInterface(arr []bool, f func(el bool) interface{}) [][]bool {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByBoolInterface(arr []bool, f func(el bool) interface{}) []bool {
+	result := make([]bool, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -7017,6 +7187,23 @@ func ChunkByBoolString(arr []bool, f func(el bool) string) [][]bool {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByBoolString(arr []bool, f func(el bool) string) []bool {
+	result := make([]bool, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByBoolString(arr []bool, f func(el bool) string) map[string][]bool {
 	result := make(map[string][]bool)
@@ -7090,6 +7277,23 @@ func ChunkByBoolUint(arr []bool, f func(el bool) uint) [][]bool {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByBoolUint(arr []bool, f func(el bool) uint) []bool {
+	result := make([]bool, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -7167,6 +7371,23 @@ func ChunkByBoolUint16(arr []bool, f func(el bool) uint16) [][]bool {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByBoolUint16(arr []bool, f func(el bool) uint16) []bool {
+	result := make([]bool, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByBoolUint16(arr []bool, f func(el bool) uint16) map[uint16][]bool {
 	result := make(map[uint16][]bool)
@@ -7240,6 +7461,23 @@ func ChunkByBoolUint32(arr []bool, f func(el bool) uint32) [][]bool {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByBoolUint32(arr []bool, f func(el bool) uint32) []bool {
+	result := make([]bool, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -7317,6 +7555,23 @@ func ChunkByBoolUint64(arr []bool, f func(el bool) uint64) [][]bool {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByBoolUint64(arr []bool, f func(el bool) uint64) []bool {
+	result := make([]bool, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByBoolUint64(arr []bool, f func(el bool) uint64) map[uint64][]bool {
 	result := make(map[uint64][]bool)
@@ -7390,6 +7645,23 @@ func ChunkByBoolUint8(arr []bool, f func(el bool) uint8) [][]bool {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByBoolUint8(arr []bool, f func(el bool) uint8) []bool {
+	result := make([]bool, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -7467,6 +7739,23 @@ func ChunkByByteBool(arr []byte, f func(el byte) bool) [][]byte {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByByteBool(arr []byte, f func(el byte) bool) []byte {
+	result := make([]byte, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByByteBool(arr []byte, f func(el byte) bool) map[bool][]byte {
 	result := make(map[bool][]byte)
@@ -7540,6 +7829,23 @@ func ChunkByByte(arr []byte, f func(el byte) byte) [][]byte {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByByte(arr []byte, f func(el byte) byte) []byte {
+	result := make([]byte, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -7617,6 +7923,23 @@ func ChunkByByteFloat32(arr []byte, f func(el byte) float32) [][]byte {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByByteFloat32(arr []byte, f func(el byte) float32) []byte {
+	result := make([]byte, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByByteFloat32(arr []byte, f func(el byte) float32) map[float32][]byte {
 	result := make(map[float32][]byte)
@@ -7690,6 +8013,23 @@ func ChunkByByteFloat64(arr []byte, f func(el byte) float64) [][]byte {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByByteFloat64(arr []byte, f func(el byte) float64) []byte {
+	result := make([]byte, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -7767,6 +8107,23 @@ func ChunkByByteInt(arr []byte, f func(el byte) int) [][]byte {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByByteInt(arr []byte, f func(el byte) int) []byte {
+	result := make([]byte, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByByteInt(arr []byte, f func(el byte) int) map[int][]byte {
 	result := make(map[int][]byte)
@@ -7840,6 +8197,23 @@ func ChunkByByteInt16(arr []byte, f func(el byte) int16) [][]byte {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByByteInt16(arr []byte, f func(el byte) int16) []byte {
+	result := make([]byte, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -7917,6 +8291,23 @@ func ChunkByByteInt32(arr []byte, f func(el byte) int32) [][]byte {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByByteInt32(arr []byte, f func(el byte) int32) []byte {
+	result := make([]byte, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByByteInt32(arr []byte, f func(el byte) int32) map[int32][]byte {
 	result := make(map[int32][]byte)
@@ -7990,6 +8381,23 @@ func ChunkByByteInt64(arr []byte, f func(el byte) int64) [][]byte {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByByteInt64(arr []byte, f func(el byte) int64) []byte {
+	result := make([]byte, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -8067,6 +8475,23 @@ func ChunkByByteInt8(arr []byte, f func(el byte) int8) [][]byte {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByByteInt8(arr []byte, f func(el byte) int8) []byte {
+	result := make([]byte, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByByteInt8(arr []byte, f func(el byte) int8) map[int8][]byte {
 	result := make(map[int8][]byte)
@@ -8140,6 +8565,23 @@ func ChunkByByteInterface(arr []byte, f func(el byte) interface{}) [][]byte {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByByteInterface(arr []byte, f func(el byte) interface{}) []byte {
+	result := make([]byte, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -8217,6 +8659,23 @@ func ChunkByByteString(arr []byte, f func(el byte) string) [][]byte {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByByteString(arr []byte, f func(el byte) string) []byte {
+	result := make([]byte, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByByteString(arr []byte, f func(el byte) string) map[string][]byte {
 	result := make(map[string][]byte)
@@ -8290,6 +8749,23 @@ func ChunkByByteUint(arr []byte, f func(el byte) uint) [][]byte {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByByteUint(arr []byte, f func(el byte) uint) []byte {
+	result := make([]byte, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -8367,6 +8843,23 @@ func ChunkByByteUint16(arr []byte, f func(el byte) uint16) [][]byte {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByByteUint16(arr []byte, f func(el byte) uint16) []byte {
+	result := make([]byte, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByByteUint16(arr []byte, f func(el byte) uint16) map[uint16][]byte {
 	result := make(map[uint16][]byte)
@@ -8440,6 +8933,23 @@ func ChunkByByteUint32(arr []byte, f func(el byte) uint32) [][]byte {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByByteUint32(arr []byte, f func(el byte) uint32) []byte {
+	result := make([]byte, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -8517,6 +9027,23 @@ func ChunkByByteUint64(arr []byte, f func(el byte) uint64) [][]byte {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByByteUint64(arr []byte, f func(el byte) uint64) []byte {
+	result := make([]byte, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByByteUint64(arr []byte, f func(el byte) uint64) map[uint64][]byte {
 	result := make(map[uint64][]byte)
@@ -8590,6 +9117,23 @@ func ChunkByByteUint8(arr []byte, f func(el byte) uint8) [][]byte {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByByteUint8(arr []byte, f func(el byte) uint8) []byte {
+	result := make([]byte, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -8667,6 +9211,23 @@ func ChunkByFloat32Bool(arr []float32, f func(el float32) bool) [][]float32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat32Bool(arr []float32, f func(el float32) bool) []float32 {
+	result := make([]float32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByFloat32Bool(arr []float32, f func(el float32) bool) map[bool][]float32 {
 	result := make(map[bool][]float32)
@@ -8740,6 +9301,23 @@ func ChunkByFloat32Byte(arr []float32, f func(el float32) byte) [][]float32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat32Byte(arr []float32, f func(el float32) byte) []float32 {
+	result := make([]float32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -8817,6 +9395,23 @@ func ChunkByFloat32(arr []float32, f func(el float32) float32) [][]float32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat32(arr []float32, f func(el float32) float32) []float32 {
+	result := make([]float32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByFloat32(arr []float32, f func(el float32) float32) map[float32][]float32 {
 	result := make(map[float32][]float32)
@@ -8890,6 +9485,23 @@ func ChunkByFloat32Float64(arr []float32, f func(el float32) float64) [][]float3
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat32Float64(arr []float32, f func(el float32) float64) []float32 {
+	result := make([]float32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -8967,6 +9579,23 @@ func ChunkByFloat32Int(arr []float32, f func(el float32) int) [][]float32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat32Int(arr []float32, f func(el float32) int) []float32 {
+	result := make([]float32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByFloat32Int(arr []float32, f func(el float32) int) map[int][]float32 {
 	result := make(map[int][]float32)
@@ -9040,6 +9669,23 @@ func ChunkByFloat32Int16(arr []float32, f func(el float32) int16) [][]float32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat32Int16(arr []float32, f func(el float32) int16) []float32 {
+	result := make([]float32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -9117,6 +9763,23 @@ func ChunkByFloat32Int32(arr []float32, f func(el float32) int32) [][]float32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat32Int32(arr []float32, f func(el float32) int32) []float32 {
+	result := make([]float32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByFloat32Int32(arr []float32, f func(el float32) int32) map[int32][]float32 {
 	result := make(map[int32][]float32)
@@ -9190,6 +9853,23 @@ func ChunkByFloat32Int64(arr []float32, f func(el float32) int64) [][]float32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat32Int64(arr []float32, f func(el float32) int64) []float32 {
+	result := make([]float32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -9267,6 +9947,23 @@ func ChunkByFloat32Int8(arr []float32, f func(el float32) int8) [][]float32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat32Int8(arr []float32, f func(el float32) int8) []float32 {
+	result := make([]float32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByFloat32Int8(arr []float32, f func(el float32) int8) map[int8][]float32 {
 	result := make(map[int8][]float32)
@@ -9340,6 +10037,23 @@ func ChunkByFloat32Interface(arr []float32, f func(el float32) interface{}) [][]
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat32Interface(arr []float32, f func(el float32) interface{}) []float32 {
+	result := make([]float32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -9417,6 +10131,23 @@ func ChunkByFloat32String(arr []float32, f func(el float32) string) [][]float32 
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat32String(arr []float32, f func(el float32) string) []float32 {
+	result := make([]float32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByFloat32String(arr []float32, f func(el float32) string) map[string][]float32 {
 	result := make(map[string][]float32)
@@ -9490,6 +10221,23 @@ func ChunkByFloat32Uint(arr []float32, f func(el float32) uint) [][]float32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat32Uint(arr []float32, f func(el float32) uint) []float32 {
+	result := make([]float32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -9567,6 +10315,23 @@ func ChunkByFloat32Uint16(arr []float32, f func(el float32) uint16) [][]float32 
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat32Uint16(arr []float32, f func(el float32) uint16) []float32 {
+	result := make([]float32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByFloat32Uint16(arr []float32, f func(el float32) uint16) map[uint16][]float32 {
 	result := make(map[uint16][]float32)
@@ -9640,6 +10405,23 @@ func ChunkByFloat32Uint32(arr []float32, f func(el float32) uint32) [][]float32 
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat32Uint32(arr []float32, f func(el float32) uint32) []float32 {
+	result := make([]float32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -9717,6 +10499,23 @@ func ChunkByFloat32Uint64(arr []float32, f func(el float32) uint64) [][]float32 
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat32Uint64(arr []float32, f func(el float32) uint64) []float32 {
+	result := make([]float32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByFloat32Uint64(arr []float32, f func(el float32) uint64) map[uint64][]float32 {
 	result := make(map[uint64][]float32)
@@ -9790,6 +10589,23 @@ func ChunkByFloat32Uint8(arr []float32, f func(el float32) uint8) [][]float32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat32Uint8(arr []float32, f func(el float32) uint8) []float32 {
+	result := make([]float32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -9867,6 +10683,23 @@ func ChunkByFloat64Bool(arr []float64, f func(el float64) bool) [][]float64 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat64Bool(arr []float64, f func(el float64) bool) []float64 {
+	result := make([]float64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByFloat64Bool(arr []float64, f func(el float64) bool) map[bool][]float64 {
 	result := make(map[bool][]float64)
@@ -9940,6 +10773,23 @@ func ChunkByFloat64Byte(arr []float64, f func(el float64) byte) [][]float64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat64Byte(arr []float64, f func(el float64) byte) []float64 {
+	result := make([]float64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -10017,6 +10867,23 @@ func ChunkByFloat64Float32(arr []float64, f func(el float64) float32) [][]float6
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat64Float32(arr []float64, f func(el float64) float32) []float64 {
+	result := make([]float64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByFloat64Float32(arr []float64, f func(el float64) float32) map[float32][]float64 {
 	result := make(map[float32][]float64)
@@ -10090,6 +10957,23 @@ func ChunkByFloat64(arr []float64, f func(el float64) float64) [][]float64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat64(arr []float64, f func(el float64) float64) []float64 {
+	result := make([]float64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -10167,6 +11051,23 @@ func ChunkByFloat64Int(arr []float64, f func(el float64) int) [][]float64 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat64Int(arr []float64, f func(el float64) int) []float64 {
+	result := make([]float64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByFloat64Int(arr []float64, f func(el float64) int) map[int][]float64 {
 	result := make(map[int][]float64)
@@ -10240,6 +11141,23 @@ func ChunkByFloat64Int16(arr []float64, f func(el float64) int16) [][]float64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat64Int16(arr []float64, f func(el float64) int16) []float64 {
+	result := make([]float64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -10317,6 +11235,23 @@ func ChunkByFloat64Int32(arr []float64, f func(el float64) int32) [][]float64 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat64Int32(arr []float64, f func(el float64) int32) []float64 {
+	result := make([]float64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByFloat64Int32(arr []float64, f func(el float64) int32) map[int32][]float64 {
 	result := make(map[int32][]float64)
@@ -10390,6 +11325,23 @@ func ChunkByFloat64Int64(arr []float64, f func(el float64) int64) [][]float64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat64Int64(arr []float64, f func(el float64) int64) []float64 {
+	result := make([]float64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -10467,6 +11419,23 @@ func ChunkByFloat64Int8(arr []float64, f func(el float64) int8) [][]float64 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat64Int8(arr []float64, f func(el float64) int8) []float64 {
+	result := make([]float64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByFloat64Int8(arr []float64, f func(el float64) int8) map[int8][]float64 {
 	result := make(map[int8][]float64)
@@ -10540,6 +11509,23 @@ func ChunkByFloat64Interface(arr []float64, f func(el float64) interface{}) [][]
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat64Interface(arr []float64, f func(el float64) interface{}) []float64 {
+	result := make([]float64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -10617,6 +11603,23 @@ func ChunkByFloat64String(arr []float64, f func(el float64) string) [][]float64 
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat64String(arr []float64, f func(el float64) string) []float64 {
+	result := make([]float64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByFloat64String(arr []float64, f func(el float64) string) map[string][]float64 {
 	result := make(map[string][]float64)
@@ -10690,6 +11693,23 @@ func ChunkByFloat64Uint(arr []float64, f func(el float64) uint) [][]float64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat64Uint(arr []float64, f func(el float64) uint) []float64 {
+	result := make([]float64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -10767,6 +11787,23 @@ func ChunkByFloat64Uint16(arr []float64, f func(el float64) uint16) [][]float64 
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat64Uint16(arr []float64, f func(el float64) uint16) []float64 {
+	result := make([]float64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByFloat64Uint16(arr []float64, f func(el float64) uint16) map[uint16][]float64 {
 	result := make(map[uint16][]float64)
@@ -10840,6 +11877,23 @@ func ChunkByFloat64Uint32(arr []float64, f func(el float64) uint32) [][]float64 
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat64Uint32(arr []float64, f func(el float64) uint32) []float64 {
+	result := make([]float64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -10917,6 +11971,23 @@ func ChunkByFloat64Uint64(arr []float64, f func(el float64) uint64) [][]float64 
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat64Uint64(arr []float64, f func(el float64) uint64) []float64 {
+	result := make([]float64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByFloat64Uint64(arr []float64, f func(el float64) uint64) map[uint64][]float64 {
 	result := make(map[uint64][]float64)
@@ -10990,6 +12061,23 @@ func ChunkByFloat64Uint8(arr []float64, f func(el float64) uint8) [][]float64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByFloat64Uint8(arr []float64, f func(el float64) uint8) []float64 {
+	result := make([]float64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -11067,6 +12155,23 @@ func ChunkByInt16Bool(arr []int16, f func(el int16) bool) [][]int16 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt16Bool(arr []int16, f func(el int16) bool) []int16 {
+	result := make([]int16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt16Bool(arr []int16, f func(el int16) bool) map[bool][]int16 {
 	result := make(map[bool][]int16)
@@ -11140,6 +12245,23 @@ func ChunkByInt16Byte(arr []int16, f func(el int16) byte) [][]int16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt16Byte(arr []int16, f func(el int16) byte) []int16 {
+	result := make([]int16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -11217,6 +12339,23 @@ func ChunkByInt16Float32(arr []int16, f func(el int16) float32) [][]int16 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt16Float32(arr []int16, f func(el int16) float32) []int16 {
+	result := make([]int16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt16Float32(arr []int16, f func(el int16) float32) map[float32][]int16 {
 	result := make(map[float32][]int16)
@@ -11290,6 +12429,23 @@ func ChunkByInt16Float64(arr []int16, f func(el int16) float64) [][]int16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt16Float64(arr []int16, f func(el int16) float64) []int16 {
+	result := make([]int16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -11367,6 +12523,23 @@ func ChunkByInt16Int(arr []int16, f func(el int16) int) [][]int16 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt16Int(arr []int16, f func(el int16) int) []int16 {
+	result := make([]int16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt16Int(arr []int16, f func(el int16) int) map[int][]int16 {
 	result := make(map[int][]int16)
@@ -11440,6 +12613,23 @@ func ChunkByInt16(arr []int16, f func(el int16) int16) [][]int16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt16(arr []int16, f func(el int16) int16) []int16 {
+	result := make([]int16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -11517,6 +12707,23 @@ func ChunkByInt16Int32(arr []int16, f func(el int16) int32) [][]int16 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt16Int32(arr []int16, f func(el int16) int32) []int16 {
+	result := make([]int16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt16Int32(arr []int16, f func(el int16) int32) map[int32][]int16 {
 	result := make(map[int32][]int16)
@@ -11590,6 +12797,23 @@ func ChunkByInt16Int64(arr []int16, f func(el int16) int64) [][]int16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt16Int64(arr []int16, f func(el int16) int64) []int16 {
+	result := make([]int16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -11667,6 +12891,23 @@ func ChunkByInt16Int8(arr []int16, f func(el int16) int8) [][]int16 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt16Int8(arr []int16, f func(el int16) int8) []int16 {
+	result := make([]int16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt16Int8(arr []int16, f func(el int16) int8) map[int8][]int16 {
 	result := make(map[int8][]int16)
@@ -11740,6 +12981,23 @@ func ChunkByInt16Interface(arr []int16, f func(el int16) interface{}) [][]int16 
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt16Interface(arr []int16, f func(el int16) interface{}) []int16 {
+	result := make([]int16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -11817,6 +13075,23 @@ func ChunkByInt16String(arr []int16, f func(el int16) string) [][]int16 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt16String(arr []int16, f func(el int16) string) []int16 {
+	result := make([]int16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt16String(arr []int16, f func(el int16) string) map[string][]int16 {
 	result := make(map[string][]int16)
@@ -11890,6 +13165,23 @@ func ChunkByInt16Uint(arr []int16, f func(el int16) uint) [][]int16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt16Uint(arr []int16, f func(el int16) uint) []int16 {
+	result := make([]int16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -11967,6 +13259,23 @@ func ChunkByInt16Uint16(arr []int16, f func(el int16) uint16) [][]int16 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt16Uint16(arr []int16, f func(el int16) uint16) []int16 {
+	result := make([]int16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt16Uint16(arr []int16, f func(el int16) uint16) map[uint16][]int16 {
 	result := make(map[uint16][]int16)
@@ -12040,6 +13349,23 @@ func ChunkByInt16Uint32(arr []int16, f func(el int16) uint32) [][]int16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt16Uint32(arr []int16, f func(el int16) uint32) []int16 {
+	result := make([]int16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -12117,6 +13443,23 @@ func ChunkByInt16Uint64(arr []int16, f func(el int16) uint64) [][]int16 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt16Uint64(arr []int16, f func(el int16) uint64) []int16 {
+	result := make([]int16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt16Uint64(arr []int16, f func(el int16) uint64) map[uint64][]int16 {
 	result := make(map[uint64][]int16)
@@ -12190,6 +13533,23 @@ func ChunkByInt16Uint8(arr []int16, f func(el int16) uint8) [][]int16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt16Uint8(arr []int16, f func(el int16) uint8) []int16 {
+	result := make([]int16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -12267,6 +13627,23 @@ func ChunkByInt32Bool(arr []int32, f func(el int32) bool) [][]int32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt32Bool(arr []int32, f func(el int32) bool) []int32 {
+	result := make([]int32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt32Bool(arr []int32, f func(el int32) bool) map[bool][]int32 {
 	result := make(map[bool][]int32)
@@ -12340,6 +13717,23 @@ func ChunkByInt32Byte(arr []int32, f func(el int32) byte) [][]int32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt32Byte(arr []int32, f func(el int32) byte) []int32 {
+	result := make([]int32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -12417,6 +13811,23 @@ func ChunkByInt32Float32(arr []int32, f func(el int32) float32) [][]int32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt32Float32(arr []int32, f func(el int32) float32) []int32 {
+	result := make([]int32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt32Float32(arr []int32, f func(el int32) float32) map[float32][]int32 {
 	result := make(map[float32][]int32)
@@ -12490,6 +13901,23 @@ func ChunkByInt32Float64(arr []int32, f func(el int32) float64) [][]int32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt32Float64(arr []int32, f func(el int32) float64) []int32 {
+	result := make([]int32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -12567,6 +13995,23 @@ func ChunkByInt32Int(arr []int32, f func(el int32) int) [][]int32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt32Int(arr []int32, f func(el int32) int) []int32 {
+	result := make([]int32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt32Int(arr []int32, f func(el int32) int) map[int][]int32 {
 	result := make(map[int][]int32)
@@ -12640,6 +14085,23 @@ func ChunkByInt32Int16(arr []int32, f func(el int32) int16) [][]int32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt32Int16(arr []int32, f func(el int32) int16) []int32 {
+	result := make([]int32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -12717,6 +14179,23 @@ func ChunkByInt32(arr []int32, f func(el int32) int32) [][]int32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt32(arr []int32, f func(el int32) int32) []int32 {
+	result := make([]int32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt32(arr []int32, f func(el int32) int32) map[int32][]int32 {
 	result := make(map[int32][]int32)
@@ -12790,6 +14269,23 @@ func ChunkByInt32Int64(arr []int32, f func(el int32) int64) [][]int32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt32Int64(arr []int32, f func(el int32) int64) []int32 {
+	result := make([]int32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -12867,6 +14363,23 @@ func ChunkByInt32Int8(arr []int32, f func(el int32) int8) [][]int32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt32Int8(arr []int32, f func(el int32) int8) []int32 {
+	result := make([]int32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt32Int8(arr []int32, f func(el int32) int8) map[int8][]int32 {
 	result := make(map[int8][]int32)
@@ -12940,6 +14453,23 @@ func ChunkByInt32Interface(arr []int32, f func(el int32) interface{}) [][]int32 
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt32Interface(arr []int32, f func(el int32) interface{}) []int32 {
+	result := make([]int32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -13017,6 +14547,23 @@ func ChunkByInt32String(arr []int32, f func(el int32) string) [][]int32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt32String(arr []int32, f func(el int32) string) []int32 {
+	result := make([]int32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt32String(arr []int32, f func(el int32) string) map[string][]int32 {
 	result := make(map[string][]int32)
@@ -13090,6 +14637,23 @@ func ChunkByInt32Uint(arr []int32, f func(el int32) uint) [][]int32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt32Uint(arr []int32, f func(el int32) uint) []int32 {
+	result := make([]int32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -13167,6 +14731,23 @@ func ChunkByInt32Uint16(arr []int32, f func(el int32) uint16) [][]int32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt32Uint16(arr []int32, f func(el int32) uint16) []int32 {
+	result := make([]int32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt32Uint16(arr []int32, f func(el int32) uint16) map[uint16][]int32 {
 	result := make(map[uint16][]int32)
@@ -13240,6 +14821,23 @@ func ChunkByInt32Uint32(arr []int32, f func(el int32) uint32) [][]int32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt32Uint32(arr []int32, f func(el int32) uint32) []int32 {
+	result := make([]int32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -13317,6 +14915,23 @@ func ChunkByInt32Uint64(arr []int32, f func(el int32) uint64) [][]int32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt32Uint64(arr []int32, f func(el int32) uint64) []int32 {
+	result := make([]int32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt32Uint64(arr []int32, f func(el int32) uint64) map[uint64][]int32 {
 	result := make(map[uint64][]int32)
@@ -13390,6 +15005,23 @@ func ChunkByInt32Uint8(arr []int32, f func(el int32) uint8) [][]int32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt32Uint8(arr []int32, f func(el int32) uint8) []int32 {
+	result := make([]int32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -13467,6 +15099,23 @@ func ChunkByInt64Bool(arr []int64, f func(el int64) bool) [][]int64 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt64Bool(arr []int64, f func(el int64) bool) []int64 {
+	result := make([]int64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt64Bool(arr []int64, f func(el int64) bool) map[bool][]int64 {
 	result := make(map[bool][]int64)
@@ -13540,6 +15189,23 @@ func ChunkByInt64Byte(arr []int64, f func(el int64) byte) [][]int64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt64Byte(arr []int64, f func(el int64) byte) []int64 {
+	result := make([]int64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -13617,6 +15283,23 @@ func ChunkByInt64Float32(arr []int64, f func(el int64) float32) [][]int64 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt64Float32(arr []int64, f func(el int64) float32) []int64 {
+	result := make([]int64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt64Float32(arr []int64, f func(el int64) float32) map[float32][]int64 {
 	result := make(map[float32][]int64)
@@ -13690,6 +15373,23 @@ func ChunkByInt64Float64(arr []int64, f func(el int64) float64) [][]int64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt64Float64(arr []int64, f func(el int64) float64) []int64 {
+	result := make([]int64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -13767,6 +15467,23 @@ func ChunkByInt64Int(arr []int64, f func(el int64) int) [][]int64 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt64Int(arr []int64, f func(el int64) int) []int64 {
+	result := make([]int64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt64Int(arr []int64, f func(el int64) int) map[int][]int64 {
 	result := make(map[int][]int64)
@@ -13840,6 +15557,23 @@ func ChunkByInt64Int16(arr []int64, f func(el int64) int16) [][]int64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt64Int16(arr []int64, f func(el int64) int16) []int64 {
+	result := make([]int64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -13917,6 +15651,23 @@ func ChunkByInt64Int32(arr []int64, f func(el int64) int32) [][]int64 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt64Int32(arr []int64, f func(el int64) int32) []int64 {
+	result := make([]int64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt64Int32(arr []int64, f func(el int64) int32) map[int32][]int64 {
 	result := make(map[int32][]int64)
@@ -13990,6 +15741,23 @@ func ChunkByInt64(arr []int64, f func(el int64) int64) [][]int64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt64(arr []int64, f func(el int64) int64) []int64 {
+	result := make([]int64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -14067,6 +15835,23 @@ func ChunkByInt64Int8(arr []int64, f func(el int64) int8) [][]int64 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt64Int8(arr []int64, f func(el int64) int8) []int64 {
+	result := make([]int64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt64Int8(arr []int64, f func(el int64) int8) map[int8][]int64 {
 	result := make(map[int8][]int64)
@@ -14140,6 +15925,23 @@ func ChunkByInt64Interface(arr []int64, f func(el int64) interface{}) [][]int64 
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt64Interface(arr []int64, f func(el int64) interface{}) []int64 {
+	result := make([]int64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -14217,6 +16019,23 @@ func ChunkByInt64String(arr []int64, f func(el int64) string) [][]int64 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt64String(arr []int64, f func(el int64) string) []int64 {
+	result := make([]int64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt64String(arr []int64, f func(el int64) string) map[string][]int64 {
 	result := make(map[string][]int64)
@@ -14290,6 +16109,23 @@ func ChunkByInt64Uint(arr []int64, f func(el int64) uint) [][]int64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt64Uint(arr []int64, f func(el int64) uint) []int64 {
+	result := make([]int64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -14367,6 +16203,23 @@ func ChunkByInt64Uint16(arr []int64, f func(el int64) uint16) [][]int64 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt64Uint16(arr []int64, f func(el int64) uint16) []int64 {
+	result := make([]int64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt64Uint16(arr []int64, f func(el int64) uint16) map[uint16][]int64 {
 	result := make(map[uint16][]int64)
@@ -14440,6 +16293,23 @@ func ChunkByInt64Uint32(arr []int64, f func(el int64) uint32) [][]int64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt64Uint32(arr []int64, f func(el int64) uint32) []int64 {
+	result := make([]int64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -14517,6 +16387,23 @@ func ChunkByInt64Uint64(arr []int64, f func(el int64) uint64) [][]int64 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt64Uint64(arr []int64, f func(el int64) uint64) []int64 {
+	result := make([]int64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt64Uint64(arr []int64, f func(el int64) uint64) map[uint64][]int64 {
 	result := make(map[uint64][]int64)
@@ -14590,6 +16477,23 @@ func ChunkByInt64Uint8(arr []int64, f func(el int64) uint8) [][]int64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt64Uint8(arr []int64, f func(el int64) uint8) []int64 {
+	result := make([]int64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -14667,6 +16571,23 @@ func ChunkByInt8Bool(arr []int8, f func(el int8) bool) [][]int8 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt8Bool(arr []int8, f func(el int8) bool) []int8 {
+	result := make([]int8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt8Bool(arr []int8, f func(el int8) bool) map[bool][]int8 {
 	result := make(map[bool][]int8)
@@ -14740,6 +16661,23 @@ func ChunkByInt8Byte(arr []int8, f func(el int8) byte) [][]int8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt8Byte(arr []int8, f func(el int8) byte) []int8 {
+	result := make([]int8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -14817,6 +16755,23 @@ func ChunkByInt8Float32(arr []int8, f func(el int8) float32) [][]int8 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt8Float32(arr []int8, f func(el int8) float32) []int8 {
+	result := make([]int8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt8Float32(arr []int8, f func(el int8) float32) map[float32][]int8 {
 	result := make(map[float32][]int8)
@@ -14890,6 +16845,23 @@ func ChunkByInt8Float64(arr []int8, f func(el int8) float64) [][]int8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt8Float64(arr []int8, f func(el int8) float64) []int8 {
+	result := make([]int8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -14967,6 +16939,23 @@ func ChunkByInt8Int(arr []int8, f func(el int8) int) [][]int8 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt8Int(arr []int8, f func(el int8) int) []int8 {
+	result := make([]int8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt8Int(arr []int8, f func(el int8) int) map[int][]int8 {
 	result := make(map[int][]int8)
@@ -15040,6 +17029,23 @@ func ChunkByInt8Int16(arr []int8, f func(el int8) int16) [][]int8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt8Int16(arr []int8, f func(el int8) int16) []int8 {
+	result := make([]int8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -15117,6 +17123,23 @@ func ChunkByInt8Int32(arr []int8, f func(el int8) int32) [][]int8 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt8Int32(arr []int8, f func(el int8) int32) []int8 {
+	result := make([]int8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt8Int32(arr []int8, f func(el int8) int32) map[int32][]int8 {
 	result := make(map[int32][]int8)
@@ -15190,6 +17213,23 @@ func ChunkByInt8Int64(arr []int8, f func(el int8) int64) [][]int8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt8Int64(arr []int8, f func(el int8) int64) []int8 {
+	result := make([]int8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -15267,6 +17307,23 @@ func ChunkByInt8(arr []int8, f func(el int8) int8) [][]int8 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt8(arr []int8, f func(el int8) int8) []int8 {
+	result := make([]int8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt8(arr []int8, f func(el int8) int8) map[int8][]int8 {
 	result := make(map[int8][]int8)
@@ -15340,6 +17397,23 @@ func ChunkByInt8Interface(arr []int8, f func(el int8) interface{}) [][]int8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt8Interface(arr []int8, f func(el int8) interface{}) []int8 {
+	result := make([]int8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -15417,6 +17491,23 @@ func ChunkByInt8String(arr []int8, f func(el int8) string) [][]int8 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt8String(arr []int8, f func(el int8) string) []int8 {
+	result := make([]int8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt8String(arr []int8, f func(el int8) string) map[string][]int8 {
 	result := make(map[string][]int8)
@@ -15490,6 +17581,23 @@ func ChunkByInt8Uint(arr []int8, f func(el int8) uint) [][]int8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt8Uint(arr []int8, f func(el int8) uint) []int8 {
+	result := make([]int8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -15567,6 +17675,23 @@ func ChunkByInt8Uint16(arr []int8, f func(el int8) uint16) [][]int8 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt8Uint16(arr []int8, f func(el int8) uint16) []int8 {
+	result := make([]int8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt8Uint16(arr []int8, f func(el int8) uint16) map[uint16][]int8 {
 	result := make(map[uint16][]int8)
@@ -15640,6 +17765,23 @@ func ChunkByInt8Uint32(arr []int8, f func(el int8) uint32) [][]int8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt8Uint32(arr []int8, f func(el int8) uint32) []int8 {
+	result := make([]int8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -15717,6 +17859,23 @@ func ChunkByInt8Uint64(arr []int8, f func(el int8) uint64) [][]int8 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt8Uint64(arr []int8, f func(el int8) uint64) []int8 {
+	result := make([]int8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt8Uint64(arr []int8, f func(el int8) uint64) map[uint64][]int8 {
 	result := make(map[uint64][]int8)
@@ -15790,6 +17949,23 @@ func ChunkByInt8Uint8(arr []int8, f func(el int8) uint8) [][]int8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt8Uint8(arr []int8, f func(el int8) uint8) []int8 {
+	result := make([]int8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -15867,6 +18043,23 @@ func ChunkByIntBool(arr []int, f func(el int) bool) [][]int {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByIntBool(arr []int, f func(el int) bool) []int {
+	result := make([]int, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByIntBool(arr []int, f func(el int) bool) map[bool][]int {
 	result := make(map[bool][]int)
@@ -15940,6 +18133,23 @@ func ChunkByIntByte(arr []int, f func(el int) byte) [][]int {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByIntByte(arr []int, f func(el int) byte) []int {
+	result := make([]int, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -16017,6 +18227,23 @@ func ChunkByInterfaceBool(arr []interface{}, f func(el interface{}) bool) [][]in
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInterfaceBool(arr []interface{}, f func(el interface{}) bool) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInterfaceBool(arr []interface{}, f func(el interface{}) bool) map[bool][]interface{} {
 	result := make(map[bool][]interface{})
@@ -16090,6 +18317,23 @@ func ChunkByInterfaceByte(arr []interface{}, f func(el interface{}) byte) [][]in
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInterfaceByte(arr []interface{}, f func(el interface{}) byte) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -16167,6 +18411,23 @@ func ChunkByInterfaceFloat32(arr []interface{}, f func(el interface{}) float32) 
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInterfaceFloat32(arr []interface{}, f func(el interface{}) float32) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInterfaceFloat32(arr []interface{}, f func(el interface{}) float32) map[float32][]interface{} {
 	result := make(map[float32][]interface{})
@@ -16240,6 +18501,23 @@ func ChunkByInterfaceFloat64(arr []interface{}, f func(el interface{}) float64) 
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInterfaceFloat64(arr []interface{}, f func(el interface{}) float64) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -16317,6 +18595,23 @@ func ChunkByInterfaceInt(arr []interface{}, f func(el interface{}) int) [][]inte
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInterfaceInt(arr []interface{}, f func(el interface{}) int) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInterfaceInt(arr []interface{}, f func(el interface{}) int) map[int][]interface{} {
 	result := make(map[int][]interface{})
@@ -16390,6 +18685,23 @@ func ChunkByInterfaceInt16(arr []interface{}, f func(el interface{}) int16) [][]
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInterfaceInt16(arr []interface{}, f func(el interface{}) int16) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -16467,6 +18779,23 @@ func ChunkByInterfaceInt32(arr []interface{}, f func(el interface{}) int32) [][]
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInterfaceInt32(arr []interface{}, f func(el interface{}) int32) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInterfaceInt32(arr []interface{}, f func(el interface{}) int32) map[int32][]interface{} {
 	result := make(map[int32][]interface{})
@@ -16540,6 +18869,23 @@ func ChunkByInterfaceInt64(arr []interface{}, f func(el interface{}) int64) [][]
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInterfaceInt64(arr []interface{}, f func(el interface{}) int64) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -16617,6 +18963,23 @@ func ChunkByInterfaceInt8(arr []interface{}, f func(el interface{}) int8) [][]in
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInterfaceInt8(arr []interface{}, f func(el interface{}) int8) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInterfaceInt8(arr []interface{}, f func(el interface{}) int8) map[int8][]interface{} {
 	result := make(map[int8][]interface{})
@@ -16690,6 +19053,23 @@ func ChunkByInterface(arr []interface{}, f func(el interface{}) interface{}) [][
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInterface(arr []interface{}, f func(el interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -16767,6 +19147,23 @@ func ChunkByInterfaceString(arr []interface{}, f func(el interface{}) string) []
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInterfaceString(arr []interface{}, f func(el interface{}) string) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInterfaceString(arr []interface{}, f func(el interface{}) string) map[string][]interface{} {
 	result := make(map[string][]interface{})
@@ -16840,6 +19237,23 @@ func ChunkByInterfaceUint(arr []interface{}, f func(el interface{}) uint) [][]in
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInterfaceUint(arr []interface{}, f func(el interface{}) uint) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -16917,6 +19331,23 @@ func ChunkByInterfaceUint16(arr []interface{}, f func(el interface{}) uint16) []
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInterfaceUint16(arr []interface{}, f func(el interface{}) uint16) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInterfaceUint16(arr []interface{}, f func(el interface{}) uint16) map[uint16][]interface{} {
 	result := make(map[uint16][]interface{})
@@ -16990,6 +19421,23 @@ func ChunkByInterfaceUint32(arr []interface{}, f func(el interface{}) uint32) []
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInterfaceUint32(arr []interface{}, f func(el interface{}) uint32) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -17067,6 +19515,23 @@ func ChunkByInterfaceUint64(arr []interface{}, f func(el interface{}) uint64) []
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInterfaceUint64(arr []interface{}, f func(el interface{}) uint64) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInterfaceUint64(arr []interface{}, f func(el interface{}) uint64) map[uint64][]interface{} {
 	result := make(map[uint64][]interface{})
@@ -17140,6 +19605,23 @@ func ChunkByInterfaceUint8(arr []interface{}, f func(el interface{}) uint8) [][]
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInterfaceUint8(arr []interface{}, f func(el interface{}) uint8) []interface{} {
+	result := make([]interface{}, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -17217,6 +19699,23 @@ func ChunkByIntFloat32(arr []int, f func(el int) float32) [][]int {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByIntFloat32(arr []int, f func(el int) float32) []int {
+	result := make([]int, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByIntFloat32(arr []int, f func(el int) float32) map[float32][]int {
 	result := make(map[float32][]int)
@@ -17290,6 +19789,23 @@ func ChunkByIntFloat64(arr []int, f func(el int) float64) [][]int {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByIntFloat64(arr []int, f func(el int) float64) []int {
+	result := make([]int, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -17367,6 +19883,23 @@ func ChunkByInt(arr []int, f func(el int) int) [][]int {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByInt(arr []int, f func(el int) int) []int {
+	result := make([]int, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByInt(arr []int, f func(el int) int) map[int][]int {
 	result := make(map[int][]int)
@@ -17440,6 +19973,23 @@ func ChunkByIntInt16(arr []int, f func(el int) int16) [][]int {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByIntInt16(arr []int, f func(el int) int16) []int {
+	result := make([]int, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -17517,6 +20067,23 @@ func ChunkByIntInt32(arr []int, f func(el int) int32) [][]int {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByIntInt32(arr []int, f func(el int) int32) []int {
+	result := make([]int, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByIntInt32(arr []int, f func(el int) int32) map[int32][]int {
 	result := make(map[int32][]int)
@@ -17590,6 +20157,23 @@ func ChunkByIntInt64(arr []int, f func(el int) int64) [][]int {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByIntInt64(arr []int, f func(el int) int64) []int {
+	result := make([]int, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -17667,6 +20251,23 @@ func ChunkByIntInt8(arr []int, f func(el int) int8) [][]int {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByIntInt8(arr []int, f func(el int) int8) []int {
+	result := make([]int, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByIntInt8(arr []int, f func(el int) int8) map[int8][]int {
 	result := make(map[int8][]int)
@@ -17740,6 +20341,23 @@ func ChunkByIntInterface(arr []int, f func(el int) interface{}) [][]int {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByIntInterface(arr []int, f func(el int) interface{}) []int {
+	result := make([]int, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -17817,6 +20435,23 @@ func ChunkByIntString(arr []int, f func(el int) string) [][]int {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByIntString(arr []int, f func(el int) string) []int {
+	result := make([]int, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByIntString(arr []int, f func(el int) string) map[string][]int {
 	result := make(map[string][]int)
@@ -17890,6 +20525,23 @@ func ChunkByIntUint(arr []int, f func(el int) uint) [][]int {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByIntUint(arr []int, f func(el int) uint) []int {
+	result := make([]int, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -17967,6 +20619,23 @@ func ChunkByIntUint16(arr []int, f func(el int) uint16) [][]int {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByIntUint16(arr []int, f func(el int) uint16) []int {
+	result := make([]int, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByIntUint16(arr []int, f func(el int) uint16) map[uint16][]int {
 	result := make(map[uint16][]int)
@@ -18040,6 +20709,23 @@ func ChunkByIntUint32(arr []int, f func(el int) uint32) [][]int {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByIntUint32(arr []int, f func(el int) uint32) []int {
+	result := make([]int, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -18117,6 +20803,23 @@ func ChunkByIntUint64(arr []int, f func(el int) uint64) [][]int {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByIntUint64(arr []int, f func(el int) uint64) []int {
+	result := make([]int, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByIntUint64(arr []int, f func(el int) uint64) map[uint64][]int {
 	result := make(map[uint64][]int)
@@ -18190,6 +20893,23 @@ func ChunkByIntUint8(arr []int, f func(el int) uint8) [][]int {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByIntUint8(arr []int, f func(el int) uint8) []int {
+	result := make([]int, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -18267,6 +20987,23 @@ func ChunkByStringBool(arr []string, f func(el string) bool) [][]string {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByStringBool(arr []string, f func(el string) bool) []string {
+	result := make([]string, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByStringBool(arr []string, f func(el string) bool) map[bool][]string {
 	result := make(map[bool][]string)
@@ -18340,6 +21077,23 @@ func ChunkByStringByte(arr []string, f func(el string) byte) [][]string {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByStringByte(arr []string, f func(el string) byte) []string {
+	result := make([]string, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -18417,6 +21171,23 @@ func ChunkByStringFloat32(arr []string, f func(el string) float32) [][]string {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByStringFloat32(arr []string, f func(el string) float32) []string {
+	result := make([]string, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByStringFloat32(arr []string, f func(el string) float32) map[float32][]string {
 	result := make(map[float32][]string)
@@ -18490,6 +21261,23 @@ func ChunkByStringFloat64(arr []string, f func(el string) float64) [][]string {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByStringFloat64(arr []string, f func(el string) float64) []string {
+	result := make([]string, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -18567,6 +21355,23 @@ func ChunkByStringInt(arr []string, f func(el string) int) [][]string {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByStringInt(arr []string, f func(el string) int) []string {
+	result := make([]string, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByStringInt(arr []string, f func(el string) int) map[int][]string {
 	result := make(map[int][]string)
@@ -18640,6 +21445,23 @@ func ChunkByStringInt16(arr []string, f func(el string) int16) [][]string {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByStringInt16(arr []string, f func(el string) int16) []string {
+	result := make([]string, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -18717,6 +21539,23 @@ func ChunkByStringInt32(arr []string, f func(el string) int32) [][]string {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByStringInt32(arr []string, f func(el string) int32) []string {
+	result := make([]string, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByStringInt32(arr []string, f func(el string) int32) map[int32][]string {
 	result := make(map[int32][]string)
@@ -18790,6 +21629,23 @@ func ChunkByStringInt64(arr []string, f func(el string) int64) [][]string {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByStringInt64(arr []string, f func(el string) int64) []string {
+	result := make([]string, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -18867,6 +21723,23 @@ func ChunkByStringInt8(arr []string, f func(el string) int8) [][]string {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByStringInt8(arr []string, f func(el string) int8) []string {
+	result := make([]string, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByStringInt8(arr []string, f func(el string) int8) map[int8][]string {
 	result := make(map[int8][]string)
@@ -18940,6 +21813,23 @@ func ChunkByStringInterface(arr []string, f func(el string) interface{}) [][]str
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByStringInterface(arr []string, f func(el string) interface{}) []string {
+	result := make([]string, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -19017,6 +21907,23 @@ func ChunkByString(arr []string, f func(el string) string) [][]string {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByString(arr []string, f func(el string) string) []string {
+	result := make([]string, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByString(arr []string, f func(el string) string) map[string][]string {
 	result := make(map[string][]string)
@@ -19090,6 +21997,23 @@ func ChunkByStringUint(arr []string, f func(el string) uint) [][]string {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByStringUint(arr []string, f func(el string) uint) []string {
+	result := make([]string, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -19167,6 +22091,23 @@ func ChunkByStringUint16(arr []string, f func(el string) uint16) [][]string {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByStringUint16(arr []string, f func(el string) uint16) []string {
+	result := make([]string, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByStringUint16(arr []string, f func(el string) uint16) map[uint16][]string {
 	result := make(map[uint16][]string)
@@ -19240,6 +22181,23 @@ func ChunkByStringUint32(arr []string, f func(el string) uint32) [][]string {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByStringUint32(arr []string, f func(el string) uint32) []string {
+	result := make([]string, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -19317,6 +22275,23 @@ func ChunkByStringUint64(arr []string, f func(el string) uint64) [][]string {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByStringUint64(arr []string, f func(el string) uint64) []string {
+	result := make([]string, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByStringUint64(arr []string, f func(el string) uint64) map[uint64][]string {
 	result := make(map[uint64][]string)
@@ -19390,6 +22365,23 @@ func ChunkByStringUint8(arr []string, f func(el string) uint8) [][]string {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByStringUint8(arr []string, f func(el string) uint8) []string {
+	result := make([]string, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -19467,6 +22459,23 @@ func ChunkByUint16Bool(arr []uint16, f func(el uint16) bool) [][]uint16 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint16Bool(arr []uint16, f func(el uint16) bool) []uint16 {
+	result := make([]uint16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint16Bool(arr []uint16, f func(el uint16) bool) map[bool][]uint16 {
 	result := make(map[bool][]uint16)
@@ -19540,6 +22549,23 @@ func ChunkByUint16Byte(arr []uint16, f func(el uint16) byte) [][]uint16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint16Byte(arr []uint16, f func(el uint16) byte) []uint16 {
+	result := make([]uint16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -19617,6 +22643,23 @@ func ChunkByUint16Float32(arr []uint16, f func(el uint16) float32) [][]uint16 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint16Float32(arr []uint16, f func(el uint16) float32) []uint16 {
+	result := make([]uint16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint16Float32(arr []uint16, f func(el uint16) float32) map[float32][]uint16 {
 	result := make(map[float32][]uint16)
@@ -19690,6 +22733,23 @@ func ChunkByUint16Float64(arr []uint16, f func(el uint16) float64) [][]uint16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint16Float64(arr []uint16, f func(el uint16) float64) []uint16 {
+	result := make([]uint16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -19767,6 +22827,23 @@ func ChunkByUint16Int(arr []uint16, f func(el uint16) int) [][]uint16 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint16Int(arr []uint16, f func(el uint16) int) []uint16 {
+	result := make([]uint16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint16Int(arr []uint16, f func(el uint16) int) map[int][]uint16 {
 	result := make(map[int][]uint16)
@@ -19840,6 +22917,23 @@ func ChunkByUint16Int16(arr []uint16, f func(el uint16) int16) [][]uint16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint16Int16(arr []uint16, f func(el uint16) int16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -19917,6 +23011,23 @@ func ChunkByUint16Int32(arr []uint16, f func(el uint16) int32) [][]uint16 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint16Int32(arr []uint16, f func(el uint16) int32) []uint16 {
+	result := make([]uint16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint16Int32(arr []uint16, f func(el uint16) int32) map[int32][]uint16 {
 	result := make(map[int32][]uint16)
@@ -19990,6 +23101,23 @@ func ChunkByUint16Int64(arr []uint16, f func(el uint16) int64) [][]uint16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint16Int64(arr []uint16, f func(el uint16) int64) []uint16 {
+	result := make([]uint16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -20067,6 +23195,23 @@ func ChunkByUint16Int8(arr []uint16, f func(el uint16) int8) [][]uint16 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint16Int8(arr []uint16, f func(el uint16) int8) []uint16 {
+	result := make([]uint16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint16Int8(arr []uint16, f func(el uint16) int8) map[int8][]uint16 {
 	result := make(map[int8][]uint16)
@@ -20140,6 +23285,23 @@ func ChunkByUint16Interface(arr []uint16, f func(el uint16) interface{}) [][]uin
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint16Interface(arr []uint16, f func(el uint16) interface{}) []uint16 {
+	result := make([]uint16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -20217,6 +23379,23 @@ func ChunkByUint16String(arr []uint16, f func(el uint16) string) [][]uint16 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint16String(arr []uint16, f func(el uint16) string) []uint16 {
+	result := make([]uint16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint16String(arr []uint16, f func(el uint16) string) map[string][]uint16 {
 	result := make(map[string][]uint16)
@@ -20290,6 +23469,23 @@ func ChunkByUint16Uint(arr []uint16, f func(el uint16) uint) [][]uint16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint16Uint(arr []uint16, f func(el uint16) uint) []uint16 {
+	result := make([]uint16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -20367,6 +23563,23 @@ func ChunkByUint16(arr []uint16, f func(el uint16) uint16) [][]uint16 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint16(arr []uint16, f func(el uint16) uint16) []uint16 {
+	result := make([]uint16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint16(arr []uint16, f func(el uint16) uint16) map[uint16][]uint16 {
 	result := make(map[uint16][]uint16)
@@ -20440,6 +23653,23 @@ func ChunkByUint16Uint32(arr []uint16, f func(el uint16) uint32) [][]uint16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint16Uint32(arr []uint16, f func(el uint16) uint32) []uint16 {
+	result := make([]uint16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -20517,6 +23747,23 @@ func ChunkByUint16Uint64(arr []uint16, f func(el uint16) uint64) [][]uint16 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint16Uint64(arr []uint16, f func(el uint16) uint64) []uint16 {
+	result := make([]uint16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint16Uint64(arr []uint16, f func(el uint16) uint64) map[uint64][]uint16 {
 	result := make(map[uint64][]uint16)
@@ -20590,6 +23837,23 @@ func ChunkByUint16Uint8(arr []uint16, f func(el uint16) uint8) [][]uint16 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint16Uint8(arr []uint16, f func(el uint16) uint8) []uint16 {
+	result := make([]uint16, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -20667,6 +23931,23 @@ func ChunkByUint32Bool(arr []uint32, f func(el uint32) bool) [][]uint32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint32Bool(arr []uint32, f func(el uint32) bool) []uint32 {
+	result := make([]uint32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint32Bool(arr []uint32, f func(el uint32) bool) map[bool][]uint32 {
 	result := make(map[bool][]uint32)
@@ -20740,6 +24021,23 @@ func ChunkByUint32Byte(arr []uint32, f func(el uint32) byte) [][]uint32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint32Byte(arr []uint32, f func(el uint32) byte) []uint32 {
+	result := make([]uint32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -20817,6 +24115,23 @@ func ChunkByUint32Float32(arr []uint32, f func(el uint32) float32) [][]uint32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint32Float32(arr []uint32, f func(el uint32) float32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint32Float32(arr []uint32, f func(el uint32) float32) map[float32][]uint32 {
 	result := make(map[float32][]uint32)
@@ -20890,6 +24205,23 @@ func ChunkByUint32Float64(arr []uint32, f func(el uint32) float64) [][]uint32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint32Float64(arr []uint32, f func(el uint32) float64) []uint32 {
+	result := make([]uint32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -20967,6 +24299,23 @@ func ChunkByUint32Int(arr []uint32, f func(el uint32) int) [][]uint32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint32Int(arr []uint32, f func(el uint32) int) []uint32 {
+	result := make([]uint32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint32Int(arr []uint32, f func(el uint32) int) map[int][]uint32 {
 	result := make(map[int][]uint32)
@@ -21040,6 +24389,23 @@ func ChunkByUint32Int16(arr []uint32, f func(el uint32) int16) [][]uint32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint32Int16(arr []uint32, f func(el uint32) int16) []uint32 {
+	result := make([]uint32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -21117,6 +24483,23 @@ func ChunkByUint32Int32(arr []uint32, f func(el uint32) int32) [][]uint32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint32Int32(arr []uint32, f func(el uint32) int32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint32Int32(arr []uint32, f func(el uint32) int32) map[int32][]uint32 {
 	result := make(map[int32][]uint32)
@@ -21190,6 +24573,23 @@ func ChunkByUint32Int64(arr []uint32, f func(el uint32) int64) [][]uint32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint32Int64(arr []uint32, f func(el uint32) int64) []uint32 {
+	result := make([]uint32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -21267,6 +24667,23 @@ func ChunkByUint32Int8(arr []uint32, f func(el uint32) int8) [][]uint32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint32Int8(arr []uint32, f func(el uint32) int8) []uint32 {
+	result := make([]uint32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint32Int8(arr []uint32, f func(el uint32) int8) map[int8][]uint32 {
 	result := make(map[int8][]uint32)
@@ -21340,6 +24757,23 @@ func ChunkByUint32Interface(arr []uint32, f func(el uint32) interface{}) [][]uin
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint32Interface(arr []uint32, f func(el uint32) interface{}) []uint32 {
+	result := make([]uint32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -21417,6 +24851,23 @@ func ChunkByUint32String(arr []uint32, f func(el uint32) string) [][]uint32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint32String(arr []uint32, f func(el uint32) string) []uint32 {
+	result := make([]uint32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint32String(arr []uint32, f func(el uint32) string) map[string][]uint32 {
 	result := make(map[string][]uint32)
@@ -21490,6 +24941,23 @@ func ChunkByUint32Uint(arr []uint32, f func(el uint32) uint) [][]uint32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint32Uint(arr []uint32, f func(el uint32) uint) []uint32 {
+	result := make([]uint32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -21567,6 +25035,23 @@ func ChunkByUint32Uint16(arr []uint32, f func(el uint32) uint16) [][]uint32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint32Uint16(arr []uint32, f func(el uint32) uint16) []uint32 {
+	result := make([]uint32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint32Uint16(arr []uint32, f func(el uint32) uint16) map[uint16][]uint32 {
 	result := make(map[uint16][]uint32)
@@ -21640,6 +25125,23 @@ func ChunkByUint32(arr []uint32, f func(el uint32) uint32) [][]uint32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint32(arr []uint32, f func(el uint32) uint32) []uint32 {
+	result := make([]uint32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -21717,6 +25219,23 @@ func ChunkByUint32Uint64(arr []uint32, f func(el uint32) uint64) [][]uint32 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint32Uint64(arr []uint32, f func(el uint32) uint64) []uint32 {
+	result := make([]uint32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint32Uint64(arr []uint32, f func(el uint32) uint64) map[uint64][]uint32 {
 	result := make(map[uint64][]uint32)
@@ -21790,6 +25309,23 @@ func ChunkByUint32Uint8(arr []uint32, f func(el uint32) uint8) [][]uint32 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint32Uint8(arr []uint32, f func(el uint32) uint8) []uint32 {
+	result := make([]uint32, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -21867,6 +25403,23 @@ func ChunkByUint64Bool(arr []uint64, f func(el uint64) bool) [][]uint64 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint64Bool(arr []uint64, f func(el uint64) bool) []uint64 {
+	result := make([]uint64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint64Bool(arr []uint64, f func(el uint64) bool) map[bool][]uint64 {
 	result := make(map[bool][]uint64)
@@ -21940,6 +25493,23 @@ func ChunkByUint64Byte(arr []uint64, f func(el uint64) byte) [][]uint64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint64Byte(arr []uint64, f func(el uint64) byte) []uint64 {
+	result := make([]uint64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -22017,6 +25587,23 @@ func ChunkByUint64Float32(arr []uint64, f func(el uint64) float32) [][]uint64 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint64Float32(arr []uint64, f func(el uint64) float32) []uint64 {
+	result := make([]uint64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint64Float32(arr []uint64, f func(el uint64) float32) map[float32][]uint64 {
 	result := make(map[float32][]uint64)
@@ -22090,6 +25677,23 @@ func ChunkByUint64Float64(arr []uint64, f func(el uint64) float64) [][]uint64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint64Float64(arr []uint64, f func(el uint64) float64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -22167,6 +25771,23 @@ func ChunkByUint64Int(arr []uint64, f func(el uint64) int) [][]uint64 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint64Int(arr []uint64, f func(el uint64) int) []uint64 {
+	result := make([]uint64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint64Int(arr []uint64, f func(el uint64) int) map[int][]uint64 {
 	result := make(map[int][]uint64)
@@ -22240,6 +25861,23 @@ func ChunkByUint64Int16(arr []uint64, f func(el uint64) int16) [][]uint64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint64Int16(arr []uint64, f func(el uint64) int16) []uint64 {
+	result := make([]uint64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -22317,6 +25955,23 @@ func ChunkByUint64Int32(arr []uint64, f func(el uint64) int32) [][]uint64 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint64Int32(arr []uint64, f func(el uint64) int32) []uint64 {
+	result := make([]uint64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint64Int32(arr []uint64, f func(el uint64) int32) map[int32][]uint64 {
 	result := make(map[int32][]uint64)
@@ -22390,6 +26045,23 @@ func ChunkByUint64Int64(arr []uint64, f func(el uint64) int64) [][]uint64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint64Int64(arr []uint64, f func(el uint64) int64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -22467,6 +26139,23 @@ func ChunkByUint64Int8(arr []uint64, f func(el uint64) int8) [][]uint64 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint64Int8(arr []uint64, f func(el uint64) int8) []uint64 {
+	result := make([]uint64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint64Int8(arr []uint64, f func(el uint64) int8) map[int8][]uint64 {
 	result := make(map[int8][]uint64)
@@ -22540,6 +26229,23 @@ func ChunkByUint64Interface(arr []uint64, f func(el uint64) interface{}) [][]uin
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint64Interface(arr []uint64, f func(el uint64) interface{}) []uint64 {
+	result := make([]uint64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -22617,6 +26323,23 @@ func ChunkByUint64String(arr []uint64, f func(el uint64) string) [][]uint64 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint64String(arr []uint64, f func(el uint64) string) []uint64 {
+	result := make([]uint64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint64String(arr []uint64, f func(el uint64) string) map[string][]uint64 {
 	result := make(map[string][]uint64)
@@ -22690,6 +26413,23 @@ func ChunkByUint64Uint(arr []uint64, f func(el uint64) uint) [][]uint64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint64Uint(arr []uint64, f func(el uint64) uint) []uint64 {
+	result := make([]uint64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -22767,6 +26507,23 @@ func ChunkByUint64Uint16(arr []uint64, f func(el uint64) uint16) [][]uint64 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint64Uint16(arr []uint64, f func(el uint64) uint16) []uint64 {
+	result := make([]uint64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint64Uint16(arr []uint64, f func(el uint64) uint16) map[uint16][]uint64 {
 	result := make(map[uint16][]uint64)
@@ -22840,6 +26597,23 @@ func ChunkByUint64Uint32(arr []uint64, f func(el uint64) uint32) [][]uint64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint64Uint32(arr []uint64, f func(el uint64) uint32) []uint64 {
+	result := make([]uint64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -22917,6 +26691,23 @@ func ChunkByUint64(arr []uint64, f func(el uint64) uint64) [][]uint64 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint64(arr []uint64, f func(el uint64) uint64) []uint64 {
+	result := make([]uint64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint64(arr []uint64, f func(el uint64) uint64) map[uint64][]uint64 {
 	result := make(map[uint64][]uint64)
@@ -22990,6 +26781,23 @@ func ChunkByUint64Uint8(arr []uint64, f func(el uint64) uint8) [][]uint64 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint64Uint8(arr []uint64, f func(el uint64) uint8) []uint64 {
+	result := make([]uint64, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -23067,6 +26875,23 @@ func ChunkByUint8Bool(arr []uint8, f func(el uint8) bool) [][]uint8 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint8Bool(arr []uint8, f func(el uint8) bool) []uint8 {
+	result := make([]uint8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint8Bool(arr []uint8, f func(el uint8) bool) map[bool][]uint8 {
 	result := make(map[bool][]uint8)
@@ -23140,6 +26965,23 @@ func ChunkByUint8Byte(arr []uint8, f func(el uint8) byte) [][]uint8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint8Byte(arr []uint8, f func(el uint8) byte) []uint8 {
+	result := make([]uint8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -23217,6 +27059,23 @@ func ChunkByUint8Float32(arr []uint8, f func(el uint8) float32) [][]uint8 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint8Float32(arr []uint8, f func(el uint8) float32) []uint8 {
+	result := make([]uint8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint8Float32(arr []uint8, f func(el uint8) float32) map[float32][]uint8 {
 	result := make(map[float32][]uint8)
@@ -23290,6 +27149,23 @@ func ChunkByUint8Float64(arr []uint8, f func(el uint8) float64) [][]uint8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint8Float64(arr []uint8, f func(el uint8) float64) []uint8 {
+	result := make([]uint8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -23367,6 +27243,23 @@ func ChunkByUint8Int(arr []uint8, f func(el uint8) int) [][]uint8 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint8Int(arr []uint8, f func(el uint8) int) []uint8 {
+	result := make([]uint8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint8Int(arr []uint8, f func(el uint8) int) map[int][]uint8 {
 	result := make(map[int][]uint8)
@@ -23440,6 +27333,23 @@ func ChunkByUint8Int16(arr []uint8, f func(el uint8) int16) [][]uint8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint8Int16(arr []uint8, f func(el uint8) int16) []uint8 {
+	result := make([]uint8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -23517,6 +27427,23 @@ func ChunkByUint8Int32(arr []uint8, f func(el uint8) int32) [][]uint8 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint8Int32(arr []uint8, f func(el uint8) int32) []uint8 {
+	result := make([]uint8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint8Int32(arr []uint8, f func(el uint8) int32) map[int32][]uint8 {
 	result := make(map[int32][]uint8)
@@ -23590,6 +27517,23 @@ func ChunkByUint8Int64(arr []uint8, f func(el uint8) int64) [][]uint8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint8Int64(arr []uint8, f func(el uint8) int64) []uint8 {
+	result := make([]uint8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -23667,6 +27611,23 @@ func ChunkByUint8Int8(arr []uint8, f func(el uint8) int8) [][]uint8 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint8Int8(arr []uint8, f func(el uint8) int8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint8Int8(arr []uint8, f func(el uint8) int8) map[int8][]uint8 {
 	result := make(map[int8][]uint8)
@@ -23740,6 +27701,23 @@ func ChunkByUint8Interface(arr []uint8, f func(el uint8) interface{}) [][]uint8 
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint8Interface(arr []uint8, f func(el uint8) interface{}) []uint8 {
+	result := make([]uint8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -23817,6 +27795,23 @@ func ChunkByUint8String(arr []uint8, f func(el uint8) string) [][]uint8 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint8String(arr []uint8, f func(el uint8) string) []uint8 {
+	result := make([]uint8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint8String(arr []uint8, f func(el uint8) string) map[string][]uint8 {
 	result := make(map[string][]uint8)
@@ -23890,6 +27885,23 @@ func ChunkByUint8Uint(arr []uint8, f func(el uint8) uint) [][]uint8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint8Uint(arr []uint8, f func(el uint8) uint) []uint8 {
+	result := make([]uint8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -23967,6 +27979,23 @@ func ChunkByUint8Uint16(arr []uint8, f func(el uint8) uint16) [][]uint8 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint8Uint16(arr []uint8, f func(el uint8) uint16) []uint8 {
+	result := make([]uint8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint8Uint16(arr []uint8, f func(el uint8) uint16) map[uint16][]uint8 {
 	result := make(map[uint16][]uint8)
@@ -24040,6 +28069,23 @@ func ChunkByUint8Uint32(arr []uint8, f func(el uint8) uint32) [][]uint8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint8Uint32(arr []uint8, f func(el uint8) uint32) []uint8 {
+	result := make([]uint8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -24117,6 +28163,23 @@ func ChunkByUint8Uint64(arr []uint8, f func(el uint8) uint64) [][]uint8 {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint8Uint64(arr []uint8, f func(el uint8) uint64) []uint8 {
+	result := make([]uint8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUint8Uint64(arr []uint8, f func(el uint8) uint64) map[uint64][]uint8 {
 	result := make(map[uint64][]uint8)
@@ -24190,6 +28253,23 @@ func ChunkByUint8(arr []uint8, f func(el uint8) uint8) [][]uint8 {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint8(arr []uint8, f func(el uint8) uint8) []uint8 {
+	result := make([]uint8, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -24267,6 +28347,23 @@ func ChunkByUintBool(arr []uint, f func(el uint) bool) [][]uint {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUintBool(arr []uint, f func(el uint) bool) []uint {
+	result := make([]uint, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUintBool(arr []uint, f func(el uint) bool) map[bool][]uint {
 	result := make(map[bool][]uint)
@@ -24340,6 +28437,23 @@ func ChunkByUintByte(arr []uint, f func(el uint) byte) [][]uint {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUintByte(arr []uint, f func(el uint) byte) []uint {
+	result := make([]uint, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -24417,6 +28531,23 @@ func ChunkByUintFloat32(arr []uint, f func(el uint) float32) [][]uint {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUintFloat32(arr []uint, f func(el uint) float32) []uint {
+	result := make([]uint, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUintFloat32(arr []uint, f func(el uint) float32) map[float32][]uint {
 	result := make(map[float32][]uint)
@@ -24490,6 +28621,23 @@ func ChunkByUintFloat64(arr []uint, f func(el uint) float64) [][]uint {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUintFloat64(arr []uint, f func(el uint) float64) []uint {
+	result := make([]uint, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -24567,6 +28715,23 @@ func ChunkByUintInt(arr []uint, f func(el uint) int) [][]uint {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUintInt(arr []uint, f func(el uint) int) []uint {
+	result := make([]uint, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUintInt(arr []uint, f func(el uint) int) map[int][]uint {
 	result := make(map[int][]uint)
@@ -24640,6 +28805,23 @@ func ChunkByUintInt16(arr []uint, f func(el uint) int16) [][]uint {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUintInt16(arr []uint, f func(el uint) int16) []uint {
+	result := make([]uint, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -24717,6 +28899,23 @@ func ChunkByUintInt32(arr []uint, f func(el uint) int32) [][]uint {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUintInt32(arr []uint, f func(el uint) int32) []uint {
+	result := make([]uint, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUintInt32(arr []uint, f func(el uint) int32) map[int32][]uint {
 	result := make(map[int32][]uint)
@@ -24790,6 +28989,23 @@ func ChunkByUintInt64(arr []uint, f func(el uint) int64) [][]uint {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUintInt64(arr []uint, f func(el uint) int64) []uint {
+	result := make([]uint, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -24867,6 +29083,23 @@ func ChunkByUintInt8(arr []uint, f func(el uint) int8) [][]uint {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUintInt8(arr []uint, f func(el uint) int8) []uint {
+	result := make([]uint, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUintInt8(arr []uint, f func(el uint) int8) map[int8][]uint {
 	result := make(map[int8][]uint)
@@ -24940,6 +29173,23 @@ func ChunkByUintInterface(arr []uint, f func(el uint) interface{}) [][]uint {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUintInterface(arr []uint, f func(el uint) interface{}) []uint {
+	result := make([]uint, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -25017,6 +29267,23 @@ func ChunkByUintString(arr []uint, f func(el uint) string) [][]uint {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUintString(arr []uint, f func(el uint) string) []uint {
+	result := make([]uint, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUintString(arr []uint, f func(el uint) string) map[string][]uint {
 	result := make(map[string][]uint)
@@ -25090,6 +29357,23 @@ func ChunkByUint(arr []uint, f func(el uint) uint) [][]uint {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUint(arr []uint, f func(el uint) uint) []uint {
+	result := make([]uint, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -25167,6 +29451,23 @@ func ChunkByUintUint16(arr []uint, f func(el uint) uint16) [][]uint {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUintUint16(arr []uint, f func(el uint) uint16) []uint {
+	result := make([]uint, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUintUint16(arr []uint, f func(el uint) uint16) map[uint16][]uint {
 	result := make(map[uint16][]uint)
@@ -25240,6 +29541,23 @@ func ChunkByUintUint32(arr []uint, f func(el uint) uint32) [][]uint {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUintUint32(arr []uint, f func(el uint) uint32) []uint {
+	result := make([]uint, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f
@@ -25317,6 +29635,23 @@ func ChunkByUintUint64(arr []uint, f func(el uint) uint64) [][]uint {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUintUint64(arr []uint, f func(el uint) uint64) []uint {
+	result := make([]uint, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupByUintUint64(arr []uint, f func(el uint) uint64) map[uint64][]uint {
 	result := make(map[uint64][]uint)
@@ -25390,6 +29725,23 @@ func ChunkByUintUint8(arr []uint, f func(el uint) uint8) [][]uint {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupByUintUint8(arr []uint, f func(el uint) uint8) []uint {
+	result := make([]uint, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
 }
 
 // GroupBy groups element from array by value returned by f

@@ -23,6 +23,23 @@ func ChunkBy(arr []T, f func(el T) G) [][]T {
 	return chunks
 }
 
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func DedupBy(arr []T, f func(el T) G) []T {
+	result := make([]T, 0, len(arr))
+
+	prev := f(arr[0])
+	result = append(result, arr[0])
+	for _, el := range arr[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
 // GroupBy groups element from array by value returned by f
 func GroupBy(arr []T, f func(el T) G) map[G][]T {
 	result := make(map[G][]T)
