@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-// Slice is a set of operations to work with slices
+// Slice is a set of operations to work with slice
 type Slice struct {
 	data []T
 }
