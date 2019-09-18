@@ -30,6 +30,29 @@ func (s Slice) All(f func(el T) bool) bool {
 	return true
 }
 
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s Slice) ChunkBy(f func(el T) G) [][]T {
+	chunks := make([][]T, 0)
+	chunk := make([]T, 0)
+
+	prev := f(s.data[0])
+	chunk = append(chunk, s.data[0])
+
+	for _, el := range s.data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]T, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
 // ChunkEvery returns slice of slices containing count elements each
 func (s Slice) ChunkEvery(count int) [][]T {
 	chunks := make([][]T, 0)
@@ -78,6 +101,23 @@ func (s Slice) Dedup() []T {
 		if el != prev {
 			result = append(result, el)
 			prev = el
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s Slice) DedupBy(f func(el T) G) []T {
+	result := make([]T, 0, len(s.data))
+
+	prev := f(s.data[0])
+	result = append(result, s.data[0])
+	for _, el := range s.data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
 		}
 	}
 	return result
@@ -146,12 +186,35 @@ func (s Slice) FindIndex(f func(el T) bool) int {
 	return -1
 }
 
+// GroupBy groups element from array by value returned by f
+func (s Slice) GroupBy(f func(el T) G) map[G][]T {
+	result := make(map[G][]T)
+	for _, el := range s.data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]T, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
 // Intersperse inserts el between each element of arr
 func (s Slice) Intersperse(el T) []T {
 	result := make([]T, 0, len(s.data)*2-1)
 	result = append(result, s.data[0])
 	for _, val := range s.data[1:] {
 		result = append(result, el, val)
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s Slice) Map(f func(el T) G) []G {
+	result := make([]G, 0, len(s.data))
+	for _, el := range s.data {
+		result = append(result, f(el))
 	}
 	return result
 }
@@ -178,6 +241,25 @@ func (s Slice) Min() T {
 	return min
 }
 
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s Slice) Reduce(acc G, f func(el T, acc G) G) G {
+	for _, el := range s.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s Slice) ReduceWhile(acc G, f func(el T, acc G) (G, error)) (G, error) {
+	for _, el := range s.data {
+		acc, err := f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
 // Reverse returns given arr in reversed order
 func (s Slice) Reverse() []T {
 	result := make([]T, 0, len(s.data))
@@ -195,6 +277,16 @@ func (s Slice) Same() bool {
 		}
 	}
 	return true
+}
+
+// Scan is like Reduce2, but returns slice of f results
+func (s Slice) Scan(acc G, f func(el T, acc G) G) []G {
+	result := make([]G, 0, len(s.data))
+	for _, el := range s.data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
 }
 
 // Shuffle in random order arr elements
