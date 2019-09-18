@@ -50,7 +50,7 @@ class Function:
         # insert modified values into template
         return TEMPLATE.format(
             pointer=self.pointer,
-            struct=self.struct + t.title,
+            struct=self.struct + types['T'].title,
             name=function_name,
             signature=signature,
             body=body,

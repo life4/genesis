@@ -1,11 +1,11 @@
 import re
-from itertools import product
 from pathlib import Path
 from typing import Iterable, List
 
 import attr
 
 from ._function import Function
+from ._struct import Struct
 from ._types import Type, TYPES
 
 
@@ -16,12 +16,14 @@ REX_PACKAGE = re.compile(r'package (\w+)')
 class File:
     package = attr.ib(type=str)
     functions = attr.ib(type=List[Function])
+    structs = attr.ib(type=List[Struct])
 
     @classmethod
     def from_text(cls, text: str) -> 'File':
         return cls(
             package=REX_PACKAGE.search(text).groups()[0],
             functions=Function.from_text(text),
+            structs=Struct.from_text(text),
         )
 
     @classmethod
@@ -38,22 +40,25 @@ class File:
         return type(self)(
             package=self.package,
             functions=self.functions + other.functions,
+            structs=self.structs + other.structs,
         )
 
     def render(self, types: Iterable[Type] = None) -> str:
         if types is None:
             types = TYPES
         result = 'package {package}'.format(package=self.package)
+
         for t in types:
+            # render structs for type
+            for struct in self.structs:
+                result += '\n\n' + struct.render({'T': t})
+
             for func in self.functions:
                 if 'G' in func.generics:
-                    continue
-                result += '\n\n' + func.render({'T': t})
-
-        for t, g in product(types, repeat=2):
-            for func in self.functions:
-                if 'G' not in func.generics:
-                    continue
-                result += '\n\n' + func.render({'T': t, 'G': g})
+                    # render function with additional generics
+                    for g in types:
+                        result += '\n\n' + func.render({'T': t, 'G': g})
+                else:
+                    result += '\n\n' + func.render({'T': t})
 
         return result + '\n'
