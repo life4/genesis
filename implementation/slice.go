@@ -91,6 +91,19 @@ func (s Slice) Count(el T) int {
 	return count
 }
 
+// Cycle is an infinite loop over slice
+func (s Slice) Cycle() chan T {
+	c := make(chan T, 1)
+	go func() {
+		for {
+			for _, val := range s.data {
+				c <- val
+			}
+		}
+	}()
+	return c
+}
+
 // Dedup returns a given slice without consecutive duplicated elements
 func (s Slice) Dedup() []T {
 	result := make([]T, 0, len(s.data))

@@ -1,5 +1,6 @@
 package implementation
 
+// Channel is a set of operations with channel
 type Channel struct {
 	data chan T
 }
