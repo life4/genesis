@@ -2665,6 +2665,14 @@ func (c ChannelByte) ScanInterface(acc interface{}, f func(el byte, acc interfac
 	return result
 }
 
+func (c ChannelByte) Sum() byte {
+	var sum byte
+	for el := range c.data {
+		sum += el
+	}
+	return sum
+}
+
 func (c ChannelByte) Take(n int) []byte {
 	result := make([]byte, 0, n)
 	for i := 0; i < n; i++ {
@@ -4858,6 +4866,14 @@ func (c ChannelString) ScanInterface(acc interface{}, f func(el string, acc inte
 		}
 	}()
 	return result
+}
+
+func (c ChannelString) Sum() string {
+	var sum string
+	for el := range c.data {
+		sum += el
+	}
+	return sum
 }
 
 func (c ChannelString) Take(n int) []string {
@@ -7055,6 +7071,14 @@ func (c ChannelFloat32) ScanInterface(acc interface{}, f func(el float32, acc in
 	return result
 }
 
+func (c ChannelFloat32) Sum() float32 {
+	var sum float32
+	for el := range c.data {
+		sum += el
+	}
+	return sum
+}
+
 func (c ChannelFloat32) Take(n int) []float32 {
 	result := make([]float32, 0, n)
 	for i := 0; i < n; i++ {
@@ -9248,6 +9272,14 @@ func (c ChannelFloat64) ScanInterface(acc interface{}, f func(el float64, acc in
 		}
 	}()
 	return result
+}
+
+func (c ChannelFloat64) Sum() float64 {
+	var sum float64
+	for el := range c.data {
+		sum += el
+	}
+	return sum
 }
 
 func (c ChannelFloat64) Take(n int) []float64 {
@@ -11445,6 +11477,14 @@ func (c ChannelInt) ScanInterface(acc interface{}, f func(el int, acc interface{
 	return result
 }
 
+func (c ChannelInt) Sum() int {
+	var sum int
+	for el := range c.data {
+		sum += el
+	}
+	return sum
+}
+
 func (c ChannelInt) Take(n int) []int {
 	result := make([]int, 0, n)
 	for i := 0; i < n; i++ {
@@ -13638,6 +13678,14 @@ func (c ChannelInt8) ScanInterface(acc interface{}, f func(el int8, acc interfac
 		}
 	}()
 	return result
+}
+
+func (c ChannelInt8) Sum() int8 {
+	var sum int8
+	for el := range c.data {
+		sum += el
+	}
+	return sum
 }
 
 func (c ChannelInt8) Take(n int) []int8 {
@@ -15835,6 +15883,14 @@ func (c ChannelInt16) ScanInterface(acc interface{}, f func(el int16, acc interf
 	return result
 }
 
+func (c ChannelInt16) Sum() int16 {
+	var sum int16
+	for el := range c.data {
+		sum += el
+	}
+	return sum
+}
+
 func (c ChannelInt16) Take(n int) []int16 {
 	result := make([]int16, 0, n)
 	for i := 0; i < n; i++ {
@@ -18028,6 +18084,14 @@ func (c ChannelInt32) ScanInterface(acc interface{}, f func(el int32, acc interf
 		}
 	}()
 	return result
+}
+
+func (c ChannelInt32) Sum() int32 {
+	var sum int32
+	for el := range c.data {
+		sum += el
+	}
+	return sum
 }
 
 func (c ChannelInt32) Take(n int) []int32 {
@@ -20225,6 +20289,14 @@ func (c ChannelInt64) ScanInterface(acc interface{}, f func(el int64, acc interf
 	return result
 }
 
+func (c ChannelInt64) Sum() int64 {
+	var sum int64
+	for el := range c.data {
+		sum += el
+	}
+	return sum
+}
+
 func (c ChannelInt64) Take(n int) []int64 {
 	result := make([]int64, 0, n)
 	for i := 0; i < n; i++ {
@@ -22418,6 +22490,14 @@ func (c ChannelUint) ScanInterface(acc interface{}, f func(el uint, acc interfac
 		}
 	}()
 	return result
+}
+
+func (c ChannelUint) Sum() uint {
+	var sum uint
+	for el := range c.data {
+		sum += el
+	}
+	return sum
 }
 
 func (c ChannelUint) Take(n int) []uint {
@@ -24615,6 +24695,14 @@ func (c ChannelUint8) ScanInterface(acc interface{}, f func(el uint8, acc interf
 	return result
 }
 
+func (c ChannelUint8) Sum() uint8 {
+	var sum uint8
+	for el := range c.data {
+		sum += el
+	}
+	return sum
+}
+
 func (c ChannelUint8) Take(n int) []uint8 {
 	result := make([]uint8, 0, n)
 	for i := 0; i < n; i++ {
@@ -26808,6 +26896,14 @@ func (c ChannelUint16) ScanInterface(acc interface{}, f func(el uint16, acc inte
 		}
 	}()
 	return result
+}
+
+func (c ChannelUint16) Sum() uint16 {
+	var sum uint16
+	for el := range c.data {
+		sum += el
+	}
+	return sum
 }
 
 func (c ChannelUint16) Take(n int) []uint16 {
@@ -29005,6 +29101,14 @@ func (c ChannelUint32) ScanInterface(acc interface{}, f func(el uint32, acc inte
 	return result
 }
 
+func (c ChannelUint32) Sum() uint32 {
+	var sum uint32
+	for el := range c.data {
+		sum += el
+	}
+	return sum
+}
+
 func (c ChannelUint32) Take(n int) []uint32 {
 	result := make([]uint32, 0, n)
 	for i := 0; i < n; i++ {
@@ -31198,6 +31302,14 @@ func (c ChannelUint64) ScanInterface(acc interface{}, f func(el uint64, acc inte
 		}
 	}()
 	return result
+}
+
+func (c ChannelUint64) Sum() uint64 {
+	var sum uint64
+	for el := range c.data {
+		sum += el
+	}
+	return sum
 }
 
 func (c ChannelUint64) Take(n int) []uint64 {

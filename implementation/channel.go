@@ -74,6 +74,15 @@ func (c Channel) Scan(acc G, f func(el T, acc G) G) chan G {
 	return result
 }
 
+// Sum returns sum of all elements from channel
+func (c Channel) Sum() T {
+	var sum T
+	for el := range c.data {
+		sum += el
+	}
+	return sum
+}
+
 // Take takes first n elements from channel c.
 func (c Channel) Take(n int) []T {
 	result := make([]T, 0, n)
