@@ -54,6 +54,26 @@ func (c Channel) Map(f func(el T) G) chan G {
 	return result
 }
 
+// Reduce applies f to acc and every element from channel and returns acc
+func (c Channel) Reduce(acc G, f func(el T, acc G) G) G {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c Channel) Scan(acc G, f func(el T, acc G) G) chan G {
+	result := make(chan G, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
 // Take takes first n elements from channel c.
 func (c Channel) Take(n int) []T {
 	result := make([]T, 0, n)

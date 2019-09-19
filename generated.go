@@ -210,6 +210,294 @@ func (c ChannelBool) MapInterface(f func(el bool) interface{}) chan interface{} 
 	return result
 }
 
+func (c ChannelBool) ReduceBool(acc bool, f func(el bool, acc bool) bool) bool {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceByte(acc byte, f func(el bool, acc byte) byte) byte {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceString(acc string, f func(el bool, acc string) string) string {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceFloat32(acc float32, f func(el bool, acc float32) float32) float32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceFloat64(acc float64, f func(el bool, acc float64) float64) float64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceInt(acc int, f func(el bool, acc int) int) int {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceInt8(acc int8, f func(el bool, acc int8) int8) int8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceInt16(acc int16, f func(el bool, acc int16) int16) int16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceInt32(acc int32, f func(el bool, acc int32) int32) int32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceInt64(acc int64, f func(el bool, acc int64) int64) int64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceUint(acc uint, f func(el bool, acc uint) uint) uint {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceUint8(acc uint8, f func(el bool, acc uint8) uint8) uint8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceUint16(acc uint16, f func(el bool, acc uint16) uint16) uint16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceUint32(acc uint32, f func(el bool, acc uint32) uint32) uint32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceUint64(acc uint64, f func(el bool, acc uint64) uint64) uint64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceInterface(acc interface{}, f func(el bool, acc interface{}) interface{}) interface{} {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ScanBool(acc bool, f func(el bool, acc bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanByte(acc byte, f func(el bool, acc byte) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanString(acc string, f func(el bool, acc string) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanFloat32(acc float32, f func(el bool, acc float32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanFloat64(acc float64, f func(el bool, acc float64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanInt(acc int, f func(el bool, acc int) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanInt8(acc int8, f func(el bool, acc int8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanInt16(acc int16, f func(el bool, acc int16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanInt32(acc int32, f func(el bool, acc int32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanInt64(acc int64, f func(el bool, acc int64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanUint(acc uint, f func(el bool, acc uint) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanUint8(acc uint8, f func(el bool, acc uint8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanUint16(acc uint16, f func(el bool, acc uint16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanUint32(acc uint32, f func(el bool, acc uint32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanUint64(acc uint64, f func(el bool, acc uint64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanInterface(acc interface{}, f func(el bool, acc interface{}) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
 func (c ChannelBool) Take(n int) []bool {
 	result := make([]bool, 0, n)
 	for i := 0; i < n; i++ {
@@ -2084,6 +2372,294 @@ func (c ChannelByte) MapInterface(f func(el byte) interface{}) chan interface{} 
 	go func() {
 		for el := range c.data {
 			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) ReduceBool(acc bool, f func(el byte, acc bool) bool) bool {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelByte) ReduceByte(acc byte, f func(el byte, acc byte) byte) byte {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelByte) ReduceString(acc string, f func(el byte, acc string) string) string {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelByte) ReduceFloat32(acc float32, f func(el byte, acc float32) float32) float32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelByte) ReduceFloat64(acc float64, f func(el byte, acc float64) float64) float64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelByte) ReduceInt(acc int, f func(el byte, acc int) int) int {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelByte) ReduceInt8(acc int8, f func(el byte, acc int8) int8) int8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelByte) ReduceInt16(acc int16, f func(el byte, acc int16) int16) int16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelByte) ReduceInt32(acc int32, f func(el byte, acc int32) int32) int32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelByte) ReduceInt64(acc int64, f func(el byte, acc int64) int64) int64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelByte) ReduceUint(acc uint, f func(el byte, acc uint) uint) uint {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelByte) ReduceUint8(acc uint8, f func(el byte, acc uint8) uint8) uint8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelByte) ReduceUint16(acc uint16, f func(el byte, acc uint16) uint16) uint16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelByte) ReduceUint32(acc uint32, f func(el byte, acc uint32) uint32) uint32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelByte) ReduceUint64(acc uint64, f func(el byte, acc uint64) uint64) uint64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelByte) ReduceInterface(acc interface{}, f func(el byte, acc interface{}) interface{}) interface{} {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelByte) ScanBool(acc bool, f func(el byte, acc bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) ScanByte(acc byte, f func(el byte, acc byte) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) ScanString(acc string, f func(el byte, acc string) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) ScanFloat32(acc float32, f func(el byte, acc float32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) ScanFloat64(acc float64, f func(el byte, acc float64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) ScanInt(acc int, f func(el byte, acc int) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) ScanInt8(acc int8, f func(el byte, acc int8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) ScanInt16(acc int16, f func(el byte, acc int16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) ScanInt32(acc int32, f func(el byte, acc int32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) ScanInt64(acc int64, f func(el byte, acc int64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) ScanUint(acc uint, f func(el byte, acc uint) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) ScanUint8(acc uint8, f func(el byte, acc uint8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) ScanUint16(acc uint16, f func(el byte, acc uint16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) ScanUint32(acc uint32, f func(el byte, acc uint32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) ScanUint64(acc uint64, f func(el byte, acc uint64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) ScanInterface(acc interface{}, f func(el byte, acc interface{}) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
 		}
 	}()
 	return result
@@ -3996,6 +4572,294 @@ func (c ChannelString) MapInterface(f func(el string) interface{}) chan interfac
 	return result
 }
 
+func (c ChannelString) ReduceBool(acc bool, f func(el string, acc bool) bool) bool {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelString) ReduceByte(acc byte, f func(el string, acc byte) byte) byte {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelString) ReduceString(acc string, f func(el string, acc string) string) string {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelString) ReduceFloat32(acc float32, f func(el string, acc float32) float32) float32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelString) ReduceFloat64(acc float64, f func(el string, acc float64) float64) float64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelString) ReduceInt(acc int, f func(el string, acc int) int) int {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelString) ReduceInt8(acc int8, f func(el string, acc int8) int8) int8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelString) ReduceInt16(acc int16, f func(el string, acc int16) int16) int16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelString) ReduceInt32(acc int32, f func(el string, acc int32) int32) int32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelString) ReduceInt64(acc int64, f func(el string, acc int64) int64) int64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelString) ReduceUint(acc uint, f func(el string, acc uint) uint) uint {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelString) ReduceUint8(acc uint8, f func(el string, acc uint8) uint8) uint8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelString) ReduceUint16(acc uint16, f func(el string, acc uint16) uint16) uint16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelString) ReduceUint32(acc uint32, f func(el string, acc uint32) uint32) uint32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelString) ReduceUint64(acc uint64, f func(el string, acc uint64) uint64) uint64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelString) ReduceInterface(acc interface{}, f func(el string, acc interface{}) interface{}) interface{} {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelString) ScanBool(acc bool, f func(el string, acc bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) ScanByte(acc byte, f func(el string, acc byte) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) ScanString(acc string, f func(el string, acc string) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) ScanFloat32(acc float32, f func(el string, acc float32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) ScanFloat64(acc float64, f func(el string, acc float64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) ScanInt(acc int, f func(el string, acc int) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) ScanInt8(acc int8, f func(el string, acc int8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) ScanInt16(acc int16, f func(el string, acc int16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) ScanInt32(acc int32, f func(el string, acc int32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) ScanInt64(acc int64, f func(el string, acc int64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) ScanUint(acc uint, f func(el string, acc uint) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) ScanUint8(acc uint8, f func(el string, acc uint8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) ScanUint16(acc uint16, f func(el string, acc uint16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) ScanUint32(acc uint32, f func(el string, acc uint32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) ScanUint64(acc uint64, f func(el string, acc uint64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) ScanInterface(acc interface{}, f func(el string, acc interface{}) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
 func (c ChannelString) Take(n int) []string {
 	result := make([]string, 0, n)
 	for i := 0; i < n; i++ {
@@ -5898,6 +6762,294 @@ func (c ChannelFloat32) MapInterface(f func(el float32) interface{}) chan interf
 	go func() {
 		for el := range c.data {
 			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) ReduceBool(acc bool, f func(el float32, acc bool) bool) bool {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat32) ReduceByte(acc byte, f func(el float32, acc byte) byte) byte {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat32) ReduceString(acc string, f func(el float32, acc string) string) string {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat32) ReduceFloat32(acc float32, f func(el float32, acc float32) float32) float32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat32) ReduceFloat64(acc float64, f func(el float32, acc float64) float64) float64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat32) ReduceInt(acc int, f func(el float32, acc int) int) int {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat32) ReduceInt8(acc int8, f func(el float32, acc int8) int8) int8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat32) ReduceInt16(acc int16, f func(el float32, acc int16) int16) int16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat32) ReduceInt32(acc int32, f func(el float32, acc int32) int32) int32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat32) ReduceInt64(acc int64, f func(el float32, acc int64) int64) int64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat32) ReduceUint(acc uint, f func(el float32, acc uint) uint) uint {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat32) ReduceUint8(acc uint8, f func(el float32, acc uint8) uint8) uint8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat32) ReduceUint16(acc uint16, f func(el float32, acc uint16) uint16) uint16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat32) ReduceUint32(acc uint32, f func(el float32, acc uint32) uint32) uint32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat32) ReduceUint64(acc uint64, f func(el float32, acc uint64) uint64) uint64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat32) ReduceInterface(acc interface{}, f func(el float32, acc interface{}) interface{}) interface{} {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat32) ScanBool(acc bool, f func(el float32, acc bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) ScanByte(acc byte, f func(el float32, acc byte) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) ScanString(acc string, f func(el float32, acc string) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) ScanFloat32(acc float32, f func(el float32, acc float32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) ScanFloat64(acc float64, f func(el float32, acc float64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) ScanInt(acc int, f func(el float32, acc int) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) ScanInt8(acc int8, f func(el float32, acc int8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) ScanInt16(acc int16, f func(el float32, acc int16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) ScanInt32(acc int32, f func(el float32, acc int32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) ScanInt64(acc int64, f func(el float32, acc int64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) ScanUint(acc uint, f func(el float32, acc uint) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) ScanUint8(acc uint8, f func(el float32, acc uint8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) ScanUint16(acc uint16, f func(el float32, acc uint16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) ScanUint32(acc uint32, f func(el float32, acc uint32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) ScanUint64(acc uint64, f func(el float32, acc uint64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) ScanInterface(acc interface{}, f func(el float32, acc interface{}) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
 		}
 	}()
 	return result
@@ -7810,6 +8962,294 @@ func (c ChannelFloat64) MapInterface(f func(el float64) interface{}) chan interf
 	return result
 }
 
+func (c ChannelFloat64) ReduceBool(acc bool, f func(el float64, acc bool) bool) bool {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat64) ReduceByte(acc byte, f func(el float64, acc byte) byte) byte {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat64) ReduceString(acc string, f func(el float64, acc string) string) string {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat64) ReduceFloat32(acc float32, f func(el float64, acc float32) float32) float32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat64) ReduceFloat64(acc float64, f func(el float64, acc float64) float64) float64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat64) ReduceInt(acc int, f func(el float64, acc int) int) int {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat64) ReduceInt8(acc int8, f func(el float64, acc int8) int8) int8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat64) ReduceInt16(acc int16, f func(el float64, acc int16) int16) int16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat64) ReduceInt32(acc int32, f func(el float64, acc int32) int32) int32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat64) ReduceInt64(acc int64, f func(el float64, acc int64) int64) int64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat64) ReduceUint(acc uint, f func(el float64, acc uint) uint) uint {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat64) ReduceUint8(acc uint8, f func(el float64, acc uint8) uint8) uint8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat64) ReduceUint16(acc uint16, f func(el float64, acc uint16) uint16) uint16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat64) ReduceUint32(acc uint32, f func(el float64, acc uint32) uint32) uint32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat64) ReduceUint64(acc uint64, f func(el float64, acc uint64) uint64) uint64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat64) ReduceInterface(acc interface{}, f func(el float64, acc interface{}) interface{}) interface{} {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelFloat64) ScanBool(acc bool, f func(el float64, acc bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) ScanByte(acc byte, f func(el float64, acc byte) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) ScanString(acc string, f func(el float64, acc string) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) ScanFloat32(acc float32, f func(el float64, acc float32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) ScanFloat64(acc float64, f func(el float64, acc float64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) ScanInt(acc int, f func(el float64, acc int) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) ScanInt8(acc int8, f func(el float64, acc int8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) ScanInt16(acc int16, f func(el float64, acc int16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) ScanInt32(acc int32, f func(el float64, acc int32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) ScanInt64(acc int64, f func(el float64, acc int64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) ScanUint(acc uint, f func(el float64, acc uint) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) ScanUint8(acc uint8, f func(el float64, acc uint8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) ScanUint16(acc uint16, f func(el float64, acc uint16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) ScanUint32(acc uint32, f func(el float64, acc uint32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) ScanUint64(acc uint64, f func(el float64, acc uint64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) ScanInterface(acc interface{}, f func(el float64, acc interface{}) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
 func (c ChannelFloat64) Take(n int) []float64 {
 	result := make([]float64, 0, n)
 	for i := 0; i < n; i++ {
@@ -9712,6 +11152,294 @@ func (c ChannelInt) MapInterface(f func(el int) interface{}) chan interface{} {
 	go func() {
 		for el := range c.data {
 			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) ReduceBool(acc bool, f func(el int, acc bool) bool) bool {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt) ReduceByte(acc byte, f func(el int, acc byte) byte) byte {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt) ReduceString(acc string, f func(el int, acc string) string) string {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt) ReduceFloat32(acc float32, f func(el int, acc float32) float32) float32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt) ReduceFloat64(acc float64, f func(el int, acc float64) float64) float64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt) ReduceInt(acc int, f func(el int, acc int) int) int {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt) ReduceInt8(acc int8, f func(el int, acc int8) int8) int8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt) ReduceInt16(acc int16, f func(el int, acc int16) int16) int16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt) ReduceInt32(acc int32, f func(el int, acc int32) int32) int32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt) ReduceInt64(acc int64, f func(el int, acc int64) int64) int64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt) ReduceUint(acc uint, f func(el int, acc uint) uint) uint {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt) ReduceUint8(acc uint8, f func(el int, acc uint8) uint8) uint8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt) ReduceUint16(acc uint16, f func(el int, acc uint16) uint16) uint16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt) ReduceUint32(acc uint32, f func(el int, acc uint32) uint32) uint32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt) ReduceUint64(acc uint64, f func(el int, acc uint64) uint64) uint64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt) ReduceInterface(acc interface{}, f func(el int, acc interface{}) interface{}) interface{} {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt) ScanBool(acc bool, f func(el int, acc bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) ScanByte(acc byte, f func(el int, acc byte) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) ScanString(acc string, f func(el int, acc string) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) ScanFloat32(acc float32, f func(el int, acc float32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) ScanFloat64(acc float64, f func(el int, acc float64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) ScanInt(acc int, f func(el int, acc int) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) ScanInt8(acc int8, f func(el int, acc int8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) ScanInt16(acc int16, f func(el int, acc int16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) ScanInt32(acc int32, f func(el int, acc int32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) ScanInt64(acc int64, f func(el int, acc int64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) ScanUint(acc uint, f func(el int, acc uint) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) ScanUint8(acc uint8, f func(el int, acc uint8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) ScanUint16(acc uint16, f func(el int, acc uint16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) ScanUint32(acc uint32, f func(el int, acc uint32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) ScanUint64(acc uint64, f func(el int, acc uint64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) ScanInterface(acc interface{}, f func(el int, acc interface{}) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
 		}
 	}()
 	return result
@@ -11624,6 +13352,294 @@ func (c ChannelInt8) MapInterface(f func(el int8) interface{}) chan interface{} 
 	return result
 }
 
+func (c ChannelInt8) ReduceBool(acc bool, f func(el int8, acc bool) bool) bool {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt8) ReduceByte(acc byte, f func(el int8, acc byte) byte) byte {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt8) ReduceString(acc string, f func(el int8, acc string) string) string {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt8) ReduceFloat32(acc float32, f func(el int8, acc float32) float32) float32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt8) ReduceFloat64(acc float64, f func(el int8, acc float64) float64) float64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt8) ReduceInt(acc int, f func(el int8, acc int) int) int {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt8) ReduceInt8(acc int8, f func(el int8, acc int8) int8) int8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt8) ReduceInt16(acc int16, f func(el int8, acc int16) int16) int16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt8) ReduceInt32(acc int32, f func(el int8, acc int32) int32) int32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt8) ReduceInt64(acc int64, f func(el int8, acc int64) int64) int64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt8) ReduceUint(acc uint, f func(el int8, acc uint) uint) uint {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt8) ReduceUint8(acc uint8, f func(el int8, acc uint8) uint8) uint8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt8) ReduceUint16(acc uint16, f func(el int8, acc uint16) uint16) uint16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt8) ReduceUint32(acc uint32, f func(el int8, acc uint32) uint32) uint32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt8) ReduceUint64(acc uint64, f func(el int8, acc uint64) uint64) uint64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt8) ReduceInterface(acc interface{}, f func(el int8, acc interface{}) interface{}) interface{} {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt8) ScanBool(acc bool, f func(el int8, acc bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) ScanByte(acc byte, f func(el int8, acc byte) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) ScanString(acc string, f func(el int8, acc string) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) ScanFloat32(acc float32, f func(el int8, acc float32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) ScanFloat64(acc float64, f func(el int8, acc float64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) ScanInt(acc int, f func(el int8, acc int) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) ScanInt8(acc int8, f func(el int8, acc int8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) ScanInt16(acc int16, f func(el int8, acc int16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) ScanInt32(acc int32, f func(el int8, acc int32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) ScanInt64(acc int64, f func(el int8, acc int64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) ScanUint(acc uint, f func(el int8, acc uint) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) ScanUint8(acc uint8, f func(el int8, acc uint8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) ScanUint16(acc uint16, f func(el int8, acc uint16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) ScanUint32(acc uint32, f func(el int8, acc uint32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) ScanUint64(acc uint64, f func(el int8, acc uint64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) ScanInterface(acc interface{}, f func(el int8, acc interface{}) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
 func (c ChannelInt8) Take(n int) []int8 {
 	result := make([]int8, 0, n)
 	for i := 0; i < n; i++ {
@@ -13526,6 +15542,294 @@ func (c ChannelInt16) MapInterface(f func(el int16) interface{}) chan interface{
 	go func() {
 		for el := range c.data {
 			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) ReduceBool(acc bool, f func(el int16, acc bool) bool) bool {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt16) ReduceByte(acc byte, f func(el int16, acc byte) byte) byte {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt16) ReduceString(acc string, f func(el int16, acc string) string) string {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt16) ReduceFloat32(acc float32, f func(el int16, acc float32) float32) float32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt16) ReduceFloat64(acc float64, f func(el int16, acc float64) float64) float64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt16) ReduceInt(acc int, f func(el int16, acc int) int) int {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt16) ReduceInt8(acc int8, f func(el int16, acc int8) int8) int8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt16) ReduceInt16(acc int16, f func(el int16, acc int16) int16) int16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt16) ReduceInt32(acc int32, f func(el int16, acc int32) int32) int32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt16) ReduceInt64(acc int64, f func(el int16, acc int64) int64) int64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt16) ReduceUint(acc uint, f func(el int16, acc uint) uint) uint {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt16) ReduceUint8(acc uint8, f func(el int16, acc uint8) uint8) uint8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt16) ReduceUint16(acc uint16, f func(el int16, acc uint16) uint16) uint16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt16) ReduceUint32(acc uint32, f func(el int16, acc uint32) uint32) uint32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt16) ReduceUint64(acc uint64, f func(el int16, acc uint64) uint64) uint64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt16) ReduceInterface(acc interface{}, f func(el int16, acc interface{}) interface{}) interface{} {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt16) ScanBool(acc bool, f func(el int16, acc bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) ScanByte(acc byte, f func(el int16, acc byte) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) ScanString(acc string, f func(el int16, acc string) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) ScanFloat32(acc float32, f func(el int16, acc float32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) ScanFloat64(acc float64, f func(el int16, acc float64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) ScanInt(acc int, f func(el int16, acc int) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) ScanInt8(acc int8, f func(el int16, acc int8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) ScanInt16(acc int16, f func(el int16, acc int16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) ScanInt32(acc int32, f func(el int16, acc int32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) ScanInt64(acc int64, f func(el int16, acc int64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) ScanUint(acc uint, f func(el int16, acc uint) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) ScanUint8(acc uint8, f func(el int16, acc uint8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) ScanUint16(acc uint16, f func(el int16, acc uint16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) ScanUint32(acc uint32, f func(el int16, acc uint32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) ScanUint64(acc uint64, f func(el int16, acc uint64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) ScanInterface(acc interface{}, f func(el int16, acc interface{}) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
 		}
 	}()
 	return result
@@ -15438,6 +17742,294 @@ func (c ChannelInt32) MapInterface(f func(el int32) interface{}) chan interface{
 	return result
 }
 
+func (c ChannelInt32) ReduceBool(acc bool, f func(el int32, acc bool) bool) bool {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt32) ReduceByte(acc byte, f func(el int32, acc byte) byte) byte {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt32) ReduceString(acc string, f func(el int32, acc string) string) string {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt32) ReduceFloat32(acc float32, f func(el int32, acc float32) float32) float32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt32) ReduceFloat64(acc float64, f func(el int32, acc float64) float64) float64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt32) ReduceInt(acc int, f func(el int32, acc int) int) int {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt32) ReduceInt8(acc int8, f func(el int32, acc int8) int8) int8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt32) ReduceInt16(acc int16, f func(el int32, acc int16) int16) int16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt32) ReduceInt32(acc int32, f func(el int32, acc int32) int32) int32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt32) ReduceInt64(acc int64, f func(el int32, acc int64) int64) int64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt32) ReduceUint(acc uint, f func(el int32, acc uint) uint) uint {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt32) ReduceUint8(acc uint8, f func(el int32, acc uint8) uint8) uint8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt32) ReduceUint16(acc uint16, f func(el int32, acc uint16) uint16) uint16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt32) ReduceUint32(acc uint32, f func(el int32, acc uint32) uint32) uint32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt32) ReduceUint64(acc uint64, f func(el int32, acc uint64) uint64) uint64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt32) ReduceInterface(acc interface{}, f func(el int32, acc interface{}) interface{}) interface{} {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt32) ScanBool(acc bool, f func(el int32, acc bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) ScanByte(acc byte, f func(el int32, acc byte) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) ScanString(acc string, f func(el int32, acc string) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) ScanFloat32(acc float32, f func(el int32, acc float32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) ScanFloat64(acc float64, f func(el int32, acc float64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) ScanInt(acc int, f func(el int32, acc int) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) ScanInt8(acc int8, f func(el int32, acc int8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) ScanInt16(acc int16, f func(el int32, acc int16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) ScanInt32(acc int32, f func(el int32, acc int32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) ScanInt64(acc int64, f func(el int32, acc int64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) ScanUint(acc uint, f func(el int32, acc uint) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) ScanUint8(acc uint8, f func(el int32, acc uint8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) ScanUint16(acc uint16, f func(el int32, acc uint16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) ScanUint32(acc uint32, f func(el int32, acc uint32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) ScanUint64(acc uint64, f func(el int32, acc uint64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) ScanInterface(acc interface{}, f func(el int32, acc interface{}) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
 func (c ChannelInt32) Take(n int) []int32 {
 	result := make([]int32, 0, n)
 	for i := 0; i < n; i++ {
@@ -17340,6 +19932,294 @@ func (c ChannelInt64) MapInterface(f func(el int64) interface{}) chan interface{
 	go func() {
 		for el := range c.data {
 			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) ReduceBool(acc bool, f func(el int64, acc bool) bool) bool {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt64) ReduceByte(acc byte, f func(el int64, acc byte) byte) byte {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt64) ReduceString(acc string, f func(el int64, acc string) string) string {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt64) ReduceFloat32(acc float32, f func(el int64, acc float32) float32) float32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt64) ReduceFloat64(acc float64, f func(el int64, acc float64) float64) float64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt64) ReduceInt(acc int, f func(el int64, acc int) int) int {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt64) ReduceInt8(acc int8, f func(el int64, acc int8) int8) int8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt64) ReduceInt16(acc int16, f func(el int64, acc int16) int16) int16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt64) ReduceInt32(acc int32, f func(el int64, acc int32) int32) int32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt64) ReduceInt64(acc int64, f func(el int64, acc int64) int64) int64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt64) ReduceUint(acc uint, f func(el int64, acc uint) uint) uint {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt64) ReduceUint8(acc uint8, f func(el int64, acc uint8) uint8) uint8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt64) ReduceUint16(acc uint16, f func(el int64, acc uint16) uint16) uint16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt64) ReduceUint32(acc uint32, f func(el int64, acc uint32) uint32) uint32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt64) ReduceUint64(acc uint64, f func(el int64, acc uint64) uint64) uint64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt64) ReduceInterface(acc interface{}, f func(el int64, acc interface{}) interface{}) interface{} {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInt64) ScanBool(acc bool, f func(el int64, acc bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) ScanByte(acc byte, f func(el int64, acc byte) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) ScanString(acc string, f func(el int64, acc string) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) ScanFloat32(acc float32, f func(el int64, acc float32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) ScanFloat64(acc float64, f func(el int64, acc float64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) ScanInt(acc int, f func(el int64, acc int) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) ScanInt8(acc int8, f func(el int64, acc int8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) ScanInt16(acc int16, f func(el int64, acc int16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) ScanInt32(acc int32, f func(el int64, acc int32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) ScanInt64(acc int64, f func(el int64, acc int64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) ScanUint(acc uint, f func(el int64, acc uint) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) ScanUint8(acc uint8, f func(el int64, acc uint8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) ScanUint16(acc uint16, f func(el int64, acc uint16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) ScanUint32(acc uint32, f func(el int64, acc uint32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) ScanUint64(acc uint64, f func(el int64, acc uint64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) ScanInterface(acc interface{}, f func(el int64, acc interface{}) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
 		}
 	}()
 	return result
@@ -19252,6 +22132,294 @@ func (c ChannelUint) MapInterface(f func(el uint) interface{}) chan interface{} 
 	return result
 }
 
+func (c ChannelUint) ReduceBool(acc bool, f func(el uint, acc bool) bool) bool {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint) ReduceByte(acc byte, f func(el uint, acc byte) byte) byte {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint) ReduceString(acc string, f func(el uint, acc string) string) string {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint) ReduceFloat32(acc float32, f func(el uint, acc float32) float32) float32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint) ReduceFloat64(acc float64, f func(el uint, acc float64) float64) float64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint) ReduceInt(acc int, f func(el uint, acc int) int) int {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint) ReduceInt8(acc int8, f func(el uint, acc int8) int8) int8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint) ReduceInt16(acc int16, f func(el uint, acc int16) int16) int16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint) ReduceInt32(acc int32, f func(el uint, acc int32) int32) int32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint) ReduceInt64(acc int64, f func(el uint, acc int64) int64) int64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint) ReduceUint(acc uint, f func(el uint, acc uint) uint) uint {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint) ReduceUint8(acc uint8, f func(el uint, acc uint8) uint8) uint8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint) ReduceUint16(acc uint16, f func(el uint, acc uint16) uint16) uint16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint) ReduceUint32(acc uint32, f func(el uint, acc uint32) uint32) uint32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint) ReduceUint64(acc uint64, f func(el uint, acc uint64) uint64) uint64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint) ReduceInterface(acc interface{}, f func(el uint, acc interface{}) interface{}) interface{} {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint) ScanBool(acc bool, f func(el uint, acc bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) ScanByte(acc byte, f func(el uint, acc byte) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) ScanString(acc string, f func(el uint, acc string) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) ScanFloat32(acc float32, f func(el uint, acc float32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) ScanFloat64(acc float64, f func(el uint, acc float64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) ScanInt(acc int, f func(el uint, acc int) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) ScanInt8(acc int8, f func(el uint, acc int8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) ScanInt16(acc int16, f func(el uint, acc int16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) ScanInt32(acc int32, f func(el uint, acc int32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) ScanInt64(acc int64, f func(el uint, acc int64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) ScanUint(acc uint, f func(el uint, acc uint) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) ScanUint8(acc uint8, f func(el uint, acc uint8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) ScanUint16(acc uint16, f func(el uint, acc uint16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) ScanUint32(acc uint32, f func(el uint, acc uint32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) ScanUint64(acc uint64, f func(el uint, acc uint64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) ScanInterface(acc interface{}, f func(el uint, acc interface{}) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
 func (c ChannelUint) Take(n int) []uint {
 	result := make([]uint, 0, n)
 	for i := 0; i < n; i++ {
@@ -21154,6 +24322,294 @@ func (c ChannelUint8) MapInterface(f func(el uint8) interface{}) chan interface{
 	go func() {
 		for el := range c.data {
 			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) ReduceBool(acc bool, f func(el uint8, acc bool) bool) bool {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint8) ReduceByte(acc byte, f func(el uint8, acc byte) byte) byte {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint8) ReduceString(acc string, f func(el uint8, acc string) string) string {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint8) ReduceFloat32(acc float32, f func(el uint8, acc float32) float32) float32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint8) ReduceFloat64(acc float64, f func(el uint8, acc float64) float64) float64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint8) ReduceInt(acc int, f func(el uint8, acc int) int) int {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint8) ReduceInt8(acc int8, f func(el uint8, acc int8) int8) int8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint8) ReduceInt16(acc int16, f func(el uint8, acc int16) int16) int16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint8) ReduceInt32(acc int32, f func(el uint8, acc int32) int32) int32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint8) ReduceInt64(acc int64, f func(el uint8, acc int64) int64) int64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint8) ReduceUint(acc uint, f func(el uint8, acc uint) uint) uint {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint8) ReduceUint8(acc uint8, f func(el uint8, acc uint8) uint8) uint8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint8) ReduceUint16(acc uint16, f func(el uint8, acc uint16) uint16) uint16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint8) ReduceUint32(acc uint32, f func(el uint8, acc uint32) uint32) uint32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint8) ReduceUint64(acc uint64, f func(el uint8, acc uint64) uint64) uint64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint8) ReduceInterface(acc interface{}, f func(el uint8, acc interface{}) interface{}) interface{} {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint8) ScanBool(acc bool, f func(el uint8, acc bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) ScanByte(acc byte, f func(el uint8, acc byte) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) ScanString(acc string, f func(el uint8, acc string) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) ScanFloat32(acc float32, f func(el uint8, acc float32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) ScanFloat64(acc float64, f func(el uint8, acc float64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) ScanInt(acc int, f func(el uint8, acc int) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) ScanInt8(acc int8, f func(el uint8, acc int8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) ScanInt16(acc int16, f func(el uint8, acc int16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) ScanInt32(acc int32, f func(el uint8, acc int32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) ScanInt64(acc int64, f func(el uint8, acc int64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) ScanUint(acc uint, f func(el uint8, acc uint) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) ScanUint8(acc uint8, f func(el uint8, acc uint8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) ScanUint16(acc uint16, f func(el uint8, acc uint16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) ScanUint32(acc uint32, f func(el uint8, acc uint32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) ScanUint64(acc uint64, f func(el uint8, acc uint64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) ScanInterface(acc interface{}, f func(el uint8, acc interface{}) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
 		}
 	}()
 	return result
@@ -23066,6 +26522,294 @@ func (c ChannelUint16) MapInterface(f func(el uint16) interface{}) chan interfac
 	return result
 }
 
+func (c ChannelUint16) ReduceBool(acc bool, f func(el uint16, acc bool) bool) bool {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint16) ReduceByte(acc byte, f func(el uint16, acc byte) byte) byte {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint16) ReduceString(acc string, f func(el uint16, acc string) string) string {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint16) ReduceFloat32(acc float32, f func(el uint16, acc float32) float32) float32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint16) ReduceFloat64(acc float64, f func(el uint16, acc float64) float64) float64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint16) ReduceInt(acc int, f func(el uint16, acc int) int) int {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint16) ReduceInt8(acc int8, f func(el uint16, acc int8) int8) int8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint16) ReduceInt16(acc int16, f func(el uint16, acc int16) int16) int16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint16) ReduceInt32(acc int32, f func(el uint16, acc int32) int32) int32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint16) ReduceInt64(acc int64, f func(el uint16, acc int64) int64) int64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint16) ReduceUint(acc uint, f func(el uint16, acc uint) uint) uint {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint16) ReduceUint8(acc uint8, f func(el uint16, acc uint8) uint8) uint8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint16) ReduceUint16(acc uint16, f func(el uint16, acc uint16) uint16) uint16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint16) ReduceUint32(acc uint32, f func(el uint16, acc uint32) uint32) uint32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint16) ReduceUint64(acc uint64, f func(el uint16, acc uint64) uint64) uint64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint16) ReduceInterface(acc interface{}, f func(el uint16, acc interface{}) interface{}) interface{} {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint16) ScanBool(acc bool, f func(el uint16, acc bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) ScanByte(acc byte, f func(el uint16, acc byte) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) ScanString(acc string, f func(el uint16, acc string) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) ScanFloat32(acc float32, f func(el uint16, acc float32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) ScanFloat64(acc float64, f func(el uint16, acc float64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) ScanInt(acc int, f func(el uint16, acc int) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) ScanInt8(acc int8, f func(el uint16, acc int8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) ScanInt16(acc int16, f func(el uint16, acc int16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) ScanInt32(acc int32, f func(el uint16, acc int32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) ScanInt64(acc int64, f func(el uint16, acc int64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) ScanUint(acc uint, f func(el uint16, acc uint) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) ScanUint8(acc uint8, f func(el uint16, acc uint8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) ScanUint16(acc uint16, f func(el uint16, acc uint16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) ScanUint32(acc uint32, f func(el uint16, acc uint32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) ScanUint64(acc uint64, f func(el uint16, acc uint64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) ScanInterface(acc interface{}, f func(el uint16, acc interface{}) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
 func (c ChannelUint16) Take(n int) []uint16 {
 	result := make([]uint16, 0, n)
 	for i := 0; i < n; i++ {
@@ -24968,6 +28712,294 @@ func (c ChannelUint32) MapInterface(f func(el uint32) interface{}) chan interfac
 	go func() {
 		for el := range c.data {
 			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) ReduceBool(acc bool, f func(el uint32, acc bool) bool) bool {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint32) ReduceByte(acc byte, f func(el uint32, acc byte) byte) byte {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint32) ReduceString(acc string, f func(el uint32, acc string) string) string {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint32) ReduceFloat32(acc float32, f func(el uint32, acc float32) float32) float32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint32) ReduceFloat64(acc float64, f func(el uint32, acc float64) float64) float64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint32) ReduceInt(acc int, f func(el uint32, acc int) int) int {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint32) ReduceInt8(acc int8, f func(el uint32, acc int8) int8) int8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint32) ReduceInt16(acc int16, f func(el uint32, acc int16) int16) int16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint32) ReduceInt32(acc int32, f func(el uint32, acc int32) int32) int32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint32) ReduceInt64(acc int64, f func(el uint32, acc int64) int64) int64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint32) ReduceUint(acc uint, f func(el uint32, acc uint) uint) uint {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint32) ReduceUint8(acc uint8, f func(el uint32, acc uint8) uint8) uint8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint32) ReduceUint16(acc uint16, f func(el uint32, acc uint16) uint16) uint16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint32) ReduceUint32(acc uint32, f func(el uint32, acc uint32) uint32) uint32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint32) ReduceUint64(acc uint64, f func(el uint32, acc uint64) uint64) uint64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint32) ReduceInterface(acc interface{}, f func(el uint32, acc interface{}) interface{}) interface{} {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint32) ScanBool(acc bool, f func(el uint32, acc bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) ScanByte(acc byte, f func(el uint32, acc byte) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) ScanString(acc string, f func(el uint32, acc string) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) ScanFloat32(acc float32, f func(el uint32, acc float32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) ScanFloat64(acc float64, f func(el uint32, acc float64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) ScanInt(acc int, f func(el uint32, acc int) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) ScanInt8(acc int8, f func(el uint32, acc int8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) ScanInt16(acc int16, f func(el uint32, acc int16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) ScanInt32(acc int32, f func(el uint32, acc int32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) ScanInt64(acc int64, f func(el uint32, acc int64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) ScanUint(acc uint, f func(el uint32, acc uint) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) ScanUint8(acc uint8, f func(el uint32, acc uint8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) ScanUint16(acc uint16, f func(el uint32, acc uint16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) ScanUint32(acc uint32, f func(el uint32, acc uint32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) ScanUint64(acc uint64, f func(el uint32, acc uint64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) ScanInterface(acc interface{}, f func(el uint32, acc interface{}) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
 		}
 	}()
 	return result
@@ -26880,6 +30912,294 @@ func (c ChannelUint64) MapInterface(f func(el uint64) interface{}) chan interfac
 	return result
 }
 
+func (c ChannelUint64) ReduceBool(acc bool, f func(el uint64, acc bool) bool) bool {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint64) ReduceByte(acc byte, f func(el uint64, acc byte) byte) byte {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint64) ReduceString(acc string, f func(el uint64, acc string) string) string {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint64) ReduceFloat32(acc float32, f func(el uint64, acc float32) float32) float32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint64) ReduceFloat64(acc float64, f func(el uint64, acc float64) float64) float64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint64) ReduceInt(acc int, f func(el uint64, acc int) int) int {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint64) ReduceInt8(acc int8, f func(el uint64, acc int8) int8) int8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint64) ReduceInt16(acc int16, f func(el uint64, acc int16) int16) int16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint64) ReduceInt32(acc int32, f func(el uint64, acc int32) int32) int32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint64) ReduceInt64(acc int64, f func(el uint64, acc int64) int64) int64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint64) ReduceUint(acc uint, f func(el uint64, acc uint) uint) uint {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint64) ReduceUint8(acc uint8, f func(el uint64, acc uint8) uint8) uint8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint64) ReduceUint16(acc uint16, f func(el uint64, acc uint16) uint16) uint16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint64) ReduceUint32(acc uint32, f func(el uint64, acc uint32) uint32) uint32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint64) ReduceUint64(acc uint64, f func(el uint64, acc uint64) uint64) uint64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint64) ReduceInterface(acc interface{}, f func(el uint64, acc interface{}) interface{}) interface{} {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelUint64) ScanBool(acc bool, f func(el uint64, acc bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) ScanByte(acc byte, f func(el uint64, acc byte) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) ScanString(acc string, f func(el uint64, acc string) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) ScanFloat32(acc float32, f func(el uint64, acc float32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) ScanFloat64(acc float64, f func(el uint64, acc float64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) ScanInt(acc int, f func(el uint64, acc int) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) ScanInt8(acc int8, f func(el uint64, acc int8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) ScanInt16(acc int16, f func(el uint64, acc int16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) ScanInt32(acc int32, f func(el uint64, acc int32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) ScanInt64(acc int64, f func(el uint64, acc int64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) ScanUint(acc uint, f func(el uint64, acc uint) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) ScanUint8(acc uint8, f func(el uint64, acc uint8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) ScanUint16(acc uint16, f func(el uint64, acc uint16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) ScanUint32(acc uint32, f func(el uint64, acc uint32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) ScanUint64(acc uint64, f func(el uint64, acc uint64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) ScanInterface(acc interface{}, f func(el uint64, acc interface{}) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
 func (c ChannelUint64) Take(n int) []uint64 {
 	result := make([]uint64, 0, n)
 	for i := 0; i < n; i++ {
@@ -28782,6 +33102,294 @@ func (c ChannelInterface) MapInterface(f func(el interface{}) interface{}) chan 
 	go func() {
 		for el := range c.data {
 			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) ReduceBool(acc bool, f func(el interface{}, acc bool) bool) bool {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInterface) ReduceByte(acc byte, f func(el interface{}, acc byte) byte) byte {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInterface) ReduceString(acc string, f func(el interface{}, acc string) string) string {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInterface) ReduceFloat32(acc float32, f func(el interface{}, acc float32) float32) float32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInterface) ReduceFloat64(acc float64, f func(el interface{}, acc float64) float64) float64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInterface) ReduceInt(acc int, f func(el interface{}, acc int) int) int {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInterface) ReduceInt8(acc int8, f func(el interface{}, acc int8) int8) int8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInterface) ReduceInt16(acc int16, f func(el interface{}, acc int16) int16) int16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInterface) ReduceInt32(acc int32, f func(el interface{}, acc int32) int32) int32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInterface) ReduceInt64(acc int64, f func(el interface{}, acc int64) int64) int64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInterface) ReduceUint(acc uint, f func(el interface{}, acc uint) uint) uint {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInterface) ReduceUint8(acc uint8, f func(el interface{}, acc uint8) uint8) uint8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInterface) ReduceUint16(acc uint16, f func(el interface{}, acc uint16) uint16) uint16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInterface) ReduceUint32(acc uint32, f func(el interface{}, acc uint32) uint32) uint32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInterface) ReduceUint64(acc uint64, f func(el interface{}, acc uint64) uint64) uint64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInterface) ReduceInterface(acc interface{}, f func(el interface{}, acc interface{}) interface{}) interface{} {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelInterface) ScanBool(acc bool, f func(el interface{}, acc bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) ScanByte(acc byte, f func(el interface{}, acc byte) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) ScanString(acc string, f func(el interface{}, acc string) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) ScanFloat32(acc float32, f func(el interface{}, acc float32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) ScanFloat64(acc float64, f func(el interface{}, acc float64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) ScanInt(acc int, f func(el interface{}, acc int) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) ScanInt8(acc int8, f func(el interface{}, acc int8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) ScanInt16(acc int16, f func(el interface{}, acc int16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) ScanInt32(acc int32, f func(el interface{}, acc int32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) ScanInt64(acc int64, f func(el interface{}, acc int64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) ScanUint(acc uint, f func(el interface{}, acc uint) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) ScanUint8(acc uint8, f func(el interface{}, acc uint8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) ScanUint16(acc uint16, f func(el interface{}, acc uint16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) ScanUint32(acc uint32, f func(el interface{}, acc uint32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) ScanUint64(acc uint64, f func(el interface{}, acc uint64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) ScanInterface(acc interface{}, f func(el interface{}, acc interface{}) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
 		}
 	}()
 	return result
