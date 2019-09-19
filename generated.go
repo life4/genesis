@@ -1119,6 +1119,36 @@ func (s SliceBool) MapInterface(f func(el bool) interface{}) []interface{} {
 	return result
 }
 
+func (s SliceBool) Product(repeat int) chan []bool {
+	c := make(chan []bool, 1)
+	go s.product(c, repeat, []bool{}, 0)
+	return c
+}
+
+func (s SliceBool) product(c chan []bool, repeat int, left []bool, pos int) {
+	// iterate over the last array
+	if pos == repeat-1 {
+		for _, el := range s.data {
+			result := make([]bool, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data {
+		result := make([]bool, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, repeat, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
 func (s SliceBool) ReduceBool(acc bool, f func(el bool, acc bool) bool) bool {
 	for _, el := range s.data {
 		acc = f(el, acc)
@@ -2808,6 +2838,36 @@ func (s SliceByte) Min() byte {
 		}
 	}
 	return min
+}
+
+func (s SliceByte) Product(repeat int) chan []byte {
+	c := make(chan []byte, 1)
+	go s.product(c, repeat, []byte{}, 0)
+	return c
+}
+
+func (s SliceByte) product(c chan []byte, repeat int, left []byte, pos int) {
+	// iterate over the last array
+	if pos == repeat-1 {
+		for _, el := range s.data {
+			result := make([]byte, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data {
+		result := make([]byte, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, repeat, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
 }
 
 func (s SliceByte) ReduceBool(acc bool, f func(el byte, acc bool) bool) bool {
@@ -4509,6 +4569,36 @@ func (s SliceString) Min() string {
 	return min
 }
 
+func (s SliceString) Product(repeat int) chan []string {
+	c := make(chan []string, 1)
+	go s.product(c, repeat, []string{}, 0)
+	return c
+}
+
+func (s SliceString) product(c chan []string, repeat int, left []string, pos int) {
+	// iterate over the last array
+	if pos == repeat-1 {
+		for _, el := range s.data {
+			result := make([]string, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data {
+		result := make([]string, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, repeat, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
 func (s SliceString) ReduceBool(acc bool, f func(el string, acc bool) bool) bool {
 	for _, el := range s.data {
 		acc = f(el, acc)
@@ -6206,6 +6296,36 @@ func (s SliceFloat32) Min() float32 {
 		}
 	}
 	return min
+}
+
+func (s SliceFloat32) Product(repeat int) chan []float32 {
+	c := make(chan []float32, 1)
+	go s.product(c, repeat, []float32{}, 0)
+	return c
+}
+
+func (s SliceFloat32) product(c chan []float32, repeat int, left []float32, pos int) {
+	// iterate over the last array
+	if pos == repeat-1 {
+		for _, el := range s.data {
+			result := make([]float32, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data {
+		result := make([]float32, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, repeat, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
 }
 
 func (s SliceFloat32) ReduceBool(acc bool, f func(el float32, acc bool) bool) bool {
@@ -7907,6 +8027,36 @@ func (s SliceFloat64) Min() float64 {
 	return min
 }
 
+func (s SliceFloat64) Product(repeat int) chan []float64 {
+	c := make(chan []float64, 1)
+	go s.product(c, repeat, []float64{}, 0)
+	return c
+}
+
+func (s SliceFloat64) product(c chan []float64, repeat int, left []float64, pos int) {
+	// iterate over the last array
+	if pos == repeat-1 {
+		for _, el := range s.data {
+			result := make([]float64, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data {
+		result := make([]float64, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, repeat, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
 func (s SliceFloat64) ReduceBool(acc bool, f func(el float64, acc bool) bool) bool {
 	for _, el := range s.data {
 		acc = f(el, acc)
@@ -9604,6 +9754,36 @@ func (s SliceInt) Min() int {
 		}
 	}
 	return min
+}
+
+func (s SliceInt) Product(repeat int) chan []int {
+	c := make(chan []int, 1)
+	go s.product(c, repeat, []int{}, 0)
+	return c
+}
+
+func (s SliceInt) product(c chan []int, repeat int, left []int, pos int) {
+	// iterate over the last array
+	if pos == repeat-1 {
+		for _, el := range s.data {
+			result := make([]int, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data {
+		result := make([]int, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, repeat, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
 }
 
 func (s SliceInt) ReduceBool(acc bool, f func(el int, acc bool) bool) bool {
@@ -11305,6 +11485,36 @@ func (s SliceInt8) Min() int8 {
 	return min
 }
 
+func (s SliceInt8) Product(repeat int) chan []int8 {
+	c := make(chan []int8, 1)
+	go s.product(c, repeat, []int8{}, 0)
+	return c
+}
+
+func (s SliceInt8) product(c chan []int8, repeat int, left []int8, pos int) {
+	// iterate over the last array
+	if pos == repeat-1 {
+		for _, el := range s.data {
+			result := make([]int8, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data {
+		result := make([]int8, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, repeat, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
 func (s SliceInt8) ReduceBool(acc bool, f func(el int8, acc bool) bool) bool {
 	for _, el := range s.data {
 		acc = f(el, acc)
@@ -13002,6 +13212,36 @@ func (s SliceInt16) Min() int16 {
 		}
 	}
 	return min
+}
+
+func (s SliceInt16) Product(repeat int) chan []int16 {
+	c := make(chan []int16, 1)
+	go s.product(c, repeat, []int16{}, 0)
+	return c
+}
+
+func (s SliceInt16) product(c chan []int16, repeat int, left []int16, pos int) {
+	// iterate over the last array
+	if pos == repeat-1 {
+		for _, el := range s.data {
+			result := make([]int16, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data {
+		result := make([]int16, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, repeat, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
 }
 
 func (s SliceInt16) ReduceBool(acc bool, f func(el int16, acc bool) bool) bool {
@@ -14703,6 +14943,36 @@ func (s SliceInt32) Min() int32 {
 	return min
 }
 
+func (s SliceInt32) Product(repeat int) chan []int32 {
+	c := make(chan []int32, 1)
+	go s.product(c, repeat, []int32{}, 0)
+	return c
+}
+
+func (s SliceInt32) product(c chan []int32, repeat int, left []int32, pos int) {
+	// iterate over the last array
+	if pos == repeat-1 {
+		for _, el := range s.data {
+			result := make([]int32, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data {
+		result := make([]int32, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, repeat, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
 func (s SliceInt32) ReduceBool(acc bool, f func(el int32, acc bool) bool) bool {
 	for _, el := range s.data {
 		acc = f(el, acc)
@@ -16400,6 +16670,36 @@ func (s SliceInt64) Min() int64 {
 		}
 	}
 	return min
+}
+
+func (s SliceInt64) Product(repeat int) chan []int64 {
+	c := make(chan []int64, 1)
+	go s.product(c, repeat, []int64{}, 0)
+	return c
+}
+
+func (s SliceInt64) product(c chan []int64, repeat int, left []int64, pos int) {
+	// iterate over the last array
+	if pos == repeat-1 {
+		for _, el := range s.data {
+			result := make([]int64, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data {
+		result := make([]int64, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, repeat, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
 }
 
 func (s SliceInt64) ReduceBool(acc bool, f func(el int64, acc bool) bool) bool {
@@ -18101,6 +18401,36 @@ func (s SliceUint) Min() uint {
 	return min
 }
 
+func (s SliceUint) Product(repeat int) chan []uint {
+	c := make(chan []uint, 1)
+	go s.product(c, repeat, []uint{}, 0)
+	return c
+}
+
+func (s SliceUint) product(c chan []uint, repeat int, left []uint, pos int) {
+	// iterate over the last array
+	if pos == repeat-1 {
+		for _, el := range s.data {
+			result := make([]uint, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data {
+		result := make([]uint, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, repeat, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
 func (s SliceUint) ReduceBool(acc bool, f func(el uint, acc bool) bool) bool {
 	for _, el := range s.data {
 		acc = f(el, acc)
@@ -19798,6 +20128,36 @@ func (s SliceUint8) Min() uint8 {
 		}
 	}
 	return min
+}
+
+func (s SliceUint8) Product(repeat int) chan []uint8 {
+	c := make(chan []uint8, 1)
+	go s.product(c, repeat, []uint8{}, 0)
+	return c
+}
+
+func (s SliceUint8) product(c chan []uint8, repeat int, left []uint8, pos int) {
+	// iterate over the last array
+	if pos == repeat-1 {
+		for _, el := range s.data {
+			result := make([]uint8, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data {
+		result := make([]uint8, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, repeat, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
 }
 
 func (s SliceUint8) ReduceBool(acc bool, f func(el uint8, acc bool) bool) bool {
@@ -21499,6 +21859,36 @@ func (s SliceUint16) Min() uint16 {
 	return min
 }
 
+func (s SliceUint16) Product(repeat int) chan []uint16 {
+	c := make(chan []uint16, 1)
+	go s.product(c, repeat, []uint16{}, 0)
+	return c
+}
+
+func (s SliceUint16) product(c chan []uint16, repeat int, left []uint16, pos int) {
+	// iterate over the last array
+	if pos == repeat-1 {
+		for _, el := range s.data {
+			result := make([]uint16, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data {
+		result := make([]uint16, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, repeat, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
 func (s SliceUint16) ReduceBool(acc bool, f func(el uint16, acc bool) bool) bool {
 	for _, el := range s.data {
 		acc = f(el, acc)
@@ -23196,6 +23586,36 @@ func (s SliceUint32) Min() uint32 {
 		}
 	}
 	return min
+}
+
+func (s SliceUint32) Product(repeat int) chan []uint32 {
+	c := make(chan []uint32, 1)
+	go s.product(c, repeat, []uint32{}, 0)
+	return c
+}
+
+func (s SliceUint32) product(c chan []uint32, repeat int, left []uint32, pos int) {
+	// iterate over the last array
+	if pos == repeat-1 {
+		for _, el := range s.data {
+			result := make([]uint32, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data {
+		result := make([]uint32, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, repeat, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
 }
 
 func (s SliceUint32) ReduceBool(acc bool, f func(el uint32, acc bool) bool) bool {
@@ -24897,6 +25317,36 @@ func (s SliceUint64) Min() uint64 {
 	return min
 }
 
+func (s SliceUint64) Product(repeat int) chan []uint64 {
+	c := make(chan []uint64, 1)
+	go s.product(c, repeat, []uint64{}, 0)
+	return c
+}
+
+func (s SliceUint64) product(c chan []uint64, repeat int, left []uint64, pos int) {
+	// iterate over the last array
+	if pos == repeat-1 {
+		for _, el := range s.data {
+			result := make([]uint64, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data {
+		result := make([]uint64, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, repeat, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
 func (s SliceUint64) ReduceBool(acc bool, f func(el uint64, acc bool) bool) bool {
 	for _, el := range s.data {
 		acc = f(el, acc)
@@ -26574,6 +27024,36 @@ func (s SliceInterface) MapInterface(f func(el interface{}) interface{}) []inter
 		result = append(result, f(el))
 	}
 	return result
+}
+
+func (s SliceInterface) Product(repeat int) chan []interface{} {
+	c := make(chan []interface{}, 1)
+	go s.product(c, repeat, []interface{}{}, 0)
+	return c
+}
+
+func (s SliceInterface) product(c chan []interface{}, repeat int, left []interface{}, pos int) {
+	// iterate over the last array
+	if pos == repeat-1 {
+		for _, el := range s.data {
+			result := make([]interface{}, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data {
+		result := make([]interface{}, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, repeat, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
 }
 
 func (s SliceInterface) ReduceBool(acc bool, f func(el interface{}, acc bool) bool) bool {
