@@ -32,6 +32,24 @@ func (c ChannelBool) Drop(n int) chan bool {
 	return result
 }
 
+func (c ChannelBool) Each(f func(el bool)) {
+	for el := range c.data {
+		f(el)
+	}
+}
+
+func (c ChannelBool) Filter(f func(el bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			if f(el) {
+				result <- el
+			}
+		}
+	}()
+	return result
+}
+
 func (c ChannelBool) Take(n int) []bool {
 	result := make([]bool, 0, n)
 	for i := 0; i < n; i++ {
@@ -1729,6 +1747,24 @@ func (c ChannelByte) Drop(n int) chan byte {
 			i++
 		}
 		close(result)
+	}()
+	return result
+}
+
+func (c ChannelByte) Each(f func(el byte)) {
+	for el := range c.data {
+		f(el)
+	}
+}
+
+func (c ChannelByte) Filter(f func(el byte) bool) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			if f(el) {
+				result <- el
+			}
+		}
 	}()
 	return result
 }
@@ -3462,6 +3498,24 @@ func (c ChannelString) Drop(n int) chan string {
 	return result
 }
 
+func (c ChannelString) Each(f func(el string)) {
+	for el := range c.data {
+		f(el)
+	}
+}
+
+func (c ChannelString) Filter(f func(el string) bool) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			if f(el) {
+				result <- el
+			}
+		}
+	}()
+	return result
+}
+
 func (c ChannelString) Take(n int) []string {
 	result := make([]string, 0, n)
 	for i := 0; i < n; i++ {
@@ -5187,6 +5241,24 @@ func (c ChannelFloat32) Drop(n int) chan float32 {
 			i++
 		}
 		close(result)
+	}()
+	return result
+}
+
+func (c ChannelFloat32) Each(f func(el float32)) {
+	for el := range c.data {
+		f(el)
+	}
+}
+
+func (c ChannelFloat32) Filter(f func(el float32) bool) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			if f(el) {
+				result <- el
+			}
+		}
 	}()
 	return result
 }
@@ -6920,6 +6992,24 @@ func (c ChannelFloat64) Drop(n int) chan float64 {
 	return result
 }
 
+func (c ChannelFloat64) Each(f func(el float64)) {
+	for el := range c.data {
+		f(el)
+	}
+}
+
+func (c ChannelFloat64) Filter(f func(el float64) bool) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			if f(el) {
+				result <- el
+			}
+		}
+	}()
+	return result
+}
+
 func (c ChannelFloat64) Take(n int) []float64 {
 	result := make([]float64, 0, n)
 	for i := 0; i < n; i++ {
@@ -8645,6 +8735,24 @@ func (c ChannelInt) Drop(n int) chan int {
 			i++
 		}
 		close(result)
+	}()
+	return result
+}
+
+func (c ChannelInt) Each(f func(el int)) {
+	for el := range c.data {
+		f(el)
+	}
+}
+
+func (c ChannelInt) Filter(f func(el int) bool) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			if f(el) {
+				result <- el
+			}
+		}
 	}()
 	return result
 }
@@ -10378,6 +10486,24 @@ func (c ChannelInt8) Drop(n int) chan int8 {
 	return result
 }
 
+func (c ChannelInt8) Each(f func(el int8)) {
+	for el := range c.data {
+		f(el)
+	}
+}
+
+func (c ChannelInt8) Filter(f func(el int8) bool) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			if f(el) {
+				result <- el
+			}
+		}
+	}()
+	return result
+}
+
 func (c ChannelInt8) Take(n int) []int8 {
 	result := make([]int8, 0, n)
 	for i := 0; i < n; i++ {
@@ -12103,6 +12229,24 @@ func (c ChannelInt16) Drop(n int) chan int16 {
 			i++
 		}
 		close(result)
+	}()
+	return result
+}
+
+func (c ChannelInt16) Each(f func(el int16)) {
+	for el := range c.data {
+		f(el)
+	}
+}
+
+func (c ChannelInt16) Filter(f func(el int16) bool) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			if f(el) {
+				result <- el
+			}
+		}
 	}()
 	return result
 }
@@ -13836,6 +13980,24 @@ func (c ChannelInt32) Drop(n int) chan int32 {
 	return result
 }
 
+func (c ChannelInt32) Each(f func(el int32)) {
+	for el := range c.data {
+		f(el)
+	}
+}
+
+func (c ChannelInt32) Filter(f func(el int32) bool) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			if f(el) {
+				result <- el
+			}
+		}
+	}()
+	return result
+}
+
 func (c ChannelInt32) Take(n int) []int32 {
 	result := make([]int32, 0, n)
 	for i := 0; i < n; i++ {
@@ -15561,6 +15723,24 @@ func (c ChannelInt64) Drop(n int) chan int64 {
 			i++
 		}
 		close(result)
+	}()
+	return result
+}
+
+func (c ChannelInt64) Each(f func(el int64)) {
+	for el := range c.data {
+		f(el)
+	}
+}
+
+func (c ChannelInt64) Filter(f func(el int64) bool) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			if f(el) {
+				result <- el
+			}
+		}
 	}()
 	return result
 }
@@ -17294,6 +17474,24 @@ func (c ChannelUint) Drop(n int) chan uint {
 	return result
 }
 
+func (c ChannelUint) Each(f func(el uint)) {
+	for el := range c.data {
+		f(el)
+	}
+}
+
+func (c ChannelUint) Filter(f func(el uint) bool) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			if f(el) {
+				result <- el
+			}
+		}
+	}()
+	return result
+}
+
 func (c ChannelUint) Take(n int) []uint {
 	result := make([]uint, 0, n)
 	for i := 0; i < n; i++ {
@@ -19019,6 +19217,24 @@ func (c ChannelUint8) Drop(n int) chan uint8 {
 			i++
 		}
 		close(result)
+	}()
+	return result
+}
+
+func (c ChannelUint8) Each(f func(el uint8)) {
+	for el := range c.data {
+		f(el)
+	}
+}
+
+func (c ChannelUint8) Filter(f func(el uint8) bool) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			if f(el) {
+				result <- el
+			}
+		}
 	}()
 	return result
 }
@@ -20752,6 +20968,24 @@ func (c ChannelUint16) Drop(n int) chan uint16 {
 	return result
 }
 
+func (c ChannelUint16) Each(f func(el uint16)) {
+	for el := range c.data {
+		f(el)
+	}
+}
+
+func (c ChannelUint16) Filter(f func(el uint16) bool) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			if f(el) {
+				result <- el
+			}
+		}
+	}()
+	return result
+}
+
 func (c ChannelUint16) Take(n int) []uint16 {
 	result := make([]uint16, 0, n)
 	for i := 0; i < n; i++ {
@@ -22477,6 +22711,24 @@ func (c ChannelUint32) Drop(n int) chan uint32 {
 			i++
 		}
 		close(result)
+	}()
+	return result
+}
+
+func (c ChannelUint32) Each(f func(el uint32)) {
+	for el := range c.data {
+		f(el)
+	}
+}
+
+func (c ChannelUint32) Filter(f func(el uint32) bool) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			if f(el) {
+				result <- el
+			}
+		}
 	}()
 	return result
 }
@@ -24210,6 +24462,24 @@ func (c ChannelUint64) Drop(n int) chan uint64 {
 	return result
 }
 
+func (c ChannelUint64) Each(f func(el uint64)) {
+	for el := range c.data {
+		f(el)
+	}
+}
+
+func (c ChannelUint64) Filter(f func(el uint64) bool) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			if f(el) {
+				result <- el
+			}
+		}
+	}()
+	return result
+}
+
 func (c ChannelUint64) Take(n int) []uint64 {
 	result := make([]uint64, 0, n)
 	for i := 0; i < n; i++ {
@@ -25935,6 +26205,24 @@ func (c ChannelInterface) Drop(n int) chan interface{} {
 			i++
 		}
 		close(result)
+	}()
+	return result
+}
+
+func (c ChannelInterface) Each(f func(el interface{})) {
+	for el := range c.data {
+		f(el)
+	}
+}
+
+func (c ChannelInterface) Filter(f func(el interface{}) bool) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			if f(el) {
+				result <- el
+			}
+		}
 	}()
 	return result
 }

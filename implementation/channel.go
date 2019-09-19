@@ -22,6 +22,27 @@ func (c Channel) Drop(n int) chan T {
 	return result
 }
 
+// Each calls f for every element in the channel
+func (c Channel) Each(f func(el T)) {
+	for el := range c.data {
+		f(el)
+	}
+}
+
+// Filter returns a new channel with elements from input channel
+// for which f returns true
+func (c Channel) Filter(f func(el T) bool) chan T {
+	result := make(chan T, 1)
+	go func() {
+		for el := range c.data {
+			if f(el) {
+				result <- el
+			}
+		}
+	}()
+	return result
+}
+
 // Take takes first n elements from channel c.
 func (c Channel) Take(n int) []T {
 	result := make([]T, 0, n)
