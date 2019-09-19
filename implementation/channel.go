@@ -1,5 +1,9 @@
 package implementation
 
+import (
+	"sync"
+)
+
 // Channel is a set of operations with channel
 type Channel struct {
 	data chan T
@@ -143,6 +147,26 @@ func (c Channel) Take(n int) []T {
 		result = append(result, <-c.data)
 	}
 	return result
+}
+
+// Tee returns 2 channels with elements from the input channel
+func (c Channel) Tee() (chan T, chan T) {
+	c1 := make(chan T, 1)
+	c2 := make(chan T, 1)
+	go func() {
+		for el := range c.data {
+			wg := sync.WaitGroup{}
+			f := func(out chan T) {
+				wg.Add(1)
+				defer wg.Done()
+				out <- el
+			}
+			f(c1)
+			f(c2)
+			wg.Wait()
+		}
+	}()
+	return c1, c2
 }
 
 // ToSlice returns slice with all elements from channel.
