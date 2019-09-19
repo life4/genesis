@@ -50,6 +50,166 @@ func (c ChannelBool) Filter(f func(el bool) bool) chan bool {
 	return result
 }
 
+func (c ChannelBool) MapBool(f func(el bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) MapByte(f func(el bool) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) MapString(f func(el bool) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) MapFloat32(f func(el bool) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) MapFloat64(f func(el bool) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) MapInt(f func(el bool) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) MapInt8(f func(el bool) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) MapInt16(f func(el bool) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) MapInt32(f func(el bool) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) MapInt64(f func(el bool) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) MapUint(f func(el bool) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) MapUint8(f func(el bool) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) MapUint16(f func(el bool) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) MapUint32(f func(el bool) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) MapUint64(f func(el bool) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelBool) MapInterface(f func(el bool) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
 func (c ChannelBool) Take(n int) []bool {
 	result := make([]bool, 0, n)
 	for i := 0; i < n; i++ {
@@ -1764,6 +1924,166 @@ func (c ChannelByte) Filter(f func(el byte) bool) chan byte {
 			if f(el) {
 				result <- el
 			}
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) MapBool(f func(el byte) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) MapByte(f func(el byte) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) MapString(f func(el byte) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) MapFloat32(f func(el byte) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) MapFloat64(f func(el byte) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) MapInt(f func(el byte) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) MapInt8(f func(el byte) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) MapInt16(f func(el byte) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) MapInt32(f func(el byte) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) MapInt64(f func(el byte) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) MapUint(f func(el byte) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) MapUint8(f func(el byte) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) MapUint16(f func(el byte) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) MapUint32(f func(el byte) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) MapUint64(f func(el byte) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelByte) MapInterface(f func(el byte) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
 		}
 	}()
 	return result
@@ -3516,6 +3836,166 @@ func (c ChannelString) Filter(f func(el string) bool) chan string {
 	return result
 }
 
+func (c ChannelString) MapBool(f func(el string) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) MapByte(f func(el string) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) MapString(f func(el string) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) MapFloat32(f func(el string) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) MapFloat64(f func(el string) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) MapInt(f func(el string) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) MapInt8(f func(el string) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) MapInt16(f func(el string) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) MapInt32(f func(el string) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) MapInt64(f func(el string) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) MapUint(f func(el string) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) MapUint8(f func(el string) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) MapUint16(f func(el string) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) MapUint32(f func(el string) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) MapUint64(f func(el string) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelString) MapInterface(f func(el string) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
 func (c ChannelString) Take(n int) []string {
 	result := make([]string, 0, n)
 	for i := 0; i < n; i++ {
@@ -5258,6 +5738,166 @@ func (c ChannelFloat32) Filter(f func(el float32) bool) chan float32 {
 			if f(el) {
 				result <- el
 			}
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) MapBool(f func(el float32) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) MapByte(f func(el float32) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) MapString(f func(el float32) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) MapFloat32(f func(el float32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) MapFloat64(f func(el float32) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) MapInt(f func(el float32) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) MapInt8(f func(el float32) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) MapInt16(f func(el float32) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) MapInt32(f func(el float32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) MapInt64(f func(el float32) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) MapUint(f func(el float32) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) MapUint8(f func(el float32) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) MapUint16(f func(el float32) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) MapUint32(f func(el float32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) MapUint64(f func(el float32) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat32) MapInterface(f func(el float32) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
 		}
 	}()
 	return result
@@ -7010,6 +7650,166 @@ func (c ChannelFloat64) Filter(f func(el float64) bool) chan float64 {
 	return result
 }
 
+func (c ChannelFloat64) MapBool(f func(el float64) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) MapByte(f func(el float64) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) MapString(f func(el float64) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) MapFloat32(f func(el float64) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) MapFloat64(f func(el float64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) MapInt(f func(el float64) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) MapInt8(f func(el float64) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) MapInt16(f func(el float64) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) MapInt32(f func(el float64) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) MapInt64(f func(el float64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) MapUint(f func(el float64) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) MapUint8(f func(el float64) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) MapUint16(f func(el float64) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) MapUint32(f func(el float64) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) MapUint64(f func(el float64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelFloat64) MapInterface(f func(el float64) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
 func (c ChannelFloat64) Take(n int) []float64 {
 	result := make([]float64, 0, n)
 	for i := 0; i < n; i++ {
@@ -8752,6 +9552,166 @@ func (c ChannelInt) Filter(f func(el int) bool) chan int {
 			if f(el) {
 				result <- el
 			}
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) MapBool(f func(el int) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) MapByte(f func(el int) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) MapString(f func(el int) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) MapFloat32(f func(el int) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) MapFloat64(f func(el int) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) MapInt(f func(el int) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) MapInt8(f func(el int) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) MapInt16(f func(el int) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) MapInt32(f func(el int) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) MapInt64(f func(el int) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) MapUint(f func(el int) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) MapUint8(f func(el int) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) MapUint16(f func(el int) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) MapUint32(f func(el int) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) MapUint64(f func(el int) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt) MapInterface(f func(el int) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
 		}
 	}()
 	return result
@@ -10504,6 +11464,166 @@ func (c ChannelInt8) Filter(f func(el int8) bool) chan int8 {
 	return result
 }
 
+func (c ChannelInt8) MapBool(f func(el int8) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) MapByte(f func(el int8) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) MapString(f func(el int8) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) MapFloat32(f func(el int8) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) MapFloat64(f func(el int8) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) MapInt(f func(el int8) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) MapInt8(f func(el int8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) MapInt16(f func(el int8) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) MapInt32(f func(el int8) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) MapInt64(f func(el int8) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) MapUint(f func(el int8) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) MapUint8(f func(el int8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) MapUint16(f func(el int8) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) MapUint32(f func(el int8) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) MapUint64(f func(el int8) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt8) MapInterface(f func(el int8) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
 func (c ChannelInt8) Take(n int) []int8 {
 	result := make([]int8, 0, n)
 	for i := 0; i < n; i++ {
@@ -12246,6 +13366,166 @@ func (c ChannelInt16) Filter(f func(el int16) bool) chan int16 {
 			if f(el) {
 				result <- el
 			}
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) MapBool(f func(el int16) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) MapByte(f func(el int16) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) MapString(f func(el int16) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) MapFloat32(f func(el int16) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) MapFloat64(f func(el int16) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) MapInt(f func(el int16) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) MapInt8(f func(el int16) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) MapInt16(f func(el int16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) MapInt32(f func(el int16) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) MapInt64(f func(el int16) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) MapUint(f func(el int16) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) MapUint8(f func(el int16) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) MapUint16(f func(el int16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) MapUint32(f func(el int16) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) MapUint64(f func(el int16) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt16) MapInterface(f func(el int16) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
 		}
 	}()
 	return result
@@ -13998,6 +15278,166 @@ func (c ChannelInt32) Filter(f func(el int32) bool) chan int32 {
 	return result
 }
 
+func (c ChannelInt32) MapBool(f func(el int32) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) MapByte(f func(el int32) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) MapString(f func(el int32) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) MapFloat32(f func(el int32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) MapFloat64(f func(el int32) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) MapInt(f func(el int32) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) MapInt8(f func(el int32) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) MapInt16(f func(el int32) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) MapInt32(f func(el int32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) MapInt64(f func(el int32) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) MapUint(f func(el int32) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) MapUint8(f func(el int32) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) MapUint16(f func(el int32) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) MapUint32(f func(el int32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) MapUint64(f func(el int32) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt32) MapInterface(f func(el int32) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
 func (c ChannelInt32) Take(n int) []int32 {
 	result := make([]int32, 0, n)
 	for i := 0; i < n; i++ {
@@ -15740,6 +17180,166 @@ func (c ChannelInt64) Filter(f func(el int64) bool) chan int64 {
 			if f(el) {
 				result <- el
 			}
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) MapBool(f func(el int64) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) MapByte(f func(el int64) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) MapString(f func(el int64) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) MapFloat32(f func(el int64) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) MapFloat64(f func(el int64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) MapInt(f func(el int64) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) MapInt8(f func(el int64) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) MapInt16(f func(el int64) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) MapInt32(f func(el int64) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) MapInt64(f func(el int64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) MapUint(f func(el int64) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) MapUint8(f func(el int64) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) MapUint16(f func(el int64) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) MapUint32(f func(el int64) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) MapUint64(f func(el int64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInt64) MapInterface(f func(el int64) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
 		}
 	}()
 	return result
@@ -17492,6 +19092,166 @@ func (c ChannelUint) Filter(f func(el uint) bool) chan uint {
 	return result
 }
 
+func (c ChannelUint) MapBool(f func(el uint) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) MapByte(f func(el uint) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) MapString(f func(el uint) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) MapFloat32(f func(el uint) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) MapFloat64(f func(el uint) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) MapInt(f func(el uint) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) MapInt8(f func(el uint) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) MapInt16(f func(el uint) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) MapInt32(f func(el uint) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) MapInt64(f func(el uint) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) MapUint(f func(el uint) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) MapUint8(f func(el uint) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) MapUint16(f func(el uint) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) MapUint32(f func(el uint) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) MapUint64(f func(el uint) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint) MapInterface(f func(el uint) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
 func (c ChannelUint) Take(n int) []uint {
 	result := make([]uint, 0, n)
 	for i := 0; i < n; i++ {
@@ -19234,6 +20994,166 @@ func (c ChannelUint8) Filter(f func(el uint8) bool) chan uint8 {
 			if f(el) {
 				result <- el
 			}
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) MapBool(f func(el uint8) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) MapByte(f func(el uint8) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) MapString(f func(el uint8) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) MapFloat32(f func(el uint8) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) MapFloat64(f func(el uint8) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) MapInt(f func(el uint8) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) MapInt8(f func(el uint8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) MapInt16(f func(el uint8) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) MapInt32(f func(el uint8) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) MapInt64(f func(el uint8) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) MapUint(f func(el uint8) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) MapUint8(f func(el uint8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) MapUint16(f func(el uint8) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) MapUint32(f func(el uint8) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) MapUint64(f func(el uint8) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint8) MapInterface(f func(el uint8) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
 		}
 	}()
 	return result
@@ -20986,6 +22906,166 @@ func (c ChannelUint16) Filter(f func(el uint16) bool) chan uint16 {
 	return result
 }
 
+func (c ChannelUint16) MapBool(f func(el uint16) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) MapByte(f func(el uint16) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) MapString(f func(el uint16) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) MapFloat32(f func(el uint16) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) MapFloat64(f func(el uint16) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) MapInt(f func(el uint16) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) MapInt8(f func(el uint16) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) MapInt16(f func(el uint16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) MapInt32(f func(el uint16) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) MapInt64(f func(el uint16) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) MapUint(f func(el uint16) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) MapUint8(f func(el uint16) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) MapUint16(f func(el uint16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) MapUint32(f func(el uint16) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) MapUint64(f func(el uint16) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint16) MapInterface(f func(el uint16) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
 func (c ChannelUint16) Take(n int) []uint16 {
 	result := make([]uint16, 0, n)
 	for i := 0; i < n; i++ {
@@ -22728,6 +24808,166 @@ func (c ChannelUint32) Filter(f func(el uint32) bool) chan uint32 {
 			if f(el) {
 				result <- el
 			}
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) MapBool(f func(el uint32) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) MapByte(f func(el uint32) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) MapString(f func(el uint32) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) MapFloat32(f func(el uint32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) MapFloat64(f func(el uint32) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) MapInt(f func(el uint32) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) MapInt8(f func(el uint32) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) MapInt16(f func(el uint32) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) MapInt32(f func(el uint32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) MapInt64(f func(el uint32) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) MapUint(f func(el uint32) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) MapUint8(f func(el uint32) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) MapUint16(f func(el uint32) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) MapUint32(f func(el uint32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) MapUint64(f func(el uint32) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint32) MapInterface(f func(el uint32) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
 		}
 	}()
 	return result
@@ -24480,6 +26720,166 @@ func (c ChannelUint64) Filter(f func(el uint64) bool) chan uint64 {
 	return result
 }
 
+func (c ChannelUint64) MapBool(f func(el uint64) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) MapByte(f func(el uint64) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) MapString(f func(el uint64) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) MapFloat32(f func(el uint64) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) MapFloat64(f func(el uint64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) MapInt(f func(el uint64) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) MapInt8(f func(el uint64) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) MapInt16(f func(el uint64) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) MapInt32(f func(el uint64) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) MapInt64(f func(el uint64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) MapUint(f func(el uint64) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) MapUint8(f func(el uint64) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) MapUint16(f func(el uint64) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) MapUint32(f func(el uint64) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) MapUint64(f func(el uint64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelUint64) MapInterface(f func(el uint64) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
 func (c ChannelUint64) Take(n int) []uint64 {
 	result := make([]uint64, 0, n)
 	for i := 0; i < n; i++ {
@@ -26222,6 +28622,166 @@ func (c ChannelInterface) Filter(f func(el interface{}) bool) chan interface{} {
 			if f(el) {
 				result <- el
 			}
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) MapBool(f func(el interface{}) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) MapByte(f func(el interface{}) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) MapString(f func(el interface{}) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) MapFloat32(f func(el interface{}) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) MapFloat64(f func(el interface{}) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) MapInt(f func(el interface{}) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) MapInt8(f func(el interface{}) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) MapInt16(f func(el interface{}) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) MapInt32(f func(el interface{}) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) MapInt64(f func(el interface{}) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) MapUint(f func(el interface{}) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) MapUint8(f func(el interface{}) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) MapUint16(f func(el interface{}) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) MapUint32(f func(el interface{}) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) MapUint64(f func(el interface{}) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
+func (c ChannelInterface) MapInterface(f func(el interface{}) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
 		}
 	}()
 	return result

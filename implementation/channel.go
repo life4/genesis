@@ -43,6 +43,17 @@ func (c Channel) Filter(f func(el T) bool) chan T {
 	return result
 }
 
+// Map applies f to all elements from channel and returns channel with results
+func (c Channel) Map(f func(el T) G) chan G {
+	result := make(chan G, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+	}()
+	return result
+}
+
 // Take takes first n elements from channel c.
 func (c Channel) Take(n int) []T {
 	result := make([]T, 0, n)
