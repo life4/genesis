@@ -29,6 +29,29 @@ func (c Channel) All(f func(el T) bool) bool {
 	return true
 }
 
+// ChunkEvery returns channel with slices containing count elements each
+func (c Channel) ChunkEvery(count int) chan []T {
+	chunks := make(chan []T, 1)
+	go func() {
+		chunk := make([]T, 0, count)
+		i := 0
+		for el := range c.data {
+			chunk = append(chunk, el)
+			i++
+			if i%count == 0 {
+				i = 0
+				chunks <- chunk
+				chunk = make([]T, 0, count)
+			}
+		}
+		if len(chunk) > 0 {
+			chunks <- chunk
+		}
+		close(chunks)
+	}()
+	return chunks
+}
+
 // Count return count of el occurences in channel.
 func (c Channel) Count(el T) int {
 	count := 0
@@ -74,6 +97,7 @@ func (c Channel) Filter(f func(el T) bool) chan T {
 				result <- el
 			}
 		}
+		close(result)
 	}()
 	return result
 }
@@ -85,6 +109,7 @@ func (c Channel) Map(f func(el T) G) chan G {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -127,6 +152,7 @@ func (c Channel) Scan(acc G, f func(el T, acc G) G) chan G {
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -167,6 +193,9 @@ func (c Channel) Tee(count int) []chan T {
 				putInto(ch)
 			}
 			wg.Wait()
+		}
+		for _, ch := range channels {
+			close(ch)
 		}
 	}()
 	return channels

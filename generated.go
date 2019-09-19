@@ -38,6 +38,28 @@ func (c ChannelBool) All(f func(el bool) bool) bool {
 	return true
 }
 
+func (c ChannelBool) ChunkEvery(count int) chan []bool {
+	chunks := make(chan []bool, 1)
+	go func() {
+		chunk := make([]bool, 0, count)
+		i := 0
+		for el := range c.data {
+			chunk = append(chunk, el)
+			i++
+			if i%count == 0 {
+				i = 0
+				chunks <- chunk
+				chunk = make([]bool, 0, count)
+			}
+		}
+		if len(chunk) > 0 {
+			chunks <- chunk
+		}
+		close(chunks)
+	}()
+	return chunks
+}
+
 func (c ChannelBool) Count(el bool) int {
 	count := 0
 	for val := range c.data {
@@ -77,6 +99,7 @@ func (c ChannelBool) Filter(f func(el bool) bool) chan bool {
 				result <- el
 			}
 		}
+		close(result)
 	}()
 	return result
 }
@@ -87,6 +110,7 @@ func (c ChannelBool) MapBool(f func(el bool) bool) chan bool {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -97,6 +121,7 @@ func (c ChannelBool) MapByte(f func(el bool) byte) chan byte {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -107,6 +132,7 @@ func (c ChannelBool) MapString(f func(el bool) string) chan string {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -117,6 +143,7 @@ func (c ChannelBool) MapFloat32(f func(el bool) float32) chan float32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -127,6 +154,7 @@ func (c ChannelBool) MapFloat64(f func(el bool) float64) chan float64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -137,6 +165,7 @@ func (c ChannelBool) MapInt(f func(el bool) int) chan int {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -147,6 +176,7 @@ func (c ChannelBool) MapInt8(f func(el bool) int8) chan int8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -157,6 +187,7 @@ func (c ChannelBool) MapInt16(f func(el bool) int16) chan int16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -167,6 +198,7 @@ func (c ChannelBool) MapInt32(f func(el bool) int32) chan int32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -177,6 +209,7 @@ func (c ChannelBool) MapInt64(f func(el bool) int64) chan int64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -187,6 +220,7 @@ func (c ChannelBool) MapUint(f func(el bool) uint) chan uint {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -197,6 +231,7 @@ func (c ChannelBool) MapUint8(f func(el bool) uint8) chan uint8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -207,6 +242,7 @@ func (c ChannelBool) MapUint16(f func(el bool) uint16) chan uint16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -217,6 +253,7 @@ func (c ChannelBool) MapUint32(f func(el bool) uint32) chan uint32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -227,6 +264,7 @@ func (c ChannelBool) MapUint64(f func(el bool) uint64) chan uint64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -237,6 +275,7 @@ func (c ChannelBool) MapInterface(f func(el bool) interface{}) chan interface{} 
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -360,6 +399,7 @@ func (c ChannelBool) ScanBool(acc bool, f func(el bool, acc bool) bool) chan boo
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -371,6 +411,7 @@ func (c ChannelBool) ScanByte(acc byte, f func(el bool, acc byte) byte) chan byt
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -382,6 +423,7 @@ func (c ChannelBool) ScanString(acc string, f func(el bool, acc string) string) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -393,6 +435,7 @@ func (c ChannelBool) ScanFloat32(acc float32, f func(el bool, acc float32) float
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -404,6 +447,7 @@ func (c ChannelBool) ScanFloat64(acc float64, f func(el bool, acc float64) float
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -415,6 +459,7 @@ func (c ChannelBool) ScanInt(acc int, f func(el bool, acc int) int) chan int {
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -426,6 +471,7 @@ func (c ChannelBool) ScanInt8(acc int8, f func(el bool, acc int8) int8) chan int
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -437,6 +483,7 @@ func (c ChannelBool) ScanInt16(acc int16, f func(el bool, acc int16) int16) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -448,6 +495,7 @@ func (c ChannelBool) ScanInt32(acc int32, f func(el bool, acc int32) int32) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -459,6 +507,7 @@ func (c ChannelBool) ScanInt64(acc int64, f func(el bool, acc int64) int64) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -470,6 +519,7 @@ func (c ChannelBool) ScanUint(acc uint, f func(el bool, acc uint) uint) chan uin
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -481,6 +531,7 @@ func (c ChannelBool) ScanUint8(acc uint8, f func(el bool, acc uint8) uint8) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -492,6 +543,7 @@ func (c ChannelBool) ScanUint16(acc uint16, f func(el bool, acc uint16) uint16) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -503,6 +555,7 @@ func (c ChannelBool) ScanUint32(acc uint32, f func(el bool, acc uint32) uint32) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -514,6 +567,7 @@ func (c ChannelBool) ScanUint64(acc uint64, f func(el bool, acc uint64) uint64) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -525,6 +579,7 @@ func (c ChannelBool) ScanInterface(acc interface{}, f func(el bool, acc interfac
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -554,6 +609,9 @@ func (c ChannelBool) Tee(count int) []chan bool {
 				putInto(ch)
 			}
 			wg.Wait()
+		}
+		for _, ch := range channels {
+			close(ch)
 		}
 	}()
 	return channels
@@ -939,12 +997,12 @@ func (s SliceBool) ChunkByInterface(f func(el bool) interface{}) [][]bool {
 
 func (s SliceBool) ChunkEvery(count int) [][]bool {
 	chunks := make([][]bool, 0)
-	chunk := make([]bool, 0)
+	chunk := make([]bool, 0, count)
 	for i, el := range s.data {
 		chunk = append(chunk, el)
 		if (i+1)%count == 0 {
 			chunks = append(chunks, chunk)
-			chunk = make([]bool, 0)
+			chunk = make([]bool, 0, count)
 		}
 	}
 	if len(chunk) > 0 {
@@ -2255,6 +2313,28 @@ func (c ChannelByte) All(f func(el byte) bool) bool {
 	return true
 }
 
+func (c ChannelByte) ChunkEvery(count int) chan []byte {
+	chunks := make(chan []byte, 1)
+	go func() {
+		chunk := make([]byte, 0, count)
+		i := 0
+		for el := range c.data {
+			chunk = append(chunk, el)
+			i++
+			if i%count == 0 {
+				i = 0
+				chunks <- chunk
+				chunk = make([]byte, 0, count)
+			}
+		}
+		if len(chunk) > 0 {
+			chunks <- chunk
+		}
+		close(chunks)
+	}()
+	return chunks
+}
+
 func (c ChannelByte) Count(el byte) int {
 	count := 0
 	for val := range c.data {
@@ -2294,6 +2374,7 @@ func (c ChannelByte) Filter(f func(el byte) bool) chan byte {
 				result <- el
 			}
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2304,6 +2385,7 @@ func (c ChannelByte) MapBool(f func(el byte) bool) chan bool {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2314,6 +2396,7 @@ func (c ChannelByte) MapByte(f func(el byte) byte) chan byte {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2324,6 +2407,7 @@ func (c ChannelByte) MapString(f func(el byte) string) chan string {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2334,6 +2418,7 @@ func (c ChannelByte) MapFloat32(f func(el byte) float32) chan float32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2344,6 +2429,7 @@ func (c ChannelByte) MapFloat64(f func(el byte) float64) chan float64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2354,6 +2440,7 @@ func (c ChannelByte) MapInt(f func(el byte) int) chan int {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2364,6 +2451,7 @@ func (c ChannelByte) MapInt8(f func(el byte) int8) chan int8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2374,6 +2462,7 @@ func (c ChannelByte) MapInt16(f func(el byte) int16) chan int16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2384,6 +2473,7 @@ func (c ChannelByte) MapInt32(f func(el byte) int32) chan int32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2394,6 +2484,7 @@ func (c ChannelByte) MapInt64(f func(el byte) int64) chan int64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2404,6 +2495,7 @@ func (c ChannelByte) MapUint(f func(el byte) uint) chan uint {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2414,6 +2506,7 @@ func (c ChannelByte) MapUint8(f func(el byte) uint8) chan uint8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2424,6 +2517,7 @@ func (c ChannelByte) MapUint16(f func(el byte) uint16) chan uint16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2434,6 +2528,7 @@ func (c ChannelByte) MapUint32(f func(el byte) uint32) chan uint32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2444,6 +2539,7 @@ func (c ChannelByte) MapUint64(f func(el byte) uint64) chan uint64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2454,6 +2550,7 @@ func (c ChannelByte) MapInterface(f func(el byte) interface{}) chan interface{} 
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2597,6 +2694,7 @@ func (c ChannelByte) ScanBool(acc bool, f func(el byte, acc bool) bool) chan boo
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2608,6 +2706,7 @@ func (c ChannelByte) ScanByte(acc byte, f func(el byte, acc byte) byte) chan byt
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2619,6 +2718,7 @@ func (c ChannelByte) ScanString(acc string, f func(el byte, acc string) string) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2630,6 +2730,7 @@ func (c ChannelByte) ScanFloat32(acc float32, f func(el byte, acc float32) float
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2641,6 +2742,7 @@ func (c ChannelByte) ScanFloat64(acc float64, f func(el byte, acc float64) float
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2652,6 +2754,7 @@ func (c ChannelByte) ScanInt(acc int, f func(el byte, acc int) int) chan int {
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2663,6 +2766,7 @@ func (c ChannelByte) ScanInt8(acc int8, f func(el byte, acc int8) int8) chan int
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2674,6 +2778,7 @@ func (c ChannelByte) ScanInt16(acc int16, f func(el byte, acc int16) int16) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2685,6 +2790,7 @@ func (c ChannelByte) ScanInt32(acc int32, f func(el byte, acc int32) int32) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2696,6 +2802,7 @@ func (c ChannelByte) ScanInt64(acc int64, f func(el byte, acc int64) int64) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2707,6 +2814,7 @@ func (c ChannelByte) ScanUint(acc uint, f func(el byte, acc uint) uint) chan uin
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2718,6 +2826,7 @@ func (c ChannelByte) ScanUint8(acc uint8, f func(el byte, acc uint8) uint8) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2729,6 +2838,7 @@ func (c ChannelByte) ScanUint16(acc uint16, f func(el byte, acc uint16) uint16) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2740,6 +2850,7 @@ func (c ChannelByte) ScanUint32(acc uint32, f func(el byte, acc uint32) uint32) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2751,6 +2862,7 @@ func (c ChannelByte) ScanUint64(acc uint64, f func(el byte, acc uint64) uint64) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2762,6 +2874,7 @@ func (c ChannelByte) ScanInterface(acc interface{}, f func(el byte, acc interfac
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -2799,6 +2912,9 @@ func (c ChannelByte) Tee(count int) []chan byte {
 				putInto(ch)
 			}
 			wg.Wait()
+		}
+		for _, ch := range channels {
+			close(ch)
 		}
 	}()
 	return channels
@@ -3184,12 +3300,12 @@ func (s SliceByte) ChunkByInterface(f func(el byte) interface{}) [][]byte {
 
 func (s SliceByte) ChunkEvery(count int) [][]byte {
 	chunks := make([][]byte, 0)
-	chunk := make([]byte, 0)
+	chunk := make([]byte, 0, count)
 	for i, el := range s.data {
 		chunk = append(chunk, el)
 		if (i+1)%count == 0 {
 			chunks = append(chunks, chunk)
-			chunk = make([]byte, 0)
+			chunk = make([]byte, 0, count)
 		}
 	}
 	if len(chunk) > 0 {
@@ -4528,6 +4644,28 @@ func (c ChannelString) All(f func(el string) bool) bool {
 	return true
 }
 
+func (c ChannelString) ChunkEvery(count int) chan []string {
+	chunks := make(chan []string, 1)
+	go func() {
+		chunk := make([]string, 0, count)
+		i := 0
+		for el := range c.data {
+			chunk = append(chunk, el)
+			i++
+			if i%count == 0 {
+				i = 0
+				chunks <- chunk
+				chunk = make([]string, 0, count)
+			}
+		}
+		if len(chunk) > 0 {
+			chunks <- chunk
+		}
+		close(chunks)
+	}()
+	return chunks
+}
+
 func (c ChannelString) Count(el string) int {
 	count := 0
 	for val := range c.data {
@@ -4567,6 +4705,7 @@ func (c ChannelString) Filter(f func(el string) bool) chan string {
 				result <- el
 			}
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4577,6 +4716,7 @@ func (c ChannelString) MapBool(f func(el string) bool) chan bool {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4587,6 +4727,7 @@ func (c ChannelString) MapByte(f func(el string) byte) chan byte {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4597,6 +4738,7 @@ func (c ChannelString) MapString(f func(el string) string) chan string {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4607,6 +4749,7 @@ func (c ChannelString) MapFloat32(f func(el string) float32) chan float32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4617,6 +4760,7 @@ func (c ChannelString) MapFloat64(f func(el string) float64) chan float64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4627,6 +4771,7 @@ func (c ChannelString) MapInt(f func(el string) int) chan int {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4637,6 +4782,7 @@ func (c ChannelString) MapInt8(f func(el string) int8) chan int8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4647,6 +4793,7 @@ func (c ChannelString) MapInt16(f func(el string) int16) chan int16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4657,6 +4804,7 @@ func (c ChannelString) MapInt32(f func(el string) int32) chan int32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4667,6 +4815,7 @@ func (c ChannelString) MapInt64(f func(el string) int64) chan int64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4677,6 +4826,7 @@ func (c ChannelString) MapUint(f func(el string) uint) chan uint {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4687,6 +4837,7 @@ func (c ChannelString) MapUint8(f func(el string) uint8) chan uint8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4697,6 +4848,7 @@ func (c ChannelString) MapUint16(f func(el string) uint16) chan uint16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4707,6 +4859,7 @@ func (c ChannelString) MapUint32(f func(el string) uint32) chan uint32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4717,6 +4870,7 @@ func (c ChannelString) MapUint64(f func(el string) uint64) chan uint64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4727,6 +4881,7 @@ func (c ChannelString) MapInterface(f func(el string) interface{}) chan interfac
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4870,6 +5025,7 @@ func (c ChannelString) ScanBool(acc bool, f func(el string, acc bool) bool) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4881,6 +5037,7 @@ func (c ChannelString) ScanByte(acc byte, f func(el string, acc byte) byte) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4892,6 +5049,7 @@ func (c ChannelString) ScanString(acc string, f func(el string, acc string) stri
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4903,6 +5061,7 @@ func (c ChannelString) ScanFloat32(acc float32, f func(el string, acc float32) f
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4914,6 +5073,7 @@ func (c ChannelString) ScanFloat64(acc float64, f func(el string, acc float64) f
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4925,6 +5085,7 @@ func (c ChannelString) ScanInt(acc int, f func(el string, acc int) int) chan int
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4936,6 +5097,7 @@ func (c ChannelString) ScanInt8(acc int8, f func(el string, acc int8) int8) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4947,6 +5109,7 @@ func (c ChannelString) ScanInt16(acc int16, f func(el string, acc int16) int16) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4958,6 +5121,7 @@ func (c ChannelString) ScanInt32(acc int32, f func(el string, acc int32) int32) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4969,6 +5133,7 @@ func (c ChannelString) ScanInt64(acc int64, f func(el string, acc int64) int64) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4980,6 +5145,7 @@ func (c ChannelString) ScanUint(acc uint, f func(el string, acc uint) uint) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -4991,6 +5157,7 @@ func (c ChannelString) ScanUint8(acc uint8, f func(el string, acc uint8) uint8) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -5002,6 +5169,7 @@ func (c ChannelString) ScanUint16(acc uint16, f func(el string, acc uint16) uint
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -5013,6 +5181,7 @@ func (c ChannelString) ScanUint32(acc uint32, f func(el string, acc uint32) uint
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -5024,6 +5193,7 @@ func (c ChannelString) ScanUint64(acc uint64, f func(el string, acc uint64) uint
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -5035,6 +5205,7 @@ func (c ChannelString) ScanInterface(acc interface{}, f func(el string, acc inte
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -5072,6 +5243,9 @@ func (c ChannelString) Tee(count int) []chan string {
 				putInto(ch)
 			}
 			wg.Wait()
+		}
+		for _, ch := range channels {
+			close(ch)
 		}
 	}()
 	return channels
@@ -5457,12 +5631,12 @@ func (s SliceString) ChunkByInterface(f func(el string) interface{}) [][]string 
 
 func (s SliceString) ChunkEvery(count int) [][]string {
 	chunks := make([][]string, 0)
-	chunk := make([]string, 0)
+	chunk := make([]string, 0, count)
 	for i, el := range s.data {
 		chunk = append(chunk, el)
 		if (i+1)%count == 0 {
 			chunks = append(chunks, chunk)
-			chunk = make([]string, 0)
+			chunk = make([]string, 0, count)
 		}
 	}
 	if len(chunk) > 0 {
@@ -6801,6 +6975,28 @@ func (c ChannelFloat32) All(f func(el float32) bool) bool {
 	return true
 }
 
+func (c ChannelFloat32) ChunkEvery(count int) chan []float32 {
+	chunks := make(chan []float32, 1)
+	go func() {
+		chunk := make([]float32, 0, count)
+		i := 0
+		for el := range c.data {
+			chunk = append(chunk, el)
+			i++
+			if i%count == 0 {
+				i = 0
+				chunks <- chunk
+				chunk = make([]float32, 0, count)
+			}
+		}
+		if len(chunk) > 0 {
+			chunks <- chunk
+		}
+		close(chunks)
+	}()
+	return chunks
+}
+
 func (c ChannelFloat32) Count(el float32) int {
 	count := 0
 	for val := range c.data {
@@ -6840,6 +7036,7 @@ func (c ChannelFloat32) Filter(f func(el float32) bool) chan float32 {
 				result <- el
 			}
 		}
+		close(result)
 	}()
 	return result
 }
@@ -6850,6 +7047,7 @@ func (c ChannelFloat32) MapBool(f func(el float32) bool) chan bool {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -6860,6 +7058,7 @@ func (c ChannelFloat32) MapByte(f func(el float32) byte) chan byte {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -6870,6 +7069,7 @@ func (c ChannelFloat32) MapString(f func(el float32) string) chan string {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -6880,6 +7080,7 @@ func (c ChannelFloat32) MapFloat32(f func(el float32) float32) chan float32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -6890,6 +7091,7 @@ func (c ChannelFloat32) MapFloat64(f func(el float32) float64) chan float64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -6900,6 +7102,7 @@ func (c ChannelFloat32) MapInt(f func(el float32) int) chan int {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -6910,6 +7113,7 @@ func (c ChannelFloat32) MapInt8(f func(el float32) int8) chan int8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -6920,6 +7124,7 @@ func (c ChannelFloat32) MapInt16(f func(el float32) int16) chan int16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -6930,6 +7135,7 @@ func (c ChannelFloat32) MapInt32(f func(el float32) int32) chan int32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -6940,6 +7146,7 @@ func (c ChannelFloat32) MapInt64(f func(el float32) int64) chan int64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -6950,6 +7157,7 @@ func (c ChannelFloat32) MapUint(f func(el float32) uint) chan uint {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -6960,6 +7168,7 @@ func (c ChannelFloat32) MapUint8(f func(el float32) uint8) chan uint8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -6970,6 +7179,7 @@ func (c ChannelFloat32) MapUint16(f func(el float32) uint16) chan uint16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -6980,6 +7190,7 @@ func (c ChannelFloat32) MapUint32(f func(el float32) uint32) chan uint32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -6990,6 +7201,7 @@ func (c ChannelFloat32) MapUint64(f func(el float32) uint64) chan uint64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -7000,6 +7212,7 @@ func (c ChannelFloat32) MapInterface(f func(el float32) interface{}) chan interf
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -7143,6 +7356,7 @@ func (c ChannelFloat32) ScanBool(acc bool, f func(el float32, acc bool) bool) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -7154,6 +7368,7 @@ func (c ChannelFloat32) ScanByte(acc byte, f func(el float32, acc byte) byte) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -7165,6 +7380,7 @@ func (c ChannelFloat32) ScanString(acc string, f func(el float32, acc string) st
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -7176,6 +7392,7 @@ func (c ChannelFloat32) ScanFloat32(acc float32, f func(el float32, acc float32)
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -7187,6 +7404,7 @@ func (c ChannelFloat32) ScanFloat64(acc float64, f func(el float32, acc float64)
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -7198,6 +7416,7 @@ func (c ChannelFloat32) ScanInt(acc int, f func(el float32, acc int) int) chan i
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -7209,6 +7428,7 @@ func (c ChannelFloat32) ScanInt8(acc int8, f func(el float32, acc int8) int8) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -7220,6 +7440,7 @@ func (c ChannelFloat32) ScanInt16(acc int16, f func(el float32, acc int16) int16
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -7231,6 +7452,7 @@ func (c ChannelFloat32) ScanInt32(acc int32, f func(el float32, acc int32) int32
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -7242,6 +7464,7 @@ func (c ChannelFloat32) ScanInt64(acc int64, f func(el float32, acc int64) int64
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -7253,6 +7476,7 @@ func (c ChannelFloat32) ScanUint(acc uint, f func(el float32, acc uint) uint) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -7264,6 +7488,7 @@ func (c ChannelFloat32) ScanUint8(acc uint8, f func(el float32, acc uint8) uint8
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -7275,6 +7500,7 @@ func (c ChannelFloat32) ScanUint16(acc uint16, f func(el float32, acc uint16) ui
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -7286,6 +7512,7 @@ func (c ChannelFloat32) ScanUint32(acc uint32, f func(el float32, acc uint32) ui
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -7297,6 +7524,7 @@ func (c ChannelFloat32) ScanUint64(acc uint64, f func(el float32, acc uint64) ui
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -7308,6 +7536,7 @@ func (c ChannelFloat32) ScanInterface(acc interface{}, f func(el float32, acc in
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -7345,6 +7574,9 @@ func (c ChannelFloat32) Tee(count int) []chan float32 {
 				putInto(ch)
 			}
 			wg.Wait()
+		}
+		for _, ch := range channels {
+			close(ch)
 		}
 	}()
 	return channels
@@ -7730,12 +7962,12 @@ func (s SliceFloat32) ChunkByInterface(f func(el float32) interface{}) [][]float
 
 func (s SliceFloat32) ChunkEvery(count int) [][]float32 {
 	chunks := make([][]float32, 0)
-	chunk := make([]float32, 0)
+	chunk := make([]float32, 0, count)
 	for i, el := range s.data {
 		chunk = append(chunk, el)
 		if (i+1)%count == 0 {
 			chunks = append(chunks, chunk)
-			chunk = make([]float32, 0)
+			chunk = make([]float32, 0, count)
 		}
 	}
 	if len(chunk) > 0 {
@@ -9074,6 +9306,28 @@ func (c ChannelFloat64) All(f func(el float64) bool) bool {
 	return true
 }
 
+func (c ChannelFloat64) ChunkEvery(count int) chan []float64 {
+	chunks := make(chan []float64, 1)
+	go func() {
+		chunk := make([]float64, 0, count)
+		i := 0
+		for el := range c.data {
+			chunk = append(chunk, el)
+			i++
+			if i%count == 0 {
+				i = 0
+				chunks <- chunk
+				chunk = make([]float64, 0, count)
+			}
+		}
+		if len(chunk) > 0 {
+			chunks <- chunk
+		}
+		close(chunks)
+	}()
+	return chunks
+}
+
 func (c ChannelFloat64) Count(el float64) int {
 	count := 0
 	for val := range c.data {
@@ -9113,6 +9367,7 @@ func (c ChannelFloat64) Filter(f func(el float64) bool) chan float64 {
 				result <- el
 			}
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9123,6 +9378,7 @@ func (c ChannelFloat64) MapBool(f func(el float64) bool) chan bool {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9133,6 +9389,7 @@ func (c ChannelFloat64) MapByte(f func(el float64) byte) chan byte {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9143,6 +9400,7 @@ func (c ChannelFloat64) MapString(f func(el float64) string) chan string {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9153,6 +9411,7 @@ func (c ChannelFloat64) MapFloat32(f func(el float64) float32) chan float32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9163,6 +9422,7 @@ func (c ChannelFloat64) MapFloat64(f func(el float64) float64) chan float64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9173,6 +9433,7 @@ func (c ChannelFloat64) MapInt(f func(el float64) int) chan int {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9183,6 +9444,7 @@ func (c ChannelFloat64) MapInt8(f func(el float64) int8) chan int8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9193,6 +9455,7 @@ func (c ChannelFloat64) MapInt16(f func(el float64) int16) chan int16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9203,6 +9466,7 @@ func (c ChannelFloat64) MapInt32(f func(el float64) int32) chan int32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9213,6 +9477,7 @@ func (c ChannelFloat64) MapInt64(f func(el float64) int64) chan int64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9223,6 +9488,7 @@ func (c ChannelFloat64) MapUint(f func(el float64) uint) chan uint {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9233,6 +9499,7 @@ func (c ChannelFloat64) MapUint8(f func(el float64) uint8) chan uint8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9243,6 +9510,7 @@ func (c ChannelFloat64) MapUint16(f func(el float64) uint16) chan uint16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9253,6 +9521,7 @@ func (c ChannelFloat64) MapUint32(f func(el float64) uint32) chan uint32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9263,6 +9532,7 @@ func (c ChannelFloat64) MapUint64(f func(el float64) uint64) chan uint64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9273,6 +9543,7 @@ func (c ChannelFloat64) MapInterface(f func(el float64) interface{}) chan interf
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9416,6 +9687,7 @@ func (c ChannelFloat64) ScanBool(acc bool, f func(el float64, acc bool) bool) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9427,6 +9699,7 @@ func (c ChannelFloat64) ScanByte(acc byte, f func(el float64, acc byte) byte) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9438,6 +9711,7 @@ func (c ChannelFloat64) ScanString(acc string, f func(el float64, acc string) st
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9449,6 +9723,7 @@ func (c ChannelFloat64) ScanFloat32(acc float32, f func(el float64, acc float32)
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9460,6 +9735,7 @@ func (c ChannelFloat64) ScanFloat64(acc float64, f func(el float64, acc float64)
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9471,6 +9747,7 @@ func (c ChannelFloat64) ScanInt(acc int, f func(el float64, acc int) int) chan i
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9482,6 +9759,7 @@ func (c ChannelFloat64) ScanInt8(acc int8, f func(el float64, acc int8) int8) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9493,6 +9771,7 @@ func (c ChannelFloat64) ScanInt16(acc int16, f func(el float64, acc int16) int16
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9504,6 +9783,7 @@ func (c ChannelFloat64) ScanInt32(acc int32, f func(el float64, acc int32) int32
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9515,6 +9795,7 @@ func (c ChannelFloat64) ScanInt64(acc int64, f func(el float64, acc int64) int64
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9526,6 +9807,7 @@ func (c ChannelFloat64) ScanUint(acc uint, f func(el float64, acc uint) uint) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9537,6 +9819,7 @@ func (c ChannelFloat64) ScanUint8(acc uint8, f func(el float64, acc uint8) uint8
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9548,6 +9831,7 @@ func (c ChannelFloat64) ScanUint16(acc uint16, f func(el float64, acc uint16) ui
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9559,6 +9843,7 @@ func (c ChannelFloat64) ScanUint32(acc uint32, f func(el float64, acc uint32) ui
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9570,6 +9855,7 @@ func (c ChannelFloat64) ScanUint64(acc uint64, f func(el float64, acc uint64) ui
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9581,6 +9867,7 @@ func (c ChannelFloat64) ScanInterface(acc interface{}, f func(el float64, acc in
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -9618,6 +9905,9 @@ func (c ChannelFloat64) Tee(count int) []chan float64 {
 				putInto(ch)
 			}
 			wg.Wait()
+		}
+		for _, ch := range channels {
+			close(ch)
 		}
 	}()
 	return channels
@@ -10003,12 +10293,12 @@ func (s SliceFloat64) ChunkByInterface(f func(el float64) interface{}) [][]float
 
 func (s SliceFloat64) ChunkEvery(count int) [][]float64 {
 	chunks := make([][]float64, 0)
-	chunk := make([]float64, 0)
+	chunk := make([]float64, 0, count)
 	for i, el := range s.data {
 		chunk = append(chunk, el)
 		if (i+1)%count == 0 {
 			chunks = append(chunks, chunk)
-			chunk = make([]float64, 0)
+			chunk = make([]float64, 0, count)
 		}
 	}
 	if len(chunk) > 0 {
@@ -11347,6 +11637,28 @@ func (c ChannelInt) All(f func(el int) bool) bool {
 	return true
 }
 
+func (c ChannelInt) ChunkEvery(count int) chan []int {
+	chunks := make(chan []int, 1)
+	go func() {
+		chunk := make([]int, 0, count)
+		i := 0
+		for el := range c.data {
+			chunk = append(chunk, el)
+			i++
+			if i%count == 0 {
+				i = 0
+				chunks <- chunk
+				chunk = make([]int, 0, count)
+			}
+		}
+		if len(chunk) > 0 {
+			chunks <- chunk
+		}
+		close(chunks)
+	}()
+	return chunks
+}
+
 func (c ChannelInt) Count(el int) int {
 	count := 0
 	for val := range c.data {
@@ -11386,6 +11698,7 @@ func (c ChannelInt) Filter(f func(el int) bool) chan int {
 				result <- el
 			}
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11396,6 +11709,7 @@ func (c ChannelInt) MapBool(f func(el int) bool) chan bool {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11406,6 +11720,7 @@ func (c ChannelInt) MapByte(f func(el int) byte) chan byte {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11416,6 +11731,7 @@ func (c ChannelInt) MapString(f func(el int) string) chan string {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11426,6 +11742,7 @@ func (c ChannelInt) MapFloat32(f func(el int) float32) chan float32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11436,6 +11753,7 @@ func (c ChannelInt) MapFloat64(f func(el int) float64) chan float64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11446,6 +11764,7 @@ func (c ChannelInt) MapInt(f func(el int) int) chan int {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11456,6 +11775,7 @@ func (c ChannelInt) MapInt8(f func(el int) int8) chan int8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11466,6 +11786,7 @@ func (c ChannelInt) MapInt16(f func(el int) int16) chan int16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11476,6 +11797,7 @@ func (c ChannelInt) MapInt32(f func(el int) int32) chan int32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11486,6 +11808,7 @@ func (c ChannelInt) MapInt64(f func(el int) int64) chan int64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11496,6 +11819,7 @@ func (c ChannelInt) MapUint(f func(el int) uint) chan uint {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11506,6 +11830,7 @@ func (c ChannelInt) MapUint8(f func(el int) uint8) chan uint8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11516,6 +11841,7 @@ func (c ChannelInt) MapUint16(f func(el int) uint16) chan uint16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11526,6 +11852,7 @@ func (c ChannelInt) MapUint32(f func(el int) uint32) chan uint32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11536,6 +11863,7 @@ func (c ChannelInt) MapUint64(f func(el int) uint64) chan uint64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11546,6 +11874,7 @@ func (c ChannelInt) MapInterface(f func(el int) interface{}) chan interface{} {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11689,6 +12018,7 @@ func (c ChannelInt) ScanBool(acc bool, f func(el int, acc bool) bool) chan bool 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11700,6 +12030,7 @@ func (c ChannelInt) ScanByte(acc byte, f func(el int, acc byte) byte) chan byte 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11711,6 +12042,7 @@ func (c ChannelInt) ScanString(acc string, f func(el int, acc string) string) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11722,6 +12054,7 @@ func (c ChannelInt) ScanFloat32(acc float32, f func(el int, acc float32) float32
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11733,6 +12066,7 @@ func (c ChannelInt) ScanFloat64(acc float64, f func(el int, acc float64) float64
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11744,6 +12078,7 @@ func (c ChannelInt) ScanInt(acc int, f func(el int, acc int) int) chan int {
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11755,6 +12090,7 @@ func (c ChannelInt) ScanInt8(acc int8, f func(el int, acc int8) int8) chan int8 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11766,6 +12102,7 @@ func (c ChannelInt) ScanInt16(acc int16, f func(el int, acc int16) int16) chan i
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11777,6 +12114,7 @@ func (c ChannelInt) ScanInt32(acc int32, f func(el int, acc int32) int32) chan i
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11788,6 +12126,7 @@ func (c ChannelInt) ScanInt64(acc int64, f func(el int, acc int64) int64) chan i
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11799,6 +12138,7 @@ func (c ChannelInt) ScanUint(acc uint, f func(el int, acc uint) uint) chan uint 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11810,6 +12150,7 @@ func (c ChannelInt) ScanUint8(acc uint8, f func(el int, acc uint8) uint8) chan u
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11821,6 +12162,7 @@ func (c ChannelInt) ScanUint16(acc uint16, f func(el int, acc uint16) uint16) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11832,6 +12174,7 @@ func (c ChannelInt) ScanUint32(acc uint32, f func(el int, acc uint32) uint32) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11843,6 +12186,7 @@ func (c ChannelInt) ScanUint64(acc uint64, f func(el int, acc uint64) uint64) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11854,6 +12198,7 @@ func (c ChannelInt) ScanInterface(acc interface{}, f func(el int, acc interface{
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -11891,6 +12236,9 @@ func (c ChannelInt) Tee(count int) []chan int {
 				putInto(ch)
 			}
 			wg.Wait()
+		}
+		for _, ch := range channels {
+			close(ch)
 		}
 	}()
 	return channels
@@ -12276,12 +12624,12 @@ func (s SliceInt) ChunkByInterface(f func(el int) interface{}) [][]int {
 
 func (s SliceInt) ChunkEvery(count int) [][]int {
 	chunks := make([][]int, 0)
-	chunk := make([]int, 0)
+	chunk := make([]int, 0, count)
 	for i, el := range s.data {
 		chunk = append(chunk, el)
 		if (i+1)%count == 0 {
 			chunks = append(chunks, chunk)
-			chunk = make([]int, 0)
+			chunk = make([]int, 0, count)
 		}
 	}
 	if len(chunk) > 0 {
@@ -13620,6 +13968,28 @@ func (c ChannelInt8) All(f func(el int8) bool) bool {
 	return true
 }
 
+func (c ChannelInt8) ChunkEvery(count int) chan []int8 {
+	chunks := make(chan []int8, 1)
+	go func() {
+		chunk := make([]int8, 0, count)
+		i := 0
+		for el := range c.data {
+			chunk = append(chunk, el)
+			i++
+			if i%count == 0 {
+				i = 0
+				chunks <- chunk
+				chunk = make([]int8, 0, count)
+			}
+		}
+		if len(chunk) > 0 {
+			chunks <- chunk
+		}
+		close(chunks)
+	}()
+	return chunks
+}
+
 func (c ChannelInt8) Count(el int8) int {
 	count := 0
 	for val := range c.data {
@@ -13659,6 +14029,7 @@ func (c ChannelInt8) Filter(f func(el int8) bool) chan int8 {
 				result <- el
 			}
 		}
+		close(result)
 	}()
 	return result
 }
@@ -13669,6 +14040,7 @@ func (c ChannelInt8) MapBool(f func(el int8) bool) chan bool {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -13679,6 +14051,7 @@ func (c ChannelInt8) MapByte(f func(el int8) byte) chan byte {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -13689,6 +14062,7 @@ func (c ChannelInt8) MapString(f func(el int8) string) chan string {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -13699,6 +14073,7 @@ func (c ChannelInt8) MapFloat32(f func(el int8) float32) chan float32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -13709,6 +14084,7 @@ func (c ChannelInt8) MapFloat64(f func(el int8) float64) chan float64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -13719,6 +14095,7 @@ func (c ChannelInt8) MapInt(f func(el int8) int) chan int {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -13729,6 +14106,7 @@ func (c ChannelInt8) MapInt8(f func(el int8) int8) chan int8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -13739,6 +14117,7 @@ func (c ChannelInt8) MapInt16(f func(el int8) int16) chan int16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -13749,6 +14128,7 @@ func (c ChannelInt8) MapInt32(f func(el int8) int32) chan int32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -13759,6 +14139,7 @@ func (c ChannelInt8) MapInt64(f func(el int8) int64) chan int64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -13769,6 +14150,7 @@ func (c ChannelInt8) MapUint(f func(el int8) uint) chan uint {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -13779,6 +14161,7 @@ func (c ChannelInt8) MapUint8(f func(el int8) uint8) chan uint8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -13789,6 +14172,7 @@ func (c ChannelInt8) MapUint16(f func(el int8) uint16) chan uint16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -13799,6 +14183,7 @@ func (c ChannelInt8) MapUint32(f func(el int8) uint32) chan uint32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -13809,6 +14194,7 @@ func (c ChannelInt8) MapUint64(f func(el int8) uint64) chan uint64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -13819,6 +14205,7 @@ func (c ChannelInt8) MapInterface(f func(el int8) interface{}) chan interface{} 
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -13962,6 +14349,7 @@ func (c ChannelInt8) ScanBool(acc bool, f func(el int8, acc bool) bool) chan boo
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -13973,6 +14361,7 @@ func (c ChannelInt8) ScanByte(acc byte, f func(el int8, acc byte) byte) chan byt
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -13984,6 +14373,7 @@ func (c ChannelInt8) ScanString(acc string, f func(el int8, acc string) string) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -13995,6 +14385,7 @@ func (c ChannelInt8) ScanFloat32(acc float32, f func(el int8, acc float32) float
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -14006,6 +14397,7 @@ func (c ChannelInt8) ScanFloat64(acc float64, f func(el int8, acc float64) float
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -14017,6 +14409,7 @@ func (c ChannelInt8) ScanInt(acc int, f func(el int8, acc int) int) chan int {
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -14028,6 +14421,7 @@ func (c ChannelInt8) ScanInt8(acc int8, f func(el int8, acc int8) int8) chan int
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -14039,6 +14433,7 @@ func (c ChannelInt8) ScanInt16(acc int16, f func(el int8, acc int16) int16) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -14050,6 +14445,7 @@ func (c ChannelInt8) ScanInt32(acc int32, f func(el int8, acc int32) int32) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -14061,6 +14457,7 @@ func (c ChannelInt8) ScanInt64(acc int64, f func(el int8, acc int64) int64) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -14072,6 +14469,7 @@ func (c ChannelInt8) ScanUint(acc uint, f func(el int8, acc uint) uint) chan uin
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -14083,6 +14481,7 @@ func (c ChannelInt8) ScanUint8(acc uint8, f func(el int8, acc uint8) uint8) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -14094,6 +14493,7 @@ func (c ChannelInt8) ScanUint16(acc uint16, f func(el int8, acc uint16) uint16) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -14105,6 +14505,7 @@ func (c ChannelInt8) ScanUint32(acc uint32, f func(el int8, acc uint32) uint32) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -14116,6 +14517,7 @@ func (c ChannelInt8) ScanUint64(acc uint64, f func(el int8, acc uint64) uint64) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -14127,6 +14529,7 @@ func (c ChannelInt8) ScanInterface(acc interface{}, f func(el int8, acc interfac
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -14164,6 +14567,9 @@ func (c ChannelInt8) Tee(count int) []chan int8 {
 				putInto(ch)
 			}
 			wg.Wait()
+		}
+		for _, ch := range channels {
+			close(ch)
 		}
 	}()
 	return channels
@@ -14549,12 +14955,12 @@ func (s SliceInt8) ChunkByInterface(f func(el int8) interface{}) [][]int8 {
 
 func (s SliceInt8) ChunkEvery(count int) [][]int8 {
 	chunks := make([][]int8, 0)
-	chunk := make([]int8, 0)
+	chunk := make([]int8, 0, count)
 	for i, el := range s.data {
 		chunk = append(chunk, el)
 		if (i+1)%count == 0 {
 			chunks = append(chunks, chunk)
-			chunk = make([]int8, 0)
+			chunk = make([]int8, 0, count)
 		}
 	}
 	if len(chunk) > 0 {
@@ -15893,6 +16299,28 @@ func (c ChannelInt16) All(f func(el int16) bool) bool {
 	return true
 }
 
+func (c ChannelInt16) ChunkEvery(count int) chan []int16 {
+	chunks := make(chan []int16, 1)
+	go func() {
+		chunk := make([]int16, 0, count)
+		i := 0
+		for el := range c.data {
+			chunk = append(chunk, el)
+			i++
+			if i%count == 0 {
+				i = 0
+				chunks <- chunk
+				chunk = make([]int16, 0, count)
+			}
+		}
+		if len(chunk) > 0 {
+			chunks <- chunk
+		}
+		close(chunks)
+	}()
+	return chunks
+}
+
 func (c ChannelInt16) Count(el int16) int {
 	count := 0
 	for val := range c.data {
@@ -15932,6 +16360,7 @@ func (c ChannelInt16) Filter(f func(el int16) bool) chan int16 {
 				result <- el
 			}
 		}
+		close(result)
 	}()
 	return result
 }
@@ -15942,6 +16371,7 @@ func (c ChannelInt16) MapBool(f func(el int16) bool) chan bool {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -15952,6 +16382,7 @@ func (c ChannelInt16) MapByte(f func(el int16) byte) chan byte {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -15962,6 +16393,7 @@ func (c ChannelInt16) MapString(f func(el int16) string) chan string {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -15972,6 +16404,7 @@ func (c ChannelInt16) MapFloat32(f func(el int16) float32) chan float32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -15982,6 +16415,7 @@ func (c ChannelInt16) MapFloat64(f func(el int16) float64) chan float64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -15992,6 +16426,7 @@ func (c ChannelInt16) MapInt(f func(el int16) int) chan int {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16002,6 +16437,7 @@ func (c ChannelInt16) MapInt8(f func(el int16) int8) chan int8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16012,6 +16448,7 @@ func (c ChannelInt16) MapInt16(f func(el int16) int16) chan int16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16022,6 +16459,7 @@ func (c ChannelInt16) MapInt32(f func(el int16) int32) chan int32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16032,6 +16470,7 @@ func (c ChannelInt16) MapInt64(f func(el int16) int64) chan int64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16042,6 +16481,7 @@ func (c ChannelInt16) MapUint(f func(el int16) uint) chan uint {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16052,6 +16492,7 @@ func (c ChannelInt16) MapUint8(f func(el int16) uint8) chan uint8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16062,6 +16503,7 @@ func (c ChannelInt16) MapUint16(f func(el int16) uint16) chan uint16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16072,6 +16514,7 @@ func (c ChannelInt16) MapUint32(f func(el int16) uint32) chan uint32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16082,6 +16525,7 @@ func (c ChannelInt16) MapUint64(f func(el int16) uint64) chan uint64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16092,6 +16536,7 @@ func (c ChannelInt16) MapInterface(f func(el int16) interface{}) chan interface{
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16235,6 +16680,7 @@ func (c ChannelInt16) ScanBool(acc bool, f func(el int16, acc bool) bool) chan b
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16246,6 +16692,7 @@ func (c ChannelInt16) ScanByte(acc byte, f func(el int16, acc byte) byte) chan b
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16257,6 +16704,7 @@ func (c ChannelInt16) ScanString(acc string, f func(el int16, acc string) string
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16268,6 +16716,7 @@ func (c ChannelInt16) ScanFloat32(acc float32, f func(el int16, acc float32) flo
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16279,6 +16728,7 @@ func (c ChannelInt16) ScanFloat64(acc float64, f func(el int16, acc float64) flo
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16290,6 +16740,7 @@ func (c ChannelInt16) ScanInt(acc int, f func(el int16, acc int) int) chan int {
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16301,6 +16752,7 @@ func (c ChannelInt16) ScanInt8(acc int8, f func(el int16, acc int8) int8) chan i
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16312,6 +16764,7 @@ func (c ChannelInt16) ScanInt16(acc int16, f func(el int16, acc int16) int16) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16323,6 +16776,7 @@ func (c ChannelInt16) ScanInt32(acc int32, f func(el int16, acc int32) int32) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16334,6 +16788,7 @@ func (c ChannelInt16) ScanInt64(acc int64, f func(el int16, acc int64) int64) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16345,6 +16800,7 @@ func (c ChannelInt16) ScanUint(acc uint, f func(el int16, acc uint) uint) chan u
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16356,6 +16812,7 @@ func (c ChannelInt16) ScanUint8(acc uint8, f func(el int16, acc uint8) uint8) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16367,6 +16824,7 @@ func (c ChannelInt16) ScanUint16(acc uint16, f func(el int16, acc uint16) uint16
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16378,6 +16836,7 @@ func (c ChannelInt16) ScanUint32(acc uint32, f func(el int16, acc uint32) uint32
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16389,6 +16848,7 @@ func (c ChannelInt16) ScanUint64(acc uint64, f func(el int16, acc uint64) uint64
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16400,6 +16860,7 @@ func (c ChannelInt16) ScanInterface(acc interface{}, f func(el int16, acc interf
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -16437,6 +16898,9 @@ func (c ChannelInt16) Tee(count int) []chan int16 {
 				putInto(ch)
 			}
 			wg.Wait()
+		}
+		for _, ch := range channels {
+			close(ch)
 		}
 	}()
 	return channels
@@ -16822,12 +17286,12 @@ func (s SliceInt16) ChunkByInterface(f func(el int16) interface{}) [][]int16 {
 
 func (s SliceInt16) ChunkEvery(count int) [][]int16 {
 	chunks := make([][]int16, 0)
-	chunk := make([]int16, 0)
+	chunk := make([]int16, 0, count)
 	for i, el := range s.data {
 		chunk = append(chunk, el)
 		if (i+1)%count == 0 {
 			chunks = append(chunks, chunk)
-			chunk = make([]int16, 0)
+			chunk = make([]int16, 0, count)
 		}
 	}
 	if len(chunk) > 0 {
@@ -18166,6 +18630,28 @@ func (c ChannelInt32) All(f func(el int32) bool) bool {
 	return true
 }
 
+func (c ChannelInt32) ChunkEvery(count int) chan []int32 {
+	chunks := make(chan []int32, 1)
+	go func() {
+		chunk := make([]int32, 0, count)
+		i := 0
+		for el := range c.data {
+			chunk = append(chunk, el)
+			i++
+			if i%count == 0 {
+				i = 0
+				chunks <- chunk
+				chunk = make([]int32, 0, count)
+			}
+		}
+		if len(chunk) > 0 {
+			chunks <- chunk
+		}
+		close(chunks)
+	}()
+	return chunks
+}
+
 func (c ChannelInt32) Count(el int32) int {
 	count := 0
 	for val := range c.data {
@@ -18205,6 +18691,7 @@ func (c ChannelInt32) Filter(f func(el int32) bool) chan int32 {
 				result <- el
 			}
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18215,6 +18702,7 @@ func (c ChannelInt32) MapBool(f func(el int32) bool) chan bool {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18225,6 +18713,7 @@ func (c ChannelInt32) MapByte(f func(el int32) byte) chan byte {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18235,6 +18724,7 @@ func (c ChannelInt32) MapString(f func(el int32) string) chan string {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18245,6 +18735,7 @@ func (c ChannelInt32) MapFloat32(f func(el int32) float32) chan float32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18255,6 +18746,7 @@ func (c ChannelInt32) MapFloat64(f func(el int32) float64) chan float64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18265,6 +18757,7 @@ func (c ChannelInt32) MapInt(f func(el int32) int) chan int {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18275,6 +18768,7 @@ func (c ChannelInt32) MapInt8(f func(el int32) int8) chan int8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18285,6 +18779,7 @@ func (c ChannelInt32) MapInt16(f func(el int32) int16) chan int16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18295,6 +18790,7 @@ func (c ChannelInt32) MapInt32(f func(el int32) int32) chan int32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18305,6 +18801,7 @@ func (c ChannelInt32) MapInt64(f func(el int32) int64) chan int64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18315,6 +18812,7 @@ func (c ChannelInt32) MapUint(f func(el int32) uint) chan uint {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18325,6 +18823,7 @@ func (c ChannelInt32) MapUint8(f func(el int32) uint8) chan uint8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18335,6 +18834,7 @@ func (c ChannelInt32) MapUint16(f func(el int32) uint16) chan uint16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18345,6 +18845,7 @@ func (c ChannelInt32) MapUint32(f func(el int32) uint32) chan uint32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18355,6 +18856,7 @@ func (c ChannelInt32) MapUint64(f func(el int32) uint64) chan uint64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18365,6 +18867,7 @@ func (c ChannelInt32) MapInterface(f func(el int32) interface{}) chan interface{
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18508,6 +19011,7 @@ func (c ChannelInt32) ScanBool(acc bool, f func(el int32, acc bool) bool) chan b
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18519,6 +19023,7 @@ func (c ChannelInt32) ScanByte(acc byte, f func(el int32, acc byte) byte) chan b
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18530,6 +19035,7 @@ func (c ChannelInt32) ScanString(acc string, f func(el int32, acc string) string
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18541,6 +19047,7 @@ func (c ChannelInt32) ScanFloat32(acc float32, f func(el int32, acc float32) flo
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18552,6 +19059,7 @@ func (c ChannelInt32) ScanFloat64(acc float64, f func(el int32, acc float64) flo
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18563,6 +19071,7 @@ func (c ChannelInt32) ScanInt(acc int, f func(el int32, acc int) int) chan int {
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18574,6 +19083,7 @@ func (c ChannelInt32) ScanInt8(acc int8, f func(el int32, acc int8) int8) chan i
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18585,6 +19095,7 @@ func (c ChannelInt32) ScanInt16(acc int16, f func(el int32, acc int16) int16) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18596,6 +19107,7 @@ func (c ChannelInt32) ScanInt32(acc int32, f func(el int32, acc int32) int32) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18607,6 +19119,7 @@ func (c ChannelInt32) ScanInt64(acc int64, f func(el int32, acc int64) int64) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18618,6 +19131,7 @@ func (c ChannelInt32) ScanUint(acc uint, f func(el int32, acc uint) uint) chan u
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18629,6 +19143,7 @@ func (c ChannelInt32) ScanUint8(acc uint8, f func(el int32, acc uint8) uint8) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18640,6 +19155,7 @@ func (c ChannelInt32) ScanUint16(acc uint16, f func(el int32, acc uint16) uint16
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18651,6 +19167,7 @@ func (c ChannelInt32) ScanUint32(acc uint32, f func(el int32, acc uint32) uint32
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18662,6 +19179,7 @@ func (c ChannelInt32) ScanUint64(acc uint64, f func(el int32, acc uint64) uint64
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18673,6 +19191,7 @@ func (c ChannelInt32) ScanInterface(acc interface{}, f func(el int32, acc interf
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -18710,6 +19229,9 @@ func (c ChannelInt32) Tee(count int) []chan int32 {
 				putInto(ch)
 			}
 			wg.Wait()
+		}
+		for _, ch := range channels {
+			close(ch)
 		}
 	}()
 	return channels
@@ -19095,12 +19617,12 @@ func (s SliceInt32) ChunkByInterface(f func(el int32) interface{}) [][]int32 {
 
 func (s SliceInt32) ChunkEvery(count int) [][]int32 {
 	chunks := make([][]int32, 0)
-	chunk := make([]int32, 0)
+	chunk := make([]int32, 0, count)
 	for i, el := range s.data {
 		chunk = append(chunk, el)
 		if (i+1)%count == 0 {
 			chunks = append(chunks, chunk)
-			chunk = make([]int32, 0)
+			chunk = make([]int32, 0, count)
 		}
 	}
 	if len(chunk) > 0 {
@@ -20439,6 +20961,28 @@ func (c ChannelInt64) All(f func(el int64) bool) bool {
 	return true
 }
 
+func (c ChannelInt64) ChunkEvery(count int) chan []int64 {
+	chunks := make(chan []int64, 1)
+	go func() {
+		chunk := make([]int64, 0, count)
+		i := 0
+		for el := range c.data {
+			chunk = append(chunk, el)
+			i++
+			if i%count == 0 {
+				i = 0
+				chunks <- chunk
+				chunk = make([]int64, 0, count)
+			}
+		}
+		if len(chunk) > 0 {
+			chunks <- chunk
+		}
+		close(chunks)
+	}()
+	return chunks
+}
+
 func (c ChannelInt64) Count(el int64) int {
 	count := 0
 	for val := range c.data {
@@ -20478,6 +21022,7 @@ func (c ChannelInt64) Filter(f func(el int64) bool) chan int64 {
 				result <- el
 			}
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20488,6 +21033,7 @@ func (c ChannelInt64) MapBool(f func(el int64) bool) chan bool {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20498,6 +21044,7 @@ func (c ChannelInt64) MapByte(f func(el int64) byte) chan byte {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20508,6 +21055,7 @@ func (c ChannelInt64) MapString(f func(el int64) string) chan string {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20518,6 +21066,7 @@ func (c ChannelInt64) MapFloat32(f func(el int64) float32) chan float32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20528,6 +21077,7 @@ func (c ChannelInt64) MapFloat64(f func(el int64) float64) chan float64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20538,6 +21088,7 @@ func (c ChannelInt64) MapInt(f func(el int64) int) chan int {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20548,6 +21099,7 @@ func (c ChannelInt64) MapInt8(f func(el int64) int8) chan int8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20558,6 +21110,7 @@ func (c ChannelInt64) MapInt16(f func(el int64) int16) chan int16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20568,6 +21121,7 @@ func (c ChannelInt64) MapInt32(f func(el int64) int32) chan int32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20578,6 +21132,7 @@ func (c ChannelInt64) MapInt64(f func(el int64) int64) chan int64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20588,6 +21143,7 @@ func (c ChannelInt64) MapUint(f func(el int64) uint) chan uint {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20598,6 +21154,7 @@ func (c ChannelInt64) MapUint8(f func(el int64) uint8) chan uint8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20608,6 +21165,7 @@ func (c ChannelInt64) MapUint16(f func(el int64) uint16) chan uint16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20618,6 +21176,7 @@ func (c ChannelInt64) MapUint32(f func(el int64) uint32) chan uint32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20628,6 +21187,7 @@ func (c ChannelInt64) MapUint64(f func(el int64) uint64) chan uint64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20638,6 +21198,7 @@ func (c ChannelInt64) MapInterface(f func(el int64) interface{}) chan interface{
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20781,6 +21342,7 @@ func (c ChannelInt64) ScanBool(acc bool, f func(el int64, acc bool) bool) chan b
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20792,6 +21354,7 @@ func (c ChannelInt64) ScanByte(acc byte, f func(el int64, acc byte) byte) chan b
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20803,6 +21366,7 @@ func (c ChannelInt64) ScanString(acc string, f func(el int64, acc string) string
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20814,6 +21378,7 @@ func (c ChannelInt64) ScanFloat32(acc float32, f func(el int64, acc float32) flo
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20825,6 +21390,7 @@ func (c ChannelInt64) ScanFloat64(acc float64, f func(el int64, acc float64) flo
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20836,6 +21402,7 @@ func (c ChannelInt64) ScanInt(acc int, f func(el int64, acc int) int) chan int {
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20847,6 +21414,7 @@ func (c ChannelInt64) ScanInt8(acc int8, f func(el int64, acc int8) int8) chan i
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20858,6 +21426,7 @@ func (c ChannelInt64) ScanInt16(acc int16, f func(el int64, acc int16) int16) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20869,6 +21438,7 @@ func (c ChannelInt64) ScanInt32(acc int32, f func(el int64, acc int32) int32) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20880,6 +21450,7 @@ func (c ChannelInt64) ScanInt64(acc int64, f func(el int64, acc int64) int64) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20891,6 +21462,7 @@ func (c ChannelInt64) ScanUint(acc uint, f func(el int64, acc uint) uint) chan u
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20902,6 +21474,7 @@ func (c ChannelInt64) ScanUint8(acc uint8, f func(el int64, acc uint8) uint8) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20913,6 +21486,7 @@ func (c ChannelInt64) ScanUint16(acc uint16, f func(el int64, acc uint16) uint16
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20924,6 +21498,7 @@ func (c ChannelInt64) ScanUint32(acc uint32, f func(el int64, acc uint32) uint32
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20935,6 +21510,7 @@ func (c ChannelInt64) ScanUint64(acc uint64, f func(el int64, acc uint64) uint64
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20946,6 +21522,7 @@ func (c ChannelInt64) ScanInterface(acc interface{}, f func(el int64, acc interf
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -20983,6 +21560,9 @@ func (c ChannelInt64) Tee(count int) []chan int64 {
 				putInto(ch)
 			}
 			wg.Wait()
+		}
+		for _, ch := range channels {
+			close(ch)
 		}
 	}()
 	return channels
@@ -21368,12 +21948,12 @@ func (s SliceInt64) ChunkByInterface(f func(el int64) interface{}) [][]int64 {
 
 func (s SliceInt64) ChunkEvery(count int) [][]int64 {
 	chunks := make([][]int64, 0)
-	chunk := make([]int64, 0)
+	chunk := make([]int64, 0, count)
 	for i, el := range s.data {
 		chunk = append(chunk, el)
 		if (i+1)%count == 0 {
 			chunks = append(chunks, chunk)
-			chunk = make([]int64, 0)
+			chunk = make([]int64, 0, count)
 		}
 	}
 	if len(chunk) > 0 {
@@ -22712,6 +23292,28 @@ func (c ChannelUint) All(f func(el uint) bool) bool {
 	return true
 }
 
+func (c ChannelUint) ChunkEvery(count int) chan []uint {
+	chunks := make(chan []uint, 1)
+	go func() {
+		chunk := make([]uint, 0, count)
+		i := 0
+		for el := range c.data {
+			chunk = append(chunk, el)
+			i++
+			if i%count == 0 {
+				i = 0
+				chunks <- chunk
+				chunk = make([]uint, 0, count)
+			}
+		}
+		if len(chunk) > 0 {
+			chunks <- chunk
+		}
+		close(chunks)
+	}()
+	return chunks
+}
+
 func (c ChannelUint) Count(el uint) int {
 	count := 0
 	for val := range c.data {
@@ -22751,6 +23353,7 @@ func (c ChannelUint) Filter(f func(el uint) bool) chan uint {
 				result <- el
 			}
 		}
+		close(result)
 	}()
 	return result
 }
@@ -22761,6 +23364,7 @@ func (c ChannelUint) MapBool(f func(el uint) bool) chan bool {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -22771,6 +23375,7 @@ func (c ChannelUint) MapByte(f func(el uint) byte) chan byte {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -22781,6 +23386,7 @@ func (c ChannelUint) MapString(f func(el uint) string) chan string {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -22791,6 +23397,7 @@ func (c ChannelUint) MapFloat32(f func(el uint) float32) chan float32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -22801,6 +23408,7 @@ func (c ChannelUint) MapFloat64(f func(el uint) float64) chan float64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -22811,6 +23419,7 @@ func (c ChannelUint) MapInt(f func(el uint) int) chan int {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -22821,6 +23430,7 @@ func (c ChannelUint) MapInt8(f func(el uint) int8) chan int8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -22831,6 +23441,7 @@ func (c ChannelUint) MapInt16(f func(el uint) int16) chan int16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -22841,6 +23452,7 @@ func (c ChannelUint) MapInt32(f func(el uint) int32) chan int32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -22851,6 +23463,7 @@ func (c ChannelUint) MapInt64(f func(el uint) int64) chan int64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -22861,6 +23474,7 @@ func (c ChannelUint) MapUint(f func(el uint) uint) chan uint {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -22871,6 +23485,7 @@ func (c ChannelUint) MapUint8(f func(el uint) uint8) chan uint8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -22881,6 +23496,7 @@ func (c ChannelUint) MapUint16(f func(el uint) uint16) chan uint16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -22891,6 +23507,7 @@ func (c ChannelUint) MapUint32(f func(el uint) uint32) chan uint32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -22901,6 +23518,7 @@ func (c ChannelUint) MapUint64(f func(el uint) uint64) chan uint64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -22911,6 +23529,7 @@ func (c ChannelUint) MapInterface(f func(el uint) interface{}) chan interface{} 
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -23054,6 +23673,7 @@ func (c ChannelUint) ScanBool(acc bool, f func(el uint, acc bool) bool) chan boo
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -23065,6 +23685,7 @@ func (c ChannelUint) ScanByte(acc byte, f func(el uint, acc byte) byte) chan byt
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -23076,6 +23697,7 @@ func (c ChannelUint) ScanString(acc string, f func(el uint, acc string) string) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -23087,6 +23709,7 @@ func (c ChannelUint) ScanFloat32(acc float32, f func(el uint, acc float32) float
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -23098,6 +23721,7 @@ func (c ChannelUint) ScanFloat64(acc float64, f func(el uint, acc float64) float
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -23109,6 +23733,7 @@ func (c ChannelUint) ScanInt(acc int, f func(el uint, acc int) int) chan int {
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -23120,6 +23745,7 @@ func (c ChannelUint) ScanInt8(acc int8, f func(el uint, acc int8) int8) chan int
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -23131,6 +23757,7 @@ func (c ChannelUint) ScanInt16(acc int16, f func(el uint, acc int16) int16) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -23142,6 +23769,7 @@ func (c ChannelUint) ScanInt32(acc int32, f func(el uint, acc int32) int32) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -23153,6 +23781,7 @@ func (c ChannelUint) ScanInt64(acc int64, f func(el uint, acc int64) int64) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -23164,6 +23793,7 @@ func (c ChannelUint) ScanUint(acc uint, f func(el uint, acc uint) uint) chan uin
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -23175,6 +23805,7 @@ func (c ChannelUint) ScanUint8(acc uint8, f func(el uint, acc uint8) uint8) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -23186,6 +23817,7 @@ func (c ChannelUint) ScanUint16(acc uint16, f func(el uint, acc uint16) uint16) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -23197,6 +23829,7 @@ func (c ChannelUint) ScanUint32(acc uint32, f func(el uint, acc uint32) uint32) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -23208,6 +23841,7 @@ func (c ChannelUint) ScanUint64(acc uint64, f func(el uint, acc uint64) uint64) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -23219,6 +23853,7 @@ func (c ChannelUint) ScanInterface(acc interface{}, f func(el uint, acc interfac
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -23256,6 +23891,9 @@ func (c ChannelUint) Tee(count int) []chan uint {
 				putInto(ch)
 			}
 			wg.Wait()
+		}
+		for _, ch := range channels {
+			close(ch)
 		}
 	}()
 	return channels
@@ -23641,12 +24279,12 @@ func (s SliceUint) ChunkByInterface(f func(el uint) interface{}) [][]uint {
 
 func (s SliceUint) ChunkEvery(count int) [][]uint {
 	chunks := make([][]uint, 0)
-	chunk := make([]uint, 0)
+	chunk := make([]uint, 0, count)
 	for i, el := range s.data {
 		chunk = append(chunk, el)
 		if (i+1)%count == 0 {
 			chunks = append(chunks, chunk)
-			chunk = make([]uint, 0)
+			chunk = make([]uint, 0, count)
 		}
 	}
 	if len(chunk) > 0 {
@@ -24985,6 +25623,28 @@ func (c ChannelUint8) All(f func(el uint8) bool) bool {
 	return true
 }
 
+func (c ChannelUint8) ChunkEvery(count int) chan []uint8 {
+	chunks := make(chan []uint8, 1)
+	go func() {
+		chunk := make([]uint8, 0, count)
+		i := 0
+		for el := range c.data {
+			chunk = append(chunk, el)
+			i++
+			if i%count == 0 {
+				i = 0
+				chunks <- chunk
+				chunk = make([]uint8, 0, count)
+			}
+		}
+		if len(chunk) > 0 {
+			chunks <- chunk
+		}
+		close(chunks)
+	}()
+	return chunks
+}
+
 func (c ChannelUint8) Count(el uint8) int {
 	count := 0
 	for val := range c.data {
@@ -25024,6 +25684,7 @@ func (c ChannelUint8) Filter(f func(el uint8) bool) chan uint8 {
 				result <- el
 			}
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25034,6 +25695,7 @@ func (c ChannelUint8) MapBool(f func(el uint8) bool) chan bool {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25044,6 +25706,7 @@ func (c ChannelUint8) MapByte(f func(el uint8) byte) chan byte {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25054,6 +25717,7 @@ func (c ChannelUint8) MapString(f func(el uint8) string) chan string {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25064,6 +25728,7 @@ func (c ChannelUint8) MapFloat32(f func(el uint8) float32) chan float32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25074,6 +25739,7 @@ func (c ChannelUint8) MapFloat64(f func(el uint8) float64) chan float64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25084,6 +25750,7 @@ func (c ChannelUint8) MapInt(f func(el uint8) int) chan int {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25094,6 +25761,7 @@ func (c ChannelUint8) MapInt8(f func(el uint8) int8) chan int8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25104,6 +25772,7 @@ func (c ChannelUint8) MapInt16(f func(el uint8) int16) chan int16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25114,6 +25783,7 @@ func (c ChannelUint8) MapInt32(f func(el uint8) int32) chan int32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25124,6 +25794,7 @@ func (c ChannelUint8) MapInt64(f func(el uint8) int64) chan int64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25134,6 +25805,7 @@ func (c ChannelUint8) MapUint(f func(el uint8) uint) chan uint {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25144,6 +25816,7 @@ func (c ChannelUint8) MapUint8(f func(el uint8) uint8) chan uint8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25154,6 +25827,7 @@ func (c ChannelUint8) MapUint16(f func(el uint8) uint16) chan uint16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25164,6 +25838,7 @@ func (c ChannelUint8) MapUint32(f func(el uint8) uint32) chan uint32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25174,6 +25849,7 @@ func (c ChannelUint8) MapUint64(f func(el uint8) uint64) chan uint64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25184,6 +25860,7 @@ func (c ChannelUint8) MapInterface(f func(el uint8) interface{}) chan interface{
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25327,6 +26004,7 @@ func (c ChannelUint8) ScanBool(acc bool, f func(el uint8, acc bool) bool) chan b
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25338,6 +26016,7 @@ func (c ChannelUint8) ScanByte(acc byte, f func(el uint8, acc byte) byte) chan b
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25349,6 +26028,7 @@ func (c ChannelUint8) ScanString(acc string, f func(el uint8, acc string) string
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25360,6 +26040,7 @@ func (c ChannelUint8) ScanFloat32(acc float32, f func(el uint8, acc float32) flo
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25371,6 +26052,7 @@ func (c ChannelUint8) ScanFloat64(acc float64, f func(el uint8, acc float64) flo
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25382,6 +26064,7 @@ func (c ChannelUint8) ScanInt(acc int, f func(el uint8, acc int) int) chan int {
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25393,6 +26076,7 @@ func (c ChannelUint8) ScanInt8(acc int8, f func(el uint8, acc int8) int8) chan i
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25404,6 +26088,7 @@ func (c ChannelUint8) ScanInt16(acc int16, f func(el uint8, acc int16) int16) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25415,6 +26100,7 @@ func (c ChannelUint8) ScanInt32(acc int32, f func(el uint8, acc int32) int32) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25426,6 +26112,7 @@ func (c ChannelUint8) ScanInt64(acc int64, f func(el uint8, acc int64) int64) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25437,6 +26124,7 @@ func (c ChannelUint8) ScanUint(acc uint, f func(el uint8, acc uint) uint) chan u
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25448,6 +26136,7 @@ func (c ChannelUint8) ScanUint8(acc uint8, f func(el uint8, acc uint8) uint8) ch
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25459,6 +26148,7 @@ func (c ChannelUint8) ScanUint16(acc uint16, f func(el uint8, acc uint16) uint16
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25470,6 +26160,7 @@ func (c ChannelUint8) ScanUint32(acc uint32, f func(el uint8, acc uint32) uint32
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25481,6 +26172,7 @@ func (c ChannelUint8) ScanUint64(acc uint64, f func(el uint8, acc uint64) uint64
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25492,6 +26184,7 @@ func (c ChannelUint8) ScanInterface(acc interface{}, f func(el uint8, acc interf
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -25529,6 +26222,9 @@ func (c ChannelUint8) Tee(count int) []chan uint8 {
 				putInto(ch)
 			}
 			wg.Wait()
+		}
+		for _, ch := range channels {
+			close(ch)
 		}
 	}()
 	return channels
@@ -25914,12 +26610,12 @@ func (s SliceUint8) ChunkByInterface(f func(el uint8) interface{}) [][]uint8 {
 
 func (s SliceUint8) ChunkEvery(count int) [][]uint8 {
 	chunks := make([][]uint8, 0)
-	chunk := make([]uint8, 0)
+	chunk := make([]uint8, 0, count)
 	for i, el := range s.data {
 		chunk = append(chunk, el)
 		if (i+1)%count == 0 {
 			chunks = append(chunks, chunk)
-			chunk = make([]uint8, 0)
+			chunk = make([]uint8, 0, count)
 		}
 	}
 	if len(chunk) > 0 {
@@ -27258,6 +27954,28 @@ func (c ChannelUint16) All(f func(el uint16) bool) bool {
 	return true
 }
 
+func (c ChannelUint16) ChunkEvery(count int) chan []uint16 {
+	chunks := make(chan []uint16, 1)
+	go func() {
+		chunk := make([]uint16, 0, count)
+		i := 0
+		for el := range c.data {
+			chunk = append(chunk, el)
+			i++
+			if i%count == 0 {
+				i = 0
+				chunks <- chunk
+				chunk = make([]uint16, 0, count)
+			}
+		}
+		if len(chunk) > 0 {
+			chunks <- chunk
+		}
+		close(chunks)
+	}()
+	return chunks
+}
+
 func (c ChannelUint16) Count(el uint16) int {
 	count := 0
 	for val := range c.data {
@@ -27297,6 +28015,7 @@ func (c ChannelUint16) Filter(f func(el uint16) bool) chan uint16 {
 				result <- el
 			}
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27307,6 +28026,7 @@ func (c ChannelUint16) MapBool(f func(el uint16) bool) chan bool {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27317,6 +28037,7 @@ func (c ChannelUint16) MapByte(f func(el uint16) byte) chan byte {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27327,6 +28048,7 @@ func (c ChannelUint16) MapString(f func(el uint16) string) chan string {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27337,6 +28059,7 @@ func (c ChannelUint16) MapFloat32(f func(el uint16) float32) chan float32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27347,6 +28070,7 @@ func (c ChannelUint16) MapFloat64(f func(el uint16) float64) chan float64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27357,6 +28081,7 @@ func (c ChannelUint16) MapInt(f func(el uint16) int) chan int {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27367,6 +28092,7 @@ func (c ChannelUint16) MapInt8(f func(el uint16) int8) chan int8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27377,6 +28103,7 @@ func (c ChannelUint16) MapInt16(f func(el uint16) int16) chan int16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27387,6 +28114,7 @@ func (c ChannelUint16) MapInt32(f func(el uint16) int32) chan int32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27397,6 +28125,7 @@ func (c ChannelUint16) MapInt64(f func(el uint16) int64) chan int64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27407,6 +28136,7 @@ func (c ChannelUint16) MapUint(f func(el uint16) uint) chan uint {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27417,6 +28147,7 @@ func (c ChannelUint16) MapUint8(f func(el uint16) uint8) chan uint8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27427,6 +28158,7 @@ func (c ChannelUint16) MapUint16(f func(el uint16) uint16) chan uint16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27437,6 +28169,7 @@ func (c ChannelUint16) MapUint32(f func(el uint16) uint32) chan uint32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27447,6 +28180,7 @@ func (c ChannelUint16) MapUint64(f func(el uint16) uint64) chan uint64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27457,6 +28191,7 @@ func (c ChannelUint16) MapInterface(f func(el uint16) interface{}) chan interfac
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27600,6 +28335,7 @@ func (c ChannelUint16) ScanBool(acc bool, f func(el uint16, acc bool) bool) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27611,6 +28347,7 @@ func (c ChannelUint16) ScanByte(acc byte, f func(el uint16, acc byte) byte) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27622,6 +28359,7 @@ func (c ChannelUint16) ScanString(acc string, f func(el uint16, acc string) stri
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27633,6 +28371,7 @@ func (c ChannelUint16) ScanFloat32(acc float32, f func(el uint16, acc float32) f
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27644,6 +28383,7 @@ func (c ChannelUint16) ScanFloat64(acc float64, f func(el uint16, acc float64) f
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27655,6 +28395,7 @@ func (c ChannelUint16) ScanInt(acc int, f func(el uint16, acc int) int) chan int
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27666,6 +28407,7 @@ func (c ChannelUint16) ScanInt8(acc int8, f func(el uint16, acc int8) int8) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27677,6 +28419,7 @@ func (c ChannelUint16) ScanInt16(acc int16, f func(el uint16, acc int16) int16) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27688,6 +28431,7 @@ func (c ChannelUint16) ScanInt32(acc int32, f func(el uint16, acc int32) int32) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27699,6 +28443,7 @@ func (c ChannelUint16) ScanInt64(acc int64, f func(el uint16, acc int64) int64) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27710,6 +28455,7 @@ func (c ChannelUint16) ScanUint(acc uint, f func(el uint16, acc uint) uint) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27721,6 +28467,7 @@ func (c ChannelUint16) ScanUint8(acc uint8, f func(el uint16, acc uint8) uint8) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27732,6 +28479,7 @@ func (c ChannelUint16) ScanUint16(acc uint16, f func(el uint16, acc uint16) uint
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27743,6 +28491,7 @@ func (c ChannelUint16) ScanUint32(acc uint32, f func(el uint16, acc uint32) uint
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27754,6 +28503,7 @@ func (c ChannelUint16) ScanUint64(acc uint64, f func(el uint16, acc uint64) uint
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27765,6 +28515,7 @@ func (c ChannelUint16) ScanInterface(acc interface{}, f func(el uint16, acc inte
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -27802,6 +28553,9 @@ func (c ChannelUint16) Tee(count int) []chan uint16 {
 				putInto(ch)
 			}
 			wg.Wait()
+		}
+		for _, ch := range channels {
+			close(ch)
 		}
 	}()
 	return channels
@@ -28187,12 +28941,12 @@ func (s SliceUint16) ChunkByInterface(f func(el uint16) interface{}) [][]uint16 
 
 func (s SliceUint16) ChunkEvery(count int) [][]uint16 {
 	chunks := make([][]uint16, 0)
-	chunk := make([]uint16, 0)
+	chunk := make([]uint16, 0, count)
 	for i, el := range s.data {
 		chunk = append(chunk, el)
 		if (i+1)%count == 0 {
 			chunks = append(chunks, chunk)
-			chunk = make([]uint16, 0)
+			chunk = make([]uint16, 0, count)
 		}
 	}
 	if len(chunk) > 0 {
@@ -29531,6 +30285,28 @@ func (c ChannelUint32) All(f func(el uint32) bool) bool {
 	return true
 }
 
+func (c ChannelUint32) ChunkEvery(count int) chan []uint32 {
+	chunks := make(chan []uint32, 1)
+	go func() {
+		chunk := make([]uint32, 0, count)
+		i := 0
+		for el := range c.data {
+			chunk = append(chunk, el)
+			i++
+			if i%count == 0 {
+				i = 0
+				chunks <- chunk
+				chunk = make([]uint32, 0, count)
+			}
+		}
+		if len(chunk) > 0 {
+			chunks <- chunk
+		}
+		close(chunks)
+	}()
+	return chunks
+}
+
 func (c ChannelUint32) Count(el uint32) int {
 	count := 0
 	for val := range c.data {
@@ -29570,6 +30346,7 @@ func (c ChannelUint32) Filter(f func(el uint32) bool) chan uint32 {
 				result <- el
 			}
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29580,6 +30357,7 @@ func (c ChannelUint32) MapBool(f func(el uint32) bool) chan bool {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29590,6 +30368,7 @@ func (c ChannelUint32) MapByte(f func(el uint32) byte) chan byte {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29600,6 +30379,7 @@ func (c ChannelUint32) MapString(f func(el uint32) string) chan string {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29610,6 +30390,7 @@ func (c ChannelUint32) MapFloat32(f func(el uint32) float32) chan float32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29620,6 +30401,7 @@ func (c ChannelUint32) MapFloat64(f func(el uint32) float64) chan float64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29630,6 +30412,7 @@ func (c ChannelUint32) MapInt(f func(el uint32) int) chan int {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29640,6 +30423,7 @@ func (c ChannelUint32) MapInt8(f func(el uint32) int8) chan int8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29650,6 +30434,7 @@ func (c ChannelUint32) MapInt16(f func(el uint32) int16) chan int16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29660,6 +30445,7 @@ func (c ChannelUint32) MapInt32(f func(el uint32) int32) chan int32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29670,6 +30456,7 @@ func (c ChannelUint32) MapInt64(f func(el uint32) int64) chan int64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29680,6 +30467,7 @@ func (c ChannelUint32) MapUint(f func(el uint32) uint) chan uint {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29690,6 +30478,7 @@ func (c ChannelUint32) MapUint8(f func(el uint32) uint8) chan uint8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29700,6 +30489,7 @@ func (c ChannelUint32) MapUint16(f func(el uint32) uint16) chan uint16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29710,6 +30500,7 @@ func (c ChannelUint32) MapUint32(f func(el uint32) uint32) chan uint32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29720,6 +30511,7 @@ func (c ChannelUint32) MapUint64(f func(el uint32) uint64) chan uint64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29730,6 +30522,7 @@ func (c ChannelUint32) MapInterface(f func(el uint32) interface{}) chan interfac
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29873,6 +30666,7 @@ func (c ChannelUint32) ScanBool(acc bool, f func(el uint32, acc bool) bool) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29884,6 +30678,7 @@ func (c ChannelUint32) ScanByte(acc byte, f func(el uint32, acc byte) byte) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29895,6 +30690,7 @@ func (c ChannelUint32) ScanString(acc string, f func(el uint32, acc string) stri
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29906,6 +30702,7 @@ func (c ChannelUint32) ScanFloat32(acc float32, f func(el uint32, acc float32) f
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29917,6 +30714,7 @@ func (c ChannelUint32) ScanFloat64(acc float64, f func(el uint32, acc float64) f
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29928,6 +30726,7 @@ func (c ChannelUint32) ScanInt(acc int, f func(el uint32, acc int) int) chan int
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29939,6 +30738,7 @@ func (c ChannelUint32) ScanInt8(acc int8, f func(el uint32, acc int8) int8) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29950,6 +30750,7 @@ func (c ChannelUint32) ScanInt16(acc int16, f func(el uint32, acc int16) int16) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29961,6 +30762,7 @@ func (c ChannelUint32) ScanInt32(acc int32, f func(el uint32, acc int32) int32) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29972,6 +30774,7 @@ func (c ChannelUint32) ScanInt64(acc int64, f func(el uint32, acc int64) int64) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29983,6 +30786,7 @@ func (c ChannelUint32) ScanUint(acc uint, f func(el uint32, acc uint) uint) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -29994,6 +30798,7 @@ func (c ChannelUint32) ScanUint8(acc uint8, f func(el uint32, acc uint8) uint8) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -30005,6 +30810,7 @@ func (c ChannelUint32) ScanUint16(acc uint16, f func(el uint32, acc uint16) uint
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -30016,6 +30822,7 @@ func (c ChannelUint32) ScanUint32(acc uint32, f func(el uint32, acc uint32) uint
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -30027,6 +30834,7 @@ func (c ChannelUint32) ScanUint64(acc uint64, f func(el uint32, acc uint64) uint
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -30038,6 +30846,7 @@ func (c ChannelUint32) ScanInterface(acc interface{}, f func(el uint32, acc inte
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -30075,6 +30884,9 @@ func (c ChannelUint32) Tee(count int) []chan uint32 {
 				putInto(ch)
 			}
 			wg.Wait()
+		}
+		for _, ch := range channels {
+			close(ch)
 		}
 	}()
 	return channels
@@ -30460,12 +31272,12 @@ func (s SliceUint32) ChunkByInterface(f func(el uint32) interface{}) [][]uint32 
 
 func (s SliceUint32) ChunkEvery(count int) [][]uint32 {
 	chunks := make([][]uint32, 0)
-	chunk := make([]uint32, 0)
+	chunk := make([]uint32, 0, count)
 	for i, el := range s.data {
 		chunk = append(chunk, el)
 		if (i+1)%count == 0 {
 			chunks = append(chunks, chunk)
-			chunk = make([]uint32, 0)
+			chunk = make([]uint32, 0, count)
 		}
 	}
 	if len(chunk) > 0 {
@@ -31804,6 +32616,28 @@ func (c ChannelUint64) All(f func(el uint64) bool) bool {
 	return true
 }
 
+func (c ChannelUint64) ChunkEvery(count int) chan []uint64 {
+	chunks := make(chan []uint64, 1)
+	go func() {
+		chunk := make([]uint64, 0, count)
+		i := 0
+		for el := range c.data {
+			chunk = append(chunk, el)
+			i++
+			if i%count == 0 {
+				i = 0
+				chunks <- chunk
+				chunk = make([]uint64, 0, count)
+			}
+		}
+		if len(chunk) > 0 {
+			chunks <- chunk
+		}
+		close(chunks)
+	}()
+	return chunks
+}
+
 func (c ChannelUint64) Count(el uint64) int {
 	count := 0
 	for val := range c.data {
@@ -31843,6 +32677,7 @@ func (c ChannelUint64) Filter(f func(el uint64) bool) chan uint64 {
 				result <- el
 			}
 		}
+		close(result)
 	}()
 	return result
 }
@@ -31853,6 +32688,7 @@ func (c ChannelUint64) MapBool(f func(el uint64) bool) chan bool {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -31863,6 +32699,7 @@ func (c ChannelUint64) MapByte(f func(el uint64) byte) chan byte {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -31873,6 +32710,7 @@ func (c ChannelUint64) MapString(f func(el uint64) string) chan string {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -31883,6 +32721,7 @@ func (c ChannelUint64) MapFloat32(f func(el uint64) float32) chan float32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -31893,6 +32732,7 @@ func (c ChannelUint64) MapFloat64(f func(el uint64) float64) chan float64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -31903,6 +32743,7 @@ func (c ChannelUint64) MapInt(f func(el uint64) int) chan int {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -31913,6 +32754,7 @@ func (c ChannelUint64) MapInt8(f func(el uint64) int8) chan int8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -31923,6 +32765,7 @@ func (c ChannelUint64) MapInt16(f func(el uint64) int16) chan int16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -31933,6 +32776,7 @@ func (c ChannelUint64) MapInt32(f func(el uint64) int32) chan int32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -31943,6 +32787,7 @@ func (c ChannelUint64) MapInt64(f func(el uint64) int64) chan int64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -31953,6 +32798,7 @@ func (c ChannelUint64) MapUint(f func(el uint64) uint) chan uint {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -31963,6 +32809,7 @@ func (c ChannelUint64) MapUint8(f func(el uint64) uint8) chan uint8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -31973,6 +32820,7 @@ func (c ChannelUint64) MapUint16(f func(el uint64) uint16) chan uint16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -31983,6 +32831,7 @@ func (c ChannelUint64) MapUint32(f func(el uint64) uint32) chan uint32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -31993,6 +32842,7 @@ func (c ChannelUint64) MapUint64(f func(el uint64) uint64) chan uint64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -32003,6 +32853,7 @@ func (c ChannelUint64) MapInterface(f func(el uint64) interface{}) chan interfac
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -32146,6 +32997,7 @@ func (c ChannelUint64) ScanBool(acc bool, f func(el uint64, acc bool) bool) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -32157,6 +33009,7 @@ func (c ChannelUint64) ScanByte(acc byte, f func(el uint64, acc byte) byte) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -32168,6 +33021,7 @@ func (c ChannelUint64) ScanString(acc string, f func(el uint64, acc string) stri
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -32179,6 +33033,7 @@ func (c ChannelUint64) ScanFloat32(acc float32, f func(el uint64, acc float32) f
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -32190,6 +33045,7 @@ func (c ChannelUint64) ScanFloat64(acc float64, f func(el uint64, acc float64) f
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -32201,6 +33057,7 @@ func (c ChannelUint64) ScanInt(acc int, f func(el uint64, acc int) int) chan int
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -32212,6 +33069,7 @@ func (c ChannelUint64) ScanInt8(acc int8, f func(el uint64, acc int8) int8) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -32223,6 +33081,7 @@ func (c ChannelUint64) ScanInt16(acc int16, f func(el uint64, acc int16) int16) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -32234,6 +33093,7 @@ func (c ChannelUint64) ScanInt32(acc int32, f func(el uint64, acc int32) int32) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -32245,6 +33105,7 @@ func (c ChannelUint64) ScanInt64(acc int64, f func(el uint64, acc int64) int64) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -32256,6 +33117,7 @@ func (c ChannelUint64) ScanUint(acc uint, f func(el uint64, acc uint) uint) chan
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -32267,6 +33129,7 @@ func (c ChannelUint64) ScanUint8(acc uint8, f func(el uint64, acc uint8) uint8) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -32278,6 +33141,7 @@ func (c ChannelUint64) ScanUint16(acc uint16, f func(el uint64, acc uint16) uint
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -32289,6 +33153,7 @@ func (c ChannelUint64) ScanUint32(acc uint32, f func(el uint64, acc uint32) uint
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -32300,6 +33165,7 @@ func (c ChannelUint64) ScanUint64(acc uint64, f func(el uint64, acc uint64) uint
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -32311,6 +33177,7 @@ func (c ChannelUint64) ScanInterface(acc interface{}, f func(el uint64, acc inte
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -32348,6 +33215,9 @@ func (c ChannelUint64) Tee(count int) []chan uint64 {
 				putInto(ch)
 			}
 			wg.Wait()
+		}
+		for _, ch := range channels {
+			close(ch)
 		}
 	}()
 	return channels
@@ -32733,12 +33603,12 @@ func (s SliceUint64) ChunkByInterface(f func(el uint64) interface{}) [][]uint64 
 
 func (s SliceUint64) ChunkEvery(count int) [][]uint64 {
 	chunks := make([][]uint64, 0)
-	chunk := make([]uint64, 0)
+	chunk := make([]uint64, 0, count)
 	for i, el := range s.data {
 		chunk = append(chunk, el)
 		if (i+1)%count == 0 {
 			chunks = append(chunks, chunk)
-			chunk = make([]uint64, 0)
+			chunk = make([]uint64, 0, count)
 		}
 	}
 	if len(chunk) > 0 {
@@ -34077,6 +34947,28 @@ func (c ChannelInterface) All(f func(el interface{}) bool) bool {
 	return true
 }
 
+func (c ChannelInterface) ChunkEvery(count int) chan []interface{} {
+	chunks := make(chan []interface{}, 1)
+	go func() {
+		chunk := make([]interface{}, 0, count)
+		i := 0
+		for el := range c.data {
+			chunk = append(chunk, el)
+			i++
+			if i%count == 0 {
+				i = 0
+				chunks <- chunk
+				chunk = make([]interface{}, 0, count)
+			}
+		}
+		if len(chunk) > 0 {
+			chunks <- chunk
+		}
+		close(chunks)
+	}()
+	return chunks
+}
+
 func (c ChannelInterface) Count(el interface{}) int {
 	count := 0
 	for val := range c.data {
@@ -34116,6 +35008,7 @@ func (c ChannelInterface) Filter(f func(el interface{}) bool) chan interface{} {
 				result <- el
 			}
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34126,6 +35019,7 @@ func (c ChannelInterface) MapBool(f func(el interface{}) bool) chan bool {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34136,6 +35030,7 @@ func (c ChannelInterface) MapByte(f func(el interface{}) byte) chan byte {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34146,6 +35041,7 @@ func (c ChannelInterface) MapString(f func(el interface{}) string) chan string {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34156,6 +35052,7 @@ func (c ChannelInterface) MapFloat32(f func(el interface{}) float32) chan float3
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34166,6 +35063,7 @@ func (c ChannelInterface) MapFloat64(f func(el interface{}) float64) chan float6
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34176,6 +35074,7 @@ func (c ChannelInterface) MapInt(f func(el interface{}) int) chan int {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34186,6 +35085,7 @@ func (c ChannelInterface) MapInt8(f func(el interface{}) int8) chan int8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34196,6 +35096,7 @@ func (c ChannelInterface) MapInt16(f func(el interface{}) int16) chan int16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34206,6 +35107,7 @@ func (c ChannelInterface) MapInt32(f func(el interface{}) int32) chan int32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34216,6 +35118,7 @@ func (c ChannelInterface) MapInt64(f func(el interface{}) int64) chan int64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34226,6 +35129,7 @@ func (c ChannelInterface) MapUint(f func(el interface{}) uint) chan uint {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34236,6 +35140,7 @@ func (c ChannelInterface) MapUint8(f func(el interface{}) uint8) chan uint8 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34246,6 +35151,7 @@ func (c ChannelInterface) MapUint16(f func(el interface{}) uint16) chan uint16 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34256,6 +35162,7 @@ func (c ChannelInterface) MapUint32(f func(el interface{}) uint32) chan uint32 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34266,6 +35173,7 @@ func (c ChannelInterface) MapUint64(f func(el interface{}) uint64) chan uint64 {
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34276,6 +35184,7 @@ func (c ChannelInterface) MapInterface(f func(el interface{}) interface{}) chan 
 		for el := range c.data {
 			result <- f(el)
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34399,6 +35308,7 @@ func (c ChannelInterface) ScanBool(acc bool, f func(el interface{}, acc bool) bo
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34410,6 +35320,7 @@ func (c ChannelInterface) ScanByte(acc byte, f func(el interface{}, acc byte) by
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34421,6 +35332,7 @@ func (c ChannelInterface) ScanString(acc string, f func(el interface{}, acc stri
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34432,6 +35344,7 @@ func (c ChannelInterface) ScanFloat32(acc float32, f func(el interface{}, acc fl
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34443,6 +35356,7 @@ func (c ChannelInterface) ScanFloat64(acc float64, f func(el interface{}, acc fl
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34454,6 +35368,7 @@ func (c ChannelInterface) ScanInt(acc int, f func(el interface{}, acc int) int) 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34465,6 +35380,7 @@ func (c ChannelInterface) ScanInt8(acc int8, f func(el interface{}, acc int8) in
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34476,6 +35392,7 @@ func (c ChannelInterface) ScanInt16(acc int16, f func(el interface{}, acc int16)
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34487,6 +35404,7 @@ func (c ChannelInterface) ScanInt32(acc int32, f func(el interface{}, acc int32)
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34498,6 +35416,7 @@ func (c ChannelInterface) ScanInt64(acc int64, f func(el interface{}, acc int64)
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34509,6 +35428,7 @@ func (c ChannelInterface) ScanUint(acc uint, f func(el interface{}, acc uint) ui
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34520,6 +35440,7 @@ func (c ChannelInterface) ScanUint8(acc uint8, f func(el interface{}, acc uint8)
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34531,6 +35452,7 @@ func (c ChannelInterface) ScanUint16(acc uint16, f func(el interface{}, acc uint
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34542,6 +35464,7 @@ func (c ChannelInterface) ScanUint32(acc uint32, f func(el interface{}, acc uint
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34553,6 +35476,7 @@ func (c ChannelInterface) ScanUint64(acc uint64, f func(el interface{}, acc uint
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34564,6 +35488,7 @@ func (c ChannelInterface) ScanInterface(acc interface{}, f func(el interface{}, 
 			acc = f(el, acc)
 			result <- acc
 		}
+		close(result)
 	}()
 	return result
 }
@@ -34593,6 +35518,9 @@ func (c ChannelInterface) Tee(count int) []chan interface{} {
 				putInto(ch)
 			}
 			wg.Wait()
+		}
+		for _, ch := range channels {
+			close(ch)
 		}
 	}()
 	return channels
@@ -34978,12 +35906,12 @@ func (s SliceInterface) ChunkByInterface(f func(el interface{}) interface{}) [][
 
 func (s SliceInterface) ChunkEvery(count int) [][]interface{} {
 	chunks := make([][]interface{}, 0)
-	chunk := make([]interface{}, 0)
+	chunk := make([]interface{}, 0, count)
 	for i, el := range s.data {
 		chunk = append(chunk, el)
 		if (i+1)%count == 0 {
 			chunks = append(chunks, chunk)
-			chunk = make([]interface{}, 0)
+			chunk = make([]interface{}, 0, count)
 		}
 	}
 	if len(chunk) > 0 {
