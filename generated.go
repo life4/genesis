@@ -17,6 +17,24 @@ type SlicesBool struct {
 	data [][]bool
 }
 
+func (c ChannelBool) Any(f func(el bool) bool) bool {
+	for el := range c.data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+func (c ChannelBool) All(f func(el bool) bool) bool {
+	for el := range c.data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
+}
+
 func (c ChannelBool) Count(el bool) int {
 	count := 0
 	for val := range c.data {
@@ -2192,6 +2210,24 @@ type SliceByte struct {
 
 type SlicesByte struct {
 	data [][]byte
+}
+
+func (c ChannelByte) Any(f func(el byte) bool) bool {
+	for el := range c.data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+func (c ChannelByte) All(f func(el byte) bool) bool {
+	for el := range c.data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
 }
 
 func (c ChannelByte) Count(el byte) int {
@@ -4427,6 +4463,24 @@ type SlicesString struct {
 	data [][]string
 }
 
+func (c ChannelString) Any(f func(el string) bool) bool {
+	for el := range c.data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+func (c ChannelString) All(f func(el string) bool) bool {
+	for el := range c.data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
+}
+
 func (c ChannelString) Count(el string) int {
 	count := 0
 	for val := range c.data {
@@ -6658,6 +6712,24 @@ type SliceFloat32 struct {
 
 type SlicesFloat32 struct {
 	data [][]float32
+}
+
+func (c ChannelFloat32) Any(f func(el float32) bool) bool {
+	for el := range c.data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+func (c ChannelFloat32) All(f func(el float32) bool) bool {
+	for el := range c.data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
 }
 
 func (c ChannelFloat32) Count(el float32) int {
@@ -8893,6 +8965,24 @@ type SlicesFloat64 struct {
 	data [][]float64
 }
 
+func (c ChannelFloat64) Any(f func(el float64) bool) bool {
+	for el := range c.data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+func (c ChannelFloat64) All(f func(el float64) bool) bool {
+	for el := range c.data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
+}
+
 func (c ChannelFloat64) Count(el float64) int {
 	count := 0
 	for val := range c.data {
@@ -11124,6 +11214,24 @@ type SliceInt struct {
 
 type SlicesInt struct {
 	data [][]int
+}
+
+func (c ChannelInt) Any(f func(el int) bool) bool {
+	for el := range c.data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+func (c ChannelInt) All(f func(el int) bool) bool {
+	for el := range c.data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
 }
 
 func (c ChannelInt) Count(el int) int {
@@ -13359,6 +13467,24 @@ type SlicesInt8 struct {
 	data [][]int8
 }
 
+func (c ChannelInt8) Any(f func(el int8) bool) bool {
+	for el := range c.data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+func (c ChannelInt8) All(f func(el int8) bool) bool {
+	for el := range c.data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
+}
+
 func (c ChannelInt8) Count(el int8) int {
 	count := 0
 	for val := range c.data {
@@ -15590,6 +15716,24 @@ type SliceInt16 struct {
 
 type SlicesInt16 struct {
 	data [][]int16
+}
+
+func (c ChannelInt16) Any(f func(el int16) bool) bool {
+	for el := range c.data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+func (c ChannelInt16) All(f func(el int16) bool) bool {
+	for el := range c.data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
 }
 
 func (c ChannelInt16) Count(el int16) int {
@@ -17825,6 +17969,24 @@ type SlicesInt32 struct {
 	data [][]int32
 }
 
+func (c ChannelInt32) Any(f func(el int32) bool) bool {
+	for el := range c.data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+func (c ChannelInt32) All(f func(el int32) bool) bool {
+	for el := range c.data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
+}
+
 func (c ChannelInt32) Count(el int32) int {
 	count := 0
 	for val := range c.data {
@@ -20056,6 +20218,24 @@ type SliceInt64 struct {
 
 type SlicesInt64 struct {
 	data [][]int64
+}
+
+func (c ChannelInt64) Any(f func(el int64) bool) bool {
+	for el := range c.data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+func (c ChannelInt64) All(f func(el int64) bool) bool {
+	for el := range c.data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
 }
 
 func (c ChannelInt64) Count(el int64) int {
@@ -22291,6 +22471,24 @@ type SlicesUint struct {
 	data [][]uint
 }
 
+func (c ChannelUint) Any(f func(el uint) bool) bool {
+	for el := range c.data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+func (c ChannelUint) All(f func(el uint) bool) bool {
+	for el := range c.data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
+}
+
 func (c ChannelUint) Count(el uint) int {
 	count := 0
 	for val := range c.data {
@@ -24522,6 +24720,24 @@ type SliceUint8 struct {
 
 type SlicesUint8 struct {
 	data [][]uint8
+}
+
+func (c ChannelUint8) Any(f func(el uint8) bool) bool {
+	for el := range c.data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+func (c ChannelUint8) All(f func(el uint8) bool) bool {
+	for el := range c.data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
 }
 
 func (c ChannelUint8) Count(el uint8) int {
@@ -26757,6 +26973,24 @@ type SlicesUint16 struct {
 	data [][]uint16
 }
 
+func (c ChannelUint16) Any(f func(el uint16) bool) bool {
+	for el := range c.data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+func (c ChannelUint16) All(f func(el uint16) bool) bool {
+	for el := range c.data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
+}
+
 func (c ChannelUint16) Count(el uint16) int {
 	count := 0
 	for val := range c.data {
@@ -28988,6 +29222,24 @@ type SliceUint32 struct {
 
 type SlicesUint32 struct {
 	data [][]uint32
+}
+
+func (c ChannelUint32) Any(f func(el uint32) bool) bool {
+	for el := range c.data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+func (c ChannelUint32) All(f func(el uint32) bool) bool {
+	for el := range c.data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
 }
 
 func (c ChannelUint32) Count(el uint32) int {
@@ -31223,6 +31475,24 @@ type SlicesUint64 struct {
 	data [][]uint64
 }
 
+func (c ChannelUint64) Any(f func(el uint64) bool) bool {
+	for el := range c.data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+func (c ChannelUint64) All(f func(el uint64) bool) bool {
+	for el := range c.data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
+}
+
 func (c ChannelUint64) Count(el uint64) int {
 	count := 0
 	for val := range c.data {
@@ -33454,6 +33724,24 @@ type SliceInterface struct {
 
 type SlicesInterface struct {
 	data [][]interface{}
+}
+
+func (c ChannelInterface) Any(f func(el interface{}) bool) bool {
+	for el := range c.data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+func (c ChannelInterface) All(f func(el interface{}) bool) bool {
+	for el := range c.data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
 }
 
 func (c ChannelInterface) Count(el interface{}) int {

@@ -5,6 +5,26 @@ type Channel struct {
 	data chan T
 }
 
+// Any returns true if f returns true for any element in channel
+func (c Channel) Any(f func(el T) bool) bool {
+	for el := range c.data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+// All returns true if f returns true for all elements in channel
+func (c Channel) All(f func(el T) bool) bool {
+	for el := range c.data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
+}
+
 // Count return count of el occurences in channel.
 func (c Channel) Count(el T) int {
 	count := 0
