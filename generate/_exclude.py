@@ -17,6 +17,8 @@ EXCLUDED = {
         'Sum': ('bool', 'interface{}'),
     },
     'Channel': {
+        'Max': ('bool', 'interface{}'),
+        'Min': ('bool', 'interface{}'),
         'Sum': ('bool', 'interface{}'),
     },
 }

@@ -5,6 +5,17 @@ type Channel struct {
 	data chan T
 }
 
+// Count return count of el occurences in channel.
+func (c Channel) Count(el T) int {
+	count := 0
+	for val := range c.data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 // Drop drops first n elements from channel c and returns a new channel with the rest.
 // It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
 func (c Channel) Drop(n int) chan T {
@@ -52,6 +63,28 @@ func (c Channel) Map(f func(el T) G) chan G {
 		}
 	}()
 	return result
+}
+
+// Max returns the maximal element from channel
+func (c Channel) Max() T {
+	max := <-c.data
+	for el := range c.data {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+// Min returns the minimal element from channel
+func (c Channel) Min() T {
+	min := <-c.data
+	for el := range c.data {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 // Reduce applies f to acc and every element from channel and returns acc

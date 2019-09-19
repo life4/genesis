@@ -17,6 +17,16 @@ type SlicesBool struct {
 	data [][]bool
 }
 
+func (c ChannelBool) Count(el bool) int {
+	count := 0
+	for val := range c.data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 func (c ChannelBool) Drop(n int) chan bool {
 	result := make(chan bool, 1)
 	go func() {
@@ -2184,6 +2194,16 @@ type SlicesByte struct {
 	data [][]byte
 }
 
+func (c ChannelByte) Count(el byte) int {
+	count := 0
+	for val := range c.data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 func (c ChannelByte) Drop(n int) chan byte {
 	result := make(chan byte, 1)
 	go func() {
@@ -2375,6 +2395,26 @@ func (c ChannelByte) MapInterface(f func(el byte) interface{}) chan interface{} 
 		}
 	}()
 	return result
+}
+
+func (c ChannelByte) Max() byte {
+	max := <-c.data
+	for el := range c.data {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+func (c ChannelByte) Min() byte {
+	min := <-c.data
+	for el := range c.data {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 func (c ChannelByte) ReduceBool(acc bool, f func(el byte, acc bool) bool) bool {
@@ -4387,6 +4427,16 @@ type SlicesString struct {
 	data [][]string
 }
 
+func (c ChannelString) Count(el string) int {
+	count := 0
+	for val := range c.data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 func (c ChannelString) Drop(n int) chan string {
 	result := make(chan string, 1)
 	go func() {
@@ -4578,6 +4628,26 @@ func (c ChannelString) MapInterface(f func(el string) interface{}) chan interfac
 		}
 	}()
 	return result
+}
+
+func (c ChannelString) Max() string {
+	max := <-c.data
+	for el := range c.data {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+func (c ChannelString) Min() string {
+	min := <-c.data
+	for el := range c.data {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 func (c ChannelString) ReduceBool(acc bool, f func(el string, acc bool) bool) bool {
@@ -6590,6 +6660,16 @@ type SlicesFloat32 struct {
 	data [][]float32
 }
 
+func (c ChannelFloat32) Count(el float32) int {
+	count := 0
+	for val := range c.data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 func (c ChannelFloat32) Drop(n int) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
@@ -6781,6 +6861,26 @@ func (c ChannelFloat32) MapInterface(f func(el float32) interface{}) chan interf
 		}
 	}()
 	return result
+}
+
+func (c ChannelFloat32) Max() float32 {
+	max := <-c.data
+	for el := range c.data {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+func (c ChannelFloat32) Min() float32 {
+	min := <-c.data
+	for el := range c.data {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 func (c ChannelFloat32) ReduceBool(acc bool, f func(el float32, acc bool) bool) bool {
@@ -8793,6 +8893,16 @@ type SlicesFloat64 struct {
 	data [][]float64
 }
 
+func (c ChannelFloat64) Count(el float64) int {
+	count := 0
+	for val := range c.data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 func (c ChannelFloat64) Drop(n int) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
@@ -8984,6 +9094,26 @@ func (c ChannelFloat64) MapInterface(f func(el float64) interface{}) chan interf
 		}
 	}()
 	return result
+}
+
+func (c ChannelFloat64) Max() float64 {
+	max := <-c.data
+	for el := range c.data {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+func (c ChannelFloat64) Min() float64 {
+	min := <-c.data
+	for el := range c.data {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 func (c ChannelFloat64) ReduceBool(acc bool, f func(el float64, acc bool) bool) bool {
@@ -10996,6 +11126,16 @@ type SlicesInt struct {
 	data [][]int
 }
 
+func (c ChannelInt) Count(el int) int {
+	count := 0
+	for val := range c.data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 func (c ChannelInt) Drop(n int) chan int {
 	result := make(chan int, 1)
 	go func() {
@@ -11187,6 +11327,26 @@ func (c ChannelInt) MapInterface(f func(el int) interface{}) chan interface{} {
 		}
 	}()
 	return result
+}
+
+func (c ChannelInt) Max() int {
+	max := <-c.data
+	for el := range c.data {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+func (c ChannelInt) Min() int {
+	min := <-c.data
+	for el := range c.data {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 func (c ChannelInt) ReduceBool(acc bool, f func(el int, acc bool) bool) bool {
@@ -13199,6 +13359,16 @@ type SlicesInt8 struct {
 	data [][]int8
 }
 
+func (c ChannelInt8) Count(el int8) int {
+	count := 0
+	for val := range c.data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 func (c ChannelInt8) Drop(n int) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
@@ -13390,6 +13560,26 @@ func (c ChannelInt8) MapInterface(f func(el int8) interface{}) chan interface{} 
 		}
 	}()
 	return result
+}
+
+func (c ChannelInt8) Max() int8 {
+	max := <-c.data
+	for el := range c.data {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+func (c ChannelInt8) Min() int8 {
+	min := <-c.data
+	for el := range c.data {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 func (c ChannelInt8) ReduceBool(acc bool, f func(el int8, acc bool) bool) bool {
@@ -15402,6 +15592,16 @@ type SlicesInt16 struct {
 	data [][]int16
 }
 
+func (c ChannelInt16) Count(el int16) int {
+	count := 0
+	for val := range c.data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 func (c ChannelInt16) Drop(n int) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
@@ -15593,6 +15793,26 @@ func (c ChannelInt16) MapInterface(f func(el int16) interface{}) chan interface{
 		}
 	}()
 	return result
+}
+
+func (c ChannelInt16) Max() int16 {
+	max := <-c.data
+	for el := range c.data {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+func (c ChannelInt16) Min() int16 {
+	min := <-c.data
+	for el := range c.data {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 func (c ChannelInt16) ReduceBool(acc bool, f func(el int16, acc bool) bool) bool {
@@ -17605,6 +17825,16 @@ type SlicesInt32 struct {
 	data [][]int32
 }
 
+func (c ChannelInt32) Count(el int32) int {
+	count := 0
+	for val := range c.data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 func (c ChannelInt32) Drop(n int) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
@@ -17796,6 +18026,26 @@ func (c ChannelInt32) MapInterface(f func(el int32) interface{}) chan interface{
 		}
 	}()
 	return result
+}
+
+func (c ChannelInt32) Max() int32 {
+	max := <-c.data
+	for el := range c.data {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+func (c ChannelInt32) Min() int32 {
+	min := <-c.data
+	for el := range c.data {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 func (c ChannelInt32) ReduceBool(acc bool, f func(el int32, acc bool) bool) bool {
@@ -19808,6 +20058,16 @@ type SlicesInt64 struct {
 	data [][]int64
 }
 
+func (c ChannelInt64) Count(el int64) int {
+	count := 0
+	for val := range c.data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 func (c ChannelInt64) Drop(n int) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
@@ -19999,6 +20259,26 @@ func (c ChannelInt64) MapInterface(f func(el int64) interface{}) chan interface{
 		}
 	}()
 	return result
+}
+
+func (c ChannelInt64) Max() int64 {
+	max := <-c.data
+	for el := range c.data {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+func (c ChannelInt64) Min() int64 {
+	min := <-c.data
+	for el := range c.data {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 func (c ChannelInt64) ReduceBool(acc bool, f func(el int64, acc bool) bool) bool {
@@ -22011,6 +22291,16 @@ type SlicesUint struct {
 	data [][]uint
 }
 
+func (c ChannelUint) Count(el uint) int {
+	count := 0
+	for val := range c.data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 func (c ChannelUint) Drop(n int) chan uint {
 	result := make(chan uint, 1)
 	go func() {
@@ -22202,6 +22492,26 @@ func (c ChannelUint) MapInterface(f func(el uint) interface{}) chan interface{} 
 		}
 	}()
 	return result
+}
+
+func (c ChannelUint) Max() uint {
+	max := <-c.data
+	for el := range c.data {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+func (c ChannelUint) Min() uint {
+	min := <-c.data
+	for el := range c.data {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 func (c ChannelUint) ReduceBool(acc bool, f func(el uint, acc bool) bool) bool {
@@ -24214,6 +24524,16 @@ type SlicesUint8 struct {
 	data [][]uint8
 }
 
+func (c ChannelUint8) Count(el uint8) int {
+	count := 0
+	for val := range c.data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 func (c ChannelUint8) Drop(n int) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
@@ -24405,6 +24725,26 @@ func (c ChannelUint8) MapInterface(f func(el uint8) interface{}) chan interface{
 		}
 	}()
 	return result
+}
+
+func (c ChannelUint8) Max() uint8 {
+	max := <-c.data
+	for el := range c.data {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+func (c ChannelUint8) Min() uint8 {
+	min := <-c.data
+	for el := range c.data {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 func (c ChannelUint8) ReduceBool(acc bool, f func(el uint8, acc bool) bool) bool {
@@ -26417,6 +26757,16 @@ type SlicesUint16 struct {
 	data [][]uint16
 }
 
+func (c ChannelUint16) Count(el uint16) int {
+	count := 0
+	for val := range c.data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 func (c ChannelUint16) Drop(n int) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
@@ -26608,6 +26958,26 @@ func (c ChannelUint16) MapInterface(f func(el uint16) interface{}) chan interfac
 		}
 	}()
 	return result
+}
+
+func (c ChannelUint16) Max() uint16 {
+	max := <-c.data
+	for el := range c.data {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+func (c ChannelUint16) Min() uint16 {
+	min := <-c.data
+	for el := range c.data {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 func (c ChannelUint16) ReduceBool(acc bool, f func(el uint16, acc bool) bool) bool {
@@ -28620,6 +28990,16 @@ type SlicesUint32 struct {
 	data [][]uint32
 }
 
+func (c ChannelUint32) Count(el uint32) int {
+	count := 0
+	for val := range c.data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 func (c ChannelUint32) Drop(n int) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
@@ -28811,6 +29191,26 @@ func (c ChannelUint32) MapInterface(f func(el uint32) interface{}) chan interfac
 		}
 	}()
 	return result
+}
+
+func (c ChannelUint32) Max() uint32 {
+	max := <-c.data
+	for el := range c.data {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+func (c ChannelUint32) Min() uint32 {
+	min := <-c.data
+	for el := range c.data {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 func (c ChannelUint32) ReduceBool(acc bool, f func(el uint32, acc bool) bool) bool {
@@ -30823,6 +31223,16 @@ type SlicesUint64 struct {
 	data [][]uint64
 }
 
+func (c ChannelUint64) Count(el uint64) int {
+	count := 0
+	for val := range c.data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
 func (c ChannelUint64) Drop(n int) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
@@ -31014,6 +31424,26 @@ func (c ChannelUint64) MapInterface(f func(el uint64) interface{}) chan interfac
 		}
 	}()
 	return result
+}
+
+func (c ChannelUint64) Max() uint64 {
+	max := <-c.data
+	for el := range c.data {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+func (c ChannelUint64) Min() uint64 {
+	min := <-c.data
+	for el := range c.data {
+		if el < min {
+			min = el
+		}
+	}
+	return min
 }
 
 func (c ChannelUint64) ReduceBool(acc bool, f func(el uint64, acc bool) bool) bool {
@@ -33024,6 +33454,16 @@ type SliceInterface struct {
 
 type SlicesInterface struct {
 	data [][]interface{}
+}
+
+func (c ChannelInterface) Count(el interface{}) int {
+	count := 0
+	for val := range c.data {
+		if val == el {
+			count++
+		}
+	}
+	return count
 }
 
 func (c ChannelInterface) Drop(n int) chan interface{} {
