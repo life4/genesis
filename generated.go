@@ -12,6 +12,10 @@ type ChannelBool struct {
 	data chan bool
 }
 
+type SequenceBool struct {
+	data chan bool
+}
+
 type SliceBool struct {
 	data []bool
 }
@@ -623,6 +627,51 @@ func (c ChannelBool) ToSlice() []bool {
 		result = append(result, val)
 	}
 	return result
+}
+
+func (s SequenceBool) Count(start bool, step bool) chan bool {
+	c := make(chan bool, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+func (s SequenceBool) Exponential(start bool, factor bool) chan bool {
+	c := make(chan bool, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
+func (s SequenceBool) Range(start bool, end bool, step bool) chan bool {
+	c := make(chan bool, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
+func (s SequenceBool) Repeat(val bool) chan bool {
+	c := make(chan bool, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
 }
 
 func (s SliceBool) Any(f func(el bool) bool) bool {
@@ -2287,6 +2336,10 @@ type ChannelByte struct {
 	data chan byte
 }
 
+type SequenceByte struct {
+	data chan byte
+}
+
 type SliceByte struct {
 	data []byte
 }
@@ -2926,6 +2979,51 @@ func (c ChannelByte) ToSlice() []byte {
 		result = append(result, val)
 	}
 	return result
+}
+
+func (s SequenceByte) Count(start byte, step byte) chan byte {
+	c := make(chan byte, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+func (s SequenceByte) Exponential(start byte, factor byte) chan byte {
+	c := make(chan byte, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
+func (s SequenceByte) Range(start byte, end byte, step byte) chan byte {
+	c := make(chan byte, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
+func (s SequenceByte) Repeat(val byte) chan byte {
+	c := make(chan byte, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
 }
 
 func (s SliceByte) Any(f func(el byte) bool) bool {
@@ -4618,6 +4716,10 @@ type ChannelString struct {
 	data chan string
 }
 
+type SequenceString struct {
+	data chan string
+}
+
 type SliceString struct {
 	data []string
 }
@@ -5257,6 +5359,51 @@ func (c ChannelString) ToSlice() []string {
 		result = append(result, val)
 	}
 	return result
+}
+
+func (s SequenceString) Count(start string, step string) chan string {
+	c := make(chan string, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+func (s SequenceString) Exponential(start string, factor string) chan string {
+	c := make(chan string, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
+func (s SequenceString) Range(start string, end string, step string) chan string {
+	c := make(chan string, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
+func (s SequenceString) Repeat(val string) chan string {
+	c := make(chan string, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
 }
 
 func (s SliceString) Any(f func(el string) bool) bool {
@@ -6949,6 +7096,10 @@ type ChannelFloat32 struct {
 	data chan float32
 }
 
+type SequenceFloat32 struct {
+	data chan float32
+}
+
 type SliceFloat32 struct {
 	data []float32
 }
@@ -7588,6 +7739,51 @@ func (c ChannelFloat32) ToSlice() []float32 {
 		result = append(result, val)
 	}
 	return result
+}
+
+func (s SequenceFloat32) Count(start float32, step float32) chan float32 {
+	c := make(chan float32, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+func (s SequenceFloat32) Exponential(start float32, factor float32) chan float32 {
+	c := make(chan float32, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
+func (s SequenceFloat32) Range(start float32, end float32, step float32) chan float32 {
+	c := make(chan float32, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
+func (s SequenceFloat32) Repeat(val float32) chan float32 {
+	c := make(chan float32, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
 }
 
 func (s SliceFloat32) Any(f func(el float32) bool) bool {
@@ -9280,6 +9476,10 @@ type ChannelFloat64 struct {
 	data chan float64
 }
 
+type SequenceFloat64 struct {
+	data chan float64
+}
+
 type SliceFloat64 struct {
 	data []float64
 }
@@ -9919,6 +10119,51 @@ func (c ChannelFloat64) ToSlice() []float64 {
 		result = append(result, val)
 	}
 	return result
+}
+
+func (s SequenceFloat64) Count(start float64, step float64) chan float64 {
+	c := make(chan float64, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+func (s SequenceFloat64) Exponential(start float64, factor float64) chan float64 {
+	c := make(chan float64, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
+func (s SequenceFloat64) Range(start float64, end float64, step float64) chan float64 {
+	c := make(chan float64, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
+func (s SequenceFloat64) Repeat(val float64) chan float64 {
+	c := make(chan float64, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
 }
 
 func (s SliceFloat64) Any(f func(el float64) bool) bool {
@@ -11611,6 +11856,10 @@ type ChannelInt struct {
 	data chan int
 }
 
+type SequenceInt struct {
+	data chan int
+}
+
 type SliceInt struct {
 	data []int
 }
@@ -12250,6 +12499,51 @@ func (c ChannelInt) ToSlice() []int {
 		result = append(result, val)
 	}
 	return result
+}
+
+func (s SequenceInt) Count(start int, step int) chan int {
+	c := make(chan int, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+func (s SequenceInt) Exponential(start int, factor int) chan int {
+	c := make(chan int, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
+func (s SequenceInt) Range(start int, end int, step int) chan int {
+	c := make(chan int, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
+func (s SequenceInt) Repeat(val int) chan int {
+	c := make(chan int, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
 }
 
 func (s SliceInt) Any(f func(el int) bool) bool {
@@ -13942,6 +14236,10 @@ type ChannelInt8 struct {
 	data chan int8
 }
 
+type SequenceInt8 struct {
+	data chan int8
+}
+
 type SliceInt8 struct {
 	data []int8
 }
@@ -14581,6 +14879,51 @@ func (c ChannelInt8) ToSlice() []int8 {
 		result = append(result, val)
 	}
 	return result
+}
+
+func (s SequenceInt8) Count(start int8, step int8) chan int8 {
+	c := make(chan int8, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+func (s SequenceInt8) Exponential(start int8, factor int8) chan int8 {
+	c := make(chan int8, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
+func (s SequenceInt8) Range(start int8, end int8, step int8) chan int8 {
+	c := make(chan int8, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
+func (s SequenceInt8) Repeat(val int8) chan int8 {
+	c := make(chan int8, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
 }
 
 func (s SliceInt8) Any(f func(el int8) bool) bool {
@@ -16273,6 +16616,10 @@ type ChannelInt16 struct {
 	data chan int16
 }
 
+type SequenceInt16 struct {
+	data chan int16
+}
+
 type SliceInt16 struct {
 	data []int16
 }
@@ -16912,6 +17259,51 @@ func (c ChannelInt16) ToSlice() []int16 {
 		result = append(result, val)
 	}
 	return result
+}
+
+func (s SequenceInt16) Count(start int16, step int16) chan int16 {
+	c := make(chan int16, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+func (s SequenceInt16) Exponential(start int16, factor int16) chan int16 {
+	c := make(chan int16, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
+func (s SequenceInt16) Range(start int16, end int16, step int16) chan int16 {
+	c := make(chan int16, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
+func (s SequenceInt16) Repeat(val int16) chan int16 {
+	c := make(chan int16, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
 }
 
 func (s SliceInt16) Any(f func(el int16) bool) bool {
@@ -18604,6 +18996,10 @@ type ChannelInt32 struct {
 	data chan int32
 }
 
+type SequenceInt32 struct {
+	data chan int32
+}
+
 type SliceInt32 struct {
 	data []int32
 }
@@ -19243,6 +19639,51 @@ func (c ChannelInt32) ToSlice() []int32 {
 		result = append(result, val)
 	}
 	return result
+}
+
+func (s SequenceInt32) Count(start int32, step int32) chan int32 {
+	c := make(chan int32, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+func (s SequenceInt32) Exponential(start int32, factor int32) chan int32 {
+	c := make(chan int32, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
+func (s SequenceInt32) Range(start int32, end int32, step int32) chan int32 {
+	c := make(chan int32, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
+func (s SequenceInt32) Repeat(val int32) chan int32 {
+	c := make(chan int32, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
 }
 
 func (s SliceInt32) Any(f func(el int32) bool) bool {
@@ -20935,6 +21376,10 @@ type ChannelInt64 struct {
 	data chan int64
 }
 
+type SequenceInt64 struct {
+	data chan int64
+}
+
 type SliceInt64 struct {
 	data []int64
 }
@@ -21574,6 +22019,51 @@ func (c ChannelInt64) ToSlice() []int64 {
 		result = append(result, val)
 	}
 	return result
+}
+
+func (s SequenceInt64) Count(start int64, step int64) chan int64 {
+	c := make(chan int64, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+func (s SequenceInt64) Exponential(start int64, factor int64) chan int64 {
+	c := make(chan int64, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
+func (s SequenceInt64) Range(start int64, end int64, step int64) chan int64 {
+	c := make(chan int64, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
+func (s SequenceInt64) Repeat(val int64) chan int64 {
+	c := make(chan int64, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
 }
 
 func (s SliceInt64) Any(f func(el int64) bool) bool {
@@ -23266,6 +23756,10 @@ type ChannelUint struct {
 	data chan uint
 }
 
+type SequenceUint struct {
+	data chan uint
+}
+
 type SliceUint struct {
 	data []uint
 }
@@ -23905,6 +24399,51 @@ func (c ChannelUint) ToSlice() []uint {
 		result = append(result, val)
 	}
 	return result
+}
+
+func (s SequenceUint) Count(start uint, step uint) chan uint {
+	c := make(chan uint, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+func (s SequenceUint) Exponential(start uint, factor uint) chan uint {
+	c := make(chan uint, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
+func (s SequenceUint) Range(start uint, end uint, step uint) chan uint {
+	c := make(chan uint, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
+func (s SequenceUint) Repeat(val uint) chan uint {
+	c := make(chan uint, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
 }
 
 func (s SliceUint) Any(f func(el uint) bool) bool {
@@ -25597,6 +26136,10 @@ type ChannelUint8 struct {
 	data chan uint8
 }
 
+type SequenceUint8 struct {
+	data chan uint8
+}
+
 type SliceUint8 struct {
 	data []uint8
 }
@@ -26236,6 +26779,51 @@ func (c ChannelUint8) ToSlice() []uint8 {
 		result = append(result, val)
 	}
 	return result
+}
+
+func (s SequenceUint8) Count(start uint8, step uint8) chan uint8 {
+	c := make(chan uint8, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+func (s SequenceUint8) Exponential(start uint8, factor uint8) chan uint8 {
+	c := make(chan uint8, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
+func (s SequenceUint8) Range(start uint8, end uint8, step uint8) chan uint8 {
+	c := make(chan uint8, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
+func (s SequenceUint8) Repeat(val uint8) chan uint8 {
+	c := make(chan uint8, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
 }
 
 func (s SliceUint8) Any(f func(el uint8) bool) bool {
@@ -27928,6 +28516,10 @@ type ChannelUint16 struct {
 	data chan uint16
 }
 
+type SequenceUint16 struct {
+	data chan uint16
+}
+
 type SliceUint16 struct {
 	data []uint16
 }
@@ -28567,6 +29159,51 @@ func (c ChannelUint16) ToSlice() []uint16 {
 		result = append(result, val)
 	}
 	return result
+}
+
+func (s SequenceUint16) Count(start uint16, step uint16) chan uint16 {
+	c := make(chan uint16, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+func (s SequenceUint16) Exponential(start uint16, factor uint16) chan uint16 {
+	c := make(chan uint16, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
+func (s SequenceUint16) Range(start uint16, end uint16, step uint16) chan uint16 {
+	c := make(chan uint16, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
+func (s SequenceUint16) Repeat(val uint16) chan uint16 {
+	c := make(chan uint16, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
 }
 
 func (s SliceUint16) Any(f func(el uint16) bool) bool {
@@ -30259,6 +30896,10 @@ type ChannelUint32 struct {
 	data chan uint32
 }
 
+type SequenceUint32 struct {
+	data chan uint32
+}
+
 type SliceUint32 struct {
 	data []uint32
 }
@@ -30898,6 +31539,51 @@ func (c ChannelUint32) ToSlice() []uint32 {
 		result = append(result, val)
 	}
 	return result
+}
+
+func (s SequenceUint32) Count(start uint32, step uint32) chan uint32 {
+	c := make(chan uint32, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+func (s SequenceUint32) Exponential(start uint32, factor uint32) chan uint32 {
+	c := make(chan uint32, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
+func (s SequenceUint32) Range(start uint32, end uint32, step uint32) chan uint32 {
+	c := make(chan uint32, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
+func (s SequenceUint32) Repeat(val uint32) chan uint32 {
+	c := make(chan uint32, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
 }
 
 func (s SliceUint32) Any(f func(el uint32) bool) bool {
@@ -32590,6 +33276,10 @@ type ChannelUint64 struct {
 	data chan uint64
 }
 
+type SequenceUint64 struct {
+	data chan uint64
+}
+
 type SliceUint64 struct {
 	data []uint64
 }
@@ -33229,6 +33919,51 @@ func (c ChannelUint64) ToSlice() []uint64 {
 		result = append(result, val)
 	}
 	return result
+}
+
+func (s SequenceUint64) Count(start uint64, step uint64) chan uint64 {
+	c := make(chan uint64, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+func (s SequenceUint64) Exponential(start uint64, factor uint64) chan uint64 {
+	c := make(chan uint64, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
+func (s SequenceUint64) Range(start uint64, end uint64, step uint64) chan uint64 {
+	c := make(chan uint64, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
+func (s SequenceUint64) Repeat(val uint64) chan uint64 {
+	c := make(chan uint64, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
 }
 
 func (s SliceUint64) Any(f func(el uint64) bool) bool {
@@ -34921,6 +35656,10 @@ type ChannelInterface struct {
 	data chan interface{}
 }
 
+type SequenceInterface struct {
+	data chan interface{}
+}
+
 type SliceInterface struct {
 	data []interface{}
 }
@@ -35532,6 +36271,51 @@ func (c ChannelInterface) ToSlice() []interface{} {
 		result = append(result, val)
 	}
 	return result
+}
+
+func (s SequenceInterface) Count(start interface{}, step interface{}) chan interface{} {
+	c := make(chan interface{}, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+func (s SequenceInterface) Exponential(start interface{}, factor interface{}) chan interface{} {
+	c := make(chan interface{}, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
+func (s SequenceInterface) Range(start interface{}, end interface{}, step interface{}) chan interface{} {
+	c := make(chan interface{}, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
+func (s SequenceInterface) Repeat(val interface{}) chan interface{} {
+	c := make(chan interface{}, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
 }
 
 func (s SliceInterface) Any(f func(el interface{}) bool) bool {
