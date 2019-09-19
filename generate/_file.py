@@ -1,12 +1,13 @@
 import re
 from pathlib import Path
-from typing import Iterable, List
+from typing import Iterable, List, Union
 
 import attr
 
 from ._exclude import is_excluded
 from ._function import Function
 from ._struct import Struct
+from ._test import Test
 from ._types import Type, TYPES
 
 
@@ -17,21 +18,23 @@ REX_PACKAGE = re.compile(r'package (\w+)')
 class File:
     package = attr.ib(type=str)
     imports = attr.ib(type=List[str])
-    functions = attr.ib(type=List[Function])
+    functions = attr.ib(type=List[Union[Function, Test]])
     structs = attr.ib(type=List[Struct])
 
     @classmethod
-    def from_text(cls, text: str) -> 'File':
+    def from_text(cls, text: str, test: bool = False) -> 'File':
+        factory = Test if test else Function
         return cls(
             package=REX_PACKAGE.search(text).groups()[0],
             imports=cls._get_imports(text),
-            functions=Function.from_text(text),
+            functions=factory.from_text(text),
             structs=Struct.from_text(text),
         )
 
     @classmethod
     def from_path(cls, path: Path) -> 'File':
-        return cls.from_text(path.read_text())
+        is_test = path.stem.endswith('_test')
+        return cls.from_text(path.read_text(), test=is_test)
 
     @staticmethod
     def _get_imports(text: str) -> List[str]:
@@ -68,11 +71,13 @@ class File:
                 result += '\n\n' + struct.render({'T': t})
 
             for func in self.functions:
-                if is_excluded(struct=func.struct, func=func.name, t=t):
+                if is_excluded(func=func, t=t):
                     continue
                 if 'G' in func.generics:
                     # render function with additional generics
                     for g in types:
+                        if is_excluded(func=func, t=t, g=g):
+                            continue
                         result += '\n\n' + func.render({'T': t, 'G': g})
                 else:
                     result += '\n\n' + func.render({'T': t})
