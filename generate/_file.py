@@ -4,6 +4,7 @@ from typing import Iterable, List
 
 import attr
 
+from ._exclude import is_excluded
 from ._function import Function
 from ._struct import Struct
 from ._types import Type, TYPES
@@ -54,6 +55,8 @@ class File:
                 result += '\n\n' + struct.render({'T': t})
 
             for func in self.functions:
+                if is_excluded(struct=func.struct, func=func.name, t=t):
+                    continue
                 if 'G' in func.generics:
                     # render function with additional generics
                     for g in types:
