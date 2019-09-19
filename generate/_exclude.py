@@ -7,6 +7,7 @@ EXCLUDED = {
     'Slice': {
         'Max': ('bool', 'interface{}'),
         'Min': ('bool', 'interface{}'),
+        'Sum': ('bool', 'interface{}'),
     },
 }
 
