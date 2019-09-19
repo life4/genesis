@@ -537,23 +537,26 @@ func (c ChannelBool) Take(n int) []bool {
 	return result
 }
 
-func (c ChannelBool) Tee() (chan bool, chan bool) {
-	c1 := make(chan bool, 1)
-	c2 := make(chan bool, 1)
+func (c ChannelBool) Tee(count int) []chan bool {
+	channels := make([]chan bool, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan bool, 1))
+	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			f := func(out chan bool) {
+			putInto := func(ch chan bool) {
 				wg.Add(1)
 				defer wg.Done()
-				out <- el
+				ch <- el
 			}
-			f(c1)
-			f(c2)
+			for _, ch := range channels {
+				putInto(ch)
+			}
 			wg.Wait()
 		}
 	}()
-	return c1, c2
+	return channels
 }
 
 func (c ChannelBool) ToSlice() []bool {
@@ -2779,23 +2782,26 @@ func (c ChannelByte) Take(n int) []byte {
 	return result
 }
 
-func (c ChannelByte) Tee() (chan byte, chan byte) {
-	c1 := make(chan byte, 1)
-	c2 := make(chan byte, 1)
+func (c ChannelByte) Tee(count int) []chan byte {
+	channels := make([]chan byte, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan byte, 1))
+	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			f := func(out chan byte) {
+			putInto := func(ch chan byte) {
 				wg.Add(1)
 				defer wg.Done()
-				out <- el
+				ch <- el
 			}
-			f(c1)
-			f(c2)
+			for _, ch := range channels {
+				putInto(ch)
+			}
 			wg.Wait()
 		}
 	}()
-	return c1, c2
+	return channels
 }
 
 func (c ChannelByte) ToSlice() []byte {
@@ -5049,23 +5055,26 @@ func (c ChannelString) Take(n int) []string {
 	return result
 }
 
-func (c ChannelString) Tee() (chan string, chan string) {
-	c1 := make(chan string, 1)
-	c2 := make(chan string, 1)
+func (c ChannelString) Tee(count int) []chan string {
+	channels := make([]chan string, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan string, 1))
+	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			f := func(out chan string) {
+			putInto := func(ch chan string) {
 				wg.Add(1)
 				defer wg.Done()
-				out <- el
+				ch <- el
 			}
-			f(c1)
-			f(c2)
+			for _, ch := range channels {
+				putInto(ch)
+			}
 			wg.Wait()
 		}
 	}()
-	return c1, c2
+	return channels
 }
 
 func (c ChannelString) ToSlice() []string {
@@ -7319,23 +7328,26 @@ func (c ChannelFloat32) Take(n int) []float32 {
 	return result
 }
 
-func (c ChannelFloat32) Tee() (chan float32, chan float32) {
-	c1 := make(chan float32, 1)
-	c2 := make(chan float32, 1)
+func (c ChannelFloat32) Tee(count int) []chan float32 {
+	channels := make([]chan float32, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan float32, 1))
+	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			f := func(out chan float32) {
+			putInto := func(ch chan float32) {
 				wg.Add(1)
 				defer wg.Done()
-				out <- el
+				ch <- el
 			}
-			f(c1)
-			f(c2)
+			for _, ch := range channels {
+				putInto(ch)
+			}
 			wg.Wait()
 		}
 	}()
-	return c1, c2
+	return channels
 }
 
 func (c ChannelFloat32) ToSlice() []float32 {
@@ -9589,23 +9601,26 @@ func (c ChannelFloat64) Take(n int) []float64 {
 	return result
 }
 
-func (c ChannelFloat64) Tee() (chan float64, chan float64) {
-	c1 := make(chan float64, 1)
-	c2 := make(chan float64, 1)
+func (c ChannelFloat64) Tee(count int) []chan float64 {
+	channels := make([]chan float64, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan float64, 1))
+	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			f := func(out chan float64) {
+			putInto := func(ch chan float64) {
 				wg.Add(1)
 				defer wg.Done()
-				out <- el
+				ch <- el
 			}
-			f(c1)
-			f(c2)
+			for _, ch := range channels {
+				putInto(ch)
+			}
 			wg.Wait()
 		}
 	}()
-	return c1, c2
+	return channels
 }
 
 func (c ChannelFloat64) ToSlice() []float64 {
@@ -11859,23 +11874,26 @@ func (c ChannelInt) Take(n int) []int {
 	return result
 }
 
-func (c ChannelInt) Tee() (chan int, chan int) {
-	c1 := make(chan int, 1)
-	c2 := make(chan int, 1)
+func (c ChannelInt) Tee(count int) []chan int {
+	channels := make([]chan int, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan int, 1))
+	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			f := func(out chan int) {
+			putInto := func(ch chan int) {
 				wg.Add(1)
 				defer wg.Done()
-				out <- el
+				ch <- el
 			}
-			f(c1)
-			f(c2)
+			for _, ch := range channels {
+				putInto(ch)
+			}
 			wg.Wait()
 		}
 	}()
-	return c1, c2
+	return channels
 }
 
 func (c ChannelInt) ToSlice() []int {
@@ -14129,23 +14147,26 @@ func (c ChannelInt8) Take(n int) []int8 {
 	return result
 }
 
-func (c ChannelInt8) Tee() (chan int8, chan int8) {
-	c1 := make(chan int8, 1)
-	c2 := make(chan int8, 1)
+func (c ChannelInt8) Tee(count int) []chan int8 {
+	channels := make([]chan int8, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan int8, 1))
+	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			f := func(out chan int8) {
+			putInto := func(ch chan int8) {
 				wg.Add(1)
 				defer wg.Done()
-				out <- el
+				ch <- el
 			}
-			f(c1)
-			f(c2)
+			for _, ch := range channels {
+				putInto(ch)
+			}
 			wg.Wait()
 		}
 	}()
-	return c1, c2
+	return channels
 }
 
 func (c ChannelInt8) ToSlice() []int8 {
@@ -16399,23 +16420,26 @@ func (c ChannelInt16) Take(n int) []int16 {
 	return result
 }
 
-func (c ChannelInt16) Tee() (chan int16, chan int16) {
-	c1 := make(chan int16, 1)
-	c2 := make(chan int16, 1)
+func (c ChannelInt16) Tee(count int) []chan int16 {
+	channels := make([]chan int16, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan int16, 1))
+	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			f := func(out chan int16) {
+			putInto := func(ch chan int16) {
 				wg.Add(1)
 				defer wg.Done()
-				out <- el
+				ch <- el
 			}
-			f(c1)
-			f(c2)
+			for _, ch := range channels {
+				putInto(ch)
+			}
 			wg.Wait()
 		}
 	}()
-	return c1, c2
+	return channels
 }
 
 func (c ChannelInt16) ToSlice() []int16 {
@@ -18669,23 +18693,26 @@ func (c ChannelInt32) Take(n int) []int32 {
 	return result
 }
 
-func (c ChannelInt32) Tee() (chan int32, chan int32) {
-	c1 := make(chan int32, 1)
-	c2 := make(chan int32, 1)
+func (c ChannelInt32) Tee(count int) []chan int32 {
+	channels := make([]chan int32, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan int32, 1))
+	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			f := func(out chan int32) {
+			putInto := func(ch chan int32) {
 				wg.Add(1)
 				defer wg.Done()
-				out <- el
+				ch <- el
 			}
-			f(c1)
-			f(c2)
+			for _, ch := range channels {
+				putInto(ch)
+			}
 			wg.Wait()
 		}
 	}()
-	return c1, c2
+	return channels
 }
 
 func (c ChannelInt32) ToSlice() []int32 {
@@ -20939,23 +20966,26 @@ func (c ChannelInt64) Take(n int) []int64 {
 	return result
 }
 
-func (c ChannelInt64) Tee() (chan int64, chan int64) {
-	c1 := make(chan int64, 1)
-	c2 := make(chan int64, 1)
+func (c ChannelInt64) Tee(count int) []chan int64 {
+	channels := make([]chan int64, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan int64, 1))
+	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			f := func(out chan int64) {
+			putInto := func(ch chan int64) {
 				wg.Add(1)
 				defer wg.Done()
-				out <- el
+				ch <- el
 			}
-			f(c1)
-			f(c2)
+			for _, ch := range channels {
+				putInto(ch)
+			}
 			wg.Wait()
 		}
 	}()
-	return c1, c2
+	return channels
 }
 
 func (c ChannelInt64) ToSlice() []int64 {
@@ -23209,23 +23239,26 @@ func (c ChannelUint) Take(n int) []uint {
 	return result
 }
 
-func (c ChannelUint) Tee() (chan uint, chan uint) {
-	c1 := make(chan uint, 1)
-	c2 := make(chan uint, 1)
+func (c ChannelUint) Tee(count int) []chan uint {
+	channels := make([]chan uint, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan uint, 1))
+	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			f := func(out chan uint) {
+			putInto := func(ch chan uint) {
 				wg.Add(1)
 				defer wg.Done()
-				out <- el
+				ch <- el
 			}
-			f(c1)
-			f(c2)
+			for _, ch := range channels {
+				putInto(ch)
+			}
 			wg.Wait()
 		}
 	}()
-	return c1, c2
+	return channels
 }
 
 func (c ChannelUint) ToSlice() []uint {
@@ -25479,23 +25512,26 @@ func (c ChannelUint8) Take(n int) []uint8 {
 	return result
 }
 
-func (c ChannelUint8) Tee() (chan uint8, chan uint8) {
-	c1 := make(chan uint8, 1)
-	c2 := make(chan uint8, 1)
+func (c ChannelUint8) Tee(count int) []chan uint8 {
+	channels := make([]chan uint8, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan uint8, 1))
+	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			f := func(out chan uint8) {
+			putInto := func(ch chan uint8) {
 				wg.Add(1)
 				defer wg.Done()
-				out <- el
+				ch <- el
 			}
-			f(c1)
-			f(c2)
+			for _, ch := range channels {
+				putInto(ch)
+			}
 			wg.Wait()
 		}
 	}()
-	return c1, c2
+	return channels
 }
 
 func (c ChannelUint8) ToSlice() []uint8 {
@@ -27749,23 +27785,26 @@ func (c ChannelUint16) Take(n int) []uint16 {
 	return result
 }
 
-func (c ChannelUint16) Tee() (chan uint16, chan uint16) {
-	c1 := make(chan uint16, 1)
-	c2 := make(chan uint16, 1)
+func (c ChannelUint16) Tee(count int) []chan uint16 {
+	channels := make([]chan uint16, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan uint16, 1))
+	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			f := func(out chan uint16) {
+			putInto := func(ch chan uint16) {
 				wg.Add(1)
 				defer wg.Done()
-				out <- el
+				ch <- el
 			}
-			f(c1)
-			f(c2)
+			for _, ch := range channels {
+				putInto(ch)
+			}
 			wg.Wait()
 		}
 	}()
-	return c1, c2
+	return channels
 }
 
 func (c ChannelUint16) ToSlice() []uint16 {
@@ -30019,23 +30058,26 @@ func (c ChannelUint32) Take(n int) []uint32 {
 	return result
 }
 
-func (c ChannelUint32) Tee() (chan uint32, chan uint32) {
-	c1 := make(chan uint32, 1)
-	c2 := make(chan uint32, 1)
+func (c ChannelUint32) Tee(count int) []chan uint32 {
+	channels := make([]chan uint32, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan uint32, 1))
+	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			f := func(out chan uint32) {
+			putInto := func(ch chan uint32) {
 				wg.Add(1)
 				defer wg.Done()
-				out <- el
+				ch <- el
 			}
-			f(c1)
-			f(c2)
+			for _, ch := range channels {
+				putInto(ch)
+			}
 			wg.Wait()
 		}
 	}()
-	return c1, c2
+	return channels
 }
 
 func (c ChannelUint32) ToSlice() []uint32 {
@@ -32289,23 +32331,26 @@ func (c ChannelUint64) Take(n int) []uint64 {
 	return result
 }
 
-func (c ChannelUint64) Tee() (chan uint64, chan uint64) {
-	c1 := make(chan uint64, 1)
-	c2 := make(chan uint64, 1)
+func (c ChannelUint64) Tee(count int) []chan uint64 {
+	channels := make([]chan uint64, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan uint64, 1))
+	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			f := func(out chan uint64) {
+			putInto := func(ch chan uint64) {
 				wg.Add(1)
 				defer wg.Done()
-				out <- el
+				ch <- el
 			}
-			f(c1)
-			f(c2)
+			for _, ch := range channels {
+				putInto(ch)
+			}
 			wg.Wait()
 		}
 	}()
-	return c1, c2
+	return channels
 }
 
 func (c ChannelUint64) ToSlice() []uint64 {
@@ -34531,23 +34576,26 @@ func (c ChannelInterface) Take(n int) []interface{} {
 	return result
 }
 
-func (c ChannelInterface) Tee() (chan interface{}, chan interface{}) {
-	c1 := make(chan interface{}, 1)
-	c2 := make(chan interface{}, 1)
+func (c ChannelInterface) Tee(count int) []chan interface{} {
+	channels := make([]chan interface{}, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan interface{}, 1))
+	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			f := func(out chan interface{}) {
+			putInto := func(ch chan interface{}) {
 				wg.Add(1)
 				defer wg.Done()
-				out <- el
+				ch <- el
 			}
-			f(c1)
-			f(c2)
+			for _, ch := range channels {
+				putInto(ch)
+			}
 			wg.Wait()
 		}
 	}()
-	return c1, c2
+	return channels
 }
 
 func (c ChannelInterface) ToSlice() []interface{} {

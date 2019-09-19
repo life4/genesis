@@ -150,23 +150,26 @@ func (c Channel) Take(n int) []T {
 }
 
 // Tee returns 2 channels with elements from the input channel
-func (c Channel) Tee() (chan T, chan T) {
-	c1 := make(chan T, 1)
-	c2 := make(chan T, 1)
+func (c Channel) Tee(count int) []chan T {
+	channels := make([]chan T, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan T, 1))
+	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			f := func(out chan T) {
+			putInto := func(ch chan T) {
 				wg.Add(1)
 				defer wg.Done()
-				out <- el
+				ch <- el
 			}
-			f(c1)
-			f(c2)
+			for _, ch := range channels {
+				putInto(ch)
+			}
 			wg.Wait()
 		}
 	}()
-	return c1, c2
+	return channels
 }
 
 // ToSlice returns slice with all elements from channel.
