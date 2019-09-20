@@ -4525,6 +4525,15 @@ func (s SliceByte) Sort() []byte {
 	return s.data
 }
 
+func (s SliceByte) Sorted() bool {
+	for i := 1; i < len(s.data); i++ {
+		if s.data[i-1] > s.data[i] {
+			return false
+		}
+	}
+	return true
+}
+
 func (s SliceByte) Split(sep byte) [][]byte {
 	result := make([][]byte, 0)
 	curr := make([]byte, 0)
@@ -6876,6 +6885,15 @@ func (s SliceString) Sort() []string {
 	}
 	sort.SliceStable(s.data, less)
 	return s.data
+}
+
+func (s SliceString) Sorted() bool {
+	for i := 1; i < len(s.data); i++ {
+		if s.data[i-1] > s.data[i] {
+			return false
+		}
+	}
+	return true
 }
 
 func (s SliceString) Split(sep string) [][]string {
@@ -9266,6 +9284,15 @@ func (s SliceFloat32) Sort() []float32 {
 	return s.data
 }
 
+func (s SliceFloat32) Sorted() bool {
+	for i := 1; i < len(s.data); i++ {
+		if s.data[i-1] > s.data[i] {
+			return false
+		}
+	}
+	return true
+}
+
 func (s SliceFloat32) Split(sep float32) [][]float32 {
 	result := make([][]float32, 0)
 	curr := make([]float32, 0)
@@ -11652,6 +11679,15 @@ func (s SliceFloat64) Sort() []float64 {
 	}
 	sort.SliceStable(s.data, less)
 	return s.data
+}
+
+func (s SliceFloat64) Sorted() bool {
+	for i := 1; i < len(s.data); i++ {
+		if s.data[i-1] > s.data[i] {
+			return false
+		}
+	}
+	return true
 }
 
 func (s SliceFloat64) Split(sep float64) [][]float64 {
@@ -14042,6 +14078,15 @@ func (s SliceInt) Sort() []int {
 	return s.data
 }
 
+func (s SliceInt) Sorted() bool {
+	for i := 1; i < len(s.data); i++ {
+		if s.data[i-1] > s.data[i] {
+			return false
+		}
+	}
+	return true
+}
+
 func (s SliceInt) Split(sep int) [][]int {
 	result := make([][]int, 0)
 	curr := make([]int, 0)
@@ -16428,6 +16473,15 @@ func (s SliceInt8) Sort() []int8 {
 	}
 	sort.SliceStable(s.data, less)
 	return s.data
+}
+
+func (s SliceInt8) Sorted() bool {
+	for i := 1; i < len(s.data); i++ {
+		if s.data[i-1] > s.data[i] {
+			return false
+		}
+	}
+	return true
 }
 
 func (s SliceInt8) Split(sep int8) [][]int8 {
@@ -18818,6 +18872,15 @@ func (s SliceInt16) Sort() []int16 {
 	return s.data
 }
 
+func (s SliceInt16) Sorted() bool {
+	for i := 1; i < len(s.data); i++ {
+		if s.data[i-1] > s.data[i] {
+			return false
+		}
+	}
+	return true
+}
+
 func (s SliceInt16) Split(sep int16) [][]int16 {
 	result := make([][]int16, 0)
 	curr := make([]int16, 0)
@@ -21204,6 +21267,15 @@ func (s SliceInt32) Sort() []int32 {
 	}
 	sort.SliceStable(s.data, less)
 	return s.data
+}
+
+func (s SliceInt32) Sorted() bool {
+	for i := 1; i < len(s.data); i++ {
+		if s.data[i-1] > s.data[i] {
+			return false
+		}
+	}
+	return true
 }
 
 func (s SliceInt32) Split(sep int32) [][]int32 {
@@ -23594,6 +23666,15 @@ func (s SliceInt64) Sort() []int64 {
 	return s.data
 }
 
+func (s SliceInt64) Sorted() bool {
+	for i := 1; i < len(s.data); i++ {
+		if s.data[i-1] > s.data[i] {
+			return false
+		}
+	}
+	return true
+}
+
 func (s SliceInt64) Split(sep int64) [][]int64 {
 	result := make([][]int64, 0)
 	curr := make([]int64, 0)
@@ -25980,6 +26061,15 @@ func (s SliceUint) Sort() []uint {
 	}
 	sort.SliceStable(s.data, less)
 	return s.data
+}
+
+func (s SliceUint) Sorted() bool {
+	for i := 1; i < len(s.data); i++ {
+		if s.data[i-1] > s.data[i] {
+			return false
+		}
+	}
+	return true
 }
 
 func (s SliceUint) Split(sep uint) [][]uint {
@@ -28370,6 +28460,15 @@ func (s SliceUint8) Sort() []uint8 {
 	return s.data
 }
 
+func (s SliceUint8) Sorted() bool {
+	for i := 1; i < len(s.data); i++ {
+		if s.data[i-1] > s.data[i] {
+			return false
+		}
+	}
+	return true
+}
+
 func (s SliceUint8) Split(sep uint8) [][]uint8 {
 	result := make([][]uint8, 0)
 	curr := make([]uint8, 0)
@@ -30756,6 +30855,15 @@ func (s SliceUint16) Sort() []uint16 {
 	}
 	sort.SliceStable(s.data, less)
 	return s.data
+}
+
+func (s SliceUint16) Sorted() bool {
+	for i := 1; i < len(s.data); i++ {
+		if s.data[i-1] > s.data[i] {
+			return false
+		}
+	}
+	return true
 }
 
 func (s SliceUint16) Split(sep uint16) [][]uint16 {
@@ -33146,6 +33254,15 @@ func (s SliceUint32) Sort() []uint32 {
 	return s.data
 }
 
+func (s SliceUint32) Sorted() bool {
+	for i := 1; i < len(s.data); i++ {
+		if s.data[i-1] > s.data[i] {
+			return false
+		}
+	}
+	return true
+}
+
 func (s SliceUint32) Split(sep uint32) [][]uint32 {
 	result := make([][]uint32, 0)
 	curr := make([]uint32, 0)
@@ -35532,6 +35649,15 @@ func (s SliceUint64) Sort() []uint64 {
 	}
 	sort.SliceStable(s.data, less)
 	return s.data
+}
+
+func (s SliceUint64) Sorted() bool {
+	for i := 1; i < len(s.data); i++ {
+		if s.data[i-1] > s.data[i] {
+			return false
+		}
+	}
+	return true
 }
 
 func (s SliceUint64) Split(sep uint64) [][]uint64 {
