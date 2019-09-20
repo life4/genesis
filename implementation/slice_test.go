@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestChunkBy(t *testing.T) {
+func TestSliceChunkBy(t *testing.T) {
 	f := func(mapper func(t T) G, given []T, expected [][]T) {
 		actual := Slice{given}.ChunkBy(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
@@ -18,7 +18,7 @@ func TestChunkBy(t *testing.T) {
 	f(remainder, []T{1, 3, 2, 4, 5}, [][]T{{1, 3}, {2, 4}, {5}})
 }
 
-func TestChunkEvery(t *testing.T) {
+func TestSliceChunkEvery(t *testing.T) {
 	f := func(count int, given []T, expected [][]T) {
 		actual := Slice{given}.ChunkEvery(count)
 		assert.Equal(t, expected, actual, "they should be equal")
@@ -27,7 +27,7 @@ func TestChunkEvery(t *testing.T) {
 	f(2, []T{1, 2, 3, 4, 5}, [][]T{[]T{1, 2}, []T{3, 4}, []T{5}})
 }
 
-func TestFilter(t *testing.T) {
+func TestSliceFilter(t *testing.T) {
 	f := func(filter func(t T) bool, given []T, expected []T) {
 		actual := Slice{given}.Filter(filter)
 		assert.Equal(t, expected, actual, "they should be equal")
@@ -39,7 +39,7 @@ func TestFilter(t *testing.T) {
 	f(filterPositive, []T{-1, -2, -3}, []T{})
 }
 
-func TestGroupBy(t *testing.T) {
+func TestSliceGroupBy(t *testing.T) {
 	f := func(mapper func(t T) G, given []T, expected map[G][]T) {
 		actual := Slice{given}.GroupBy(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
@@ -51,7 +51,7 @@ func TestGroupBy(t *testing.T) {
 	f(remainder, []T{1, 3, 2, 4, 5}, map[G][]T{0: {2, 4}, 1: {1, 3, 5}})
 }
 
-func TestIntersperse(t *testing.T) {
+func TestSliceIntersperse(t *testing.T) {
 	f := func(el T, given []T, expected []T) {
 		actual := Slice{given}.Intersperse(el)
 		assert.Equal(t, expected, actual, "they should be equal")
@@ -59,7 +59,7 @@ func TestIntersperse(t *testing.T) {
 	f(0, []T{1, 2, 3}, []T{1, 0, 2, 0, 3})
 }
 
-func TestMap(t *testing.T) {
+func TestSliceMap(t *testing.T) {
 	f := func(mapper func(t T) G, given []T, expected []G) {
 		actual := Slice{given}.Map(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")

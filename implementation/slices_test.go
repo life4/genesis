@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestProduct(t *testing.T) {
+func TestSlicesProduct(t *testing.T) {
 	f := func(given [][]T, expected [][]T) {
 		actual := make([][]T, 0)
 		i := 0

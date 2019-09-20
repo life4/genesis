@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestExponential(t *testing.T) {
+func TestSequenceExponential(t *testing.T) {
 	s := Sequence{}
 	f := func(start T, factor T, count int, expected []T) {
 		seq := s.Exponential(start, factor)
@@ -16,7 +16,7 @@ func TestExponential(t *testing.T) {
 	f(1, 2, 4, []T{1, 2, 4, 8})
 }
 
-func TestRange(t *testing.T) {
+func TestSequenceRange(t *testing.T) {
 	s := Sequence{}
 	f := func(start T, stop T, step T, expected []T) {
 		seq := s.Range(start, stop, step)
@@ -27,7 +27,7 @@ func TestRange(t *testing.T) {
 	f(3, 0, -1, []T{3, 2, 1})
 }
 
-func TestRepeat(t *testing.T) {
+func TestSequenceRepeat(t *testing.T) {
 	s := Sequence{}
 	f := func(count int, given T, expected []T) {
 		seq := s.Repeat(given)
@@ -37,7 +37,7 @@ func TestRepeat(t *testing.T) {
 	f(2, 1, []T{1, 1})
 }
 
-func TestTake(t *testing.T) {
+func TestSequenceTake(t *testing.T) {
 	s := Sequence{}
 	f := func(count int, given T, expected []T) {
 		seq := s.Repeat(given)
@@ -49,7 +49,7 @@ func TestTake(t *testing.T) {
 	f(2, 1, []T{1, 1})
 }
 
-func TestToSlice(t *testing.T) {
+func TestSequenceToSlice(t *testing.T) {
 	s := Sequence{}
 	f := func(start T, stop T, step T, expected []T) {
 		seq := s.Range(start, stop, step)
