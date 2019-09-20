@@ -1,6 +1,6 @@
 import re
 from pathlib import Path
-from typing import Iterable, List, Union
+from typing import Iterable, List, Union, Set
 
 import attr
 
@@ -17,7 +17,7 @@ REX_PACKAGE = re.compile(r'package (\w+)')
 @attr.s()
 class File:
     package = attr.ib(type=str)
-    imports = attr.ib(type=List[str])
+    imports = attr.ib(type=Set[str])
     functions = attr.ib(type=List[Union[Function, Test]])
     structs = attr.ib(type=List[Struct])
 
@@ -37,12 +37,12 @@ class File:
         return cls.from_text(path.read_text(), test=is_test)
 
     @staticmethod
-    def _get_imports(text: str) -> List[str]:
+    def _get_imports(text: str) -> Set[str]:
         _before, sep, after = text.partition('import (')
         if not sep:
-            return []
+            return set()
         imports = after.split(')')[0]
-        return imports.split('\n')
+        return set(imports.split('\n'))
 
     @staticmethod
     def merge(*files) -> 'File':
@@ -53,7 +53,7 @@ class File:
             raise ValueError('merging different packages')
         return type(self)(
             package=self.package,
-            imports=self.imports + other.imports,
+            imports=self.imports | other.imports,
             functions=self.functions + other.functions,
             structs=self.structs + other.structs,
         )
@@ -63,7 +63,7 @@ class File:
             types = TYPES
         result = 'package {package}'.format(package=self.package)
         if self.imports:
-            result += '\n\nimport ({})'.format('\n'.join(self.imports))
+            result += '\n\nimport ({})'.format('\n'.join(sorted(self.imports)))
 
         for t in types:
             # render structs for type
