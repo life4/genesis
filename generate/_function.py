@@ -6,7 +6,7 @@ import parse
 from ._types import Type
 
 
-_t = 'func ({pointer} {struct:w}) {name:w}{signature} {{\n{body}\n}}'
+_t = 'func ({pointer}{struct:w}) {name:w}{signature} {{\n{body}\n}}'
 parser = parse.compile(_t)
 TEMPLATE = _t.replace(':w}', '}')
 

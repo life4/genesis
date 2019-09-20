@@ -2,6 +2,7 @@ package genesis
 
 import (
 	"math/rand"
+	"sort"
 	"sync"
 	"time")
 
@@ -4516,6 +4517,14 @@ func (s SliceByte) Shuffle() []byte {
 	return s.data
 }
 
+func (s SliceByte) Sort() []byte {
+	less := func(i int, j int) bool {
+		return s.data[i] < s.data[j]
+	}
+	sort.SliceStable(s.data, less)
+	return s.data
+}
+
 func (s SliceByte) Split(sep byte) [][]byte {
 	result := make([][]byte, 0)
 	curr := make([]byte, 0)
@@ -6858,6 +6867,14 @@ func (s SliceString) Shuffle() []string {
 		s.data[i], s.data[j] = s.data[j], s.data[i]
 	}
 	rand.Shuffle(len(s.data), swap)
+	return s.data
+}
+
+func (s SliceString) Sort() []string {
+	less := func(i int, j int) bool {
+		return s.data[i] < s.data[j]
+	}
+	sort.SliceStable(s.data, less)
 	return s.data
 }
 
@@ -9241,6 +9258,14 @@ func (s SliceFloat32) Shuffle() []float32 {
 	return s.data
 }
 
+func (s SliceFloat32) Sort() []float32 {
+	less := func(i int, j int) bool {
+		return s.data[i] < s.data[j]
+	}
+	sort.SliceStable(s.data, less)
+	return s.data
+}
+
 func (s SliceFloat32) Split(sep float32) [][]float32 {
 	result := make([][]float32, 0)
 	curr := make([]float32, 0)
@@ -11618,6 +11643,14 @@ func (s SliceFloat64) Shuffle() []float64 {
 		s.data[i], s.data[j] = s.data[j], s.data[i]
 	}
 	rand.Shuffle(len(s.data), swap)
+	return s.data
+}
+
+func (s SliceFloat64) Sort() []float64 {
+	less := func(i int, j int) bool {
+		return s.data[i] < s.data[j]
+	}
+	sort.SliceStable(s.data, less)
 	return s.data
 }
 
@@ -14001,6 +14034,14 @@ func (s SliceInt) Shuffle() []int {
 	return s.data
 }
 
+func (s SliceInt) Sort() []int {
+	less := func(i int, j int) bool {
+		return s.data[i] < s.data[j]
+	}
+	sort.SliceStable(s.data, less)
+	return s.data
+}
+
 func (s SliceInt) Split(sep int) [][]int {
 	result := make([][]int, 0)
 	curr := make([]int, 0)
@@ -16378,6 +16419,14 @@ func (s SliceInt8) Shuffle() []int8 {
 		s.data[i], s.data[j] = s.data[j], s.data[i]
 	}
 	rand.Shuffle(len(s.data), swap)
+	return s.data
+}
+
+func (s SliceInt8) Sort() []int8 {
+	less := func(i int, j int) bool {
+		return s.data[i] < s.data[j]
+	}
+	sort.SliceStable(s.data, less)
 	return s.data
 }
 
@@ -18761,6 +18810,14 @@ func (s SliceInt16) Shuffle() []int16 {
 	return s.data
 }
 
+func (s SliceInt16) Sort() []int16 {
+	less := func(i int, j int) bool {
+		return s.data[i] < s.data[j]
+	}
+	sort.SliceStable(s.data, less)
+	return s.data
+}
+
 func (s SliceInt16) Split(sep int16) [][]int16 {
 	result := make([][]int16, 0)
 	curr := make([]int16, 0)
@@ -21138,6 +21195,14 @@ func (s SliceInt32) Shuffle() []int32 {
 		s.data[i], s.data[j] = s.data[j], s.data[i]
 	}
 	rand.Shuffle(len(s.data), swap)
+	return s.data
+}
+
+func (s SliceInt32) Sort() []int32 {
+	less := func(i int, j int) bool {
+		return s.data[i] < s.data[j]
+	}
+	sort.SliceStable(s.data, less)
 	return s.data
 }
 
@@ -23521,6 +23586,14 @@ func (s SliceInt64) Shuffle() []int64 {
 	return s.data
 }
 
+func (s SliceInt64) Sort() []int64 {
+	less := func(i int, j int) bool {
+		return s.data[i] < s.data[j]
+	}
+	sort.SliceStable(s.data, less)
+	return s.data
+}
+
 func (s SliceInt64) Split(sep int64) [][]int64 {
 	result := make([][]int64, 0)
 	curr := make([]int64, 0)
@@ -25898,6 +25971,14 @@ func (s SliceUint) Shuffle() []uint {
 		s.data[i], s.data[j] = s.data[j], s.data[i]
 	}
 	rand.Shuffle(len(s.data), swap)
+	return s.data
+}
+
+func (s SliceUint) Sort() []uint {
+	less := func(i int, j int) bool {
+		return s.data[i] < s.data[j]
+	}
+	sort.SliceStable(s.data, less)
 	return s.data
 }
 
@@ -28281,6 +28362,14 @@ func (s SliceUint8) Shuffle() []uint8 {
 	return s.data
 }
 
+func (s SliceUint8) Sort() []uint8 {
+	less := func(i int, j int) bool {
+		return s.data[i] < s.data[j]
+	}
+	sort.SliceStable(s.data, less)
+	return s.data
+}
+
 func (s SliceUint8) Split(sep uint8) [][]uint8 {
 	result := make([][]uint8, 0)
 	curr := make([]uint8, 0)
@@ -30658,6 +30747,14 @@ func (s SliceUint16) Shuffle() []uint16 {
 		s.data[i], s.data[j] = s.data[j], s.data[i]
 	}
 	rand.Shuffle(len(s.data), swap)
+	return s.data
+}
+
+func (s SliceUint16) Sort() []uint16 {
+	less := func(i int, j int) bool {
+		return s.data[i] < s.data[j]
+	}
+	sort.SliceStable(s.data, less)
 	return s.data
 }
 
@@ -33041,6 +33138,14 @@ func (s SliceUint32) Shuffle() []uint32 {
 	return s.data
 }
 
+func (s SliceUint32) Sort() []uint32 {
+	less := func(i int, j int) bool {
+		return s.data[i] < s.data[j]
+	}
+	sort.SliceStable(s.data, less)
+	return s.data
+}
+
 func (s SliceUint32) Split(sep uint32) [][]uint32 {
 	result := make([][]uint32, 0)
 	curr := make([]uint32, 0)
@@ -35418,6 +35523,14 @@ func (s SliceUint64) Shuffle() []uint64 {
 		s.data[i], s.data[j] = s.data[j], s.data[i]
 	}
 	rand.Shuffle(len(s.data), swap)
+	return s.data
+}
+
+func (s SliceUint64) Sort() []uint64 {
+	less := func(i int, j int) bool {
+		return s.data[i] < s.data[j]
+	}
+	sort.SliceStable(s.data, less)
 	return s.data
 }
 

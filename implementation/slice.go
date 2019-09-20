@@ -2,6 +2,7 @@ package implementation
 
 import (
 	"math/rand"
+	"sort"
 	"time"
 )
 
@@ -341,6 +342,15 @@ func (s Slice) Shuffle() []T {
 		s.data[i], s.data[j] = s.data[j], s.data[i]
 	}
 	rand.Shuffle(len(s.data), swap)
+	return s.data
+}
+
+// Sort returns sorted slice
+func (s Slice) Sort() []T {
+	less := func(i int, j int) bool {
+		return s.data[i] < s.data[j]
+	}
+	sort.SliceStable(s.data, less)
 	return s.data
 }
 
