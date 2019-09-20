@@ -1,12 +1,9 @@
 package genesis
 
 import (
-	"sync"
-
-
 	"math/rand"
-	"time"
-)
+	"sync"
+	"time")
 
 type ChannelBool struct {
 	data chan bool
@@ -627,41 +624,6 @@ func (c ChannelBool) ToSlice() []bool {
 		result = append(result, val)
 	}
 	return result
-}
-
-func (s SequenceBool) Count(start bool, step bool) chan bool {
-	c := make(chan bool, 1)
-	go func() {
-		for {
-			c <- start
-			start += step
-		}
-	}()
-	return c
-}
-
-func (s SequenceBool) Exponential(start bool, factor bool) chan bool {
-	c := make(chan bool, 1)
-	go func() {
-		for {
-			c <- start
-			start *= factor
-		}
-	}()
-	return c
-}
-
-func (s SequenceBool) Range(start bool, end bool, step bool) chan bool {
-	c := make(chan bool, 1)
-	pos := start <= end
-	go func() {
-		for pos && (start < end) || !pos && (start > end) {
-			c <- start
-			start += step
-		}
-		close(c)
-	}()
-	return c
 }
 
 func (s SequenceBool) Repeat(val bool) chan bool {
@@ -2979,41 +2941,6 @@ func (c ChannelByte) ToSlice() []byte {
 		result = append(result, val)
 	}
 	return result
-}
-
-func (s SequenceByte) Count(start byte, step byte) chan byte {
-	c := make(chan byte, 1)
-	go func() {
-		for {
-			c <- start
-			start += step
-		}
-	}()
-	return c
-}
-
-func (s SequenceByte) Exponential(start byte, factor byte) chan byte {
-	c := make(chan byte, 1)
-	go func() {
-		for {
-			c <- start
-			start *= factor
-		}
-	}()
-	return c
-}
-
-func (s SequenceByte) Range(start byte, end byte, step byte) chan byte {
-	c := make(chan byte, 1)
-	pos := start <= end
-	go func() {
-		for pos && (start < end) || !pos && (start > end) {
-			c <- start
-			start += step
-		}
-		close(c)
-	}()
-	return c
 }
 
 func (s SequenceByte) Repeat(val byte) chan byte {
@@ -5359,41 +5286,6 @@ func (c ChannelString) ToSlice() []string {
 		result = append(result, val)
 	}
 	return result
-}
-
-func (s SequenceString) Count(start string, step string) chan string {
-	c := make(chan string, 1)
-	go func() {
-		for {
-			c <- start
-			start += step
-		}
-	}()
-	return c
-}
-
-func (s SequenceString) Exponential(start string, factor string) chan string {
-	c := make(chan string, 1)
-	go func() {
-		for {
-			c <- start
-			start *= factor
-		}
-	}()
-	return c
-}
-
-func (s SequenceString) Range(start string, end string, step string) chan string {
-	c := make(chan string, 1)
-	pos := start <= end
-	go func() {
-		for pos && (start < end) || !pos && (start > end) {
-			c <- start
-			start += step
-		}
-		close(c)
-	}()
-	return c
 }
 
 func (s SequenceString) Repeat(val string) chan string {
@@ -36271,41 +36163,6 @@ func (c ChannelInterface) ToSlice() []interface{} {
 		result = append(result, val)
 	}
 	return result
-}
-
-func (s SequenceInterface) Count(start interface{}, step interface{}) chan interface{} {
-	c := make(chan interface{}, 1)
-	go func() {
-		for {
-			c <- start
-			start += step
-		}
-	}()
-	return c
-}
-
-func (s SequenceInterface) Exponential(start interface{}, factor interface{}) chan interface{} {
-	c := make(chan interface{}, 1)
-	go func() {
-		for {
-			c <- start
-			start *= factor
-		}
-	}()
-	return c
-}
-
-func (s SequenceInterface) Range(start interface{}, end interface{}, step interface{}) chan interface{} {
-	c := make(chan interface{}, 1)
-	pos := start <= end
-	go func() {
-		for pos && (start < end) || !pos && (start > end) {
-			c <- start
-			start += step
-		}
-		close(c)
-	}()
-	return c
 }
 
 func (s SequenceInterface) Repeat(val interface{}) chan interface{} {
