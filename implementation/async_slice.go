@@ -22,6 +22,10 @@ func (s AsyncSlice) Each(f func(el T)) {
 
 	// run workers
 	jobs := make(chan int, len(s.data))
+	workers := s.workers
+	if workers == 0 {
+		workers = len(s.data)
+	}
 	for i := 0; i < s.workers; i++ {
 		go worker(jobs)
 	}
@@ -30,6 +34,7 @@ func (s AsyncSlice) Each(f func(el T)) {
 	for i := 0; i < len(s.data); i++ {
 		jobs <- i
 	}
+	close(jobs)
 	wg.Wait()
 }
 
@@ -48,6 +53,10 @@ func (s AsyncSlice) Map(f func(el T) G) []G {
 
 	// run workers
 	jobs := make(chan int, len(s.data))
+	workers := s.workers
+	if workers == 0 {
+		workers = len(s.data)
+	}
 	for i := 0; i < s.workers; i++ {
 		go worker(jobs)
 	}
@@ -56,6 +65,7 @@ func (s AsyncSlice) Map(f func(el T) G) []G {
 	for i := 0; i < len(s.data); i++ {
 		jobs <- i
 	}
+	close(jobs)
 	wg.Wait()
 	return result
 }
