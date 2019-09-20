@@ -6,6 +6,34 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestSliceAny(t *testing.T) {
+	f := func(check func(t T) bool, given []T, expected bool) {
+		actual := Slice{given}.Any(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t T) bool { return (t % 2) == 0 }
+
+	f(isEven, []T{}, false)
+	f(isEven, []T{1, 3}, false)
+	f(isEven, []T{2}, true)
+	f(isEven, []T{1, 2}, true)
+}
+
+func TestSliceAll(t *testing.T) {
+	f := func(check func(t T) bool, given []T, expected bool) {
+		actual := Slice{given}.All(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t T) bool { return (t % 2) == 0 }
+
+	f(isEven, []T{}, true)
+	f(isEven, []T{2}, true)
+	f(isEven, []T{1}, false)
+	f(isEven, []T{2, 4}, true)
+	f(isEven, []T{2, 4, 1}, false)
+	f(isEven, []T{1, 2, 4}, false)
+}
+
 func TestSliceChunkBy(t *testing.T) {
 	f := func(mapper func(t T) G, given []T, expected [][]T) {
 		actual := Slice{given}.ChunkBy(mapper)

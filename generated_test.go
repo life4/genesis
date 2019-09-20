@@ -22,6 +22,34 @@ func TestSlicesProductInt(t *testing.T) {
 	f([][]int{{1, 2}, {3}, {4, 5}}, [][]int{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
 }
 
+func TestSliceAnyInt(t *testing.T) {
+	f := func(check func(t int) bool, given []int, expected bool) {
+		actual := SliceInt{given}.Any(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t int) bool { return (t % 2) == 0 }
+
+	f(isEven, []int{}, false)
+	f(isEven, []int{1, 3}, false)
+	f(isEven, []int{2}, true)
+	f(isEven, []int{1, 2}, true)
+}
+
+func TestSliceAllInt(t *testing.T) {
+	f := func(check func(t int) bool, given []int, expected bool) {
+		actual := SliceInt{given}.All(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t int) bool { return (t % 2) == 0 }
+
+	f(isEven, []int{}, true)
+	f(isEven, []int{2}, true)
+	f(isEven, []int{1}, false)
+	f(isEven, []int{2, 4}, true)
+	f(isEven, []int{2, 4, 1}, false)
+	f(isEven, []int{1, 2, 4}, false)
+}
+
 func TestSliceChunkByIntInt(t *testing.T) {
 	f := func(mapper func(t int) int, given []int, expected [][]int) {
 		actual := SliceInt{given}.ChunkByInt(mapper)
@@ -290,6 +318,34 @@ func TestSlicesProductInt8(t *testing.T) {
 	}
 	f([][]int8{{1, 2}, {3, 4}}, [][]int8{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
 	f([][]int8{{1, 2}, {3}, {4, 5}}, [][]int8{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+}
+
+func TestSliceAnyInt8(t *testing.T) {
+	f := func(check func(t int8) bool, given []int8, expected bool) {
+		actual := SliceInt8{given}.Any(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t int8) bool { return (t % 2) == 0 }
+
+	f(isEven, []int8{}, false)
+	f(isEven, []int8{1, 3}, false)
+	f(isEven, []int8{2}, true)
+	f(isEven, []int8{1, 2}, true)
+}
+
+func TestSliceAllInt8(t *testing.T) {
+	f := func(check func(t int8) bool, given []int8, expected bool) {
+		actual := SliceInt8{given}.All(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t int8) bool { return (t % 2) == 0 }
+
+	f(isEven, []int8{}, true)
+	f(isEven, []int8{2}, true)
+	f(isEven, []int8{1}, false)
+	f(isEven, []int8{2, 4}, true)
+	f(isEven, []int8{2, 4, 1}, false)
+	f(isEven, []int8{1, 2, 4}, false)
 }
 
 func TestSliceChunkByInt8Int(t *testing.T) {
@@ -562,6 +618,34 @@ func TestSlicesProductInt16(t *testing.T) {
 	f([][]int16{{1, 2}, {3}, {4, 5}}, [][]int16{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
 }
 
+func TestSliceAnyInt16(t *testing.T) {
+	f := func(check func(t int16) bool, given []int16, expected bool) {
+		actual := SliceInt16{given}.Any(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t int16) bool { return (t % 2) == 0 }
+
+	f(isEven, []int16{}, false)
+	f(isEven, []int16{1, 3}, false)
+	f(isEven, []int16{2}, true)
+	f(isEven, []int16{1, 2}, true)
+}
+
+func TestSliceAllInt16(t *testing.T) {
+	f := func(check func(t int16) bool, given []int16, expected bool) {
+		actual := SliceInt16{given}.All(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t int16) bool { return (t % 2) == 0 }
+
+	f(isEven, []int16{}, true)
+	f(isEven, []int16{2}, true)
+	f(isEven, []int16{1}, false)
+	f(isEven, []int16{2, 4}, true)
+	f(isEven, []int16{2, 4, 1}, false)
+	f(isEven, []int16{1, 2, 4}, false)
+}
+
 func TestSliceChunkByInt16Int(t *testing.T) {
 	f := func(mapper func(t int16) int, given []int16, expected [][]int16) {
 		actual := SliceInt16{given}.ChunkByInt(mapper)
@@ -832,6 +916,34 @@ func TestSlicesProductInt32(t *testing.T) {
 	f([][]int32{{1, 2}, {3}, {4, 5}}, [][]int32{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
 }
 
+func TestSliceAnyInt32(t *testing.T) {
+	f := func(check func(t int32) bool, given []int32, expected bool) {
+		actual := SliceInt32{given}.Any(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t int32) bool { return (t % 2) == 0 }
+
+	f(isEven, []int32{}, false)
+	f(isEven, []int32{1, 3}, false)
+	f(isEven, []int32{2}, true)
+	f(isEven, []int32{1, 2}, true)
+}
+
+func TestSliceAllInt32(t *testing.T) {
+	f := func(check func(t int32) bool, given []int32, expected bool) {
+		actual := SliceInt32{given}.All(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t int32) bool { return (t % 2) == 0 }
+
+	f(isEven, []int32{}, true)
+	f(isEven, []int32{2}, true)
+	f(isEven, []int32{1}, false)
+	f(isEven, []int32{2, 4}, true)
+	f(isEven, []int32{2, 4, 1}, false)
+	f(isEven, []int32{1, 2, 4}, false)
+}
+
 func TestSliceChunkByInt32Int(t *testing.T) {
 	f := func(mapper func(t int32) int, given []int32, expected [][]int32) {
 		actual := SliceInt32{given}.ChunkByInt(mapper)
@@ -1100,6 +1212,34 @@ func TestSlicesProductInt64(t *testing.T) {
 	}
 	f([][]int64{{1, 2}, {3, 4}}, [][]int64{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
 	f([][]int64{{1, 2}, {3}, {4, 5}}, [][]int64{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+}
+
+func TestSliceAnyInt64(t *testing.T) {
+	f := func(check func(t int64) bool, given []int64, expected bool) {
+		actual := SliceInt64{given}.Any(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t int64) bool { return (t % 2) == 0 }
+
+	f(isEven, []int64{}, false)
+	f(isEven, []int64{1, 3}, false)
+	f(isEven, []int64{2}, true)
+	f(isEven, []int64{1, 2}, true)
+}
+
+func TestSliceAllInt64(t *testing.T) {
+	f := func(check func(t int64) bool, given []int64, expected bool) {
+		actual := SliceInt64{given}.All(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t int64) bool { return (t % 2) == 0 }
+
+	f(isEven, []int64{}, true)
+	f(isEven, []int64{2}, true)
+	f(isEven, []int64{1}, false)
+	f(isEven, []int64{2, 4}, true)
+	f(isEven, []int64{2, 4, 1}, false)
+	f(isEven, []int64{1, 2, 4}, false)
 }
 
 func TestSliceChunkByInt64Int(t *testing.T) {
