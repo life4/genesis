@@ -1,3 +1,4 @@
+import re
 from typing import Dict, List, Set
 
 import attr
@@ -6,10 +7,10 @@ import parse
 from ._types import Type
 
 
-_t = 'func Test{name:w}(t *testing.T) {{\n{body}\n}}'
+_t = 'func Test{func:w}(t *testing.T) {{\n{body}\n}}'
 parser = parse.compile(_t)
 TEMPLATE = _t.replace(':w}', '}')
-parser_struct = parse.compile('{name:w}{{given}}.')
+REX_NAME = re.compile(r'(?P<struct>[A-Z][a-z]+)(?P<name>[A-Z]\w+)')
 
 
 @attr.s()
@@ -22,12 +23,15 @@ class Test:
     def from_text(cls, text: str) -> List['Test']:
         functions = []
         for match in parser.findall(text):
-            struct_match = parser_struct.search(match.named['body'])
-            if not struct_match:
+            name_match = REX_NAME.search(match.named['func'])
+            if not name_match:
                 msg = 'cannot detect struct name for Test{}'
-                raise ValueError(msg.format(match.named['name']))
-            struct = struct_match.named['name']
-            functions.append(cls(struct=struct, **match.named))
+                raise ValueError(msg.format(match.named['func']))
+            functions.append(cls(
+                name=name_match.groupdict()['name'],
+                struct=name_match.groupdict()['struct'],
+                body=match.named['body'],
+            ))
         return functions
 
     @property
@@ -39,7 +43,7 @@ class Test:
         return result
 
     def render(self, types: Dict[str, Type]) -> str:
-        test_name = self.name
+        test_name = self.struct + self.name
         body = self.body
         for generic, t in types.items():
             test_name += t.title
@@ -51,12 +55,14 @@ class Test:
 
             # add suffix to struct name
             if generic == 'T':
+                if self.struct != 'Channel':
+                    body = body.replace('Channel', 'Channel' + t.title)
                 body = body.replace(self.struct, self.struct + t.title)
             # add suffix to func name
             if generic == 'G':
                 body = body.replace(self.name, self.name + t.title)
 
         return TEMPLATE.format(
-            name=test_name,
+            func=test_name,
             body=body,
         )
