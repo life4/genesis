@@ -55,9 +55,8 @@ class Test:
 
             # add suffix to struct name
             if generic == 'T':
-                if self.struct != 'Channel':
-                    body = body.replace('Channel', 'Channel' + t.title)
-                body = body.replace(self.struct, self.struct + t.title)
+                for struct in {'Channel', 'Sequence', self.struct}:
+                    body = body.replace(struct, struct + t.title)
             # add suffix to func name
             if generic == 'G':
                 body = body.replace(self.name, self.name + t.title)
