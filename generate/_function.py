@@ -46,6 +46,7 @@ class Function:
         for generic, t in types.items():
             signature = signature.replace(generic, t.name)
             body = body.replace(generic, t.name)
+            body = body.replace(t.name + 'roup', 'Group')  # restore WaitGroup
 
         # insert modified values into template
         return TEMPLATE.format(
