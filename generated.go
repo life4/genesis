@@ -661,6 +661,47 @@ func (s AsyncSliceBool) Each(f func(el bool)) {
 	wg.Wait()
 }
 
+func (s AsyncSliceBool) Filter(f func(el bool) bool) []bool {
+	resultMap := make([]bool, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		wg.Add(1)
+		for index := range jobs {
+			if f(s.data[index]) {
+				resultMap[index] = true
+			}
+		}
+		wg.Done()
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	workers := s.workers
+	if workers == 0 {
+		workers = len(s.data)
+	}
+	for i := 0; i < s.workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+
+	// return filtered results
+	result := make([]bool, 0, len(s.data))
+	for i, el := range s.data {
+		if resultMap[i] {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 func (s AsyncSliceBool) MapBool(f func(el bool) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
@@ -3506,6 +3547,47 @@ func (s AsyncSliceByte) Each(f func(el byte)) {
 	}
 	close(jobs)
 	wg.Wait()
+}
+
+func (s AsyncSliceByte) Filter(f func(el byte) bool) []byte {
+	resultMap := make([]bool, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		wg.Add(1)
+		for index := range jobs {
+			if f(s.data[index]) {
+				resultMap[index] = true
+			}
+		}
+		wg.Done()
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	workers := s.workers
+	if workers == 0 {
+		workers = len(s.data)
+	}
+	for i := 0; i < s.workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+
+	// return filtered results
+	result := make([]byte, 0, len(s.data))
+	for i, el := range s.data {
+		if resultMap[i] {
+			result = append(result, el)
+		}
+	}
+	return result
 }
 
 func (s AsyncSliceByte) MapBool(f func(el byte) bool) []bool {
@@ -6400,6 +6482,47 @@ func (s AsyncSliceString) Each(f func(el string)) {
 	wg.Wait()
 }
 
+func (s AsyncSliceString) Filter(f func(el string) bool) []string {
+	resultMap := make([]bool, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		wg.Add(1)
+		for index := range jobs {
+			if f(s.data[index]) {
+				resultMap[index] = true
+			}
+		}
+		wg.Done()
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	workers := s.workers
+	if workers == 0 {
+		workers = len(s.data)
+	}
+	for i := 0; i < s.workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+
+	// return filtered results
+	result := make([]string, 0, len(s.data))
+	for i, el := range s.data {
+		if resultMap[i] {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 func (s AsyncSliceString) MapBool(f func(el string) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
@@ -9290,6 +9413,47 @@ func (s AsyncSliceFloat32) Each(f func(el float32)) {
 	}
 	close(jobs)
 	wg.Wait()
+}
+
+func (s AsyncSliceFloat32) Filter(f func(el float32) bool) []float32 {
+	resultMap := make([]bool, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		wg.Add(1)
+		for index := range jobs {
+			if f(s.data[index]) {
+				resultMap[index] = true
+			}
+		}
+		wg.Done()
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	workers := s.workers
+	if workers == 0 {
+		workers = len(s.data)
+	}
+	for i := 0; i < s.workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+
+	// return filtered results
+	result := make([]float32, 0, len(s.data))
+	for i, el := range s.data {
+		if resultMap[i] {
+			result = append(result, el)
+		}
+	}
+	return result
 }
 
 func (s AsyncSliceFloat32) MapBool(f func(el float32) bool) []bool {
@@ -12219,6 +12383,47 @@ func (s AsyncSliceFloat64) Each(f func(el float64)) {
 	wg.Wait()
 }
 
+func (s AsyncSliceFloat64) Filter(f func(el float64) bool) []float64 {
+	resultMap := make([]bool, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		wg.Add(1)
+		for index := range jobs {
+			if f(s.data[index]) {
+				resultMap[index] = true
+			}
+		}
+		wg.Done()
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	workers := s.workers
+	if workers == 0 {
+		workers = len(s.data)
+	}
+	for i := 0; i < s.workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+
+	// return filtered results
+	result := make([]float64, 0, len(s.data))
+	for i, el := range s.data {
+		if resultMap[i] {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 func (s AsyncSliceFloat64) MapBool(f func(el float64) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
@@ -15144,6 +15349,47 @@ func (s AsyncSliceInt) Each(f func(el int)) {
 	}
 	close(jobs)
 	wg.Wait()
+}
+
+func (s AsyncSliceInt) Filter(f func(el int) bool) []int {
+	resultMap := make([]bool, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		wg.Add(1)
+		for index := range jobs {
+			if f(s.data[index]) {
+				resultMap[index] = true
+			}
+		}
+		wg.Done()
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	workers := s.workers
+	if workers == 0 {
+		workers = len(s.data)
+	}
+	for i := 0; i < s.workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+
+	// return filtered results
+	result := make([]int, 0, len(s.data))
+	for i, el := range s.data {
+		if resultMap[i] {
+			result = append(result, el)
+		}
+	}
+	return result
 }
 
 func (s AsyncSliceInt) MapBool(f func(el int) bool) []bool {
@@ -18073,6 +18319,47 @@ func (s AsyncSliceInt8) Each(f func(el int8)) {
 	wg.Wait()
 }
 
+func (s AsyncSliceInt8) Filter(f func(el int8) bool) []int8 {
+	resultMap := make([]bool, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		wg.Add(1)
+		for index := range jobs {
+			if f(s.data[index]) {
+				resultMap[index] = true
+			}
+		}
+		wg.Done()
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	workers := s.workers
+	if workers == 0 {
+		workers = len(s.data)
+	}
+	for i := 0; i < s.workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+
+	// return filtered results
+	result := make([]int8, 0, len(s.data))
+	for i, el := range s.data {
+		if resultMap[i] {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 func (s AsyncSliceInt8) MapBool(f func(el int8) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
@@ -20998,6 +21285,47 @@ func (s AsyncSliceInt16) Each(f func(el int16)) {
 	}
 	close(jobs)
 	wg.Wait()
+}
+
+func (s AsyncSliceInt16) Filter(f func(el int16) bool) []int16 {
+	resultMap := make([]bool, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		wg.Add(1)
+		for index := range jobs {
+			if f(s.data[index]) {
+				resultMap[index] = true
+			}
+		}
+		wg.Done()
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	workers := s.workers
+	if workers == 0 {
+		workers = len(s.data)
+	}
+	for i := 0; i < s.workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+
+	// return filtered results
+	result := make([]int16, 0, len(s.data))
+	for i, el := range s.data {
+		if resultMap[i] {
+			result = append(result, el)
+		}
+	}
+	return result
 }
 
 func (s AsyncSliceInt16) MapBool(f func(el int16) bool) []bool {
@@ -23927,6 +24255,47 @@ func (s AsyncSliceInt32) Each(f func(el int32)) {
 	wg.Wait()
 }
 
+func (s AsyncSliceInt32) Filter(f func(el int32) bool) []int32 {
+	resultMap := make([]bool, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		wg.Add(1)
+		for index := range jobs {
+			if f(s.data[index]) {
+				resultMap[index] = true
+			}
+		}
+		wg.Done()
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	workers := s.workers
+	if workers == 0 {
+		workers = len(s.data)
+	}
+	for i := 0; i < s.workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+
+	// return filtered results
+	result := make([]int32, 0, len(s.data))
+	for i, el := range s.data {
+		if resultMap[i] {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 func (s AsyncSliceInt32) MapBool(f func(el int32) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
@@ -26852,6 +27221,47 @@ func (s AsyncSliceInt64) Each(f func(el int64)) {
 	}
 	close(jobs)
 	wg.Wait()
+}
+
+func (s AsyncSliceInt64) Filter(f func(el int64) bool) []int64 {
+	resultMap := make([]bool, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		wg.Add(1)
+		for index := range jobs {
+			if f(s.data[index]) {
+				resultMap[index] = true
+			}
+		}
+		wg.Done()
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	workers := s.workers
+	if workers == 0 {
+		workers = len(s.data)
+	}
+	for i := 0; i < s.workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+
+	// return filtered results
+	result := make([]int64, 0, len(s.data))
+	for i, el := range s.data {
+		if resultMap[i] {
+			result = append(result, el)
+		}
+	}
+	return result
 }
 
 func (s AsyncSliceInt64) MapBool(f func(el int64) bool) []bool {
@@ -29781,6 +30191,47 @@ func (s AsyncSliceUint) Each(f func(el uint)) {
 	wg.Wait()
 }
 
+func (s AsyncSliceUint) Filter(f func(el uint) bool) []uint {
+	resultMap := make([]bool, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		wg.Add(1)
+		for index := range jobs {
+			if f(s.data[index]) {
+				resultMap[index] = true
+			}
+		}
+		wg.Done()
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	workers := s.workers
+	if workers == 0 {
+		workers = len(s.data)
+	}
+	for i := 0; i < s.workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+
+	// return filtered results
+	result := make([]uint, 0, len(s.data))
+	for i, el := range s.data {
+		if resultMap[i] {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 func (s AsyncSliceUint) MapBool(f func(el uint) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
@@ -32706,6 +33157,47 @@ func (s AsyncSliceUint8) Each(f func(el uint8)) {
 	}
 	close(jobs)
 	wg.Wait()
+}
+
+func (s AsyncSliceUint8) Filter(f func(el uint8) bool) []uint8 {
+	resultMap := make([]bool, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		wg.Add(1)
+		for index := range jobs {
+			if f(s.data[index]) {
+				resultMap[index] = true
+			}
+		}
+		wg.Done()
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	workers := s.workers
+	if workers == 0 {
+		workers = len(s.data)
+	}
+	for i := 0; i < s.workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+
+	// return filtered results
+	result := make([]uint8, 0, len(s.data))
+	for i, el := range s.data {
+		if resultMap[i] {
+			result = append(result, el)
+		}
+	}
+	return result
 }
 
 func (s AsyncSliceUint8) MapBool(f func(el uint8) bool) []bool {
@@ -35635,6 +36127,47 @@ func (s AsyncSliceUint16) Each(f func(el uint16)) {
 	wg.Wait()
 }
 
+func (s AsyncSliceUint16) Filter(f func(el uint16) bool) []uint16 {
+	resultMap := make([]bool, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		wg.Add(1)
+		for index := range jobs {
+			if f(s.data[index]) {
+				resultMap[index] = true
+			}
+		}
+		wg.Done()
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	workers := s.workers
+	if workers == 0 {
+		workers = len(s.data)
+	}
+	for i := 0; i < s.workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+
+	// return filtered results
+	result := make([]uint16, 0, len(s.data))
+	for i, el := range s.data {
+		if resultMap[i] {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 func (s AsyncSliceUint16) MapBool(f func(el uint16) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
@@ -38560,6 +39093,47 @@ func (s AsyncSliceUint32) Each(f func(el uint32)) {
 	}
 	close(jobs)
 	wg.Wait()
+}
+
+func (s AsyncSliceUint32) Filter(f func(el uint32) bool) []uint32 {
+	resultMap := make([]bool, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		wg.Add(1)
+		for index := range jobs {
+			if f(s.data[index]) {
+				resultMap[index] = true
+			}
+		}
+		wg.Done()
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	workers := s.workers
+	if workers == 0 {
+		workers = len(s.data)
+	}
+	for i := 0; i < s.workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+
+	// return filtered results
+	result := make([]uint32, 0, len(s.data))
+	for i, el := range s.data {
+		if resultMap[i] {
+			result = append(result, el)
+		}
+	}
+	return result
 }
 
 func (s AsyncSliceUint32) MapBool(f func(el uint32) bool) []bool {
@@ -41489,6 +42063,47 @@ func (s AsyncSliceUint64) Each(f func(el uint64)) {
 	wg.Wait()
 }
 
+func (s AsyncSliceUint64) Filter(f func(el uint64) bool) []uint64 {
+	resultMap := make([]bool, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		wg.Add(1)
+		for index := range jobs {
+			if f(s.data[index]) {
+				resultMap[index] = true
+			}
+		}
+		wg.Done()
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	workers := s.workers
+	if workers == 0 {
+		workers = len(s.data)
+	}
+	for i := 0; i < s.workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+
+	// return filtered results
+	result := make([]uint64, 0, len(s.data))
+	for i, el := range s.data {
+		if resultMap[i] {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 func (s AsyncSliceUint64) MapBool(f func(el uint64) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
@@ -44386,6 +45001,47 @@ func (s AsyncSliceInterface) Each(f func(el interface{})) {
 	}
 	close(jobs)
 	wg.Wait()
+}
+
+func (s AsyncSliceInterface) Filter(f func(el interface{}) bool) []interface{} {
+	resultMap := make([]bool, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		wg.Add(1)
+		for index := range jobs {
+			if f(s.data[index]) {
+				resultMap[index] = true
+			}
+		}
+		wg.Done()
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	workers := s.workers
+	if workers == 0 {
+		workers = len(s.data)
+	}
+	for i := 0; i < s.workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+
+	// return filtered results
+	result := make([]interface{}, 0, len(s.data))
+	for i, el := range s.data {
+		if resultMap[i] {
+			result = append(result, el)
+		}
+	}
+	return result
 }
 
 func (s AsyncSliceInterface) MapBool(f func(el interface{}) bool) []bool {
