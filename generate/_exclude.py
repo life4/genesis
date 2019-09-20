@@ -8,9 +8,11 @@ EXCLUDED_TESTS = (
     'uint', 'uint8', 'uint16', 'uint32', 'uint64',
 )
 EXCLUDED = {
-    # 'Count': ['bool', 'byte', 'string', 'interface{}'],
-    # 'Exponential': ['bool', 'byte', 'string', 'interface{}'],
-    # 'Rasnge': ['bool', 'byte', 'string', 'interface{}'],
+    'Sequence': {
+        'Count': ['bool', 'byte', 'string', 'interface{}'],
+        'Exponential': ['bool', 'byte', 'string', 'interface{}'],
+        'Range': ['bool', 'byte', 'string', 'interface{}'],
+    },
     'Slice': {
         'Max': ('bool', 'interface{}'),
         'Min': ('bool', 'interface{}'),
