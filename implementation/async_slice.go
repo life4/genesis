@@ -34,8 +34,6 @@ func (s AsyncSlice) Any(f func(el T) bool) bool {
 					result <- true
 					return
 				}
-			default:
-				return
 			}
 		}
 	}
@@ -154,7 +152,6 @@ func (s AsyncSlice) Map(f func(el T) G) []G {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
-		wg.Add(1)
 		for index := range jobs {
 			result[index] = f(s.data[index])
 		}
@@ -164,9 +161,10 @@ func (s AsyncSlice) Map(f func(el T) G) []G {
 	// run workers
 	jobs := make(chan int, len(s.data))
 	workers := s.workers
-	if workers == 0 {
+	if workers == 0 || workers > len(s.data) {
 		workers = len(s.data)
 	}
+	wg.Add(workers)
 	for i := 0; i < workers; i++ {
 		go worker(jobs)
 	}
