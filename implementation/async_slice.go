@@ -1,11 +1,79 @@
 package implementation
 
-import "sync"
+import (
+	"context"
+	"sync"
+)
 
 // AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSlice struct {
 	data    []T
 	workers int
+}
+
+// Any returns true if f returns true for any element from slice
+func (s AsyncSlice) Any(f func(el T) bool) bool {
+	if len(s.data) == 0 {
+		return false
+	}
+
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- bool, ctx context.Context) {
+		// enter
+		defer wg.Done()
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case index, ok := <-jobs:
+				if !ok {
+					return
+				}
+				if f(s.data[index]) {
+					result <- true
+					return
+				}
+			default:
+				return
+			}
+		}
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	// when we're returning the result, cancel all workers
+	defer cancel()
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	result := make(chan bool, workers)
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs, result, ctx)
+	}
+
+	// close the result channel when all workers have done
+	go func() {
+		wg.Wait()
+		close(result)
+	}()
+
+	// schedule the jobs: indices to check
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+
+	for range result {
+		return true
+	}
+	return false
 }
 
 // Each calls f for every element from slice
@@ -26,7 +94,7 @@ func (s AsyncSlice) Each(f func(el T)) {
 	if workers == 0 {
 		workers = len(s.data)
 	}
-	for i := 0; i < s.workers; i++ {
+	for i := 0; i < workers; i++ {
 		go worker(jobs)
 	}
 
@@ -59,7 +127,7 @@ func (s AsyncSlice) Filter(f func(el T) bool) []T {
 	if workers == 0 {
 		workers = len(s.data)
 	}
-	for i := 0; i < s.workers; i++ {
+	for i := 0; i < workers; i++ {
 		go worker(jobs)
 	}
 
@@ -99,7 +167,7 @@ func (s AsyncSlice) Map(f func(el T) G) []G {
 	if workers == 0 {
 		workers = len(s.data)
 	}
-	for i := 0; i < s.workers; i++ {
+	for i := 0; i < workers; i++ {
 		go worker(jobs)
 	}
 
