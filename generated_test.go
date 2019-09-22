@@ -1,10 +1,8 @@
 package genesis
 
 import (
-	"testing"
-
 	"github.com/stretchr/testify/assert"
-)
+	"testing")
 
 func TestAsyncSliceAnyInt(t *testing.T) {
 	f := func(check func(t int) bool, given []int, expected bool) {
@@ -57,6 +55,20 @@ func TestAsyncSliceEachInt(t *testing.T) {
 	f([]int{1})
 	f([]int{1, 2, 3})
 	f([]int{1, 2, 3, 4, 5, 6, 7})
+}
+
+func TestAsyncSliceFilterInt(t *testing.T) {
+	f := func(given []int, expected []int) {
+		filter := func(t int) bool { return t > 10 }
+		s := AsyncSliceInt{data: given, workers: 2}
+		actual := s.Filter(filter)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	f([]int{}, []int{})
+	f([]int{5}, []int{})
+	f([]int{15}, []int{15})
+	f([]int{9, 11, 12, 13, 6}, []int{11, 12, 13})
 }
 
 func TestAsyncSliceMapIntInt(t *testing.T) {
@@ -475,6 +487,20 @@ func TestAsyncSliceEachInt8(t *testing.T) {
 	f([]int8{1, 2, 3, 4, 5, 6, 7})
 }
 
+func TestAsyncSliceFilterInt8(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		filter := func(t int8) bool { return t > 10 }
+		s := AsyncSliceInt8{data: given, workers: 2}
+		actual := s.Filter(filter)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	f([]int8{}, []int8{})
+	f([]int8{5}, []int8{})
+	f([]int8{15}, []int8{15})
+	f([]int8{9, 11, 12, 13, 6}, []int8{11, 12, 13})
+}
+
 func TestAsyncSliceMapInt8Int(t *testing.T) {
 	f := func(mapper func(t int8) int, given []int8, expected []int) {
 		s := AsyncSliceInt8{data: given, workers: 2}
@@ -889,6 +915,20 @@ func TestAsyncSliceEachInt16(t *testing.T) {
 	f([]int16{1})
 	f([]int16{1, 2, 3})
 	f([]int16{1, 2, 3, 4, 5, 6, 7})
+}
+
+func TestAsyncSliceFilterInt16(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		filter := func(t int16) bool { return t > 10 }
+		s := AsyncSliceInt16{data: given, workers: 2}
+		actual := s.Filter(filter)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	f([]int16{}, []int16{})
+	f([]int16{5}, []int16{})
+	f([]int16{15}, []int16{15})
+	f([]int16{9, 11, 12, 13, 6}, []int16{11, 12, 13})
 }
 
 func TestAsyncSliceMapInt16Int(t *testing.T) {
@@ -1307,6 +1347,20 @@ func TestAsyncSliceEachInt32(t *testing.T) {
 	f([]int32{1, 2, 3, 4, 5, 6, 7})
 }
 
+func TestAsyncSliceFilterInt32(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		filter := func(t int32) bool { return t > 10 }
+		s := AsyncSliceInt32{data: given, workers: 2}
+		actual := s.Filter(filter)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	f([]int32{}, []int32{})
+	f([]int32{5}, []int32{})
+	f([]int32{15}, []int32{15})
+	f([]int32{9, 11, 12, 13, 6}, []int32{11, 12, 13})
+}
+
 func TestAsyncSliceMapInt32Int(t *testing.T) {
 	f := func(mapper func(t int32) int, given []int32, expected []int) {
 		s := AsyncSliceInt32{data: given, workers: 2}
@@ -1721,6 +1775,20 @@ func TestAsyncSliceEachInt64(t *testing.T) {
 	f([]int64{1})
 	f([]int64{1, 2, 3})
 	f([]int64{1, 2, 3, 4, 5, 6, 7})
+}
+
+func TestAsyncSliceFilterInt64(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		filter := func(t int64) bool { return t > 10 }
+		s := AsyncSliceInt64{data: given, workers: 2}
+		actual := s.Filter(filter)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	f([]int64{}, []int64{})
+	f([]int64{5}, []int64{})
+	f([]int64{15}, []int64{15})
+	f([]int64{9, 11, 12, 13, 6}, []int64{11, 12, 13})
 }
 
 func TestAsyncSliceMapInt64Int(t *testing.T) {

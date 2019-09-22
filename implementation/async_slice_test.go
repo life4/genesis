@@ -59,6 +59,20 @@ func TestAsyncSliceEach(t *testing.T) {
 	f([]T{1, 2, 3, 4, 5, 6, 7})
 }
 
+func TestAsyncSliceFilter(t *testing.T) {
+	f := func(given []T, expected []T) {
+		filter := func(t T) bool { return t > 10 }
+		s := AsyncSlice{data: given, workers: 2}
+		actual := s.Filter(filter)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	f([]T{}, []T{})
+	f([]T{5}, []T{})
+	f([]T{15}, []T{15})
+	f([]T{9, 11, 12, 13, 6}, []T{11, 12, 13})
+}
+
 func TestAsyncSliceMap(t *testing.T) {
 	f := func(mapper func(t T) G, given []T, expected []G) {
 		s := AsyncSlice{data: given, workers: 2}
