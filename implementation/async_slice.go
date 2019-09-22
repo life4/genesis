@@ -20,7 +20,6 @@ func (s AsyncSlice) All(f func(el T) bool) bool {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int, result chan<- bool, ctx context.Context) {
-		// enter
 		defer wg.Done()
 		for {
 			select {
@@ -83,7 +82,6 @@ func (s AsyncSlice) Any(f func(el T) bool) bool {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int, result chan<- bool, ctx context.Context) {
-		// enter
 		defer wg.Done()
 		for {
 			select {
@@ -142,19 +140,21 @@ func (s AsyncSlice) Each(f func(el T)) {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
-		wg.Add(1)
+		defer wg.Done()
 		for index := range jobs {
 			f(s.data[index])
 		}
-		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
 	}
 
 	// run workers
 	jobs := make(chan int, len(s.data))
-	workers := s.workers
-	if workers == 0 {
-		workers = len(s.data)
-	}
+	wg.Add(workers)
 	for i := 0; i < workers; i++ {
 		go worker(jobs)
 	}
@@ -173,7 +173,6 @@ func (s AsyncSlice) Filter(f func(el T) bool) []T {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
-		wg.Add(1)
 		for index := range jobs {
 			if f(s.data[index]) {
 				resultMap[index] = true
@@ -182,12 +181,15 @@ func (s AsyncSlice) Filter(f func(el T) bool) []T {
 		wg.Done()
 	}
 
-	// run workers
-	jobs := make(chan int, len(s.data))
+	// calculate workers count
 	workers := s.workers
-	if workers == 0 {
+	if workers == 0 || workers > len(s.data) {
 		workers = len(s.data)
 	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	wg.Add(workers)
 	for i := 0; i < workers; i++ {
 		go worker(jobs)
 	}
@@ -221,12 +223,14 @@ func (s AsyncSlice) Map(f func(el T) G) []G {
 		wg.Done()
 	}
 
-	// run workers
-	jobs := make(chan int, len(s.data))
+	// calculate workers count
 	workers := s.workers
 	if workers == 0 || workers > len(s.data) {
 		workers = len(s.data)
 	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
 	wg.Add(workers)
 	for i := 0; i < workers; i++ {
 		go worker(jobs)
