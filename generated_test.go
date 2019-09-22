@@ -1,25 +1,180 @@
 package genesis
 
 import (
-	"github.com/stretchr/testify/assert"
-	"testing")
+	"testing"
 
-func TestSlicesProductInt(t *testing.T) {
-	f := func(given [][]int, expected [][]int) {
-		actual := make([][]int, 0)
-		i := 0
-		s := SlicesInt{given}
-		for el := range s.Product() {
-			actual = append(actual, el)
-			i++
-			if i > 50 {
-				t.Fatal("infinite loop")
-			}
-		}
+	"github.com/stretchr/testify/assert"
+)
+
+func TestAsyncSliceAnyInt(t *testing.T) {
+	f := func(check func(t int) bool, given []int, expected bool) {
+		s := AsyncSliceInt{data: given, workers: 2}
+		actual := s.Any(check)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f([][]int{{1, 2}, {3, 4}}, [][]int{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
-	f([][]int{{1, 2}, {3}, {4, 5}}, [][]int{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+	isEven := func(t int) bool { return (t % 2) == 0 }
+
+	f(isEven, []int{}, false)
+	f(isEven, []int{1}, false)
+	f(isEven, []int{1, 3}, false)
+	f(isEven, []int{2}, true)
+	f(isEven, []int{1, 2}, true)
+	f(isEven, []int{1, 3, 5, 7, 9, 11}, false)
+	f(isEven, []int{1, 3, 5, 7, 9, 12}, true)
+}
+
+func TestAsyncSliceAllInt(t *testing.T) {
+	f := func(check func(t int) bool, given []int, expected bool) {
+		s := AsyncSliceInt{data: given, workers: 2}
+		actual := s.All(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t int) bool { return (t % 2) == 0 }
+
+	f(isEven, []int{}, true)
+	f(isEven, []int{1}, false)
+	f(isEven, []int{1, 3}, false)
+	f(isEven, []int{2}, true)
+	f(isEven, []int{2, 4}, true)
+	f(isEven, []int{2, 3}, false)
+	f(isEven, []int{2, 4, 6, 8, 10, 12}, true)
+	f(isEven, []int{2, 4, 6, 8, 10, 11}, false)
+}
+
+func TestAsyncSliceEachInt(t *testing.T) {
+	f := func(given []int) {
+		s := AsyncSliceInt{data: given, workers: 2}
+		result := make(chan int, len(given))
+		mapper := func(t int) { result <- t }
+		s.Each(mapper)
+		close(result)
+		actual := ChannelInt{result}.ToSlice()
+		sorted := SliceInt{actual}.Sort()
+		assert.Equal(t, given, sorted, "they should be equal")
+	}
+
+	f([]int{})
+	f([]int{1})
+	f([]int{1, 2, 3})
+	f([]int{1, 2, 3, 4, 5, 6, 7})
+}
+
+func TestAsyncSliceMapIntInt(t *testing.T) {
+	f := func(mapper func(t int) int, given []int, expected []int) {
+		s := AsyncSliceInt{data: given, workers: 2}
+		actual := s.MapInt(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int) int { return int((t * 2)) }
+
+	f(double, []int{}, []int{})
+	f(double, []int{1}, []int{2})
+	f(double, []int{1, 2, 3}, []int{2, 4, 6})
+}
+
+func TestAsyncSliceMapIntInt8(t *testing.T) {
+	f := func(mapper func(t int) int8, given []int, expected []int8) {
+		s := AsyncSliceInt{data: given, workers: 2}
+		actual := s.MapInt8(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int) int8 { return int8((t * 2)) }
+
+	f(double, []int{}, []int8{})
+	f(double, []int{1}, []int8{2})
+	f(double, []int{1, 2, 3}, []int8{2, 4, 6})
+}
+
+func TestAsyncSliceMapIntInt16(t *testing.T) {
+	f := func(mapper func(t int) int16, given []int, expected []int16) {
+		s := AsyncSliceInt{data: given, workers: 2}
+		actual := s.MapInt16(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int) int16 { return int16((t * 2)) }
+
+	f(double, []int{}, []int16{})
+	f(double, []int{1}, []int16{2})
+	f(double, []int{1, 2, 3}, []int16{2, 4, 6})
+}
+
+func TestAsyncSliceMapIntInt32(t *testing.T) {
+	f := func(mapper func(t int) int32, given []int, expected []int32) {
+		s := AsyncSliceInt{data: given, workers: 2}
+		actual := s.MapInt32(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int) int32 { return int32((t * 2)) }
+
+	f(double, []int{}, []int32{})
+	f(double, []int{1}, []int32{2})
+	f(double, []int{1, 2, 3}, []int32{2, 4, 6})
+}
+
+func TestAsyncSliceMapIntInt64(t *testing.T) {
+	f := func(mapper func(t int) int64, given []int, expected []int64) {
+		s := AsyncSliceInt{data: given, workers: 2}
+		actual := s.MapInt64(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int) int64 { return int64((t * 2)) }
+
+	f(double, []int{}, []int64{})
+	f(double, []int{1}, []int64{2})
+	f(double, []int{1, 2, 3}, []int64{2, 4, 6})
+}
+
+func TestChannelToSliceInt(t *testing.T) {
+	s := SequenceInt{}
+	f := func(start int, stop int, step int, expected []int) {
+		seq := s.Range(start, stop, step)
+		actual := ChannelInt{seq}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, 1, []int{1, 2, 3})
+}
+
+func TestSequenceExponentialInt(t *testing.T) {
+	s := SequenceInt{}
+	f := func(start int, factor int, count int, expected []int) {
+		seq := s.Exponential(start, factor)
+		actual := ChannelInt{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 2, 4, []int{1, 2, 4, 8})
+}
+
+func TestSequenceRangeInt(t *testing.T) {
+	s := SequenceInt{}
+	f := func(start int, stop int, step int, expected []int) {
+		seq := s.Range(start, stop, step)
+		actual := ChannelInt{seq}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, 1, []int{1, 2, 3})
+	f(3, 0, -1, []int{3, 2, 1})
+}
+
+func TestSequenceRepeatInt(t *testing.T) {
+	s := SequenceInt{}
+	f := func(count int, given int, expected []int) {
+		seq := s.Repeat(given)
+		actual := ChannelInt{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, 1, []int{1, 1})
+}
+
+func TestSequenceTakeInt(t *testing.T) {
+	s := SequenceInt{}
+	f := func(count int, given int, expected []int) {
+		seq := s.Repeat(given)
+		actual := ChannelInt{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []int{})
+	f(1, 1, []int{1})
+	f(2, 1, []int{1, 1})
 }
 
 func TestSliceAnyInt(t *testing.T) {
@@ -249,64 +404,11 @@ func TestSliceMapIntInt64(t *testing.T) {
 	f(double, []int{1, 2, 3}, []int64{2, 4, 6})
 }
 
-func TestChannelToSliceInt(t *testing.T) {
-	s := SequenceInt{}
-	f := func(start int, stop int, step int, expected []int) {
-		seq := s.Range(start, stop, step)
-		actual := ChannelInt{seq}.ToSlice()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 4, 1, []int{1, 2, 3})
-}
-
-func TestSequenceExponentialInt(t *testing.T) {
-	s := SequenceInt{}
-	f := func(start int, factor int, count int, expected []int) {
-		seq := s.Exponential(start, factor)
-		actual := ChannelInt{seq}.Take(count)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 2, 4, []int{1, 2, 4, 8})
-}
-
-func TestSequenceRangeInt(t *testing.T) {
-	s := SequenceInt{}
-	f := func(start int, stop int, step int, expected []int) {
-		seq := s.Range(start, stop, step)
-		actual := ChannelInt{seq}.ToSlice()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 4, 1, []int{1, 2, 3})
-	f(3, 0, -1, []int{3, 2, 1})
-}
-
-func TestSequenceRepeatInt(t *testing.T) {
-	s := SequenceInt{}
-	f := func(count int, given int, expected []int) {
-		seq := s.Repeat(given)
-		actual := ChannelInt{seq}.Take(count)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(2, 1, []int{1, 1})
-}
-
-func TestSequenceTakeInt(t *testing.T) {
-	s := SequenceInt{}
-	f := func(count int, given int, expected []int) {
-		seq := s.Repeat(given)
-		actual := ChannelInt{seq}.Take(count)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(0, 1, []int{})
-	f(1, 1, []int{1})
-	f(2, 1, []int{1, 1})
-}
-
-func TestSlicesProductInt8(t *testing.T) {
-	f := func(given [][]int8, expected [][]int8) {
-		actual := make([][]int8, 0)
+func TestSlicesProductInt(t *testing.T) {
+	f := func(given [][]int, expected [][]int) {
+		actual := make([][]int, 0)
 		i := 0
-		s := SlicesInt8{given}
+		s := SlicesInt{given}
 		for el := range s.Product() {
 			actual = append(actual, el)
 			i++
@@ -316,8 +418,179 @@ func TestSlicesProductInt8(t *testing.T) {
 		}
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f([][]int8{{1, 2}, {3, 4}}, [][]int8{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
-	f([][]int8{{1, 2}, {3}, {4, 5}}, [][]int8{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+	f([][]int{{1, 2}, {3, 4}}, [][]int{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
+	f([][]int{{1, 2}, {3}, {4, 5}}, [][]int{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+}
+
+func TestAsyncSliceAnyInt8(t *testing.T) {
+	f := func(check func(t int8) bool, given []int8, expected bool) {
+		s := AsyncSliceInt8{data: given, workers: 2}
+		actual := s.Any(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t int8) bool { return (t % 2) == 0 }
+
+	f(isEven, []int8{}, false)
+	f(isEven, []int8{1}, false)
+	f(isEven, []int8{1, 3}, false)
+	f(isEven, []int8{2}, true)
+	f(isEven, []int8{1, 2}, true)
+	f(isEven, []int8{1, 3, 5, 7, 9, 11}, false)
+	f(isEven, []int8{1, 3, 5, 7, 9, 12}, true)
+}
+
+func TestAsyncSliceAllInt8(t *testing.T) {
+	f := func(check func(t int8) bool, given []int8, expected bool) {
+		s := AsyncSliceInt8{data: given, workers: 2}
+		actual := s.All(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t int8) bool { return (t % 2) == 0 }
+
+	f(isEven, []int8{}, true)
+	f(isEven, []int8{1}, false)
+	f(isEven, []int8{1, 3}, false)
+	f(isEven, []int8{2}, true)
+	f(isEven, []int8{2, 4}, true)
+	f(isEven, []int8{2, 3}, false)
+	f(isEven, []int8{2, 4, 6, 8, 10, 12}, true)
+	f(isEven, []int8{2, 4, 6, 8, 10, 11}, false)
+}
+
+func TestAsyncSliceEachInt8(t *testing.T) {
+	f := func(given []int8) {
+		s := AsyncSliceInt8{data: given, workers: 2}
+		result := make(chan int8, len(given))
+		mapper := func(t int8) { result <- t }
+		s.Each(mapper)
+		close(result)
+		actual := ChannelInt8{result}.ToSlice()
+		sorted := SliceInt8{actual}.Sort()
+		assert.Equal(t, given, sorted, "they should be equal")
+	}
+
+	f([]int8{})
+	f([]int8{1})
+	f([]int8{1, 2, 3})
+	f([]int8{1, 2, 3, 4, 5, 6, 7})
+}
+
+func TestAsyncSliceMapInt8Int(t *testing.T) {
+	f := func(mapper func(t int8) int, given []int8, expected []int) {
+		s := AsyncSliceInt8{data: given, workers: 2}
+		actual := s.MapInt(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int8) int { return int((t * 2)) }
+
+	f(double, []int8{}, []int{})
+	f(double, []int8{1}, []int{2})
+	f(double, []int8{1, 2, 3}, []int{2, 4, 6})
+}
+
+func TestAsyncSliceMapInt8Int8(t *testing.T) {
+	f := func(mapper func(t int8) int8, given []int8, expected []int8) {
+		s := AsyncSliceInt8{data: given, workers: 2}
+		actual := s.MapInt8(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int8) int8 { return int8((t * 2)) }
+
+	f(double, []int8{}, []int8{})
+	f(double, []int8{1}, []int8{2})
+	f(double, []int8{1, 2, 3}, []int8{2, 4, 6})
+}
+
+func TestAsyncSliceMapInt8Int16(t *testing.T) {
+	f := func(mapper func(t int8) int16, given []int8, expected []int16) {
+		s := AsyncSliceInt8{data: given, workers: 2}
+		actual := s.MapInt16(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int8) int16 { return int16((t * 2)) }
+
+	f(double, []int8{}, []int16{})
+	f(double, []int8{1}, []int16{2})
+	f(double, []int8{1, 2, 3}, []int16{2, 4, 6})
+}
+
+func TestAsyncSliceMapInt8Int32(t *testing.T) {
+	f := func(mapper func(t int8) int32, given []int8, expected []int32) {
+		s := AsyncSliceInt8{data: given, workers: 2}
+		actual := s.MapInt32(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int8) int32 { return int32((t * 2)) }
+
+	f(double, []int8{}, []int32{})
+	f(double, []int8{1}, []int32{2})
+	f(double, []int8{1, 2, 3}, []int32{2, 4, 6})
+}
+
+func TestAsyncSliceMapInt8Int64(t *testing.T) {
+	f := func(mapper func(t int8) int64, given []int8, expected []int64) {
+		s := AsyncSliceInt8{data: given, workers: 2}
+		actual := s.MapInt64(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int8) int64 { return int64((t * 2)) }
+
+	f(double, []int8{}, []int64{})
+	f(double, []int8{1}, []int64{2})
+	f(double, []int8{1, 2, 3}, []int64{2, 4, 6})
+}
+
+func TestChannelToSliceInt8(t *testing.T) {
+	s := SequenceInt8{}
+	f := func(start int8, stop int8, step int8, expected []int8) {
+		seq := s.Range(start, stop, step)
+		actual := ChannelInt8{seq}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, 1, []int8{1, 2, 3})
+}
+
+func TestSequenceExponentialInt8(t *testing.T) {
+	s := SequenceInt8{}
+	f := func(start int8, factor int8, count int, expected []int8) {
+		seq := s.Exponential(start, factor)
+		actual := ChannelInt8{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 2, 4, []int8{1, 2, 4, 8})
+}
+
+func TestSequenceRangeInt8(t *testing.T) {
+	s := SequenceInt8{}
+	f := func(start int8, stop int8, step int8, expected []int8) {
+		seq := s.Range(start, stop, step)
+		actual := ChannelInt8{seq}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, 1, []int8{1, 2, 3})
+	f(3, 0, -1, []int8{3, 2, 1})
+}
+
+func TestSequenceRepeatInt8(t *testing.T) {
+	s := SequenceInt8{}
+	f := func(count int, given int8, expected []int8) {
+		seq := s.Repeat(given)
+		actual := ChannelInt8{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, 1, []int8{1, 1})
+}
+
+func TestSequenceTakeInt8(t *testing.T) {
+	s := SequenceInt8{}
+	f := func(count int, given int8, expected []int8) {
+		seq := s.Repeat(given)
+		actual := ChannelInt8{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []int8{})
+	f(1, 1, []int8{1})
+	f(2, 1, []int8{1, 1})
 }
 
 func TestSliceAnyInt8(t *testing.T) {
@@ -547,64 +820,11 @@ func TestSliceMapInt8Int64(t *testing.T) {
 	f(double, []int8{1, 2, 3}, []int64{2, 4, 6})
 }
 
-func TestChannelToSliceInt8(t *testing.T) {
-	s := SequenceInt8{}
-	f := func(start int8, stop int8, step int8, expected []int8) {
-		seq := s.Range(start, stop, step)
-		actual := ChannelInt8{seq}.ToSlice()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 4, 1, []int8{1, 2, 3})
-}
-
-func TestSequenceExponentialInt8(t *testing.T) {
-	s := SequenceInt8{}
-	f := func(start int8, factor int8, count int, expected []int8) {
-		seq := s.Exponential(start, factor)
-		actual := ChannelInt8{seq}.Take(count)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 2, 4, []int8{1, 2, 4, 8})
-}
-
-func TestSequenceRangeInt8(t *testing.T) {
-	s := SequenceInt8{}
-	f := func(start int8, stop int8, step int8, expected []int8) {
-		seq := s.Range(start, stop, step)
-		actual := ChannelInt8{seq}.ToSlice()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 4, 1, []int8{1, 2, 3})
-	f(3, 0, -1, []int8{3, 2, 1})
-}
-
-func TestSequenceRepeatInt8(t *testing.T) {
-	s := SequenceInt8{}
-	f := func(count int, given int8, expected []int8) {
-		seq := s.Repeat(given)
-		actual := ChannelInt8{seq}.Take(count)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(2, 1, []int8{1, 1})
-}
-
-func TestSequenceTakeInt8(t *testing.T) {
-	s := SequenceInt8{}
-	f := func(count int, given int8, expected []int8) {
-		seq := s.Repeat(given)
-		actual := ChannelInt8{seq}.Take(count)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(0, 1, []int8{})
-	f(1, 1, []int8{1})
-	f(2, 1, []int8{1, 1})
-}
-
-func TestSlicesProductInt16(t *testing.T) {
-	f := func(given [][]int16, expected [][]int16) {
-		actual := make([][]int16, 0)
+func TestSlicesProductInt8(t *testing.T) {
+	f := func(given [][]int8, expected [][]int8) {
+		actual := make([][]int8, 0)
 		i := 0
-		s := SlicesInt16{given}
+		s := SlicesInt8{given}
 		for el := range s.Product() {
 			actual = append(actual, el)
 			i++
@@ -614,8 +834,179 @@ func TestSlicesProductInt16(t *testing.T) {
 		}
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f([][]int16{{1, 2}, {3, 4}}, [][]int16{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
-	f([][]int16{{1, 2}, {3}, {4, 5}}, [][]int16{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+	f([][]int8{{1, 2}, {3, 4}}, [][]int8{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
+	f([][]int8{{1, 2}, {3}, {4, 5}}, [][]int8{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+}
+
+func TestAsyncSliceAnyInt16(t *testing.T) {
+	f := func(check func(t int16) bool, given []int16, expected bool) {
+		s := AsyncSliceInt16{data: given, workers: 2}
+		actual := s.Any(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t int16) bool { return (t % 2) == 0 }
+
+	f(isEven, []int16{}, false)
+	f(isEven, []int16{1}, false)
+	f(isEven, []int16{1, 3}, false)
+	f(isEven, []int16{2}, true)
+	f(isEven, []int16{1, 2}, true)
+	f(isEven, []int16{1, 3, 5, 7, 9, 11}, false)
+	f(isEven, []int16{1, 3, 5, 7, 9, 12}, true)
+}
+
+func TestAsyncSliceAllInt16(t *testing.T) {
+	f := func(check func(t int16) bool, given []int16, expected bool) {
+		s := AsyncSliceInt16{data: given, workers: 2}
+		actual := s.All(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t int16) bool { return (t % 2) == 0 }
+
+	f(isEven, []int16{}, true)
+	f(isEven, []int16{1}, false)
+	f(isEven, []int16{1, 3}, false)
+	f(isEven, []int16{2}, true)
+	f(isEven, []int16{2, 4}, true)
+	f(isEven, []int16{2, 3}, false)
+	f(isEven, []int16{2, 4, 6, 8, 10, 12}, true)
+	f(isEven, []int16{2, 4, 6, 8, 10, 11}, false)
+}
+
+func TestAsyncSliceEachInt16(t *testing.T) {
+	f := func(given []int16) {
+		s := AsyncSliceInt16{data: given, workers: 2}
+		result := make(chan int16, len(given))
+		mapper := func(t int16) { result <- t }
+		s.Each(mapper)
+		close(result)
+		actual := ChannelInt16{result}.ToSlice()
+		sorted := SliceInt16{actual}.Sort()
+		assert.Equal(t, given, sorted, "they should be equal")
+	}
+
+	f([]int16{})
+	f([]int16{1})
+	f([]int16{1, 2, 3})
+	f([]int16{1, 2, 3, 4, 5, 6, 7})
+}
+
+func TestAsyncSliceMapInt16Int(t *testing.T) {
+	f := func(mapper func(t int16) int, given []int16, expected []int) {
+		s := AsyncSliceInt16{data: given, workers: 2}
+		actual := s.MapInt(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int16) int { return int((t * 2)) }
+
+	f(double, []int16{}, []int{})
+	f(double, []int16{1}, []int{2})
+	f(double, []int16{1, 2, 3}, []int{2, 4, 6})
+}
+
+func TestAsyncSliceMapInt16Int8(t *testing.T) {
+	f := func(mapper func(t int16) int8, given []int16, expected []int8) {
+		s := AsyncSliceInt16{data: given, workers: 2}
+		actual := s.MapInt8(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int16) int8 { return int8((t * 2)) }
+
+	f(double, []int16{}, []int8{})
+	f(double, []int16{1}, []int8{2})
+	f(double, []int16{1, 2, 3}, []int8{2, 4, 6})
+}
+
+func TestAsyncSliceMapInt16Int16(t *testing.T) {
+	f := func(mapper func(t int16) int16, given []int16, expected []int16) {
+		s := AsyncSliceInt16{data: given, workers: 2}
+		actual := s.MapInt16(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int16) int16 { return int16((t * 2)) }
+
+	f(double, []int16{}, []int16{})
+	f(double, []int16{1}, []int16{2})
+	f(double, []int16{1, 2, 3}, []int16{2, 4, 6})
+}
+
+func TestAsyncSliceMapInt16Int32(t *testing.T) {
+	f := func(mapper func(t int16) int32, given []int16, expected []int32) {
+		s := AsyncSliceInt16{data: given, workers: 2}
+		actual := s.MapInt32(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int16) int32 { return int32((t * 2)) }
+
+	f(double, []int16{}, []int32{})
+	f(double, []int16{1}, []int32{2})
+	f(double, []int16{1, 2, 3}, []int32{2, 4, 6})
+}
+
+func TestAsyncSliceMapInt16Int64(t *testing.T) {
+	f := func(mapper func(t int16) int64, given []int16, expected []int64) {
+		s := AsyncSliceInt16{data: given, workers: 2}
+		actual := s.MapInt64(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int16) int64 { return int64((t * 2)) }
+
+	f(double, []int16{}, []int64{})
+	f(double, []int16{1}, []int64{2})
+	f(double, []int16{1, 2, 3}, []int64{2, 4, 6})
+}
+
+func TestChannelToSliceInt16(t *testing.T) {
+	s := SequenceInt16{}
+	f := func(start int16, stop int16, step int16, expected []int16) {
+		seq := s.Range(start, stop, step)
+		actual := ChannelInt16{seq}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, 1, []int16{1, 2, 3})
+}
+
+func TestSequenceExponentialInt16(t *testing.T) {
+	s := SequenceInt16{}
+	f := func(start int16, factor int16, count int, expected []int16) {
+		seq := s.Exponential(start, factor)
+		actual := ChannelInt16{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 2, 4, []int16{1, 2, 4, 8})
+}
+
+func TestSequenceRangeInt16(t *testing.T) {
+	s := SequenceInt16{}
+	f := func(start int16, stop int16, step int16, expected []int16) {
+		seq := s.Range(start, stop, step)
+		actual := ChannelInt16{seq}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, 1, []int16{1, 2, 3})
+	f(3, 0, -1, []int16{3, 2, 1})
+}
+
+func TestSequenceRepeatInt16(t *testing.T) {
+	s := SequenceInt16{}
+	f := func(count int, given int16, expected []int16) {
+		seq := s.Repeat(given)
+		actual := ChannelInt16{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, 1, []int16{1, 1})
+}
+
+func TestSequenceTakeInt16(t *testing.T) {
+	s := SequenceInt16{}
+	f := func(count int, given int16, expected []int16) {
+		seq := s.Repeat(given)
+		actual := ChannelInt16{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []int16{})
+	f(1, 1, []int16{1})
+	f(2, 1, []int16{1, 1})
 }
 
 func TestSliceAnyInt16(t *testing.T) {
@@ -845,64 +1236,11 @@ func TestSliceMapInt16Int64(t *testing.T) {
 	f(double, []int16{1, 2, 3}, []int64{2, 4, 6})
 }
 
-func TestChannelToSliceInt16(t *testing.T) {
-	s := SequenceInt16{}
-	f := func(start int16, stop int16, step int16, expected []int16) {
-		seq := s.Range(start, stop, step)
-		actual := ChannelInt16{seq}.ToSlice()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 4, 1, []int16{1, 2, 3})
-}
-
-func TestSequenceExponentialInt16(t *testing.T) {
-	s := SequenceInt16{}
-	f := func(start int16, factor int16, count int, expected []int16) {
-		seq := s.Exponential(start, factor)
-		actual := ChannelInt16{seq}.Take(count)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 2, 4, []int16{1, 2, 4, 8})
-}
-
-func TestSequenceRangeInt16(t *testing.T) {
-	s := SequenceInt16{}
-	f := func(start int16, stop int16, step int16, expected []int16) {
-		seq := s.Range(start, stop, step)
-		actual := ChannelInt16{seq}.ToSlice()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 4, 1, []int16{1, 2, 3})
-	f(3, 0, -1, []int16{3, 2, 1})
-}
-
-func TestSequenceRepeatInt16(t *testing.T) {
-	s := SequenceInt16{}
-	f := func(count int, given int16, expected []int16) {
-		seq := s.Repeat(given)
-		actual := ChannelInt16{seq}.Take(count)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(2, 1, []int16{1, 1})
-}
-
-func TestSequenceTakeInt16(t *testing.T) {
-	s := SequenceInt16{}
-	f := func(count int, given int16, expected []int16) {
-		seq := s.Repeat(given)
-		actual := ChannelInt16{seq}.Take(count)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(0, 1, []int16{})
-	f(1, 1, []int16{1})
-	f(2, 1, []int16{1, 1})
-}
-
-func TestSlicesProductInt32(t *testing.T) {
-	f := func(given [][]int32, expected [][]int32) {
-		actual := make([][]int32, 0)
+func TestSlicesProductInt16(t *testing.T) {
+	f := func(given [][]int16, expected [][]int16) {
+		actual := make([][]int16, 0)
 		i := 0
-		s := SlicesInt32{given}
+		s := SlicesInt16{given}
 		for el := range s.Product() {
 			actual = append(actual, el)
 			i++
@@ -912,8 +1250,179 @@ func TestSlicesProductInt32(t *testing.T) {
 		}
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f([][]int32{{1, 2}, {3, 4}}, [][]int32{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
-	f([][]int32{{1, 2}, {3}, {4, 5}}, [][]int32{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+	f([][]int16{{1, 2}, {3, 4}}, [][]int16{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
+	f([][]int16{{1, 2}, {3}, {4, 5}}, [][]int16{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+}
+
+func TestAsyncSliceAnyInt32(t *testing.T) {
+	f := func(check func(t int32) bool, given []int32, expected bool) {
+		s := AsyncSliceInt32{data: given, workers: 2}
+		actual := s.Any(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t int32) bool { return (t % 2) == 0 }
+
+	f(isEven, []int32{}, false)
+	f(isEven, []int32{1}, false)
+	f(isEven, []int32{1, 3}, false)
+	f(isEven, []int32{2}, true)
+	f(isEven, []int32{1, 2}, true)
+	f(isEven, []int32{1, 3, 5, 7, 9, 11}, false)
+	f(isEven, []int32{1, 3, 5, 7, 9, 12}, true)
+}
+
+func TestAsyncSliceAllInt32(t *testing.T) {
+	f := func(check func(t int32) bool, given []int32, expected bool) {
+		s := AsyncSliceInt32{data: given, workers: 2}
+		actual := s.All(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t int32) bool { return (t % 2) == 0 }
+
+	f(isEven, []int32{}, true)
+	f(isEven, []int32{1}, false)
+	f(isEven, []int32{1, 3}, false)
+	f(isEven, []int32{2}, true)
+	f(isEven, []int32{2, 4}, true)
+	f(isEven, []int32{2, 3}, false)
+	f(isEven, []int32{2, 4, 6, 8, 10, 12}, true)
+	f(isEven, []int32{2, 4, 6, 8, 10, 11}, false)
+}
+
+func TestAsyncSliceEachInt32(t *testing.T) {
+	f := func(given []int32) {
+		s := AsyncSliceInt32{data: given, workers: 2}
+		result := make(chan int32, len(given))
+		mapper := func(t int32) { result <- t }
+		s.Each(mapper)
+		close(result)
+		actual := ChannelInt32{result}.ToSlice()
+		sorted := SliceInt32{actual}.Sort()
+		assert.Equal(t, given, sorted, "they should be equal")
+	}
+
+	f([]int32{})
+	f([]int32{1})
+	f([]int32{1, 2, 3})
+	f([]int32{1, 2, 3, 4, 5, 6, 7})
+}
+
+func TestAsyncSliceMapInt32Int(t *testing.T) {
+	f := func(mapper func(t int32) int, given []int32, expected []int) {
+		s := AsyncSliceInt32{data: given, workers: 2}
+		actual := s.MapInt(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int32) int { return int((t * 2)) }
+
+	f(double, []int32{}, []int{})
+	f(double, []int32{1}, []int{2})
+	f(double, []int32{1, 2, 3}, []int{2, 4, 6})
+}
+
+func TestAsyncSliceMapInt32Int8(t *testing.T) {
+	f := func(mapper func(t int32) int8, given []int32, expected []int8) {
+		s := AsyncSliceInt32{data: given, workers: 2}
+		actual := s.MapInt8(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int32) int8 { return int8((t * 2)) }
+
+	f(double, []int32{}, []int8{})
+	f(double, []int32{1}, []int8{2})
+	f(double, []int32{1, 2, 3}, []int8{2, 4, 6})
+}
+
+func TestAsyncSliceMapInt32Int16(t *testing.T) {
+	f := func(mapper func(t int32) int16, given []int32, expected []int16) {
+		s := AsyncSliceInt32{data: given, workers: 2}
+		actual := s.MapInt16(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int32) int16 { return int16((t * 2)) }
+
+	f(double, []int32{}, []int16{})
+	f(double, []int32{1}, []int16{2})
+	f(double, []int32{1, 2, 3}, []int16{2, 4, 6})
+}
+
+func TestAsyncSliceMapInt32Int32(t *testing.T) {
+	f := func(mapper func(t int32) int32, given []int32, expected []int32) {
+		s := AsyncSliceInt32{data: given, workers: 2}
+		actual := s.MapInt32(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int32) int32 { return int32((t * 2)) }
+
+	f(double, []int32{}, []int32{})
+	f(double, []int32{1}, []int32{2})
+	f(double, []int32{1, 2, 3}, []int32{2, 4, 6})
+}
+
+func TestAsyncSliceMapInt32Int64(t *testing.T) {
+	f := func(mapper func(t int32) int64, given []int32, expected []int64) {
+		s := AsyncSliceInt32{data: given, workers: 2}
+		actual := s.MapInt64(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int32) int64 { return int64((t * 2)) }
+
+	f(double, []int32{}, []int64{})
+	f(double, []int32{1}, []int64{2})
+	f(double, []int32{1, 2, 3}, []int64{2, 4, 6})
+}
+
+func TestChannelToSliceInt32(t *testing.T) {
+	s := SequenceInt32{}
+	f := func(start int32, stop int32, step int32, expected []int32) {
+		seq := s.Range(start, stop, step)
+		actual := ChannelInt32{seq}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, 1, []int32{1, 2, 3})
+}
+
+func TestSequenceExponentialInt32(t *testing.T) {
+	s := SequenceInt32{}
+	f := func(start int32, factor int32, count int, expected []int32) {
+		seq := s.Exponential(start, factor)
+		actual := ChannelInt32{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 2, 4, []int32{1, 2, 4, 8})
+}
+
+func TestSequenceRangeInt32(t *testing.T) {
+	s := SequenceInt32{}
+	f := func(start int32, stop int32, step int32, expected []int32) {
+		seq := s.Range(start, stop, step)
+		actual := ChannelInt32{seq}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, 1, []int32{1, 2, 3})
+	f(3, 0, -1, []int32{3, 2, 1})
+}
+
+func TestSequenceRepeatInt32(t *testing.T) {
+	s := SequenceInt32{}
+	f := func(count int, given int32, expected []int32) {
+		seq := s.Repeat(given)
+		actual := ChannelInt32{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, 1, []int32{1, 1})
+}
+
+func TestSequenceTakeInt32(t *testing.T) {
+	s := SequenceInt32{}
+	f := func(count int, given int32, expected []int32) {
+		seq := s.Repeat(given)
+		actual := ChannelInt32{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []int32{})
+	f(1, 1, []int32{1})
+	f(2, 1, []int32{1, 1})
 }
 
 func TestSliceAnyInt32(t *testing.T) {
@@ -1143,64 +1652,11 @@ func TestSliceMapInt32Int64(t *testing.T) {
 	f(double, []int32{1, 2, 3}, []int64{2, 4, 6})
 }
 
-func TestChannelToSliceInt32(t *testing.T) {
-	s := SequenceInt32{}
-	f := func(start int32, stop int32, step int32, expected []int32) {
-		seq := s.Range(start, stop, step)
-		actual := ChannelInt32{seq}.ToSlice()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 4, 1, []int32{1, 2, 3})
-}
-
-func TestSequenceExponentialInt32(t *testing.T) {
-	s := SequenceInt32{}
-	f := func(start int32, factor int32, count int, expected []int32) {
-		seq := s.Exponential(start, factor)
-		actual := ChannelInt32{seq}.Take(count)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 2, 4, []int32{1, 2, 4, 8})
-}
-
-func TestSequenceRangeInt32(t *testing.T) {
-	s := SequenceInt32{}
-	f := func(start int32, stop int32, step int32, expected []int32) {
-		seq := s.Range(start, stop, step)
-		actual := ChannelInt32{seq}.ToSlice()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 4, 1, []int32{1, 2, 3})
-	f(3, 0, -1, []int32{3, 2, 1})
-}
-
-func TestSequenceRepeatInt32(t *testing.T) {
-	s := SequenceInt32{}
-	f := func(count int, given int32, expected []int32) {
-		seq := s.Repeat(given)
-		actual := ChannelInt32{seq}.Take(count)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(2, 1, []int32{1, 1})
-}
-
-func TestSequenceTakeInt32(t *testing.T) {
-	s := SequenceInt32{}
-	f := func(count int, given int32, expected []int32) {
-		seq := s.Repeat(given)
-		actual := ChannelInt32{seq}.Take(count)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(0, 1, []int32{})
-	f(1, 1, []int32{1})
-	f(2, 1, []int32{1, 1})
-}
-
-func TestSlicesProductInt64(t *testing.T) {
-	f := func(given [][]int64, expected [][]int64) {
-		actual := make([][]int64, 0)
+func TestSlicesProductInt32(t *testing.T) {
+	f := func(given [][]int32, expected [][]int32) {
+		actual := make([][]int32, 0)
 		i := 0
-		s := SlicesInt64{given}
+		s := SlicesInt32{given}
 		for el := range s.Product() {
 			actual = append(actual, el)
 			i++
@@ -1210,8 +1666,179 @@ func TestSlicesProductInt64(t *testing.T) {
 		}
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f([][]int64{{1, 2}, {3, 4}}, [][]int64{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
-	f([][]int64{{1, 2}, {3}, {4, 5}}, [][]int64{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+	f([][]int32{{1, 2}, {3, 4}}, [][]int32{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
+	f([][]int32{{1, 2}, {3}, {4, 5}}, [][]int32{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+}
+
+func TestAsyncSliceAnyInt64(t *testing.T) {
+	f := func(check func(t int64) bool, given []int64, expected bool) {
+		s := AsyncSliceInt64{data: given, workers: 2}
+		actual := s.Any(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t int64) bool { return (t % 2) == 0 }
+
+	f(isEven, []int64{}, false)
+	f(isEven, []int64{1}, false)
+	f(isEven, []int64{1, 3}, false)
+	f(isEven, []int64{2}, true)
+	f(isEven, []int64{1, 2}, true)
+	f(isEven, []int64{1, 3, 5, 7, 9, 11}, false)
+	f(isEven, []int64{1, 3, 5, 7, 9, 12}, true)
+}
+
+func TestAsyncSliceAllInt64(t *testing.T) {
+	f := func(check func(t int64) bool, given []int64, expected bool) {
+		s := AsyncSliceInt64{data: given, workers: 2}
+		actual := s.All(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t int64) bool { return (t % 2) == 0 }
+
+	f(isEven, []int64{}, true)
+	f(isEven, []int64{1}, false)
+	f(isEven, []int64{1, 3}, false)
+	f(isEven, []int64{2}, true)
+	f(isEven, []int64{2, 4}, true)
+	f(isEven, []int64{2, 3}, false)
+	f(isEven, []int64{2, 4, 6, 8, 10, 12}, true)
+	f(isEven, []int64{2, 4, 6, 8, 10, 11}, false)
+}
+
+func TestAsyncSliceEachInt64(t *testing.T) {
+	f := func(given []int64) {
+		s := AsyncSliceInt64{data: given, workers: 2}
+		result := make(chan int64, len(given))
+		mapper := func(t int64) { result <- t }
+		s.Each(mapper)
+		close(result)
+		actual := ChannelInt64{result}.ToSlice()
+		sorted := SliceInt64{actual}.Sort()
+		assert.Equal(t, given, sorted, "they should be equal")
+	}
+
+	f([]int64{})
+	f([]int64{1})
+	f([]int64{1, 2, 3})
+	f([]int64{1, 2, 3, 4, 5, 6, 7})
+}
+
+func TestAsyncSliceMapInt64Int(t *testing.T) {
+	f := func(mapper func(t int64) int, given []int64, expected []int) {
+		s := AsyncSliceInt64{data: given, workers: 2}
+		actual := s.MapInt(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int64) int { return int((t * 2)) }
+
+	f(double, []int64{}, []int{})
+	f(double, []int64{1}, []int{2})
+	f(double, []int64{1, 2, 3}, []int{2, 4, 6})
+}
+
+func TestAsyncSliceMapInt64Int8(t *testing.T) {
+	f := func(mapper func(t int64) int8, given []int64, expected []int8) {
+		s := AsyncSliceInt64{data: given, workers: 2}
+		actual := s.MapInt8(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int64) int8 { return int8((t * 2)) }
+
+	f(double, []int64{}, []int8{})
+	f(double, []int64{1}, []int8{2})
+	f(double, []int64{1, 2, 3}, []int8{2, 4, 6})
+}
+
+func TestAsyncSliceMapInt64Int16(t *testing.T) {
+	f := func(mapper func(t int64) int16, given []int64, expected []int16) {
+		s := AsyncSliceInt64{data: given, workers: 2}
+		actual := s.MapInt16(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int64) int16 { return int16((t * 2)) }
+
+	f(double, []int64{}, []int16{})
+	f(double, []int64{1}, []int16{2})
+	f(double, []int64{1, 2, 3}, []int16{2, 4, 6})
+}
+
+func TestAsyncSliceMapInt64Int32(t *testing.T) {
+	f := func(mapper func(t int64) int32, given []int64, expected []int32) {
+		s := AsyncSliceInt64{data: given, workers: 2}
+		actual := s.MapInt32(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int64) int32 { return int32((t * 2)) }
+
+	f(double, []int64{}, []int32{})
+	f(double, []int64{1}, []int32{2})
+	f(double, []int64{1, 2, 3}, []int32{2, 4, 6})
+}
+
+func TestAsyncSliceMapInt64Int64(t *testing.T) {
+	f := func(mapper func(t int64) int64, given []int64, expected []int64) {
+		s := AsyncSliceInt64{data: given, workers: 2}
+		actual := s.MapInt64(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int64) int64 { return int64((t * 2)) }
+
+	f(double, []int64{}, []int64{})
+	f(double, []int64{1}, []int64{2})
+	f(double, []int64{1, 2, 3}, []int64{2, 4, 6})
+}
+
+func TestChannelToSliceInt64(t *testing.T) {
+	s := SequenceInt64{}
+	f := func(start int64, stop int64, step int64, expected []int64) {
+		seq := s.Range(start, stop, step)
+		actual := ChannelInt64{seq}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, 1, []int64{1, 2, 3})
+}
+
+func TestSequenceExponentialInt64(t *testing.T) {
+	s := SequenceInt64{}
+	f := func(start int64, factor int64, count int, expected []int64) {
+		seq := s.Exponential(start, factor)
+		actual := ChannelInt64{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 2, 4, []int64{1, 2, 4, 8})
+}
+
+func TestSequenceRangeInt64(t *testing.T) {
+	s := SequenceInt64{}
+	f := func(start int64, stop int64, step int64, expected []int64) {
+		seq := s.Range(start, stop, step)
+		actual := ChannelInt64{seq}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, 1, []int64{1, 2, 3})
+	f(3, 0, -1, []int64{3, 2, 1})
+}
+
+func TestSequenceRepeatInt64(t *testing.T) {
+	s := SequenceInt64{}
+	f := func(count int, given int64, expected []int64) {
+		seq := s.Repeat(given)
+		actual := ChannelInt64{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, 1, []int64{1, 1})
+}
+
+func TestSequenceTakeInt64(t *testing.T) {
+	s := SequenceInt64{}
+	f := func(count int, given int64, expected []int64) {
+		seq := s.Repeat(given)
+		actual := ChannelInt64{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []int64{})
+	f(1, 1, []int64{1})
+	f(2, 1, []int64{1, 1})
 }
 
 func TestSliceAnyInt64(t *testing.T) {
@@ -1441,55 +2068,20 @@ func TestSliceMapInt64Int64(t *testing.T) {
 	f(double, []int64{1, 2, 3}, []int64{2, 4, 6})
 }
 
-func TestChannelToSliceInt64(t *testing.T) {
-	s := SequenceInt64{}
-	f := func(start int64, stop int64, step int64, expected []int64) {
-		seq := s.Range(start, stop, step)
-		actual := ChannelInt64{seq}.ToSlice()
+func TestSlicesProductInt64(t *testing.T) {
+	f := func(given [][]int64, expected [][]int64) {
+		actual := make([][]int64, 0)
+		i := 0
+		s := SlicesInt64{given}
+		for el := range s.Product() {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f(1, 4, 1, []int64{1, 2, 3})
-}
-
-func TestSequenceExponentialInt64(t *testing.T) {
-	s := SequenceInt64{}
-	f := func(start int64, factor int64, count int, expected []int64) {
-		seq := s.Exponential(start, factor)
-		actual := ChannelInt64{seq}.Take(count)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 2, 4, []int64{1, 2, 4, 8})
-}
-
-func TestSequenceRangeInt64(t *testing.T) {
-	s := SequenceInt64{}
-	f := func(start int64, stop int64, step int64, expected []int64) {
-		seq := s.Range(start, stop, step)
-		actual := ChannelInt64{seq}.ToSlice()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 4, 1, []int64{1, 2, 3})
-	f(3, 0, -1, []int64{3, 2, 1})
-}
-
-func TestSequenceRepeatInt64(t *testing.T) {
-	s := SequenceInt64{}
-	f := func(count int, given int64, expected []int64) {
-		seq := s.Repeat(given)
-		actual := ChannelInt64{seq}.Take(count)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(2, 1, []int64{1, 1})
-}
-
-func TestSequenceTakeInt64(t *testing.T) {
-	s := SequenceInt64{}
-	f := func(count int, given int64, expected []int64) {
-		seq := s.Repeat(given)
-		actual := ChannelInt64{seq}.Take(count)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(0, 1, []int64{})
-	f(1, 1, []int64{1})
-	f(2, 1, []int64{1, 1})
+	f([][]int64{{1, 2}, {3, 4}}, [][]int64{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
+	f([][]int64{{1, 2}, {3}, {4, 5}}, [][]int64{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
 }
