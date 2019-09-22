@@ -146,6 +146,16 @@ func TestChannelToSliceInt(t *testing.T) {
 	f(1, 4, 1, []int{1, 2, 3})
 }
 
+func TestSequenceCountInt(t *testing.T) {
+	s := SequenceInt{}
+	f := func(start int, step int, count int, expected []int) {
+		seq := s.Count(start, step)
+		actual := ChannelInt{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 2, 4, []int{1, 3, 5, 7})
+}
+
 func TestSequenceExponentialInt(t *testing.T) {
 	s := SequenceInt{}
 	f := func(start int, factor int, count int, expected []int) {
@@ -574,6 +584,16 @@ func TestChannelToSliceInt8(t *testing.T) {
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(1, 4, 1, []int8{1, 2, 3})
+}
+
+func TestSequenceCountInt8(t *testing.T) {
+	s := SequenceInt8{}
+	f := func(start int8, step int8, count int, expected []int8) {
+		seq := s.Count(start, step)
+		actual := ChannelInt8{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 2, 4, []int8{1, 3, 5, 7})
 }
 
 func TestSequenceExponentialInt8(t *testing.T) {
@@ -1006,6 +1026,16 @@ func TestChannelToSliceInt16(t *testing.T) {
 	f(1, 4, 1, []int16{1, 2, 3})
 }
 
+func TestSequenceCountInt16(t *testing.T) {
+	s := SequenceInt16{}
+	f := func(start int16, step int16, count int, expected []int16) {
+		seq := s.Count(start, step)
+		actual := ChannelInt16{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 2, 4, []int16{1, 3, 5, 7})
+}
+
 func TestSequenceExponentialInt16(t *testing.T) {
 	s := SequenceInt16{}
 	f := func(start int16, factor int16, count int, expected []int16) {
@@ -1436,6 +1466,16 @@ func TestChannelToSliceInt32(t *testing.T) {
 	f(1, 4, 1, []int32{1, 2, 3})
 }
 
+func TestSequenceCountInt32(t *testing.T) {
+	s := SequenceInt32{}
+	f := func(start int32, step int32, count int, expected []int32) {
+		seq := s.Count(start, step)
+		actual := ChannelInt32{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 2, 4, []int32{1, 3, 5, 7})
+}
+
 func TestSequenceExponentialInt32(t *testing.T) {
 	s := SequenceInt32{}
 	f := func(start int32, factor int32, count int, expected []int32) {
@@ -1864,6 +1904,16 @@ func TestChannelToSliceInt64(t *testing.T) {
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(1, 4, 1, []int64{1, 2, 3})
+}
+
+func TestSequenceCountInt64(t *testing.T) {
+	s := SequenceInt64{}
+	f := func(start int64, step int64, count int, expected []int64) {
+		seq := s.Count(start, step)
+		actual := ChannelInt64{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 2, 4, []int64{1, 3, 5, 7})
 }
 
 func TestSequenceExponentialInt64(t *testing.T) {

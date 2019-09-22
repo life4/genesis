@@ -6,6 +6,16 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestSequenceCount(t *testing.T) {
+	s := Sequence{}
+	f := func(start T, step T, count int, expected []T) {
+		seq := s.Count(start, step)
+		actual := Channel{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 2, 4, []T{1, 3, 5, 7})
+}
+
 func TestSequenceExponential(t *testing.T) {
 	s := Sequence{}
 	f := func(start T, factor T, count int, expected []T) {
