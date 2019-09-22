@@ -1,5 +1,5 @@
 import re
-from typing import Dict, List, Set
+from typing import Dict, List, Set, Tuple
 
 import attr
 import parse
@@ -11,6 +11,7 @@ _t = 'func Test{func:w}(t *testing.T) {{\n{body}\n}}'
 parser = parse.compile(_t)
 TEMPLATE = _t.replace(':w}', '}')
 REX_NAME = re.compile(r'(?P<struct>[A-Z][a-z]+)(?P<name>[A-Z]\w+)')
+KNOWN_STRUCTS = ('AsyncSlice', )
 
 
 @attr.s()
@@ -23,16 +24,26 @@ class Test:
     def from_text(cls, text: str) -> List['Test']:
         functions = []
         for match in parser.findall(text):
-            name_match = REX_NAME.search(match.named['func'])
-            if not name_match:
-                msg = 'cannot detect struct name for Test{}'
-                raise ValueError(msg.format(match.named['func']))
+            name, struct = cls._get_name_and_struct(match.named['func'])
             functions.append(cls(
-                name=name_match.groupdict()['name'],
-                struct=name_match.groupdict()['struct'],
+                name=name,
+                struct=struct,
                 body=match.named['body'],
             ))
         return functions
+
+    @staticmethod
+    def _get_name_and_struct(text: str) -> Tuple[str, str]:
+        for struct in KNOWN_STRUCTS:
+            if text.startswith(struct):
+                return text[len(struct):], struct
+
+        match = REX_NAME.search(text)
+        if not match:
+            msg = 'cannot detect struct name for Test{}'
+            raise ValueError(msg.format(text))
+        g = match.groupdict()
+        return g['name'], g['struct']
 
     @property
     def generics(self) -> Set[str]:
@@ -57,6 +68,7 @@ class Test:
             if generic == 'T':
                 for struct in {'Channel', 'Sequence', self.struct}:
                     body = body.replace(struct, struct + t.title)
+                body = body.replace(' Slice{', ' Slice' + t.title + '{')
             # add suffix to func name
             if generic == 'G':
                 body = body.replace(self.name, self.name + t.title)
