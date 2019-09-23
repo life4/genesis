@@ -345,6 +345,31 @@ func TestChannelCountInt(t *testing.T) {
 	f(1, []int{1, 2, 3, 1, 4}, 2)
 }
 
+func TestChannelDropInt(t *testing.T) {
+	f := func(count int, given []int, expected []int) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt{c}.Drop(count)
+		actual := make([]int, 0)
+		for el := range result {
+			actual = append(actual, el)
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []int{}, []int{})
+	f(1, []int{2}, []int{})
+	f(1, []int{2, 3}, []int{3})
+	f(1, []int{1, 2, 3}, []int{2, 3})
+	f(0, []int{1, 2, 3}, []int{1, 2, 3})
+	f(3, []int{1, 2, 3, 4, 5, 6}, []int{4, 5, 6})
+	f(1, []int{1, 2, 3, 4, 5, 6}, []int{2, 3, 4, 5, 6})
+}
+
 func TestSequenceExponentialInt(t *testing.T) {
 	s := SequenceInt{}
 	f := func(start int, factor int, count int, expected []int) {
@@ -861,6 +886,31 @@ func TestChannelCountInt8(t *testing.T) {
 	f(1, []int8{1}, 1)
 	f(1, []int8{2}, 0)
 	f(1, []int8{1, 2, 3, 1, 4}, 2)
+}
+
+func TestChannelDropInt8(t *testing.T) {
+	f := func(count int, given []int8, expected []int8) {
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt8{c}.Drop(count)
+		actual := make([]int8, 0)
+		for el := range result {
+			actual = append(actual, el)
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []int8{}, []int8{})
+	f(1, []int8{2}, []int8{})
+	f(1, []int8{2, 3}, []int8{3})
+	f(1, []int8{1, 2, 3}, []int8{2, 3})
+	f(0, []int8{1, 2, 3}, []int8{1, 2, 3})
+	f(3, []int8{1, 2, 3, 4, 5, 6}, []int8{4, 5, 6})
+	f(1, []int8{1, 2, 3, 4, 5, 6}, []int8{2, 3, 4, 5, 6})
 }
 
 func TestSequenceExponentialInt8(t *testing.T) {
@@ -1381,6 +1431,31 @@ func TestChannelCountInt16(t *testing.T) {
 	f(1, []int16{1, 2, 3, 1, 4}, 2)
 }
 
+func TestChannelDropInt16(t *testing.T) {
+	f := func(count int, given []int16, expected []int16) {
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt16{c}.Drop(count)
+		actual := make([]int16, 0)
+		for el := range result {
+			actual = append(actual, el)
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []int16{}, []int16{})
+	f(1, []int16{2}, []int16{})
+	f(1, []int16{2, 3}, []int16{3})
+	f(1, []int16{1, 2, 3}, []int16{2, 3})
+	f(0, []int16{1, 2, 3}, []int16{1, 2, 3})
+	f(3, []int16{1, 2, 3, 4, 5, 6}, []int16{4, 5, 6})
+	f(1, []int16{1, 2, 3, 4, 5, 6}, []int16{2, 3, 4, 5, 6})
+}
+
 func TestSequenceExponentialInt16(t *testing.T) {
 	s := SequenceInt16{}
 	f := func(start int16, factor int16, count int, expected []int16) {
@@ -1899,6 +1974,31 @@ func TestChannelCountInt32(t *testing.T) {
 	f(1, []int32{1, 2, 3, 1, 4}, 2)
 }
 
+func TestChannelDropInt32(t *testing.T) {
+	f := func(count int, given []int32, expected []int32) {
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt32{c}.Drop(count)
+		actual := make([]int32, 0)
+		for el := range result {
+			actual = append(actual, el)
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []int32{}, []int32{})
+	f(1, []int32{2}, []int32{})
+	f(1, []int32{2, 3}, []int32{3})
+	f(1, []int32{1, 2, 3}, []int32{2, 3})
+	f(0, []int32{1, 2, 3}, []int32{1, 2, 3})
+	f(3, []int32{1, 2, 3, 4, 5, 6}, []int32{4, 5, 6})
+	f(1, []int32{1, 2, 3, 4, 5, 6}, []int32{2, 3, 4, 5, 6})
+}
+
 func TestSequenceExponentialInt32(t *testing.T) {
 	s := SequenceInt32{}
 	f := func(start int32, factor int32, count int, expected []int32) {
@@ -2415,6 +2515,31 @@ func TestChannelCountInt64(t *testing.T) {
 	f(1, []int64{1}, 1)
 	f(1, []int64{2}, 0)
 	f(1, []int64{1, 2, 3, 1, 4}, 2)
+}
+
+func TestChannelDropInt64(t *testing.T) {
+	f := func(count int, given []int64, expected []int64) {
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt64{c}.Drop(count)
+		actual := make([]int64, 0)
+		for el := range result {
+			actual = append(actual, el)
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []int64{}, []int64{})
+	f(1, []int64{2}, []int64{})
+	f(1, []int64{2, 3}, []int64{3})
+	f(1, []int64{1, 2, 3}, []int64{2, 3})
+	f(0, []int64{1, 2, 3}, []int64{1, 2, 3})
+	f(3, []int64{1, 2, 3, 4, 5, 6}, []int64{4, 5, 6})
+	f(1, []int64{1, 2, 3, 4, 5, 6}, []int64{2, 3, 4, 5, 6})
 }
 
 func TestSequenceExponentialInt64(t *testing.T) {
