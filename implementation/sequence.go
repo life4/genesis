@@ -30,6 +30,18 @@ func (s Sequence) Exponential(start T, factor T) chan T {
 	return c
 }
 
+// Iterate returns an infinite list of repeated applications of f to val
+func (s Sequence) Iterate(val T, f func(val T) T) chan T {
+	c := make(chan T, 1)
+	go func() {
+		for {
+			c <- val
+			val = f(val)
+		}
+	}()
+	return c
+}
+
 // Range generates elements from start to end with given step
 func (s Sequence) Range(start T, end T, step T) chan T {
 	c := make(chan T, 1)
@@ -49,6 +61,17 @@ func (s Sequence) Repeat(val T) chan T {
 	c := make(chan T, 1)
 	go func() {
 		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+// Replicate returns channel that produces val n times
+func (s Sequence) Replicate(val T, n int) chan T {
+	c := make(chan T, 1)
+	go func() {
+		for i := 0; i < n; i++ {
 			c <- val
 		}
 	}()

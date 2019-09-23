@@ -1415,10 +1415,31 @@ func (s AsyncSliceBool) Reduce(f func(left bool, right bool) bool) bool {
 	return state[0]
 }
 
+func (s SequenceBool) Iterate(val bool, f func(val bool) bool) chan bool {
+	c := make(chan bool, 1)
+	go func() {
+		for {
+			c <- val
+			val = f(val)
+		}
+	}()
+	return c
+}
+
 func (s SequenceBool) Repeat(val bool) chan bool {
 	c := make(chan bool, 1)
 	go func() {
 		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+func (s SequenceBool) Replicate(val bool, n int) chan bool {
+	c := make(chan bool, 1)
+	go func() {
+		for i := 0; i < n; i++ {
 			c <- val
 		}
 	}()
@@ -4519,10 +4540,31 @@ func (s AsyncSliceByte) Reduce(f func(left byte, right byte) byte) byte {
 	return state[0]
 }
 
+func (s SequenceByte) Iterate(val byte, f func(val byte) byte) chan byte {
+	c := make(chan byte, 1)
+	go func() {
+		for {
+			c <- val
+			val = f(val)
+		}
+	}()
+	return c
+}
+
 func (s SequenceByte) Repeat(val byte) chan byte {
 	c := make(chan byte, 1)
 	go func() {
 		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+func (s SequenceByte) Replicate(val byte, n int) chan byte {
+	c := make(chan byte, 1)
+	go func() {
+		for i := 0; i < n; i++ {
 			c <- val
 		}
 	}()
@@ -7668,10 +7710,31 @@ func (s AsyncSliceString) Reduce(f func(left string, right string) string) strin
 	return state[0]
 }
 
+func (s SequenceString) Iterate(val string, f func(val string) string) chan string {
+	c := make(chan string, 1)
+	go func() {
+		for {
+			c <- val
+			val = f(val)
+		}
+	}()
+	return c
+}
+
 func (s SequenceString) Repeat(val string) chan string {
 	c := make(chan string, 1)
 	go func() {
 		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+func (s SequenceString) Replicate(val string, n int) chan string {
+	c := make(chan string, 1)
+	go func() {
+		for i := 0; i < n; i++ {
 			c <- val
 		}
 	}()
@@ -10839,6 +10902,17 @@ func (s SequenceFloat32) Exponential(start float32, factor float32) chan float32
 	return c
 }
 
+func (s SequenceFloat32) Iterate(val float32, f func(val float32) float32) chan float32 {
+	c := make(chan float32, 1)
+	go func() {
+		for {
+			c <- val
+			val = f(val)
+		}
+	}()
+	return c
+}
+
 func (s SequenceFloat32) Range(start float32, end float32, step float32) chan float32 {
 	c := make(chan float32, 1)
 	pos := start <= end
@@ -10856,6 +10930,16 @@ func (s SequenceFloat32) Repeat(val float32) chan float32 {
 	c := make(chan float32, 1)
 	go func() {
 		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+func (s SequenceFloat32) Replicate(val float32, n int) chan float32 {
+	c := make(chan float32, 1)
+	go func() {
+		for i := 0; i < n; i++ {
 			c <- val
 		}
 	}()
@@ -14023,6 +14107,17 @@ func (s SequenceFloat64) Exponential(start float64, factor float64) chan float64
 	return c
 }
 
+func (s SequenceFloat64) Iterate(val float64, f func(val float64) float64) chan float64 {
+	c := make(chan float64, 1)
+	go func() {
+		for {
+			c <- val
+			val = f(val)
+		}
+	}()
+	return c
+}
+
 func (s SequenceFloat64) Range(start float64, end float64, step float64) chan float64 {
 	c := make(chan float64, 1)
 	pos := start <= end
@@ -14040,6 +14135,16 @@ func (s SequenceFloat64) Repeat(val float64) chan float64 {
 	c := make(chan float64, 1)
 	go func() {
 		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+func (s SequenceFloat64) Replicate(val float64, n int) chan float64 {
+	c := make(chan float64, 1)
+	go func() {
+		for i := 0; i < n; i++ {
 			c <- val
 		}
 	}()
@@ -17207,6 +17312,17 @@ func (s SequenceInt) Exponential(start int, factor int) chan int {
 	return c
 }
 
+func (s SequenceInt) Iterate(val int, f func(val int) int) chan int {
+	c := make(chan int, 1)
+	go func() {
+		for {
+			c <- val
+			val = f(val)
+		}
+	}()
+	return c
+}
+
 func (s SequenceInt) Range(start int, end int, step int) chan int {
 	c := make(chan int, 1)
 	pos := start <= end
@@ -17224,6 +17340,16 @@ func (s SequenceInt) Repeat(val int) chan int {
 	c := make(chan int, 1)
 	go func() {
 		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+func (s SequenceInt) Replicate(val int, n int) chan int {
+	c := make(chan int, 1)
+	go func() {
+		for i := 0; i < n; i++ {
 			c <- val
 		}
 	}()
@@ -20391,6 +20517,17 @@ func (s SequenceInt8) Exponential(start int8, factor int8) chan int8 {
 	return c
 }
 
+func (s SequenceInt8) Iterate(val int8, f func(val int8) int8) chan int8 {
+	c := make(chan int8, 1)
+	go func() {
+		for {
+			c <- val
+			val = f(val)
+		}
+	}()
+	return c
+}
+
 func (s SequenceInt8) Range(start int8, end int8, step int8) chan int8 {
 	c := make(chan int8, 1)
 	pos := start <= end
@@ -20408,6 +20545,16 @@ func (s SequenceInt8) Repeat(val int8) chan int8 {
 	c := make(chan int8, 1)
 	go func() {
 		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+func (s SequenceInt8) Replicate(val int8, n int) chan int8 {
+	c := make(chan int8, 1)
+	go func() {
+		for i := 0; i < n; i++ {
 			c <- val
 		}
 	}()
@@ -23575,6 +23722,17 @@ func (s SequenceInt16) Exponential(start int16, factor int16) chan int16 {
 	return c
 }
 
+func (s SequenceInt16) Iterate(val int16, f func(val int16) int16) chan int16 {
+	c := make(chan int16, 1)
+	go func() {
+		for {
+			c <- val
+			val = f(val)
+		}
+	}()
+	return c
+}
+
 func (s SequenceInt16) Range(start int16, end int16, step int16) chan int16 {
 	c := make(chan int16, 1)
 	pos := start <= end
@@ -23592,6 +23750,16 @@ func (s SequenceInt16) Repeat(val int16) chan int16 {
 	c := make(chan int16, 1)
 	go func() {
 		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+func (s SequenceInt16) Replicate(val int16, n int) chan int16 {
+	c := make(chan int16, 1)
+	go func() {
+		for i := 0; i < n; i++ {
 			c <- val
 		}
 	}()
@@ -26759,6 +26927,17 @@ func (s SequenceInt32) Exponential(start int32, factor int32) chan int32 {
 	return c
 }
 
+func (s SequenceInt32) Iterate(val int32, f func(val int32) int32) chan int32 {
+	c := make(chan int32, 1)
+	go func() {
+		for {
+			c <- val
+			val = f(val)
+		}
+	}()
+	return c
+}
+
 func (s SequenceInt32) Range(start int32, end int32, step int32) chan int32 {
 	c := make(chan int32, 1)
 	pos := start <= end
@@ -26776,6 +26955,16 @@ func (s SequenceInt32) Repeat(val int32) chan int32 {
 	c := make(chan int32, 1)
 	go func() {
 		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+func (s SequenceInt32) Replicate(val int32, n int) chan int32 {
+	c := make(chan int32, 1)
+	go func() {
+		for i := 0; i < n; i++ {
 			c <- val
 		}
 	}()
@@ -29943,6 +30132,17 @@ func (s SequenceInt64) Exponential(start int64, factor int64) chan int64 {
 	return c
 }
 
+func (s SequenceInt64) Iterate(val int64, f func(val int64) int64) chan int64 {
+	c := make(chan int64, 1)
+	go func() {
+		for {
+			c <- val
+			val = f(val)
+		}
+	}()
+	return c
+}
+
 func (s SequenceInt64) Range(start int64, end int64, step int64) chan int64 {
 	c := make(chan int64, 1)
 	pos := start <= end
@@ -29960,6 +30160,16 @@ func (s SequenceInt64) Repeat(val int64) chan int64 {
 	c := make(chan int64, 1)
 	go func() {
 		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+func (s SequenceInt64) Replicate(val int64, n int) chan int64 {
+	c := make(chan int64, 1)
+	go func() {
+		for i := 0; i < n; i++ {
 			c <- val
 		}
 	}()
@@ -33127,6 +33337,17 @@ func (s SequenceUint) Exponential(start uint, factor uint) chan uint {
 	return c
 }
 
+func (s SequenceUint) Iterate(val uint, f func(val uint) uint) chan uint {
+	c := make(chan uint, 1)
+	go func() {
+		for {
+			c <- val
+			val = f(val)
+		}
+	}()
+	return c
+}
+
 func (s SequenceUint) Range(start uint, end uint, step uint) chan uint {
 	c := make(chan uint, 1)
 	pos := start <= end
@@ -33144,6 +33365,16 @@ func (s SequenceUint) Repeat(val uint) chan uint {
 	c := make(chan uint, 1)
 	go func() {
 		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+func (s SequenceUint) Replicate(val uint, n int) chan uint {
+	c := make(chan uint, 1)
+	go func() {
+		for i := 0; i < n; i++ {
 			c <- val
 		}
 	}()
@@ -36311,6 +36542,17 @@ func (s SequenceUint8) Exponential(start uint8, factor uint8) chan uint8 {
 	return c
 }
 
+func (s SequenceUint8) Iterate(val uint8, f func(val uint8) uint8) chan uint8 {
+	c := make(chan uint8, 1)
+	go func() {
+		for {
+			c <- val
+			val = f(val)
+		}
+	}()
+	return c
+}
+
 func (s SequenceUint8) Range(start uint8, end uint8, step uint8) chan uint8 {
 	c := make(chan uint8, 1)
 	pos := start <= end
@@ -36328,6 +36570,16 @@ func (s SequenceUint8) Repeat(val uint8) chan uint8 {
 	c := make(chan uint8, 1)
 	go func() {
 		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+func (s SequenceUint8) Replicate(val uint8, n int) chan uint8 {
+	c := make(chan uint8, 1)
+	go func() {
+		for i := 0; i < n; i++ {
 			c <- val
 		}
 	}()
@@ -39495,6 +39747,17 @@ func (s SequenceUint16) Exponential(start uint16, factor uint16) chan uint16 {
 	return c
 }
 
+func (s SequenceUint16) Iterate(val uint16, f func(val uint16) uint16) chan uint16 {
+	c := make(chan uint16, 1)
+	go func() {
+		for {
+			c <- val
+			val = f(val)
+		}
+	}()
+	return c
+}
+
 func (s SequenceUint16) Range(start uint16, end uint16, step uint16) chan uint16 {
 	c := make(chan uint16, 1)
 	pos := start <= end
@@ -39512,6 +39775,16 @@ func (s SequenceUint16) Repeat(val uint16) chan uint16 {
 	c := make(chan uint16, 1)
 	go func() {
 		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+func (s SequenceUint16) Replicate(val uint16, n int) chan uint16 {
+	c := make(chan uint16, 1)
+	go func() {
+		for i := 0; i < n; i++ {
 			c <- val
 		}
 	}()
@@ -42679,6 +42952,17 @@ func (s SequenceUint32) Exponential(start uint32, factor uint32) chan uint32 {
 	return c
 }
 
+func (s SequenceUint32) Iterate(val uint32, f func(val uint32) uint32) chan uint32 {
+	c := make(chan uint32, 1)
+	go func() {
+		for {
+			c <- val
+			val = f(val)
+		}
+	}()
+	return c
+}
+
 func (s SequenceUint32) Range(start uint32, end uint32, step uint32) chan uint32 {
 	c := make(chan uint32, 1)
 	pos := start <= end
@@ -42696,6 +42980,16 @@ func (s SequenceUint32) Repeat(val uint32) chan uint32 {
 	c := make(chan uint32, 1)
 	go func() {
 		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+func (s SequenceUint32) Replicate(val uint32, n int) chan uint32 {
+	c := make(chan uint32, 1)
+	go func() {
+		for i := 0; i < n; i++ {
 			c <- val
 		}
 	}()
@@ -45863,6 +46157,17 @@ func (s SequenceUint64) Exponential(start uint64, factor uint64) chan uint64 {
 	return c
 }
 
+func (s SequenceUint64) Iterate(val uint64, f func(val uint64) uint64) chan uint64 {
+	c := make(chan uint64, 1)
+	go func() {
+		for {
+			c <- val
+			val = f(val)
+		}
+	}()
+	return c
+}
+
 func (s SequenceUint64) Range(start uint64, end uint64, step uint64) chan uint64 {
 	c := make(chan uint64, 1)
 	pos := start <= end
@@ -45880,6 +46185,16 @@ func (s SequenceUint64) Repeat(val uint64) chan uint64 {
 	c := make(chan uint64, 1)
 	go func() {
 		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+func (s SequenceUint64) Replicate(val uint64, n int) chan uint64 {
+	c := make(chan uint64, 1)
+	go func() {
+		for i := 0; i < n; i++ {
 			c <- val
 		}
 	}()
@@ -48997,10 +49312,31 @@ func (s AsyncSliceInterface) Reduce(f func(left interface{}, right interface{}) 
 	return state[0]
 }
 
+func (s SequenceInterface) Iterate(val interface{}, f func(val interface{}) interface{}) chan interface{} {
+	c := make(chan interface{}, 1)
+	go func() {
+		for {
+			c <- val
+			val = f(val)
+		}
+	}()
+	return c
+}
+
 func (s SequenceInterface) Repeat(val interface{}) chan interface{} {
 	c := make(chan interface{}, 1)
 	go func() {
 		for {
+			c <- val
+		}
+	}()
+	return c
+}
+
+func (s SequenceInterface) Replicate(val interface{}, n int) chan interface{} {
+	c := make(chan interface{}, 1)
+	go func() {
+		for i := 0; i < n; i++ {
 			c <- val
 		}
 	}()
