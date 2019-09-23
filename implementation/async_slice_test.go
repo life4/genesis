@@ -73,7 +73,7 @@ func TestAsyncSliceMap(t *testing.T) {
 }
 func TestAsyncSliceReduce(t *testing.T) {
 	f := func(reducer func(a T, b T) T, given []T, expected T) {
-		s := AsyncSlice{data: given, workers: 2}
+		s := AsyncSlice{data: given, workers: 4}
 		actual := s.Reduce(reducer)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
