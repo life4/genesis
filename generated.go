@@ -7,10 +7,6 @@ import (
 	"sync"
 	"time")
 
-type SliceBool struct {
-	data []bool
-}
-
 type ChannelBool struct {
 	data chan bool
 }
@@ -24,8 +20,1409 @@ type SequenceBool struct {
 	data chan bool
 }
 
+type SliceBool struct {
+	data []bool
+}
+
 type SlicesBool struct {
 	data [][]bool
+}
+
+func (c ChannelBool) Any(f func(el bool) bool) bool {
+	for el := range c.data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+func (c ChannelBool) All(f func(el bool) bool) bool {
+	for el := range c.data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
+}
+
+func (c ChannelBool) ChunkEvery(count int) chan []bool {
+	chunks := make(chan []bool, 1)
+	go func() {
+		chunk := make([]bool, 0, count)
+		i := 0
+		for el := range c.data {
+			chunk = append(chunk, el)
+			i++
+			if i%count == 0 {
+				i = 0
+				chunks <- chunk
+				chunk = make([]bool, 0, count)
+			}
+		}
+		if len(chunk) > 0 {
+			chunks <- chunk
+		}
+		close(chunks)
+	}()
+	return chunks
+}
+
+func (c ChannelBool) Count(el bool) int {
+	count := 0
+	for val := range c.data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
+func (c ChannelBool) Drop(n int) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		i := 0
+		for el := range c.data {
+			if i >= n {
+				result <- el
+			}
+			i++
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) Each(f func(el bool)) {
+	for el := range c.data {
+		f(el)
+	}
+}
+
+func (c ChannelBool) Filter(f func(el bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			if f(el) {
+				result <- el
+			}
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) MapBool(f func(el bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) MapByte(f func(el bool) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) MapString(f func(el bool) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) MapFloat32(f func(el bool) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) MapFloat64(f func(el bool) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) MapInt(f func(el bool) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) MapInt8(f func(el bool) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) MapInt16(f func(el bool) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) MapInt32(f func(el bool) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) MapInt64(f func(el bool) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) MapUint(f func(el bool) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) MapUint8(f func(el bool) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) MapUint16(f func(el bool) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) MapUint32(f func(el bool) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) MapUint64(f func(el bool) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) MapInterface(f func(el bool) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) ReduceBool(acc bool, f func(el bool, acc bool) bool) bool {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceByte(acc byte, f func(el bool, acc byte) byte) byte {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceString(acc string, f func(el bool, acc string) string) string {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceFloat32(acc float32, f func(el bool, acc float32) float32) float32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceFloat64(acc float64, f func(el bool, acc float64) float64) float64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceInt(acc int, f func(el bool, acc int) int) int {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceInt8(acc int8, f func(el bool, acc int8) int8) int8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceInt16(acc int16, f func(el bool, acc int16) int16) int16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceInt32(acc int32, f func(el bool, acc int32) int32) int32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceInt64(acc int64, f func(el bool, acc int64) int64) int64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceUint(acc uint, f func(el bool, acc uint) uint) uint {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceUint8(acc uint8, f func(el bool, acc uint8) uint8) uint8 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceUint16(acc uint16, f func(el bool, acc uint16) uint16) uint16 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceUint32(acc uint32, f func(el bool, acc uint32) uint32) uint32 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceUint64(acc uint64, f func(el bool, acc uint64) uint64) uint64 {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ReduceInterface(acc interface{}, f func(el bool, acc interface{}) interface{}) interface{} {
+	for el := range c.data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+func (c ChannelBool) ScanBool(acc bool, f func(el bool, acc bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanByte(acc byte, f func(el bool, acc byte) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanString(acc string, f func(el bool, acc string) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanFloat32(acc float32, f func(el bool, acc float32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanFloat64(acc float64, f func(el bool, acc float64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanInt(acc int, f func(el bool, acc int) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanInt8(acc int8, f func(el bool, acc int8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanInt16(acc int16, f func(el bool, acc int16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanInt32(acc int32, f func(el bool, acc int32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanInt64(acc int64, f func(el bool, acc int64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanUint(acc uint, f func(el bool, acc uint) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanUint8(acc uint8, f func(el bool, acc uint8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanUint16(acc uint16, f func(el bool, acc uint16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanUint32(acc uint32, f func(el bool, acc uint32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanUint64(acc uint64, f func(el bool, acc uint64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) ScanInterface(acc interface{}, f func(el bool, acc interface{}) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+func (c ChannelBool) Take(n int) []bool {
+	result := make([]bool, 0, n)
+	for i := 0; i < n; i++ {
+		result = append(result, <-c.data)
+	}
+	return result
+}
+
+func (c ChannelBool) Tee(count int) []chan bool {
+	channels := make([]chan bool, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan bool, 1))
+	}
+	go func() {
+		for el := range c.data {
+			wg := sync.WaitGroup{}
+			putInto := func(ch chan bool) {
+				wg.Add(1)
+				defer wg.Done()
+				ch <- el
+			}
+			for _, ch := range channels {
+				putInto(ch)
+			}
+			wg.Wait()
+		}
+		for _, ch := range channels {
+			close(ch)
+		}
+	}()
+	return channels
+}
+
+func (c ChannelBool) ToSlice() []bool {
+	result := make([]bool, 0)
+	for val := range c.data {
+		result = append(result, val)
+	}
+	return result
+}
+
+func (s AsyncSliceBool) All(f func(el bool) bool) bool {
+	if len(s.data) == 0 {
+		return true
+	}
+
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- bool, ctx context.Context) {
+		defer wg.Done()
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case index, ok := <-jobs:
+				if !ok {
+					return
+				}
+				if !f(s.data[index]) {
+					result <- false
+					return
+				}
+			}
+		}
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	// when we're returning the result, cancel all workers
+	defer cancel()
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	result := make(chan bool, workers)
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs, result, ctx)
+	}
+
+	// close the result channel when all workers have done
+	go func() {
+		wg.Wait()
+		close(result)
+	}()
+
+	// schedule the jobs: indices to check
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+
+	for range result {
+		return false
+	}
+	return true
+}
+
+func (s AsyncSliceBool) Any(f func(el bool) bool) bool {
+	if len(s.data) == 0 {
+		return false
+	}
+
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- bool, ctx context.Context) {
+		defer wg.Done()
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case index, ok := <-jobs:
+				if !ok {
+					return
+				}
+				if f(s.data[index]) {
+					result <- true
+					return
+				}
+			}
+		}
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	// when we're returning the result, cancel all workers
+	defer cancel()
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	result := make(chan bool, workers)
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs, result, ctx)
+	}
+
+	// close the result channel when all workers have done
+	go func() {
+		wg.Wait()
+		close(result)
+	}()
+
+	// schedule the jobs: indices to check
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+
+	for range result {
+		return true
+	}
+	return false
+}
+
+func (s AsyncSliceBool) Each(f func(el bool)) {
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		defer wg.Done()
+		for index := range jobs {
+			f(s.data[index])
+		}
+	}
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+}
+
+func (s AsyncSliceBool) Filter(f func(el bool) bool) []bool {
+	resultMap := make([]bool, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			if f(s.data[index]) {
+				resultMap[index] = true
+			}
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+
+	// return filtered results
+	result := make([]bool, 0, len(s.data))
+	for i, el := range s.data {
+		if resultMap[i] {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
+func (s AsyncSliceBool) MapBool(f func(el bool) bool) []bool {
+	result := make([]bool, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+func (s AsyncSliceBool) MapByte(f func(el bool) byte) []byte {
+	result := make([]byte, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+func (s AsyncSliceBool) MapString(f func(el bool) string) []string {
+	result := make([]string, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+func (s AsyncSliceBool) MapFloat32(f func(el bool) float32) []float32 {
+	result := make([]float32, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+func (s AsyncSliceBool) MapFloat64(f func(el bool) float64) []float64 {
+	result := make([]float64, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+func (s AsyncSliceBool) MapInt(f func(el bool) int) []int {
+	result := make([]int, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+func (s AsyncSliceBool) MapInt8(f func(el bool) int8) []int8 {
+	result := make([]int8, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+func (s AsyncSliceBool) MapInt16(f func(el bool) int16) []int16 {
+	result := make([]int16, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+func (s AsyncSliceBool) MapInt32(f func(el bool) int32) []int32 {
+	result := make([]int32, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+func (s AsyncSliceBool) MapInt64(f func(el bool) int64) []int64 {
+	result := make([]int64, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+func (s AsyncSliceBool) MapUint(f func(el bool) uint) []uint {
+	result := make([]uint, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+func (s AsyncSliceBool) MapUint8(f func(el bool) uint8) []uint8 {
+	result := make([]uint8, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+func (s AsyncSliceBool) MapUint16(f func(el bool) uint16) []uint16 {
+	result := make([]uint16, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+func (s AsyncSliceBool) MapUint32(f func(el bool) uint32) []uint32 {
+	result := make([]uint32, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+func (s AsyncSliceBool) MapUint64(f func(el bool) uint64) []uint64 {
+	result := make([]uint64, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+func (s AsyncSliceBool) MapInterface(f func(el bool) interface{}) []interface{} {
+	result := make([]interface{}, len(s.data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.workers
+	if workers == 0 || workers > len(s.data) {
+		workers = len(s.data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+func (s AsyncSliceBool) Reduce(f func(left bool, right bool) bool) bool {
+	if len(s.data) == 0 {
+		var tmp bool
+		return tmp
+	}
+
+	state := make([]bool, len(s.data))
+	state = append(state, s.data...)
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- bool) {
+		for index := range jobs {
+			result <- f(state[index], state[index+1])
+		}
+		wg.Done()
+	}
+
+	for len(state) > 1 {
+		// calculate workers count
+		workers := s.workers
+		if workers == 0 || workers > len(state) {
+			workers = len(state)
+		}
+
+		// run workers
+		jobs := make(chan int, len(state))
+		wg.Add(workers)
+		result := make(chan bool, 1)
+		for i := 0; i < workers; i++ {
+			go worker(jobs, result)
+		}
+
+		go func() {
+			wg.Wait()
+			close(result)
+		}()
+
+		// add indices into jobs for workers
+		for i := 0; i < len(state)-1; i += 2 {
+			jobs <- i
+		}
+		close(jobs)
+
+		// collect new state
+		newState := make([]bool, 0, len(state)/2+len(state)%2)
+		for el := range result {
+			newState = append(newState, el)
+		}
+		if len(state)%2 == 1 {
+			newState = append(newState, state[len(state)-1])
+		}
+		// put new state as current state after all
+		state = newState
+	}
+
+	return state[0]
+}
+
+func (s SequenceBool) Repeat(val bool) chan bool {
+	c := make(chan bool, 1)
+	go func() {
+		for {
+			c <- val
+		}
+	}()
+	return c
 }
 
 func (s SliceBool) Any(f func(el bool) bool) bool {
@@ -1629,7 +3026,85 @@ func (s SliceBool) Window(size int) [][]bool {
 	return result
 }
 
-func (c ChannelBool) Any(f func(el bool) bool) bool {
+func (s SlicesBool) Concat() []bool {
+	result := make([]bool, 0)
+	for _, arr := range s.data {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+func (s SlicesBool) Product() chan []bool {
+	c := make(chan []bool, 1)
+	go s.product(c, []bool{}, 0)
+	return c
+}
+
+func (s SlicesBool) product(c chan []bool, left []bool, pos int) {
+	// iterate over the last array
+	if pos == len(s.data)-1 {
+		for _, el := range s.data[pos] {
+			result := make([]bool, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data[pos] {
+		result := make([]bool, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
+func (s SlicesBool) Zip() [][]bool {
+	size := len(s.data[0])
+	for _, arr := range s.data[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]bool, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]bool, 0, len(s.data))
+		for _, arr := range s.data {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
+type ChannelByte struct {
+	data chan byte
+}
+
+type AsyncSliceByte struct {
+	data    []byte
+	workers int
+}
+
+type SequenceByte struct {
+	data chan byte
+}
+
+type SliceByte struct {
+	data []byte
+}
+
+type SlicesByte struct {
+	data [][]byte
+}
+
+func (c ChannelByte) Any(f func(el byte) bool) bool {
 	for el := range c.data {
 		if f(el) {
 			return true
@@ -1638,7 +3113,7 @@ func (c ChannelBool) Any(f func(el bool) bool) bool {
 	return false
 }
 
-func (c ChannelBool) All(f func(el bool) bool) bool {
+func (c ChannelByte) All(f func(el byte) bool) bool {
 	for el := range c.data {
 		if !f(el) {
 			return false
@@ -1647,10 +3122,10 @@ func (c ChannelBool) All(f func(el bool) bool) bool {
 	return true
 }
 
-func (c ChannelBool) ChunkEvery(count int) chan []bool {
-	chunks := make(chan []bool, 1)
+func (c ChannelByte) ChunkEvery(count int) chan []byte {
+	chunks := make(chan []byte, 1)
 	go func() {
-		chunk := make([]bool, 0, count)
+		chunk := make([]byte, 0, count)
 		i := 0
 		for el := range c.data {
 			chunk = append(chunk, el)
@@ -1658,7 +3133,7 @@ func (c ChannelBool) ChunkEvery(count int) chan []bool {
 			if i%count == 0 {
 				i = 0
 				chunks <- chunk
-				chunk = make([]bool, 0, count)
+				chunk = make([]byte, 0, count)
 			}
 		}
 		if len(chunk) > 0 {
@@ -1669,7 +3144,7 @@ func (c ChannelBool) ChunkEvery(count int) chan []bool {
 	return chunks
 }
 
-func (c ChannelBool) Count(el bool) int {
+func (c ChannelByte) Count(el byte) int {
 	count := 0
 	for val := range c.data {
 		if val == el {
@@ -1679,8 +3154,8 @@ func (c ChannelBool) Count(el bool) int {
 	return count
 }
 
-func (c ChannelBool) Drop(n int) chan bool {
-	result := make(chan bool, 1)
+func (c ChannelByte) Drop(n int) chan byte {
+	result := make(chan byte, 1)
 	go func() {
 		i := 0
 		for el := range c.data {
@@ -1694,14 +3169,14 @@ func (c ChannelBool) Drop(n int) chan bool {
 	return result
 }
 
-func (c ChannelBool) Each(f func(el bool)) {
+func (c ChannelByte) Each(f func(el byte)) {
 	for el := range c.data {
 		f(el)
 	}
 }
 
-func (c ChannelBool) Filter(f func(el bool) bool) chan bool {
-	result := make(chan bool, 1)
+func (c ChannelByte) Filter(f func(el byte) bool) chan byte {
+	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
 			if f(el) {
@@ -1713,7 +3188,7 @@ func (c ChannelBool) Filter(f func(el bool) bool) chan bool {
 	return result
 }
 
-func (c ChannelBool) MapBool(f func(el bool) bool) chan bool {
+func (c ChannelByte) MapBool(f func(el byte) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -1724,7 +3199,7 @@ func (c ChannelBool) MapBool(f func(el bool) bool) chan bool {
 	return result
 }
 
-func (c ChannelBool) MapByte(f func(el bool) byte) chan byte {
+func (c ChannelByte) MapByte(f func(el byte) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -1735,7 +3210,7 @@ func (c ChannelBool) MapByte(f func(el bool) byte) chan byte {
 	return result
 }
 
-func (c ChannelBool) MapString(f func(el bool) string) chan string {
+func (c ChannelByte) MapString(f func(el byte) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -1746,7 +3221,7 @@ func (c ChannelBool) MapString(f func(el bool) string) chan string {
 	return result
 }
 
-func (c ChannelBool) MapFloat32(f func(el bool) float32) chan float32 {
+func (c ChannelByte) MapFloat32(f func(el byte) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -1757,7 +3232,7 @@ func (c ChannelBool) MapFloat32(f func(el bool) float32) chan float32 {
 	return result
 }
 
-func (c ChannelBool) MapFloat64(f func(el bool) float64) chan float64 {
+func (c ChannelByte) MapFloat64(f func(el byte) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -1768,7 +3243,7 @@ func (c ChannelBool) MapFloat64(f func(el bool) float64) chan float64 {
 	return result
 }
 
-func (c ChannelBool) MapInt(f func(el bool) int) chan int {
+func (c ChannelByte) MapInt(f func(el byte) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -1779,7 +3254,7 @@ func (c ChannelBool) MapInt(f func(el bool) int) chan int {
 	return result
 }
 
-func (c ChannelBool) MapInt8(f func(el bool) int8) chan int8 {
+func (c ChannelByte) MapInt8(f func(el byte) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -1790,7 +3265,7 @@ func (c ChannelBool) MapInt8(f func(el bool) int8) chan int8 {
 	return result
 }
 
-func (c ChannelBool) MapInt16(f func(el bool) int16) chan int16 {
+func (c ChannelByte) MapInt16(f func(el byte) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -1801,7 +3276,7 @@ func (c ChannelBool) MapInt16(f func(el bool) int16) chan int16 {
 	return result
 }
 
-func (c ChannelBool) MapInt32(f func(el bool) int32) chan int32 {
+func (c ChannelByte) MapInt32(f func(el byte) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -1812,7 +3287,7 @@ func (c ChannelBool) MapInt32(f func(el bool) int32) chan int32 {
 	return result
 }
 
-func (c ChannelBool) MapInt64(f func(el bool) int64) chan int64 {
+func (c ChannelByte) MapInt64(f func(el byte) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -1823,7 +3298,7 @@ func (c ChannelBool) MapInt64(f func(el bool) int64) chan int64 {
 	return result
 }
 
-func (c ChannelBool) MapUint(f func(el bool) uint) chan uint {
+func (c ChannelByte) MapUint(f func(el byte) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -1834,7 +3309,7 @@ func (c ChannelBool) MapUint(f func(el bool) uint) chan uint {
 	return result
 }
 
-func (c ChannelBool) MapUint8(f func(el bool) uint8) chan uint8 {
+func (c ChannelByte) MapUint8(f func(el byte) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -1845,7 +3320,7 @@ func (c ChannelBool) MapUint8(f func(el bool) uint8) chan uint8 {
 	return result
 }
 
-func (c ChannelBool) MapUint16(f func(el bool) uint16) chan uint16 {
+func (c ChannelByte) MapUint16(f func(el byte) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -1856,7 +3331,7 @@ func (c ChannelBool) MapUint16(f func(el bool) uint16) chan uint16 {
 	return result
 }
 
-func (c ChannelBool) MapUint32(f func(el bool) uint32) chan uint32 {
+func (c ChannelByte) MapUint32(f func(el byte) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -1867,7 +3342,7 @@ func (c ChannelBool) MapUint32(f func(el bool) uint32) chan uint32 {
 	return result
 }
 
-func (c ChannelBool) MapUint64(f func(el bool) uint64) chan uint64 {
+func (c ChannelByte) MapUint64(f func(el byte) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -1878,7 +3353,7 @@ func (c ChannelBool) MapUint64(f func(el bool) uint64) chan uint64 {
 	return result
 }
 
-func (c ChannelBool) MapInterface(f func(el bool) interface{}) chan interface{} {
+func (c ChannelByte) MapInterface(f func(el byte) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -1889,119 +3364,139 @@ func (c ChannelBool) MapInterface(f func(el bool) interface{}) chan interface{} 
 	return result
 }
 
-func (c ChannelBool) ReduceBool(acc bool, f func(el bool, acc bool) bool) bool {
+func (c ChannelByte) Max() byte {
+	max := <-c.data
+	for el := range c.data {
+		if el > max {
+			max = el
+		}
+	}
+	return max
+}
+
+func (c ChannelByte) Min() byte {
+	min := <-c.data
+	for el := range c.data {
+		if el < min {
+			min = el
+		}
+	}
+	return min
+}
+
+func (c ChannelByte) ReduceBool(acc bool, f func(el byte, acc bool) bool) bool {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelBool) ReduceByte(acc byte, f func(el bool, acc byte) byte) byte {
+func (c ChannelByte) ReduceByte(acc byte, f func(el byte, acc byte) byte) byte {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelBool) ReduceString(acc string, f func(el bool, acc string) string) string {
+func (c ChannelByte) ReduceString(acc string, f func(el byte, acc string) string) string {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelBool) ReduceFloat32(acc float32, f func(el bool, acc float32) float32) float32 {
+func (c ChannelByte) ReduceFloat32(acc float32, f func(el byte, acc float32) float32) float32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelBool) ReduceFloat64(acc float64, f func(el bool, acc float64) float64) float64 {
+func (c ChannelByte) ReduceFloat64(acc float64, f func(el byte, acc float64) float64) float64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelBool) ReduceInt(acc int, f func(el bool, acc int) int) int {
+func (c ChannelByte) ReduceInt(acc int, f func(el byte, acc int) int) int {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelBool) ReduceInt8(acc int8, f func(el bool, acc int8) int8) int8 {
+func (c ChannelByte) ReduceInt8(acc int8, f func(el byte, acc int8) int8) int8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelBool) ReduceInt16(acc int16, f func(el bool, acc int16) int16) int16 {
+func (c ChannelByte) ReduceInt16(acc int16, f func(el byte, acc int16) int16) int16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelBool) ReduceInt32(acc int32, f func(el bool, acc int32) int32) int32 {
+func (c ChannelByte) ReduceInt32(acc int32, f func(el byte, acc int32) int32) int32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelBool) ReduceInt64(acc int64, f func(el bool, acc int64) int64) int64 {
+func (c ChannelByte) ReduceInt64(acc int64, f func(el byte, acc int64) int64) int64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelBool) ReduceUint(acc uint, f func(el bool, acc uint) uint) uint {
+func (c ChannelByte) ReduceUint(acc uint, f func(el byte, acc uint) uint) uint {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelBool) ReduceUint8(acc uint8, f func(el bool, acc uint8) uint8) uint8 {
+func (c ChannelByte) ReduceUint8(acc uint8, f func(el byte, acc uint8) uint8) uint8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelBool) ReduceUint16(acc uint16, f func(el bool, acc uint16) uint16) uint16 {
+func (c ChannelByte) ReduceUint16(acc uint16, f func(el byte, acc uint16) uint16) uint16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelBool) ReduceUint32(acc uint32, f func(el bool, acc uint32) uint32) uint32 {
+func (c ChannelByte) ReduceUint32(acc uint32, f func(el byte, acc uint32) uint32) uint32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelBool) ReduceUint64(acc uint64, f func(el bool, acc uint64) uint64) uint64 {
+func (c ChannelByte) ReduceUint64(acc uint64, f func(el byte, acc uint64) uint64) uint64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelBool) ReduceInterface(acc interface{}, f func(el bool, acc interface{}) interface{}) interface{} {
+func (c ChannelByte) ReduceInterface(acc interface{}, f func(el byte, acc interface{}) interface{}) interface{} {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelBool) ScanBool(acc bool, f func(el bool, acc bool) bool) chan bool {
+func (c ChannelByte) ScanBool(acc bool, f func(el byte, acc bool) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -2013,7 +3508,7 @@ func (c ChannelBool) ScanBool(acc bool, f func(el bool, acc bool) bool) chan boo
 	return result
 }
 
-func (c ChannelBool) ScanByte(acc byte, f func(el bool, acc byte) byte) chan byte {
+func (c ChannelByte) ScanByte(acc byte, f func(el byte, acc byte) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -2025,7 +3520,7 @@ func (c ChannelBool) ScanByte(acc byte, f func(el bool, acc byte) byte) chan byt
 	return result
 }
 
-func (c ChannelBool) ScanString(acc string, f func(el bool, acc string) string) chan string {
+func (c ChannelByte) ScanString(acc string, f func(el byte, acc string) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -2037,7 +3532,7 @@ func (c ChannelBool) ScanString(acc string, f func(el bool, acc string) string) 
 	return result
 }
 
-func (c ChannelBool) ScanFloat32(acc float32, f func(el bool, acc float32) float32) chan float32 {
+func (c ChannelByte) ScanFloat32(acc float32, f func(el byte, acc float32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -2049,7 +3544,7 @@ func (c ChannelBool) ScanFloat32(acc float32, f func(el bool, acc float32) float
 	return result
 }
 
-func (c ChannelBool) ScanFloat64(acc float64, f func(el bool, acc float64) float64) chan float64 {
+func (c ChannelByte) ScanFloat64(acc float64, f func(el byte, acc float64) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -2061,7 +3556,7 @@ func (c ChannelBool) ScanFloat64(acc float64, f func(el bool, acc float64) float
 	return result
 }
 
-func (c ChannelBool) ScanInt(acc int, f func(el bool, acc int) int) chan int {
+func (c ChannelByte) ScanInt(acc int, f func(el byte, acc int) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -2073,7 +3568,7 @@ func (c ChannelBool) ScanInt(acc int, f func(el bool, acc int) int) chan int {
 	return result
 }
 
-func (c ChannelBool) ScanInt8(acc int8, f func(el bool, acc int8) int8) chan int8 {
+func (c ChannelByte) ScanInt8(acc int8, f func(el byte, acc int8) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -2085,7 +3580,7 @@ func (c ChannelBool) ScanInt8(acc int8, f func(el bool, acc int8) int8) chan int
 	return result
 }
 
-func (c ChannelBool) ScanInt16(acc int16, f func(el bool, acc int16) int16) chan int16 {
+func (c ChannelByte) ScanInt16(acc int16, f func(el byte, acc int16) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -2097,7 +3592,7 @@ func (c ChannelBool) ScanInt16(acc int16, f func(el bool, acc int16) int16) chan
 	return result
 }
 
-func (c ChannelBool) ScanInt32(acc int32, f func(el bool, acc int32) int32) chan int32 {
+func (c ChannelByte) ScanInt32(acc int32, f func(el byte, acc int32) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -2109,7 +3604,7 @@ func (c ChannelBool) ScanInt32(acc int32, f func(el bool, acc int32) int32) chan
 	return result
 }
 
-func (c ChannelBool) ScanInt64(acc int64, f func(el bool, acc int64) int64) chan int64 {
+func (c ChannelByte) ScanInt64(acc int64, f func(el byte, acc int64) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -2121,7 +3616,7 @@ func (c ChannelBool) ScanInt64(acc int64, f func(el bool, acc int64) int64) chan
 	return result
 }
 
-func (c ChannelBool) ScanUint(acc uint, f func(el bool, acc uint) uint) chan uint {
+func (c ChannelByte) ScanUint(acc uint, f func(el byte, acc uint) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -2133,7 +3628,7 @@ func (c ChannelBool) ScanUint(acc uint, f func(el bool, acc uint) uint) chan uin
 	return result
 }
 
-func (c ChannelBool) ScanUint8(acc uint8, f func(el bool, acc uint8) uint8) chan uint8 {
+func (c ChannelByte) ScanUint8(acc uint8, f func(el byte, acc uint8) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -2145,7 +3640,7 @@ func (c ChannelBool) ScanUint8(acc uint8, f func(el bool, acc uint8) uint8) chan
 	return result
 }
 
-func (c ChannelBool) ScanUint16(acc uint16, f func(el bool, acc uint16) uint16) chan uint16 {
+func (c ChannelByte) ScanUint16(acc uint16, f func(el byte, acc uint16) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -2157,7 +3652,7 @@ func (c ChannelBool) ScanUint16(acc uint16, f func(el bool, acc uint16) uint16) 
 	return result
 }
 
-func (c ChannelBool) ScanUint32(acc uint32, f func(el bool, acc uint32) uint32) chan uint32 {
+func (c ChannelByte) ScanUint32(acc uint32, f func(el byte, acc uint32) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -2169,7 +3664,7 @@ func (c ChannelBool) ScanUint32(acc uint32, f func(el bool, acc uint32) uint32) 
 	return result
 }
 
-func (c ChannelBool) ScanUint64(acc uint64, f func(el bool, acc uint64) uint64) chan uint64 {
+func (c ChannelByte) ScanUint64(acc uint64, f func(el byte, acc uint64) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -2181,7 +3676,7 @@ func (c ChannelBool) ScanUint64(acc uint64, f func(el bool, acc uint64) uint64) 
 	return result
 }
 
-func (c ChannelBool) ScanInterface(acc interface{}, f func(el bool, acc interface{}) interface{}) chan interface{} {
+func (c ChannelByte) ScanInterface(acc interface{}, f func(el byte, acc interface{}) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -2193,23 +3688,31 @@ func (c ChannelBool) ScanInterface(acc interface{}, f func(el bool, acc interfac
 	return result
 }
 
-func (c ChannelBool) Take(n int) []bool {
-	result := make([]bool, 0, n)
+func (c ChannelByte) Sum() byte {
+	var sum byte
+	for el := range c.data {
+		sum += el
+	}
+	return sum
+}
+
+func (c ChannelByte) Take(n int) []byte {
+	result := make([]byte, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c.data)
 	}
 	return result
 }
 
-func (c ChannelBool) Tee(count int) []chan bool {
-	channels := make([]chan bool, 0, count)
+func (c ChannelByte) Tee(count int) []chan byte {
+	channels := make([]chan byte, 0, count)
 	for i := 0; i < count; i++ {
-		channels = append(channels, make(chan bool, 1))
+		channels = append(channels, make(chan byte, 1))
 	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			putInto := func(ch chan bool) {
+			putInto := func(ch chan byte) {
 				wg.Add(1)
 				defer wg.Done()
 				ch <- el
@@ -2226,15 +3729,15 @@ func (c ChannelBool) Tee(count int) []chan bool {
 	return channels
 }
 
-func (c ChannelBool) ToSlice() []bool {
-	result := make([]bool, 0)
+func (c ChannelByte) ToSlice() []byte {
+	result := make([]byte, 0)
 	for val := range c.data {
 		result = append(result, val)
 	}
 	return result
 }
 
-func (s AsyncSliceBool) All(f func(el bool) bool) bool {
+func (s AsyncSliceByte) All(f func(el byte) bool) bool {
 	if len(s.data) == 0 {
 		return true
 	}
@@ -2295,7 +3798,7 @@ func (s AsyncSliceBool) All(f func(el bool) bool) bool {
 	return true
 }
 
-func (s AsyncSliceBool) Any(f func(el bool) bool) bool {
+func (s AsyncSliceByte) Any(f func(el byte) bool) bool {
 	if len(s.data) == 0 {
 		return false
 	}
@@ -2356,7 +3859,7 @@ func (s AsyncSliceBool) Any(f func(el bool) bool) bool {
 	return false
 }
 
-func (s AsyncSliceBool) Each(f func(el bool)) {
+func (s AsyncSliceByte) Each(f func(el byte)) {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -2387,7 +3890,7 @@ func (s AsyncSliceBool) Each(f func(el bool)) {
 	wg.Wait()
 }
 
-func (s AsyncSliceBool) Filter(f func(el bool) bool) []bool {
+func (s AsyncSliceByte) Filter(f func(el byte) bool) []byte {
 	resultMap := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -2421,7 +3924,7 @@ func (s AsyncSliceBool) Filter(f func(el bool) bool) []bool {
 	wg.Wait()
 
 	// return filtered results
-	result := make([]bool, 0, len(s.data))
+	result := make([]byte, 0, len(s.data))
 	for i, el := range s.data {
 		if resultMap[i] {
 			result = append(result, el)
@@ -2430,7 +3933,7 @@ func (s AsyncSliceBool) Filter(f func(el bool) bool) []bool {
 	return result
 }
 
-func (s AsyncSliceBool) MapBool(f func(el bool) bool) []bool {
+func (s AsyncSliceByte) MapBool(f func(el byte) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -2463,7 +3966,7 @@ func (s AsyncSliceBool) MapBool(f func(el bool) bool) []bool {
 	return result
 }
 
-func (s AsyncSliceBool) MapByte(f func(el bool) byte) []byte {
+func (s AsyncSliceByte) MapByte(f func(el byte) byte) []byte {
 	result := make([]byte, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -2496,7 +3999,7 @@ func (s AsyncSliceBool) MapByte(f func(el bool) byte) []byte {
 	return result
 }
 
-func (s AsyncSliceBool) MapString(f func(el bool) string) []string {
+func (s AsyncSliceByte) MapString(f func(el byte) string) []string {
 	result := make([]string, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -2529,7 +4032,7 @@ func (s AsyncSliceBool) MapString(f func(el bool) string) []string {
 	return result
 }
 
-func (s AsyncSliceBool) MapFloat32(f func(el bool) float32) []float32 {
+func (s AsyncSliceByte) MapFloat32(f func(el byte) float32) []float32 {
 	result := make([]float32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -2562,7 +4065,7 @@ func (s AsyncSliceBool) MapFloat32(f func(el bool) float32) []float32 {
 	return result
 }
 
-func (s AsyncSliceBool) MapFloat64(f func(el bool) float64) []float64 {
+func (s AsyncSliceByte) MapFloat64(f func(el byte) float64) []float64 {
 	result := make([]float64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -2595,7 +4098,7 @@ func (s AsyncSliceBool) MapFloat64(f func(el bool) float64) []float64 {
 	return result
 }
 
-func (s AsyncSliceBool) MapInt(f func(el bool) int) []int {
+func (s AsyncSliceByte) MapInt(f func(el byte) int) []int {
 	result := make([]int, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -2628,7 +4131,7 @@ func (s AsyncSliceBool) MapInt(f func(el bool) int) []int {
 	return result
 }
 
-func (s AsyncSliceBool) MapInt8(f func(el bool) int8) []int8 {
+func (s AsyncSliceByte) MapInt8(f func(el byte) int8) []int8 {
 	result := make([]int8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -2661,7 +4164,7 @@ func (s AsyncSliceBool) MapInt8(f func(el bool) int8) []int8 {
 	return result
 }
 
-func (s AsyncSliceBool) MapInt16(f func(el bool) int16) []int16 {
+func (s AsyncSliceByte) MapInt16(f func(el byte) int16) []int16 {
 	result := make([]int16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -2694,7 +4197,7 @@ func (s AsyncSliceBool) MapInt16(f func(el bool) int16) []int16 {
 	return result
 }
 
-func (s AsyncSliceBool) MapInt32(f func(el bool) int32) []int32 {
+func (s AsyncSliceByte) MapInt32(f func(el byte) int32) []int32 {
 	result := make([]int32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -2727,7 +4230,7 @@ func (s AsyncSliceBool) MapInt32(f func(el bool) int32) []int32 {
 	return result
 }
 
-func (s AsyncSliceBool) MapInt64(f func(el bool) int64) []int64 {
+func (s AsyncSliceByte) MapInt64(f func(el byte) int64) []int64 {
 	result := make([]int64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -2760,7 +4263,7 @@ func (s AsyncSliceBool) MapInt64(f func(el bool) int64) []int64 {
 	return result
 }
 
-func (s AsyncSliceBool) MapUint(f func(el bool) uint) []uint {
+func (s AsyncSliceByte) MapUint(f func(el byte) uint) []uint {
 	result := make([]uint, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -2793,7 +4296,7 @@ func (s AsyncSliceBool) MapUint(f func(el bool) uint) []uint {
 	return result
 }
 
-func (s AsyncSliceBool) MapUint8(f func(el bool) uint8) []uint8 {
+func (s AsyncSliceByte) MapUint8(f func(el byte) uint8) []uint8 {
 	result := make([]uint8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -2826,7 +4329,7 @@ func (s AsyncSliceBool) MapUint8(f func(el bool) uint8) []uint8 {
 	return result
 }
 
-func (s AsyncSliceBool) MapUint16(f func(el bool) uint16) []uint16 {
+func (s AsyncSliceByte) MapUint16(f func(el byte) uint16) []uint16 {
 	result := make([]uint16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -2859,7 +4362,7 @@ func (s AsyncSliceBool) MapUint16(f func(el bool) uint16) []uint16 {
 	return result
 }
 
-func (s AsyncSliceBool) MapUint32(f func(el bool) uint32) []uint32 {
+func (s AsyncSliceByte) MapUint32(f func(el byte) uint32) []uint32 {
 	result := make([]uint32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -2892,7 +4395,7 @@ func (s AsyncSliceBool) MapUint32(f func(el bool) uint32) []uint32 {
 	return result
 }
 
-func (s AsyncSliceBool) MapUint64(f func(el bool) uint64) []uint64 {
+func (s AsyncSliceByte) MapUint64(f func(el byte) uint64) []uint64 {
 	result := make([]uint64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -2925,7 +4428,7 @@ func (s AsyncSliceBool) MapUint64(f func(el bool) uint64) []uint64 {
 	return result
 }
 
-func (s AsyncSliceBool) MapInterface(f func(el bool) interface{}) []interface{} {
+func (s AsyncSliceByte) MapInterface(f func(el byte) interface{}) []interface{} {
 	result := make([]interface{}, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -2958,92 +4461,72 @@ func (s AsyncSliceBool) MapInterface(f func(el bool) interface{}) []interface{} 
 	return result
 }
 
-func (s SequenceBool) Repeat(val bool) chan bool {
-	c := make(chan bool, 1)
+func (s AsyncSliceByte) Reduce(f func(left byte, right byte) byte) byte {
+	if len(s.data) == 0 {
+		var tmp byte
+		return tmp
+	}
+
+	state := make([]byte, len(s.data))
+	state = append(state, s.data...)
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- byte) {
+		for index := range jobs {
+			result <- f(state[index], state[index+1])
+		}
+		wg.Done()
+	}
+
+	for len(state) > 1 {
+		// calculate workers count
+		workers := s.workers
+		if workers == 0 || workers > len(state) {
+			workers = len(state)
+		}
+
+		// run workers
+		jobs := make(chan int, len(state))
+		wg.Add(workers)
+		result := make(chan byte, 1)
+		for i := 0; i < workers; i++ {
+			go worker(jobs, result)
+		}
+
+		go func() {
+			wg.Wait()
+			close(result)
+		}()
+
+		// add indices into jobs for workers
+		for i := 0; i < len(state)-1; i += 2 {
+			jobs <- i
+		}
+		close(jobs)
+
+		// collect new state
+		newState := make([]byte, 0, len(state)/2+len(state)%2)
+		for el := range result {
+			newState = append(newState, el)
+		}
+		if len(state)%2 == 1 {
+			newState = append(newState, state[len(state)-1])
+		}
+		// put new state as current state after all
+		state = newState
+	}
+
+	return state[0]
+}
+
+func (s SequenceByte) Repeat(val byte) chan byte {
+	c := make(chan byte, 1)
 	go func() {
 		for {
 			c <- val
 		}
 	}()
 	return c
-}
-
-func (s SlicesBool) Concat() []bool {
-	result := make([]bool, 0)
-	for _, arr := range s.data {
-		result = append(result, arr...)
-	}
-	return result
-}
-
-func (s SlicesBool) Product() chan []bool {
-	c := make(chan []bool, 1)
-	go s.product(c, []bool{}, 0)
-	return c
-}
-
-func (s SlicesBool) product(c chan []bool, left []bool, pos int) {
-	// iterate over the last array
-	if pos == len(s.data)-1 {
-		for _, el := range s.data[pos] {
-			result := make([]bool, 0, len(left)+1)
-			result = append(result, left...)
-			result = append(result, el)
-			c <- result
-		}
-		return
-	}
-
-	for _, el := range s.data[pos] {
-		result := make([]bool, 0, len(left)+1)
-		result = append(result, left...)
-		result = append(result, el)
-		s.product(c, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
-	}
-}
-
-func (s SlicesBool) Zip() [][]bool {
-	size := len(s.data[0])
-	for _, arr := range s.data[1:] {
-		if len(arr) > size {
-			size = len(arr)
-		}
-	}
-
-	result := make([][]bool, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]bool, 0, len(s.data))
-		for _, arr := range s.data {
-			chunk = append(chunk, arr[i])
-		}
-		result = append(result, chunk)
-	}
-	return result
-}
-
-type SliceByte struct {
-	data []byte
-}
-
-type ChannelByte struct {
-	data chan byte
-}
-
-type AsyncSliceByte struct {
-	data    []byte
-	workers int
-}
-
-type SequenceByte struct {
-	data chan byte
-}
-
-type SlicesByte struct {
-	data [][]byte
 }
 
 func (s SliceByte) Any(f func(el byte) bool) bool {
@@ -4692,7 +6175,85 @@ func (s SliceByte) Window(size int) [][]byte {
 	return result
 }
 
-func (c ChannelByte) Any(f func(el byte) bool) bool {
+func (s SlicesByte) Concat() []byte {
+	result := make([]byte, 0)
+	for _, arr := range s.data {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+func (s SlicesByte) Product() chan []byte {
+	c := make(chan []byte, 1)
+	go s.product(c, []byte{}, 0)
+	return c
+}
+
+func (s SlicesByte) product(c chan []byte, left []byte, pos int) {
+	// iterate over the last array
+	if pos == len(s.data)-1 {
+		for _, el := range s.data[pos] {
+			result := make([]byte, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data[pos] {
+		result := make([]byte, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
+func (s SlicesByte) Zip() [][]byte {
+	size := len(s.data[0])
+	for _, arr := range s.data[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]byte, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]byte, 0, len(s.data))
+		for _, arr := range s.data {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
+type ChannelString struct {
+	data chan string
+}
+
+type AsyncSliceString struct {
+	data    []string
+	workers int
+}
+
+type SequenceString struct {
+	data chan string
+}
+
+type SliceString struct {
+	data []string
+}
+
+type SlicesString struct {
+	data [][]string
+}
+
+func (c ChannelString) Any(f func(el string) bool) bool {
 	for el := range c.data {
 		if f(el) {
 			return true
@@ -4701,7 +6262,7 @@ func (c ChannelByte) Any(f func(el byte) bool) bool {
 	return false
 }
 
-func (c ChannelByte) All(f func(el byte) bool) bool {
+func (c ChannelString) All(f func(el string) bool) bool {
 	for el := range c.data {
 		if !f(el) {
 			return false
@@ -4710,10 +6271,10 @@ func (c ChannelByte) All(f func(el byte) bool) bool {
 	return true
 }
 
-func (c ChannelByte) ChunkEvery(count int) chan []byte {
-	chunks := make(chan []byte, 1)
+func (c ChannelString) ChunkEvery(count int) chan []string {
+	chunks := make(chan []string, 1)
 	go func() {
-		chunk := make([]byte, 0, count)
+		chunk := make([]string, 0, count)
 		i := 0
 		for el := range c.data {
 			chunk = append(chunk, el)
@@ -4721,7 +6282,7 @@ func (c ChannelByte) ChunkEvery(count int) chan []byte {
 			if i%count == 0 {
 				i = 0
 				chunks <- chunk
-				chunk = make([]byte, 0, count)
+				chunk = make([]string, 0, count)
 			}
 		}
 		if len(chunk) > 0 {
@@ -4732,7 +6293,7 @@ func (c ChannelByte) ChunkEvery(count int) chan []byte {
 	return chunks
 }
 
-func (c ChannelByte) Count(el byte) int {
+func (c ChannelString) Count(el string) int {
 	count := 0
 	for val := range c.data {
 		if val == el {
@@ -4742,8 +6303,8 @@ func (c ChannelByte) Count(el byte) int {
 	return count
 }
 
-func (c ChannelByte) Drop(n int) chan byte {
-	result := make(chan byte, 1)
+func (c ChannelString) Drop(n int) chan string {
+	result := make(chan string, 1)
 	go func() {
 		i := 0
 		for el := range c.data {
@@ -4757,14 +6318,14 @@ func (c ChannelByte) Drop(n int) chan byte {
 	return result
 }
 
-func (c ChannelByte) Each(f func(el byte)) {
+func (c ChannelString) Each(f func(el string)) {
 	for el := range c.data {
 		f(el)
 	}
 }
 
-func (c ChannelByte) Filter(f func(el byte) bool) chan byte {
-	result := make(chan byte, 1)
+func (c ChannelString) Filter(f func(el string) bool) chan string {
+	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
 			if f(el) {
@@ -4776,7 +6337,7 @@ func (c ChannelByte) Filter(f func(el byte) bool) chan byte {
 	return result
 }
 
-func (c ChannelByte) MapBool(f func(el byte) bool) chan bool {
+func (c ChannelString) MapBool(f func(el string) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -4787,7 +6348,7 @@ func (c ChannelByte) MapBool(f func(el byte) bool) chan bool {
 	return result
 }
 
-func (c ChannelByte) MapByte(f func(el byte) byte) chan byte {
+func (c ChannelString) MapByte(f func(el string) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -4798,7 +6359,7 @@ func (c ChannelByte) MapByte(f func(el byte) byte) chan byte {
 	return result
 }
 
-func (c ChannelByte) MapString(f func(el byte) string) chan string {
+func (c ChannelString) MapString(f func(el string) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -4809,7 +6370,7 @@ func (c ChannelByte) MapString(f func(el byte) string) chan string {
 	return result
 }
 
-func (c ChannelByte) MapFloat32(f func(el byte) float32) chan float32 {
+func (c ChannelString) MapFloat32(f func(el string) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -4820,7 +6381,7 @@ func (c ChannelByte) MapFloat32(f func(el byte) float32) chan float32 {
 	return result
 }
 
-func (c ChannelByte) MapFloat64(f func(el byte) float64) chan float64 {
+func (c ChannelString) MapFloat64(f func(el string) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -4831,7 +6392,7 @@ func (c ChannelByte) MapFloat64(f func(el byte) float64) chan float64 {
 	return result
 }
 
-func (c ChannelByte) MapInt(f func(el byte) int) chan int {
+func (c ChannelString) MapInt(f func(el string) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -4842,7 +6403,7 @@ func (c ChannelByte) MapInt(f func(el byte) int) chan int {
 	return result
 }
 
-func (c ChannelByte) MapInt8(f func(el byte) int8) chan int8 {
+func (c ChannelString) MapInt8(f func(el string) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -4853,7 +6414,7 @@ func (c ChannelByte) MapInt8(f func(el byte) int8) chan int8 {
 	return result
 }
 
-func (c ChannelByte) MapInt16(f func(el byte) int16) chan int16 {
+func (c ChannelString) MapInt16(f func(el string) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -4864,7 +6425,7 @@ func (c ChannelByte) MapInt16(f func(el byte) int16) chan int16 {
 	return result
 }
 
-func (c ChannelByte) MapInt32(f func(el byte) int32) chan int32 {
+func (c ChannelString) MapInt32(f func(el string) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -4875,7 +6436,7 @@ func (c ChannelByte) MapInt32(f func(el byte) int32) chan int32 {
 	return result
 }
 
-func (c ChannelByte) MapInt64(f func(el byte) int64) chan int64 {
+func (c ChannelString) MapInt64(f func(el string) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -4886,7 +6447,7 @@ func (c ChannelByte) MapInt64(f func(el byte) int64) chan int64 {
 	return result
 }
 
-func (c ChannelByte) MapUint(f func(el byte) uint) chan uint {
+func (c ChannelString) MapUint(f func(el string) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -4897,7 +6458,7 @@ func (c ChannelByte) MapUint(f func(el byte) uint) chan uint {
 	return result
 }
 
-func (c ChannelByte) MapUint8(f func(el byte) uint8) chan uint8 {
+func (c ChannelString) MapUint8(f func(el string) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -4908,7 +6469,7 @@ func (c ChannelByte) MapUint8(f func(el byte) uint8) chan uint8 {
 	return result
 }
 
-func (c ChannelByte) MapUint16(f func(el byte) uint16) chan uint16 {
+func (c ChannelString) MapUint16(f func(el string) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -4919,7 +6480,7 @@ func (c ChannelByte) MapUint16(f func(el byte) uint16) chan uint16 {
 	return result
 }
 
-func (c ChannelByte) MapUint32(f func(el byte) uint32) chan uint32 {
+func (c ChannelString) MapUint32(f func(el string) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -4930,7 +6491,7 @@ func (c ChannelByte) MapUint32(f func(el byte) uint32) chan uint32 {
 	return result
 }
 
-func (c ChannelByte) MapUint64(f func(el byte) uint64) chan uint64 {
+func (c ChannelString) MapUint64(f func(el string) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -4941,7 +6502,7 @@ func (c ChannelByte) MapUint64(f func(el byte) uint64) chan uint64 {
 	return result
 }
 
-func (c ChannelByte) MapInterface(f func(el byte) interface{}) chan interface{} {
+func (c ChannelString) MapInterface(f func(el string) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -4952,7 +6513,7 @@ func (c ChannelByte) MapInterface(f func(el byte) interface{}) chan interface{} 
 	return result
 }
 
-func (c ChannelByte) Max() byte {
+func (c ChannelString) Max() string {
 	max := <-c.data
 	for el := range c.data {
 		if el > max {
@@ -4962,7 +6523,7 @@ func (c ChannelByte) Max() byte {
 	return max
 }
 
-func (c ChannelByte) Min() byte {
+func (c ChannelString) Min() string {
 	min := <-c.data
 	for el := range c.data {
 		if el < min {
@@ -4972,119 +6533,119 @@ func (c ChannelByte) Min() byte {
 	return min
 }
 
-func (c ChannelByte) ReduceBool(acc bool, f func(el byte, acc bool) bool) bool {
+func (c ChannelString) ReduceBool(acc bool, f func(el string, acc bool) bool) bool {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelByte) ReduceByte(acc byte, f func(el byte, acc byte) byte) byte {
+func (c ChannelString) ReduceByte(acc byte, f func(el string, acc byte) byte) byte {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelByte) ReduceString(acc string, f func(el byte, acc string) string) string {
+func (c ChannelString) ReduceString(acc string, f func(el string, acc string) string) string {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelByte) ReduceFloat32(acc float32, f func(el byte, acc float32) float32) float32 {
+func (c ChannelString) ReduceFloat32(acc float32, f func(el string, acc float32) float32) float32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelByte) ReduceFloat64(acc float64, f func(el byte, acc float64) float64) float64 {
+func (c ChannelString) ReduceFloat64(acc float64, f func(el string, acc float64) float64) float64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelByte) ReduceInt(acc int, f func(el byte, acc int) int) int {
+func (c ChannelString) ReduceInt(acc int, f func(el string, acc int) int) int {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelByte) ReduceInt8(acc int8, f func(el byte, acc int8) int8) int8 {
+func (c ChannelString) ReduceInt8(acc int8, f func(el string, acc int8) int8) int8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelByte) ReduceInt16(acc int16, f func(el byte, acc int16) int16) int16 {
+func (c ChannelString) ReduceInt16(acc int16, f func(el string, acc int16) int16) int16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelByte) ReduceInt32(acc int32, f func(el byte, acc int32) int32) int32 {
+func (c ChannelString) ReduceInt32(acc int32, f func(el string, acc int32) int32) int32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelByte) ReduceInt64(acc int64, f func(el byte, acc int64) int64) int64 {
+func (c ChannelString) ReduceInt64(acc int64, f func(el string, acc int64) int64) int64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelByte) ReduceUint(acc uint, f func(el byte, acc uint) uint) uint {
+func (c ChannelString) ReduceUint(acc uint, f func(el string, acc uint) uint) uint {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelByte) ReduceUint8(acc uint8, f func(el byte, acc uint8) uint8) uint8 {
+func (c ChannelString) ReduceUint8(acc uint8, f func(el string, acc uint8) uint8) uint8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelByte) ReduceUint16(acc uint16, f func(el byte, acc uint16) uint16) uint16 {
+func (c ChannelString) ReduceUint16(acc uint16, f func(el string, acc uint16) uint16) uint16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelByte) ReduceUint32(acc uint32, f func(el byte, acc uint32) uint32) uint32 {
+func (c ChannelString) ReduceUint32(acc uint32, f func(el string, acc uint32) uint32) uint32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelByte) ReduceUint64(acc uint64, f func(el byte, acc uint64) uint64) uint64 {
+func (c ChannelString) ReduceUint64(acc uint64, f func(el string, acc uint64) uint64) uint64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelByte) ReduceInterface(acc interface{}, f func(el byte, acc interface{}) interface{}) interface{} {
+func (c ChannelString) ReduceInterface(acc interface{}, f func(el string, acc interface{}) interface{}) interface{} {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelByte) ScanBool(acc bool, f func(el byte, acc bool) bool) chan bool {
+func (c ChannelString) ScanBool(acc bool, f func(el string, acc bool) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -5096,7 +6657,7 @@ func (c ChannelByte) ScanBool(acc bool, f func(el byte, acc bool) bool) chan boo
 	return result
 }
 
-func (c ChannelByte) ScanByte(acc byte, f func(el byte, acc byte) byte) chan byte {
+func (c ChannelString) ScanByte(acc byte, f func(el string, acc byte) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -5108,7 +6669,7 @@ func (c ChannelByte) ScanByte(acc byte, f func(el byte, acc byte) byte) chan byt
 	return result
 }
 
-func (c ChannelByte) ScanString(acc string, f func(el byte, acc string) string) chan string {
+func (c ChannelString) ScanString(acc string, f func(el string, acc string) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -5120,7 +6681,7 @@ func (c ChannelByte) ScanString(acc string, f func(el byte, acc string) string) 
 	return result
 }
 
-func (c ChannelByte) ScanFloat32(acc float32, f func(el byte, acc float32) float32) chan float32 {
+func (c ChannelString) ScanFloat32(acc float32, f func(el string, acc float32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -5132,7 +6693,7 @@ func (c ChannelByte) ScanFloat32(acc float32, f func(el byte, acc float32) float
 	return result
 }
 
-func (c ChannelByte) ScanFloat64(acc float64, f func(el byte, acc float64) float64) chan float64 {
+func (c ChannelString) ScanFloat64(acc float64, f func(el string, acc float64) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -5144,7 +6705,7 @@ func (c ChannelByte) ScanFloat64(acc float64, f func(el byte, acc float64) float
 	return result
 }
 
-func (c ChannelByte) ScanInt(acc int, f func(el byte, acc int) int) chan int {
+func (c ChannelString) ScanInt(acc int, f func(el string, acc int) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -5156,7 +6717,7 @@ func (c ChannelByte) ScanInt(acc int, f func(el byte, acc int) int) chan int {
 	return result
 }
 
-func (c ChannelByte) ScanInt8(acc int8, f func(el byte, acc int8) int8) chan int8 {
+func (c ChannelString) ScanInt8(acc int8, f func(el string, acc int8) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -5168,7 +6729,7 @@ func (c ChannelByte) ScanInt8(acc int8, f func(el byte, acc int8) int8) chan int
 	return result
 }
 
-func (c ChannelByte) ScanInt16(acc int16, f func(el byte, acc int16) int16) chan int16 {
+func (c ChannelString) ScanInt16(acc int16, f func(el string, acc int16) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -5180,7 +6741,7 @@ func (c ChannelByte) ScanInt16(acc int16, f func(el byte, acc int16) int16) chan
 	return result
 }
 
-func (c ChannelByte) ScanInt32(acc int32, f func(el byte, acc int32) int32) chan int32 {
+func (c ChannelString) ScanInt32(acc int32, f func(el string, acc int32) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -5192,7 +6753,7 @@ func (c ChannelByte) ScanInt32(acc int32, f func(el byte, acc int32) int32) chan
 	return result
 }
 
-func (c ChannelByte) ScanInt64(acc int64, f func(el byte, acc int64) int64) chan int64 {
+func (c ChannelString) ScanInt64(acc int64, f func(el string, acc int64) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -5204,7 +6765,7 @@ func (c ChannelByte) ScanInt64(acc int64, f func(el byte, acc int64) int64) chan
 	return result
 }
 
-func (c ChannelByte) ScanUint(acc uint, f func(el byte, acc uint) uint) chan uint {
+func (c ChannelString) ScanUint(acc uint, f func(el string, acc uint) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -5216,7 +6777,7 @@ func (c ChannelByte) ScanUint(acc uint, f func(el byte, acc uint) uint) chan uin
 	return result
 }
 
-func (c ChannelByte) ScanUint8(acc uint8, f func(el byte, acc uint8) uint8) chan uint8 {
+func (c ChannelString) ScanUint8(acc uint8, f func(el string, acc uint8) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -5228,7 +6789,7 @@ func (c ChannelByte) ScanUint8(acc uint8, f func(el byte, acc uint8) uint8) chan
 	return result
 }
 
-func (c ChannelByte) ScanUint16(acc uint16, f func(el byte, acc uint16) uint16) chan uint16 {
+func (c ChannelString) ScanUint16(acc uint16, f func(el string, acc uint16) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -5240,7 +6801,7 @@ func (c ChannelByte) ScanUint16(acc uint16, f func(el byte, acc uint16) uint16) 
 	return result
 }
 
-func (c ChannelByte) ScanUint32(acc uint32, f func(el byte, acc uint32) uint32) chan uint32 {
+func (c ChannelString) ScanUint32(acc uint32, f func(el string, acc uint32) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -5252,7 +6813,7 @@ func (c ChannelByte) ScanUint32(acc uint32, f func(el byte, acc uint32) uint32) 
 	return result
 }
 
-func (c ChannelByte) ScanUint64(acc uint64, f func(el byte, acc uint64) uint64) chan uint64 {
+func (c ChannelString) ScanUint64(acc uint64, f func(el string, acc uint64) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -5264,7 +6825,7 @@ func (c ChannelByte) ScanUint64(acc uint64, f func(el byte, acc uint64) uint64) 
 	return result
 }
 
-func (c ChannelByte) ScanInterface(acc interface{}, f func(el byte, acc interface{}) interface{}) chan interface{} {
+func (c ChannelString) ScanInterface(acc interface{}, f func(el string, acc interface{}) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -5276,31 +6837,31 @@ func (c ChannelByte) ScanInterface(acc interface{}, f func(el byte, acc interfac
 	return result
 }
 
-func (c ChannelByte) Sum() byte {
-	var sum byte
+func (c ChannelString) Sum() string {
+	var sum string
 	for el := range c.data {
 		sum += el
 	}
 	return sum
 }
 
-func (c ChannelByte) Take(n int) []byte {
-	result := make([]byte, 0, n)
+func (c ChannelString) Take(n int) []string {
+	result := make([]string, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c.data)
 	}
 	return result
 }
 
-func (c ChannelByte) Tee(count int) []chan byte {
-	channels := make([]chan byte, 0, count)
+func (c ChannelString) Tee(count int) []chan string {
+	channels := make([]chan string, 0, count)
 	for i := 0; i < count; i++ {
-		channels = append(channels, make(chan byte, 1))
+		channels = append(channels, make(chan string, 1))
 	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			putInto := func(ch chan byte) {
+			putInto := func(ch chan string) {
 				wg.Add(1)
 				defer wg.Done()
 				ch <- el
@@ -5317,15 +6878,15 @@ func (c ChannelByte) Tee(count int) []chan byte {
 	return channels
 }
 
-func (c ChannelByte) ToSlice() []byte {
-	result := make([]byte, 0)
+func (c ChannelString) ToSlice() []string {
+	result := make([]string, 0)
 	for val := range c.data {
 		result = append(result, val)
 	}
 	return result
 }
 
-func (s AsyncSliceByte) All(f func(el byte) bool) bool {
+func (s AsyncSliceString) All(f func(el string) bool) bool {
 	if len(s.data) == 0 {
 		return true
 	}
@@ -5386,7 +6947,7 @@ func (s AsyncSliceByte) All(f func(el byte) bool) bool {
 	return true
 }
 
-func (s AsyncSliceByte) Any(f func(el byte) bool) bool {
+func (s AsyncSliceString) Any(f func(el string) bool) bool {
 	if len(s.data) == 0 {
 		return false
 	}
@@ -5447,7 +7008,7 @@ func (s AsyncSliceByte) Any(f func(el byte) bool) bool {
 	return false
 }
 
-func (s AsyncSliceByte) Each(f func(el byte)) {
+func (s AsyncSliceString) Each(f func(el string)) {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -5478,7 +7039,7 @@ func (s AsyncSliceByte) Each(f func(el byte)) {
 	wg.Wait()
 }
 
-func (s AsyncSliceByte) Filter(f func(el byte) bool) []byte {
+func (s AsyncSliceString) Filter(f func(el string) bool) []string {
 	resultMap := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -5512,7 +7073,7 @@ func (s AsyncSliceByte) Filter(f func(el byte) bool) []byte {
 	wg.Wait()
 
 	// return filtered results
-	result := make([]byte, 0, len(s.data))
+	result := make([]string, 0, len(s.data))
 	for i, el := range s.data {
 		if resultMap[i] {
 			result = append(result, el)
@@ -5521,7 +7082,7 @@ func (s AsyncSliceByte) Filter(f func(el byte) bool) []byte {
 	return result
 }
 
-func (s AsyncSliceByte) MapBool(f func(el byte) bool) []bool {
+func (s AsyncSliceString) MapBool(f func(el string) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -5554,7 +7115,7 @@ func (s AsyncSliceByte) MapBool(f func(el byte) bool) []bool {
 	return result
 }
 
-func (s AsyncSliceByte) MapByte(f func(el byte) byte) []byte {
+func (s AsyncSliceString) MapByte(f func(el string) byte) []byte {
 	result := make([]byte, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -5587,7 +7148,7 @@ func (s AsyncSliceByte) MapByte(f func(el byte) byte) []byte {
 	return result
 }
 
-func (s AsyncSliceByte) MapString(f func(el byte) string) []string {
+func (s AsyncSliceString) MapString(f func(el string) string) []string {
 	result := make([]string, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -5620,7 +7181,7 @@ func (s AsyncSliceByte) MapString(f func(el byte) string) []string {
 	return result
 }
 
-func (s AsyncSliceByte) MapFloat32(f func(el byte) float32) []float32 {
+func (s AsyncSliceString) MapFloat32(f func(el string) float32) []float32 {
 	result := make([]float32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -5653,7 +7214,7 @@ func (s AsyncSliceByte) MapFloat32(f func(el byte) float32) []float32 {
 	return result
 }
 
-func (s AsyncSliceByte) MapFloat64(f func(el byte) float64) []float64 {
+func (s AsyncSliceString) MapFloat64(f func(el string) float64) []float64 {
 	result := make([]float64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -5686,7 +7247,7 @@ func (s AsyncSliceByte) MapFloat64(f func(el byte) float64) []float64 {
 	return result
 }
 
-func (s AsyncSliceByte) MapInt(f func(el byte) int) []int {
+func (s AsyncSliceString) MapInt(f func(el string) int) []int {
 	result := make([]int, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -5719,7 +7280,7 @@ func (s AsyncSliceByte) MapInt(f func(el byte) int) []int {
 	return result
 }
 
-func (s AsyncSliceByte) MapInt8(f func(el byte) int8) []int8 {
+func (s AsyncSliceString) MapInt8(f func(el string) int8) []int8 {
 	result := make([]int8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -5752,7 +7313,7 @@ func (s AsyncSliceByte) MapInt8(f func(el byte) int8) []int8 {
 	return result
 }
 
-func (s AsyncSliceByte) MapInt16(f func(el byte) int16) []int16 {
+func (s AsyncSliceString) MapInt16(f func(el string) int16) []int16 {
 	result := make([]int16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -5785,7 +7346,7 @@ func (s AsyncSliceByte) MapInt16(f func(el byte) int16) []int16 {
 	return result
 }
 
-func (s AsyncSliceByte) MapInt32(f func(el byte) int32) []int32 {
+func (s AsyncSliceString) MapInt32(f func(el string) int32) []int32 {
 	result := make([]int32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -5818,7 +7379,7 @@ func (s AsyncSliceByte) MapInt32(f func(el byte) int32) []int32 {
 	return result
 }
 
-func (s AsyncSliceByte) MapInt64(f func(el byte) int64) []int64 {
+func (s AsyncSliceString) MapInt64(f func(el string) int64) []int64 {
 	result := make([]int64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -5851,7 +7412,7 @@ func (s AsyncSliceByte) MapInt64(f func(el byte) int64) []int64 {
 	return result
 }
 
-func (s AsyncSliceByte) MapUint(f func(el byte) uint) []uint {
+func (s AsyncSliceString) MapUint(f func(el string) uint) []uint {
 	result := make([]uint, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -5884,7 +7445,7 @@ func (s AsyncSliceByte) MapUint(f func(el byte) uint) []uint {
 	return result
 }
 
-func (s AsyncSliceByte) MapUint8(f func(el byte) uint8) []uint8 {
+func (s AsyncSliceString) MapUint8(f func(el string) uint8) []uint8 {
 	result := make([]uint8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -5917,7 +7478,7 @@ func (s AsyncSliceByte) MapUint8(f func(el byte) uint8) []uint8 {
 	return result
 }
 
-func (s AsyncSliceByte) MapUint16(f func(el byte) uint16) []uint16 {
+func (s AsyncSliceString) MapUint16(f func(el string) uint16) []uint16 {
 	result := make([]uint16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -5950,7 +7511,7 @@ func (s AsyncSliceByte) MapUint16(f func(el byte) uint16) []uint16 {
 	return result
 }
 
-func (s AsyncSliceByte) MapUint32(f func(el byte) uint32) []uint32 {
+func (s AsyncSliceString) MapUint32(f func(el string) uint32) []uint32 {
 	result := make([]uint32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -5983,7 +7544,7 @@ func (s AsyncSliceByte) MapUint32(f func(el byte) uint32) []uint32 {
 	return result
 }
 
-func (s AsyncSliceByte) MapUint64(f func(el byte) uint64) []uint64 {
+func (s AsyncSliceString) MapUint64(f func(el string) uint64) []uint64 {
 	result := make([]uint64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -6016,7 +7577,7 @@ func (s AsyncSliceByte) MapUint64(f func(el byte) uint64) []uint64 {
 	return result
 }
 
-func (s AsyncSliceByte) MapInterface(f func(el byte) interface{}) []interface{} {
+func (s AsyncSliceString) MapInterface(f func(el string) interface{}) []interface{} {
 	result := make([]interface{}, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -6049,92 +7610,72 @@ func (s AsyncSliceByte) MapInterface(f func(el byte) interface{}) []interface{} 
 	return result
 }
 
-func (s SequenceByte) Repeat(val byte) chan byte {
-	c := make(chan byte, 1)
+func (s AsyncSliceString) Reduce(f func(left string, right string) string) string {
+	if len(s.data) == 0 {
+		var tmp string
+		return tmp
+	}
+
+	state := make([]string, len(s.data))
+	state = append(state, s.data...)
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- string) {
+		for index := range jobs {
+			result <- f(state[index], state[index+1])
+		}
+		wg.Done()
+	}
+
+	for len(state) > 1 {
+		// calculate workers count
+		workers := s.workers
+		if workers == 0 || workers > len(state) {
+			workers = len(state)
+		}
+
+		// run workers
+		jobs := make(chan int, len(state))
+		wg.Add(workers)
+		result := make(chan string, 1)
+		for i := 0; i < workers; i++ {
+			go worker(jobs, result)
+		}
+
+		go func() {
+			wg.Wait()
+			close(result)
+		}()
+
+		// add indices into jobs for workers
+		for i := 0; i < len(state)-1; i += 2 {
+			jobs <- i
+		}
+		close(jobs)
+
+		// collect new state
+		newState := make([]string, 0, len(state)/2+len(state)%2)
+		for el := range result {
+			newState = append(newState, el)
+		}
+		if len(state)%2 == 1 {
+			newState = append(newState, state[len(state)-1])
+		}
+		// put new state as current state after all
+		state = newState
+	}
+
+	return state[0]
+}
+
+func (s SequenceString) Repeat(val string) chan string {
+	c := make(chan string, 1)
 	go func() {
 		for {
 			c <- val
 		}
 	}()
 	return c
-}
-
-func (s SlicesByte) Concat() []byte {
-	result := make([]byte, 0)
-	for _, arr := range s.data {
-		result = append(result, arr...)
-	}
-	return result
-}
-
-func (s SlicesByte) Product() chan []byte {
-	c := make(chan []byte, 1)
-	go s.product(c, []byte{}, 0)
-	return c
-}
-
-func (s SlicesByte) product(c chan []byte, left []byte, pos int) {
-	// iterate over the last array
-	if pos == len(s.data)-1 {
-		for _, el := range s.data[pos] {
-			result := make([]byte, 0, len(left)+1)
-			result = append(result, left...)
-			result = append(result, el)
-			c <- result
-		}
-		return
-	}
-
-	for _, el := range s.data[pos] {
-		result := make([]byte, 0, len(left)+1)
-		result = append(result, left...)
-		result = append(result, el)
-		s.product(c, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
-	}
-}
-
-func (s SlicesByte) Zip() [][]byte {
-	size := len(s.data[0])
-	for _, arr := range s.data[1:] {
-		if len(arr) > size {
-			size = len(arr)
-		}
-	}
-
-	result := make([][]byte, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]byte, 0, len(s.data))
-		for _, arr := range s.data {
-			chunk = append(chunk, arr[i])
-		}
-		result = append(result, chunk)
-	}
-	return result
-}
-
-type SliceString struct {
-	data []string
-}
-
-type ChannelString struct {
-	data chan string
-}
-
-type AsyncSliceString struct {
-	data    []string
-	workers int
-}
-
-type SequenceString struct {
-	data chan string
-}
-
-type SlicesString struct {
-	data [][]string
 }
 
 func (s SliceString) Any(f func(el string) bool) bool {
@@ -7783,7 +9324,85 @@ func (s SliceString) Window(size int) [][]string {
 	return result
 }
 
-func (c ChannelString) Any(f func(el string) bool) bool {
+func (s SlicesString) Concat() []string {
+	result := make([]string, 0)
+	for _, arr := range s.data {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+func (s SlicesString) Product() chan []string {
+	c := make(chan []string, 1)
+	go s.product(c, []string{}, 0)
+	return c
+}
+
+func (s SlicesString) product(c chan []string, left []string, pos int) {
+	// iterate over the last array
+	if pos == len(s.data)-1 {
+		for _, el := range s.data[pos] {
+			result := make([]string, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data[pos] {
+		result := make([]string, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
+func (s SlicesString) Zip() [][]string {
+	size := len(s.data[0])
+	for _, arr := range s.data[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]string, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]string, 0, len(s.data))
+		for _, arr := range s.data {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
+type ChannelFloat32 struct {
+	data chan float32
+}
+
+type AsyncSliceFloat32 struct {
+	data    []float32
+	workers int
+}
+
+type SequenceFloat32 struct {
+	data chan float32
+}
+
+type SliceFloat32 struct {
+	data []float32
+}
+
+type SlicesFloat32 struct {
+	data [][]float32
+}
+
+func (c ChannelFloat32) Any(f func(el float32) bool) bool {
 	for el := range c.data {
 		if f(el) {
 			return true
@@ -7792,7 +9411,7 @@ func (c ChannelString) Any(f func(el string) bool) bool {
 	return false
 }
 
-func (c ChannelString) All(f func(el string) bool) bool {
+func (c ChannelFloat32) All(f func(el float32) bool) bool {
 	for el := range c.data {
 		if !f(el) {
 			return false
@@ -7801,10 +9420,10 @@ func (c ChannelString) All(f func(el string) bool) bool {
 	return true
 }
 
-func (c ChannelString) ChunkEvery(count int) chan []string {
-	chunks := make(chan []string, 1)
+func (c ChannelFloat32) ChunkEvery(count int) chan []float32 {
+	chunks := make(chan []float32, 1)
 	go func() {
-		chunk := make([]string, 0, count)
+		chunk := make([]float32, 0, count)
 		i := 0
 		for el := range c.data {
 			chunk = append(chunk, el)
@@ -7812,7 +9431,7 @@ func (c ChannelString) ChunkEvery(count int) chan []string {
 			if i%count == 0 {
 				i = 0
 				chunks <- chunk
-				chunk = make([]string, 0, count)
+				chunk = make([]float32, 0, count)
 			}
 		}
 		if len(chunk) > 0 {
@@ -7823,7 +9442,7 @@ func (c ChannelString) ChunkEvery(count int) chan []string {
 	return chunks
 }
 
-func (c ChannelString) Count(el string) int {
+func (c ChannelFloat32) Count(el float32) int {
 	count := 0
 	for val := range c.data {
 		if val == el {
@@ -7833,8 +9452,8 @@ func (c ChannelString) Count(el string) int {
 	return count
 }
 
-func (c ChannelString) Drop(n int) chan string {
-	result := make(chan string, 1)
+func (c ChannelFloat32) Drop(n int) chan float32 {
+	result := make(chan float32, 1)
 	go func() {
 		i := 0
 		for el := range c.data {
@@ -7848,14 +9467,14 @@ func (c ChannelString) Drop(n int) chan string {
 	return result
 }
 
-func (c ChannelString) Each(f func(el string)) {
+func (c ChannelFloat32) Each(f func(el float32)) {
 	for el := range c.data {
 		f(el)
 	}
 }
 
-func (c ChannelString) Filter(f func(el string) bool) chan string {
-	result := make(chan string, 1)
+func (c ChannelFloat32) Filter(f func(el float32) bool) chan float32 {
+	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
 			if f(el) {
@@ -7867,7 +9486,7 @@ func (c ChannelString) Filter(f func(el string) bool) chan string {
 	return result
 }
 
-func (c ChannelString) MapBool(f func(el string) bool) chan bool {
+func (c ChannelFloat32) MapBool(f func(el float32) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -7878,7 +9497,7 @@ func (c ChannelString) MapBool(f func(el string) bool) chan bool {
 	return result
 }
 
-func (c ChannelString) MapByte(f func(el string) byte) chan byte {
+func (c ChannelFloat32) MapByte(f func(el float32) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -7889,7 +9508,7 @@ func (c ChannelString) MapByte(f func(el string) byte) chan byte {
 	return result
 }
 
-func (c ChannelString) MapString(f func(el string) string) chan string {
+func (c ChannelFloat32) MapString(f func(el float32) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -7900,7 +9519,7 @@ func (c ChannelString) MapString(f func(el string) string) chan string {
 	return result
 }
 
-func (c ChannelString) MapFloat32(f func(el string) float32) chan float32 {
+func (c ChannelFloat32) MapFloat32(f func(el float32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -7911,7 +9530,7 @@ func (c ChannelString) MapFloat32(f func(el string) float32) chan float32 {
 	return result
 }
 
-func (c ChannelString) MapFloat64(f func(el string) float64) chan float64 {
+func (c ChannelFloat32) MapFloat64(f func(el float32) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -7922,7 +9541,7 @@ func (c ChannelString) MapFloat64(f func(el string) float64) chan float64 {
 	return result
 }
 
-func (c ChannelString) MapInt(f func(el string) int) chan int {
+func (c ChannelFloat32) MapInt(f func(el float32) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -7933,7 +9552,7 @@ func (c ChannelString) MapInt(f func(el string) int) chan int {
 	return result
 }
 
-func (c ChannelString) MapInt8(f func(el string) int8) chan int8 {
+func (c ChannelFloat32) MapInt8(f func(el float32) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -7944,7 +9563,7 @@ func (c ChannelString) MapInt8(f func(el string) int8) chan int8 {
 	return result
 }
 
-func (c ChannelString) MapInt16(f func(el string) int16) chan int16 {
+func (c ChannelFloat32) MapInt16(f func(el float32) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -7955,7 +9574,7 @@ func (c ChannelString) MapInt16(f func(el string) int16) chan int16 {
 	return result
 }
 
-func (c ChannelString) MapInt32(f func(el string) int32) chan int32 {
+func (c ChannelFloat32) MapInt32(f func(el float32) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -7966,7 +9585,7 @@ func (c ChannelString) MapInt32(f func(el string) int32) chan int32 {
 	return result
 }
 
-func (c ChannelString) MapInt64(f func(el string) int64) chan int64 {
+func (c ChannelFloat32) MapInt64(f func(el float32) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -7977,7 +9596,7 @@ func (c ChannelString) MapInt64(f func(el string) int64) chan int64 {
 	return result
 }
 
-func (c ChannelString) MapUint(f func(el string) uint) chan uint {
+func (c ChannelFloat32) MapUint(f func(el float32) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -7988,7 +9607,7 @@ func (c ChannelString) MapUint(f func(el string) uint) chan uint {
 	return result
 }
 
-func (c ChannelString) MapUint8(f func(el string) uint8) chan uint8 {
+func (c ChannelFloat32) MapUint8(f func(el float32) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -7999,7 +9618,7 @@ func (c ChannelString) MapUint8(f func(el string) uint8) chan uint8 {
 	return result
 }
 
-func (c ChannelString) MapUint16(f func(el string) uint16) chan uint16 {
+func (c ChannelFloat32) MapUint16(f func(el float32) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -8010,7 +9629,7 @@ func (c ChannelString) MapUint16(f func(el string) uint16) chan uint16 {
 	return result
 }
 
-func (c ChannelString) MapUint32(f func(el string) uint32) chan uint32 {
+func (c ChannelFloat32) MapUint32(f func(el float32) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -8021,7 +9640,7 @@ func (c ChannelString) MapUint32(f func(el string) uint32) chan uint32 {
 	return result
 }
 
-func (c ChannelString) MapUint64(f func(el string) uint64) chan uint64 {
+func (c ChannelFloat32) MapUint64(f func(el float32) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -8032,7 +9651,7 @@ func (c ChannelString) MapUint64(f func(el string) uint64) chan uint64 {
 	return result
 }
 
-func (c ChannelString) MapInterface(f func(el string) interface{}) chan interface{} {
+func (c ChannelFloat32) MapInterface(f func(el float32) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -8043,7 +9662,7 @@ func (c ChannelString) MapInterface(f func(el string) interface{}) chan interfac
 	return result
 }
 
-func (c ChannelString) Max() string {
+func (c ChannelFloat32) Max() float32 {
 	max := <-c.data
 	for el := range c.data {
 		if el > max {
@@ -8053,7 +9672,7 @@ func (c ChannelString) Max() string {
 	return max
 }
 
-func (c ChannelString) Min() string {
+func (c ChannelFloat32) Min() float32 {
 	min := <-c.data
 	for el := range c.data {
 		if el < min {
@@ -8063,119 +9682,119 @@ func (c ChannelString) Min() string {
 	return min
 }
 
-func (c ChannelString) ReduceBool(acc bool, f func(el string, acc bool) bool) bool {
+func (c ChannelFloat32) ReduceBool(acc bool, f func(el float32, acc bool) bool) bool {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelString) ReduceByte(acc byte, f func(el string, acc byte) byte) byte {
+func (c ChannelFloat32) ReduceByte(acc byte, f func(el float32, acc byte) byte) byte {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelString) ReduceString(acc string, f func(el string, acc string) string) string {
+func (c ChannelFloat32) ReduceString(acc string, f func(el float32, acc string) string) string {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelString) ReduceFloat32(acc float32, f func(el string, acc float32) float32) float32 {
+func (c ChannelFloat32) ReduceFloat32(acc float32, f func(el float32, acc float32) float32) float32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelString) ReduceFloat64(acc float64, f func(el string, acc float64) float64) float64 {
+func (c ChannelFloat32) ReduceFloat64(acc float64, f func(el float32, acc float64) float64) float64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelString) ReduceInt(acc int, f func(el string, acc int) int) int {
+func (c ChannelFloat32) ReduceInt(acc int, f func(el float32, acc int) int) int {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelString) ReduceInt8(acc int8, f func(el string, acc int8) int8) int8 {
+func (c ChannelFloat32) ReduceInt8(acc int8, f func(el float32, acc int8) int8) int8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelString) ReduceInt16(acc int16, f func(el string, acc int16) int16) int16 {
+func (c ChannelFloat32) ReduceInt16(acc int16, f func(el float32, acc int16) int16) int16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelString) ReduceInt32(acc int32, f func(el string, acc int32) int32) int32 {
+func (c ChannelFloat32) ReduceInt32(acc int32, f func(el float32, acc int32) int32) int32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelString) ReduceInt64(acc int64, f func(el string, acc int64) int64) int64 {
+func (c ChannelFloat32) ReduceInt64(acc int64, f func(el float32, acc int64) int64) int64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelString) ReduceUint(acc uint, f func(el string, acc uint) uint) uint {
+func (c ChannelFloat32) ReduceUint(acc uint, f func(el float32, acc uint) uint) uint {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelString) ReduceUint8(acc uint8, f func(el string, acc uint8) uint8) uint8 {
+func (c ChannelFloat32) ReduceUint8(acc uint8, f func(el float32, acc uint8) uint8) uint8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelString) ReduceUint16(acc uint16, f func(el string, acc uint16) uint16) uint16 {
+func (c ChannelFloat32) ReduceUint16(acc uint16, f func(el float32, acc uint16) uint16) uint16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelString) ReduceUint32(acc uint32, f func(el string, acc uint32) uint32) uint32 {
+func (c ChannelFloat32) ReduceUint32(acc uint32, f func(el float32, acc uint32) uint32) uint32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelString) ReduceUint64(acc uint64, f func(el string, acc uint64) uint64) uint64 {
+func (c ChannelFloat32) ReduceUint64(acc uint64, f func(el float32, acc uint64) uint64) uint64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelString) ReduceInterface(acc interface{}, f func(el string, acc interface{}) interface{}) interface{} {
+func (c ChannelFloat32) ReduceInterface(acc interface{}, f func(el float32, acc interface{}) interface{}) interface{} {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelString) ScanBool(acc bool, f func(el string, acc bool) bool) chan bool {
+func (c ChannelFloat32) ScanBool(acc bool, f func(el float32, acc bool) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -8187,7 +9806,7 @@ func (c ChannelString) ScanBool(acc bool, f func(el string, acc bool) bool) chan
 	return result
 }
 
-func (c ChannelString) ScanByte(acc byte, f func(el string, acc byte) byte) chan byte {
+func (c ChannelFloat32) ScanByte(acc byte, f func(el float32, acc byte) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -8199,7 +9818,7 @@ func (c ChannelString) ScanByte(acc byte, f func(el string, acc byte) byte) chan
 	return result
 }
 
-func (c ChannelString) ScanString(acc string, f func(el string, acc string) string) chan string {
+func (c ChannelFloat32) ScanString(acc string, f func(el float32, acc string) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -8211,7 +9830,7 @@ func (c ChannelString) ScanString(acc string, f func(el string, acc string) stri
 	return result
 }
 
-func (c ChannelString) ScanFloat32(acc float32, f func(el string, acc float32) float32) chan float32 {
+func (c ChannelFloat32) ScanFloat32(acc float32, f func(el float32, acc float32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -8223,7 +9842,7 @@ func (c ChannelString) ScanFloat32(acc float32, f func(el string, acc float32) f
 	return result
 }
 
-func (c ChannelString) ScanFloat64(acc float64, f func(el string, acc float64) float64) chan float64 {
+func (c ChannelFloat32) ScanFloat64(acc float64, f func(el float32, acc float64) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -8235,7 +9854,7 @@ func (c ChannelString) ScanFloat64(acc float64, f func(el string, acc float64) f
 	return result
 }
 
-func (c ChannelString) ScanInt(acc int, f func(el string, acc int) int) chan int {
+func (c ChannelFloat32) ScanInt(acc int, f func(el float32, acc int) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -8247,7 +9866,7 @@ func (c ChannelString) ScanInt(acc int, f func(el string, acc int) int) chan int
 	return result
 }
 
-func (c ChannelString) ScanInt8(acc int8, f func(el string, acc int8) int8) chan int8 {
+func (c ChannelFloat32) ScanInt8(acc int8, f func(el float32, acc int8) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -8259,7 +9878,7 @@ func (c ChannelString) ScanInt8(acc int8, f func(el string, acc int8) int8) chan
 	return result
 }
 
-func (c ChannelString) ScanInt16(acc int16, f func(el string, acc int16) int16) chan int16 {
+func (c ChannelFloat32) ScanInt16(acc int16, f func(el float32, acc int16) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -8271,7 +9890,7 @@ func (c ChannelString) ScanInt16(acc int16, f func(el string, acc int16) int16) 
 	return result
 }
 
-func (c ChannelString) ScanInt32(acc int32, f func(el string, acc int32) int32) chan int32 {
+func (c ChannelFloat32) ScanInt32(acc int32, f func(el float32, acc int32) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -8283,7 +9902,7 @@ func (c ChannelString) ScanInt32(acc int32, f func(el string, acc int32) int32) 
 	return result
 }
 
-func (c ChannelString) ScanInt64(acc int64, f func(el string, acc int64) int64) chan int64 {
+func (c ChannelFloat32) ScanInt64(acc int64, f func(el float32, acc int64) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -8295,7 +9914,7 @@ func (c ChannelString) ScanInt64(acc int64, f func(el string, acc int64) int64) 
 	return result
 }
 
-func (c ChannelString) ScanUint(acc uint, f func(el string, acc uint) uint) chan uint {
+func (c ChannelFloat32) ScanUint(acc uint, f func(el float32, acc uint) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -8307,7 +9926,7 @@ func (c ChannelString) ScanUint(acc uint, f func(el string, acc uint) uint) chan
 	return result
 }
 
-func (c ChannelString) ScanUint8(acc uint8, f func(el string, acc uint8) uint8) chan uint8 {
+func (c ChannelFloat32) ScanUint8(acc uint8, f func(el float32, acc uint8) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -8319,7 +9938,7 @@ func (c ChannelString) ScanUint8(acc uint8, f func(el string, acc uint8) uint8) 
 	return result
 }
 
-func (c ChannelString) ScanUint16(acc uint16, f func(el string, acc uint16) uint16) chan uint16 {
+func (c ChannelFloat32) ScanUint16(acc uint16, f func(el float32, acc uint16) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -8331,7 +9950,7 @@ func (c ChannelString) ScanUint16(acc uint16, f func(el string, acc uint16) uint
 	return result
 }
 
-func (c ChannelString) ScanUint32(acc uint32, f func(el string, acc uint32) uint32) chan uint32 {
+func (c ChannelFloat32) ScanUint32(acc uint32, f func(el float32, acc uint32) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -8343,7 +9962,7 @@ func (c ChannelString) ScanUint32(acc uint32, f func(el string, acc uint32) uint
 	return result
 }
 
-func (c ChannelString) ScanUint64(acc uint64, f func(el string, acc uint64) uint64) chan uint64 {
+func (c ChannelFloat32) ScanUint64(acc uint64, f func(el float32, acc uint64) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -8355,7 +9974,7 @@ func (c ChannelString) ScanUint64(acc uint64, f func(el string, acc uint64) uint
 	return result
 }
 
-func (c ChannelString) ScanInterface(acc interface{}, f func(el string, acc interface{}) interface{}) chan interface{} {
+func (c ChannelFloat32) ScanInterface(acc interface{}, f func(el float32, acc interface{}) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -8367,31 +9986,31 @@ func (c ChannelString) ScanInterface(acc interface{}, f func(el string, acc inte
 	return result
 }
 
-func (c ChannelString) Sum() string {
-	var sum string
+func (c ChannelFloat32) Sum() float32 {
+	var sum float32
 	for el := range c.data {
 		sum += el
 	}
 	return sum
 }
 
-func (c ChannelString) Take(n int) []string {
-	result := make([]string, 0, n)
+func (c ChannelFloat32) Take(n int) []float32 {
+	result := make([]float32, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c.data)
 	}
 	return result
 }
 
-func (c ChannelString) Tee(count int) []chan string {
-	channels := make([]chan string, 0, count)
+func (c ChannelFloat32) Tee(count int) []chan float32 {
+	channels := make([]chan float32, 0, count)
 	for i := 0; i < count; i++ {
-		channels = append(channels, make(chan string, 1))
+		channels = append(channels, make(chan float32, 1))
 	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			putInto := func(ch chan string) {
+			putInto := func(ch chan float32) {
 				wg.Add(1)
 				defer wg.Done()
 				ch <- el
@@ -8408,15 +10027,15 @@ func (c ChannelString) Tee(count int) []chan string {
 	return channels
 }
 
-func (c ChannelString) ToSlice() []string {
-	result := make([]string, 0)
+func (c ChannelFloat32) ToSlice() []float32 {
+	result := make([]float32, 0)
 	for val := range c.data {
 		result = append(result, val)
 	}
 	return result
 }
 
-func (s AsyncSliceString) All(f func(el string) bool) bool {
+func (s AsyncSliceFloat32) All(f func(el float32) bool) bool {
 	if len(s.data) == 0 {
 		return true
 	}
@@ -8477,7 +10096,7 @@ func (s AsyncSliceString) All(f func(el string) bool) bool {
 	return true
 }
 
-func (s AsyncSliceString) Any(f func(el string) bool) bool {
+func (s AsyncSliceFloat32) Any(f func(el float32) bool) bool {
 	if len(s.data) == 0 {
 		return false
 	}
@@ -8538,7 +10157,7 @@ func (s AsyncSliceString) Any(f func(el string) bool) bool {
 	return false
 }
 
-func (s AsyncSliceString) Each(f func(el string)) {
+func (s AsyncSliceFloat32) Each(f func(el float32)) {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -8569,7 +10188,7 @@ func (s AsyncSliceString) Each(f func(el string)) {
 	wg.Wait()
 }
 
-func (s AsyncSliceString) Filter(f func(el string) bool) []string {
+func (s AsyncSliceFloat32) Filter(f func(el float32) bool) []float32 {
 	resultMap := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -8603,7 +10222,7 @@ func (s AsyncSliceString) Filter(f func(el string) bool) []string {
 	wg.Wait()
 
 	// return filtered results
-	result := make([]string, 0, len(s.data))
+	result := make([]float32, 0, len(s.data))
 	for i, el := range s.data {
 		if resultMap[i] {
 			result = append(result, el)
@@ -8612,7 +10231,7 @@ func (s AsyncSliceString) Filter(f func(el string) bool) []string {
 	return result
 }
 
-func (s AsyncSliceString) MapBool(f func(el string) bool) []bool {
+func (s AsyncSliceFloat32) MapBool(f func(el float32) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -8645,7 +10264,7 @@ func (s AsyncSliceString) MapBool(f func(el string) bool) []bool {
 	return result
 }
 
-func (s AsyncSliceString) MapByte(f func(el string) byte) []byte {
+func (s AsyncSliceFloat32) MapByte(f func(el float32) byte) []byte {
 	result := make([]byte, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -8678,7 +10297,7 @@ func (s AsyncSliceString) MapByte(f func(el string) byte) []byte {
 	return result
 }
 
-func (s AsyncSliceString) MapString(f func(el string) string) []string {
+func (s AsyncSliceFloat32) MapString(f func(el float32) string) []string {
 	result := make([]string, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -8711,7 +10330,7 @@ func (s AsyncSliceString) MapString(f func(el string) string) []string {
 	return result
 }
 
-func (s AsyncSliceString) MapFloat32(f func(el string) float32) []float32 {
+func (s AsyncSliceFloat32) MapFloat32(f func(el float32) float32) []float32 {
 	result := make([]float32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -8744,7 +10363,7 @@ func (s AsyncSliceString) MapFloat32(f func(el string) float32) []float32 {
 	return result
 }
 
-func (s AsyncSliceString) MapFloat64(f func(el string) float64) []float64 {
+func (s AsyncSliceFloat32) MapFloat64(f func(el float32) float64) []float64 {
 	result := make([]float64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -8777,7 +10396,7 @@ func (s AsyncSliceString) MapFloat64(f func(el string) float64) []float64 {
 	return result
 }
 
-func (s AsyncSliceString) MapInt(f func(el string) int) []int {
+func (s AsyncSliceFloat32) MapInt(f func(el float32) int) []int {
 	result := make([]int, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -8810,7 +10429,7 @@ func (s AsyncSliceString) MapInt(f func(el string) int) []int {
 	return result
 }
 
-func (s AsyncSliceString) MapInt8(f func(el string) int8) []int8 {
+func (s AsyncSliceFloat32) MapInt8(f func(el float32) int8) []int8 {
 	result := make([]int8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -8843,7 +10462,7 @@ func (s AsyncSliceString) MapInt8(f func(el string) int8) []int8 {
 	return result
 }
 
-func (s AsyncSliceString) MapInt16(f func(el string) int16) []int16 {
+func (s AsyncSliceFloat32) MapInt16(f func(el float32) int16) []int16 {
 	result := make([]int16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -8876,7 +10495,7 @@ func (s AsyncSliceString) MapInt16(f func(el string) int16) []int16 {
 	return result
 }
 
-func (s AsyncSliceString) MapInt32(f func(el string) int32) []int32 {
+func (s AsyncSliceFloat32) MapInt32(f func(el float32) int32) []int32 {
 	result := make([]int32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -8909,7 +10528,7 @@ func (s AsyncSliceString) MapInt32(f func(el string) int32) []int32 {
 	return result
 }
 
-func (s AsyncSliceString) MapInt64(f func(el string) int64) []int64 {
+func (s AsyncSliceFloat32) MapInt64(f func(el float32) int64) []int64 {
 	result := make([]int64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -8942,7 +10561,7 @@ func (s AsyncSliceString) MapInt64(f func(el string) int64) []int64 {
 	return result
 }
 
-func (s AsyncSliceString) MapUint(f func(el string) uint) []uint {
+func (s AsyncSliceFloat32) MapUint(f func(el float32) uint) []uint {
 	result := make([]uint, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -8975,7 +10594,7 @@ func (s AsyncSliceString) MapUint(f func(el string) uint) []uint {
 	return result
 }
 
-func (s AsyncSliceString) MapUint8(f func(el string) uint8) []uint8 {
+func (s AsyncSliceFloat32) MapUint8(f func(el float32) uint8) []uint8 {
 	result := make([]uint8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -9008,7 +10627,7 @@ func (s AsyncSliceString) MapUint8(f func(el string) uint8) []uint8 {
 	return result
 }
 
-func (s AsyncSliceString) MapUint16(f func(el string) uint16) []uint16 {
+func (s AsyncSliceFloat32) MapUint16(f func(el float32) uint16) []uint16 {
 	result := make([]uint16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -9041,7 +10660,7 @@ func (s AsyncSliceString) MapUint16(f func(el string) uint16) []uint16 {
 	return result
 }
 
-func (s AsyncSliceString) MapUint32(f func(el string) uint32) []uint32 {
+func (s AsyncSliceFloat32) MapUint32(f func(el float32) uint32) []uint32 {
 	result := make([]uint32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -9074,7 +10693,7 @@ func (s AsyncSliceString) MapUint32(f func(el string) uint32) []uint32 {
 	return result
 }
 
-func (s AsyncSliceString) MapUint64(f func(el string) uint64) []uint64 {
+func (s AsyncSliceFloat32) MapUint64(f func(el float32) uint64) []uint64 {
 	result := make([]uint64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -9107,7 +10726,7 @@ func (s AsyncSliceString) MapUint64(f func(el string) uint64) []uint64 {
 	return result
 }
 
-func (s AsyncSliceString) MapInterface(f func(el string) interface{}) []interface{} {
+func (s AsyncSliceFloat32) MapInterface(f func(el float32) interface{}) []interface{} {
 	result := make([]interface{}, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -9140,92 +10759,107 @@ func (s AsyncSliceString) MapInterface(f func(el string) interface{}) []interfac
 	return result
 }
 
-func (s SequenceString) Repeat(val string) chan string {
-	c := make(chan string, 1)
+func (s AsyncSliceFloat32) Reduce(f func(left float32, right float32) float32) float32 {
+	if len(s.data) == 0 {
+		var tmp float32
+		return tmp
+	}
+
+	state := make([]float32, len(s.data))
+	state = append(state, s.data...)
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- float32) {
+		for index := range jobs {
+			result <- f(state[index], state[index+1])
+		}
+		wg.Done()
+	}
+
+	for len(state) > 1 {
+		// calculate workers count
+		workers := s.workers
+		if workers == 0 || workers > len(state) {
+			workers = len(state)
+		}
+
+		// run workers
+		jobs := make(chan int, len(state))
+		wg.Add(workers)
+		result := make(chan float32, 1)
+		for i := 0; i < workers; i++ {
+			go worker(jobs, result)
+		}
+
+		go func() {
+			wg.Wait()
+			close(result)
+		}()
+
+		// add indices into jobs for workers
+		for i := 0; i < len(state)-1; i += 2 {
+			jobs <- i
+		}
+		close(jobs)
+
+		// collect new state
+		newState := make([]float32, 0, len(state)/2+len(state)%2)
+		for el := range result {
+			newState = append(newState, el)
+		}
+		if len(state)%2 == 1 {
+			newState = append(newState, state[len(state)-1])
+		}
+		// put new state as current state after all
+		state = newState
+	}
+
+	return state[0]
+}
+
+func (s SequenceFloat32) Count(start float32, step float32) chan float32 {
+	c := make(chan float32, 1)
+	go func() {
+		for {
+			c <- start
+			start += step
+		}
+	}()
+	return c
+}
+
+func (s SequenceFloat32) Exponential(start float32, factor float32) chan float32 {
+	c := make(chan float32, 1)
+	go func() {
+		for {
+			c <- start
+			start *= factor
+		}
+	}()
+	return c
+}
+
+func (s SequenceFloat32) Range(start float32, end float32, step float32) chan float32 {
+	c := make(chan float32, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
+func (s SequenceFloat32) Repeat(val float32) chan float32 {
+	c := make(chan float32, 1)
 	go func() {
 		for {
 			c <- val
 		}
 	}()
 	return c
-}
-
-func (s SlicesString) Concat() []string {
-	result := make([]string, 0)
-	for _, arr := range s.data {
-		result = append(result, arr...)
-	}
-	return result
-}
-
-func (s SlicesString) Product() chan []string {
-	c := make(chan []string, 1)
-	go s.product(c, []string{}, 0)
-	return c
-}
-
-func (s SlicesString) product(c chan []string, left []string, pos int) {
-	// iterate over the last array
-	if pos == len(s.data)-1 {
-		for _, el := range s.data[pos] {
-			result := make([]string, 0, len(left)+1)
-			result = append(result, left...)
-			result = append(result, el)
-			c <- result
-		}
-		return
-	}
-
-	for _, el := range s.data[pos] {
-		result := make([]string, 0, len(left)+1)
-		result = append(result, left...)
-		result = append(result, el)
-		s.product(c, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
-	}
-}
-
-func (s SlicesString) Zip() [][]string {
-	size := len(s.data[0])
-	for _, arr := range s.data[1:] {
-		if len(arr) > size {
-			size = len(arr)
-		}
-	}
-
-	result := make([][]string, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]string, 0, len(s.data))
-		for _, arr := range s.data {
-			chunk = append(chunk, arr[i])
-		}
-		result = append(result, chunk)
-	}
-	return result
-}
-
-type SliceFloat32 struct {
-	data []float32
-}
-
-type ChannelFloat32 struct {
-	data chan float32
-}
-
-type AsyncSliceFloat32 struct {
-	data    []float32
-	workers int
-}
-
-type SequenceFloat32 struct {
-	data chan float32
-}
-
-type SlicesFloat32 struct {
-	data [][]float32
 }
 
 func (s SliceFloat32) Any(f func(el float32) bool) bool {
@@ -10874,7 +12508,85 @@ func (s SliceFloat32) Window(size int) [][]float32 {
 	return result
 }
 
-func (c ChannelFloat32) Any(f func(el float32) bool) bool {
+func (s SlicesFloat32) Concat() []float32 {
+	result := make([]float32, 0)
+	for _, arr := range s.data {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+func (s SlicesFloat32) Product() chan []float32 {
+	c := make(chan []float32, 1)
+	go s.product(c, []float32{}, 0)
+	return c
+}
+
+func (s SlicesFloat32) product(c chan []float32, left []float32, pos int) {
+	// iterate over the last array
+	if pos == len(s.data)-1 {
+		for _, el := range s.data[pos] {
+			result := make([]float32, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data[pos] {
+		result := make([]float32, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
+func (s SlicesFloat32) Zip() [][]float32 {
+	size := len(s.data[0])
+	for _, arr := range s.data[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]float32, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]float32, 0, len(s.data))
+		for _, arr := range s.data {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
+type ChannelFloat64 struct {
+	data chan float64
+}
+
+type AsyncSliceFloat64 struct {
+	data    []float64
+	workers int
+}
+
+type SequenceFloat64 struct {
+	data chan float64
+}
+
+type SliceFloat64 struct {
+	data []float64
+}
+
+type SlicesFloat64 struct {
+	data [][]float64
+}
+
+func (c ChannelFloat64) Any(f func(el float64) bool) bool {
 	for el := range c.data {
 		if f(el) {
 			return true
@@ -10883,7 +12595,7 @@ func (c ChannelFloat32) Any(f func(el float32) bool) bool {
 	return false
 }
 
-func (c ChannelFloat32) All(f func(el float32) bool) bool {
+func (c ChannelFloat64) All(f func(el float64) bool) bool {
 	for el := range c.data {
 		if !f(el) {
 			return false
@@ -10892,10 +12604,10 @@ func (c ChannelFloat32) All(f func(el float32) bool) bool {
 	return true
 }
 
-func (c ChannelFloat32) ChunkEvery(count int) chan []float32 {
-	chunks := make(chan []float32, 1)
+func (c ChannelFloat64) ChunkEvery(count int) chan []float64 {
+	chunks := make(chan []float64, 1)
 	go func() {
-		chunk := make([]float32, 0, count)
+		chunk := make([]float64, 0, count)
 		i := 0
 		for el := range c.data {
 			chunk = append(chunk, el)
@@ -10903,7 +12615,7 @@ func (c ChannelFloat32) ChunkEvery(count int) chan []float32 {
 			if i%count == 0 {
 				i = 0
 				chunks <- chunk
-				chunk = make([]float32, 0, count)
+				chunk = make([]float64, 0, count)
 			}
 		}
 		if len(chunk) > 0 {
@@ -10914,7 +12626,7 @@ func (c ChannelFloat32) ChunkEvery(count int) chan []float32 {
 	return chunks
 }
 
-func (c ChannelFloat32) Count(el float32) int {
+func (c ChannelFloat64) Count(el float64) int {
 	count := 0
 	for val := range c.data {
 		if val == el {
@@ -10924,8 +12636,8 @@ func (c ChannelFloat32) Count(el float32) int {
 	return count
 }
 
-func (c ChannelFloat32) Drop(n int) chan float32 {
-	result := make(chan float32, 1)
+func (c ChannelFloat64) Drop(n int) chan float64 {
+	result := make(chan float64, 1)
 	go func() {
 		i := 0
 		for el := range c.data {
@@ -10939,14 +12651,14 @@ func (c ChannelFloat32) Drop(n int) chan float32 {
 	return result
 }
 
-func (c ChannelFloat32) Each(f func(el float32)) {
+func (c ChannelFloat64) Each(f func(el float64)) {
 	for el := range c.data {
 		f(el)
 	}
 }
 
-func (c ChannelFloat32) Filter(f func(el float32) bool) chan float32 {
-	result := make(chan float32, 1)
+func (c ChannelFloat64) Filter(f func(el float64) bool) chan float64 {
+	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
 			if f(el) {
@@ -10958,7 +12670,7 @@ func (c ChannelFloat32) Filter(f func(el float32) bool) chan float32 {
 	return result
 }
 
-func (c ChannelFloat32) MapBool(f func(el float32) bool) chan bool {
+func (c ChannelFloat64) MapBool(f func(el float64) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -10969,7 +12681,7 @@ func (c ChannelFloat32) MapBool(f func(el float32) bool) chan bool {
 	return result
 }
 
-func (c ChannelFloat32) MapByte(f func(el float32) byte) chan byte {
+func (c ChannelFloat64) MapByte(f func(el float64) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -10980,7 +12692,7 @@ func (c ChannelFloat32) MapByte(f func(el float32) byte) chan byte {
 	return result
 }
 
-func (c ChannelFloat32) MapString(f func(el float32) string) chan string {
+func (c ChannelFloat64) MapString(f func(el float64) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -10991,7 +12703,7 @@ func (c ChannelFloat32) MapString(f func(el float32) string) chan string {
 	return result
 }
 
-func (c ChannelFloat32) MapFloat32(f func(el float32) float32) chan float32 {
+func (c ChannelFloat64) MapFloat32(f func(el float64) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -11002,7 +12714,7 @@ func (c ChannelFloat32) MapFloat32(f func(el float32) float32) chan float32 {
 	return result
 }
 
-func (c ChannelFloat32) MapFloat64(f func(el float32) float64) chan float64 {
+func (c ChannelFloat64) MapFloat64(f func(el float64) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -11013,7 +12725,7 @@ func (c ChannelFloat32) MapFloat64(f func(el float32) float64) chan float64 {
 	return result
 }
 
-func (c ChannelFloat32) MapInt(f func(el float32) int) chan int {
+func (c ChannelFloat64) MapInt(f func(el float64) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -11024,7 +12736,7 @@ func (c ChannelFloat32) MapInt(f func(el float32) int) chan int {
 	return result
 }
 
-func (c ChannelFloat32) MapInt8(f func(el float32) int8) chan int8 {
+func (c ChannelFloat64) MapInt8(f func(el float64) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -11035,7 +12747,7 @@ func (c ChannelFloat32) MapInt8(f func(el float32) int8) chan int8 {
 	return result
 }
 
-func (c ChannelFloat32) MapInt16(f func(el float32) int16) chan int16 {
+func (c ChannelFloat64) MapInt16(f func(el float64) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -11046,7 +12758,7 @@ func (c ChannelFloat32) MapInt16(f func(el float32) int16) chan int16 {
 	return result
 }
 
-func (c ChannelFloat32) MapInt32(f func(el float32) int32) chan int32 {
+func (c ChannelFloat64) MapInt32(f func(el float64) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -11057,7 +12769,7 @@ func (c ChannelFloat32) MapInt32(f func(el float32) int32) chan int32 {
 	return result
 }
 
-func (c ChannelFloat32) MapInt64(f func(el float32) int64) chan int64 {
+func (c ChannelFloat64) MapInt64(f func(el float64) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -11068,7 +12780,7 @@ func (c ChannelFloat32) MapInt64(f func(el float32) int64) chan int64 {
 	return result
 }
 
-func (c ChannelFloat32) MapUint(f func(el float32) uint) chan uint {
+func (c ChannelFloat64) MapUint(f func(el float64) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -11079,7 +12791,7 @@ func (c ChannelFloat32) MapUint(f func(el float32) uint) chan uint {
 	return result
 }
 
-func (c ChannelFloat32) MapUint8(f func(el float32) uint8) chan uint8 {
+func (c ChannelFloat64) MapUint8(f func(el float64) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -11090,7 +12802,7 @@ func (c ChannelFloat32) MapUint8(f func(el float32) uint8) chan uint8 {
 	return result
 }
 
-func (c ChannelFloat32) MapUint16(f func(el float32) uint16) chan uint16 {
+func (c ChannelFloat64) MapUint16(f func(el float64) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -11101,7 +12813,7 @@ func (c ChannelFloat32) MapUint16(f func(el float32) uint16) chan uint16 {
 	return result
 }
 
-func (c ChannelFloat32) MapUint32(f func(el float32) uint32) chan uint32 {
+func (c ChannelFloat64) MapUint32(f func(el float64) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -11112,7 +12824,7 @@ func (c ChannelFloat32) MapUint32(f func(el float32) uint32) chan uint32 {
 	return result
 }
 
-func (c ChannelFloat32) MapUint64(f func(el float32) uint64) chan uint64 {
+func (c ChannelFloat64) MapUint64(f func(el float64) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -11123,7 +12835,7 @@ func (c ChannelFloat32) MapUint64(f func(el float32) uint64) chan uint64 {
 	return result
 }
 
-func (c ChannelFloat32) MapInterface(f func(el float32) interface{}) chan interface{} {
+func (c ChannelFloat64) MapInterface(f func(el float64) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -11134,7 +12846,7 @@ func (c ChannelFloat32) MapInterface(f func(el float32) interface{}) chan interf
 	return result
 }
 
-func (c ChannelFloat32) Max() float32 {
+func (c ChannelFloat64) Max() float64 {
 	max := <-c.data
 	for el := range c.data {
 		if el > max {
@@ -11144,7 +12856,7 @@ func (c ChannelFloat32) Max() float32 {
 	return max
 }
 
-func (c ChannelFloat32) Min() float32 {
+func (c ChannelFloat64) Min() float64 {
 	min := <-c.data
 	for el := range c.data {
 		if el < min {
@@ -11154,119 +12866,119 @@ func (c ChannelFloat32) Min() float32 {
 	return min
 }
 
-func (c ChannelFloat32) ReduceBool(acc bool, f func(el float32, acc bool) bool) bool {
+func (c ChannelFloat64) ReduceBool(acc bool, f func(el float64, acc bool) bool) bool {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat32) ReduceByte(acc byte, f func(el float32, acc byte) byte) byte {
+func (c ChannelFloat64) ReduceByte(acc byte, f func(el float64, acc byte) byte) byte {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat32) ReduceString(acc string, f func(el float32, acc string) string) string {
+func (c ChannelFloat64) ReduceString(acc string, f func(el float64, acc string) string) string {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat32) ReduceFloat32(acc float32, f func(el float32, acc float32) float32) float32 {
+func (c ChannelFloat64) ReduceFloat32(acc float32, f func(el float64, acc float32) float32) float32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat32) ReduceFloat64(acc float64, f func(el float32, acc float64) float64) float64 {
+func (c ChannelFloat64) ReduceFloat64(acc float64, f func(el float64, acc float64) float64) float64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat32) ReduceInt(acc int, f func(el float32, acc int) int) int {
+func (c ChannelFloat64) ReduceInt(acc int, f func(el float64, acc int) int) int {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat32) ReduceInt8(acc int8, f func(el float32, acc int8) int8) int8 {
+func (c ChannelFloat64) ReduceInt8(acc int8, f func(el float64, acc int8) int8) int8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat32) ReduceInt16(acc int16, f func(el float32, acc int16) int16) int16 {
+func (c ChannelFloat64) ReduceInt16(acc int16, f func(el float64, acc int16) int16) int16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat32) ReduceInt32(acc int32, f func(el float32, acc int32) int32) int32 {
+func (c ChannelFloat64) ReduceInt32(acc int32, f func(el float64, acc int32) int32) int32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat32) ReduceInt64(acc int64, f func(el float32, acc int64) int64) int64 {
+func (c ChannelFloat64) ReduceInt64(acc int64, f func(el float64, acc int64) int64) int64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat32) ReduceUint(acc uint, f func(el float32, acc uint) uint) uint {
+func (c ChannelFloat64) ReduceUint(acc uint, f func(el float64, acc uint) uint) uint {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat32) ReduceUint8(acc uint8, f func(el float32, acc uint8) uint8) uint8 {
+func (c ChannelFloat64) ReduceUint8(acc uint8, f func(el float64, acc uint8) uint8) uint8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat32) ReduceUint16(acc uint16, f func(el float32, acc uint16) uint16) uint16 {
+func (c ChannelFloat64) ReduceUint16(acc uint16, f func(el float64, acc uint16) uint16) uint16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat32) ReduceUint32(acc uint32, f func(el float32, acc uint32) uint32) uint32 {
+func (c ChannelFloat64) ReduceUint32(acc uint32, f func(el float64, acc uint32) uint32) uint32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat32) ReduceUint64(acc uint64, f func(el float32, acc uint64) uint64) uint64 {
+func (c ChannelFloat64) ReduceUint64(acc uint64, f func(el float64, acc uint64) uint64) uint64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat32) ReduceInterface(acc interface{}, f func(el float32, acc interface{}) interface{}) interface{} {
+func (c ChannelFloat64) ReduceInterface(acc interface{}, f func(el float64, acc interface{}) interface{}) interface{} {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat32) ScanBool(acc bool, f func(el float32, acc bool) bool) chan bool {
+func (c ChannelFloat64) ScanBool(acc bool, f func(el float64, acc bool) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -11278,7 +12990,7 @@ func (c ChannelFloat32) ScanBool(acc bool, f func(el float32, acc bool) bool) ch
 	return result
 }
 
-func (c ChannelFloat32) ScanByte(acc byte, f func(el float32, acc byte) byte) chan byte {
+func (c ChannelFloat64) ScanByte(acc byte, f func(el float64, acc byte) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -11290,7 +13002,7 @@ func (c ChannelFloat32) ScanByte(acc byte, f func(el float32, acc byte) byte) ch
 	return result
 }
 
-func (c ChannelFloat32) ScanString(acc string, f func(el float32, acc string) string) chan string {
+func (c ChannelFloat64) ScanString(acc string, f func(el float64, acc string) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -11302,7 +13014,7 @@ func (c ChannelFloat32) ScanString(acc string, f func(el float32, acc string) st
 	return result
 }
 
-func (c ChannelFloat32) ScanFloat32(acc float32, f func(el float32, acc float32) float32) chan float32 {
+func (c ChannelFloat64) ScanFloat32(acc float32, f func(el float64, acc float32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -11314,7 +13026,7 @@ func (c ChannelFloat32) ScanFloat32(acc float32, f func(el float32, acc float32)
 	return result
 }
 
-func (c ChannelFloat32) ScanFloat64(acc float64, f func(el float32, acc float64) float64) chan float64 {
+func (c ChannelFloat64) ScanFloat64(acc float64, f func(el float64, acc float64) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -11326,7 +13038,7 @@ func (c ChannelFloat32) ScanFloat64(acc float64, f func(el float32, acc float64)
 	return result
 }
 
-func (c ChannelFloat32) ScanInt(acc int, f func(el float32, acc int) int) chan int {
+func (c ChannelFloat64) ScanInt(acc int, f func(el float64, acc int) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -11338,7 +13050,7 @@ func (c ChannelFloat32) ScanInt(acc int, f func(el float32, acc int) int) chan i
 	return result
 }
 
-func (c ChannelFloat32) ScanInt8(acc int8, f func(el float32, acc int8) int8) chan int8 {
+func (c ChannelFloat64) ScanInt8(acc int8, f func(el float64, acc int8) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -11350,7 +13062,7 @@ func (c ChannelFloat32) ScanInt8(acc int8, f func(el float32, acc int8) int8) ch
 	return result
 }
 
-func (c ChannelFloat32) ScanInt16(acc int16, f func(el float32, acc int16) int16) chan int16 {
+func (c ChannelFloat64) ScanInt16(acc int16, f func(el float64, acc int16) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -11362,7 +13074,7 @@ func (c ChannelFloat32) ScanInt16(acc int16, f func(el float32, acc int16) int16
 	return result
 }
 
-func (c ChannelFloat32) ScanInt32(acc int32, f func(el float32, acc int32) int32) chan int32 {
+func (c ChannelFloat64) ScanInt32(acc int32, f func(el float64, acc int32) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -11374,7 +13086,7 @@ func (c ChannelFloat32) ScanInt32(acc int32, f func(el float32, acc int32) int32
 	return result
 }
 
-func (c ChannelFloat32) ScanInt64(acc int64, f func(el float32, acc int64) int64) chan int64 {
+func (c ChannelFloat64) ScanInt64(acc int64, f func(el float64, acc int64) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -11386,7 +13098,7 @@ func (c ChannelFloat32) ScanInt64(acc int64, f func(el float32, acc int64) int64
 	return result
 }
 
-func (c ChannelFloat32) ScanUint(acc uint, f func(el float32, acc uint) uint) chan uint {
+func (c ChannelFloat64) ScanUint(acc uint, f func(el float64, acc uint) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -11398,7 +13110,7 @@ func (c ChannelFloat32) ScanUint(acc uint, f func(el float32, acc uint) uint) ch
 	return result
 }
 
-func (c ChannelFloat32) ScanUint8(acc uint8, f func(el float32, acc uint8) uint8) chan uint8 {
+func (c ChannelFloat64) ScanUint8(acc uint8, f func(el float64, acc uint8) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -11410,7 +13122,7 @@ func (c ChannelFloat32) ScanUint8(acc uint8, f func(el float32, acc uint8) uint8
 	return result
 }
 
-func (c ChannelFloat32) ScanUint16(acc uint16, f func(el float32, acc uint16) uint16) chan uint16 {
+func (c ChannelFloat64) ScanUint16(acc uint16, f func(el float64, acc uint16) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -11422,7 +13134,7 @@ func (c ChannelFloat32) ScanUint16(acc uint16, f func(el float32, acc uint16) ui
 	return result
 }
 
-func (c ChannelFloat32) ScanUint32(acc uint32, f func(el float32, acc uint32) uint32) chan uint32 {
+func (c ChannelFloat64) ScanUint32(acc uint32, f func(el float64, acc uint32) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -11434,7 +13146,7 @@ func (c ChannelFloat32) ScanUint32(acc uint32, f func(el float32, acc uint32) ui
 	return result
 }
 
-func (c ChannelFloat32) ScanUint64(acc uint64, f func(el float32, acc uint64) uint64) chan uint64 {
+func (c ChannelFloat64) ScanUint64(acc uint64, f func(el float64, acc uint64) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -11446,7 +13158,7 @@ func (c ChannelFloat32) ScanUint64(acc uint64, f func(el float32, acc uint64) ui
 	return result
 }
 
-func (c ChannelFloat32) ScanInterface(acc interface{}, f func(el float32, acc interface{}) interface{}) chan interface{} {
+func (c ChannelFloat64) ScanInterface(acc interface{}, f func(el float64, acc interface{}) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -11458,31 +13170,31 @@ func (c ChannelFloat32) ScanInterface(acc interface{}, f func(el float32, acc in
 	return result
 }
 
-func (c ChannelFloat32) Sum() float32 {
-	var sum float32
+func (c ChannelFloat64) Sum() float64 {
+	var sum float64
 	for el := range c.data {
 		sum += el
 	}
 	return sum
 }
 
-func (c ChannelFloat32) Take(n int) []float32 {
-	result := make([]float32, 0, n)
+func (c ChannelFloat64) Take(n int) []float64 {
+	result := make([]float64, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c.data)
 	}
 	return result
 }
 
-func (c ChannelFloat32) Tee(count int) []chan float32 {
-	channels := make([]chan float32, 0, count)
+func (c ChannelFloat64) Tee(count int) []chan float64 {
+	channels := make([]chan float64, 0, count)
 	for i := 0; i < count; i++ {
-		channels = append(channels, make(chan float32, 1))
+		channels = append(channels, make(chan float64, 1))
 	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			putInto := func(ch chan float32) {
+			putInto := func(ch chan float64) {
 				wg.Add(1)
 				defer wg.Done()
 				ch <- el
@@ -11499,15 +13211,15 @@ func (c ChannelFloat32) Tee(count int) []chan float32 {
 	return channels
 }
 
-func (c ChannelFloat32) ToSlice() []float32 {
-	result := make([]float32, 0)
+func (c ChannelFloat64) ToSlice() []float64 {
+	result := make([]float64, 0)
 	for val := range c.data {
 		result = append(result, val)
 	}
 	return result
 }
 
-func (s AsyncSliceFloat32) All(f func(el float32) bool) bool {
+func (s AsyncSliceFloat64) All(f func(el float64) bool) bool {
 	if len(s.data) == 0 {
 		return true
 	}
@@ -11568,7 +13280,7 @@ func (s AsyncSliceFloat32) All(f func(el float32) bool) bool {
 	return true
 }
 
-func (s AsyncSliceFloat32) Any(f func(el float32) bool) bool {
+func (s AsyncSliceFloat64) Any(f func(el float64) bool) bool {
 	if len(s.data) == 0 {
 		return false
 	}
@@ -11629,7 +13341,7 @@ func (s AsyncSliceFloat32) Any(f func(el float32) bool) bool {
 	return false
 }
 
-func (s AsyncSliceFloat32) Each(f func(el float32)) {
+func (s AsyncSliceFloat64) Each(f func(el float64)) {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -11660,7 +13372,7 @@ func (s AsyncSliceFloat32) Each(f func(el float32)) {
 	wg.Wait()
 }
 
-func (s AsyncSliceFloat32) Filter(f func(el float32) bool) []float32 {
+func (s AsyncSliceFloat64) Filter(f func(el float64) bool) []float64 {
 	resultMap := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -11694,7 +13406,7 @@ func (s AsyncSliceFloat32) Filter(f func(el float32) bool) []float32 {
 	wg.Wait()
 
 	// return filtered results
-	result := make([]float32, 0, len(s.data))
+	result := make([]float64, 0, len(s.data))
 	for i, el := range s.data {
 		if resultMap[i] {
 			result = append(result, el)
@@ -11703,7 +13415,7 @@ func (s AsyncSliceFloat32) Filter(f func(el float32) bool) []float32 {
 	return result
 }
 
-func (s AsyncSliceFloat32) MapBool(f func(el float32) bool) []bool {
+func (s AsyncSliceFloat64) MapBool(f func(el float64) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -11736,7 +13448,7 @@ func (s AsyncSliceFloat32) MapBool(f func(el float32) bool) []bool {
 	return result
 }
 
-func (s AsyncSliceFloat32) MapByte(f func(el float32) byte) []byte {
+func (s AsyncSliceFloat64) MapByte(f func(el float64) byte) []byte {
 	result := make([]byte, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -11769,7 +13481,7 @@ func (s AsyncSliceFloat32) MapByte(f func(el float32) byte) []byte {
 	return result
 }
 
-func (s AsyncSliceFloat32) MapString(f func(el float32) string) []string {
+func (s AsyncSliceFloat64) MapString(f func(el float64) string) []string {
 	result := make([]string, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -11802,7 +13514,7 @@ func (s AsyncSliceFloat32) MapString(f func(el float32) string) []string {
 	return result
 }
 
-func (s AsyncSliceFloat32) MapFloat32(f func(el float32) float32) []float32 {
+func (s AsyncSliceFloat64) MapFloat32(f func(el float64) float32) []float32 {
 	result := make([]float32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -11835,7 +13547,7 @@ func (s AsyncSliceFloat32) MapFloat32(f func(el float32) float32) []float32 {
 	return result
 }
 
-func (s AsyncSliceFloat32) MapFloat64(f func(el float32) float64) []float64 {
+func (s AsyncSliceFloat64) MapFloat64(f func(el float64) float64) []float64 {
 	result := make([]float64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -11868,7 +13580,7 @@ func (s AsyncSliceFloat32) MapFloat64(f func(el float32) float64) []float64 {
 	return result
 }
 
-func (s AsyncSliceFloat32) MapInt(f func(el float32) int) []int {
+func (s AsyncSliceFloat64) MapInt(f func(el float64) int) []int {
 	result := make([]int, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -11901,7 +13613,7 @@ func (s AsyncSliceFloat32) MapInt(f func(el float32) int) []int {
 	return result
 }
 
-func (s AsyncSliceFloat32) MapInt8(f func(el float32) int8) []int8 {
+func (s AsyncSliceFloat64) MapInt8(f func(el float64) int8) []int8 {
 	result := make([]int8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -11934,7 +13646,7 @@ func (s AsyncSliceFloat32) MapInt8(f func(el float32) int8) []int8 {
 	return result
 }
 
-func (s AsyncSliceFloat32) MapInt16(f func(el float32) int16) []int16 {
+func (s AsyncSliceFloat64) MapInt16(f func(el float64) int16) []int16 {
 	result := make([]int16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -11967,7 +13679,7 @@ func (s AsyncSliceFloat32) MapInt16(f func(el float32) int16) []int16 {
 	return result
 }
 
-func (s AsyncSliceFloat32) MapInt32(f func(el float32) int32) []int32 {
+func (s AsyncSliceFloat64) MapInt32(f func(el float64) int32) []int32 {
 	result := make([]int32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -12000,7 +13712,7 @@ func (s AsyncSliceFloat32) MapInt32(f func(el float32) int32) []int32 {
 	return result
 }
 
-func (s AsyncSliceFloat32) MapInt64(f func(el float32) int64) []int64 {
+func (s AsyncSliceFloat64) MapInt64(f func(el float64) int64) []int64 {
 	result := make([]int64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -12033,7 +13745,7 @@ func (s AsyncSliceFloat32) MapInt64(f func(el float32) int64) []int64 {
 	return result
 }
 
-func (s AsyncSliceFloat32) MapUint(f func(el float32) uint) []uint {
+func (s AsyncSliceFloat64) MapUint(f func(el float64) uint) []uint {
 	result := make([]uint, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -12066,7 +13778,7 @@ func (s AsyncSliceFloat32) MapUint(f func(el float32) uint) []uint {
 	return result
 }
 
-func (s AsyncSliceFloat32) MapUint8(f func(el float32) uint8) []uint8 {
+func (s AsyncSliceFloat64) MapUint8(f func(el float64) uint8) []uint8 {
 	result := make([]uint8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -12099,7 +13811,7 @@ func (s AsyncSliceFloat32) MapUint8(f func(el float32) uint8) []uint8 {
 	return result
 }
 
-func (s AsyncSliceFloat32) MapUint16(f func(el float32) uint16) []uint16 {
+func (s AsyncSliceFloat64) MapUint16(f func(el float64) uint16) []uint16 {
 	result := make([]uint16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -12132,7 +13844,7 @@ func (s AsyncSliceFloat32) MapUint16(f func(el float32) uint16) []uint16 {
 	return result
 }
 
-func (s AsyncSliceFloat32) MapUint32(f func(el float32) uint32) []uint32 {
+func (s AsyncSliceFloat64) MapUint32(f func(el float64) uint32) []uint32 {
 	result := make([]uint32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -12165,7 +13877,7 @@ func (s AsyncSliceFloat32) MapUint32(f func(el float32) uint32) []uint32 {
 	return result
 }
 
-func (s AsyncSliceFloat32) MapUint64(f func(el float32) uint64) []uint64 {
+func (s AsyncSliceFloat64) MapUint64(f func(el float64) uint64) []uint64 {
 	result := make([]uint64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -12198,7 +13910,7 @@ func (s AsyncSliceFloat32) MapUint64(f func(el float32) uint64) []uint64 {
 	return result
 }
 
-func (s AsyncSliceFloat32) MapInterface(f func(el float32) interface{}) []interface{} {
+func (s AsyncSliceFloat64) MapInterface(f func(el float64) interface{}) []interface{} {
 	result := make([]interface{}, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -12231,8 +13943,66 @@ func (s AsyncSliceFloat32) MapInterface(f func(el float32) interface{}) []interf
 	return result
 }
 
-func (s SequenceFloat32) Count(start float32, step float32) chan float32 {
-	c := make(chan float32, 1)
+func (s AsyncSliceFloat64) Reduce(f func(left float64, right float64) float64) float64 {
+	if len(s.data) == 0 {
+		var tmp float64
+		return tmp
+	}
+
+	state := make([]float64, len(s.data))
+	state = append(state, s.data...)
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- float64) {
+		for index := range jobs {
+			result <- f(state[index], state[index+1])
+		}
+		wg.Done()
+	}
+
+	for len(state) > 1 {
+		// calculate workers count
+		workers := s.workers
+		if workers == 0 || workers > len(state) {
+			workers = len(state)
+		}
+
+		// run workers
+		jobs := make(chan int, len(state))
+		wg.Add(workers)
+		result := make(chan float64, 1)
+		for i := 0; i < workers; i++ {
+			go worker(jobs, result)
+		}
+
+		go func() {
+			wg.Wait()
+			close(result)
+		}()
+
+		// add indices into jobs for workers
+		for i := 0; i < len(state)-1; i += 2 {
+			jobs <- i
+		}
+		close(jobs)
+
+		// collect new state
+		newState := make([]float64, 0, len(state)/2+len(state)%2)
+		for el := range result {
+			newState = append(newState, el)
+		}
+		if len(state)%2 == 1 {
+			newState = append(newState, state[len(state)-1])
+		}
+		// put new state as current state after all
+		state = newState
+	}
+
+	return state[0]
+}
+
+func (s SequenceFloat64) Count(start float64, step float64) chan float64 {
+	c := make(chan float64, 1)
 	go func() {
 		for {
 			c <- start
@@ -12242,8 +14012,8 @@ func (s SequenceFloat32) Count(start float32, step float32) chan float32 {
 	return c
 }
 
-func (s SequenceFloat32) Exponential(start float32, factor float32) chan float32 {
-	c := make(chan float32, 1)
+func (s SequenceFloat64) Exponential(start float64, factor float64) chan float64 {
+	c := make(chan float64, 1)
 	go func() {
 		for {
 			c <- start
@@ -12253,8 +14023,8 @@ func (s SequenceFloat32) Exponential(start float32, factor float32) chan float32
 	return c
 }
 
-func (s SequenceFloat32) Range(start float32, end float32, step float32) chan float32 {
-	c := make(chan float32, 1)
+func (s SequenceFloat64) Range(start float64, end float64, step float64) chan float64 {
+	c := make(chan float64, 1)
 	pos := start <= end
 	go func() {
 		for pos && (start < end) || !pos && (start > end) {
@@ -12266,92 +14036,14 @@ func (s SequenceFloat32) Range(start float32, end float32, step float32) chan fl
 	return c
 }
 
-func (s SequenceFloat32) Repeat(val float32) chan float32 {
-	c := make(chan float32, 1)
+func (s SequenceFloat64) Repeat(val float64) chan float64 {
+	c := make(chan float64, 1)
 	go func() {
 		for {
 			c <- val
 		}
 	}()
 	return c
-}
-
-func (s SlicesFloat32) Concat() []float32 {
-	result := make([]float32, 0)
-	for _, arr := range s.data {
-		result = append(result, arr...)
-	}
-	return result
-}
-
-func (s SlicesFloat32) Product() chan []float32 {
-	c := make(chan []float32, 1)
-	go s.product(c, []float32{}, 0)
-	return c
-}
-
-func (s SlicesFloat32) product(c chan []float32, left []float32, pos int) {
-	// iterate over the last array
-	if pos == len(s.data)-1 {
-		for _, el := range s.data[pos] {
-			result := make([]float32, 0, len(left)+1)
-			result = append(result, left...)
-			result = append(result, el)
-			c <- result
-		}
-		return
-	}
-
-	for _, el := range s.data[pos] {
-		result := make([]float32, 0, len(left)+1)
-		result = append(result, left...)
-		result = append(result, el)
-		s.product(c, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
-	}
-}
-
-func (s SlicesFloat32) Zip() [][]float32 {
-	size := len(s.data[0])
-	for _, arr := range s.data[1:] {
-		if len(arr) > size {
-			size = len(arr)
-		}
-	}
-
-	result := make([][]float32, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]float32, 0, len(s.data))
-		for _, arr := range s.data {
-			chunk = append(chunk, arr[i])
-		}
-		result = append(result, chunk)
-	}
-	return result
-}
-
-type SliceFloat64 struct {
-	data []float64
-}
-
-type ChannelFloat64 struct {
-	data chan float64
-}
-
-type AsyncSliceFloat64 struct {
-	data    []float64
-	workers int
-}
-
-type SequenceFloat64 struct {
-	data chan float64
-}
-
-type SlicesFloat64 struct {
-	data [][]float64
 }
 
 func (s SliceFloat64) Any(f func(el float64) bool) bool {
@@ -14000,7 +15692,85 @@ func (s SliceFloat64) Window(size int) [][]float64 {
 	return result
 }
 
-func (c ChannelFloat64) Any(f func(el float64) bool) bool {
+func (s SlicesFloat64) Concat() []float64 {
+	result := make([]float64, 0)
+	for _, arr := range s.data {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+func (s SlicesFloat64) Product() chan []float64 {
+	c := make(chan []float64, 1)
+	go s.product(c, []float64{}, 0)
+	return c
+}
+
+func (s SlicesFloat64) product(c chan []float64, left []float64, pos int) {
+	// iterate over the last array
+	if pos == len(s.data)-1 {
+		for _, el := range s.data[pos] {
+			result := make([]float64, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data[pos] {
+		result := make([]float64, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
+func (s SlicesFloat64) Zip() [][]float64 {
+	size := len(s.data[0])
+	for _, arr := range s.data[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]float64, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]float64, 0, len(s.data))
+		for _, arr := range s.data {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
+type ChannelInt struct {
+	data chan int
+}
+
+type AsyncSliceInt struct {
+	data    []int
+	workers int
+}
+
+type SequenceInt struct {
+	data chan int
+}
+
+type SliceInt struct {
+	data []int
+}
+
+type SlicesInt struct {
+	data [][]int
+}
+
+func (c ChannelInt) Any(f func(el int) bool) bool {
 	for el := range c.data {
 		if f(el) {
 			return true
@@ -14009,7 +15779,7 @@ func (c ChannelFloat64) Any(f func(el float64) bool) bool {
 	return false
 }
 
-func (c ChannelFloat64) All(f func(el float64) bool) bool {
+func (c ChannelInt) All(f func(el int) bool) bool {
 	for el := range c.data {
 		if !f(el) {
 			return false
@@ -14018,10 +15788,10 @@ func (c ChannelFloat64) All(f func(el float64) bool) bool {
 	return true
 }
 
-func (c ChannelFloat64) ChunkEvery(count int) chan []float64 {
-	chunks := make(chan []float64, 1)
+func (c ChannelInt) ChunkEvery(count int) chan []int {
+	chunks := make(chan []int, 1)
 	go func() {
-		chunk := make([]float64, 0, count)
+		chunk := make([]int, 0, count)
 		i := 0
 		for el := range c.data {
 			chunk = append(chunk, el)
@@ -14029,7 +15799,7 @@ func (c ChannelFloat64) ChunkEvery(count int) chan []float64 {
 			if i%count == 0 {
 				i = 0
 				chunks <- chunk
-				chunk = make([]float64, 0, count)
+				chunk = make([]int, 0, count)
 			}
 		}
 		if len(chunk) > 0 {
@@ -14040,7 +15810,7 @@ func (c ChannelFloat64) ChunkEvery(count int) chan []float64 {
 	return chunks
 }
 
-func (c ChannelFloat64) Count(el float64) int {
+func (c ChannelInt) Count(el int) int {
 	count := 0
 	for val := range c.data {
 		if val == el {
@@ -14050,8 +15820,8 @@ func (c ChannelFloat64) Count(el float64) int {
 	return count
 }
 
-func (c ChannelFloat64) Drop(n int) chan float64 {
-	result := make(chan float64, 1)
+func (c ChannelInt) Drop(n int) chan int {
+	result := make(chan int, 1)
 	go func() {
 		i := 0
 		for el := range c.data {
@@ -14065,14 +15835,14 @@ func (c ChannelFloat64) Drop(n int) chan float64 {
 	return result
 }
 
-func (c ChannelFloat64) Each(f func(el float64)) {
+func (c ChannelInt) Each(f func(el int)) {
 	for el := range c.data {
 		f(el)
 	}
 }
 
-func (c ChannelFloat64) Filter(f func(el float64) bool) chan float64 {
-	result := make(chan float64, 1)
+func (c ChannelInt) Filter(f func(el int) bool) chan int {
+	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
 			if f(el) {
@@ -14084,7 +15854,7 @@ func (c ChannelFloat64) Filter(f func(el float64) bool) chan float64 {
 	return result
 }
 
-func (c ChannelFloat64) MapBool(f func(el float64) bool) chan bool {
+func (c ChannelInt) MapBool(f func(el int) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -14095,7 +15865,7 @@ func (c ChannelFloat64) MapBool(f func(el float64) bool) chan bool {
 	return result
 }
 
-func (c ChannelFloat64) MapByte(f func(el float64) byte) chan byte {
+func (c ChannelInt) MapByte(f func(el int) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -14106,7 +15876,7 @@ func (c ChannelFloat64) MapByte(f func(el float64) byte) chan byte {
 	return result
 }
 
-func (c ChannelFloat64) MapString(f func(el float64) string) chan string {
+func (c ChannelInt) MapString(f func(el int) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -14117,7 +15887,7 @@ func (c ChannelFloat64) MapString(f func(el float64) string) chan string {
 	return result
 }
 
-func (c ChannelFloat64) MapFloat32(f func(el float64) float32) chan float32 {
+func (c ChannelInt) MapFloat32(f func(el int) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -14128,7 +15898,7 @@ func (c ChannelFloat64) MapFloat32(f func(el float64) float32) chan float32 {
 	return result
 }
 
-func (c ChannelFloat64) MapFloat64(f func(el float64) float64) chan float64 {
+func (c ChannelInt) MapFloat64(f func(el int) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -14139,7 +15909,7 @@ func (c ChannelFloat64) MapFloat64(f func(el float64) float64) chan float64 {
 	return result
 }
 
-func (c ChannelFloat64) MapInt(f func(el float64) int) chan int {
+func (c ChannelInt) MapInt(f func(el int) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -14150,7 +15920,7 @@ func (c ChannelFloat64) MapInt(f func(el float64) int) chan int {
 	return result
 }
 
-func (c ChannelFloat64) MapInt8(f func(el float64) int8) chan int8 {
+func (c ChannelInt) MapInt8(f func(el int) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -14161,7 +15931,7 @@ func (c ChannelFloat64) MapInt8(f func(el float64) int8) chan int8 {
 	return result
 }
 
-func (c ChannelFloat64) MapInt16(f func(el float64) int16) chan int16 {
+func (c ChannelInt) MapInt16(f func(el int) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -14172,7 +15942,7 @@ func (c ChannelFloat64) MapInt16(f func(el float64) int16) chan int16 {
 	return result
 }
 
-func (c ChannelFloat64) MapInt32(f func(el float64) int32) chan int32 {
+func (c ChannelInt) MapInt32(f func(el int) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -14183,7 +15953,7 @@ func (c ChannelFloat64) MapInt32(f func(el float64) int32) chan int32 {
 	return result
 }
 
-func (c ChannelFloat64) MapInt64(f func(el float64) int64) chan int64 {
+func (c ChannelInt) MapInt64(f func(el int) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -14194,7 +15964,7 @@ func (c ChannelFloat64) MapInt64(f func(el float64) int64) chan int64 {
 	return result
 }
 
-func (c ChannelFloat64) MapUint(f func(el float64) uint) chan uint {
+func (c ChannelInt) MapUint(f func(el int) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -14205,7 +15975,7 @@ func (c ChannelFloat64) MapUint(f func(el float64) uint) chan uint {
 	return result
 }
 
-func (c ChannelFloat64) MapUint8(f func(el float64) uint8) chan uint8 {
+func (c ChannelInt) MapUint8(f func(el int) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -14216,7 +15986,7 @@ func (c ChannelFloat64) MapUint8(f func(el float64) uint8) chan uint8 {
 	return result
 }
 
-func (c ChannelFloat64) MapUint16(f func(el float64) uint16) chan uint16 {
+func (c ChannelInt) MapUint16(f func(el int) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -14227,7 +15997,7 @@ func (c ChannelFloat64) MapUint16(f func(el float64) uint16) chan uint16 {
 	return result
 }
 
-func (c ChannelFloat64) MapUint32(f func(el float64) uint32) chan uint32 {
+func (c ChannelInt) MapUint32(f func(el int) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -14238,7 +16008,7 @@ func (c ChannelFloat64) MapUint32(f func(el float64) uint32) chan uint32 {
 	return result
 }
 
-func (c ChannelFloat64) MapUint64(f func(el float64) uint64) chan uint64 {
+func (c ChannelInt) MapUint64(f func(el int) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -14249,7 +16019,7 @@ func (c ChannelFloat64) MapUint64(f func(el float64) uint64) chan uint64 {
 	return result
 }
 
-func (c ChannelFloat64) MapInterface(f func(el float64) interface{}) chan interface{} {
+func (c ChannelInt) MapInterface(f func(el int) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -14260,7 +16030,7 @@ func (c ChannelFloat64) MapInterface(f func(el float64) interface{}) chan interf
 	return result
 }
 
-func (c ChannelFloat64) Max() float64 {
+func (c ChannelInt) Max() int {
 	max := <-c.data
 	for el := range c.data {
 		if el > max {
@@ -14270,7 +16040,7 @@ func (c ChannelFloat64) Max() float64 {
 	return max
 }
 
-func (c ChannelFloat64) Min() float64 {
+func (c ChannelInt) Min() int {
 	min := <-c.data
 	for el := range c.data {
 		if el < min {
@@ -14280,119 +16050,119 @@ func (c ChannelFloat64) Min() float64 {
 	return min
 }
 
-func (c ChannelFloat64) ReduceBool(acc bool, f func(el float64, acc bool) bool) bool {
+func (c ChannelInt) ReduceBool(acc bool, f func(el int, acc bool) bool) bool {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat64) ReduceByte(acc byte, f func(el float64, acc byte) byte) byte {
+func (c ChannelInt) ReduceByte(acc byte, f func(el int, acc byte) byte) byte {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat64) ReduceString(acc string, f func(el float64, acc string) string) string {
+func (c ChannelInt) ReduceString(acc string, f func(el int, acc string) string) string {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat64) ReduceFloat32(acc float32, f func(el float64, acc float32) float32) float32 {
+func (c ChannelInt) ReduceFloat32(acc float32, f func(el int, acc float32) float32) float32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat64) ReduceFloat64(acc float64, f func(el float64, acc float64) float64) float64 {
+func (c ChannelInt) ReduceFloat64(acc float64, f func(el int, acc float64) float64) float64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat64) ReduceInt(acc int, f func(el float64, acc int) int) int {
+func (c ChannelInt) ReduceInt(acc int, f func(el int, acc int) int) int {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat64) ReduceInt8(acc int8, f func(el float64, acc int8) int8) int8 {
+func (c ChannelInt) ReduceInt8(acc int8, f func(el int, acc int8) int8) int8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat64) ReduceInt16(acc int16, f func(el float64, acc int16) int16) int16 {
+func (c ChannelInt) ReduceInt16(acc int16, f func(el int, acc int16) int16) int16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat64) ReduceInt32(acc int32, f func(el float64, acc int32) int32) int32 {
+func (c ChannelInt) ReduceInt32(acc int32, f func(el int, acc int32) int32) int32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat64) ReduceInt64(acc int64, f func(el float64, acc int64) int64) int64 {
+func (c ChannelInt) ReduceInt64(acc int64, f func(el int, acc int64) int64) int64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat64) ReduceUint(acc uint, f func(el float64, acc uint) uint) uint {
+func (c ChannelInt) ReduceUint(acc uint, f func(el int, acc uint) uint) uint {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat64) ReduceUint8(acc uint8, f func(el float64, acc uint8) uint8) uint8 {
+func (c ChannelInt) ReduceUint8(acc uint8, f func(el int, acc uint8) uint8) uint8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat64) ReduceUint16(acc uint16, f func(el float64, acc uint16) uint16) uint16 {
+func (c ChannelInt) ReduceUint16(acc uint16, f func(el int, acc uint16) uint16) uint16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat64) ReduceUint32(acc uint32, f func(el float64, acc uint32) uint32) uint32 {
+func (c ChannelInt) ReduceUint32(acc uint32, f func(el int, acc uint32) uint32) uint32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat64) ReduceUint64(acc uint64, f func(el float64, acc uint64) uint64) uint64 {
+func (c ChannelInt) ReduceUint64(acc uint64, f func(el int, acc uint64) uint64) uint64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat64) ReduceInterface(acc interface{}, f func(el float64, acc interface{}) interface{}) interface{} {
+func (c ChannelInt) ReduceInterface(acc interface{}, f func(el int, acc interface{}) interface{}) interface{} {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelFloat64) ScanBool(acc bool, f func(el float64, acc bool) bool) chan bool {
+func (c ChannelInt) ScanBool(acc bool, f func(el int, acc bool) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -14404,7 +16174,7 @@ func (c ChannelFloat64) ScanBool(acc bool, f func(el float64, acc bool) bool) ch
 	return result
 }
 
-func (c ChannelFloat64) ScanByte(acc byte, f func(el float64, acc byte) byte) chan byte {
+func (c ChannelInt) ScanByte(acc byte, f func(el int, acc byte) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -14416,7 +16186,7 @@ func (c ChannelFloat64) ScanByte(acc byte, f func(el float64, acc byte) byte) ch
 	return result
 }
 
-func (c ChannelFloat64) ScanString(acc string, f func(el float64, acc string) string) chan string {
+func (c ChannelInt) ScanString(acc string, f func(el int, acc string) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -14428,7 +16198,7 @@ func (c ChannelFloat64) ScanString(acc string, f func(el float64, acc string) st
 	return result
 }
 
-func (c ChannelFloat64) ScanFloat32(acc float32, f func(el float64, acc float32) float32) chan float32 {
+func (c ChannelInt) ScanFloat32(acc float32, f func(el int, acc float32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -14440,7 +16210,7 @@ func (c ChannelFloat64) ScanFloat32(acc float32, f func(el float64, acc float32)
 	return result
 }
 
-func (c ChannelFloat64) ScanFloat64(acc float64, f func(el float64, acc float64) float64) chan float64 {
+func (c ChannelInt) ScanFloat64(acc float64, f func(el int, acc float64) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -14452,7 +16222,7 @@ func (c ChannelFloat64) ScanFloat64(acc float64, f func(el float64, acc float64)
 	return result
 }
 
-func (c ChannelFloat64) ScanInt(acc int, f func(el float64, acc int) int) chan int {
+func (c ChannelInt) ScanInt(acc int, f func(el int, acc int) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -14464,7 +16234,7 @@ func (c ChannelFloat64) ScanInt(acc int, f func(el float64, acc int) int) chan i
 	return result
 }
 
-func (c ChannelFloat64) ScanInt8(acc int8, f func(el float64, acc int8) int8) chan int8 {
+func (c ChannelInt) ScanInt8(acc int8, f func(el int, acc int8) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -14476,7 +16246,7 @@ func (c ChannelFloat64) ScanInt8(acc int8, f func(el float64, acc int8) int8) ch
 	return result
 }
 
-func (c ChannelFloat64) ScanInt16(acc int16, f func(el float64, acc int16) int16) chan int16 {
+func (c ChannelInt) ScanInt16(acc int16, f func(el int, acc int16) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -14488,7 +16258,7 @@ func (c ChannelFloat64) ScanInt16(acc int16, f func(el float64, acc int16) int16
 	return result
 }
 
-func (c ChannelFloat64) ScanInt32(acc int32, f func(el float64, acc int32) int32) chan int32 {
+func (c ChannelInt) ScanInt32(acc int32, f func(el int, acc int32) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -14500,7 +16270,7 @@ func (c ChannelFloat64) ScanInt32(acc int32, f func(el float64, acc int32) int32
 	return result
 }
 
-func (c ChannelFloat64) ScanInt64(acc int64, f func(el float64, acc int64) int64) chan int64 {
+func (c ChannelInt) ScanInt64(acc int64, f func(el int, acc int64) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -14512,7 +16282,7 @@ func (c ChannelFloat64) ScanInt64(acc int64, f func(el float64, acc int64) int64
 	return result
 }
 
-func (c ChannelFloat64) ScanUint(acc uint, f func(el float64, acc uint) uint) chan uint {
+func (c ChannelInt) ScanUint(acc uint, f func(el int, acc uint) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -14524,7 +16294,7 @@ func (c ChannelFloat64) ScanUint(acc uint, f func(el float64, acc uint) uint) ch
 	return result
 }
 
-func (c ChannelFloat64) ScanUint8(acc uint8, f func(el float64, acc uint8) uint8) chan uint8 {
+func (c ChannelInt) ScanUint8(acc uint8, f func(el int, acc uint8) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -14536,7 +16306,7 @@ func (c ChannelFloat64) ScanUint8(acc uint8, f func(el float64, acc uint8) uint8
 	return result
 }
 
-func (c ChannelFloat64) ScanUint16(acc uint16, f func(el float64, acc uint16) uint16) chan uint16 {
+func (c ChannelInt) ScanUint16(acc uint16, f func(el int, acc uint16) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -14548,7 +16318,7 @@ func (c ChannelFloat64) ScanUint16(acc uint16, f func(el float64, acc uint16) ui
 	return result
 }
 
-func (c ChannelFloat64) ScanUint32(acc uint32, f func(el float64, acc uint32) uint32) chan uint32 {
+func (c ChannelInt) ScanUint32(acc uint32, f func(el int, acc uint32) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -14560,7 +16330,7 @@ func (c ChannelFloat64) ScanUint32(acc uint32, f func(el float64, acc uint32) ui
 	return result
 }
 
-func (c ChannelFloat64) ScanUint64(acc uint64, f func(el float64, acc uint64) uint64) chan uint64 {
+func (c ChannelInt) ScanUint64(acc uint64, f func(el int, acc uint64) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -14572,7 +16342,7 @@ func (c ChannelFloat64) ScanUint64(acc uint64, f func(el float64, acc uint64) ui
 	return result
 }
 
-func (c ChannelFloat64) ScanInterface(acc interface{}, f func(el float64, acc interface{}) interface{}) chan interface{} {
+func (c ChannelInt) ScanInterface(acc interface{}, f func(el int, acc interface{}) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -14584,31 +16354,31 @@ func (c ChannelFloat64) ScanInterface(acc interface{}, f func(el float64, acc in
 	return result
 }
 
-func (c ChannelFloat64) Sum() float64 {
-	var sum float64
+func (c ChannelInt) Sum() int {
+	var sum int
 	for el := range c.data {
 		sum += el
 	}
 	return sum
 }
 
-func (c ChannelFloat64) Take(n int) []float64 {
-	result := make([]float64, 0, n)
+func (c ChannelInt) Take(n int) []int {
+	result := make([]int, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c.data)
 	}
 	return result
 }
 
-func (c ChannelFloat64) Tee(count int) []chan float64 {
-	channels := make([]chan float64, 0, count)
+func (c ChannelInt) Tee(count int) []chan int {
+	channels := make([]chan int, 0, count)
 	for i := 0; i < count; i++ {
-		channels = append(channels, make(chan float64, 1))
+		channels = append(channels, make(chan int, 1))
 	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			putInto := func(ch chan float64) {
+			putInto := func(ch chan int) {
 				wg.Add(1)
 				defer wg.Done()
 				ch <- el
@@ -14625,15 +16395,15 @@ func (c ChannelFloat64) Tee(count int) []chan float64 {
 	return channels
 }
 
-func (c ChannelFloat64) ToSlice() []float64 {
-	result := make([]float64, 0)
+func (c ChannelInt) ToSlice() []int {
+	result := make([]int, 0)
 	for val := range c.data {
 		result = append(result, val)
 	}
 	return result
 }
 
-func (s AsyncSliceFloat64) All(f func(el float64) bool) bool {
+func (s AsyncSliceInt) All(f func(el int) bool) bool {
 	if len(s.data) == 0 {
 		return true
 	}
@@ -14694,7 +16464,7 @@ func (s AsyncSliceFloat64) All(f func(el float64) bool) bool {
 	return true
 }
 
-func (s AsyncSliceFloat64) Any(f func(el float64) bool) bool {
+func (s AsyncSliceInt) Any(f func(el int) bool) bool {
 	if len(s.data) == 0 {
 		return false
 	}
@@ -14755,7 +16525,7 @@ func (s AsyncSliceFloat64) Any(f func(el float64) bool) bool {
 	return false
 }
 
-func (s AsyncSliceFloat64) Each(f func(el float64)) {
+func (s AsyncSliceInt) Each(f func(el int)) {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -14786,7 +16556,7 @@ func (s AsyncSliceFloat64) Each(f func(el float64)) {
 	wg.Wait()
 }
 
-func (s AsyncSliceFloat64) Filter(f func(el float64) bool) []float64 {
+func (s AsyncSliceInt) Filter(f func(el int) bool) []int {
 	resultMap := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -14820,7 +16590,7 @@ func (s AsyncSliceFloat64) Filter(f func(el float64) bool) []float64 {
 	wg.Wait()
 
 	// return filtered results
-	result := make([]float64, 0, len(s.data))
+	result := make([]int, 0, len(s.data))
 	for i, el := range s.data {
 		if resultMap[i] {
 			result = append(result, el)
@@ -14829,7 +16599,7 @@ func (s AsyncSliceFloat64) Filter(f func(el float64) bool) []float64 {
 	return result
 }
 
-func (s AsyncSliceFloat64) MapBool(f func(el float64) bool) []bool {
+func (s AsyncSliceInt) MapBool(f func(el int) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -14862,7 +16632,7 @@ func (s AsyncSliceFloat64) MapBool(f func(el float64) bool) []bool {
 	return result
 }
 
-func (s AsyncSliceFloat64) MapByte(f func(el float64) byte) []byte {
+func (s AsyncSliceInt) MapByte(f func(el int) byte) []byte {
 	result := make([]byte, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -14895,7 +16665,7 @@ func (s AsyncSliceFloat64) MapByte(f func(el float64) byte) []byte {
 	return result
 }
 
-func (s AsyncSliceFloat64) MapString(f func(el float64) string) []string {
+func (s AsyncSliceInt) MapString(f func(el int) string) []string {
 	result := make([]string, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -14928,7 +16698,7 @@ func (s AsyncSliceFloat64) MapString(f func(el float64) string) []string {
 	return result
 }
 
-func (s AsyncSliceFloat64) MapFloat32(f func(el float64) float32) []float32 {
+func (s AsyncSliceInt) MapFloat32(f func(el int) float32) []float32 {
 	result := make([]float32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -14961,7 +16731,7 @@ func (s AsyncSliceFloat64) MapFloat32(f func(el float64) float32) []float32 {
 	return result
 }
 
-func (s AsyncSliceFloat64) MapFloat64(f func(el float64) float64) []float64 {
+func (s AsyncSliceInt) MapFloat64(f func(el int) float64) []float64 {
 	result := make([]float64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -14994,7 +16764,7 @@ func (s AsyncSliceFloat64) MapFloat64(f func(el float64) float64) []float64 {
 	return result
 }
 
-func (s AsyncSliceFloat64) MapInt(f func(el float64) int) []int {
+func (s AsyncSliceInt) MapInt(f func(el int) int) []int {
 	result := make([]int, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -15027,7 +16797,7 @@ func (s AsyncSliceFloat64) MapInt(f func(el float64) int) []int {
 	return result
 }
 
-func (s AsyncSliceFloat64) MapInt8(f func(el float64) int8) []int8 {
+func (s AsyncSliceInt) MapInt8(f func(el int) int8) []int8 {
 	result := make([]int8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -15060,7 +16830,7 @@ func (s AsyncSliceFloat64) MapInt8(f func(el float64) int8) []int8 {
 	return result
 }
 
-func (s AsyncSliceFloat64) MapInt16(f func(el float64) int16) []int16 {
+func (s AsyncSliceInt) MapInt16(f func(el int) int16) []int16 {
 	result := make([]int16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -15093,7 +16863,7 @@ func (s AsyncSliceFloat64) MapInt16(f func(el float64) int16) []int16 {
 	return result
 }
 
-func (s AsyncSliceFloat64) MapInt32(f func(el float64) int32) []int32 {
+func (s AsyncSliceInt) MapInt32(f func(el int) int32) []int32 {
 	result := make([]int32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -15126,7 +16896,7 @@ func (s AsyncSliceFloat64) MapInt32(f func(el float64) int32) []int32 {
 	return result
 }
 
-func (s AsyncSliceFloat64) MapInt64(f func(el float64) int64) []int64 {
+func (s AsyncSliceInt) MapInt64(f func(el int) int64) []int64 {
 	result := make([]int64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -15159,7 +16929,7 @@ func (s AsyncSliceFloat64) MapInt64(f func(el float64) int64) []int64 {
 	return result
 }
 
-func (s AsyncSliceFloat64) MapUint(f func(el float64) uint) []uint {
+func (s AsyncSliceInt) MapUint(f func(el int) uint) []uint {
 	result := make([]uint, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -15192,7 +16962,7 @@ func (s AsyncSliceFloat64) MapUint(f func(el float64) uint) []uint {
 	return result
 }
 
-func (s AsyncSliceFloat64) MapUint8(f func(el float64) uint8) []uint8 {
+func (s AsyncSliceInt) MapUint8(f func(el int) uint8) []uint8 {
 	result := make([]uint8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -15225,7 +16995,7 @@ func (s AsyncSliceFloat64) MapUint8(f func(el float64) uint8) []uint8 {
 	return result
 }
 
-func (s AsyncSliceFloat64) MapUint16(f func(el float64) uint16) []uint16 {
+func (s AsyncSliceInt) MapUint16(f func(el int) uint16) []uint16 {
 	result := make([]uint16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -15258,7 +17028,7 @@ func (s AsyncSliceFloat64) MapUint16(f func(el float64) uint16) []uint16 {
 	return result
 }
 
-func (s AsyncSliceFloat64) MapUint32(f func(el float64) uint32) []uint32 {
+func (s AsyncSliceInt) MapUint32(f func(el int) uint32) []uint32 {
 	result := make([]uint32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -15291,7 +17061,7 @@ func (s AsyncSliceFloat64) MapUint32(f func(el float64) uint32) []uint32 {
 	return result
 }
 
-func (s AsyncSliceFloat64) MapUint64(f func(el float64) uint64) []uint64 {
+func (s AsyncSliceInt) MapUint64(f func(el int) uint64) []uint64 {
 	result := make([]uint64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -15324,7 +17094,7 @@ func (s AsyncSliceFloat64) MapUint64(f func(el float64) uint64) []uint64 {
 	return result
 }
 
-func (s AsyncSliceFloat64) MapInterface(f func(el float64) interface{}) []interface{} {
+func (s AsyncSliceInt) MapInterface(f func(el int) interface{}) []interface{} {
 	result := make([]interface{}, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -15357,8 +17127,66 @@ func (s AsyncSliceFloat64) MapInterface(f func(el float64) interface{}) []interf
 	return result
 }
 
-func (s SequenceFloat64) Count(start float64, step float64) chan float64 {
-	c := make(chan float64, 1)
+func (s AsyncSliceInt) Reduce(f func(left int, right int) int) int {
+	if len(s.data) == 0 {
+		var tmp int
+		return tmp
+	}
+
+	state := make([]int, len(s.data))
+	state = append(state, s.data...)
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- int) {
+		for index := range jobs {
+			result <- f(state[index], state[index+1])
+		}
+		wg.Done()
+	}
+
+	for len(state) > 1 {
+		// calculate workers count
+		workers := s.workers
+		if workers == 0 || workers > len(state) {
+			workers = len(state)
+		}
+
+		// run workers
+		jobs := make(chan int, len(state))
+		wg.Add(workers)
+		result := make(chan int, 1)
+		for i := 0; i < workers; i++ {
+			go worker(jobs, result)
+		}
+
+		go func() {
+			wg.Wait()
+			close(result)
+		}()
+
+		// add indices into jobs for workers
+		for i := 0; i < len(state)-1; i += 2 {
+			jobs <- i
+		}
+		close(jobs)
+
+		// collect new state
+		newState := make([]int, 0, len(state)/2+len(state)%2)
+		for el := range result {
+			newState = append(newState, el)
+		}
+		if len(state)%2 == 1 {
+			newState = append(newState, state[len(state)-1])
+		}
+		// put new state as current state after all
+		state = newState
+	}
+
+	return state[0]
+}
+
+func (s SequenceInt) Count(start int, step int) chan int {
+	c := make(chan int, 1)
 	go func() {
 		for {
 			c <- start
@@ -15368,8 +17196,8 @@ func (s SequenceFloat64) Count(start float64, step float64) chan float64 {
 	return c
 }
 
-func (s SequenceFloat64) Exponential(start float64, factor float64) chan float64 {
-	c := make(chan float64, 1)
+func (s SequenceInt) Exponential(start int, factor int) chan int {
+	c := make(chan int, 1)
 	go func() {
 		for {
 			c <- start
@@ -15379,8 +17207,8 @@ func (s SequenceFloat64) Exponential(start float64, factor float64) chan float64
 	return c
 }
 
-func (s SequenceFloat64) Range(start float64, end float64, step float64) chan float64 {
-	c := make(chan float64, 1)
+func (s SequenceInt) Range(start int, end int, step int) chan int {
+	c := make(chan int, 1)
 	pos := start <= end
 	go func() {
 		for pos && (start < end) || !pos && (start > end) {
@@ -15392,92 +17220,14 @@ func (s SequenceFloat64) Range(start float64, end float64, step float64) chan fl
 	return c
 }
 
-func (s SequenceFloat64) Repeat(val float64) chan float64 {
-	c := make(chan float64, 1)
+func (s SequenceInt) Repeat(val int) chan int {
+	c := make(chan int, 1)
 	go func() {
 		for {
 			c <- val
 		}
 	}()
 	return c
-}
-
-func (s SlicesFloat64) Concat() []float64 {
-	result := make([]float64, 0)
-	for _, arr := range s.data {
-		result = append(result, arr...)
-	}
-	return result
-}
-
-func (s SlicesFloat64) Product() chan []float64 {
-	c := make(chan []float64, 1)
-	go s.product(c, []float64{}, 0)
-	return c
-}
-
-func (s SlicesFloat64) product(c chan []float64, left []float64, pos int) {
-	// iterate over the last array
-	if pos == len(s.data)-1 {
-		for _, el := range s.data[pos] {
-			result := make([]float64, 0, len(left)+1)
-			result = append(result, left...)
-			result = append(result, el)
-			c <- result
-		}
-		return
-	}
-
-	for _, el := range s.data[pos] {
-		result := make([]float64, 0, len(left)+1)
-		result = append(result, left...)
-		result = append(result, el)
-		s.product(c, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
-	}
-}
-
-func (s SlicesFloat64) Zip() [][]float64 {
-	size := len(s.data[0])
-	for _, arr := range s.data[1:] {
-		if len(arr) > size {
-			size = len(arr)
-		}
-	}
-
-	result := make([][]float64, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]float64, 0, len(s.data))
-		for _, arr := range s.data {
-			chunk = append(chunk, arr[i])
-		}
-		result = append(result, chunk)
-	}
-	return result
-}
-
-type SliceInt struct {
-	data []int
-}
-
-type ChannelInt struct {
-	data chan int
-}
-
-type AsyncSliceInt struct {
-	data    []int
-	workers int
-}
-
-type SequenceInt struct {
-	data chan int
-}
-
-type SlicesInt struct {
-	data [][]int
 }
 
 func (s SliceInt) Any(f func(el int) bool) bool {
@@ -17126,7 +18876,85 @@ func (s SliceInt) Window(size int) [][]int {
 	return result
 }
 
-func (c ChannelInt) Any(f func(el int) bool) bool {
+func (s SlicesInt) Concat() []int {
+	result := make([]int, 0)
+	for _, arr := range s.data {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+func (s SlicesInt) Product() chan []int {
+	c := make(chan []int, 1)
+	go s.product(c, []int{}, 0)
+	return c
+}
+
+func (s SlicesInt) product(c chan []int, left []int, pos int) {
+	// iterate over the last array
+	if pos == len(s.data)-1 {
+		for _, el := range s.data[pos] {
+			result := make([]int, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data[pos] {
+		result := make([]int, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
+func (s SlicesInt) Zip() [][]int {
+	size := len(s.data[0])
+	for _, arr := range s.data[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]int, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]int, 0, len(s.data))
+		for _, arr := range s.data {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
+type ChannelInt8 struct {
+	data chan int8
+}
+
+type AsyncSliceInt8 struct {
+	data    []int8
+	workers int
+}
+
+type SequenceInt8 struct {
+	data chan int8
+}
+
+type SliceInt8 struct {
+	data []int8
+}
+
+type SlicesInt8 struct {
+	data [][]int8
+}
+
+func (c ChannelInt8) Any(f func(el int8) bool) bool {
 	for el := range c.data {
 		if f(el) {
 			return true
@@ -17135,7 +18963,7 @@ func (c ChannelInt) Any(f func(el int) bool) bool {
 	return false
 }
 
-func (c ChannelInt) All(f func(el int) bool) bool {
+func (c ChannelInt8) All(f func(el int8) bool) bool {
 	for el := range c.data {
 		if !f(el) {
 			return false
@@ -17144,10 +18972,10 @@ func (c ChannelInt) All(f func(el int) bool) bool {
 	return true
 }
 
-func (c ChannelInt) ChunkEvery(count int) chan []int {
-	chunks := make(chan []int, 1)
+func (c ChannelInt8) ChunkEvery(count int) chan []int8 {
+	chunks := make(chan []int8, 1)
 	go func() {
-		chunk := make([]int, 0, count)
+		chunk := make([]int8, 0, count)
 		i := 0
 		for el := range c.data {
 			chunk = append(chunk, el)
@@ -17155,7 +18983,7 @@ func (c ChannelInt) ChunkEvery(count int) chan []int {
 			if i%count == 0 {
 				i = 0
 				chunks <- chunk
-				chunk = make([]int, 0, count)
+				chunk = make([]int8, 0, count)
 			}
 		}
 		if len(chunk) > 0 {
@@ -17166,7 +18994,7 @@ func (c ChannelInt) ChunkEvery(count int) chan []int {
 	return chunks
 }
 
-func (c ChannelInt) Count(el int) int {
+func (c ChannelInt8) Count(el int8) int {
 	count := 0
 	for val := range c.data {
 		if val == el {
@@ -17176,8 +19004,8 @@ func (c ChannelInt) Count(el int) int {
 	return count
 }
 
-func (c ChannelInt) Drop(n int) chan int {
-	result := make(chan int, 1)
+func (c ChannelInt8) Drop(n int) chan int8 {
+	result := make(chan int8, 1)
 	go func() {
 		i := 0
 		for el := range c.data {
@@ -17191,14 +19019,14 @@ func (c ChannelInt) Drop(n int) chan int {
 	return result
 }
 
-func (c ChannelInt) Each(f func(el int)) {
+func (c ChannelInt8) Each(f func(el int8)) {
 	for el := range c.data {
 		f(el)
 	}
 }
 
-func (c ChannelInt) Filter(f func(el int) bool) chan int {
-	result := make(chan int, 1)
+func (c ChannelInt8) Filter(f func(el int8) bool) chan int8 {
+	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
 			if f(el) {
@@ -17210,7 +19038,7 @@ func (c ChannelInt) Filter(f func(el int) bool) chan int {
 	return result
 }
 
-func (c ChannelInt) MapBool(f func(el int) bool) chan bool {
+func (c ChannelInt8) MapBool(f func(el int8) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -17221,7 +19049,7 @@ func (c ChannelInt) MapBool(f func(el int) bool) chan bool {
 	return result
 }
 
-func (c ChannelInt) MapByte(f func(el int) byte) chan byte {
+func (c ChannelInt8) MapByte(f func(el int8) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -17232,7 +19060,7 @@ func (c ChannelInt) MapByte(f func(el int) byte) chan byte {
 	return result
 }
 
-func (c ChannelInt) MapString(f func(el int) string) chan string {
+func (c ChannelInt8) MapString(f func(el int8) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -17243,7 +19071,7 @@ func (c ChannelInt) MapString(f func(el int) string) chan string {
 	return result
 }
 
-func (c ChannelInt) MapFloat32(f func(el int) float32) chan float32 {
+func (c ChannelInt8) MapFloat32(f func(el int8) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -17254,7 +19082,7 @@ func (c ChannelInt) MapFloat32(f func(el int) float32) chan float32 {
 	return result
 }
 
-func (c ChannelInt) MapFloat64(f func(el int) float64) chan float64 {
+func (c ChannelInt8) MapFloat64(f func(el int8) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -17265,7 +19093,7 @@ func (c ChannelInt) MapFloat64(f func(el int) float64) chan float64 {
 	return result
 }
 
-func (c ChannelInt) MapInt(f func(el int) int) chan int {
+func (c ChannelInt8) MapInt(f func(el int8) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -17276,7 +19104,7 @@ func (c ChannelInt) MapInt(f func(el int) int) chan int {
 	return result
 }
 
-func (c ChannelInt) MapInt8(f func(el int) int8) chan int8 {
+func (c ChannelInt8) MapInt8(f func(el int8) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -17287,7 +19115,7 @@ func (c ChannelInt) MapInt8(f func(el int) int8) chan int8 {
 	return result
 }
 
-func (c ChannelInt) MapInt16(f func(el int) int16) chan int16 {
+func (c ChannelInt8) MapInt16(f func(el int8) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -17298,7 +19126,7 @@ func (c ChannelInt) MapInt16(f func(el int) int16) chan int16 {
 	return result
 }
 
-func (c ChannelInt) MapInt32(f func(el int) int32) chan int32 {
+func (c ChannelInt8) MapInt32(f func(el int8) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -17309,7 +19137,7 @@ func (c ChannelInt) MapInt32(f func(el int) int32) chan int32 {
 	return result
 }
 
-func (c ChannelInt) MapInt64(f func(el int) int64) chan int64 {
+func (c ChannelInt8) MapInt64(f func(el int8) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -17320,7 +19148,7 @@ func (c ChannelInt) MapInt64(f func(el int) int64) chan int64 {
 	return result
 }
 
-func (c ChannelInt) MapUint(f func(el int) uint) chan uint {
+func (c ChannelInt8) MapUint(f func(el int8) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -17331,7 +19159,7 @@ func (c ChannelInt) MapUint(f func(el int) uint) chan uint {
 	return result
 }
 
-func (c ChannelInt) MapUint8(f func(el int) uint8) chan uint8 {
+func (c ChannelInt8) MapUint8(f func(el int8) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -17342,7 +19170,7 @@ func (c ChannelInt) MapUint8(f func(el int) uint8) chan uint8 {
 	return result
 }
 
-func (c ChannelInt) MapUint16(f func(el int) uint16) chan uint16 {
+func (c ChannelInt8) MapUint16(f func(el int8) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -17353,7 +19181,7 @@ func (c ChannelInt) MapUint16(f func(el int) uint16) chan uint16 {
 	return result
 }
 
-func (c ChannelInt) MapUint32(f func(el int) uint32) chan uint32 {
+func (c ChannelInt8) MapUint32(f func(el int8) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -17364,7 +19192,7 @@ func (c ChannelInt) MapUint32(f func(el int) uint32) chan uint32 {
 	return result
 }
 
-func (c ChannelInt) MapUint64(f func(el int) uint64) chan uint64 {
+func (c ChannelInt8) MapUint64(f func(el int8) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -17375,7 +19203,7 @@ func (c ChannelInt) MapUint64(f func(el int) uint64) chan uint64 {
 	return result
 }
 
-func (c ChannelInt) MapInterface(f func(el int) interface{}) chan interface{} {
+func (c ChannelInt8) MapInterface(f func(el int8) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -17386,7 +19214,7 @@ func (c ChannelInt) MapInterface(f func(el int) interface{}) chan interface{} {
 	return result
 }
 
-func (c ChannelInt) Max() int {
+func (c ChannelInt8) Max() int8 {
 	max := <-c.data
 	for el := range c.data {
 		if el > max {
@@ -17396,7 +19224,7 @@ func (c ChannelInt) Max() int {
 	return max
 }
 
-func (c ChannelInt) Min() int {
+func (c ChannelInt8) Min() int8 {
 	min := <-c.data
 	for el := range c.data {
 		if el < min {
@@ -17406,119 +19234,119 @@ func (c ChannelInt) Min() int {
 	return min
 }
 
-func (c ChannelInt) ReduceBool(acc bool, f func(el int, acc bool) bool) bool {
+func (c ChannelInt8) ReduceBool(acc bool, f func(el int8, acc bool) bool) bool {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt) ReduceByte(acc byte, f func(el int, acc byte) byte) byte {
+func (c ChannelInt8) ReduceByte(acc byte, f func(el int8, acc byte) byte) byte {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt) ReduceString(acc string, f func(el int, acc string) string) string {
+func (c ChannelInt8) ReduceString(acc string, f func(el int8, acc string) string) string {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt) ReduceFloat32(acc float32, f func(el int, acc float32) float32) float32 {
+func (c ChannelInt8) ReduceFloat32(acc float32, f func(el int8, acc float32) float32) float32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt) ReduceFloat64(acc float64, f func(el int, acc float64) float64) float64 {
+func (c ChannelInt8) ReduceFloat64(acc float64, f func(el int8, acc float64) float64) float64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt) ReduceInt(acc int, f func(el int, acc int) int) int {
+func (c ChannelInt8) ReduceInt(acc int, f func(el int8, acc int) int) int {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt) ReduceInt8(acc int8, f func(el int, acc int8) int8) int8 {
+func (c ChannelInt8) ReduceInt8(acc int8, f func(el int8, acc int8) int8) int8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt) ReduceInt16(acc int16, f func(el int, acc int16) int16) int16 {
+func (c ChannelInt8) ReduceInt16(acc int16, f func(el int8, acc int16) int16) int16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt) ReduceInt32(acc int32, f func(el int, acc int32) int32) int32 {
+func (c ChannelInt8) ReduceInt32(acc int32, f func(el int8, acc int32) int32) int32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt) ReduceInt64(acc int64, f func(el int, acc int64) int64) int64 {
+func (c ChannelInt8) ReduceInt64(acc int64, f func(el int8, acc int64) int64) int64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt) ReduceUint(acc uint, f func(el int, acc uint) uint) uint {
+func (c ChannelInt8) ReduceUint(acc uint, f func(el int8, acc uint) uint) uint {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt) ReduceUint8(acc uint8, f func(el int, acc uint8) uint8) uint8 {
+func (c ChannelInt8) ReduceUint8(acc uint8, f func(el int8, acc uint8) uint8) uint8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt) ReduceUint16(acc uint16, f func(el int, acc uint16) uint16) uint16 {
+func (c ChannelInt8) ReduceUint16(acc uint16, f func(el int8, acc uint16) uint16) uint16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt) ReduceUint32(acc uint32, f func(el int, acc uint32) uint32) uint32 {
+func (c ChannelInt8) ReduceUint32(acc uint32, f func(el int8, acc uint32) uint32) uint32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt) ReduceUint64(acc uint64, f func(el int, acc uint64) uint64) uint64 {
+func (c ChannelInt8) ReduceUint64(acc uint64, f func(el int8, acc uint64) uint64) uint64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt) ReduceInterface(acc interface{}, f func(el int, acc interface{}) interface{}) interface{} {
+func (c ChannelInt8) ReduceInterface(acc interface{}, f func(el int8, acc interface{}) interface{}) interface{} {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt) ScanBool(acc bool, f func(el int, acc bool) bool) chan bool {
+func (c ChannelInt8) ScanBool(acc bool, f func(el int8, acc bool) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -17530,7 +19358,7 @@ func (c ChannelInt) ScanBool(acc bool, f func(el int, acc bool) bool) chan bool 
 	return result
 }
 
-func (c ChannelInt) ScanByte(acc byte, f func(el int, acc byte) byte) chan byte {
+func (c ChannelInt8) ScanByte(acc byte, f func(el int8, acc byte) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -17542,7 +19370,7 @@ func (c ChannelInt) ScanByte(acc byte, f func(el int, acc byte) byte) chan byte 
 	return result
 }
 
-func (c ChannelInt) ScanString(acc string, f func(el int, acc string) string) chan string {
+func (c ChannelInt8) ScanString(acc string, f func(el int8, acc string) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -17554,7 +19382,7 @@ func (c ChannelInt) ScanString(acc string, f func(el int, acc string) string) ch
 	return result
 }
 
-func (c ChannelInt) ScanFloat32(acc float32, f func(el int, acc float32) float32) chan float32 {
+func (c ChannelInt8) ScanFloat32(acc float32, f func(el int8, acc float32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -17566,7 +19394,7 @@ func (c ChannelInt) ScanFloat32(acc float32, f func(el int, acc float32) float32
 	return result
 }
 
-func (c ChannelInt) ScanFloat64(acc float64, f func(el int, acc float64) float64) chan float64 {
+func (c ChannelInt8) ScanFloat64(acc float64, f func(el int8, acc float64) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -17578,7 +19406,7 @@ func (c ChannelInt) ScanFloat64(acc float64, f func(el int, acc float64) float64
 	return result
 }
 
-func (c ChannelInt) ScanInt(acc int, f func(el int, acc int) int) chan int {
+func (c ChannelInt8) ScanInt(acc int, f func(el int8, acc int) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -17590,7 +19418,7 @@ func (c ChannelInt) ScanInt(acc int, f func(el int, acc int) int) chan int {
 	return result
 }
 
-func (c ChannelInt) ScanInt8(acc int8, f func(el int, acc int8) int8) chan int8 {
+func (c ChannelInt8) ScanInt8(acc int8, f func(el int8, acc int8) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -17602,7 +19430,7 @@ func (c ChannelInt) ScanInt8(acc int8, f func(el int, acc int8) int8) chan int8 
 	return result
 }
 
-func (c ChannelInt) ScanInt16(acc int16, f func(el int, acc int16) int16) chan int16 {
+func (c ChannelInt8) ScanInt16(acc int16, f func(el int8, acc int16) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -17614,7 +19442,7 @@ func (c ChannelInt) ScanInt16(acc int16, f func(el int, acc int16) int16) chan i
 	return result
 }
 
-func (c ChannelInt) ScanInt32(acc int32, f func(el int, acc int32) int32) chan int32 {
+func (c ChannelInt8) ScanInt32(acc int32, f func(el int8, acc int32) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -17626,7 +19454,7 @@ func (c ChannelInt) ScanInt32(acc int32, f func(el int, acc int32) int32) chan i
 	return result
 }
 
-func (c ChannelInt) ScanInt64(acc int64, f func(el int, acc int64) int64) chan int64 {
+func (c ChannelInt8) ScanInt64(acc int64, f func(el int8, acc int64) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -17638,7 +19466,7 @@ func (c ChannelInt) ScanInt64(acc int64, f func(el int, acc int64) int64) chan i
 	return result
 }
 
-func (c ChannelInt) ScanUint(acc uint, f func(el int, acc uint) uint) chan uint {
+func (c ChannelInt8) ScanUint(acc uint, f func(el int8, acc uint) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -17650,7 +19478,7 @@ func (c ChannelInt) ScanUint(acc uint, f func(el int, acc uint) uint) chan uint 
 	return result
 }
 
-func (c ChannelInt) ScanUint8(acc uint8, f func(el int, acc uint8) uint8) chan uint8 {
+func (c ChannelInt8) ScanUint8(acc uint8, f func(el int8, acc uint8) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -17662,7 +19490,7 @@ func (c ChannelInt) ScanUint8(acc uint8, f func(el int, acc uint8) uint8) chan u
 	return result
 }
 
-func (c ChannelInt) ScanUint16(acc uint16, f func(el int, acc uint16) uint16) chan uint16 {
+func (c ChannelInt8) ScanUint16(acc uint16, f func(el int8, acc uint16) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -17674,7 +19502,7 @@ func (c ChannelInt) ScanUint16(acc uint16, f func(el int, acc uint16) uint16) ch
 	return result
 }
 
-func (c ChannelInt) ScanUint32(acc uint32, f func(el int, acc uint32) uint32) chan uint32 {
+func (c ChannelInt8) ScanUint32(acc uint32, f func(el int8, acc uint32) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -17686,7 +19514,7 @@ func (c ChannelInt) ScanUint32(acc uint32, f func(el int, acc uint32) uint32) ch
 	return result
 }
 
-func (c ChannelInt) ScanUint64(acc uint64, f func(el int, acc uint64) uint64) chan uint64 {
+func (c ChannelInt8) ScanUint64(acc uint64, f func(el int8, acc uint64) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -17698,7 +19526,7 @@ func (c ChannelInt) ScanUint64(acc uint64, f func(el int, acc uint64) uint64) ch
 	return result
 }
 
-func (c ChannelInt) ScanInterface(acc interface{}, f func(el int, acc interface{}) interface{}) chan interface{} {
+func (c ChannelInt8) ScanInterface(acc interface{}, f func(el int8, acc interface{}) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -17710,31 +19538,31 @@ func (c ChannelInt) ScanInterface(acc interface{}, f func(el int, acc interface{
 	return result
 }
 
-func (c ChannelInt) Sum() int {
-	var sum int
+func (c ChannelInt8) Sum() int8 {
+	var sum int8
 	for el := range c.data {
 		sum += el
 	}
 	return sum
 }
 
-func (c ChannelInt) Take(n int) []int {
-	result := make([]int, 0, n)
+func (c ChannelInt8) Take(n int) []int8 {
+	result := make([]int8, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c.data)
 	}
 	return result
 }
 
-func (c ChannelInt) Tee(count int) []chan int {
-	channels := make([]chan int, 0, count)
+func (c ChannelInt8) Tee(count int) []chan int8 {
+	channels := make([]chan int8, 0, count)
 	for i := 0; i < count; i++ {
-		channels = append(channels, make(chan int, 1))
+		channels = append(channels, make(chan int8, 1))
 	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			putInto := func(ch chan int) {
+			putInto := func(ch chan int8) {
 				wg.Add(1)
 				defer wg.Done()
 				ch <- el
@@ -17751,15 +19579,15 @@ func (c ChannelInt) Tee(count int) []chan int {
 	return channels
 }
 
-func (c ChannelInt) ToSlice() []int {
-	result := make([]int, 0)
+func (c ChannelInt8) ToSlice() []int8 {
+	result := make([]int8, 0)
 	for val := range c.data {
 		result = append(result, val)
 	}
 	return result
 }
 
-func (s AsyncSliceInt) All(f func(el int) bool) bool {
+func (s AsyncSliceInt8) All(f func(el int8) bool) bool {
 	if len(s.data) == 0 {
 		return true
 	}
@@ -17820,7 +19648,7 @@ func (s AsyncSliceInt) All(f func(el int) bool) bool {
 	return true
 }
 
-func (s AsyncSliceInt) Any(f func(el int) bool) bool {
+func (s AsyncSliceInt8) Any(f func(el int8) bool) bool {
 	if len(s.data) == 0 {
 		return false
 	}
@@ -17881,7 +19709,7 @@ func (s AsyncSliceInt) Any(f func(el int) bool) bool {
 	return false
 }
 
-func (s AsyncSliceInt) Each(f func(el int)) {
+func (s AsyncSliceInt8) Each(f func(el int8)) {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -17912,7 +19740,7 @@ func (s AsyncSliceInt) Each(f func(el int)) {
 	wg.Wait()
 }
 
-func (s AsyncSliceInt) Filter(f func(el int) bool) []int {
+func (s AsyncSliceInt8) Filter(f func(el int8) bool) []int8 {
 	resultMap := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -17946,7 +19774,7 @@ func (s AsyncSliceInt) Filter(f func(el int) bool) []int {
 	wg.Wait()
 
 	// return filtered results
-	result := make([]int, 0, len(s.data))
+	result := make([]int8, 0, len(s.data))
 	for i, el := range s.data {
 		if resultMap[i] {
 			result = append(result, el)
@@ -17955,7 +19783,7 @@ func (s AsyncSliceInt) Filter(f func(el int) bool) []int {
 	return result
 }
 
-func (s AsyncSliceInt) MapBool(f func(el int) bool) []bool {
+func (s AsyncSliceInt8) MapBool(f func(el int8) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -17988,7 +19816,7 @@ func (s AsyncSliceInt) MapBool(f func(el int) bool) []bool {
 	return result
 }
 
-func (s AsyncSliceInt) MapByte(f func(el int) byte) []byte {
+func (s AsyncSliceInt8) MapByte(f func(el int8) byte) []byte {
 	result := make([]byte, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -18021,7 +19849,7 @@ func (s AsyncSliceInt) MapByte(f func(el int) byte) []byte {
 	return result
 }
 
-func (s AsyncSliceInt) MapString(f func(el int) string) []string {
+func (s AsyncSliceInt8) MapString(f func(el int8) string) []string {
 	result := make([]string, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -18054,7 +19882,7 @@ func (s AsyncSliceInt) MapString(f func(el int) string) []string {
 	return result
 }
 
-func (s AsyncSliceInt) MapFloat32(f func(el int) float32) []float32 {
+func (s AsyncSliceInt8) MapFloat32(f func(el int8) float32) []float32 {
 	result := make([]float32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -18087,7 +19915,7 @@ func (s AsyncSliceInt) MapFloat32(f func(el int) float32) []float32 {
 	return result
 }
 
-func (s AsyncSliceInt) MapFloat64(f func(el int) float64) []float64 {
+func (s AsyncSliceInt8) MapFloat64(f func(el int8) float64) []float64 {
 	result := make([]float64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -18120,7 +19948,7 @@ func (s AsyncSliceInt) MapFloat64(f func(el int) float64) []float64 {
 	return result
 }
 
-func (s AsyncSliceInt) MapInt(f func(el int) int) []int {
+func (s AsyncSliceInt8) MapInt(f func(el int8) int) []int {
 	result := make([]int, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -18153,7 +19981,7 @@ func (s AsyncSliceInt) MapInt(f func(el int) int) []int {
 	return result
 }
 
-func (s AsyncSliceInt) MapInt8(f func(el int) int8) []int8 {
+func (s AsyncSliceInt8) MapInt8(f func(el int8) int8) []int8 {
 	result := make([]int8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -18186,7 +20014,7 @@ func (s AsyncSliceInt) MapInt8(f func(el int) int8) []int8 {
 	return result
 }
 
-func (s AsyncSliceInt) MapInt16(f func(el int) int16) []int16 {
+func (s AsyncSliceInt8) MapInt16(f func(el int8) int16) []int16 {
 	result := make([]int16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -18219,7 +20047,7 @@ func (s AsyncSliceInt) MapInt16(f func(el int) int16) []int16 {
 	return result
 }
 
-func (s AsyncSliceInt) MapInt32(f func(el int) int32) []int32 {
+func (s AsyncSliceInt8) MapInt32(f func(el int8) int32) []int32 {
 	result := make([]int32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -18252,7 +20080,7 @@ func (s AsyncSliceInt) MapInt32(f func(el int) int32) []int32 {
 	return result
 }
 
-func (s AsyncSliceInt) MapInt64(f func(el int) int64) []int64 {
+func (s AsyncSliceInt8) MapInt64(f func(el int8) int64) []int64 {
 	result := make([]int64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -18285,7 +20113,7 @@ func (s AsyncSliceInt) MapInt64(f func(el int) int64) []int64 {
 	return result
 }
 
-func (s AsyncSliceInt) MapUint(f func(el int) uint) []uint {
+func (s AsyncSliceInt8) MapUint(f func(el int8) uint) []uint {
 	result := make([]uint, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -18318,7 +20146,7 @@ func (s AsyncSliceInt) MapUint(f func(el int) uint) []uint {
 	return result
 }
 
-func (s AsyncSliceInt) MapUint8(f func(el int) uint8) []uint8 {
+func (s AsyncSliceInt8) MapUint8(f func(el int8) uint8) []uint8 {
 	result := make([]uint8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -18351,7 +20179,7 @@ func (s AsyncSliceInt) MapUint8(f func(el int) uint8) []uint8 {
 	return result
 }
 
-func (s AsyncSliceInt) MapUint16(f func(el int) uint16) []uint16 {
+func (s AsyncSliceInt8) MapUint16(f func(el int8) uint16) []uint16 {
 	result := make([]uint16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -18384,7 +20212,7 @@ func (s AsyncSliceInt) MapUint16(f func(el int) uint16) []uint16 {
 	return result
 }
 
-func (s AsyncSliceInt) MapUint32(f func(el int) uint32) []uint32 {
+func (s AsyncSliceInt8) MapUint32(f func(el int8) uint32) []uint32 {
 	result := make([]uint32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -18417,7 +20245,7 @@ func (s AsyncSliceInt) MapUint32(f func(el int) uint32) []uint32 {
 	return result
 }
 
-func (s AsyncSliceInt) MapUint64(f func(el int) uint64) []uint64 {
+func (s AsyncSliceInt8) MapUint64(f func(el int8) uint64) []uint64 {
 	result := make([]uint64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -18450,7 +20278,7 @@ func (s AsyncSliceInt) MapUint64(f func(el int) uint64) []uint64 {
 	return result
 }
 
-func (s AsyncSliceInt) MapInterface(f func(el int) interface{}) []interface{} {
+func (s AsyncSliceInt8) MapInterface(f func(el int8) interface{}) []interface{} {
 	result := make([]interface{}, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -18483,8 +20311,66 @@ func (s AsyncSliceInt) MapInterface(f func(el int) interface{}) []interface{} {
 	return result
 }
 
-func (s SequenceInt) Count(start int, step int) chan int {
-	c := make(chan int, 1)
+func (s AsyncSliceInt8) Reduce(f func(left int8, right int8) int8) int8 {
+	if len(s.data) == 0 {
+		var tmp int8
+		return tmp
+	}
+
+	state := make([]int8, len(s.data))
+	state = append(state, s.data...)
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- int8) {
+		for index := range jobs {
+			result <- f(state[index], state[index+1])
+		}
+		wg.Done()
+	}
+
+	for len(state) > 1 {
+		// calculate workers count
+		workers := s.workers
+		if workers == 0 || workers > len(state) {
+			workers = len(state)
+		}
+
+		// run workers
+		jobs := make(chan int, len(state))
+		wg.Add(workers)
+		result := make(chan int8, 1)
+		for i := 0; i < workers; i++ {
+			go worker(jobs, result)
+		}
+
+		go func() {
+			wg.Wait()
+			close(result)
+		}()
+
+		// add indices into jobs for workers
+		for i := 0; i < len(state)-1; i += 2 {
+			jobs <- i
+		}
+		close(jobs)
+
+		// collect new state
+		newState := make([]int8, 0, len(state)/2+len(state)%2)
+		for el := range result {
+			newState = append(newState, el)
+		}
+		if len(state)%2 == 1 {
+			newState = append(newState, state[len(state)-1])
+		}
+		// put new state as current state after all
+		state = newState
+	}
+
+	return state[0]
+}
+
+func (s SequenceInt8) Count(start int8, step int8) chan int8 {
+	c := make(chan int8, 1)
 	go func() {
 		for {
 			c <- start
@@ -18494,8 +20380,8 @@ func (s SequenceInt) Count(start int, step int) chan int {
 	return c
 }
 
-func (s SequenceInt) Exponential(start int, factor int) chan int {
-	c := make(chan int, 1)
+func (s SequenceInt8) Exponential(start int8, factor int8) chan int8 {
+	c := make(chan int8, 1)
 	go func() {
 		for {
 			c <- start
@@ -18505,8 +20391,8 @@ func (s SequenceInt) Exponential(start int, factor int) chan int {
 	return c
 }
 
-func (s SequenceInt) Range(start int, end int, step int) chan int {
-	c := make(chan int, 1)
+func (s SequenceInt8) Range(start int8, end int8, step int8) chan int8 {
+	c := make(chan int8, 1)
 	pos := start <= end
 	go func() {
 		for pos && (start < end) || !pos && (start > end) {
@@ -18518,92 +20404,14 @@ func (s SequenceInt) Range(start int, end int, step int) chan int {
 	return c
 }
 
-func (s SequenceInt) Repeat(val int) chan int {
-	c := make(chan int, 1)
+func (s SequenceInt8) Repeat(val int8) chan int8 {
+	c := make(chan int8, 1)
 	go func() {
 		for {
 			c <- val
 		}
 	}()
 	return c
-}
-
-func (s SlicesInt) Concat() []int {
-	result := make([]int, 0)
-	for _, arr := range s.data {
-		result = append(result, arr...)
-	}
-	return result
-}
-
-func (s SlicesInt) Product() chan []int {
-	c := make(chan []int, 1)
-	go s.product(c, []int{}, 0)
-	return c
-}
-
-func (s SlicesInt) product(c chan []int, left []int, pos int) {
-	// iterate over the last array
-	if pos == len(s.data)-1 {
-		for _, el := range s.data[pos] {
-			result := make([]int, 0, len(left)+1)
-			result = append(result, left...)
-			result = append(result, el)
-			c <- result
-		}
-		return
-	}
-
-	for _, el := range s.data[pos] {
-		result := make([]int, 0, len(left)+1)
-		result = append(result, left...)
-		result = append(result, el)
-		s.product(c, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
-	}
-}
-
-func (s SlicesInt) Zip() [][]int {
-	size := len(s.data[0])
-	for _, arr := range s.data[1:] {
-		if len(arr) > size {
-			size = len(arr)
-		}
-	}
-
-	result := make([][]int, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]int, 0, len(s.data))
-		for _, arr := range s.data {
-			chunk = append(chunk, arr[i])
-		}
-		result = append(result, chunk)
-	}
-	return result
-}
-
-type SliceInt8 struct {
-	data []int8
-}
-
-type ChannelInt8 struct {
-	data chan int8
-}
-
-type AsyncSliceInt8 struct {
-	data    []int8
-	workers int
-}
-
-type SequenceInt8 struct {
-	data chan int8
-}
-
-type SlicesInt8 struct {
-	data [][]int8
 }
 
 func (s SliceInt8) Any(f func(el int8) bool) bool {
@@ -20252,7 +22060,85 @@ func (s SliceInt8) Window(size int) [][]int8 {
 	return result
 }
 
-func (c ChannelInt8) Any(f func(el int8) bool) bool {
+func (s SlicesInt8) Concat() []int8 {
+	result := make([]int8, 0)
+	for _, arr := range s.data {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+func (s SlicesInt8) Product() chan []int8 {
+	c := make(chan []int8, 1)
+	go s.product(c, []int8{}, 0)
+	return c
+}
+
+func (s SlicesInt8) product(c chan []int8, left []int8, pos int) {
+	// iterate over the last array
+	if pos == len(s.data)-1 {
+		for _, el := range s.data[pos] {
+			result := make([]int8, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data[pos] {
+		result := make([]int8, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
+func (s SlicesInt8) Zip() [][]int8 {
+	size := len(s.data[0])
+	for _, arr := range s.data[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]int8, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]int8, 0, len(s.data))
+		for _, arr := range s.data {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
+type ChannelInt16 struct {
+	data chan int16
+}
+
+type AsyncSliceInt16 struct {
+	data    []int16
+	workers int
+}
+
+type SequenceInt16 struct {
+	data chan int16
+}
+
+type SliceInt16 struct {
+	data []int16
+}
+
+type SlicesInt16 struct {
+	data [][]int16
+}
+
+func (c ChannelInt16) Any(f func(el int16) bool) bool {
 	for el := range c.data {
 		if f(el) {
 			return true
@@ -20261,7 +22147,7 @@ func (c ChannelInt8) Any(f func(el int8) bool) bool {
 	return false
 }
 
-func (c ChannelInt8) All(f func(el int8) bool) bool {
+func (c ChannelInt16) All(f func(el int16) bool) bool {
 	for el := range c.data {
 		if !f(el) {
 			return false
@@ -20270,10 +22156,10 @@ func (c ChannelInt8) All(f func(el int8) bool) bool {
 	return true
 }
 
-func (c ChannelInt8) ChunkEvery(count int) chan []int8 {
-	chunks := make(chan []int8, 1)
+func (c ChannelInt16) ChunkEvery(count int) chan []int16 {
+	chunks := make(chan []int16, 1)
 	go func() {
-		chunk := make([]int8, 0, count)
+		chunk := make([]int16, 0, count)
 		i := 0
 		for el := range c.data {
 			chunk = append(chunk, el)
@@ -20281,7 +22167,7 @@ func (c ChannelInt8) ChunkEvery(count int) chan []int8 {
 			if i%count == 0 {
 				i = 0
 				chunks <- chunk
-				chunk = make([]int8, 0, count)
+				chunk = make([]int16, 0, count)
 			}
 		}
 		if len(chunk) > 0 {
@@ -20292,7 +22178,7 @@ func (c ChannelInt8) ChunkEvery(count int) chan []int8 {
 	return chunks
 }
 
-func (c ChannelInt8) Count(el int8) int {
+func (c ChannelInt16) Count(el int16) int {
 	count := 0
 	for val := range c.data {
 		if val == el {
@@ -20302,8 +22188,8 @@ func (c ChannelInt8) Count(el int8) int {
 	return count
 }
 
-func (c ChannelInt8) Drop(n int) chan int8 {
-	result := make(chan int8, 1)
+func (c ChannelInt16) Drop(n int) chan int16 {
+	result := make(chan int16, 1)
 	go func() {
 		i := 0
 		for el := range c.data {
@@ -20317,14 +22203,14 @@ func (c ChannelInt8) Drop(n int) chan int8 {
 	return result
 }
 
-func (c ChannelInt8) Each(f func(el int8)) {
+func (c ChannelInt16) Each(f func(el int16)) {
 	for el := range c.data {
 		f(el)
 	}
 }
 
-func (c ChannelInt8) Filter(f func(el int8) bool) chan int8 {
-	result := make(chan int8, 1)
+func (c ChannelInt16) Filter(f func(el int16) bool) chan int16 {
+	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
 			if f(el) {
@@ -20336,7 +22222,7 @@ func (c ChannelInt8) Filter(f func(el int8) bool) chan int8 {
 	return result
 }
 
-func (c ChannelInt8) MapBool(f func(el int8) bool) chan bool {
+func (c ChannelInt16) MapBool(f func(el int16) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -20347,7 +22233,7 @@ func (c ChannelInt8) MapBool(f func(el int8) bool) chan bool {
 	return result
 }
 
-func (c ChannelInt8) MapByte(f func(el int8) byte) chan byte {
+func (c ChannelInt16) MapByte(f func(el int16) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -20358,7 +22244,7 @@ func (c ChannelInt8) MapByte(f func(el int8) byte) chan byte {
 	return result
 }
 
-func (c ChannelInt8) MapString(f func(el int8) string) chan string {
+func (c ChannelInt16) MapString(f func(el int16) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -20369,7 +22255,7 @@ func (c ChannelInt8) MapString(f func(el int8) string) chan string {
 	return result
 }
 
-func (c ChannelInt8) MapFloat32(f func(el int8) float32) chan float32 {
+func (c ChannelInt16) MapFloat32(f func(el int16) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -20380,7 +22266,7 @@ func (c ChannelInt8) MapFloat32(f func(el int8) float32) chan float32 {
 	return result
 }
 
-func (c ChannelInt8) MapFloat64(f func(el int8) float64) chan float64 {
+func (c ChannelInt16) MapFloat64(f func(el int16) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -20391,7 +22277,7 @@ func (c ChannelInt8) MapFloat64(f func(el int8) float64) chan float64 {
 	return result
 }
 
-func (c ChannelInt8) MapInt(f func(el int8) int) chan int {
+func (c ChannelInt16) MapInt(f func(el int16) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -20402,7 +22288,7 @@ func (c ChannelInt8) MapInt(f func(el int8) int) chan int {
 	return result
 }
 
-func (c ChannelInt8) MapInt8(f func(el int8) int8) chan int8 {
+func (c ChannelInt16) MapInt8(f func(el int16) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -20413,7 +22299,7 @@ func (c ChannelInt8) MapInt8(f func(el int8) int8) chan int8 {
 	return result
 }
 
-func (c ChannelInt8) MapInt16(f func(el int8) int16) chan int16 {
+func (c ChannelInt16) MapInt16(f func(el int16) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -20424,7 +22310,7 @@ func (c ChannelInt8) MapInt16(f func(el int8) int16) chan int16 {
 	return result
 }
 
-func (c ChannelInt8) MapInt32(f func(el int8) int32) chan int32 {
+func (c ChannelInt16) MapInt32(f func(el int16) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -20435,7 +22321,7 @@ func (c ChannelInt8) MapInt32(f func(el int8) int32) chan int32 {
 	return result
 }
 
-func (c ChannelInt8) MapInt64(f func(el int8) int64) chan int64 {
+func (c ChannelInt16) MapInt64(f func(el int16) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -20446,7 +22332,7 @@ func (c ChannelInt8) MapInt64(f func(el int8) int64) chan int64 {
 	return result
 }
 
-func (c ChannelInt8) MapUint(f func(el int8) uint) chan uint {
+func (c ChannelInt16) MapUint(f func(el int16) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -20457,7 +22343,7 @@ func (c ChannelInt8) MapUint(f func(el int8) uint) chan uint {
 	return result
 }
 
-func (c ChannelInt8) MapUint8(f func(el int8) uint8) chan uint8 {
+func (c ChannelInt16) MapUint8(f func(el int16) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -20468,7 +22354,7 @@ func (c ChannelInt8) MapUint8(f func(el int8) uint8) chan uint8 {
 	return result
 }
 
-func (c ChannelInt8) MapUint16(f func(el int8) uint16) chan uint16 {
+func (c ChannelInt16) MapUint16(f func(el int16) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -20479,7 +22365,7 @@ func (c ChannelInt8) MapUint16(f func(el int8) uint16) chan uint16 {
 	return result
 }
 
-func (c ChannelInt8) MapUint32(f func(el int8) uint32) chan uint32 {
+func (c ChannelInt16) MapUint32(f func(el int16) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -20490,7 +22376,7 @@ func (c ChannelInt8) MapUint32(f func(el int8) uint32) chan uint32 {
 	return result
 }
 
-func (c ChannelInt8) MapUint64(f func(el int8) uint64) chan uint64 {
+func (c ChannelInt16) MapUint64(f func(el int16) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -20501,7 +22387,7 @@ func (c ChannelInt8) MapUint64(f func(el int8) uint64) chan uint64 {
 	return result
 }
 
-func (c ChannelInt8) MapInterface(f func(el int8) interface{}) chan interface{} {
+func (c ChannelInt16) MapInterface(f func(el int16) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -20512,7 +22398,7 @@ func (c ChannelInt8) MapInterface(f func(el int8) interface{}) chan interface{} 
 	return result
 }
 
-func (c ChannelInt8) Max() int8 {
+func (c ChannelInt16) Max() int16 {
 	max := <-c.data
 	for el := range c.data {
 		if el > max {
@@ -20522,7 +22408,7 @@ func (c ChannelInt8) Max() int8 {
 	return max
 }
 
-func (c ChannelInt8) Min() int8 {
+func (c ChannelInt16) Min() int16 {
 	min := <-c.data
 	for el := range c.data {
 		if el < min {
@@ -20532,119 +22418,119 @@ func (c ChannelInt8) Min() int8 {
 	return min
 }
 
-func (c ChannelInt8) ReduceBool(acc bool, f func(el int8, acc bool) bool) bool {
+func (c ChannelInt16) ReduceBool(acc bool, f func(el int16, acc bool) bool) bool {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt8) ReduceByte(acc byte, f func(el int8, acc byte) byte) byte {
+func (c ChannelInt16) ReduceByte(acc byte, f func(el int16, acc byte) byte) byte {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt8) ReduceString(acc string, f func(el int8, acc string) string) string {
+func (c ChannelInt16) ReduceString(acc string, f func(el int16, acc string) string) string {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt8) ReduceFloat32(acc float32, f func(el int8, acc float32) float32) float32 {
+func (c ChannelInt16) ReduceFloat32(acc float32, f func(el int16, acc float32) float32) float32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt8) ReduceFloat64(acc float64, f func(el int8, acc float64) float64) float64 {
+func (c ChannelInt16) ReduceFloat64(acc float64, f func(el int16, acc float64) float64) float64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt8) ReduceInt(acc int, f func(el int8, acc int) int) int {
+func (c ChannelInt16) ReduceInt(acc int, f func(el int16, acc int) int) int {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt8) ReduceInt8(acc int8, f func(el int8, acc int8) int8) int8 {
+func (c ChannelInt16) ReduceInt8(acc int8, f func(el int16, acc int8) int8) int8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt8) ReduceInt16(acc int16, f func(el int8, acc int16) int16) int16 {
+func (c ChannelInt16) ReduceInt16(acc int16, f func(el int16, acc int16) int16) int16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt8) ReduceInt32(acc int32, f func(el int8, acc int32) int32) int32 {
+func (c ChannelInt16) ReduceInt32(acc int32, f func(el int16, acc int32) int32) int32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt8) ReduceInt64(acc int64, f func(el int8, acc int64) int64) int64 {
+func (c ChannelInt16) ReduceInt64(acc int64, f func(el int16, acc int64) int64) int64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt8) ReduceUint(acc uint, f func(el int8, acc uint) uint) uint {
+func (c ChannelInt16) ReduceUint(acc uint, f func(el int16, acc uint) uint) uint {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt8) ReduceUint8(acc uint8, f func(el int8, acc uint8) uint8) uint8 {
+func (c ChannelInt16) ReduceUint8(acc uint8, f func(el int16, acc uint8) uint8) uint8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt8) ReduceUint16(acc uint16, f func(el int8, acc uint16) uint16) uint16 {
+func (c ChannelInt16) ReduceUint16(acc uint16, f func(el int16, acc uint16) uint16) uint16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt8) ReduceUint32(acc uint32, f func(el int8, acc uint32) uint32) uint32 {
+func (c ChannelInt16) ReduceUint32(acc uint32, f func(el int16, acc uint32) uint32) uint32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt8) ReduceUint64(acc uint64, f func(el int8, acc uint64) uint64) uint64 {
+func (c ChannelInt16) ReduceUint64(acc uint64, f func(el int16, acc uint64) uint64) uint64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt8) ReduceInterface(acc interface{}, f func(el int8, acc interface{}) interface{}) interface{} {
+func (c ChannelInt16) ReduceInterface(acc interface{}, f func(el int16, acc interface{}) interface{}) interface{} {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt8) ScanBool(acc bool, f func(el int8, acc bool) bool) chan bool {
+func (c ChannelInt16) ScanBool(acc bool, f func(el int16, acc bool) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -20656,7 +22542,7 @@ func (c ChannelInt8) ScanBool(acc bool, f func(el int8, acc bool) bool) chan boo
 	return result
 }
 
-func (c ChannelInt8) ScanByte(acc byte, f func(el int8, acc byte) byte) chan byte {
+func (c ChannelInt16) ScanByte(acc byte, f func(el int16, acc byte) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -20668,7 +22554,7 @@ func (c ChannelInt8) ScanByte(acc byte, f func(el int8, acc byte) byte) chan byt
 	return result
 }
 
-func (c ChannelInt8) ScanString(acc string, f func(el int8, acc string) string) chan string {
+func (c ChannelInt16) ScanString(acc string, f func(el int16, acc string) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -20680,7 +22566,7 @@ func (c ChannelInt8) ScanString(acc string, f func(el int8, acc string) string) 
 	return result
 }
 
-func (c ChannelInt8) ScanFloat32(acc float32, f func(el int8, acc float32) float32) chan float32 {
+func (c ChannelInt16) ScanFloat32(acc float32, f func(el int16, acc float32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -20692,7 +22578,7 @@ func (c ChannelInt8) ScanFloat32(acc float32, f func(el int8, acc float32) float
 	return result
 }
 
-func (c ChannelInt8) ScanFloat64(acc float64, f func(el int8, acc float64) float64) chan float64 {
+func (c ChannelInt16) ScanFloat64(acc float64, f func(el int16, acc float64) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -20704,7 +22590,7 @@ func (c ChannelInt8) ScanFloat64(acc float64, f func(el int8, acc float64) float
 	return result
 }
 
-func (c ChannelInt8) ScanInt(acc int, f func(el int8, acc int) int) chan int {
+func (c ChannelInt16) ScanInt(acc int, f func(el int16, acc int) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -20716,7 +22602,7 @@ func (c ChannelInt8) ScanInt(acc int, f func(el int8, acc int) int) chan int {
 	return result
 }
 
-func (c ChannelInt8) ScanInt8(acc int8, f func(el int8, acc int8) int8) chan int8 {
+func (c ChannelInt16) ScanInt8(acc int8, f func(el int16, acc int8) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -20728,7 +22614,7 @@ func (c ChannelInt8) ScanInt8(acc int8, f func(el int8, acc int8) int8) chan int
 	return result
 }
 
-func (c ChannelInt8) ScanInt16(acc int16, f func(el int8, acc int16) int16) chan int16 {
+func (c ChannelInt16) ScanInt16(acc int16, f func(el int16, acc int16) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -20740,7 +22626,7 @@ func (c ChannelInt8) ScanInt16(acc int16, f func(el int8, acc int16) int16) chan
 	return result
 }
 
-func (c ChannelInt8) ScanInt32(acc int32, f func(el int8, acc int32) int32) chan int32 {
+func (c ChannelInt16) ScanInt32(acc int32, f func(el int16, acc int32) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -20752,7 +22638,7 @@ func (c ChannelInt8) ScanInt32(acc int32, f func(el int8, acc int32) int32) chan
 	return result
 }
 
-func (c ChannelInt8) ScanInt64(acc int64, f func(el int8, acc int64) int64) chan int64 {
+func (c ChannelInt16) ScanInt64(acc int64, f func(el int16, acc int64) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -20764,7 +22650,7 @@ func (c ChannelInt8) ScanInt64(acc int64, f func(el int8, acc int64) int64) chan
 	return result
 }
 
-func (c ChannelInt8) ScanUint(acc uint, f func(el int8, acc uint) uint) chan uint {
+func (c ChannelInt16) ScanUint(acc uint, f func(el int16, acc uint) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -20776,7 +22662,7 @@ func (c ChannelInt8) ScanUint(acc uint, f func(el int8, acc uint) uint) chan uin
 	return result
 }
 
-func (c ChannelInt8) ScanUint8(acc uint8, f func(el int8, acc uint8) uint8) chan uint8 {
+func (c ChannelInt16) ScanUint8(acc uint8, f func(el int16, acc uint8) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -20788,7 +22674,7 @@ func (c ChannelInt8) ScanUint8(acc uint8, f func(el int8, acc uint8) uint8) chan
 	return result
 }
 
-func (c ChannelInt8) ScanUint16(acc uint16, f func(el int8, acc uint16) uint16) chan uint16 {
+func (c ChannelInt16) ScanUint16(acc uint16, f func(el int16, acc uint16) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -20800,7 +22686,7 @@ func (c ChannelInt8) ScanUint16(acc uint16, f func(el int8, acc uint16) uint16) 
 	return result
 }
 
-func (c ChannelInt8) ScanUint32(acc uint32, f func(el int8, acc uint32) uint32) chan uint32 {
+func (c ChannelInt16) ScanUint32(acc uint32, f func(el int16, acc uint32) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -20812,7 +22698,7 @@ func (c ChannelInt8) ScanUint32(acc uint32, f func(el int8, acc uint32) uint32) 
 	return result
 }
 
-func (c ChannelInt8) ScanUint64(acc uint64, f func(el int8, acc uint64) uint64) chan uint64 {
+func (c ChannelInt16) ScanUint64(acc uint64, f func(el int16, acc uint64) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -20824,7 +22710,7 @@ func (c ChannelInt8) ScanUint64(acc uint64, f func(el int8, acc uint64) uint64) 
 	return result
 }
 
-func (c ChannelInt8) ScanInterface(acc interface{}, f func(el int8, acc interface{}) interface{}) chan interface{} {
+func (c ChannelInt16) ScanInterface(acc interface{}, f func(el int16, acc interface{}) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -20836,31 +22722,31 @@ func (c ChannelInt8) ScanInterface(acc interface{}, f func(el int8, acc interfac
 	return result
 }
 
-func (c ChannelInt8) Sum() int8 {
-	var sum int8
+func (c ChannelInt16) Sum() int16 {
+	var sum int16
 	for el := range c.data {
 		sum += el
 	}
 	return sum
 }
 
-func (c ChannelInt8) Take(n int) []int8 {
-	result := make([]int8, 0, n)
+func (c ChannelInt16) Take(n int) []int16 {
+	result := make([]int16, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c.data)
 	}
 	return result
 }
 
-func (c ChannelInt8) Tee(count int) []chan int8 {
-	channels := make([]chan int8, 0, count)
+func (c ChannelInt16) Tee(count int) []chan int16 {
+	channels := make([]chan int16, 0, count)
 	for i := 0; i < count; i++ {
-		channels = append(channels, make(chan int8, 1))
+		channels = append(channels, make(chan int16, 1))
 	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			putInto := func(ch chan int8) {
+			putInto := func(ch chan int16) {
 				wg.Add(1)
 				defer wg.Done()
 				ch <- el
@@ -20877,15 +22763,15 @@ func (c ChannelInt8) Tee(count int) []chan int8 {
 	return channels
 }
 
-func (c ChannelInt8) ToSlice() []int8 {
-	result := make([]int8, 0)
+func (c ChannelInt16) ToSlice() []int16 {
+	result := make([]int16, 0)
 	for val := range c.data {
 		result = append(result, val)
 	}
 	return result
 }
 
-func (s AsyncSliceInt8) All(f func(el int8) bool) bool {
+func (s AsyncSliceInt16) All(f func(el int16) bool) bool {
 	if len(s.data) == 0 {
 		return true
 	}
@@ -20946,7 +22832,7 @@ func (s AsyncSliceInt8) All(f func(el int8) bool) bool {
 	return true
 }
 
-func (s AsyncSliceInt8) Any(f func(el int8) bool) bool {
+func (s AsyncSliceInt16) Any(f func(el int16) bool) bool {
 	if len(s.data) == 0 {
 		return false
 	}
@@ -21007,7 +22893,7 @@ func (s AsyncSliceInt8) Any(f func(el int8) bool) bool {
 	return false
 }
 
-func (s AsyncSliceInt8) Each(f func(el int8)) {
+func (s AsyncSliceInt16) Each(f func(el int16)) {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -21038,7 +22924,7 @@ func (s AsyncSliceInt8) Each(f func(el int8)) {
 	wg.Wait()
 }
 
-func (s AsyncSliceInt8) Filter(f func(el int8) bool) []int8 {
+func (s AsyncSliceInt16) Filter(f func(el int16) bool) []int16 {
 	resultMap := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -21072,7 +22958,7 @@ func (s AsyncSliceInt8) Filter(f func(el int8) bool) []int8 {
 	wg.Wait()
 
 	// return filtered results
-	result := make([]int8, 0, len(s.data))
+	result := make([]int16, 0, len(s.data))
 	for i, el := range s.data {
 		if resultMap[i] {
 			result = append(result, el)
@@ -21081,7 +22967,7 @@ func (s AsyncSliceInt8) Filter(f func(el int8) bool) []int8 {
 	return result
 }
 
-func (s AsyncSliceInt8) MapBool(f func(el int8) bool) []bool {
+func (s AsyncSliceInt16) MapBool(f func(el int16) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -21114,7 +23000,7 @@ func (s AsyncSliceInt8) MapBool(f func(el int8) bool) []bool {
 	return result
 }
 
-func (s AsyncSliceInt8) MapByte(f func(el int8) byte) []byte {
+func (s AsyncSliceInt16) MapByte(f func(el int16) byte) []byte {
 	result := make([]byte, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -21147,7 +23033,7 @@ func (s AsyncSliceInt8) MapByte(f func(el int8) byte) []byte {
 	return result
 }
 
-func (s AsyncSliceInt8) MapString(f func(el int8) string) []string {
+func (s AsyncSliceInt16) MapString(f func(el int16) string) []string {
 	result := make([]string, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -21180,7 +23066,7 @@ func (s AsyncSliceInt8) MapString(f func(el int8) string) []string {
 	return result
 }
 
-func (s AsyncSliceInt8) MapFloat32(f func(el int8) float32) []float32 {
+func (s AsyncSliceInt16) MapFloat32(f func(el int16) float32) []float32 {
 	result := make([]float32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -21213,7 +23099,7 @@ func (s AsyncSliceInt8) MapFloat32(f func(el int8) float32) []float32 {
 	return result
 }
 
-func (s AsyncSliceInt8) MapFloat64(f func(el int8) float64) []float64 {
+func (s AsyncSliceInt16) MapFloat64(f func(el int16) float64) []float64 {
 	result := make([]float64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -21246,7 +23132,7 @@ func (s AsyncSliceInt8) MapFloat64(f func(el int8) float64) []float64 {
 	return result
 }
 
-func (s AsyncSliceInt8) MapInt(f func(el int8) int) []int {
+func (s AsyncSliceInt16) MapInt(f func(el int16) int) []int {
 	result := make([]int, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -21279,7 +23165,7 @@ func (s AsyncSliceInt8) MapInt(f func(el int8) int) []int {
 	return result
 }
 
-func (s AsyncSliceInt8) MapInt8(f func(el int8) int8) []int8 {
+func (s AsyncSliceInt16) MapInt8(f func(el int16) int8) []int8 {
 	result := make([]int8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -21312,7 +23198,7 @@ func (s AsyncSliceInt8) MapInt8(f func(el int8) int8) []int8 {
 	return result
 }
 
-func (s AsyncSliceInt8) MapInt16(f func(el int8) int16) []int16 {
+func (s AsyncSliceInt16) MapInt16(f func(el int16) int16) []int16 {
 	result := make([]int16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -21345,7 +23231,7 @@ func (s AsyncSliceInt8) MapInt16(f func(el int8) int16) []int16 {
 	return result
 }
 
-func (s AsyncSliceInt8) MapInt32(f func(el int8) int32) []int32 {
+func (s AsyncSliceInt16) MapInt32(f func(el int16) int32) []int32 {
 	result := make([]int32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -21378,7 +23264,7 @@ func (s AsyncSliceInt8) MapInt32(f func(el int8) int32) []int32 {
 	return result
 }
 
-func (s AsyncSliceInt8) MapInt64(f func(el int8) int64) []int64 {
+func (s AsyncSliceInt16) MapInt64(f func(el int16) int64) []int64 {
 	result := make([]int64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -21411,7 +23297,7 @@ func (s AsyncSliceInt8) MapInt64(f func(el int8) int64) []int64 {
 	return result
 }
 
-func (s AsyncSliceInt8) MapUint(f func(el int8) uint) []uint {
+func (s AsyncSliceInt16) MapUint(f func(el int16) uint) []uint {
 	result := make([]uint, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -21444,7 +23330,7 @@ func (s AsyncSliceInt8) MapUint(f func(el int8) uint) []uint {
 	return result
 }
 
-func (s AsyncSliceInt8) MapUint8(f func(el int8) uint8) []uint8 {
+func (s AsyncSliceInt16) MapUint8(f func(el int16) uint8) []uint8 {
 	result := make([]uint8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -21477,7 +23363,7 @@ func (s AsyncSliceInt8) MapUint8(f func(el int8) uint8) []uint8 {
 	return result
 }
 
-func (s AsyncSliceInt8) MapUint16(f func(el int8) uint16) []uint16 {
+func (s AsyncSliceInt16) MapUint16(f func(el int16) uint16) []uint16 {
 	result := make([]uint16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -21510,7 +23396,7 @@ func (s AsyncSliceInt8) MapUint16(f func(el int8) uint16) []uint16 {
 	return result
 }
 
-func (s AsyncSliceInt8) MapUint32(f func(el int8) uint32) []uint32 {
+func (s AsyncSliceInt16) MapUint32(f func(el int16) uint32) []uint32 {
 	result := make([]uint32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -21543,7 +23429,7 @@ func (s AsyncSliceInt8) MapUint32(f func(el int8) uint32) []uint32 {
 	return result
 }
 
-func (s AsyncSliceInt8) MapUint64(f func(el int8) uint64) []uint64 {
+func (s AsyncSliceInt16) MapUint64(f func(el int16) uint64) []uint64 {
 	result := make([]uint64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -21576,7 +23462,7 @@ func (s AsyncSliceInt8) MapUint64(f func(el int8) uint64) []uint64 {
 	return result
 }
 
-func (s AsyncSliceInt8) MapInterface(f func(el int8) interface{}) []interface{} {
+func (s AsyncSliceInt16) MapInterface(f func(el int16) interface{}) []interface{} {
 	result := make([]interface{}, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -21609,8 +23495,66 @@ func (s AsyncSliceInt8) MapInterface(f func(el int8) interface{}) []interface{} 
 	return result
 }
 
-func (s SequenceInt8) Count(start int8, step int8) chan int8 {
-	c := make(chan int8, 1)
+func (s AsyncSliceInt16) Reduce(f func(left int16, right int16) int16) int16 {
+	if len(s.data) == 0 {
+		var tmp int16
+		return tmp
+	}
+
+	state := make([]int16, len(s.data))
+	state = append(state, s.data...)
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- int16) {
+		for index := range jobs {
+			result <- f(state[index], state[index+1])
+		}
+		wg.Done()
+	}
+
+	for len(state) > 1 {
+		// calculate workers count
+		workers := s.workers
+		if workers == 0 || workers > len(state) {
+			workers = len(state)
+		}
+
+		// run workers
+		jobs := make(chan int, len(state))
+		wg.Add(workers)
+		result := make(chan int16, 1)
+		for i := 0; i < workers; i++ {
+			go worker(jobs, result)
+		}
+
+		go func() {
+			wg.Wait()
+			close(result)
+		}()
+
+		// add indices into jobs for workers
+		for i := 0; i < len(state)-1; i += 2 {
+			jobs <- i
+		}
+		close(jobs)
+
+		// collect new state
+		newState := make([]int16, 0, len(state)/2+len(state)%2)
+		for el := range result {
+			newState = append(newState, el)
+		}
+		if len(state)%2 == 1 {
+			newState = append(newState, state[len(state)-1])
+		}
+		// put new state as current state after all
+		state = newState
+	}
+
+	return state[0]
+}
+
+func (s SequenceInt16) Count(start int16, step int16) chan int16 {
+	c := make(chan int16, 1)
 	go func() {
 		for {
 			c <- start
@@ -21620,8 +23564,8 @@ func (s SequenceInt8) Count(start int8, step int8) chan int8 {
 	return c
 }
 
-func (s SequenceInt8) Exponential(start int8, factor int8) chan int8 {
-	c := make(chan int8, 1)
+func (s SequenceInt16) Exponential(start int16, factor int16) chan int16 {
+	c := make(chan int16, 1)
 	go func() {
 		for {
 			c <- start
@@ -21631,8 +23575,8 @@ func (s SequenceInt8) Exponential(start int8, factor int8) chan int8 {
 	return c
 }
 
-func (s SequenceInt8) Range(start int8, end int8, step int8) chan int8 {
-	c := make(chan int8, 1)
+func (s SequenceInt16) Range(start int16, end int16, step int16) chan int16 {
+	c := make(chan int16, 1)
 	pos := start <= end
 	go func() {
 		for pos && (start < end) || !pos && (start > end) {
@@ -21644,92 +23588,14 @@ func (s SequenceInt8) Range(start int8, end int8, step int8) chan int8 {
 	return c
 }
 
-func (s SequenceInt8) Repeat(val int8) chan int8 {
-	c := make(chan int8, 1)
+func (s SequenceInt16) Repeat(val int16) chan int16 {
+	c := make(chan int16, 1)
 	go func() {
 		for {
 			c <- val
 		}
 	}()
 	return c
-}
-
-func (s SlicesInt8) Concat() []int8 {
-	result := make([]int8, 0)
-	for _, arr := range s.data {
-		result = append(result, arr...)
-	}
-	return result
-}
-
-func (s SlicesInt8) Product() chan []int8 {
-	c := make(chan []int8, 1)
-	go s.product(c, []int8{}, 0)
-	return c
-}
-
-func (s SlicesInt8) product(c chan []int8, left []int8, pos int) {
-	// iterate over the last array
-	if pos == len(s.data)-1 {
-		for _, el := range s.data[pos] {
-			result := make([]int8, 0, len(left)+1)
-			result = append(result, left...)
-			result = append(result, el)
-			c <- result
-		}
-		return
-	}
-
-	for _, el := range s.data[pos] {
-		result := make([]int8, 0, len(left)+1)
-		result = append(result, left...)
-		result = append(result, el)
-		s.product(c, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
-	}
-}
-
-func (s SlicesInt8) Zip() [][]int8 {
-	size := len(s.data[0])
-	for _, arr := range s.data[1:] {
-		if len(arr) > size {
-			size = len(arr)
-		}
-	}
-
-	result := make([][]int8, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]int8, 0, len(s.data))
-		for _, arr := range s.data {
-			chunk = append(chunk, arr[i])
-		}
-		result = append(result, chunk)
-	}
-	return result
-}
-
-type SliceInt16 struct {
-	data []int16
-}
-
-type ChannelInt16 struct {
-	data chan int16
-}
-
-type AsyncSliceInt16 struct {
-	data    []int16
-	workers int
-}
-
-type SequenceInt16 struct {
-	data chan int16
-}
-
-type SlicesInt16 struct {
-	data [][]int16
 }
 
 func (s SliceInt16) Any(f func(el int16) bool) bool {
@@ -23378,7 +25244,85 @@ func (s SliceInt16) Window(size int) [][]int16 {
 	return result
 }
 
-func (c ChannelInt16) Any(f func(el int16) bool) bool {
+func (s SlicesInt16) Concat() []int16 {
+	result := make([]int16, 0)
+	for _, arr := range s.data {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+func (s SlicesInt16) Product() chan []int16 {
+	c := make(chan []int16, 1)
+	go s.product(c, []int16{}, 0)
+	return c
+}
+
+func (s SlicesInt16) product(c chan []int16, left []int16, pos int) {
+	// iterate over the last array
+	if pos == len(s.data)-1 {
+		for _, el := range s.data[pos] {
+			result := make([]int16, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data[pos] {
+		result := make([]int16, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
+func (s SlicesInt16) Zip() [][]int16 {
+	size := len(s.data[0])
+	for _, arr := range s.data[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]int16, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]int16, 0, len(s.data))
+		for _, arr := range s.data {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
+type ChannelInt32 struct {
+	data chan int32
+}
+
+type AsyncSliceInt32 struct {
+	data    []int32
+	workers int
+}
+
+type SequenceInt32 struct {
+	data chan int32
+}
+
+type SliceInt32 struct {
+	data []int32
+}
+
+type SlicesInt32 struct {
+	data [][]int32
+}
+
+func (c ChannelInt32) Any(f func(el int32) bool) bool {
 	for el := range c.data {
 		if f(el) {
 			return true
@@ -23387,7 +25331,7 @@ func (c ChannelInt16) Any(f func(el int16) bool) bool {
 	return false
 }
 
-func (c ChannelInt16) All(f func(el int16) bool) bool {
+func (c ChannelInt32) All(f func(el int32) bool) bool {
 	for el := range c.data {
 		if !f(el) {
 			return false
@@ -23396,10 +25340,10 @@ func (c ChannelInt16) All(f func(el int16) bool) bool {
 	return true
 }
 
-func (c ChannelInt16) ChunkEvery(count int) chan []int16 {
-	chunks := make(chan []int16, 1)
+func (c ChannelInt32) ChunkEvery(count int) chan []int32 {
+	chunks := make(chan []int32, 1)
 	go func() {
-		chunk := make([]int16, 0, count)
+		chunk := make([]int32, 0, count)
 		i := 0
 		for el := range c.data {
 			chunk = append(chunk, el)
@@ -23407,7 +25351,7 @@ func (c ChannelInt16) ChunkEvery(count int) chan []int16 {
 			if i%count == 0 {
 				i = 0
 				chunks <- chunk
-				chunk = make([]int16, 0, count)
+				chunk = make([]int32, 0, count)
 			}
 		}
 		if len(chunk) > 0 {
@@ -23418,7 +25362,7 @@ func (c ChannelInt16) ChunkEvery(count int) chan []int16 {
 	return chunks
 }
 
-func (c ChannelInt16) Count(el int16) int {
+func (c ChannelInt32) Count(el int32) int {
 	count := 0
 	for val := range c.data {
 		if val == el {
@@ -23428,8 +25372,8 @@ func (c ChannelInt16) Count(el int16) int {
 	return count
 }
 
-func (c ChannelInt16) Drop(n int) chan int16 {
-	result := make(chan int16, 1)
+func (c ChannelInt32) Drop(n int) chan int32 {
+	result := make(chan int32, 1)
 	go func() {
 		i := 0
 		for el := range c.data {
@@ -23443,14 +25387,14 @@ func (c ChannelInt16) Drop(n int) chan int16 {
 	return result
 }
 
-func (c ChannelInt16) Each(f func(el int16)) {
+func (c ChannelInt32) Each(f func(el int32)) {
 	for el := range c.data {
 		f(el)
 	}
 }
 
-func (c ChannelInt16) Filter(f func(el int16) bool) chan int16 {
-	result := make(chan int16, 1)
+func (c ChannelInt32) Filter(f func(el int32) bool) chan int32 {
+	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
 			if f(el) {
@@ -23462,7 +25406,7 @@ func (c ChannelInt16) Filter(f func(el int16) bool) chan int16 {
 	return result
 }
 
-func (c ChannelInt16) MapBool(f func(el int16) bool) chan bool {
+func (c ChannelInt32) MapBool(f func(el int32) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -23473,7 +25417,7 @@ func (c ChannelInt16) MapBool(f func(el int16) bool) chan bool {
 	return result
 }
 
-func (c ChannelInt16) MapByte(f func(el int16) byte) chan byte {
+func (c ChannelInt32) MapByte(f func(el int32) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -23484,7 +25428,7 @@ func (c ChannelInt16) MapByte(f func(el int16) byte) chan byte {
 	return result
 }
 
-func (c ChannelInt16) MapString(f func(el int16) string) chan string {
+func (c ChannelInt32) MapString(f func(el int32) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -23495,7 +25439,7 @@ func (c ChannelInt16) MapString(f func(el int16) string) chan string {
 	return result
 }
 
-func (c ChannelInt16) MapFloat32(f func(el int16) float32) chan float32 {
+func (c ChannelInt32) MapFloat32(f func(el int32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -23506,7 +25450,7 @@ func (c ChannelInt16) MapFloat32(f func(el int16) float32) chan float32 {
 	return result
 }
 
-func (c ChannelInt16) MapFloat64(f func(el int16) float64) chan float64 {
+func (c ChannelInt32) MapFloat64(f func(el int32) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -23517,7 +25461,7 @@ func (c ChannelInt16) MapFloat64(f func(el int16) float64) chan float64 {
 	return result
 }
 
-func (c ChannelInt16) MapInt(f func(el int16) int) chan int {
+func (c ChannelInt32) MapInt(f func(el int32) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -23528,7 +25472,7 @@ func (c ChannelInt16) MapInt(f func(el int16) int) chan int {
 	return result
 }
 
-func (c ChannelInt16) MapInt8(f func(el int16) int8) chan int8 {
+func (c ChannelInt32) MapInt8(f func(el int32) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -23539,7 +25483,7 @@ func (c ChannelInt16) MapInt8(f func(el int16) int8) chan int8 {
 	return result
 }
 
-func (c ChannelInt16) MapInt16(f func(el int16) int16) chan int16 {
+func (c ChannelInt32) MapInt16(f func(el int32) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -23550,7 +25494,7 @@ func (c ChannelInt16) MapInt16(f func(el int16) int16) chan int16 {
 	return result
 }
 
-func (c ChannelInt16) MapInt32(f func(el int16) int32) chan int32 {
+func (c ChannelInt32) MapInt32(f func(el int32) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -23561,7 +25505,7 @@ func (c ChannelInt16) MapInt32(f func(el int16) int32) chan int32 {
 	return result
 }
 
-func (c ChannelInt16) MapInt64(f func(el int16) int64) chan int64 {
+func (c ChannelInt32) MapInt64(f func(el int32) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -23572,7 +25516,7 @@ func (c ChannelInt16) MapInt64(f func(el int16) int64) chan int64 {
 	return result
 }
 
-func (c ChannelInt16) MapUint(f func(el int16) uint) chan uint {
+func (c ChannelInt32) MapUint(f func(el int32) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -23583,7 +25527,7 @@ func (c ChannelInt16) MapUint(f func(el int16) uint) chan uint {
 	return result
 }
 
-func (c ChannelInt16) MapUint8(f func(el int16) uint8) chan uint8 {
+func (c ChannelInt32) MapUint8(f func(el int32) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -23594,7 +25538,7 @@ func (c ChannelInt16) MapUint8(f func(el int16) uint8) chan uint8 {
 	return result
 }
 
-func (c ChannelInt16) MapUint16(f func(el int16) uint16) chan uint16 {
+func (c ChannelInt32) MapUint16(f func(el int32) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -23605,7 +25549,7 @@ func (c ChannelInt16) MapUint16(f func(el int16) uint16) chan uint16 {
 	return result
 }
 
-func (c ChannelInt16) MapUint32(f func(el int16) uint32) chan uint32 {
+func (c ChannelInt32) MapUint32(f func(el int32) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -23616,7 +25560,7 @@ func (c ChannelInt16) MapUint32(f func(el int16) uint32) chan uint32 {
 	return result
 }
 
-func (c ChannelInt16) MapUint64(f func(el int16) uint64) chan uint64 {
+func (c ChannelInt32) MapUint64(f func(el int32) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -23627,7 +25571,7 @@ func (c ChannelInt16) MapUint64(f func(el int16) uint64) chan uint64 {
 	return result
 }
 
-func (c ChannelInt16) MapInterface(f func(el int16) interface{}) chan interface{} {
+func (c ChannelInt32) MapInterface(f func(el int32) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -23638,7 +25582,7 @@ func (c ChannelInt16) MapInterface(f func(el int16) interface{}) chan interface{
 	return result
 }
 
-func (c ChannelInt16) Max() int16 {
+func (c ChannelInt32) Max() int32 {
 	max := <-c.data
 	for el := range c.data {
 		if el > max {
@@ -23648,7 +25592,7 @@ func (c ChannelInt16) Max() int16 {
 	return max
 }
 
-func (c ChannelInt16) Min() int16 {
+func (c ChannelInt32) Min() int32 {
 	min := <-c.data
 	for el := range c.data {
 		if el < min {
@@ -23658,119 +25602,119 @@ func (c ChannelInt16) Min() int16 {
 	return min
 }
 
-func (c ChannelInt16) ReduceBool(acc bool, f func(el int16, acc bool) bool) bool {
+func (c ChannelInt32) ReduceBool(acc bool, f func(el int32, acc bool) bool) bool {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt16) ReduceByte(acc byte, f func(el int16, acc byte) byte) byte {
+func (c ChannelInt32) ReduceByte(acc byte, f func(el int32, acc byte) byte) byte {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt16) ReduceString(acc string, f func(el int16, acc string) string) string {
+func (c ChannelInt32) ReduceString(acc string, f func(el int32, acc string) string) string {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt16) ReduceFloat32(acc float32, f func(el int16, acc float32) float32) float32 {
+func (c ChannelInt32) ReduceFloat32(acc float32, f func(el int32, acc float32) float32) float32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt16) ReduceFloat64(acc float64, f func(el int16, acc float64) float64) float64 {
+func (c ChannelInt32) ReduceFloat64(acc float64, f func(el int32, acc float64) float64) float64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt16) ReduceInt(acc int, f func(el int16, acc int) int) int {
+func (c ChannelInt32) ReduceInt(acc int, f func(el int32, acc int) int) int {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt16) ReduceInt8(acc int8, f func(el int16, acc int8) int8) int8 {
+func (c ChannelInt32) ReduceInt8(acc int8, f func(el int32, acc int8) int8) int8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt16) ReduceInt16(acc int16, f func(el int16, acc int16) int16) int16 {
+func (c ChannelInt32) ReduceInt16(acc int16, f func(el int32, acc int16) int16) int16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt16) ReduceInt32(acc int32, f func(el int16, acc int32) int32) int32 {
+func (c ChannelInt32) ReduceInt32(acc int32, f func(el int32, acc int32) int32) int32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt16) ReduceInt64(acc int64, f func(el int16, acc int64) int64) int64 {
+func (c ChannelInt32) ReduceInt64(acc int64, f func(el int32, acc int64) int64) int64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt16) ReduceUint(acc uint, f func(el int16, acc uint) uint) uint {
+func (c ChannelInt32) ReduceUint(acc uint, f func(el int32, acc uint) uint) uint {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt16) ReduceUint8(acc uint8, f func(el int16, acc uint8) uint8) uint8 {
+func (c ChannelInt32) ReduceUint8(acc uint8, f func(el int32, acc uint8) uint8) uint8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt16) ReduceUint16(acc uint16, f func(el int16, acc uint16) uint16) uint16 {
+func (c ChannelInt32) ReduceUint16(acc uint16, f func(el int32, acc uint16) uint16) uint16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt16) ReduceUint32(acc uint32, f func(el int16, acc uint32) uint32) uint32 {
+func (c ChannelInt32) ReduceUint32(acc uint32, f func(el int32, acc uint32) uint32) uint32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt16) ReduceUint64(acc uint64, f func(el int16, acc uint64) uint64) uint64 {
+func (c ChannelInt32) ReduceUint64(acc uint64, f func(el int32, acc uint64) uint64) uint64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt16) ReduceInterface(acc interface{}, f func(el int16, acc interface{}) interface{}) interface{} {
+func (c ChannelInt32) ReduceInterface(acc interface{}, f func(el int32, acc interface{}) interface{}) interface{} {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt16) ScanBool(acc bool, f func(el int16, acc bool) bool) chan bool {
+func (c ChannelInt32) ScanBool(acc bool, f func(el int32, acc bool) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -23782,7 +25726,7 @@ func (c ChannelInt16) ScanBool(acc bool, f func(el int16, acc bool) bool) chan b
 	return result
 }
 
-func (c ChannelInt16) ScanByte(acc byte, f func(el int16, acc byte) byte) chan byte {
+func (c ChannelInt32) ScanByte(acc byte, f func(el int32, acc byte) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -23794,7 +25738,7 @@ func (c ChannelInt16) ScanByte(acc byte, f func(el int16, acc byte) byte) chan b
 	return result
 }
 
-func (c ChannelInt16) ScanString(acc string, f func(el int16, acc string) string) chan string {
+func (c ChannelInt32) ScanString(acc string, f func(el int32, acc string) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -23806,7 +25750,7 @@ func (c ChannelInt16) ScanString(acc string, f func(el int16, acc string) string
 	return result
 }
 
-func (c ChannelInt16) ScanFloat32(acc float32, f func(el int16, acc float32) float32) chan float32 {
+func (c ChannelInt32) ScanFloat32(acc float32, f func(el int32, acc float32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -23818,7 +25762,7 @@ func (c ChannelInt16) ScanFloat32(acc float32, f func(el int16, acc float32) flo
 	return result
 }
 
-func (c ChannelInt16) ScanFloat64(acc float64, f func(el int16, acc float64) float64) chan float64 {
+func (c ChannelInt32) ScanFloat64(acc float64, f func(el int32, acc float64) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -23830,7 +25774,7 @@ func (c ChannelInt16) ScanFloat64(acc float64, f func(el int16, acc float64) flo
 	return result
 }
 
-func (c ChannelInt16) ScanInt(acc int, f func(el int16, acc int) int) chan int {
+func (c ChannelInt32) ScanInt(acc int, f func(el int32, acc int) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -23842,7 +25786,7 @@ func (c ChannelInt16) ScanInt(acc int, f func(el int16, acc int) int) chan int {
 	return result
 }
 
-func (c ChannelInt16) ScanInt8(acc int8, f func(el int16, acc int8) int8) chan int8 {
+func (c ChannelInt32) ScanInt8(acc int8, f func(el int32, acc int8) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -23854,7 +25798,7 @@ func (c ChannelInt16) ScanInt8(acc int8, f func(el int16, acc int8) int8) chan i
 	return result
 }
 
-func (c ChannelInt16) ScanInt16(acc int16, f func(el int16, acc int16) int16) chan int16 {
+func (c ChannelInt32) ScanInt16(acc int16, f func(el int32, acc int16) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -23866,7 +25810,7 @@ func (c ChannelInt16) ScanInt16(acc int16, f func(el int16, acc int16) int16) ch
 	return result
 }
 
-func (c ChannelInt16) ScanInt32(acc int32, f func(el int16, acc int32) int32) chan int32 {
+func (c ChannelInt32) ScanInt32(acc int32, f func(el int32, acc int32) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -23878,7 +25822,7 @@ func (c ChannelInt16) ScanInt32(acc int32, f func(el int16, acc int32) int32) ch
 	return result
 }
 
-func (c ChannelInt16) ScanInt64(acc int64, f func(el int16, acc int64) int64) chan int64 {
+func (c ChannelInt32) ScanInt64(acc int64, f func(el int32, acc int64) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -23890,7 +25834,7 @@ func (c ChannelInt16) ScanInt64(acc int64, f func(el int16, acc int64) int64) ch
 	return result
 }
 
-func (c ChannelInt16) ScanUint(acc uint, f func(el int16, acc uint) uint) chan uint {
+func (c ChannelInt32) ScanUint(acc uint, f func(el int32, acc uint) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -23902,7 +25846,7 @@ func (c ChannelInt16) ScanUint(acc uint, f func(el int16, acc uint) uint) chan u
 	return result
 }
 
-func (c ChannelInt16) ScanUint8(acc uint8, f func(el int16, acc uint8) uint8) chan uint8 {
+func (c ChannelInt32) ScanUint8(acc uint8, f func(el int32, acc uint8) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -23914,7 +25858,7 @@ func (c ChannelInt16) ScanUint8(acc uint8, f func(el int16, acc uint8) uint8) ch
 	return result
 }
 
-func (c ChannelInt16) ScanUint16(acc uint16, f func(el int16, acc uint16) uint16) chan uint16 {
+func (c ChannelInt32) ScanUint16(acc uint16, f func(el int32, acc uint16) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -23926,7 +25870,7 @@ func (c ChannelInt16) ScanUint16(acc uint16, f func(el int16, acc uint16) uint16
 	return result
 }
 
-func (c ChannelInt16) ScanUint32(acc uint32, f func(el int16, acc uint32) uint32) chan uint32 {
+func (c ChannelInt32) ScanUint32(acc uint32, f func(el int32, acc uint32) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -23938,7 +25882,7 @@ func (c ChannelInt16) ScanUint32(acc uint32, f func(el int16, acc uint32) uint32
 	return result
 }
 
-func (c ChannelInt16) ScanUint64(acc uint64, f func(el int16, acc uint64) uint64) chan uint64 {
+func (c ChannelInt32) ScanUint64(acc uint64, f func(el int32, acc uint64) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -23950,7 +25894,7 @@ func (c ChannelInt16) ScanUint64(acc uint64, f func(el int16, acc uint64) uint64
 	return result
 }
 
-func (c ChannelInt16) ScanInterface(acc interface{}, f func(el int16, acc interface{}) interface{}) chan interface{} {
+func (c ChannelInt32) ScanInterface(acc interface{}, f func(el int32, acc interface{}) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -23962,31 +25906,31 @@ func (c ChannelInt16) ScanInterface(acc interface{}, f func(el int16, acc interf
 	return result
 }
 
-func (c ChannelInt16) Sum() int16 {
-	var sum int16
+func (c ChannelInt32) Sum() int32 {
+	var sum int32
 	for el := range c.data {
 		sum += el
 	}
 	return sum
 }
 
-func (c ChannelInt16) Take(n int) []int16 {
-	result := make([]int16, 0, n)
+func (c ChannelInt32) Take(n int) []int32 {
+	result := make([]int32, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c.data)
 	}
 	return result
 }
 
-func (c ChannelInt16) Tee(count int) []chan int16 {
-	channels := make([]chan int16, 0, count)
+func (c ChannelInt32) Tee(count int) []chan int32 {
+	channels := make([]chan int32, 0, count)
 	for i := 0; i < count; i++ {
-		channels = append(channels, make(chan int16, 1))
+		channels = append(channels, make(chan int32, 1))
 	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			putInto := func(ch chan int16) {
+			putInto := func(ch chan int32) {
 				wg.Add(1)
 				defer wg.Done()
 				ch <- el
@@ -24003,15 +25947,15 @@ func (c ChannelInt16) Tee(count int) []chan int16 {
 	return channels
 }
 
-func (c ChannelInt16) ToSlice() []int16 {
-	result := make([]int16, 0)
+func (c ChannelInt32) ToSlice() []int32 {
+	result := make([]int32, 0)
 	for val := range c.data {
 		result = append(result, val)
 	}
 	return result
 }
 
-func (s AsyncSliceInt16) All(f func(el int16) bool) bool {
+func (s AsyncSliceInt32) All(f func(el int32) bool) bool {
 	if len(s.data) == 0 {
 		return true
 	}
@@ -24072,7 +26016,7 @@ func (s AsyncSliceInt16) All(f func(el int16) bool) bool {
 	return true
 }
 
-func (s AsyncSliceInt16) Any(f func(el int16) bool) bool {
+func (s AsyncSliceInt32) Any(f func(el int32) bool) bool {
 	if len(s.data) == 0 {
 		return false
 	}
@@ -24133,7 +26077,7 @@ func (s AsyncSliceInt16) Any(f func(el int16) bool) bool {
 	return false
 }
 
-func (s AsyncSliceInt16) Each(f func(el int16)) {
+func (s AsyncSliceInt32) Each(f func(el int32)) {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -24164,7 +26108,7 @@ func (s AsyncSliceInt16) Each(f func(el int16)) {
 	wg.Wait()
 }
 
-func (s AsyncSliceInt16) Filter(f func(el int16) bool) []int16 {
+func (s AsyncSliceInt32) Filter(f func(el int32) bool) []int32 {
 	resultMap := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -24198,7 +26142,7 @@ func (s AsyncSliceInt16) Filter(f func(el int16) bool) []int16 {
 	wg.Wait()
 
 	// return filtered results
-	result := make([]int16, 0, len(s.data))
+	result := make([]int32, 0, len(s.data))
 	for i, el := range s.data {
 		if resultMap[i] {
 			result = append(result, el)
@@ -24207,7 +26151,7 @@ func (s AsyncSliceInt16) Filter(f func(el int16) bool) []int16 {
 	return result
 }
 
-func (s AsyncSliceInt16) MapBool(f func(el int16) bool) []bool {
+func (s AsyncSliceInt32) MapBool(f func(el int32) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -24240,7 +26184,7 @@ func (s AsyncSliceInt16) MapBool(f func(el int16) bool) []bool {
 	return result
 }
 
-func (s AsyncSliceInt16) MapByte(f func(el int16) byte) []byte {
+func (s AsyncSliceInt32) MapByte(f func(el int32) byte) []byte {
 	result := make([]byte, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -24273,7 +26217,7 @@ func (s AsyncSliceInt16) MapByte(f func(el int16) byte) []byte {
 	return result
 }
 
-func (s AsyncSliceInt16) MapString(f func(el int16) string) []string {
+func (s AsyncSliceInt32) MapString(f func(el int32) string) []string {
 	result := make([]string, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -24306,7 +26250,7 @@ func (s AsyncSliceInt16) MapString(f func(el int16) string) []string {
 	return result
 }
 
-func (s AsyncSliceInt16) MapFloat32(f func(el int16) float32) []float32 {
+func (s AsyncSliceInt32) MapFloat32(f func(el int32) float32) []float32 {
 	result := make([]float32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -24339,7 +26283,7 @@ func (s AsyncSliceInt16) MapFloat32(f func(el int16) float32) []float32 {
 	return result
 }
 
-func (s AsyncSliceInt16) MapFloat64(f func(el int16) float64) []float64 {
+func (s AsyncSliceInt32) MapFloat64(f func(el int32) float64) []float64 {
 	result := make([]float64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -24372,7 +26316,7 @@ func (s AsyncSliceInt16) MapFloat64(f func(el int16) float64) []float64 {
 	return result
 }
 
-func (s AsyncSliceInt16) MapInt(f func(el int16) int) []int {
+func (s AsyncSliceInt32) MapInt(f func(el int32) int) []int {
 	result := make([]int, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -24405,7 +26349,7 @@ func (s AsyncSliceInt16) MapInt(f func(el int16) int) []int {
 	return result
 }
 
-func (s AsyncSliceInt16) MapInt8(f func(el int16) int8) []int8 {
+func (s AsyncSliceInt32) MapInt8(f func(el int32) int8) []int8 {
 	result := make([]int8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -24438,7 +26382,7 @@ func (s AsyncSliceInt16) MapInt8(f func(el int16) int8) []int8 {
 	return result
 }
 
-func (s AsyncSliceInt16) MapInt16(f func(el int16) int16) []int16 {
+func (s AsyncSliceInt32) MapInt16(f func(el int32) int16) []int16 {
 	result := make([]int16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -24471,7 +26415,7 @@ func (s AsyncSliceInt16) MapInt16(f func(el int16) int16) []int16 {
 	return result
 }
 
-func (s AsyncSliceInt16) MapInt32(f func(el int16) int32) []int32 {
+func (s AsyncSliceInt32) MapInt32(f func(el int32) int32) []int32 {
 	result := make([]int32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -24504,7 +26448,7 @@ func (s AsyncSliceInt16) MapInt32(f func(el int16) int32) []int32 {
 	return result
 }
 
-func (s AsyncSliceInt16) MapInt64(f func(el int16) int64) []int64 {
+func (s AsyncSliceInt32) MapInt64(f func(el int32) int64) []int64 {
 	result := make([]int64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -24537,7 +26481,7 @@ func (s AsyncSliceInt16) MapInt64(f func(el int16) int64) []int64 {
 	return result
 }
 
-func (s AsyncSliceInt16) MapUint(f func(el int16) uint) []uint {
+func (s AsyncSliceInt32) MapUint(f func(el int32) uint) []uint {
 	result := make([]uint, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -24570,7 +26514,7 @@ func (s AsyncSliceInt16) MapUint(f func(el int16) uint) []uint {
 	return result
 }
 
-func (s AsyncSliceInt16) MapUint8(f func(el int16) uint8) []uint8 {
+func (s AsyncSliceInt32) MapUint8(f func(el int32) uint8) []uint8 {
 	result := make([]uint8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -24603,7 +26547,7 @@ func (s AsyncSliceInt16) MapUint8(f func(el int16) uint8) []uint8 {
 	return result
 }
 
-func (s AsyncSliceInt16) MapUint16(f func(el int16) uint16) []uint16 {
+func (s AsyncSliceInt32) MapUint16(f func(el int32) uint16) []uint16 {
 	result := make([]uint16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -24636,7 +26580,7 @@ func (s AsyncSliceInt16) MapUint16(f func(el int16) uint16) []uint16 {
 	return result
 }
 
-func (s AsyncSliceInt16) MapUint32(f func(el int16) uint32) []uint32 {
+func (s AsyncSliceInt32) MapUint32(f func(el int32) uint32) []uint32 {
 	result := make([]uint32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -24669,7 +26613,7 @@ func (s AsyncSliceInt16) MapUint32(f func(el int16) uint32) []uint32 {
 	return result
 }
 
-func (s AsyncSliceInt16) MapUint64(f func(el int16) uint64) []uint64 {
+func (s AsyncSliceInt32) MapUint64(f func(el int32) uint64) []uint64 {
 	result := make([]uint64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -24702,7 +26646,7 @@ func (s AsyncSliceInt16) MapUint64(f func(el int16) uint64) []uint64 {
 	return result
 }
 
-func (s AsyncSliceInt16) MapInterface(f func(el int16) interface{}) []interface{} {
+func (s AsyncSliceInt32) MapInterface(f func(el int32) interface{}) []interface{} {
 	result := make([]interface{}, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -24735,8 +26679,66 @@ func (s AsyncSliceInt16) MapInterface(f func(el int16) interface{}) []interface{
 	return result
 }
 
-func (s SequenceInt16) Count(start int16, step int16) chan int16 {
-	c := make(chan int16, 1)
+func (s AsyncSliceInt32) Reduce(f func(left int32, right int32) int32) int32 {
+	if len(s.data) == 0 {
+		var tmp int32
+		return tmp
+	}
+
+	state := make([]int32, len(s.data))
+	state = append(state, s.data...)
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- int32) {
+		for index := range jobs {
+			result <- f(state[index], state[index+1])
+		}
+		wg.Done()
+	}
+
+	for len(state) > 1 {
+		// calculate workers count
+		workers := s.workers
+		if workers == 0 || workers > len(state) {
+			workers = len(state)
+		}
+
+		// run workers
+		jobs := make(chan int, len(state))
+		wg.Add(workers)
+		result := make(chan int32, 1)
+		for i := 0; i < workers; i++ {
+			go worker(jobs, result)
+		}
+
+		go func() {
+			wg.Wait()
+			close(result)
+		}()
+
+		// add indices into jobs for workers
+		for i := 0; i < len(state)-1; i += 2 {
+			jobs <- i
+		}
+		close(jobs)
+
+		// collect new state
+		newState := make([]int32, 0, len(state)/2+len(state)%2)
+		for el := range result {
+			newState = append(newState, el)
+		}
+		if len(state)%2 == 1 {
+			newState = append(newState, state[len(state)-1])
+		}
+		// put new state as current state after all
+		state = newState
+	}
+
+	return state[0]
+}
+
+func (s SequenceInt32) Count(start int32, step int32) chan int32 {
+	c := make(chan int32, 1)
 	go func() {
 		for {
 			c <- start
@@ -24746,8 +26748,8 @@ func (s SequenceInt16) Count(start int16, step int16) chan int16 {
 	return c
 }
 
-func (s SequenceInt16) Exponential(start int16, factor int16) chan int16 {
-	c := make(chan int16, 1)
+func (s SequenceInt32) Exponential(start int32, factor int32) chan int32 {
+	c := make(chan int32, 1)
 	go func() {
 		for {
 			c <- start
@@ -24757,8 +26759,8 @@ func (s SequenceInt16) Exponential(start int16, factor int16) chan int16 {
 	return c
 }
 
-func (s SequenceInt16) Range(start int16, end int16, step int16) chan int16 {
-	c := make(chan int16, 1)
+func (s SequenceInt32) Range(start int32, end int32, step int32) chan int32 {
+	c := make(chan int32, 1)
 	pos := start <= end
 	go func() {
 		for pos && (start < end) || !pos && (start > end) {
@@ -24770,92 +26772,14 @@ func (s SequenceInt16) Range(start int16, end int16, step int16) chan int16 {
 	return c
 }
 
-func (s SequenceInt16) Repeat(val int16) chan int16 {
-	c := make(chan int16, 1)
+func (s SequenceInt32) Repeat(val int32) chan int32 {
+	c := make(chan int32, 1)
 	go func() {
 		for {
 			c <- val
 		}
 	}()
 	return c
-}
-
-func (s SlicesInt16) Concat() []int16 {
-	result := make([]int16, 0)
-	for _, arr := range s.data {
-		result = append(result, arr...)
-	}
-	return result
-}
-
-func (s SlicesInt16) Product() chan []int16 {
-	c := make(chan []int16, 1)
-	go s.product(c, []int16{}, 0)
-	return c
-}
-
-func (s SlicesInt16) product(c chan []int16, left []int16, pos int) {
-	// iterate over the last array
-	if pos == len(s.data)-1 {
-		for _, el := range s.data[pos] {
-			result := make([]int16, 0, len(left)+1)
-			result = append(result, left...)
-			result = append(result, el)
-			c <- result
-		}
-		return
-	}
-
-	for _, el := range s.data[pos] {
-		result := make([]int16, 0, len(left)+1)
-		result = append(result, left...)
-		result = append(result, el)
-		s.product(c, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
-	}
-}
-
-func (s SlicesInt16) Zip() [][]int16 {
-	size := len(s.data[0])
-	for _, arr := range s.data[1:] {
-		if len(arr) > size {
-			size = len(arr)
-		}
-	}
-
-	result := make([][]int16, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]int16, 0, len(s.data))
-		for _, arr := range s.data {
-			chunk = append(chunk, arr[i])
-		}
-		result = append(result, chunk)
-	}
-	return result
-}
-
-type SliceInt32 struct {
-	data []int32
-}
-
-type ChannelInt32 struct {
-	data chan int32
-}
-
-type AsyncSliceInt32 struct {
-	data    []int32
-	workers int
-}
-
-type SequenceInt32 struct {
-	data chan int32
-}
-
-type SlicesInt32 struct {
-	data [][]int32
 }
 
 func (s SliceInt32) Any(f func(el int32) bool) bool {
@@ -26504,7 +28428,85 @@ func (s SliceInt32) Window(size int) [][]int32 {
 	return result
 }
 
-func (c ChannelInt32) Any(f func(el int32) bool) bool {
+func (s SlicesInt32) Concat() []int32 {
+	result := make([]int32, 0)
+	for _, arr := range s.data {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+func (s SlicesInt32) Product() chan []int32 {
+	c := make(chan []int32, 1)
+	go s.product(c, []int32{}, 0)
+	return c
+}
+
+func (s SlicesInt32) product(c chan []int32, left []int32, pos int) {
+	// iterate over the last array
+	if pos == len(s.data)-1 {
+		for _, el := range s.data[pos] {
+			result := make([]int32, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data[pos] {
+		result := make([]int32, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
+func (s SlicesInt32) Zip() [][]int32 {
+	size := len(s.data[0])
+	for _, arr := range s.data[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]int32, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]int32, 0, len(s.data))
+		for _, arr := range s.data {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
+type ChannelInt64 struct {
+	data chan int64
+}
+
+type AsyncSliceInt64 struct {
+	data    []int64
+	workers int
+}
+
+type SequenceInt64 struct {
+	data chan int64
+}
+
+type SliceInt64 struct {
+	data []int64
+}
+
+type SlicesInt64 struct {
+	data [][]int64
+}
+
+func (c ChannelInt64) Any(f func(el int64) bool) bool {
 	for el := range c.data {
 		if f(el) {
 			return true
@@ -26513,7 +28515,7 @@ func (c ChannelInt32) Any(f func(el int32) bool) bool {
 	return false
 }
 
-func (c ChannelInt32) All(f func(el int32) bool) bool {
+func (c ChannelInt64) All(f func(el int64) bool) bool {
 	for el := range c.data {
 		if !f(el) {
 			return false
@@ -26522,10 +28524,10 @@ func (c ChannelInt32) All(f func(el int32) bool) bool {
 	return true
 }
 
-func (c ChannelInt32) ChunkEvery(count int) chan []int32 {
-	chunks := make(chan []int32, 1)
+func (c ChannelInt64) ChunkEvery(count int) chan []int64 {
+	chunks := make(chan []int64, 1)
 	go func() {
-		chunk := make([]int32, 0, count)
+		chunk := make([]int64, 0, count)
 		i := 0
 		for el := range c.data {
 			chunk = append(chunk, el)
@@ -26533,7 +28535,7 @@ func (c ChannelInt32) ChunkEvery(count int) chan []int32 {
 			if i%count == 0 {
 				i = 0
 				chunks <- chunk
-				chunk = make([]int32, 0, count)
+				chunk = make([]int64, 0, count)
 			}
 		}
 		if len(chunk) > 0 {
@@ -26544,7 +28546,7 @@ func (c ChannelInt32) ChunkEvery(count int) chan []int32 {
 	return chunks
 }
 
-func (c ChannelInt32) Count(el int32) int {
+func (c ChannelInt64) Count(el int64) int {
 	count := 0
 	for val := range c.data {
 		if val == el {
@@ -26554,8 +28556,8 @@ func (c ChannelInt32) Count(el int32) int {
 	return count
 }
 
-func (c ChannelInt32) Drop(n int) chan int32 {
-	result := make(chan int32, 1)
+func (c ChannelInt64) Drop(n int) chan int64 {
+	result := make(chan int64, 1)
 	go func() {
 		i := 0
 		for el := range c.data {
@@ -26569,14 +28571,14 @@ func (c ChannelInt32) Drop(n int) chan int32 {
 	return result
 }
 
-func (c ChannelInt32) Each(f func(el int32)) {
+func (c ChannelInt64) Each(f func(el int64)) {
 	for el := range c.data {
 		f(el)
 	}
 }
 
-func (c ChannelInt32) Filter(f func(el int32) bool) chan int32 {
-	result := make(chan int32, 1)
+func (c ChannelInt64) Filter(f func(el int64) bool) chan int64 {
+	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
 			if f(el) {
@@ -26588,7 +28590,7 @@ func (c ChannelInt32) Filter(f func(el int32) bool) chan int32 {
 	return result
 }
 
-func (c ChannelInt32) MapBool(f func(el int32) bool) chan bool {
+func (c ChannelInt64) MapBool(f func(el int64) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -26599,7 +28601,7 @@ func (c ChannelInt32) MapBool(f func(el int32) bool) chan bool {
 	return result
 }
 
-func (c ChannelInt32) MapByte(f func(el int32) byte) chan byte {
+func (c ChannelInt64) MapByte(f func(el int64) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -26610,7 +28612,7 @@ func (c ChannelInt32) MapByte(f func(el int32) byte) chan byte {
 	return result
 }
 
-func (c ChannelInt32) MapString(f func(el int32) string) chan string {
+func (c ChannelInt64) MapString(f func(el int64) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -26621,7 +28623,7 @@ func (c ChannelInt32) MapString(f func(el int32) string) chan string {
 	return result
 }
 
-func (c ChannelInt32) MapFloat32(f func(el int32) float32) chan float32 {
+func (c ChannelInt64) MapFloat32(f func(el int64) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -26632,7 +28634,7 @@ func (c ChannelInt32) MapFloat32(f func(el int32) float32) chan float32 {
 	return result
 }
 
-func (c ChannelInt32) MapFloat64(f func(el int32) float64) chan float64 {
+func (c ChannelInt64) MapFloat64(f func(el int64) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -26643,7 +28645,7 @@ func (c ChannelInt32) MapFloat64(f func(el int32) float64) chan float64 {
 	return result
 }
 
-func (c ChannelInt32) MapInt(f func(el int32) int) chan int {
+func (c ChannelInt64) MapInt(f func(el int64) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -26654,7 +28656,7 @@ func (c ChannelInt32) MapInt(f func(el int32) int) chan int {
 	return result
 }
 
-func (c ChannelInt32) MapInt8(f func(el int32) int8) chan int8 {
+func (c ChannelInt64) MapInt8(f func(el int64) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -26665,7 +28667,7 @@ func (c ChannelInt32) MapInt8(f func(el int32) int8) chan int8 {
 	return result
 }
 
-func (c ChannelInt32) MapInt16(f func(el int32) int16) chan int16 {
+func (c ChannelInt64) MapInt16(f func(el int64) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -26676,7 +28678,7 @@ func (c ChannelInt32) MapInt16(f func(el int32) int16) chan int16 {
 	return result
 }
 
-func (c ChannelInt32) MapInt32(f func(el int32) int32) chan int32 {
+func (c ChannelInt64) MapInt32(f func(el int64) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -26687,7 +28689,7 @@ func (c ChannelInt32) MapInt32(f func(el int32) int32) chan int32 {
 	return result
 }
 
-func (c ChannelInt32) MapInt64(f func(el int32) int64) chan int64 {
+func (c ChannelInt64) MapInt64(f func(el int64) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -26698,7 +28700,7 @@ func (c ChannelInt32) MapInt64(f func(el int32) int64) chan int64 {
 	return result
 }
 
-func (c ChannelInt32) MapUint(f func(el int32) uint) chan uint {
+func (c ChannelInt64) MapUint(f func(el int64) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -26709,7 +28711,7 @@ func (c ChannelInt32) MapUint(f func(el int32) uint) chan uint {
 	return result
 }
 
-func (c ChannelInt32) MapUint8(f func(el int32) uint8) chan uint8 {
+func (c ChannelInt64) MapUint8(f func(el int64) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -26720,7 +28722,7 @@ func (c ChannelInt32) MapUint8(f func(el int32) uint8) chan uint8 {
 	return result
 }
 
-func (c ChannelInt32) MapUint16(f func(el int32) uint16) chan uint16 {
+func (c ChannelInt64) MapUint16(f func(el int64) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -26731,7 +28733,7 @@ func (c ChannelInt32) MapUint16(f func(el int32) uint16) chan uint16 {
 	return result
 }
 
-func (c ChannelInt32) MapUint32(f func(el int32) uint32) chan uint32 {
+func (c ChannelInt64) MapUint32(f func(el int64) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -26742,7 +28744,7 @@ func (c ChannelInt32) MapUint32(f func(el int32) uint32) chan uint32 {
 	return result
 }
 
-func (c ChannelInt32) MapUint64(f func(el int32) uint64) chan uint64 {
+func (c ChannelInt64) MapUint64(f func(el int64) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -26753,7 +28755,7 @@ func (c ChannelInt32) MapUint64(f func(el int32) uint64) chan uint64 {
 	return result
 }
 
-func (c ChannelInt32) MapInterface(f func(el int32) interface{}) chan interface{} {
+func (c ChannelInt64) MapInterface(f func(el int64) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -26764,7 +28766,7 @@ func (c ChannelInt32) MapInterface(f func(el int32) interface{}) chan interface{
 	return result
 }
 
-func (c ChannelInt32) Max() int32 {
+func (c ChannelInt64) Max() int64 {
 	max := <-c.data
 	for el := range c.data {
 		if el > max {
@@ -26774,7 +28776,7 @@ func (c ChannelInt32) Max() int32 {
 	return max
 }
 
-func (c ChannelInt32) Min() int32 {
+func (c ChannelInt64) Min() int64 {
 	min := <-c.data
 	for el := range c.data {
 		if el < min {
@@ -26784,119 +28786,119 @@ func (c ChannelInt32) Min() int32 {
 	return min
 }
 
-func (c ChannelInt32) ReduceBool(acc bool, f func(el int32, acc bool) bool) bool {
+func (c ChannelInt64) ReduceBool(acc bool, f func(el int64, acc bool) bool) bool {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt32) ReduceByte(acc byte, f func(el int32, acc byte) byte) byte {
+func (c ChannelInt64) ReduceByte(acc byte, f func(el int64, acc byte) byte) byte {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt32) ReduceString(acc string, f func(el int32, acc string) string) string {
+func (c ChannelInt64) ReduceString(acc string, f func(el int64, acc string) string) string {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt32) ReduceFloat32(acc float32, f func(el int32, acc float32) float32) float32 {
+func (c ChannelInt64) ReduceFloat32(acc float32, f func(el int64, acc float32) float32) float32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt32) ReduceFloat64(acc float64, f func(el int32, acc float64) float64) float64 {
+func (c ChannelInt64) ReduceFloat64(acc float64, f func(el int64, acc float64) float64) float64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt32) ReduceInt(acc int, f func(el int32, acc int) int) int {
+func (c ChannelInt64) ReduceInt(acc int, f func(el int64, acc int) int) int {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt32) ReduceInt8(acc int8, f func(el int32, acc int8) int8) int8 {
+func (c ChannelInt64) ReduceInt8(acc int8, f func(el int64, acc int8) int8) int8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt32) ReduceInt16(acc int16, f func(el int32, acc int16) int16) int16 {
+func (c ChannelInt64) ReduceInt16(acc int16, f func(el int64, acc int16) int16) int16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt32) ReduceInt32(acc int32, f func(el int32, acc int32) int32) int32 {
+func (c ChannelInt64) ReduceInt32(acc int32, f func(el int64, acc int32) int32) int32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt32) ReduceInt64(acc int64, f func(el int32, acc int64) int64) int64 {
+func (c ChannelInt64) ReduceInt64(acc int64, f func(el int64, acc int64) int64) int64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt32) ReduceUint(acc uint, f func(el int32, acc uint) uint) uint {
+func (c ChannelInt64) ReduceUint(acc uint, f func(el int64, acc uint) uint) uint {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt32) ReduceUint8(acc uint8, f func(el int32, acc uint8) uint8) uint8 {
+func (c ChannelInt64) ReduceUint8(acc uint8, f func(el int64, acc uint8) uint8) uint8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt32) ReduceUint16(acc uint16, f func(el int32, acc uint16) uint16) uint16 {
+func (c ChannelInt64) ReduceUint16(acc uint16, f func(el int64, acc uint16) uint16) uint16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt32) ReduceUint32(acc uint32, f func(el int32, acc uint32) uint32) uint32 {
+func (c ChannelInt64) ReduceUint32(acc uint32, f func(el int64, acc uint32) uint32) uint32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt32) ReduceUint64(acc uint64, f func(el int32, acc uint64) uint64) uint64 {
+func (c ChannelInt64) ReduceUint64(acc uint64, f func(el int64, acc uint64) uint64) uint64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt32) ReduceInterface(acc interface{}, f func(el int32, acc interface{}) interface{}) interface{} {
+func (c ChannelInt64) ReduceInterface(acc interface{}, f func(el int64, acc interface{}) interface{}) interface{} {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt32) ScanBool(acc bool, f func(el int32, acc bool) bool) chan bool {
+func (c ChannelInt64) ScanBool(acc bool, f func(el int64, acc bool) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -26908,7 +28910,7 @@ func (c ChannelInt32) ScanBool(acc bool, f func(el int32, acc bool) bool) chan b
 	return result
 }
 
-func (c ChannelInt32) ScanByte(acc byte, f func(el int32, acc byte) byte) chan byte {
+func (c ChannelInt64) ScanByte(acc byte, f func(el int64, acc byte) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -26920,7 +28922,7 @@ func (c ChannelInt32) ScanByte(acc byte, f func(el int32, acc byte) byte) chan b
 	return result
 }
 
-func (c ChannelInt32) ScanString(acc string, f func(el int32, acc string) string) chan string {
+func (c ChannelInt64) ScanString(acc string, f func(el int64, acc string) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -26932,7 +28934,7 @@ func (c ChannelInt32) ScanString(acc string, f func(el int32, acc string) string
 	return result
 }
 
-func (c ChannelInt32) ScanFloat32(acc float32, f func(el int32, acc float32) float32) chan float32 {
+func (c ChannelInt64) ScanFloat32(acc float32, f func(el int64, acc float32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -26944,7 +28946,7 @@ func (c ChannelInt32) ScanFloat32(acc float32, f func(el int32, acc float32) flo
 	return result
 }
 
-func (c ChannelInt32) ScanFloat64(acc float64, f func(el int32, acc float64) float64) chan float64 {
+func (c ChannelInt64) ScanFloat64(acc float64, f func(el int64, acc float64) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -26956,7 +28958,7 @@ func (c ChannelInt32) ScanFloat64(acc float64, f func(el int32, acc float64) flo
 	return result
 }
 
-func (c ChannelInt32) ScanInt(acc int, f func(el int32, acc int) int) chan int {
+func (c ChannelInt64) ScanInt(acc int, f func(el int64, acc int) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -26968,7 +28970,7 @@ func (c ChannelInt32) ScanInt(acc int, f func(el int32, acc int) int) chan int {
 	return result
 }
 
-func (c ChannelInt32) ScanInt8(acc int8, f func(el int32, acc int8) int8) chan int8 {
+func (c ChannelInt64) ScanInt8(acc int8, f func(el int64, acc int8) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -26980,7 +28982,7 @@ func (c ChannelInt32) ScanInt8(acc int8, f func(el int32, acc int8) int8) chan i
 	return result
 }
 
-func (c ChannelInt32) ScanInt16(acc int16, f func(el int32, acc int16) int16) chan int16 {
+func (c ChannelInt64) ScanInt16(acc int16, f func(el int64, acc int16) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -26992,7 +28994,7 @@ func (c ChannelInt32) ScanInt16(acc int16, f func(el int32, acc int16) int16) ch
 	return result
 }
 
-func (c ChannelInt32) ScanInt32(acc int32, f func(el int32, acc int32) int32) chan int32 {
+func (c ChannelInt64) ScanInt32(acc int32, f func(el int64, acc int32) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -27004,7 +29006,7 @@ func (c ChannelInt32) ScanInt32(acc int32, f func(el int32, acc int32) int32) ch
 	return result
 }
 
-func (c ChannelInt32) ScanInt64(acc int64, f func(el int32, acc int64) int64) chan int64 {
+func (c ChannelInt64) ScanInt64(acc int64, f func(el int64, acc int64) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -27016,7 +29018,7 @@ func (c ChannelInt32) ScanInt64(acc int64, f func(el int32, acc int64) int64) ch
 	return result
 }
 
-func (c ChannelInt32) ScanUint(acc uint, f func(el int32, acc uint) uint) chan uint {
+func (c ChannelInt64) ScanUint(acc uint, f func(el int64, acc uint) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -27028,7 +29030,7 @@ func (c ChannelInt32) ScanUint(acc uint, f func(el int32, acc uint) uint) chan u
 	return result
 }
 
-func (c ChannelInt32) ScanUint8(acc uint8, f func(el int32, acc uint8) uint8) chan uint8 {
+func (c ChannelInt64) ScanUint8(acc uint8, f func(el int64, acc uint8) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -27040,7 +29042,7 @@ func (c ChannelInt32) ScanUint8(acc uint8, f func(el int32, acc uint8) uint8) ch
 	return result
 }
 
-func (c ChannelInt32) ScanUint16(acc uint16, f func(el int32, acc uint16) uint16) chan uint16 {
+func (c ChannelInt64) ScanUint16(acc uint16, f func(el int64, acc uint16) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -27052,7 +29054,7 @@ func (c ChannelInt32) ScanUint16(acc uint16, f func(el int32, acc uint16) uint16
 	return result
 }
 
-func (c ChannelInt32) ScanUint32(acc uint32, f func(el int32, acc uint32) uint32) chan uint32 {
+func (c ChannelInt64) ScanUint32(acc uint32, f func(el int64, acc uint32) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -27064,7 +29066,7 @@ func (c ChannelInt32) ScanUint32(acc uint32, f func(el int32, acc uint32) uint32
 	return result
 }
 
-func (c ChannelInt32) ScanUint64(acc uint64, f func(el int32, acc uint64) uint64) chan uint64 {
+func (c ChannelInt64) ScanUint64(acc uint64, f func(el int64, acc uint64) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -27076,7 +29078,7 @@ func (c ChannelInt32) ScanUint64(acc uint64, f func(el int32, acc uint64) uint64
 	return result
 }
 
-func (c ChannelInt32) ScanInterface(acc interface{}, f func(el int32, acc interface{}) interface{}) chan interface{} {
+func (c ChannelInt64) ScanInterface(acc interface{}, f func(el int64, acc interface{}) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -27088,31 +29090,31 @@ func (c ChannelInt32) ScanInterface(acc interface{}, f func(el int32, acc interf
 	return result
 }
 
-func (c ChannelInt32) Sum() int32 {
-	var sum int32
+func (c ChannelInt64) Sum() int64 {
+	var sum int64
 	for el := range c.data {
 		sum += el
 	}
 	return sum
 }
 
-func (c ChannelInt32) Take(n int) []int32 {
-	result := make([]int32, 0, n)
+func (c ChannelInt64) Take(n int) []int64 {
+	result := make([]int64, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c.data)
 	}
 	return result
 }
 
-func (c ChannelInt32) Tee(count int) []chan int32 {
-	channels := make([]chan int32, 0, count)
+func (c ChannelInt64) Tee(count int) []chan int64 {
+	channels := make([]chan int64, 0, count)
 	for i := 0; i < count; i++ {
-		channels = append(channels, make(chan int32, 1))
+		channels = append(channels, make(chan int64, 1))
 	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			putInto := func(ch chan int32) {
+			putInto := func(ch chan int64) {
 				wg.Add(1)
 				defer wg.Done()
 				ch <- el
@@ -27129,15 +29131,15 @@ func (c ChannelInt32) Tee(count int) []chan int32 {
 	return channels
 }
 
-func (c ChannelInt32) ToSlice() []int32 {
-	result := make([]int32, 0)
+func (c ChannelInt64) ToSlice() []int64 {
+	result := make([]int64, 0)
 	for val := range c.data {
 		result = append(result, val)
 	}
 	return result
 }
 
-func (s AsyncSliceInt32) All(f func(el int32) bool) bool {
+func (s AsyncSliceInt64) All(f func(el int64) bool) bool {
 	if len(s.data) == 0 {
 		return true
 	}
@@ -27198,7 +29200,7 @@ func (s AsyncSliceInt32) All(f func(el int32) bool) bool {
 	return true
 }
 
-func (s AsyncSliceInt32) Any(f func(el int32) bool) bool {
+func (s AsyncSliceInt64) Any(f func(el int64) bool) bool {
 	if len(s.data) == 0 {
 		return false
 	}
@@ -27259,7 +29261,7 @@ func (s AsyncSliceInt32) Any(f func(el int32) bool) bool {
 	return false
 }
 
-func (s AsyncSliceInt32) Each(f func(el int32)) {
+func (s AsyncSliceInt64) Each(f func(el int64)) {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -27290,7 +29292,7 @@ func (s AsyncSliceInt32) Each(f func(el int32)) {
 	wg.Wait()
 }
 
-func (s AsyncSliceInt32) Filter(f func(el int32) bool) []int32 {
+func (s AsyncSliceInt64) Filter(f func(el int64) bool) []int64 {
 	resultMap := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -27324,7 +29326,7 @@ func (s AsyncSliceInt32) Filter(f func(el int32) bool) []int32 {
 	wg.Wait()
 
 	// return filtered results
-	result := make([]int32, 0, len(s.data))
+	result := make([]int64, 0, len(s.data))
 	for i, el := range s.data {
 		if resultMap[i] {
 			result = append(result, el)
@@ -27333,7 +29335,7 @@ func (s AsyncSliceInt32) Filter(f func(el int32) bool) []int32 {
 	return result
 }
 
-func (s AsyncSliceInt32) MapBool(f func(el int32) bool) []bool {
+func (s AsyncSliceInt64) MapBool(f func(el int64) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -27366,7 +29368,7 @@ func (s AsyncSliceInt32) MapBool(f func(el int32) bool) []bool {
 	return result
 }
 
-func (s AsyncSliceInt32) MapByte(f func(el int32) byte) []byte {
+func (s AsyncSliceInt64) MapByte(f func(el int64) byte) []byte {
 	result := make([]byte, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -27399,7 +29401,7 @@ func (s AsyncSliceInt32) MapByte(f func(el int32) byte) []byte {
 	return result
 }
 
-func (s AsyncSliceInt32) MapString(f func(el int32) string) []string {
+func (s AsyncSliceInt64) MapString(f func(el int64) string) []string {
 	result := make([]string, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -27432,7 +29434,7 @@ func (s AsyncSliceInt32) MapString(f func(el int32) string) []string {
 	return result
 }
 
-func (s AsyncSliceInt32) MapFloat32(f func(el int32) float32) []float32 {
+func (s AsyncSliceInt64) MapFloat32(f func(el int64) float32) []float32 {
 	result := make([]float32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -27465,7 +29467,7 @@ func (s AsyncSliceInt32) MapFloat32(f func(el int32) float32) []float32 {
 	return result
 }
 
-func (s AsyncSliceInt32) MapFloat64(f func(el int32) float64) []float64 {
+func (s AsyncSliceInt64) MapFloat64(f func(el int64) float64) []float64 {
 	result := make([]float64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -27498,7 +29500,7 @@ func (s AsyncSliceInt32) MapFloat64(f func(el int32) float64) []float64 {
 	return result
 }
 
-func (s AsyncSliceInt32) MapInt(f func(el int32) int) []int {
+func (s AsyncSliceInt64) MapInt(f func(el int64) int) []int {
 	result := make([]int, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -27531,7 +29533,7 @@ func (s AsyncSliceInt32) MapInt(f func(el int32) int) []int {
 	return result
 }
 
-func (s AsyncSliceInt32) MapInt8(f func(el int32) int8) []int8 {
+func (s AsyncSliceInt64) MapInt8(f func(el int64) int8) []int8 {
 	result := make([]int8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -27564,7 +29566,7 @@ func (s AsyncSliceInt32) MapInt8(f func(el int32) int8) []int8 {
 	return result
 }
 
-func (s AsyncSliceInt32) MapInt16(f func(el int32) int16) []int16 {
+func (s AsyncSliceInt64) MapInt16(f func(el int64) int16) []int16 {
 	result := make([]int16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -27597,7 +29599,7 @@ func (s AsyncSliceInt32) MapInt16(f func(el int32) int16) []int16 {
 	return result
 }
 
-func (s AsyncSliceInt32) MapInt32(f func(el int32) int32) []int32 {
+func (s AsyncSliceInt64) MapInt32(f func(el int64) int32) []int32 {
 	result := make([]int32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -27630,7 +29632,7 @@ func (s AsyncSliceInt32) MapInt32(f func(el int32) int32) []int32 {
 	return result
 }
 
-func (s AsyncSliceInt32) MapInt64(f func(el int32) int64) []int64 {
+func (s AsyncSliceInt64) MapInt64(f func(el int64) int64) []int64 {
 	result := make([]int64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -27663,7 +29665,7 @@ func (s AsyncSliceInt32) MapInt64(f func(el int32) int64) []int64 {
 	return result
 }
 
-func (s AsyncSliceInt32) MapUint(f func(el int32) uint) []uint {
+func (s AsyncSliceInt64) MapUint(f func(el int64) uint) []uint {
 	result := make([]uint, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -27696,7 +29698,7 @@ func (s AsyncSliceInt32) MapUint(f func(el int32) uint) []uint {
 	return result
 }
 
-func (s AsyncSliceInt32) MapUint8(f func(el int32) uint8) []uint8 {
+func (s AsyncSliceInt64) MapUint8(f func(el int64) uint8) []uint8 {
 	result := make([]uint8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -27729,7 +29731,7 @@ func (s AsyncSliceInt32) MapUint8(f func(el int32) uint8) []uint8 {
 	return result
 }
 
-func (s AsyncSliceInt32) MapUint16(f func(el int32) uint16) []uint16 {
+func (s AsyncSliceInt64) MapUint16(f func(el int64) uint16) []uint16 {
 	result := make([]uint16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -27762,7 +29764,7 @@ func (s AsyncSliceInt32) MapUint16(f func(el int32) uint16) []uint16 {
 	return result
 }
 
-func (s AsyncSliceInt32) MapUint32(f func(el int32) uint32) []uint32 {
+func (s AsyncSliceInt64) MapUint32(f func(el int64) uint32) []uint32 {
 	result := make([]uint32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -27795,7 +29797,7 @@ func (s AsyncSliceInt32) MapUint32(f func(el int32) uint32) []uint32 {
 	return result
 }
 
-func (s AsyncSliceInt32) MapUint64(f func(el int32) uint64) []uint64 {
+func (s AsyncSliceInt64) MapUint64(f func(el int64) uint64) []uint64 {
 	result := make([]uint64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -27828,7 +29830,7 @@ func (s AsyncSliceInt32) MapUint64(f func(el int32) uint64) []uint64 {
 	return result
 }
 
-func (s AsyncSliceInt32) MapInterface(f func(el int32) interface{}) []interface{} {
+func (s AsyncSliceInt64) MapInterface(f func(el int64) interface{}) []interface{} {
 	result := make([]interface{}, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -27861,8 +29863,66 @@ func (s AsyncSliceInt32) MapInterface(f func(el int32) interface{}) []interface{
 	return result
 }
 
-func (s SequenceInt32) Count(start int32, step int32) chan int32 {
-	c := make(chan int32, 1)
+func (s AsyncSliceInt64) Reduce(f func(left int64, right int64) int64) int64 {
+	if len(s.data) == 0 {
+		var tmp int64
+		return tmp
+	}
+
+	state := make([]int64, len(s.data))
+	state = append(state, s.data...)
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- int64) {
+		for index := range jobs {
+			result <- f(state[index], state[index+1])
+		}
+		wg.Done()
+	}
+
+	for len(state) > 1 {
+		// calculate workers count
+		workers := s.workers
+		if workers == 0 || workers > len(state) {
+			workers = len(state)
+		}
+
+		// run workers
+		jobs := make(chan int, len(state))
+		wg.Add(workers)
+		result := make(chan int64, 1)
+		for i := 0; i < workers; i++ {
+			go worker(jobs, result)
+		}
+
+		go func() {
+			wg.Wait()
+			close(result)
+		}()
+
+		// add indices into jobs for workers
+		for i := 0; i < len(state)-1; i += 2 {
+			jobs <- i
+		}
+		close(jobs)
+
+		// collect new state
+		newState := make([]int64, 0, len(state)/2+len(state)%2)
+		for el := range result {
+			newState = append(newState, el)
+		}
+		if len(state)%2 == 1 {
+			newState = append(newState, state[len(state)-1])
+		}
+		// put new state as current state after all
+		state = newState
+	}
+
+	return state[0]
+}
+
+func (s SequenceInt64) Count(start int64, step int64) chan int64 {
+	c := make(chan int64, 1)
 	go func() {
 		for {
 			c <- start
@@ -27872,8 +29932,8 @@ func (s SequenceInt32) Count(start int32, step int32) chan int32 {
 	return c
 }
 
-func (s SequenceInt32) Exponential(start int32, factor int32) chan int32 {
-	c := make(chan int32, 1)
+func (s SequenceInt64) Exponential(start int64, factor int64) chan int64 {
+	c := make(chan int64, 1)
 	go func() {
 		for {
 			c <- start
@@ -27883,8 +29943,8 @@ func (s SequenceInt32) Exponential(start int32, factor int32) chan int32 {
 	return c
 }
 
-func (s SequenceInt32) Range(start int32, end int32, step int32) chan int32 {
-	c := make(chan int32, 1)
+func (s SequenceInt64) Range(start int64, end int64, step int64) chan int64 {
+	c := make(chan int64, 1)
 	pos := start <= end
 	go func() {
 		for pos && (start < end) || !pos && (start > end) {
@@ -27896,92 +29956,14 @@ func (s SequenceInt32) Range(start int32, end int32, step int32) chan int32 {
 	return c
 }
 
-func (s SequenceInt32) Repeat(val int32) chan int32 {
-	c := make(chan int32, 1)
+func (s SequenceInt64) Repeat(val int64) chan int64 {
+	c := make(chan int64, 1)
 	go func() {
 		for {
 			c <- val
 		}
 	}()
 	return c
-}
-
-func (s SlicesInt32) Concat() []int32 {
-	result := make([]int32, 0)
-	for _, arr := range s.data {
-		result = append(result, arr...)
-	}
-	return result
-}
-
-func (s SlicesInt32) Product() chan []int32 {
-	c := make(chan []int32, 1)
-	go s.product(c, []int32{}, 0)
-	return c
-}
-
-func (s SlicesInt32) product(c chan []int32, left []int32, pos int) {
-	// iterate over the last array
-	if pos == len(s.data)-1 {
-		for _, el := range s.data[pos] {
-			result := make([]int32, 0, len(left)+1)
-			result = append(result, left...)
-			result = append(result, el)
-			c <- result
-		}
-		return
-	}
-
-	for _, el := range s.data[pos] {
-		result := make([]int32, 0, len(left)+1)
-		result = append(result, left...)
-		result = append(result, el)
-		s.product(c, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
-	}
-}
-
-func (s SlicesInt32) Zip() [][]int32 {
-	size := len(s.data[0])
-	for _, arr := range s.data[1:] {
-		if len(arr) > size {
-			size = len(arr)
-		}
-	}
-
-	result := make([][]int32, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]int32, 0, len(s.data))
-		for _, arr := range s.data {
-			chunk = append(chunk, arr[i])
-		}
-		result = append(result, chunk)
-	}
-	return result
-}
-
-type SliceInt64 struct {
-	data []int64
-}
-
-type ChannelInt64 struct {
-	data chan int64
-}
-
-type AsyncSliceInt64 struct {
-	data    []int64
-	workers int
-}
-
-type SequenceInt64 struct {
-	data chan int64
-}
-
-type SlicesInt64 struct {
-	data [][]int64
 }
 
 func (s SliceInt64) Any(f func(el int64) bool) bool {
@@ -29630,7 +31612,85 @@ func (s SliceInt64) Window(size int) [][]int64 {
 	return result
 }
 
-func (c ChannelInt64) Any(f func(el int64) bool) bool {
+func (s SlicesInt64) Concat() []int64 {
+	result := make([]int64, 0)
+	for _, arr := range s.data {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+func (s SlicesInt64) Product() chan []int64 {
+	c := make(chan []int64, 1)
+	go s.product(c, []int64{}, 0)
+	return c
+}
+
+func (s SlicesInt64) product(c chan []int64, left []int64, pos int) {
+	// iterate over the last array
+	if pos == len(s.data)-1 {
+		for _, el := range s.data[pos] {
+			result := make([]int64, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data[pos] {
+		result := make([]int64, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
+func (s SlicesInt64) Zip() [][]int64 {
+	size := len(s.data[0])
+	for _, arr := range s.data[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]int64, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]int64, 0, len(s.data))
+		for _, arr := range s.data {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
+type ChannelUint struct {
+	data chan uint
+}
+
+type AsyncSliceUint struct {
+	data    []uint
+	workers int
+}
+
+type SequenceUint struct {
+	data chan uint
+}
+
+type SliceUint struct {
+	data []uint
+}
+
+type SlicesUint struct {
+	data [][]uint
+}
+
+func (c ChannelUint) Any(f func(el uint) bool) bool {
 	for el := range c.data {
 		if f(el) {
 			return true
@@ -29639,7 +31699,7 @@ func (c ChannelInt64) Any(f func(el int64) bool) bool {
 	return false
 }
 
-func (c ChannelInt64) All(f func(el int64) bool) bool {
+func (c ChannelUint) All(f func(el uint) bool) bool {
 	for el := range c.data {
 		if !f(el) {
 			return false
@@ -29648,10 +31708,10 @@ func (c ChannelInt64) All(f func(el int64) bool) bool {
 	return true
 }
 
-func (c ChannelInt64) ChunkEvery(count int) chan []int64 {
-	chunks := make(chan []int64, 1)
+func (c ChannelUint) ChunkEvery(count int) chan []uint {
+	chunks := make(chan []uint, 1)
 	go func() {
-		chunk := make([]int64, 0, count)
+		chunk := make([]uint, 0, count)
 		i := 0
 		for el := range c.data {
 			chunk = append(chunk, el)
@@ -29659,7 +31719,7 @@ func (c ChannelInt64) ChunkEvery(count int) chan []int64 {
 			if i%count == 0 {
 				i = 0
 				chunks <- chunk
-				chunk = make([]int64, 0, count)
+				chunk = make([]uint, 0, count)
 			}
 		}
 		if len(chunk) > 0 {
@@ -29670,7 +31730,7 @@ func (c ChannelInt64) ChunkEvery(count int) chan []int64 {
 	return chunks
 }
 
-func (c ChannelInt64) Count(el int64) int {
+func (c ChannelUint) Count(el uint) int {
 	count := 0
 	for val := range c.data {
 		if val == el {
@@ -29680,8 +31740,8 @@ func (c ChannelInt64) Count(el int64) int {
 	return count
 }
 
-func (c ChannelInt64) Drop(n int) chan int64 {
-	result := make(chan int64, 1)
+func (c ChannelUint) Drop(n int) chan uint {
+	result := make(chan uint, 1)
 	go func() {
 		i := 0
 		for el := range c.data {
@@ -29695,14 +31755,14 @@ func (c ChannelInt64) Drop(n int) chan int64 {
 	return result
 }
 
-func (c ChannelInt64) Each(f func(el int64)) {
+func (c ChannelUint) Each(f func(el uint)) {
 	for el := range c.data {
 		f(el)
 	}
 }
 
-func (c ChannelInt64) Filter(f func(el int64) bool) chan int64 {
-	result := make(chan int64, 1)
+func (c ChannelUint) Filter(f func(el uint) bool) chan uint {
+	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
 			if f(el) {
@@ -29714,7 +31774,7 @@ func (c ChannelInt64) Filter(f func(el int64) bool) chan int64 {
 	return result
 }
 
-func (c ChannelInt64) MapBool(f func(el int64) bool) chan bool {
+func (c ChannelUint) MapBool(f func(el uint) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -29725,7 +31785,7 @@ func (c ChannelInt64) MapBool(f func(el int64) bool) chan bool {
 	return result
 }
 
-func (c ChannelInt64) MapByte(f func(el int64) byte) chan byte {
+func (c ChannelUint) MapByte(f func(el uint) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -29736,7 +31796,7 @@ func (c ChannelInt64) MapByte(f func(el int64) byte) chan byte {
 	return result
 }
 
-func (c ChannelInt64) MapString(f func(el int64) string) chan string {
+func (c ChannelUint) MapString(f func(el uint) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -29747,7 +31807,7 @@ func (c ChannelInt64) MapString(f func(el int64) string) chan string {
 	return result
 }
 
-func (c ChannelInt64) MapFloat32(f func(el int64) float32) chan float32 {
+func (c ChannelUint) MapFloat32(f func(el uint) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -29758,7 +31818,7 @@ func (c ChannelInt64) MapFloat32(f func(el int64) float32) chan float32 {
 	return result
 }
 
-func (c ChannelInt64) MapFloat64(f func(el int64) float64) chan float64 {
+func (c ChannelUint) MapFloat64(f func(el uint) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -29769,7 +31829,7 @@ func (c ChannelInt64) MapFloat64(f func(el int64) float64) chan float64 {
 	return result
 }
 
-func (c ChannelInt64) MapInt(f func(el int64) int) chan int {
+func (c ChannelUint) MapInt(f func(el uint) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -29780,7 +31840,7 @@ func (c ChannelInt64) MapInt(f func(el int64) int) chan int {
 	return result
 }
 
-func (c ChannelInt64) MapInt8(f func(el int64) int8) chan int8 {
+func (c ChannelUint) MapInt8(f func(el uint) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -29791,7 +31851,7 @@ func (c ChannelInt64) MapInt8(f func(el int64) int8) chan int8 {
 	return result
 }
 
-func (c ChannelInt64) MapInt16(f func(el int64) int16) chan int16 {
+func (c ChannelUint) MapInt16(f func(el uint) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -29802,7 +31862,7 @@ func (c ChannelInt64) MapInt16(f func(el int64) int16) chan int16 {
 	return result
 }
 
-func (c ChannelInt64) MapInt32(f func(el int64) int32) chan int32 {
+func (c ChannelUint) MapInt32(f func(el uint) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -29813,7 +31873,7 @@ func (c ChannelInt64) MapInt32(f func(el int64) int32) chan int32 {
 	return result
 }
 
-func (c ChannelInt64) MapInt64(f func(el int64) int64) chan int64 {
+func (c ChannelUint) MapInt64(f func(el uint) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -29824,7 +31884,7 @@ func (c ChannelInt64) MapInt64(f func(el int64) int64) chan int64 {
 	return result
 }
 
-func (c ChannelInt64) MapUint(f func(el int64) uint) chan uint {
+func (c ChannelUint) MapUint(f func(el uint) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -29835,7 +31895,7 @@ func (c ChannelInt64) MapUint(f func(el int64) uint) chan uint {
 	return result
 }
 
-func (c ChannelInt64) MapUint8(f func(el int64) uint8) chan uint8 {
+func (c ChannelUint) MapUint8(f func(el uint) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -29846,7 +31906,7 @@ func (c ChannelInt64) MapUint8(f func(el int64) uint8) chan uint8 {
 	return result
 }
 
-func (c ChannelInt64) MapUint16(f func(el int64) uint16) chan uint16 {
+func (c ChannelUint) MapUint16(f func(el uint) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -29857,7 +31917,7 @@ func (c ChannelInt64) MapUint16(f func(el int64) uint16) chan uint16 {
 	return result
 }
 
-func (c ChannelInt64) MapUint32(f func(el int64) uint32) chan uint32 {
+func (c ChannelUint) MapUint32(f func(el uint) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -29868,7 +31928,7 @@ func (c ChannelInt64) MapUint32(f func(el int64) uint32) chan uint32 {
 	return result
 }
 
-func (c ChannelInt64) MapUint64(f func(el int64) uint64) chan uint64 {
+func (c ChannelUint) MapUint64(f func(el uint) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -29879,7 +31939,7 @@ func (c ChannelInt64) MapUint64(f func(el int64) uint64) chan uint64 {
 	return result
 }
 
-func (c ChannelInt64) MapInterface(f func(el int64) interface{}) chan interface{} {
+func (c ChannelUint) MapInterface(f func(el uint) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -29890,7 +31950,7 @@ func (c ChannelInt64) MapInterface(f func(el int64) interface{}) chan interface{
 	return result
 }
 
-func (c ChannelInt64) Max() int64 {
+func (c ChannelUint) Max() uint {
 	max := <-c.data
 	for el := range c.data {
 		if el > max {
@@ -29900,7 +31960,7 @@ func (c ChannelInt64) Max() int64 {
 	return max
 }
 
-func (c ChannelInt64) Min() int64 {
+func (c ChannelUint) Min() uint {
 	min := <-c.data
 	for el := range c.data {
 		if el < min {
@@ -29910,119 +31970,119 @@ func (c ChannelInt64) Min() int64 {
 	return min
 }
 
-func (c ChannelInt64) ReduceBool(acc bool, f func(el int64, acc bool) bool) bool {
+func (c ChannelUint) ReduceBool(acc bool, f func(el uint, acc bool) bool) bool {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt64) ReduceByte(acc byte, f func(el int64, acc byte) byte) byte {
+func (c ChannelUint) ReduceByte(acc byte, f func(el uint, acc byte) byte) byte {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt64) ReduceString(acc string, f func(el int64, acc string) string) string {
+func (c ChannelUint) ReduceString(acc string, f func(el uint, acc string) string) string {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt64) ReduceFloat32(acc float32, f func(el int64, acc float32) float32) float32 {
+func (c ChannelUint) ReduceFloat32(acc float32, f func(el uint, acc float32) float32) float32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt64) ReduceFloat64(acc float64, f func(el int64, acc float64) float64) float64 {
+func (c ChannelUint) ReduceFloat64(acc float64, f func(el uint, acc float64) float64) float64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt64) ReduceInt(acc int, f func(el int64, acc int) int) int {
+func (c ChannelUint) ReduceInt(acc int, f func(el uint, acc int) int) int {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt64) ReduceInt8(acc int8, f func(el int64, acc int8) int8) int8 {
+func (c ChannelUint) ReduceInt8(acc int8, f func(el uint, acc int8) int8) int8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt64) ReduceInt16(acc int16, f func(el int64, acc int16) int16) int16 {
+func (c ChannelUint) ReduceInt16(acc int16, f func(el uint, acc int16) int16) int16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt64) ReduceInt32(acc int32, f func(el int64, acc int32) int32) int32 {
+func (c ChannelUint) ReduceInt32(acc int32, f func(el uint, acc int32) int32) int32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt64) ReduceInt64(acc int64, f func(el int64, acc int64) int64) int64 {
+func (c ChannelUint) ReduceInt64(acc int64, f func(el uint, acc int64) int64) int64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt64) ReduceUint(acc uint, f func(el int64, acc uint) uint) uint {
+func (c ChannelUint) ReduceUint(acc uint, f func(el uint, acc uint) uint) uint {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt64) ReduceUint8(acc uint8, f func(el int64, acc uint8) uint8) uint8 {
+func (c ChannelUint) ReduceUint8(acc uint8, f func(el uint, acc uint8) uint8) uint8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt64) ReduceUint16(acc uint16, f func(el int64, acc uint16) uint16) uint16 {
+func (c ChannelUint) ReduceUint16(acc uint16, f func(el uint, acc uint16) uint16) uint16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt64) ReduceUint32(acc uint32, f func(el int64, acc uint32) uint32) uint32 {
+func (c ChannelUint) ReduceUint32(acc uint32, f func(el uint, acc uint32) uint32) uint32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt64) ReduceUint64(acc uint64, f func(el int64, acc uint64) uint64) uint64 {
+func (c ChannelUint) ReduceUint64(acc uint64, f func(el uint, acc uint64) uint64) uint64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt64) ReduceInterface(acc interface{}, f func(el int64, acc interface{}) interface{}) interface{} {
+func (c ChannelUint) ReduceInterface(acc interface{}, f func(el uint, acc interface{}) interface{}) interface{} {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelInt64) ScanBool(acc bool, f func(el int64, acc bool) bool) chan bool {
+func (c ChannelUint) ScanBool(acc bool, f func(el uint, acc bool) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -30034,7 +32094,7 @@ func (c ChannelInt64) ScanBool(acc bool, f func(el int64, acc bool) bool) chan b
 	return result
 }
 
-func (c ChannelInt64) ScanByte(acc byte, f func(el int64, acc byte) byte) chan byte {
+func (c ChannelUint) ScanByte(acc byte, f func(el uint, acc byte) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -30046,7 +32106,7 @@ func (c ChannelInt64) ScanByte(acc byte, f func(el int64, acc byte) byte) chan b
 	return result
 }
 
-func (c ChannelInt64) ScanString(acc string, f func(el int64, acc string) string) chan string {
+func (c ChannelUint) ScanString(acc string, f func(el uint, acc string) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -30058,7 +32118,7 @@ func (c ChannelInt64) ScanString(acc string, f func(el int64, acc string) string
 	return result
 }
 
-func (c ChannelInt64) ScanFloat32(acc float32, f func(el int64, acc float32) float32) chan float32 {
+func (c ChannelUint) ScanFloat32(acc float32, f func(el uint, acc float32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -30070,7 +32130,7 @@ func (c ChannelInt64) ScanFloat32(acc float32, f func(el int64, acc float32) flo
 	return result
 }
 
-func (c ChannelInt64) ScanFloat64(acc float64, f func(el int64, acc float64) float64) chan float64 {
+func (c ChannelUint) ScanFloat64(acc float64, f func(el uint, acc float64) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -30082,7 +32142,7 @@ func (c ChannelInt64) ScanFloat64(acc float64, f func(el int64, acc float64) flo
 	return result
 }
 
-func (c ChannelInt64) ScanInt(acc int, f func(el int64, acc int) int) chan int {
+func (c ChannelUint) ScanInt(acc int, f func(el uint, acc int) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -30094,7 +32154,7 @@ func (c ChannelInt64) ScanInt(acc int, f func(el int64, acc int) int) chan int {
 	return result
 }
 
-func (c ChannelInt64) ScanInt8(acc int8, f func(el int64, acc int8) int8) chan int8 {
+func (c ChannelUint) ScanInt8(acc int8, f func(el uint, acc int8) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -30106,7 +32166,7 @@ func (c ChannelInt64) ScanInt8(acc int8, f func(el int64, acc int8) int8) chan i
 	return result
 }
 
-func (c ChannelInt64) ScanInt16(acc int16, f func(el int64, acc int16) int16) chan int16 {
+func (c ChannelUint) ScanInt16(acc int16, f func(el uint, acc int16) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -30118,7 +32178,7 @@ func (c ChannelInt64) ScanInt16(acc int16, f func(el int64, acc int16) int16) ch
 	return result
 }
 
-func (c ChannelInt64) ScanInt32(acc int32, f func(el int64, acc int32) int32) chan int32 {
+func (c ChannelUint) ScanInt32(acc int32, f func(el uint, acc int32) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -30130,7 +32190,7 @@ func (c ChannelInt64) ScanInt32(acc int32, f func(el int64, acc int32) int32) ch
 	return result
 }
 
-func (c ChannelInt64) ScanInt64(acc int64, f func(el int64, acc int64) int64) chan int64 {
+func (c ChannelUint) ScanInt64(acc int64, f func(el uint, acc int64) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -30142,7 +32202,7 @@ func (c ChannelInt64) ScanInt64(acc int64, f func(el int64, acc int64) int64) ch
 	return result
 }
 
-func (c ChannelInt64) ScanUint(acc uint, f func(el int64, acc uint) uint) chan uint {
+func (c ChannelUint) ScanUint(acc uint, f func(el uint, acc uint) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -30154,7 +32214,7 @@ func (c ChannelInt64) ScanUint(acc uint, f func(el int64, acc uint) uint) chan u
 	return result
 }
 
-func (c ChannelInt64) ScanUint8(acc uint8, f func(el int64, acc uint8) uint8) chan uint8 {
+func (c ChannelUint) ScanUint8(acc uint8, f func(el uint, acc uint8) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -30166,7 +32226,7 @@ func (c ChannelInt64) ScanUint8(acc uint8, f func(el int64, acc uint8) uint8) ch
 	return result
 }
 
-func (c ChannelInt64) ScanUint16(acc uint16, f func(el int64, acc uint16) uint16) chan uint16 {
+func (c ChannelUint) ScanUint16(acc uint16, f func(el uint, acc uint16) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -30178,7 +32238,7 @@ func (c ChannelInt64) ScanUint16(acc uint16, f func(el int64, acc uint16) uint16
 	return result
 }
 
-func (c ChannelInt64) ScanUint32(acc uint32, f func(el int64, acc uint32) uint32) chan uint32 {
+func (c ChannelUint) ScanUint32(acc uint32, f func(el uint, acc uint32) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -30190,7 +32250,7 @@ func (c ChannelInt64) ScanUint32(acc uint32, f func(el int64, acc uint32) uint32
 	return result
 }
 
-func (c ChannelInt64) ScanUint64(acc uint64, f func(el int64, acc uint64) uint64) chan uint64 {
+func (c ChannelUint) ScanUint64(acc uint64, f func(el uint, acc uint64) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -30202,7 +32262,7 @@ func (c ChannelInt64) ScanUint64(acc uint64, f func(el int64, acc uint64) uint64
 	return result
 }
 
-func (c ChannelInt64) ScanInterface(acc interface{}, f func(el int64, acc interface{}) interface{}) chan interface{} {
+func (c ChannelUint) ScanInterface(acc interface{}, f func(el uint, acc interface{}) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -30214,31 +32274,31 @@ func (c ChannelInt64) ScanInterface(acc interface{}, f func(el int64, acc interf
 	return result
 }
 
-func (c ChannelInt64) Sum() int64 {
-	var sum int64
+func (c ChannelUint) Sum() uint {
+	var sum uint
 	for el := range c.data {
 		sum += el
 	}
 	return sum
 }
 
-func (c ChannelInt64) Take(n int) []int64 {
-	result := make([]int64, 0, n)
+func (c ChannelUint) Take(n int) []uint {
+	result := make([]uint, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c.data)
 	}
 	return result
 }
 
-func (c ChannelInt64) Tee(count int) []chan int64 {
-	channels := make([]chan int64, 0, count)
+func (c ChannelUint) Tee(count int) []chan uint {
+	channels := make([]chan uint, 0, count)
 	for i := 0; i < count; i++ {
-		channels = append(channels, make(chan int64, 1))
+		channels = append(channels, make(chan uint, 1))
 	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			putInto := func(ch chan int64) {
+			putInto := func(ch chan uint) {
 				wg.Add(1)
 				defer wg.Done()
 				ch <- el
@@ -30255,15 +32315,15 @@ func (c ChannelInt64) Tee(count int) []chan int64 {
 	return channels
 }
 
-func (c ChannelInt64) ToSlice() []int64 {
-	result := make([]int64, 0)
+func (c ChannelUint) ToSlice() []uint {
+	result := make([]uint, 0)
 	for val := range c.data {
 		result = append(result, val)
 	}
 	return result
 }
 
-func (s AsyncSliceInt64) All(f func(el int64) bool) bool {
+func (s AsyncSliceUint) All(f func(el uint) bool) bool {
 	if len(s.data) == 0 {
 		return true
 	}
@@ -30324,7 +32384,7 @@ func (s AsyncSliceInt64) All(f func(el int64) bool) bool {
 	return true
 }
 
-func (s AsyncSliceInt64) Any(f func(el int64) bool) bool {
+func (s AsyncSliceUint) Any(f func(el uint) bool) bool {
 	if len(s.data) == 0 {
 		return false
 	}
@@ -30385,7 +32445,7 @@ func (s AsyncSliceInt64) Any(f func(el int64) bool) bool {
 	return false
 }
 
-func (s AsyncSliceInt64) Each(f func(el int64)) {
+func (s AsyncSliceUint) Each(f func(el uint)) {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -30416,7 +32476,7 @@ func (s AsyncSliceInt64) Each(f func(el int64)) {
 	wg.Wait()
 }
 
-func (s AsyncSliceInt64) Filter(f func(el int64) bool) []int64 {
+func (s AsyncSliceUint) Filter(f func(el uint) bool) []uint {
 	resultMap := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -30450,7 +32510,7 @@ func (s AsyncSliceInt64) Filter(f func(el int64) bool) []int64 {
 	wg.Wait()
 
 	// return filtered results
-	result := make([]int64, 0, len(s.data))
+	result := make([]uint, 0, len(s.data))
 	for i, el := range s.data {
 		if resultMap[i] {
 			result = append(result, el)
@@ -30459,7 +32519,7 @@ func (s AsyncSliceInt64) Filter(f func(el int64) bool) []int64 {
 	return result
 }
 
-func (s AsyncSliceInt64) MapBool(f func(el int64) bool) []bool {
+func (s AsyncSliceUint) MapBool(f func(el uint) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -30492,7 +32552,7 @@ func (s AsyncSliceInt64) MapBool(f func(el int64) bool) []bool {
 	return result
 }
 
-func (s AsyncSliceInt64) MapByte(f func(el int64) byte) []byte {
+func (s AsyncSliceUint) MapByte(f func(el uint) byte) []byte {
 	result := make([]byte, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -30525,7 +32585,7 @@ func (s AsyncSliceInt64) MapByte(f func(el int64) byte) []byte {
 	return result
 }
 
-func (s AsyncSliceInt64) MapString(f func(el int64) string) []string {
+func (s AsyncSliceUint) MapString(f func(el uint) string) []string {
 	result := make([]string, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -30558,7 +32618,7 @@ func (s AsyncSliceInt64) MapString(f func(el int64) string) []string {
 	return result
 }
 
-func (s AsyncSliceInt64) MapFloat32(f func(el int64) float32) []float32 {
+func (s AsyncSliceUint) MapFloat32(f func(el uint) float32) []float32 {
 	result := make([]float32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -30591,7 +32651,7 @@ func (s AsyncSliceInt64) MapFloat32(f func(el int64) float32) []float32 {
 	return result
 }
 
-func (s AsyncSliceInt64) MapFloat64(f func(el int64) float64) []float64 {
+func (s AsyncSliceUint) MapFloat64(f func(el uint) float64) []float64 {
 	result := make([]float64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -30624,7 +32684,7 @@ func (s AsyncSliceInt64) MapFloat64(f func(el int64) float64) []float64 {
 	return result
 }
 
-func (s AsyncSliceInt64) MapInt(f func(el int64) int) []int {
+func (s AsyncSliceUint) MapInt(f func(el uint) int) []int {
 	result := make([]int, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -30657,7 +32717,7 @@ func (s AsyncSliceInt64) MapInt(f func(el int64) int) []int {
 	return result
 }
 
-func (s AsyncSliceInt64) MapInt8(f func(el int64) int8) []int8 {
+func (s AsyncSliceUint) MapInt8(f func(el uint) int8) []int8 {
 	result := make([]int8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -30690,7 +32750,7 @@ func (s AsyncSliceInt64) MapInt8(f func(el int64) int8) []int8 {
 	return result
 }
 
-func (s AsyncSliceInt64) MapInt16(f func(el int64) int16) []int16 {
+func (s AsyncSliceUint) MapInt16(f func(el uint) int16) []int16 {
 	result := make([]int16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -30723,7 +32783,7 @@ func (s AsyncSliceInt64) MapInt16(f func(el int64) int16) []int16 {
 	return result
 }
 
-func (s AsyncSliceInt64) MapInt32(f func(el int64) int32) []int32 {
+func (s AsyncSliceUint) MapInt32(f func(el uint) int32) []int32 {
 	result := make([]int32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -30756,7 +32816,7 @@ func (s AsyncSliceInt64) MapInt32(f func(el int64) int32) []int32 {
 	return result
 }
 
-func (s AsyncSliceInt64) MapInt64(f func(el int64) int64) []int64 {
+func (s AsyncSliceUint) MapInt64(f func(el uint) int64) []int64 {
 	result := make([]int64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -30789,7 +32849,7 @@ func (s AsyncSliceInt64) MapInt64(f func(el int64) int64) []int64 {
 	return result
 }
 
-func (s AsyncSliceInt64) MapUint(f func(el int64) uint) []uint {
+func (s AsyncSliceUint) MapUint(f func(el uint) uint) []uint {
 	result := make([]uint, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -30822,7 +32882,7 @@ func (s AsyncSliceInt64) MapUint(f func(el int64) uint) []uint {
 	return result
 }
 
-func (s AsyncSliceInt64) MapUint8(f func(el int64) uint8) []uint8 {
+func (s AsyncSliceUint) MapUint8(f func(el uint) uint8) []uint8 {
 	result := make([]uint8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -30855,7 +32915,7 @@ func (s AsyncSliceInt64) MapUint8(f func(el int64) uint8) []uint8 {
 	return result
 }
 
-func (s AsyncSliceInt64) MapUint16(f func(el int64) uint16) []uint16 {
+func (s AsyncSliceUint) MapUint16(f func(el uint) uint16) []uint16 {
 	result := make([]uint16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -30888,7 +32948,7 @@ func (s AsyncSliceInt64) MapUint16(f func(el int64) uint16) []uint16 {
 	return result
 }
 
-func (s AsyncSliceInt64) MapUint32(f func(el int64) uint32) []uint32 {
+func (s AsyncSliceUint) MapUint32(f func(el uint) uint32) []uint32 {
 	result := make([]uint32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -30921,7 +32981,7 @@ func (s AsyncSliceInt64) MapUint32(f func(el int64) uint32) []uint32 {
 	return result
 }
 
-func (s AsyncSliceInt64) MapUint64(f func(el int64) uint64) []uint64 {
+func (s AsyncSliceUint) MapUint64(f func(el uint) uint64) []uint64 {
 	result := make([]uint64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -30954,7 +33014,7 @@ func (s AsyncSliceInt64) MapUint64(f func(el int64) uint64) []uint64 {
 	return result
 }
 
-func (s AsyncSliceInt64) MapInterface(f func(el int64) interface{}) []interface{} {
+func (s AsyncSliceUint) MapInterface(f func(el uint) interface{}) []interface{} {
 	result := make([]interface{}, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -30987,8 +33047,66 @@ func (s AsyncSliceInt64) MapInterface(f func(el int64) interface{}) []interface{
 	return result
 }
 
-func (s SequenceInt64) Count(start int64, step int64) chan int64 {
-	c := make(chan int64, 1)
+func (s AsyncSliceUint) Reduce(f func(left uint, right uint) uint) uint {
+	if len(s.data) == 0 {
+		var tmp uint
+		return tmp
+	}
+
+	state := make([]uint, len(s.data))
+	state = append(state, s.data...)
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- uint) {
+		for index := range jobs {
+			result <- f(state[index], state[index+1])
+		}
+		wg.Done()
+	}
+
+	for len(state) > 1 {
+		// calculate workers count
+		workers := s.workers
+		if workers == 0 || workers > len(state) {
+			workers = len(state)
+		}
+
+		// run workers
+		jobs := make(chan int, len(state))
+		wg.Add(workers)
+		result := make(chan uint, 1)
+		for i := 0; i < workers; i++ {
+			go worker(jobs, result)
+		}
+
+		go func() {
+			wg.Wait()
+			close(result)
+		}()
+
+		// add indices into jobs for workers
+		for i := 0; i < len(state)-1; i += 2 {
+			jobs <- i
+		}
+		close(jobs)
+
+		// collect new state
+		newState := make([]uint, 0, len(state)/2+len(state)%2)
+		for el := range result {
+			newState = append(newState, el)
+		}
+		if len(state)%2 == 1 {
+			newState = append(newState, state[len(state)-1])
+		}
+		// put new state as current state after all
+		state = newState
+	}
+
+	return state[0]
+}
+
+func (s SequenceUint) Count(start uint, step uint) chan uint {
+	c := make(chan uint, 1)
 	go func() {
 		for {
 			c <- start
@@ -30998,8 +33116,8 @@ func (s SequenceInt64) Count(start int64, step int64) chan int64 {
 	return c
 }
 
-func (s SequenceInt64) Exponential(start int64, factor int64) chan int64 {
-	c := make(chan int64, 1)
+func (s SequenceUint) Exponential(start uint, factor uint) chan uint {
+	c := make(chan uint, 1)
 	go func() {
 		for {
 			c <- start
@@ -31009,8 +33127,8 @@ func (s SequenceInt64) Exponential(start int64, factor int64) chan int64 {
 	return c
 }
 
-func (s SequenceInt64) Range(start int64, end int64, step int64) chan int64 {
-	c := make(chan int64, 1)
+func (s SequenceUint) Range(start uint, end uint, step uint) chan uint {
+	c := make(chan uint, 1)
 	pos := start <= end
 	go func() {
 		for pos && (start < end) || !pos && (start > end) {
@@ -31022,92 +33140,14 @@ func (s SequenceInt64) Range(start int64, end int64, step int64) chan int64 {
 	return c
 }
 
-func (s SequenceInt64) Repeat(val int64) chan int64 {
-	c := make(chan int64, 1)
+func (s SequenceUint) Repeat(val uint) chan uint {
+	c := make(chan uint, 1)
 	go func() {
 		for {
 			c <- val
 		}
 	}()
 	return c
-}
-
-func (s SlicesInt64) Concat() []int64 {
-	result := make([]int64, 0)
-	for _, arr := range s.data {
-		result = append(result, arr...)
-	}
-	return result
-}
-
-func (s SlicesInt64) Product() chan []int64 {
-	c := make(chan []int64, 1)
-	go s.product(c, []int64{}, 0)
-	return c
-}
-
-func (s SlicesInt64) product(c chan []int64, left []int64, pos int) {
-	// iterate over the last array
-	if pos == len(s.data)-1 {
-		for _, el := range s.data[pos] {
-			result := make([]int64, 0, len(left)+1)
-			result = append(result, left...)
-			result = append(result, el)
-			c <- result
-		}
-		return
-	}
-
-	for _, el := range s.data[pos] {
-		result := make([]int64, 0, len(left)+1)
-		result = append(result, left...)
-		result = append(result, el)
-		s.product(c, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
-	}
-}
-
-func (s SlicesInt64) Zip() [][]int64 {
-	size := len(s.data[0])
-	for _, arr := range s.data[1:] {
-		if len(arr) > size {
-			size = len(arr)
-		}
-	}
-
-	result := make([][]int64, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]int64, 0, len(s.data))
-		for _, arr := range s.data {
-			chunk = append(chunk, arr[i])
-		}
-		result = append(result, chunk)
-	}
-	return result
-}
-
-type SliceUint struct {
-	data []uint
-}
-
-type ChannelUint struct {
-	data chan uint
-}
-
-type AsyncSliceUint struct {
-	data    []uint
-	workers int
-}
-
-type SequenceUint struct {
-	data chan uint
-}
-
-type SlicesUint struct {
-	data [][]uint
 }
 
 func (s SliceUint) Any(f func(el uint) bool) bool {
@@ -32756,7 +34796,85 @@ func (s SliceUint) Window(size int) [][]uint {
 	return result
 }
 
-func (c ChannelUint) Any(f func(el uint) bool) bool {
+func (s SlicesUint) Concat() []uint {
+	result := make([]uint, 0)
+	for _, arr := range s.data {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+func (s SlicesUint) Product() chan []uint {
+	c := make(chan []uint, 1)
+	go s.product(c, []uint{}, 0)
+	return c
+}
+
+func (s SlicesUint) product(c chan []uint, left []uint, pos int) {
+	// iterate over the last array
+	if pos == len(s.data)-1 {
+		for _, el := range s.data[pos] {
+			result := make([]uint, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data[pos] {
+		result := make([]uint, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
+func (s SlicesUint) Zip() [][]uint {
+	size := len(s.data[0])
+	for _, arr := range s.data[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]uint, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]uint, 0, len(s.data))
+		for _, arr := range s.data {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
+type ChannelUint8 struct {
+	data chan uint8
+}
+
+type AsyncSliceUint8 struct {
+	data    []uint8
+	workers int
+}
+
+type SequenceUint8 struct {
+	data chan uint8
+}
+
+type SliceUint8 struct {
+	data []uint8
+}
+
+type SlicesUint8 struct {
+	data [][]uint8
+}
+
+func (c ChannelUint8) Any(f func(el uint8) bool) bool {
 	for el := range c.data {
 		if f(el) {
 			return true
@@ -32765,7 +34883,7 @@ func (c ChannelUint) Any(f func(el uint) bool) bool {
 	return false
 }
 
-func (c ChannelUint) All(f func(el uint) bool) bool {
+func (c ChannelUint8) All(f func(el uint8) bool) bool {
 	for el := range c.data {
 		if !f(el) {
 			return false
@@ -32774,10 +34892,10 @@ func (c ChannelUint) All(f func(el uint) bool) bool {
 	return true
 }
 
-func (c ChannelUint) ChunkEvery(count int) chan []uint {
-	chunks := make(chan []uint, 1)
+func (c ChannelUint8) ChunkEvery(count int) chan []uint8 {
+	chunks := make(chan []uint8, 1)
 	go func() {
-		chunk := make([]uint, 0, count)
+		chunk := make([]uint8, 0, count)
 		i := 0
 		for el := range c.data {
 			chunk = append(chunk, el)
@@ -32785,7 +34903,7 @@ func (c ChannelUint) ChunkEvery(count int) chan []uint {
 			if i%count == 0 {
 				i = 0
 				chunks <- chunk
-				chunk = make([]uint, 0, count)
+				chunk = make([]uint8, 0, count)
 			}
 		}
 		if len(chunk) > 0 {
@@ -32796,7 +34914,7 @@ func (c ChannelUint) ChunkEvery(count int) chan []uint {
 	return chunks
 }
 
-func (c ChannelUint) Count(el uint) int {
+func (c ChannelUint8) Count(el uint8) int {
 	count := 0
 	for val := range c.data {
 		if val == el {
@@ -32806,8 +34924,8 @@ func (c ChannelUint) Count(el uint) int {
 	return count
 }
 
-func (c ChannelUint) Drop(n int) chan uint {
-	result := make(chan uint, 1)
+func (c ChannelUint8) Drop(n int) chan uint8 {
+	result := make(chan uint8, 1)
 	go func() {
 		i := 0
 		for el := range c.data {
@@ -32821,14 +34939,14 @@ func (c ChannelUint) Drop(n int) chan uint {
 	return result
 }
 
-func (c ChannelUint) Each(f func(el uint)) {
+func (c ChannelUint8) Each(f func(el uint8)) {
 	for el := range c.data {
 		f(el)
 	}
 }
 
-func (c ChannelUint) Filter(f func(el uint) bool) chan uint {
-	result := make(chan uint, 1)
+func (c ChannelUint8) Filter(f func(el uint8) bool) chan uint8 {
+	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
 			if f(el) {
@@ -32840,7 +34958,7 @@ func (c ChannelUint) Filter(f func(el uint) bool) chan uint {
 	return result
 }
 
-func (c ChannelUint) MapBool(f func(el uint) bool) chan bool {
+func (c ChannelUint8) MapBool(f func(el uint8) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -32851,7 +34969,7 @@ func (c ChannelUint) MapBool(f func(el uint) bool) chan bool {
 	return result
 }
 
-func (c ChannelUint) MapByte(f func(el uint) byte) chan byte {
+func (c ChannelUint8) MapByte(f func(el uint8) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -32862,7 +34980,7 @@ func (c ChannelUint) MapByte(f func(el uint) byte) chan byte {
 	return result
 }
 
-func (c ChannelUint) MapString(f func(el uint) string) chan string {
+func (c ChannelUint8) MapString(f func(el uint8) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -32873,7 +34991,7 @@ func (c ChannelUint) MapString(f func(el uint) string) chan string {
 	return result
 }
 
-func (c ChannelUint) MapFloat32(f func(el uint) float32) chan float32 {
+func (c ChannelUint8) MapFloat32(f func(el uint8) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -32884,7 +35002,7 @@ func (c ChannelUint) MapFloat32(f func(el uint) float32) chan float32 {
 	return result
 }
 
-func (c ChannelUint) MapFloat64(f func(el uint) float64) chan float64 {
+func (c ChannelUint8) MapFloat64(f func(el uint8) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -32895,7 +35013,7 @@ func (c ChannelUint) MapFloat64(f func(el uint) float64) chan float64 {
 	return result
 }
 
-func (c ChannelUint) MapInt(f func(el uint) int) chan int {
+func (c ChannelUint8) MapInt(f func(el uint8) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -32906,7 +35024,7 @@ func (c ChannelUint) MapInt(f func(el uint) int) chan int {
 	return result
 }
 
-func (c ChannelUint) MapInt8(f func(el uint) int8) chan int8 {
+func (c ChannelUint8) MapInt8(f func(el uint8) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -32917,7 +35035,7 @@ func (c ChannelUint) MapInt8(f func(el uint) int8) chan int8 {
 	return result
 }
 
-func (c ChannelUint) MapInt16(f func(el uint) int16) chan int16 {
+func (c ChannelUint8) MapInt16(f func(el uint8) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -32928,7 +35046,7 @@ func (c ChannelUint) MapInt16(f func(el uint) int16) chan int16 {
 	return result
 }
 
-func (c ChannelUint) MapInt32(f func(el uint) int32) chan int32 {
+func (c ChannelUint8) MapInt32(f func(el uint8) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -32939,7 +35057,7 @@ func (c ChannelUint) MapInt32(f func(el uint) int32) chan int32 {
 	return result
 }
 
-func (c ChannelUint) MapInt64(f func(el uint) int64) chan int64 {
+func (c ChannelUint8) MapInt64(f func(el uint8) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -32950,7 +35068,7 @@ func (c ChannelUint) MapInt64(f func(el uint) int64) chan int64 {
 	return result
 }
 
-func (c ChannelUint) MapUint(f func(el uint) uint) chan uint {
+func (c ChannelUint8) MapUint(f func(el uint8) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -32961,7 +35079,7 @@ func (c ChannelUint) MapUint(f func(el uint) uint) chan uint {
 	return result
 }
 
-func (c ChannelUint) MapUint8(f func(el uint) uint8) chan uint8 {
+func (c ChannelUint8) MapUint8(f func(el uint8) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -32972,7 +35090,7 @@ func (c ChannelUint) MapUint8(f func(el uint) uint8) chan uint8 {
 	return result
 }
 
-func (c ChannelUint) MapUint16(f func(el uint) uint16) chan uint16 {
+func (c ChannelUint8) MapUint16(f func(el uint8) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -32983,7 +35101,7 @@ func (c ChannelUint) MapUint16(f func(el uint) uint16) chan uint16 {
 	return result
 }
 
-func (c ChannelUint) MapUint32(f func(el uint) uint32) chan uint32 {
+func (c ChannelUint8) MapUint32(f func(el uint8) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -32994,7 +35112,7 @@ func (c ChannelUint) MapUint32(f func(el uint) uint32) chan uint32 {
 	return result
 }
 
-func (c ChannelUint) MapUint64(f func(el uint) uint64) chan uint64 {
+func (c ChannelUint8) MapUint64(f func(el uint8) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -33005,7 +35123,7 @@ func (c ChannelUint) MapUint64(f func(el uint) uint64) chan uint64 {
 	return result
 }
 
-func (c ChannelUint) MapInterface(f func(el uint) interface{}) chan interface{} {
+func (c ChannelUint8) MapInterface(f func(el uint8) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -33016,7 +35134,7 @@ func (c ChannelUint) MapInterface(f func(el uint) interface{}) chan interface{} 
 	return result
 }
 
-func (c ChannelUint) Max() uint {
+func (c ChannelUint8) Max() uint8 {
 	max := <-c.data
 	for el := range c.data {
 		if el > max {
@@ -33026,7 +35144,7 @@ func (c ChannelUint) Max() uint {
 	return max
 }
 
-func (c ChannelUint) Min() uint {
+func (c ChannelUint8) Min() uint8 {
 	min := <-c.data
 	for el := range c.data {
 		if el < min {
@@ -33036,119 +35154,119 @@ func (c ChannelUint) Min() uint {
 	return min
 }
 
-func (c ChannelUint) ReduceBool(acc bool, f func(el uint, acc bool) bool) bool {
+func (c ChannelUint8) ReduceBool(acc bool, f func(el uint8, acc bool) bool) bool {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint) ReduceByte(acc byte, f func(el uint, acc byte) byte) byte {
+func (c ChannelUint8) ReduceByte(acc byte, f func(el uint8, acc byte) byte) byte {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint) ReduceString(acc string, f func(el uint, acc string) string) string {
+func (c ChannelUint8) ReduceString(acc string, f func(el uint8, acc string) string) string {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint) ReduceFloat32(acc float32, f func(el uint, acc float32) float32) float32 {
+func (c ChannelUint8) ReduceFloat32(acc float32, f func(el uint8, acc float32) float32) float32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint) ReduceFloat64(acc float64, f func(el uint, acc float64) float64) float64 {
+func (c ChannelUint8) ReduceFloat64(acc float64, f func(el uint8, acc float64) float64) float64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint) ReduceInt(acc int, f func(el uint, acc int) int) int {
+func (c ChannelUint8) ReduceInt(acc int, f func(el uint8, acc int) int) int {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint) ReduceInt8(acc int8, f func(el uint, acc int8) int8) int8 {
+func (c ChannelUint8) ReduceInt8(acc int8, f func(el uint8, acc int8) int8) int8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint) ReduceInt16(acc int16, f func(el uint, acc int16) int16) int16 {
+func (c ChannelUint8) ReduceInt16(acc int16, f func(el uint8, acc int16) int16) int16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint) ReduceInt32(acc int32, f func(el uint, acc int32) int32) int32 {
+func (c ChannelUint8) ReduceInt32(acc int32, f func(el uint8, acc int32) int32) int32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint) ReduceInt64(acc int64, f func(el uint, acc int64) int64) int64 {
+func (c ChannelUint8) ReduceInt64(acc int64, f func(el uint8, acc int64) int64) int64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint) ReduceUint(acc uint, f func(el uint, acc uint) uint) uint {
+func (c ChannelUint8) ReduceUint(acc uint, f func(el uint8, acc uint) uint) uint {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint) ReduceUint8(acc uint8, f func(el uint, acc uint8) uint8) uint8 {
+func (c ChannelUint8) ReduceUint8(acc uint8, f func(el uint8, acc uint8) uint8) uint8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint) ReduceUint16(acc uint16, f func(el uint, acc uint16) uint16) uint16 {
+func (c ChannelUint8) ReduceUint16(acc uint16, f func(el uint8, acc uint16) uint16) uint16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint) ReduceUint32(acc uint32, f func(el uint, acc uint32) uint32) uint32 {
+func (c ChannelUint8) ReduceUint32(acc uint32, f func(el uint8, acc uint32) uint32) uint32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint) ReduceUint64(acc uint64, f func(el uint, acc uint64) uint64) uint64 {
+func (c ChannelUint8) ReduceUint64(acc uint64, f func(el uint8, acc uint64) uint64) uint64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint) ReduceInterface(acc interface{}, f func(el uint, acc interface{}) interface{}) interface{} {
+func (c ChannelUint8) ReduceInterface(acc interface{}, f func(el uint8, acc interface{}) interface{}) interface{} {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint) ScanBool(acc bool, f func(el uint, acc bool) bool) chan bool {
+func (c ChannelUint8) ScanBool(acc bool, f func(el uint8, acc bool) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -33160,7 +35278,7 @@ func (c ChannelUint) ScanBool(acc bool, f func(el uint, acc bool) bool) chan boo
 	return result
 }
 
-func (c ChannelUint) ScanByte(acc byte, f func(el uint, acc byte) byte) chan byte {
+func (c ChannelUint8) ScanByte(acc byte, f func(el uint8, acc byte) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -33172,7 +35290,7 @@ func (c ChannelUint) ScanByte(acc byte, f func(el uint, acc byte) byte) chan byt
 	return result
 }
 
-func (c ChannelUint) ScanString(acc string, f func(el uint, acc string) string) chan string {
+func (c ChannelUint8) ScanString(acc string, f func(el uint8, acc string) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -33184,7 +35302,7 @@ func (c ChannelUint) ScanString(acc string, f func(el uint, acc string) string) 
 	return result
 }
 
-func (c ChannelUint) ScanFloat32(acc float32, f func(el uint, acc float32) float32) chan float32 {
+func (c ChannelUint8) ScanFloat32(acc float32, f func(el uint8, acc float32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -33196,7 +35314,7 @@ func (c ChannelUint) ScanFloat32(acc float32, f func(el uint, acc float32) float
 	return result
 }
 
-func (c ChannelUint) ScanFloat64(acc float64, f func(el uint, acc float64) float64) chan float64 {
+func (c ChannelUint8) ScanFloat64(acc float64, f func(el uint8, acc float64) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -33208,7 +35326,7 @@ func (c ChannelUint) ScanFloat64(acc float64, f func(el uint, acc float64) float
 	return result
 }
 
-func (c ChannelUint) ScanInt(acc int, f func(el uint, acc int) int) chan int {
+func (c ChannelUint8) ScanInt(acc int, f func(el uint8, acc int) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -33220,7 +35338,7 @@ func (c ChannelUint) ScanInt(acc int, f func(el uint, acc int) int) chan int {
 	return result
 }
 
-func (c ChannelUint) ScanInt8(acc int8, f func(el uint, acc int8) int8) chan int8 {
+func (c ChannelUint8) ScanInt8(acc int8, f func(el uint8, acc int8) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -33232,7 +35350,7 @@ func (c ChannelUint) ScanInt8(acc int8, f func(el uint, acc int8) int8) chan int
 	return result
 }
 
-func (c ChannelUint) ScanInt16(acc int16, f func(el uint, acc int16) int16) chan int16 {
+func (c ChannelUint8) ScanInt16(acc int16, f func(el uint8, acc int16) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -33244,7 +35362,7 @@ func (c ChannelUint) ScanInt16(acc int16, f func(el uint, acc int16) int16) chan
 	return result
 }
 
-func (c ChannelUint) ScanInt32(acc int32, f func(el uint, acc int32) int32) chan int32 {
+func (c ChannelUint8) ScanInt32(acc int32, f func(el uint8, acc int32) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -33256,7 +35374,7 @@ func (c ChannelUint) ScanInt32(acc int32, f func(el uint, acc int32) int32) chan
 	return result
 }
 
-func (c ChannelUint) ScanInt64(acc int64, f func(el uint, acc int64) int64) chan int64 {
+func (c ChannelUint8) ScanInt64(acc int64, f func(el uint8, acc int64) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -33268,7 +35386,7 @@ func (c ChannelUint) ScanInt64(acc int64, f func(el uint, acc int64) int64) chan
 	return result
 }
 
-func (c ChannelUint) ScanUint(acc uint, f func(el uint, acc uint) uint) chan uint {
+func (c ChannelUint8) ScanUint(acc uint, f func(el uint8, acc uint) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -33280,7 +35398,7 @@ func (c ChannelUint) ScanUint(acc uint, f func(el uint, acc uint) uint) chan uin
 	return result
 }
 
-func (c ChannelUint) ScanUint8(acc uint8, f func(el uint, acc uint8) uint8) chan uint8 {
+func (c ChannelUint8) ScanUint8(acc uint8, f func(el uint8, acc uint8) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -33292,7 +35410,7 @@ func (c ChannelUint) ScanUint8(acc uint8, f func(el uint, acc uint8) uint8) chan
 	return result
 }
 
-func (c ChannelUint) ScanUint16(acc uint16, f func(el uint, acc uint16) uint16) chan uint16 {
+func (c ChannelUint8) ScanUint16(acc uint16, f func(el uint8, acc uint16) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -33304,7 +35422,7 @@ func (c ChannelUint) ScanUint16(acc uint16, f func(el uint, acc uint16) uint16) 
 	return result
 }
 
-func (c ChannelUint) ScanUint32(acc uint32, f func(el uint, acc uint32) uint32) chan uint32 {
+func (c ChannelUint8) ScanUint32(acc uint32, f func(el uint8, acc uint32) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -33316,7 +35434,7 @@ func (c ChannelUint) ScanUint32(acc uint32, f func(el uint, acc uint32) uint32) 
 	return result
 }
 
-func (c ChannelUint) ScanUint64(acc uint64, f func(el uint, acc uint64) uint64) chan uint64 {
+func (c ChannelUint8) ScanUint64(acc uint64, f func(el uint8, acc uint64) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -33328,7 +35446,7 @@ func (c ChannelUint) ScanUint64(acc uint64, f func(el uint, acc uint64) uint64) 
 	return result
 }
 
-func (c ChannelUint) ScanInterface(acc interface{}, f func(el uint, acc interface{}) interface{}) chan interface{} {
+func (c ChannelUint8) ScanInterface(acc interface{}, f func(el uint8, acc interface{}) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -33340,31 +35458,31 @@ func (c ChannelUint) ScanInterface(acc interface{}, f func(el uint, acc interfac
 	return result
 }
 
-func (c ChannelUint) Sum() uint {
-	var sum uint
+func (c ChannelUint8) Sum() uint8 {
+	var sum uint8
 	for el := range c.data {
 		sum += el
 	}
 	return sum
 }
 
-func (c ChannelUint) Take(n int) []uint {
-	result := make([]uint, 0, n)
+func (c ChannelUint8) Take(n int) []uint8 {
+	result := make([]uint8, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c.data)
 	}
 	return result
 }
 
-func (c ChannelUint) Tee(count int) []chan uint {
-	channels := make([]chan uint, 0, count)
+func (c ChannelUint8) Tee(count int) []chan uint8 {
+	channels := make([]chan uint8, 0, count)
 	for i := 0; i < count; i++ {
-		channels = append(channels, make(chan uint, 1))
+		channels = append(channels, make(chan uint8, 1))
 	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			putInto := func(ch chan uint) {
+			putInto := func(ch chan uint8) {
 				wg.Add(1)
 				defer wg.Done()
 				ch <- el
@@ -33381,15 +35499,15 @@ func (c ChannelUint) Tee(count int) []chan uint {
 	return channels
 }
 
-func (c ChannelUint) ToSlice() []uint {
-	result := make([]uint, 0)
+func (c ChannelUint8) ToSlice() []uint8 {
+	result := make([]uint8, 0)
 	for val := range c.data {
 		result = append(result, val)
 	}
 	return result
 }
 
-func (s AsyncSliceUint) All(f func(el uint) bool) bool {
+func (s AsyncSliceUint8) All(f func(el uint8) bool) bool {
 	if len(s.data) == 0 {
 		return true
 	}
@@ -33450,7 +35568,7 @@ func (s AsyncSliceUint) All(f func(el uint) bool) bool {
 	return true
 }
 
-func (s AsyncSliceUint) Any(f func(el uint) bool) bool {
+func (s AsyncSliceUint8) Any(f func(el uint8) bool) bool {
 	if len(s.data) == 0 {
 		return false
 	}
@@ -33511,7 +35629,7 @@ func (s AsyncSliceUint) Any(f func(el uint) bool) bool {
 	return false
 }
 
-func (s AsyncSliceUint) Each(f func(el uint)) {
+func (s AsyncSliceUint8) Each(f func(el uint8)) {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -33542,7 +35660,7 @@ func (s AsyncSliceUint) Each(f func(el uint)) {
 	wg.Wait()
 }
 
-func (s AsyncSliceUint) Filter(f func(el uint) bool) []uint {
+func (s AsyncSliceUint8) Filter(f func(el uint8) bool) []uint8 {
 	resultMap := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -33576,7 +35694,7 @@ func (s AsyncSliceUint) Filter(f func(el uint) bool) []uint {
 	wg.Wait()
 
 	// return filtered results
-	result := make([]uint, 0, len(s.data))
+	result := make([]uint8, 0, len(s.data))
 	for i, el := range s.data {
 		if resultMap[i] {
 			result = append(result, el)
@@ -33585,7 +35703,7 @@ func (s AsyncSliceUint) Filter(f func(el uint) bool) []uint {
 	return result
 }
 
-func (s AsyncSliceUint) MapBool(f func(el uint) bool) []bool {
+func (s AsyncSliceUint8) MapBool(f func(el uint8) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -33618,7 +35736,7 @@ func (s AsyncSliceUint) MapBool(f func(el uint) bool) []bool {
 	return result
 }
 
-func (s AsyncSliceUint) MapByte(f func(el uint) byte) []byte {
+func (s AsyncSliceUint8) MapByte(f func(el uint8) byte) []byte {
 	result := make([]byte, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -33651,7 +35769,7 @@ func (s AsyncSliceUint) MapByte(f func(el uint) byte) []byte {
 	return result
 }
 
-func (s AsyncSliceUint) MapString(f func(el uint) string) []string {
+func (s AsyncSliceUint8) MapString(f func(el uint8) string) []string {
 	result := make([]string, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -33684,7 +35802,7 @@ func (s AsyncSliceUint) MapString(f func(el uint) string) []string {
 	return result
 }
 
-func (s AsyncSliceUint) MapFloat32(f func(el uint) float32) []float32 {
+func (s AsyncSliceUint8) MapFloat32(f func(el uint8) float32) []float32 {
 	result := make([]float32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -33717,7 +35835,7 @@ func (s AsyncSliceUint) MapFloat32(f func(el uint) float32) []float32 {
 	return result
 }
 
-func (s AsyncSliceUint) MapFloat64(f func(el uint) float64) []float64 {
+func (s AsyncSliceUint8) MapFloat64(f func(el uint8) float64) []float64 {
 	result := make([]float64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -33750,7 +35868,7 @@ func (s AsyncSliceUint) MapFloat64(f func(el uint) float64) []float64 {
 	return result
 }
 
-func (s AsyncSliceUint) MapInt(f func(el uint) int) []int {
+func (s AsyncSliceUint8) MapInt(f func(el uint8) int) []int {
 	result := make([]int, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -33783,7 +35901,7 @@ func (s AsyncSliceUint) MapInt(f func(el uint) int) []int {
 	return result
 }
 
-func (s AsyncSliceUint) MapInt8(f func(el uint) int8) []int8 {
+func (s AsyncSliceUint8) MapInt8(f func(el uint8) int8) []int8 {
 	result := make([]int8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -33816,7 +35934,7 @@ func (s AsyncSliceUint) MapInt8(f func(el uint) int8) []int8 {
 	return result
 }
 
-func (s AsyncSliceUint) MapInt16(f func(el uint) int16) []int16 {
+func (s AsyncSliceUint8) MapInt16(f func(el uint8) int16) []int16 {
 	result := make([]int16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -33849,7 +35967,7 @@ func (s AsyncSliceUint) MapInt16(f func(el uint) int16) []int16 {
 	return result
 }
 
-func (s AsyncSliceUint) MapInt32(f func(el uint) int32) []int32 {
+func (s AsyncSliceUint8) MapInt32(f func(el uint8) int32) []int32 {
 	result := make([]int32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -33882,7 +36000,7 @@ func (s AsyncSliceUint) MapInt32(f func(el uint) int32) []int32 {
 	return result
 }
 
-func (s AsyncSliceUint) MapInt64(f func(el uint) int64) []int64 {
+func (s AsyncSliceUint8) MapInt64(f func(el uint8) int64) []int64 {
 	result := make([]int64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -33915,7 +36033,7 @@ func (s AsyncSliceUint) MapInt64(f func(el uint) int64) []int64 {
 	return result
 }
 
-func (s AsyncSliceUint) MapUint(f func(el uint) uint) []uint {
+func (s AsyncSliceUint8) MapUint(f func(el uint8) uint) []uint {
 	result := make([]uint, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -33948,7 +36066,7 @@ func (s AsyncSliceUint) MapUint(f func(el uint) uint) []uint {
 	return result
 }
 
-func (s AsyncSliceUint) MapUint8(f func(el uint) uint8) []uint8 {
+func (s AsyncSliceUint8) MapUint8(f func(el uint8) uint8) []uint8 {
 	result := make([]uint8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -33981,7 +36099,7 @@ func (s AsyncSliceUint) MapUint8(f func(el uint) uint8) []uint8 {
 	return result
 }
 
-func (s AsyncSliceUint) MapUint16(f func(el uint) uint16) []uint16 {
+func (s AsyncSliceUint8) MapUint16(f func(el uint8) uint16) []uint16 {
 	result := make([]uint16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -34014,7 +36132,7 @@ func (s AsyncSliceUint) MapUint16(f func(el uint) uint16) []uint16 {
 	return result
 }
 
-func (s AsyncSliceUint) MapUint32(f func(el uint) uint32) []uint32 {
+func (s AsyncSliceUint8) MapUint32(f func(el uint8) uint32) []uint32 {
 	result := make([]uint32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -34047,7 +36165,7 @@ func (s AsyncSliceUint) MapUint32(f func(el uint) uint32) []uint32 {
 	return result
 }
 
-func (s AsyncSliceUint) MapUint64(f func(el uint) uint64) []uint64 {
+func (s AsyncSliceUint8) MapUint64(f func(el uint8) uint64) []uint64 {
 	result := make([]uint64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -34080,7 +36198,7 @@ func (s AsyncSliceUint) MapUint64(f func(el uint) uint64) []uint64 {
 	return result
 }
 
-func (s AsyncSliceUint) MapInterface(f func(el uint) interface{}) []interface{} {
+func (s AsyncSliceUint8) MapInterface(f func(el uint8) interface{}) []interface{} {
 	result := make([]interface{}, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -34113,8 +36231,66 @@ func (s AsyncSliceUint) MapInterface(f func(el uint) interface{}) []interface{} 
 	return result
 }
 
-func (s SequenceUint) Count(start uint, step uint) chan uint {
-	c := make(chan uint, 1)
+func (s AsyncSliceUint8) Reduce(f func(left uint8, right uint8) uint8) uint8 {
+	if len(s.data) == 0 {
+		var tmp uint8
+		return tmp
+	}
+
+	state := make([]uint8, len(s.data))
+	state = append(state, s.data...)
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- uint8) {
+		for index := range jobs {
+			result <- f(state[index], state[index+1])
+		}
+		wg.Done()
+	}
+
+	for len(state) > 1 {
+		// calculate workers count
+		workers := s.workers
+		if workers == 0 || workers > len(state) {
+			workers = len(state)
+		}
+
+		// run workers
+		jobs := make(chan int, len(state))
+		wg.Add(workers)
+		result := make(chan uint8, 1)
+		for i := 0; i < workers; i++ {
+			go worker(jobs, result)
+		}
+
+		go func() {
+			wg.Wait()
+			close(result)
+		}()
+
+		// add indices into jobs for workers
+		for i := 0; i < len(state)-1; i += 2 {
+			jobs <- i
+		}
+		close(jobs)
+
+		// collect new state
+		newState := make([]uint8, 0, len(state)/2+len(state)%2)
+		for el := range result {
+			newState = append(newState, el)
+		}
+		if len(state)%2 == 1 {
+			newState = append(newState, state[len(state)-1])
+		}
+		// put new state as current state after all
+		state = newState
+	}
+
+	return state[0]
+}
+
+func (s SequenceUint8) Count(start uint8, step uint8) chan uint8 {
+	c := make(chan uint8, 1)
 	go func() {
 		for {
 			c <- start
@@ -34124,8 +36300,8 @@ func (s SequenceUint) Count(start uint, step uint) chan uint {
 	return c
 }
 
-func (s SequenceUint) Exponential(start uint, factor uint) chan uint {
-	c := make(chan uint, 1)
+func (s SequenceUint8) Exponential(start uint8, factor uint8) chan uint8 {
+	c := make(chan uint8, 1)
 	go func() {
 		for {
 			c <- start
@@ -34135,8 +36311,8 @@ func (s SequenceUint) Exponential(start uint, factor uint) chan uint {
 	return c
 }
 
-func (s SequenceUint) Range(start uint, end uint, step uint) chan uint {
-	c := make(chan uint, 1)
+func (s SequenceUint8) Range(start uint8, end uint8, step uint8) chan uint8 {
+	c := make(chan uint8, 1)
 	pos := start <= end
 	go func() {
 		for pos && (start < end) || !pos && (start > end) {
@@ -34148,92 +36324,14 @@ func (s SequenceUint) Range(start uint, end uint, step uint) chan uint {
 	return c
 }
 
-func (s SequenceUint) Repeat(val uint) chan uint {
-	c := make(chan uint, 1)
+func (s SequenceUint8) Repeat(val uint8) chan uint8 {
+	c := make(chan uint8, 1)
 	go func() {
 		for {
 			c <- val
 		}
 	}()
 	return c
-}
-
-func (s SlicesUint) Concat() []uint {
-	result := make([]uint, 0)
-	for _, arr := range s.data {
-		result = append(result, arr...)
-	}
-	return result
-}
-
-func (s SlicesUint) Product() chan []uint {
-	c := make(chan []uint, 1)
-	go s.product(c, []uint{}, 0)
-	return c
-}
-
-func (s SlicesUint) product(c chan []uint, left []uint, pos int) {
-	// iterate over the last array
-	if pos == len(s.data)-1 {
-		for _, el := range s.data[pos] {
-			result := make([]uint, 0, len(left)+1)
-			result = append(result, left...)
-			result = append(result, el)
-			c <- result
-		}
-		return
-	}
-
-	for _, el := range s.data[pos] {
-		result := make([]uint, 0, len(left)+1)
-		result = append(result, left...)
-		result = append(result, el)
-		s.product(c, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
-	}
-}
-
-func (s SlicesUint) Zip() [][]uint {
-	size := len(s.data[0])
-	for _, arr := range s.data[1:] {
-		if len(arr) > size {
-			size = len(arr)
-		}
-	}
-
-	result := make([][]uint, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]uint, 0, len(s.data))
-		for _, arr := range s.data {
-			chunk = append(chunk, arr[i])
-		}
-		result = append(result, chunk)
-	}
-	return result
-}
-
-type SliceUint8 struct {
-	data []uint8
-}
-
-type ChannelUint8 struct {
-	data chan uint8
-}
-
-type AsyncSliceUint8 struct {
-	data    []uint8
-	workers int
-}
-
-type SequenceUint8 struct {
-	data chan uint8
-}
-
-type SlicesUint8 struct {
-	data [][]uint8
 }
 
 func (s SliceUint8) Any(f func(el uint8) bool) bool {
@@ -35882,7 +37980,85 @@ func (s SliceUint8) Window(size int) [][]uint8 {
 	return result
 }
 
-func (c ChannelUint8) Any(f func(el uint8) bool) bool {
+func (s SlicesUint8) Concat() []uint8 {
+	result := make([]uint8, 0)
+	for _, arr := range s.data {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+func (s SlicesUint8) Product() chan []uint8 {
+	c := make(chan []uint8, 1)
+	go s.product(c, []uint8{}, 0)
+	return c
+}
+
+func (s SlicesUint8) product(c chan []uint8, left []uint8, pos int) {
+	// iterate over the last array
+	if pos == len(s.data)-1 {
+		for _, el := range s.data[pos] {
+			result := make([]uint8, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data[pos] {
+		result := make([]uint8, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
+func (s SlicesUint8) Zip() [][]uint8 {
+	size := len(s.data[0])
+	for _, arr := range s.data[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]uint8, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]uint8, 0, len(s.data))
+		for _, arr := range s.data {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
+type ChannelUint16 struct {
+	data chan uint16
+}
+
+type AsyncSliceUint16 struct {
+	data    []uint16
+	workers int
+}
+
+type SequenceUint16 struct {
+	data chan uint16
+}
+
+type SliceUint16 struct {
+	data []uint16
+}
+
+type SlicesUint16 struct {
+	data [][]uint16
+}
+
+func (c ChannelUint16) Any(f func(el uint16) bool) bool {
 	for el := range c.data {
 		if f(el) {
 			return true
@@ -35891,7 +38067,7 @@ func (c ChannelUint8) Any(f func(el uint8) bool) bool {
 	return false
 }
 
-func (c ChannelUint8) All(f func(el uint8) bool) bool {
+func (c ChannelUint16) All(f func(el uint16) bool) bool {
 	for el := range c.data {
 		if !f(el) {
 			return false
@@ -35900,10 +38076,10 @@ func (c ChannelUint8) All(f func(el uint8) bool) bool {
 	return true
 }
 
-func (c ChannelUint8) ChunkEvery(count int) chan []uint8 {
-	chunks := make(chan []uint8, 1)
+func (c ChannelUint16) ChunkEvery(count int) chan []uint16 {
+	chunks := make(chan []uint16, 1)
 	go func() {
-		chunk := make([]uint8, 0, count)
+		chunk := make([]uint16, 0, count)
 		i := 0
 		for el := range c.data {
 			chunk = append(chunk, el)
@@ -35911,7 +38087,7 @@ func (c ChannelUint8) ChunkEvery(count int) chan []uint8 {
 			if i%count == 0 {
 				i = 0
 				chunks <- chunk
-				chunk = make([]uint8, 0, count)
+				chunk = make([]uint16, 0, count)
 			}
 		}
 		if len(chunk) > 0 {
@@ -35922,7 +38098,7 @@ func (c ChannelUint8) ChunkEvery(count int) chan []uint8 {
 	return chunks
 }
 
-func (c ChannelUint8) Count(el uint8) int {
+func (c ChannelUint16) Count(el uint16) int {
 	count := 0
 	for val := range c.data {
 		if val == el {
@@ -35932,8 +38108,8 @@ func (c ChannelUint8) Count(el uint8) int {
 	return count
 }
 
-func (c ChannelUint8) Drop(n int) chan uint8 {
-	result := make(chan uint8, 1)
+func (c ChannelUint16) Drop(n int) chan uint16 {
+	result := make(chan uint16, 1)
 	go func() {
 		i := 0
 		for el := range c.data {
@@ -35947,14 +38123,14 @@ func (c ChannelUint8) Drop(n int) chan uint8 {
 	return result
 }
 
-func (c ChannelUint8) Each(f func(el uint8)) {
+func (c ChannelUint16) Each(f func(el uint16)) {
 	for el := range c.data {
 		f(el)
 	}
 }
 
-func (c ChannelUint8) Filter(f func(el uint8) bool) chan uint8 {
-	result := make(chan uint8, 1)
+func (c ChannelUint16) Filter(f func(el uint16) bool) chan uint16 {
+	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
 			if f(el) {
@@ -35966,7 +38142,7 @@ func (c ChannelUint8) Filter(f func(el uint8) bool) chan uint8 {
 	return result
 }
 
-func (c ChannelUint8) MapBool(f func(el uint8) bool) chan bool {
+func (c ChannelUint16) MapBool(f func(el uint16) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -35977,7 +38153,7 @@ func (c ChannelUint8) MapBool(f func(el uint8) bool) chan bool {
 	return result
 }
 
-func (c ChannelUint8) MapByte(f func(el uint8) byte) chan byte {
+func (c ChannelUint16) MapByte(f func(el uint16) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -35988,7 +38164,7 @@ func (c ChannelUint8) MapByte(f func(el uint8) byte) chan byte {
 	return result
 }
 
-func (c ChannelUint8) MapString(f func(el uint8) string) chan string {
+func (c ChannelUint16) MapString(f func(el uint16) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -35999,7 +38175,7 @@ func (c ChannelUint8) MapString(f func(el uint8) string) chan string {
 	return result
 }
 
-func (c ChannelUint8) MapFloat32(f func(el uint8) float32) chan float32 {
+func (c ChannelUint16) MapFloat32(f func(el uint16) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -36010,7 +38186,7 @@ func (c ChannelUint8) MapFloat32(f func(el uint8) float32) chan float32 {
 	return result
 }
 
-func (c ChannelUint8) MapFloat64(f func(el uint8) float64) chan float64 {
+func (c ChannelUint16) MapFloat64(f func(el uint16) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -36021,7 +38197,7 @@ func (c ChannelUint8) MapFloat64(f func(el uint8) float64) chan float64 {
 	return result
 }
 
-func (c ChannelUint8) MapInt(f func(el uint8) int) chan int {
+func (c ChannelUint16) MapInt(f func(el uint16) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -36032,7 +38208,7 @@ func (c ChannelUint8) MapInt(f func(el uint8) int) chan int {
 	return result
 }
 
-func (c ChannelUint8) MapInt8(f func(el uint8) int8) chan int8 {
+func (c ChannelUint16) MapInt8(f func(el uint16) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -36043,7 +38219,7 @@ func (c ChannelUint8) MapInt8(f func(el uint8) int8) chan int8 {
 	return result
 }
 
-func (c ChannelUint8) MapInt16(f func(el uint8) int16) chan int16 {
+func (c ChannelUint16) MapInt16(f func(el uint16) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -36054,7 +38230,7 @@ func (c ChannelUint8) MapInt16(f func(el uint8) int16) chan int16 {
 	return result
 }
 
-func (c ChannelUint8) MapInt32(f func(el uint8) int32) chan int32 {
+func (c ChannelUint16) MapInt32(f func(el uint16) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -36065,7 +38241,7 @@ func (c ChannelUint8) MapInt32(f func(el uint8) int32) chan int32 {
 	return result
 }
 
-func (c ChannelUint8) MapInt64(f func(el uint8) int64) chan int64 {
+func (c ChannelUint16) MapInt64(f func(el uint16) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -36076,7 +38252,7 @@ func (c ChannelUint8) MapInt64(f func(el uint8) int64) chan int64 {
 	return result
 }
 
-func (c ChannelUint8) MapUint(f func(el uint8) uint) chan uint {
+func (c ChannelUint16) MapUint(f func(el uint16) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -36087,7 +38263,7 @@ func (c ChannelUint8) MapUint(f func(el uint8) uint) chan uint {
 	return result
 }
 
-func (c ChannelUint8) MapUint8(f func(el uint8) uint8) chan uint8 {
+func (c ChannelUint16) MapUint8(f func(el uint16) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -36098,7 +38274,7 @@ func (c ChannelUint8) MapUint8(f func(el uint8) uint8) chan uint8 {
 	return result
 }
 
-func (c ChannelUint8) MapUint16(f func(el uint8) uint16) chan uint16 {
+func (c ChannelUint16) MapUint16(f func(el uint16) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -36109,7 +38285,7 @@ func (c ChannelUint8) MapUint16(f func(el uint8) uint16) chan uint16 {
 	return result
 }
 
-func (c ChannelUint8) MapUint32(f func(el uint8) uint32) chan uint32 {
+func (c ChannelUint16) MapUint32(f func(el uint16) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -36120,7 +38296,7 @@ func (c ChannelUint8) MapUint32(f func(el uint8) uint32) chan uint32 {
 	return result
 }
 
-func (c ChannelUint8) MapUint64(f func(el uint8) uint64) chan uint64 {
+func (c ChannelUint16) MapUint64(f func(el uint16) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -36131,7 +38307,7 @@ func (c ChannelUint8) MapUint64(f func(el uint8) uint64) chan uint64 {
 	return result
 }
 
-func (c ChannelUint8) MapInterface(f func(el uint8) interface{}) chan interface{} {
+func (c ChannelUint16) MapInterface(f func(el uint16) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -36142,7 +38318,7 @@ func (c ChannelUint8) MapInterface(f func(el uint8) interface{}) chan interface{
 	return result
 }
 
-func (c ChannelUint8) Max() uint8 {
+func (c ChannelUint16) Max() uint16 {
 	max := <-c.data
 	for el := range c.data {
 		if el > max {
@@ -36152,7 +38328,7 @@ func (c ChannelUint8) Max() uint8 {
 	return max
 }
 
-func (c ChannelUint8) Min() uint8 {
+func (c ChannelUint16) Min() uint16 {
 	min := <-c.data
 	for el := range c.data {
 		if el < min {
@@ -36162,119 +38338,119 @@ func (c ChannelUint8) Min() uint8 {
 	return min
 }
 
-func (c ChannelUint8) ReduceBool(acc bool, f func(el uint8, acc bool) bool) bool {
+func (c ChannelUint16) ReduceBool(acc bool, f func(el uint16, acc bool) bool) bool {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint8) ReduceByte(acc byte, f func(el uint8, acc byte) byte) byte {
+func (c ChannelUint16) ReduceByte(acc byte, f func(el uint16, acc byte) byte) byte {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint8) ReduceString(acc string, f func(el uint8, acc string) string) string {
+func (c ChannelUint16) ReduceString(acc string, f func(el uint16, acc string) string) string {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint8) ReduceFloat32(acc float32, f func(el uint8, acc float32) float32) float32 {
+func (c ChannelUint16) ReduceFloat32(acc float32, f func(el uint16, acc float32) float32) float32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint8) ReduceFloat64(acc float64, f func(el uint8, acc float64) float64) float64 {
+func (c ChannelUint16) ReduceFloat64(acc float64, f func(el uint16, acc float64) float64) float64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint8) ReduceInt(acc int, f func(el uint8, acc int) int) int {
+func (c ChannelUint16) ReduceInt(acc int, f func(el uint16, acc int) int) int {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint8) ReduceInt8(acc int8, f func(el uint8, acc int8) int8) int8 {
+func (c ChannelUint16) ReduceInt8(acc int8, f func(el uint16, acc int8) int8) int8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint8) ReduceInt16(acc int16, f func(el uint8, acc int16) int16) int16 {
+func (c ChannelUint16) ReduceInt16(acc int16, f func(el uint16, acc int16) int16) int16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint8) ReduceInt32(acc int32, f func(el uint8, acc int32) int32) int32 {
+func (c ChannelUint16) ReduceInt32(acc int32, f func(el uint16, acc int32) int32) int32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint8) ReduceInt64(acc int64, f func(el uint8, acc int64) int64) int64 {
+func (c ChannelUint16) ReduceInt64(acc int64, f func(el uint16, acc int64) int64) int64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint8) ReduceUint(acc uint, f func(el uint8, acc uint) uint) uint {
+func (c ChannelUint16) ReduceUint(acc uint, f func(el uint16, acc uint) uint) uint {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint8) ReduceUint8(acc uint8, f func(el uint8, acc uint8) uint8) uint8 {
+func (c ChannelUint16) ReduceUint8(acc uint8, f func(el uint16, acc uint8) uint8) uint8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint8) ReduceUint16(acc uint16, f func(el uint8, acc uint16) uint16) uint16 {
+func (c ChannelUint16) ReduceUint16(acc uint16, f func(el uint16, acc uint16) uint16) uint16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint8) ReduceUint32(acc uint32, f func(el uint8, acc uint32) uint32) uint32 {
+func (c ChannelUint16) ReduceUint32(acc uint32, f func(el uint16, acc uint32) uint32) uint32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint8) ReduceUint64(acc uint64, f func(el uint8, acc uint64) uint64) uint64 {
+func (c ChannelUint16) ReduceUint64(acc uint64, f func(el uint16, acc uint64) uint64) uint64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint8) ReduceInterface(acc interface{}, f func(el uint8, acc interface{}) interface{}) interface{} {
+func (c ChannelUint16) ReduceInterface(acc interface{}, f func(el uint16, acc interface{}) interface{}) interface{} {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint8) ScanBool(acc bool, f func(el uint8, acc bool) bool) chan bool {
+func (c ChannelUint16) ScanBool(acc bool, f func(el uint16, acc bool) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -36286,7 +38462,7 @@ func (c ChannelUint8) ScanBool(acc bool, f func(el uint8, acc bool) bool) chan b
 	return result
 }
 
-func (c ChannelUint8) ScanByte(acc byte, f func(el uint8, acc byte) byte) chan byte {
+func (c ChannelUint16) ScanByte(acc byte, f func(el uint16, acc byte) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -36298,7 +38474,7 @@ func (c ChannelUint8) ScanByte(acc byte, f func(el uint8, acc byte) byte) chan b
 	return result
 }
 
-func (c ChannelUint8) ScanString(acc string, f func(el uint8, acc string) string) chan string {
+func (c ChannelUint16) ScanString(acc string, f func(el uint16, acc string) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -36310,7 +38486,7 @@ func (c ChannelUint8) ScanString(acc string, f func(el uint8, acc string) string
 	return result
 }
 
-func (c ChannelUint8) ScanFloat32(acc float32, f func(el uint8, acc float32) float32) chan float32 {
+func (c ChannelUint16) ScanFloat32(acc float32, f func(el uint16, acc float32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -36322,7 +38498,7 @@ func (c ChannelUint8) ScanFloat32(acc float32, f func(el uint8, acc float32) flo
 	return result
 }
 
-func (c ChannelUint8) ScanFloat64(acc float64, f func(el uint8, acc float64) float64) chan float64 {
+func (c ChannelUint16) ScanFloat64(acc float64, f func(el uint16, acc float64) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -36334,7 +38510,7 @@ func (c ChannelUint8) ScanFloat64(acc float64, f func(el uint8, acc float64) flo
 	return result
 }
 
-func (c ChannelUint8) ScanInt(acc int, f func(el uint8, acc int) int) chan int {
+func (c ChannelUint16) ScanInt(acc int, f func(el uint16, acc int) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -36346,7 +38522,7 @@ func (c ChannelUint8) ScanInt(acc int, f func(el uint8, acc int) int) chan int {
 	return result
 }
 
-func (c ChannelUint8) ScanInt8(acc int8, f func(el uint8, acc int8) int8) chan int8 {
+func (c ChannelUint16) ScanInt8(acc int8, f func(el uint16, acc int8) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -36358,7 +38534,7 @@ func (c ChannelUint8) ScanInt8(acc int8, f func(el uint8, acc int8) int8) chan i
 	return result
 }
 
-func (c ChannelUint8) ScanInt16(acc int16, f func(el uint8, acc int16) int16) chan int16 {
+func (c ChannelUint16) ScanInt16(acc int16, f func(el uint16, acc int16) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -36370,7 +38546,7 @@ func (c ChannelUint8) ScanInt16(acc int16, f func(el uint8, acc int16) int16) ch
 	return result
 }
 
-func (c ChannelUint8) ScanInt32(acc int32, f func(el uint8, acc int32) int32) chan int32 {
+func (c ChannelUint16) ScanInt32(acc int32, f func(el uint16, acc int32) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -36382,7 +38558,7 @@ func (c ChannelUint8) ScanInt32(acc int32, f func(el uint8, acc int32) int32) ch
 	return result
 }
 
-func (c ChannelUint8) ScanInt64(acc int64, f func(el uint8, acc int64) int64) chan int64 {
+func (c ChannelUint16) ScanInt64(acc int64, f func(el uint16, acc int64) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -36394,7 +38570,7 @@ func (c ChannelUint8) ScanInt64(acc int64, f func(el uint8, acc int64) int64) ch
 	return result
 }
 
-func (c ChannelUint8) ScanUint(acc uint, f func(el uint8, acc uint) uint) chan uint {
+func (c ChannelUint16) ScanUint(acc uint, f func(el uint16, acc uint) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -36406,7 +38582,7 @@ func (c ChannelUint8) ScanUint(acc uint, f func(el uint8, acc uint) uint) chan u
 	return result
 }
 
-func (c ChannelUint8) ScanUint8(acc uint8, f func(el uint8, acc uint8) uint8) chan uint8 {
+func (c ChannelUint16) ScanUint8(acc uint8, f func(el uint16, acc uint8) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -36418,7 +38594,7 @@ func (c ChannelUint8) ScanUint8(acc uint8, f func(el uint8, acc uint8) uint8) ch
 	return result
 }
 
-func (c ChannelUint8) ScanUint16(acc uint16, f func(el uint8, acc uint16) uint16) chan uint16 {
+func (c ChannelUint16) ScanUint16(acc uint16, f func(el uint16, acc uint16) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -36430,7 +38606,7 @@ func (c ChannelUint8) ScanUint16(acc uint16, f func(el uint8, acc uint16) uint16
 	return result
 }
 
-func (c ChannelUint8) ScanUint32(acc uint32, f func(el uint8, acc uint32) uint32) chan uint32 {
+func (c ChannelUint16) ScanUint32(acc uint32, f func(el uint16, acc uint32) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -36442,7 +38618,7 @@ func (c ChannelUint8) ScanUint32(acc uint32, f func(el uint8, acc uint32) uint32
 	return result
 }
 
-func (c ChannelUint8) ScanUint64(acc uint64, f func(el uint8, acc uint64) uint64) chan uint64 {
+func (c ChannelUint16) ScanUint64(acc uint64, f func(el uint16, acc uint64) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -36454,7 +38630,7 @@ func (c ChannelUint8) ScanUint64(acc uint64, f func(el uint8, acc uint64) uint64
 	return result
 }
 
-func (c ChannelUint8) ScanInterface(acc interface{}, f func(el uint8, acc interface{}) interface{}) chan interface{} {
+func (c ChannelUint16) ScanInterface(acc interface{}, f func(el uint16, acc interface{}) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -36466,31 +38642,31 @@ func (c ChannelUint8) ScanInterface(acc interface{}, f func(el uint8, acc interf
 	return result
 }
 
-func (c ChannelUint8) Sum() uint8 {
-	var sum uint8
+func (c ChannelUint16) Sum() uint16 {
+	var sum uint16
 	for el := range c.data {
 		sum += el
 	}
 	return sum
 }
 
-func (c ChannelUint8) Take(n int) []uint8 {
-	result := make([]uint8, 0, n)
+func (c ChannelUint16) Take(n int) []uint16 {
+	result := make([]uint16, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c.data)
 	}
 	return result
 }
 
-func (c ChannelUint8) Tee(count int) []chan uint8 {
-	channels := make([]chan uint8, 0, count)
+func (c ChannelUint16) Tee(count int) []chan uint16 {
+	channels := make([]chan uint16, 0, count)
 	for i := 0; i < count; i++ {
-		channels = append(channels, make(chan uint8, 1))
+		channels = append(channels, make(chan uint16, 1))
 	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			putInto := func(ch chan uint8) {
+			putInto := func(ch chan uint16) {
 				wg.Add(1)
 				defer wg.Done()
 				ch <- el
@@ -36507,15 +38683,15 @@ func (c ChannelUint8) Tee(count int) []chan uint8 {
 	return channels
 }
 
-func (c ChannelUint8) ToSlice() []uint8 {
-	result := make([]uint8, 0)
+func (c ChannelUint16) ToSlice() []uint16 {
+	result := make([]uint16, 0)
 	for val := range c.data {
 		result = append(result, val)
 	}
 	return result
 }
 
-func (s AsyncSliceUint8) All(f func(el uint8) bool) bool {
+func (s AsyncSliceUint16) All(f func(el uint16) bool) bool {
 	if len(s.data) == 0 {
 		return true
 	}
@@ -36576,7 +38752,7 @@ func (s AsyncSliceUint8) All(f func(el uint8) bool) bool {
 	return true
 }
 
-func (s AsyncSliceUint8) Any(f func(el uint8) bool) bool {
+func (s AsyncSliceUint16) Any(f func(el uint16) bool) bool {
 	if len(s.data) == 0 {
 		return false
 	}
@@ -36637,7 +38813,7 @@ func (s AsyncSliceUint8) Any(f func(el uint8) bool) bool {
 	return false
 }
 
-func (s AsyncSliceUint8) Each(f func(el uint8)) {
+func (s AsyncSliceUint16) Each(f func(el uint16)) {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -36668,7 +38844,7 @@ func (s AsyncSliceUint8) Each(f func(el uint8)) {
 	wg.Wait()
 }
 
-func (s AsyncSliceUint8) Filter(f func(el uint8) bool) []uint8 {
+func (s AsyncSliceUint16) Filter(f func(el uint16) bool) []uint16 {
 	resultMap := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -36702,7 +38878,7 @@ func (s AsyncSliceUint8) Filter(f func(el uint8) bool) []uint8 {
 	wg.Wait()
 
 	// return filtered results
-	result := make([]uint8, 0, len(s.data))
+	result := make([]uint16, 0, len(s.data))
 	for i, el := range s.data {
 		if resultMap[i] {
 			result = append(result, el)
@@ -36711,7 +38887,7 @@ func (s AsyncSliceUint8) Filter(f func(el uint8) bool) []uint8 {
 	return result
 }
 
-func (s AsyncSliceUint8) MapBool(f func(el uint8) bool) []bool {
+func (s AsyncSliceUint16) MapBool(f func(el uint16) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -36744,7 +38920,7 @@ func (s AsyncSliceUint8) MapBool(f func(el uint8) bool) []bool {
 	return result
 }
 
-func (s AsyncSliceUint8) MapByte(f func(el uint8) byte) []byte {
+func (s AsyncSliceUint16) MapByte(f func(el uint16) byte) []byte {
 	result := make([]byte, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -36777,7 +38953,7 @@ func (s AsyncSliceUint8) MapByte(f func(el uint8) byte) []byte {
 	return result
 }
 
-func (s AsyncSliceUint8) MapString(f func(el uint8) string) []string {
+func (s AsyncSliceUint16) MapString(f func(el uint16) string) []string {
 	result := make([]string, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -36810,7 +38986,7 @@ func (s AsyncSliceUint8) MapString(f func(el uint8) string) []string {
 	return result
 }
 
-func (s AsyncSliceUint8) MapFloat32(f func(el uint8) float32) []float32 {
+func (s AsyncSliceUint16) MapFloat32(f func(el uint16) float32) []float32 {
 	result := make([]float32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -36843,7 +39019,7 @@ func (s AsyncSliceUint8) MapFloat32(f func(el uint8) float32) []float32 {
 	return result
 }
 
-func (s AsyncSliceUint8) MapFloat64(f func(el uint8) float64) []float64 {
+func (s AsyncSliceUint16) MapFloat64(f func(el uint16) float64) []float64 {
 	result := make([]float64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -36876,7 +39052,7 @@ func (s AsyncSliceUint8) MapFloat64(f func(el uint8) float64) []float64 {
 	return result
 }
 
-func (s AsyncSliceUint8) MapInt(f func(el uint8) int) []int {
+func (s AsyncSliceUint16) MapInt(f func(el uint16) int) []int {
 	result := make([]int, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -36909,7 +39085,7 @@ func (s AsyncSliceUint8) MapInt(f func(el uint8) int) []int {
 	return result
 }
 
-func (s AsyncSliceUint8) MapInt8(f func(el uint8) int8) []int8 {
+func (s AsyncSliceUint16) MapInt8(f func(el uint16) int8) []int8 {
 	result := make([]int8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -36942,7 +39118,7 @@ func (s AsyncSliceUint8) MapInt8(f func(el uint8) int8) []int8 {
 	return result
 }
 
-func (s AsyncSliceUint8) MapInt16(f func(el uint8) int16) []int16 {
+func (s AsyncSliceUint16) MapInt16(f func(el uint16) int16) []int16 {
 	result := make([]int16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -36975,7 +39151,7 @@ func (s AsyncSliceUint8) MapInt16(f func(el uint8) int16) []int16 {
 	return result
 }
 
-func (s AsyncSliceUint8) MapInt32(f func(el uint8) int32) []int32 {
+func (s AsyncSliceUint16) MapInt32(f func(el uint16) int32) []int32 {
 	result := make([]int32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -37008,7 +39184,7 @@ func (s AsyncSliceUint8) MapInt32(f func(el uint8) int32) []int32 {
 	return result
 }
 
-func (s AsyncSliceUint8) MapInt64(f func(el uint8) int64) []int64 {
+func (s AsyncSliceUint16) MapInt64(f func(el uint16) int64) []int64 {
 	result := make([]int64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -37041,7 +39217,7 @@ func (s AsyncSliceUint8) MapInt64(f func(el uint8) int64) []int64 {
 	return result
 }
 
-func (s AsyncSliceUint8) MapUint(f func(el uint8) uint) []uint {
+func (s AsyncSliceUint16) MapUint(f func(el uint16) uint) []uint {
 	result := make([]uint, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -37074,7 +39250,7 @@ func (s AsyncSliceUint8) MapUint(f func(el uint8) uint) []uint {
 	return result
 }
 
-func (s AsyncSliceUint8) MapUint8(f func(el uint8) uint8) []uint8 {
+func (s AsyncSliceUint16) MapUint8(f func(el uint16) uint8) []uint8 {
 	result := make([]uint8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -37107,7 +39283,7 @@ func (s AsyncSliceUint8) MapUint8(f func(el uint8) uint8) []uint8 {
 	return result
 }
 
-func (s AsyncSliceUint8) MapUint16(f func(el uint8) uint16) []uint16 {
+func (s AsyncSliceUint16) MapUint16(f func(el uint16) uint16) []uint16 {
 	result := make([]uint16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -37140,7 +39316,7 @@ func (s AsyncSliceUint8) MapUint16(f func(el uint8) uint16) []uint16 {
 	return result
 }
 
-func (s AsyncSliceUint8) MapUint32(f func(el uint8) uint32) []uint32 {
+func (s AsyncSliceUint16) MapUint32(f func(el uint16) uint32) []uint32 {
 	result := make([]uint32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -37173,7 +39349,7 @@ func (s AsyncSliceUint8) MapUint32(f func(el uint8) uint32) []uint32 {
 	return result
 }
 
-func (s AsyncSliceUint8) MapUint64(f func(el uint8) uint64) []uint64 {
+func (s AsyncSliceUint16) MapUint64(f func(el uint16) uint64) []uint64 {
 	result := make([]uint64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -37206,7 +39382,7 @@ func (s AsyncSliceUint8) MapUint64(f func(el uint8) uint64) []uint64 {
 	return result
 }
 
-func (s AsyncSliceUint8) MapInterface(f func(el uint8) interface{}) []interface{} {
+func (s AsyncSliceUint16) MapInterface(f func(el uint16) interface{}) []interface{} {
 	result := make([]interface{}, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -37239,8 +39415,66 @@ func (s AsyncSliceUint8) MapInterface(f func(el uint8) interface{}) []interface{
 	return result
 }
 
-func (s SequenceUint8) Count(start uint8, step uint8) chan uint8 {
-	c := make(chan uint8, 1)
+func (s AsyncSliceUint16) Reduce(f func(left uint16, right uint16) uint16) uint16 {
+	if len(s.data) == 0 {
+		var tmp uint16
+		return tmp
+	}
+
+	state := make([]uint16, len(s.data))
+	state = append(state, s.data...)
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- uint16) {
+		for index := range jobs {
+			result <- f(state[index], state[index+1])
+		}
+		wg.Done()
+	}
+
+	for len(state) > 1 {
+		// calculate workers count
+		workers := s.workers
+		if workers == 0 || workers > len(state) {
+			workers = len(state)
+		}
+
+		// run workers
+		jobs := make(chan int, len(state))
+		wg.Add(workers)
+		result := make(chan uint16, 1)
+		for i := 0; i < workers; i++ {
+			go worker(jobs, result)
+		}
+
+		go func() {
+			wg.Wait()
+			close(result)
+		}()
+
+		// add indices into jobs for workers
+		for i := 0; i < len(state)-1; i += 2 {
+			jobs <- i
+		}
+		close(jobs)
+
+		// collect new state
+		newState := make([]uint16, 0, len(state)/2+len(state)%2)
+		for el := range result {
+			newState = append(newState, el)
+		}
+		if len(state)%2 == 1 {
+			newState = append(newState, state[len(state)-1])
+		}
+		// put new state as current state after all
+		state = newState
+	}
+
+	return state[0]
+}
+
+func (s SequenceUint16) Count(start uint16, step uint16) chan uint16 {
+	c := make(chan uint16, 1)
 	go func() {
 		for {
 			c <- start
@@ -37250,8 +39484,8 @@ func (s SequenceUint8) Count(start uint8, step uint8) chan uint8 {
 	return c
 }
 
-func (s SequenceUint8) Exponential(start uint8, factor uint8) chan uint8 {
-	c := make(chan uint8, 1)
+func (s SequenceUint16) Exponential(start uint16, factor uint16) chan uint16 {
+	c := make(chan uint16, 1)
 	go func() {
 		for {
 			c <- start
@@ -37261,8 +39495,8 @@ func (s SequenceUint8) Exponential(start uint8, factor uint8) chan uint8 {
 	return c
 }
 
-func (s SequenceUint8) Range(start uint8, end uint8, step uint8) chan uint8 {
-	c := make(chan uint8, 1)
+func (s SequenceUint16) Range(start uint16, end uint16, step uint16) chan uint16 {
+	c := make(chan uint16, 1)
 	pos := start <= end
 	go func() {
 		for pos && (start < end) || !pos && (start > end) {
@@ -37274,92 +39508,14 @@ func (s SequenceUint8) Range(start uint8, end uint8, step uint8) chan uint8 {
 	return c
 }
 
-func (s SequenceUint8) Repeat(val uint8) chan uint8 {
-	c := make(chan uint8, 1)
+func (s SequenceUint16) Repeat(val uint16) chan uint16 {
+	c := make(chan uint16, 1)
 	go func() {
 		for {
 			c <- val
 		}
 	}()
 	return c
-}
-
-func (s SlicesUint8) Concat() []uint8 {
-	result := make([]uint8, 0)
-	for _, arr := range s.data {
-		result = append(result, arr...)
-	}
-	return result
-}
-
-func (s SlicesUint8) Product() chan []uint8 {
-	c := make(chan []uint8, 1)
-	go s.product(c, []uint8{}, 0)
-	return c
-}
-
-func (s SlicesUint8) product(c chan []uint8, left []uint8, pos int) {
-	// iterate over the last array
-	if pos == len(s.data)-1 {
-		for _, el := range s.data[pos] {
-			result := make([]uint8, 0, len(left)+1)
-			result = append(result, left...)
-			result = append(result, el)
-			c <- result
-		}
-		return
-	}
-
-	for _, el := range s.data[pos] {
-		result := make([]uint8, 0, len(left)+1)
-		result = append(result, left...)
-		result = append(result, el)
-		s.product(c, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
-	}
-}
-
-func (s SlicesUint8) Zip() [][]uint8 {
-	size := len(s.data[0])
-	for _, arr := range s.data[1:] {
-		if len(arr) > size {
-			size = len(arr)
-		}
-	}
-
-	result := make([][]uint8, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]uint8, 0, len(s.data))
-		for _, arr := range s.data {
-			chunk = append(chunk, arr[i])
-		}
-		result = append(result, chunk)
-	}
-	return result
-}
-
-type SliceUint16 struct {
-	data []uint16
-}
-
-type ChannelUint16 struct {
-	data chan uint16
-}
-
-type AsyncSliceUint16 struct {
-	data    []uint16
-	workers int
-}
-
-type SequenceUint16 struct {
-	data chan uint16
-}
-
-type SlicesUint16 struct {
-	data [][]uint16
 }
 
 func (s SliceUint16) Any(f func(el uint16) bool) bool {
@@ -39008,7 +41164,85 @@ func (s SliceUint16) Window(size int) [][]uint16 {
 	return result
 }
 
-func (c ChannelUint16) Any(f func(el uint16) bool) bool {
+func (s SlicesUint16) Concat() []uint16 {
+	result := make([]uint16, 0)
+	for _, arr := range s.data {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+func (s SlicesUint16) Product() chan []uint16 {
+	c := make(chan []uint16, 1)
+	go s.product(c, []uint16{}, 0)
+	return c
+}
+
+func (s SlicesUint16) product(c chan []uint16, left []uint16, pos int) {
+	// iterate over the last array
+	if pos == len(s.data)-1 {
+		for _, el := range s.data[pos] {
+			result := make([]uint16, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data[pos] {
+		result := make([]uint16, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
+func (s SlicesUint16) Zip() [][]uint16 {
+	size := len(s.data[0])
+	for _, arr := range s.data[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]uint16, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]uint16, 0, len(s.data))
+		for _, arr := range s.data {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
+type ChannelUint32 struct {
+	data chan uint32
+}
+
+type AsyncSliceUint32 struct {
+	data    []uint32
+	workers int
+}
+
+type SequenceUint32 struct {
+	data chan uint32
+}
+
+type SliceUint32 struct {
+	data []uint32
+}
+
+type SlicesUint32 struct {
+	data [][]uint32
+}
+
+func (c ChannelUint32) Any(f func(el uint32) bool) bool {
 	for el := range c.data {
 		if f(el) {
 			return true
@@ -39017,7 +41251,7 @@ func (c ChannelUint16) Any(f func(el uint16) bool) bool {
 	return false
 }
 
-func (c ChannelUint16) All(f func(el uint16) bool) bool {
+func (c ChannelUint32) All(f func(el uint32) bool) bool {
 	for el := range c.data {
 		if !f(el) {
 			return false
@@ -39026,10 +41260,10 @@ func (c ChannelUint16) All(f func(el uint16) bool) bool {
 	return true
 }
 
-func (c ChannelUint16) ChunkEvery(count int) chan []uint16 {
-	chunks := make(chan []uint16, 1)
+func (c ChannelUint32) ChunkEvery(count int) chan []uint32 {
+	chunks := make(chan []uint32, 1)
 	go func() {
-		chunk := make([]uint16, 0, count)
+		chunk := make([]uint32, 0, count)
 		i := 0
 		for el := range c.data {
 			chunk = append(chunk, el)
@@ -39037,7 +41271,7 @@ func (c ChannelUint16) ChunkEvery(count int) chan []uint16 {
 			if i%count == 0 {
 				i = 0
 				chunks <- chunk
-				chunk = make([]uint16, 0, count)
+				chunk = make([]uint32, 0, count)
 			}
 		}
 		if len(chunk) > 0 {
@@ -39048,7 +41282,7 @@ func (c ChannelUint16) ChunkEvery(count int) chan []uint16 {
 	return chunks
 }
 
-func (c ChannelUint16) Count(el uint16) int {
+func (c ChannelUint32) Count(el uint32) int {
 	count := 0
 	for val := range c.data {
 		if val == el {
@@ -39058,8 +41292,8 @@ func (c ChannelUint16) Count(el uint16) int {
 	return count
 }
 
-func (c ChannelUint16) Drop(n int) chan uint16 {
-	result := make(chan uint16, 1)
+func (c ChannelUint32) Drop(n int) chan uint32 {
+	result := make(chan uint32, 1)
 	go func() {
 		i := 0
 		for el := range c.data {
@@ -39073,14 +41307,14 @@ func (c ChannelUint16) Drop(n int) chan uint16 {
 	return result
 }
 
-func (c ChannelUint16) Each(f func(el uint16)) {
+func (c ChannelUint32) Each(f func(el uint32)) {
 	for el := range c.data {
 		f(el)
 	}
 }
 
-func (c ChannelUint16) Filter(f func(el uint16) bool) chan uint16 {
-	result := make(chan uint16, 1)
+func (c ChannelUint32) Filter(f func(el uint32) bool) chan uint32 {
+	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
 			if f(el) {
@@ -39092,7 +41326,7 @@ func (c ChannelUint16) Filter(f func(el uint16) bool) chan uint16 {
 	return result
 }
 
-func (c ChannelUint16) MapBool(f func(el uint16) bool) chan bool {
+func (c ChannelUint32) MapBool(f func(el uint32) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -39103,7 +41337,7 @@ func (c ChannelUint16) MapBool(f func(el uint16) bool) chan bool {
 	return result
 }
 
-func (c ChannelUint16) MapByte(f func(el uint16) byte) chan byte {
+func (c ChannelUint32) MapByte(f func(el uint32) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -39114,7 +41348,7 @@ func (c ChannelUint16) MapByte(f func(el uint16) byte) chan byte {
 	return result
 }
 
-func (c ChannelUint16) MapString(f func(el uint16) string) chan string {
+func (c ChannelUint32) MapString(f func(el uint32) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -39125,7 +41359,7 @@ func (c ChannelUint16) MapString(f func(el uint16) string) chan string {
 	return result
 }
 
-func (c ChannelUint16) MapFloat32(f func(el uint16) float32) chan float32 {
+func (c ChannelUint32) MapFloat32(f func(el uint32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -39136,7 +41370,7 @@ func (c ChannelUint16) MapFloat32(f func(el uint16) float32) chan float32 {
 	return result
 }
 
-func (c ChannelUint16) MapFloat64(f func(el uint16) float64) chan float64 {
+func (c ChannelUint32) MapFloat64(f func(el uint32) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -39147,7 +41381,7 @@ func (c ChannelUint16) MapFloat64(f func(el uint16) float64) chan float64 {
 	return result
 }
 
-func (c ChannelUint16) MapInt(f func(el uint16) int) chan int {
+func (c ChannelUint32) MapInt(f func(el uint32) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -39158,7 +41392,7 @@ func (c ChannelUint16) MapInt(f func(el uint16) int) chan int {
 	return result
 }
 
-func (c ChannelUint16) MapInt8(f func(el uint16) int8) chan int8 {
+func (c ChannelUint32) MapInt8(f func(el uint32) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -39169,7 +41403,7 @@ func (c ChannelUint16) MapInt8(f func(el uint16) int8) chan int8 {
 	return result
 }
 
-func (c ChannelUint16) MapInt16(f func(el uint16) int16) chan int16 {
+func (c ChannelUint32) MapInt16(f func(el uint32) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -39180,7 +41414,7 @@ func (c ChannelUint16) MapInt16(f func(el uint16) int16) chan int16 {
 	return result
 }
 
-func (c ChannelUint16) MapInt32(f func(el uint16) int32) chan int32 {
+func (c ChannelUint32) MapInt32(f func(el uint32) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -39191,7 +41425,7 @@ func (c ChannelUint16) MapInt32(f func(el uint16) int32) chan int32 {
 	return result
 }
 
-func (c ChannelUint16) MapInt64(f func(el uint16) int64) chan int64 {
+func (c ChannelUint32) MapInt64(f func(el uint32) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -39202,7 +41436,7 @@ func (c ChannelUint16) MapInt64(f func(el uint16) int64) chan int64 {
 	return result
 }
 
-func (c ChannelUint16) MapUint(f func(el uint16) uint) chan uint {
+func (c ChannelUint32) MapUint(f func(el uint32) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -39213,7 +41447,7 @@ func (c ChannelUint16) MapUint(f func(el uint16) uint) chan uint {
 	return result
 }
 
-func (c ChannelUint16) MapUint8(f func(el uint16) uint8) chan uint8 {
+func (c ChannelUint32) MapUint8(f func(el uint32) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -39224,7 +41458,7 @@ func (c ChannelUint16) MapUint8(f func(el uint16) uint8) chan uint8 {
 	return result
 }
 
-func (c ChannelUint16) MapUint16(f func(el uint16) uint16) chan uint16 {
+func (c ChannelUint32) MapUint16(f func(el uint32) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -39235,7 +41469,7 @@ func (c ChannelUint16) MapUint16(f func(el uint16) uint16) chan uint16 {
 	return result
 }
 
-func (c ChannelUint16) MapUint32(f func(el uint16) uint32) chan uint32 {
+func (c ChannelUint32) MapUint32(f func(el uint32) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -39246,7 +41480,7 @@ func (c ChannelUint16) MapUint32(f func(el uint16) uint32) chan uint32 {
 	return result
 }
 
-func (c ChannelUint16) MapUint64(f func(el uint16) uint64) chan uint64 {
+func (c ChannelUint32) MapUint64(f func(el uint32) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -39257,7 +41491,7 @@ func (c ChannelUint16) MapUint64(f func(el uint16) uint64) chan uint64 {
 	return result
 }
 
-func (c ChannelUint16) MapInterface(f func(el uint16) interface{}) chan interface{} {
+func (c ChannelUint32) MapInterface(f func(el uint32) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -39268,7 +41502,7 @@ func (c ChannelUint16) MapInterface(f func(el uint16) interface{}) chan interfac
 	return result
 }
 
-func (c ChannelUint16) Max() uint16 {
+func (c ChannelUint32) Max() uint32 {
 	max := <-c.data
 	for el := range c.data {
 		if el > max {
@@ -39278,7 +41512,7 @@ func (c ChannelUint16) Max() uint16 {
 	return max
 }
 
-func (c ChannelUint16) Min() uint16 {
+func (c ChannelUint32) Min() uint32 {
 	min := <-c.data
 	for el := range c.data {
 		if el < min {
@@ -39288,119 +41522,119 @@ func (c ChannelUint16) Min() uint16 {
 	return min
 }
 
-func (c ChannelUint16) ReduceBool(acc bool, f func(el uint16, acc bool) bool) bool {
+func (c ChannelUint32) ReduceBool(acc bool, f func(el uint32, acc bool) bool) bool {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint16) ReduceByte(acc byte, f func(el uint16, acc byte) byte) byte {
+func (c ChannelUint32) ReduceByte(acc byte, f func(el uint32, acc byte) byte) byte {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint16) ReduceString(acc string, f func(el uint16, acc string) string) string {
+func (c ChannelUint32) ReduceString(acc string, f func(el uint32, acc string) string) string {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint16) ReduceFloat32(acc float32, f func(el uint16, acc float32) float32) float32 {
+func (c ChannelUint32) ReduceFloat32(acc float32, f func(el uint32, acc float32) float32) float32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint16) ReduceFloat64(acc float64, f func(el uint16, acc float64) float64) float64 {
+func (c ChannelUint32) ReduceFloat64(acc float64, f func(el uint32, acc float64) float64) float64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint16) ReduceInt(acc int, f func(el uint16, acc int) int) int {
+func (c ChannelUint32) ReduceInt(acc int, f func(el uint32, acc int) int) int {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint16) ReduceInt8(acc int8, f func(el uint16, acc int8) int8) int8 {
+func (c ChannelUint32) ReduceInt8(acc int8, f func(el uint32, acc int8) int8) int8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint16) ReduceInt16(acc int16, f func(el uint16, acc int16) int16) int16 {
+func (c ChannelUint32) ReduceInt16(acc int16, f func(el uint32, acc int16) int16) int16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint16) ReduceInt32(acc int32, f func(el uint16, acc int32) int32) int32 {
+func (c ChannelUint32) ReduceInt32(acc int32, f func(el uint32, acc int32) int32) int32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint16) ReduceInt64(acc int64, f func(el uint16, acc int64) int64) int64 {
+func (c ChannelUint32) ReduceInt64(acc int64, f func(el uint32, acc int64) int64) int64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint16) ReduceUint(acc uint, f func(el uint16, acc uint) uint) uint {
+func (c ChannelUint32) ReduceUint(acc uint, f func(el uint32, acc uint) uint) uint {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint16) ReduceUint8(acc uint8, f func(el uint16, acc uint8) uint8) uint8 {
+func (c ChannelUint32) ReduceUint8(acc uint8, f func(el uint32, acc uint8) uint8) uint8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint16) ReduceUint16(acc uint16, f func(el uint16, acc uint16) uint16) uint16 {
+func (c ChannelUint32) ReduceUint16(acc uint16, f func(el uint32, acc uint16) uint16) uint16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint16) ReduceUint32(acc uint32, f func(el uint16, acc uint32) uint32) uint32 {
+func (c ChannelUint32) ReduceUint32(acc uint32, f func(el uint32, acc uint32) uint32) uint32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint16) ReduceUint64(acc uint64, f func(el uint16, acc uint64) uint64) uint64 {
+func (c ChannelUint32) ReduceUint64(acc uint64, f func(el uint32, acc uint64) uint64) uint64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint16) ReduceInterface(acc interface{}, f func(el uint16, acc interface{}) interface{}) interface{} {
+func (c ChannelUint32) ReduceInterface(acc interface{}, f func(el uint32, acc interface{}) interface{}) interface{} {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint16) ScanBool(acc bool, f func(el uint16, acc bool) bool) chan bool {
+func (c ChannelUint32) ScanBool(acc bool, f func(el uint32, acc bool) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -39412,7 +41646,7 @@ func (c ChannelUint16) ScanBool(acc bool, f func(el uint16, acc bool) bool) chan
 	return result
 }
 
-func (c ChannelUint16) ScanByte(acc byte, f func(el uint16, acc byte) byte) chan byte {
+func (c ChannelUint32) ScanByte(acc byte, f func(el uint32, acc byte) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -39424,7 +41658,7 @@ func (c ChannelUint16) ScanByte(acc byte, f func(el uint16, acc byte) byte) chan
 	return result
 }
 
-func (c ChannelUint16) ScanString(acc string, f func(el uint16, acc string) string) chan string {
+func (c ChannelUint32) ScanString(acc string, f func(el uint32, acc string) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -39436,7 +41670,7 @@ func (c ChannelUint16) ScanString(acc string, f func(el uint16, acc string) stri
 	return result
 }
 
-func (c ChannelUint16) ScanFloat32(acc float32, f func(el uint16, acc float32) float32) chan float32 {
+func (c ChannelUint32) ScanFloat32(acc float32, f func(el uint32, acc float32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -39448,7 +41682,7 @@ func (c ChannelUint16) ScanFloat32(acc float32, f func(el uint16, acc float32) f
 	return result
 }
 
-func (c ChannelUint16) ScanFloat64(acc float64, f func(el uint16, acc float64) float64) chan float64 {
+func (c ChannelUint32) ScanFloat64(acc float64, f func(el uint32, acc float64) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -39460,7 +41694,7 @@ func (c ChannelUint16) ScanFloat64(acc float64, f func(el uint16, acc float64) f
 	return result
 }
 
-func (c ChannelUint16) ScanInt(acc int, f func(el uint16, acc int) int) chan int {
+func (c ChannelUint32) ScanInt(acc int, f func(el uint32, acc int) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -39472,7 +41706,7 @@ func (c ChannelUint16) ScanInt(acc int, f func(el uint16, acc int) int) chan int
 	return result
 }
 
-func (c ChannelUint16) ScanInt8(acc int8, f func(el uint16, acc int8) int8) chan int8 {
+func (c ChannelUint32) ScanInt8(acc int8, f func(el uint32, acc int8) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -39484,7 +41718,7 @@ func (c ChannelUint16) ScanInt8(acc int8, f func(el uint16, acc int8) int8) chan
 	return result
 }
 
-func (c ChannelUint16) ScanInt16(acc int16, f func(el uint16, acc int16) int16) chan int16 {
+func (c ChannelUint32) ScanInt16(acc int16, f func(el uint32, acc int16) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -39496,7 +41730,7 @@ func (c ChannelUint16) ScanInt16(acc int16, f func(el uint16, acc int16) int16) 
 	return result
 }
 
-func (c ChannelUint16) ScanInt32(acc int32, f func(el uint16, acc int32) int32) chan int32 {
+func (c ChannelUint32) ScanInt32(acc int32, f func(el uint32, acc int32) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -39508,7 +41742,7 @@ func (c ChannelUint16) ScanInt32(acc int32, f func(el uint16, acc int32) int32) 
 	return result
 }
 
-func (c ChannelUint16) ScanInt64(acc int64, f func(el uint16, acc int64) int64) chan int64 {
+func (c ChannelUint32) ScanInt64(acc int64, f func(el uint32, acc int64) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -39520,7 +41754,7 @@ func (c ChannelUint16) ScanInt64(acc int64, f func(el uint16, acc int64) int64) 
 	return result
 }
 
-func (c ChannelUint16) ScanUint(acc uint, f func(el uint16, acc uint) uint) chan uint {
+func (c ChannelUint32) ScanUint(acc uint, f func(el uint32, acc uint) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -39532,7 +41766,7 @@ func (c ChannelUint16) ScanUint(acc uint, f func(el uint16, acc uint) uint) chan
 	return result
 }
 
-func (c ChannelUint16) ScanUint8(acc uint8, f func(el uint16, acc uint8) uint8) chan uint8 {
+func (c ChannelUint32) ScanUint8(acc uint8, f func(el uint32, acc uint8) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -39544,7 +41778,7 @@ func (c ChannelUint16) ScanUint8(acc uint8, f func(el uint16, acc uint8) uint8) 
 	return result
 }
 
-func (c ChannelUint16) ScanUint16(acc uint16, f func(el uint16, acc uint16) uint16) chan uint16 {
+func (c ChannelUint32) ScanUint16(acc uint16, f func(el uint32, acc uint16) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -39556,7 +41790,7 @@ func (c ChannelUint16) ScanUint16(acc uint16, f func(el uint16, acc uint16) uint
 	return result
 }
 
-func (c ChannelUint16) ScanUint32(acc uint32, f func(el uint16, acc uint32) uint32) chan uint32 {
+func (c ChannelUint32) ScanUint32(acc uint32, f func(el uint32, acc uint32) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -39568,7 +41802,7 @@ func (c ChannelUint16) ScanUint32(acc uint32, f func(el uint16, acc uint32) uint
 	return result
 }
 
-func (c ChannelUint16) ScanUint64(acc uint64, f func(el uint16, acc uint64) uint64) chan uint64 {
+func (c ChannelUint32) ScanUint64(acc uint64, f func(el uint32, acc uint64) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -39580,7 +41814,7 @@ func (c ChannelUint16) ScanUint64(acc uint64, f func(el uint16, acc uint64) uint
 	return result
 }
 
-func (c ChannelUint16) ScanInterface(acc interface{}, f func(el uint16, acc interface{}) interface{}) chan interface{} {
+func (c ChannelUint32) ScanInterface(acc interface{}, f func(el uint32, acc interface{}) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -39592,31 +41826,31 @@ func (c ChannelUint16) ScanInterface(acc interface{}, f func(el uint16, acc inte
 	return result
 }
 
-func (c ChannelUint16) Sum() uint16 {
-	var sum uint16
+func (c ChannelUint32) Sum() uint32 {
+	var sum uint32
 	for el := range c.data {
 		sum += el
 	}
 	return sum
 }
 
-func (c ChannelUint16) Take(n int) []uint16 {
-	result := make([]uint16, 0, n)
+func (c ChannelUint32) Take(n int) []uint32 {
+	result := make([]uint32, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c.data)
 	}
 	return result
 }
 
-func (c ChannelUint16) Tee(count int) []chan uint16 {
-	channels := make([]chan uint16, 0, count)
+func (c ChannelUint32) Tee(count int) []chan uint32 {
+	channels := make([]chan uint32, 0, count)
 	for i := 0; i < count; i++ {
-		channels = append(channels, make(chan uint16, 1))
+		channels = append(channels, make(chan uint32, 1))
 	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			putInto := func(ch chan uint16) {
+			putInto := func(ch chan uint32) {
 				wg.Add(1)
 				defer wg.Done()
 				ch <- el
@@ -39633,15 +41867,15 @@ func (c ChannelUint16) Tee(count int) []chan uint16 {
 	return channels
 }
 
-func (c ChannelUint16) ToSlice() []uint16 {
-	result := make([]uint16, 0)
+func (c ChannelUint32) ToSlice() []uint32 {
+	result := make([]uint32, 0)
 	for val := range c.data {
 		result = append(result, val)
 	}
 	return result
 }
 
-func (s AsyncSliceUint16) All(f func(el uint16) bool) bool {
+func (s AsyncSliceUint32) All(f func(el uint32) bool) bool {
 	if len(s.data) == 0 {
 		return true
 	}
@@ -39702,7 +41936,7 @@ func (s AsyncSliceUint16) All(f func(el uint16) bool) bool {
 	return true
 }
 
-func (s AsyncSliceUint16) Any(f func(el uint16) bool) bool {
+func (s AsyncSliceUint32) Any(f func(el uint32) bool) bool {
 	if len(s.data) == 0 {
 		return false
 	}
@@ -39763,7 +41997,7 @@ func (s AsyncSliceUint16) Any(f func(el uint16) bool) bool {
 	return false
 }
 
-func (s AsyncSliceUint16) Each(f func(el uint16)) {
+func (s AsyncSliceUint32) Each(f func(el uint32)) {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -39794,7 +42028,7 @@ func (s AsyncSliceUint16) Each(f func(el uint16)) {
 	wg.Wait()
 }
 
-func (s AsyncSliceUint16) Filter(f func(el uint16) bool) []uint16 {
+func (s AsyncSliceUint32) Filter(f func(el uint32) bool) []uint32 {
 	resultMap := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -39828,7 +42062,7 @@ func (s AsyncSliceUint16) Filter(f func(el uint16) bool) []uint16 {
 	wg.Wait()
 
 	// return filtered results
-	result := make([]uint16, 0, len(s.data))
+	result := make([]uint32, 0, len(s.data))
 	for i, el := range s.data {
 		if resultMap[i] {
 			result = append(result, el)
@@ -39837,7 +42071,7 @@ func (s AsyncSliceUint16) Filter(f func(el uint16) bool) []uint16 {
 	return result
 }
 
-func (s AsyncSliceUint16) MapBool(f func(el uint16) bool) []bool {
+func (s AsyncSliceUint32) MapBool(f func(el uint32) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -39870,7 +42104,7 @@ func (s AsyncSliceUint16) MapBool(f func(el uint16) bool) []bool {
 	return result
 }
 
-func (s AsyncSliceUint16) MapByte(f func(el uint16) byte) []byte {
+func (s AsyncSliceUint32) MapByte(f func(el uint32) byte) []byte {
 	result := make([]byte, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -39903,7 +42137,7 @@ func (s AsyncSliceUint16) MapByte(f func(el uint16) byte) []byte {
 	return result
 }
 
-func (s AsyncSliceUint16) MapString(f func(el uint16) string) []string {
+func (s AsyncSliceUint32) MapString(f func(el uint32) string) []string {
 	result := make([]string, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -39936,7 +42170,7 @@ func (s AsyncSliceUint16) MapString(f func(el uint16) string) []string {
 	return result
 }
 
-func (s AsyncSliceUint16) MapFloat32(f func(el uint16) float32) []float32 {
+func (s AsyncSliceUint32) MapFloat32(f func(el uint32) float32) []float32 {
 	result := make([]float32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -39969,7 +42203,7 @@ func (s AsyncSliceUint16) MapFloat32(f func(el uint16) float32) []float32 {
 	return result
 }
 
-func (s AsyncSliceUint16) MapFloat64(f func(el uint16) float64) []float64 {
+func (s AsyncSliceUint32) MapFloat64(f func(el uint32) float64) []float64 {
 	result := make([]float64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -40002,7 +42236,7 @@ func (s AsyncSliceUint16) MapFloat64(f func(el uint16) float64) []float64 {
 	return result
 }
 
-func (s AsyncSliceUint16) MapInt(f func(el uint16) int) []int {
+func (s AsyncSliceUint32) MapInt(f func(el uint32) int) []int {
 	result := make([]int, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -40035,7 +42269,7 @@ func (s AsyncSliceUint16) MapInt(f func(el uint16) int) []int {
 	return result
 }
 
-func (s AsyncSliceUint16) MapInt8(f func(el uint16) int8) []int8 {
+func (s AsyncSliceUint32) MapInt8(f func(el uint32) int8) []int8 {
 	result := make([]int8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -40068,7 +42302,7 @@ func (s AsyncSliceUint16) MapInt8(f func(el uint16) int8) []int8 {
 	return result
 }
 
-func (s AsyncSliceUint16) MapInt16(f func(el uint16) int16) []int16 {
+func (s AsyncSliceUint32) MapInt16(f func(el uint32) int16) []int16 {
 	result := make([]int16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -40101,7 +42335,7 @@ func (s AsyncSliceUint16) MapInt16(f func(el uint16) int16) []int16 {
 	return result
 }
 
-func (s AsyncSliceUint16) MapInt32(f func(el uint16) int32) []int32 {
+func (s AsyncSliceUint32) MapInt32(f func(el uint32) int32) []int32 {
 	result := make([]int32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -40134,7 +42368,7 @@ func (s AsyncSliceUint16) MapInt32(f func(el uint16) int32) []int32 {
 	return result
 }
 
-func (s AsyncSliceUint16) MapInt64(f func(el uint16) int64) []int64 {
+func (s AsyncSliceUint32) MapInt64(f func(el uint32) int64) []int64 {
 	result := make([]int64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -40167,7 +42401,7 @@ func (s AsyncSliceUint16) MapInt64(f func(el uint16) int64) []int64 {
 	return result
 }
 
-func (s AsyncSliceUint16) MapUint(f func(el uint16) uint) []uint {
+func (s AsyncSliceUint32) MapUint(f func(el uint32) uint) []uint {
 	result := make([]uint, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -40200,7 +42434,7 @@ func (s AsyncSliceUint16) MapUint(f func(el uint16) uint) []uint {
 	return result
 }
 
-func (s AsyncSliceUint16) MapUint8(f func(el uint16) uint8) []uint8 {
+func (s AsyncSliceUint32) MapUint8(f func(el uint32) uint8) []uint8 {
 	result := make([]uint8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -40233,7 +42467,7 @@ func (s AsyncSliceUint16) MapUint8(f func(el uint16) uint8) []uint8 {
 	return result
 }
 
-func (s AsyncSliceUint16) MapUint16(f func(el uint16) uint16) []uint16 {
+func (s AsyncSliceUint32) MapUint16(f func(el uint32) uint16) []uint16 {
 	result := make([]uint16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -40266,7 +42500,7 @@ func (s AsyncSliceUint16) MapUint16(f func(el uint16) uint16) []uint16 {
 	return result
 }
 
-func (s AsyncSliceUint16) MapUint32(f func(el uint16) uint32) []uint32 {
+func (s AsyncSliceUint32) MapUint32(f func(el uint32) uint32) []uint32 {
 	result := make([]uint32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -40299,7 +42533,7 @@ func (s AsyncSliceUint16) MapUint32(f func(el uint16) uint32) []uint32 {
 	return result
 }
 
-func (s AsyncSliceUint16) MapUint64(f func(el uint16) uint64) []uint64 {
+func (s AsyncSliceUint32) MapUint64(f func(el uint32) uint64) []uint64 {
 	result := make([]uint64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -40332,7 +42566,7 @@ func (s AsyncSliceUint16) MapUint64(f func(el uint16) uint64) []uint64 {
 	return result
 }
 
-func (s AsyncSliceUint16) MapInterface(f func(el uint16) interface{}) []interface{} {
+func (s AsyncSliceUint32) MapInterface(f func(el uint32) interface{}) []interface{} {
 	result := make([]interface{}, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -40365,8 +42599,66 @@ func (s AsyncSliceUint16) MapInterface(f func(el uint16) interface{}) []interfac
 	return result
 }
 
-func (s SequenceUint16) Count(start uint16, step uint16) chan uint16 {
-	c := make(chan uint16, 1)
+func (s AsyncSliceUint32) Reduce(f func(left uint32, right uint32) uint32) uint32 {
+	if len(s.data) == 0 {
+		var tmp uint32
+		return tmp
+	}
+
+	state := make([]uint32, len(s.data))
+	state = append(state, s.data...)
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- uint32) {
+		for index := range jobs {
+			result <- f(state[index], state[index+1])
+		}
+		wg.Done()
+	}
+
+	for len(state) > 1 {
+		// calculate workers count
+		workers := s.workers
+		if workers == 0 || workers > len(state) {
+			workers = len(state)
+		}
+
+		// run workers
+		jobs := make(chan int, len(state))
+		wg.Add(workers)
+		result := make(chan uint32, 1)
+		for i := 0; i < workers; i++ {
+			go worker(jobs, result)
+		}
+
+		go func() {
+			wg.Wait()
+			close(result)
+		}()
+
+		// add indices into jobs for workers
+		for i := 0; i < len(state)-1; i += 2 {
+			jobs <- i
+		}
+		close(jobs)
+
+		// collect new state
+		newState := make([]uint32, 0, len(state)/2+len(state)%2)
+		for el := range result {
+			newState = append(newState, el)
+		}
+		if len(state)%2 == 1 {
+			newState = append(newState, state[len(state)-1])
+		}
+		// put new state as current state after all
+		state = newState
+	}
+
+	return state[0]
+}
+
+func (s SequenceUint32) Count(start uint32, step uint32) chan uint32 {
+	c := make(chan uint32, 1)
 	go func() {
 		for {
 			c <- start
@@ -40376,8 +42668,8 @@ func (s SequenceUint16) Count(start uint16, step uint16) chan uint16 {
 	return c
 }
 
-func (s SequenceUint16) Exponential(start uint16, factor uint16) chan uint16 {
-	c := make(chan uint16, 1)
+func (s SequenceUint32) Exponential(start uint32, factor uint32) chan uint32 {
+	c := make(chan uint32, 1)
 	go func() {
 		for {
 			c <- start
@@ -40387,8 +42679,8 @@ func (s SequenceUint16) Exponential(start uint16, factor uint16) chan uint16 {
 	return c
 }
 
-func (s SequenceUint16) Range(start uint16, end uint16, step uint16) chan uint16 {
-	c := make(chan uint16, 1)
+func (s SequenceUint32) Range(start uint32, end uint32, step uint32) chan uint32 {
+	c := make(chan uint32, 1)
 	pos := start <= end
 	go func() {
 		for pos && (start < end) || !pos && (start > end) {
@@ -40400,92 +42692,14 @@ func (s SequenceUint16) Range(start uint16, end uint16, step uint16) chan uint16
 	return c
 }
 
-func (s SequenceUint16) Repeat(val uint16) chan uint16 {
-	c := make(chan uint16, 1)
+func (s SequenceUint32) Repeat(val uint32) chan uint32 {
+	c := make(chan uint32, 1)
 	go func() {
 		for {
 			c <- val
 		}
 	}()
 	return c
-}
-
-func (s SlicesUint16) Concat() []uint16 {
-	result := make([]uint16, 0)
-	for _, arr := range s.data {
-		result = append(result, arr...)
-	}
-	return result
-}
-
-func (s SlicesUint16) Product() chan []uint16 {
-	c := make(chan []uint16, 1)
-	go s.product(c, []uint16{}, 0)
-	return c
-}
-
-func (s SlicesUint16) product(c chan []uint16, left []uint16, pos int) {
-	// iterate over the last array
-	if pos == len(s.data)-1 {
-		for _, el := range s.data[pos] {
-			result := make([]uint16, 0, len(left)+1)
-			result = append(result, left...)
-			result = append(result, el)
-			c <- result
-		}
-		return
-	}
-
-	for _, el := range s.data[pos] {
-		result := make([]uint16, 0, len(left)+1)
-		result = append(result, left...)
-		result = append(result, el)
-		s.product(c, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
-	}
-}
-
-func (s SlicesUint16) Zip() [][]uint16 {
-	size := len(s.data[0])
-	for _, arr := range s.data[1:] {
-		if len(arr) > size {
-			size = len(arr)
-		}
-	}
-
-	result := make([][]uint16, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]uint16, 0, len(s.data))
-		for _, arr := range s.data {
-			chunk = append(chunk, arr[i])
-		}
-		result = append(result, chunk)
-	}
-	return result
-}
-
-type SliceUint32 struct {
-	data []uint32
-}
-
-type ChannelUint32 struct {
-	data chan uint32
-}
-
-type AsyncSliceUint32 struct {
-	data    []uint32
-	workers int
-}
-
-type SequenceUint32 struct {
-	data chan uint32
-}
-
-type SlicesUint32 struct {
-	data [][]uint32
 }
 
 func (s SliceUint32) Any(f func(el uint32) bool) bool {
@@ -42134,7 +44348,85 @@ func (s SliceUint32) Window(size int) [][]uint32 {
 	return result
 }
 
-func (c ChannelUint32) Any(f func(el uint32) bool) bool {
+func (s SlicesUint32) Concat() []uint32 {
+	result := make([]uint32, 0)
+	for _, arr := range s.data {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+func (s SlicesUint32) Product() chan []uint32 {
+	c := make(chan []uint32, 1)
+	go s.product(c, []uint32{}, 0)
+	return c
+}
+
+func (s SlicesUint32) product(c chan []uint32, left []uint32, pos int) {
+	// iterate over the last array
+	if pos == len(s.data)-1 {
+		for _, el := range s.data[pos] {
+			result := make([]uint32, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data[pos] {
+		result := make([]uint32, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
+func (s SlicesUint32) Zip() [][]uint32 {
+	size := len(s.data[0])
+	for _, arr := range s.data[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]uint32, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]uint32, 0, len(s.data))
+		for _, arr := range s.data {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
+type ChannelUint64 struct {
+	data chan uint64
+}
+
+type AsyncSliceUint64 struct {
+	data    []uint64
+	workers int
+}
+
+type SequenceUint64 struct {
+	data chan uint64
+}
+
+type SliceUint64 struct {
+	data []uint64
+}
+
+type SlicesUint64 struct {
+	data [][]uint64
+}
+
+func (c ChannelUint64) Any(f func(el uint64) bool) bool {
 	for el := range c.data {
 		if f(el) {
 			return true
@@ -42143,7 +44435,7 @@ func (c ChannelUint32) Any(f func(el uint32) bool) bool {
 	return false
 }
 
-func (c ChannelUint32) All(f func(el uint32) bool) bool {
+func (c ChannelUint64) All(f func(el uint64) bool) bool {
 	for el := range c.data {
 		if !f(el) {
 			return false
@@ -42152,10 +44444,10 @@ func (c ChannelUint32) All(f func(el uint32) bool) bool {
 	return true
 }
 
-func (c ChannelUint32) ChunkEvery(count int) chan []uint32 {
-	chunks := make(chan []uint32, 1)
+func (c ChannelUint64) ChunkEvery(count int) chan []uint64 {
+	chunks := make(chan []uint64, 1)
 	go func() {
-		chunk := make([]uint32, 0, count)
+		chunk := make([]uint64, 0, count)
 		i := 0
 		for el := range c.data {
 			chunk = append(chunk, el)
@@ -42163,7 +44455,7 @@ func (c ChannelUint32) ChunkEvery(count int) chan []uint32 {
 			if i%count == 0 {
 				i = 0
 				chunks <- chunk
-				chunk = make([]uint32, 0, count)
+				chunk = make([]uint64, 0, count)
 			}
 		}
 		if len(chunk) > 0 {
@@ -42174,7 +44466,7 @@ func (c ChannelUint32) ChunkEvery(count int) chan []uint32 {
 	return chunks
 }
 
-func (c ChannelUint32) Count(el uint32) int {
+func (c ChannelUint64) Count(el uint64) int {
 	count := 0
 	for val := range c.data {
 		if val == el {
@@ -42184,8 +44476,8 @@ func (c ChannelUint32) Count(el uint32) int {
 	return count
 }
 
-func (c ChannelUint32) Drop(n int) chan uint32 {
-	result := make(chan uint32, 1)
+func (c ChannelUint64) Drop(n int) chan uint64 {
+	result := make(chan uint64, 1)
 	go func() {
 		i := 0
 		for el := range c.data {
@@ -42199,14 +44491,14 @@ func (c ChannelUint32) Drop(n int) chan uint32 {
 	return result
 }
 
-func (c ChannelUint32) Each(f func(el uint32)) {
+func (c ChannelUint64) Each(f func(el uint64)) {
 	for el := range c.data {
 		f(el)
 	}
 }
 
-func (c ChannelUint32) Filter(f func(el uint32) bool) chan uint32 {
-	result := make(chan uint32, 1)
+func (c ChannelUint64) Filter(f func(el uint64) bool) chan uint64 {
+	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
 			if f(el) {
@@ -42218,7 +44510,7 @@ func (c ChannelUint32) Filter(f func(el uint32) bool) chan uint32 {
 	return result
 }
 
-func (c ChannelUint32) MapBool(f func(el uint32) bool) chan bool {
+func (c ChannelUint64) MapBool(f func(el uint64) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -42229,7 +44521,7 @@ func (c ChannelUint32) MapBool(f func(el uint32) bool) chan bool {
 	return result
 }
 
-func (c ChannelUint32) MapByte(f func(el uint32) byte) chan byte {
+func (c ChannelUint64) MapByte(f func(el uint64) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -42240,7 +44532,7 @@ func (c ChannelUint32) MapByte(f func(el uint32) byte) chan byte {
 	return result
 }
 
-func (c ChannelUint32) MapString(f func(el uint32) string) chan string {
+func (c ChannelUint64) MapString(f func(el uint64) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -42251,7 +44543,7 @@ func (c ChannelUint32) MapString(f func(el uint32) string) chan string {
 	return result
 }
 
-func (c ChannelUint32) MapFloat32(f func(el uint32) float32) chan float32 {
+func (c ChannelUint64) MapFloat32(f func(el uint64) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -42262,7 +44554,7 @@ func (c ChannelUint32) MapFloat32(f func(el uint32) float32) chan float32 {
 	return result
 }
 
-func (c ChannelUint32) MapFloat64(f func(el uint32) float64) chan float64 {
+func (c ChannelUint64) MapFloat64(f func(el uint64) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -42273,7 +44565,7 @@ func (c ChannelUint32) MapFloat64(f func(el uint32) float64) chan float64 {
 	return result
 }
 
-func (c ChannelUint32) MapInt(f func(el uint32) int) chan int {
+func (c ChannelUint64) MapInt(f func(el uint64) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -42284,7 +44576,7 @@ func (c ChannelUint32) MapInt(f func(el uint32) int) chan int {
 	return result
 }
 
-func (c ChannelUint32) MapInt8(f func(el uint32) int8) chan int8 {
+func (c ChannelUint64) MapInt8(f func(el uint64) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -42295,7 +44587,7 @@ func (c ChannelUint32) MapInt8(f func(el uint32) int8) chan int8 {
 	return result
 }
 
-func (c ChannelUint32) MapInt16(f func(el uint32) int16) chan int16 {
+func (c ChannelUint64) MapInt16(f func(el uint64) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -42306,7 +44598,7 @@ func (c ChannelUint32) MapInt16(f func(el uint32) int16) chan int16 {
 	return result
 }
 
-func (c ChannelUint32) MapInt32(f func(el uint32) int32) chan int32 {
+func (c ChannelUint64) MapInt32(f func(el uint64) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -42317,7 +44609,7 @@ func (c ChannelUint32) MapInt32(f func(el uint32) int32) chan int32 {
 	return result
 }
 
-func (c ChannelUint32) MapInt64(f func(el uint32) int64) chan int64 {
+func (c ChannelUint64) MapInt64(f func(el uint64) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -42328,7 +44620,7 @@ func (c ChannelUint32) MapInt64(f func(el uint32) int64) chan int64 {
 	return result
 }
 
-func (c ChannelUint32) MapUint(f func(el uint32) uint) chan uint {
+func (c ChannelUint64) MapUint(f func(el uint64) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -42339,7 +44631,7 @@ func (c ChannelUint32) MapUint(f func(el uint32) uint) chan uint {
 	return result
 }
 
-func (c ChannelUint32) MapUint8(f func(el uint32) uint8) chan uint8 {
+func (c ChannelUint64) MapUint8(f func(el uint64) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -42350,7 +44642,7 @@ func (c ChannelUint32) MapUint8(f func(el uint32) uint8) chan uint8 {
 	return result
 }
 
-func (c ChannelUint32) MapUint16(f func(el uint32) uint16) chan uint16 {
+func (c ChannelUint64) MapUint16(f func(el uint64) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -42361,7 +44653,7 @@ func (c ChannelUint32) MapUint16(f func(el uint32) uint16) chan uint16 {
 	return result
 }
 
-func (c ChannelUint32) MapUint32(f func(el uint32) uint32) chan uint32 {
+func (c ChannelUint64) MapUint32(f func(el uint64) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -42372,7 +44664,7 @@ func (c ChannelUint32) MapUint32(f func(el uint32) uint32) chan uint32 {
 	return result
 }
 
-func (c ChannelUint32) MapUint64(f func(el uint32) uint64) chan uint64 {
+func (c ChannelUint64) MapUint64(f func(el uint64) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -42383,7 +44675,7 @@ func (c ChannelUint32) MapUint64(f func(el uint32) uint64) chan uint64 {
 	return result
 }
 
-func (c ChannelUint32) MapInterface(f func(el uint32) interface{}) chan interface{} {
+func (c ChannelUint64) MapInterface(f func(el uint64) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -42394,7 +44686,7 @@ func (c ChannelUint32) MapInterface(f func(el uint32) interface{}) chan interfac
 	return result
 }
 
-func (c ChannelUint32) Max() uint32 {
+func (c ChannelUint64) Max() uint64 {
 	max := <-c.data
 	for el := range c.data {
 		if el > max {
@@ -42404,7 +44696,7 @@ func (c ChannelUint32) Max() uint32 {
 	return max
 }
 
-func (c ChannelUint32) Min() uint32 {
+func (c ChannelUint64) Min() uint64 {
 	min := <-c.data
 	for el := range c.data {
 		if el < min {
@@ -42414,119 +44706,119 @@ func (c ChannelUint32) Min() uint32 {
 	return min
 }
 
-func (c ChannelUint32) ReduceBool(acc bool, f func(el uint32, acc bool) bool) bool {
+func (c ChannelUint64) ReduceBool(acc bool, f func(el uint64, acc bool) bool) bool {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint32) ReduceByte(acc byte, f func(el uint32, acc byte) byte) byte {
+func (c ChannelUint64) ReduceByte(acc byte, f func(el uint64, acc byte) byte) byte {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint32) ReduceString(acc string, f func(el uint32, acc string) string) string {
+func (c ChannelUint64) ReduceString(acc string, f func(el uint64, acc string) string) string {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint32) ReduceFloat32(acc float32, f func(el uint32, acc float32) float32) float32 {
+func (c ChannelUint64) ReduceFloat32(acc float32, f func(el uint64, acc float32) float32) float32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint32) ReduceFloat64(acc float64, f func(el uint32, acc float64) float64) float64 {
+func (c ChannelUint64) ReduceFloat64(acc float64, f func(el uint64, acc float64) float64) float64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint32) ReduceInt(acc int, f func(el uint32, acc int) int) int {
+func (c ChannelUint64) ReduceInt(acc int, f func(el uint64, acc int) int) int {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint32) ReduceInt8(acc int8, f func(el uint32, acc int8) int8) int8 {
+func (c ChannelUint64) ReduceInt8(acc int8, f func(el uint64, acc int8) int8) int8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint32) ReduceInt16(acc int16, f func(el uint32, acc int16) int16) int16 {
+func (c ChannelUint64) ReduceInt16(acc int16, f func(el uint64, acc int16) int16) int16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint32) ReduceInt32(acc int32, f func(el uint32, acc int32) int32) int32 {
+func (c ChannelUint64) ReduceInt32(acc int32, f func(el uint64, acc int32) int32) int32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint32) ReduceInt64(acc int64, f func(el uint32, acc int64) int64) int64 {
+func (c ChannelUint64) ReduceInt64(acc int64, f func(el uint64, acc int64) int64) int64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint32) ReduceUint(acc uint, f func(el uint32, acc uint) uint) uint {
+func (c ChannelUint64) ReduceUint(acc uint, f func(el uint64, acc uint) uint) uint {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint32) ReduceUint8(acc uint8, f func(el uint32, acc uint8) uint8) uint8 {
+func (c ChannelUint64) ReduceUint8(acc uint8, f func(el uint64, acc uint8) uint8) uint8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint32) ReduceUint16(acc uint16, f func(el uint32, acc uint16) uint16) uint16 {
+func (c ChannelUint64) ReduceUint16(acc uint16, f func(el uint64, acc uint16) uint16) uint16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint32) ReduceUint32(acc uint32, f func(el uint32, acc uint32) uint32) uint32 {
+func (c ChannelUint64) ReduceUint32(acc uint32, f func(el uint64, acc uint32) uint32) uint32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint32) ReduceUint64(acc uint64, f func(el uint32, acc uint64) uint64) uint64 {
+func (c ChannelUint64) ReduceUint64(acc uint64, f func(el uint64, acc uint64) uint64) uint64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint32) ReduceInterface(acc interface{}, f func(el uint32, acc interface{}) interface{}) interface{} {
+func (c ChannelUint64) ReduceInterface(acc interface{}, f func(el uint64, acc interface{}) interface{}) interface{} {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint32) ScanBool(acc bool, f func(el uint32, acc bool) bool) chan bool {
+func (c ChannelUint64) ScanBool(acc bool, f func(el uint64, acc bool) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -42538,7 +44830,7 @@ func (c ChannelUint32) ScanBool(acc bool, f func(el uint32, acc bool) bool) chan
 	return result
 }
 
-func (c ChannelUint32) ScanByte(acc byte, f func(el uint32, acc byte) byte) chan byte {
+func (c ChannelUint64) ScanByte(acc byte, f func(el uint64, acc byte) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -42550,7 +44842,7 @@ func (c ChannelUint32) ScanByte(acc byte, f func(el uint32, acc byte) byte) chan
 	return result
 }
 
-func (c ChannelUint32) ScanString(acc string, f func(el uint32, acc string) string) chan string {
+func (c ChannelUint64) ScanString(acc string, f func(el uint64, acc string) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -42562,7 +44854,7 @@ func (c ChannelUint32) ScanString(acc string, f func(el uint32, acc string) stri
 	return result
 }
 
-func (c ChannelUint32) ScanFloat32(acc float32, f func(el uint32, acc float32) float32) chan float32 {
+func (c ChannelUint64) ScanFloat32(acc float32, f func(el uint64, acc float32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -42574,7 +44866,7 @@ func (c ChannelUint32) ScanFloat32(acc float32, f func(el uint32, acc float32) f
 	return result
 }
 
-func (c ChannelUint32) ScanFloat64(acc float64, f func(el uint32, acc float64) float64) chan float64 {
+func (c ChannelUint64) ScanFloat64(acc float64, f func(el uint64, acc float64) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -42586,7 +44878,7 @@ func (c ChannelUint32) ScanFloat64(acc float64, f func(el uint32, acc float64) f
 	return result
 }
 
-func (c ChannelUint32) ScanInt(acc int, f func(el uint32, acc int) int) chan int {
+func (c ChannelUint64) ScanInt(acc int, f func(el uint64, acc int) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -42598,7 +44890,7 @@ func (c ChannelUint32) ScanInt(acc int, f func(el uint32, acc int) int) chan int
 	return result
 }
 
-func (c ChannelUint32) ScanInt8(acc int8, f func(el uint32, acc int8) int8) chan int8 {
+func (c ChannelUint64) ScanInt8(acc int8, f func(el uint64, acc int8) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -42610,7 +44902,7 @@ func (c ChannelUint32) ScanInt8(acc int8, f func(el uint32, acc int8) int8) chan
 	return result
 }
 
-func (c ChannelUint32) ScanInt16(acc int16, f func(el uint32, acc int16) int16) chan int16 {
+func (c ChannelUint64) ScanInt16(acc int16, f func(el uint64, acc int16) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -42622,7 +44914,7 @@ func (c ChannelUint32) ScanInt16(acc int16, f func(el uint32, acc int16) int16) 
 	return result
 }
 
-func (c ChannelUint32) ScanInt32(acc int32, f func(el uint32, acc int32) int32) chan int32 {
+func (c ChannelUint64) ScanInt32(acc int32, f func(el uint64, acc int32) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -42634,7 +44926,7 @@ func (c ChannelUint32) ScanInt32(acc int32, f func(el uint32, acc int32) int32) 
 	return result
 }
 
-func (c ChannelUint32) ScanInt64(acc int64, f func(el uint32, acc int64) int64) chan int64 {
+func (c ChannelUint64) ScanInt64(acc int64, f func(el uint64, acc int64) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -42646,7 +44938,7 @@ func (c ChannelUint32) ScanInt64(acc int64, f func(el uint32, acc int64) int64) 
 	return result
 }
 
-func (c ChannelUint32) ScanUint(acc uint, f func(el uint32, acc uint) uint) chan uint {
+func (c ChannelUint64) ScanUint(acc uint, f func(el uint64, acc uint) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -42658,7 +44950,7 @@ func (c ChannelUint32) ScanUint(acc uint, f func(el uint32, acc uint) uint) chan
 	return result
 }
 
-func (c ChannelUint32) ScanUint8(acc uint8, f func(el uint32, acc uint8) uint8) chan uint8 {
+func (c ChannelUint64) ScanUint8(acc uint8, f func(el uint64, acc uint8) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -42670,7 +44962,7 @@ func (c ChannelUint32) ScanUint8(acc uint8, f func(el uint32, acc uint8) uint8) 
 	return result
 }
 
-func (c ChannelUint32) ScanUint16(acc uint16, f func(el uint32, acc uint16) uint16) chan uint16 {
+func (c ChannelUint64) ScanUint16(acc uint16, f func(el uint64, acc uint16) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -42682,7 +44974,7 @@ func (c ChannelUint32) ScanUint16(acc uint16, f func(el uint32, acc uint16) uint
 	return result
 }
 
-func (c ChannelUint32) ScanUint32(acc uint32, f func(el uint32, acc uint32) uint32) chan uint32 {
+func (c ChannelUint64) ScanUint32(acc uint32, f func(el uint64, acc uint32) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -42694,7 +44986,7 @@ func (c ChannelUint32) ScanUint32(acc uint32, f func(el uint32, acc uint32) uint
 	return result
 }
 
-func (c ChannelUint32) ScanUint64(acc uint64, f func(el uint32, acc uint64) uint64) chan uint64 {
+func (c ChannelUint64) ScanUint64(acc uint64, f func(el uint64, acc uint64) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -42706,7 +44998,7 @@ func (c ChannelUint32) ScanUint64(acc uint64, f func(el uint32, acc uint64) uint
 	return result
 }
 
-func (c ChannelUint32) ScanInterface(acc interface{}, f func(el uint32, acc interface{}) interface{}) chan interface{} {
+func (c ChannelUint64) ScanInterface(acc interface{}, f func(el uint64, acc interface{}) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -42718,31 +45010,31 @@ func (c ChannelUint32) ScanInterface(acc interface{}, f func(el uint32, acc inte
 	return result
 }
 
-func (c ChannelUint32) Sum() uint32 {
-	var sum uint32
+func (c ChannelUint64) Sum() uint64 {
+	var sum uint64
 	for el := range c.data {
 		sum += el
 	}
 	return sum
 }
 
-func (c ChannelUint32) Take(n int) []uint32 {
-	result := make([]uint32, 0, n)
+func (c ChannelUint64) Take(n int) []uint64 {
+	result := make([]uint64, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c.data)
 	}
 	return result
 }
 
-func (c ChannelUint32) Tee(count int) []chan uint32 {
-	channels := make([]chan uint32, 0, count)
+func (c ChannelUint64) Tee(count int) []chan uint64 {
+	channels := make([]chan uint64, 0, count)
 	for i := 0; i < count; i++ {
-		channels = append(channels, make(chan uint32, 1))
+		channels = append(channels, make(chan uint64, 1))
 	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			putInto := func(ch chan uint32) {
+			putInto := func(ch chan uint64) {
 				wg.Add(1)
 				defer wg.Done()
 				ch <- el
@@ -42759,15 +45051,15 @@ func (c ChannelUint32) Tee(count int) []chan uint32 {
 	return channels
 }
 
-func (c ChannelUint32) ToSlice() []uint32 {
-	result := make([]uint32, 0)
+func (c ChannelUint64) ToSlice() []uint64 {
+	result := make([]uint64, 0)
 	for val := range c.data {
 		result = append(result, val)
 	}
 	return result
 }
 
-func (s AsyncSliceUint32) All(f func(el uint32) bool) bool {
+func (s AsyncSliceUint64) All(f func(el uint64) bool) bool {
 	if len(s.data) == 0 {
 		return true
 	}
@@ -42828,7 +45120,7 @@ func (s AsyncSliceUint32) All(f func(el uint32) bool) bool {
 	return true
 }
 
-func (s AsyncSliceUint32) Any(f func(el uint32) bool) bool {
+func (s AsyncSliceUint64) Any(f func(el uint64) bool) bool {
 	if len(s.data) == 0 {
 		return false
 	}
@@ -42889,7 +45181,7 @@ func (s AsyncSliceUint32) Any(f func(el uint32) bool) bool {
 	return false
 }
 
-func (s AsyncSliceUint32) Each(f func(el uint32)) {
+func (s AsyncSliceUint64) Each(f func(el uint64)) {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -42920,7 +45212,7 @@ func (s AsyncSliceUint32) Each(f func(el uint32)) {
 	wg.Wait()
 }
 
-func (s AsyncSliceUint32) Filter(f func(el uint32) bool) []uint32 {
+func (s AsyncSliceUint64) Filter(f func(el uint64) bool) []uint64 {
 	resultMap := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -42954,7 +45246,7 @@ func (s AsyncSliceUint32) Filter(f func(el uint32) bool) []uint32 {
 	wg.Wait()
 
 	// return filtered results
-	result := make([]uint32, 0, len(s.data))
+	result := make([]uint64, 0, len(s.data))
 	for i, el := range s.data {
 		if resultMap[i] {
 			result = append(result, el)
@@ -42963,7 +45255,7 @@ func (s AsyncSliceUint32) Filter(f func(el uint32) bool) []uint32 {
 	return result
 }
 
-func (s AsyncSliceUint32) MapBool(f func(el uint32) bool) []bool {
+func (s AsyncSliceUint64) MapBool(f func(el uint64) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -42996,7 +45288,7 @@ func (s AsyncSliceUint32) MapBool(f func(el uint32) bool) []bool {
 	return result
 }
 
-func (s AsyncSliceUint32) MapByte(f func(el uint32) byte) []byte {
+func (s AsyncSliceUint64) MapByte(f func(el uint64) byte) []byte {
 	result := make([]byte, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -43029,7 +45321,7 @@ func (s AsyncSliceUint32) MapByte(f func(el uint32) byte) []byte {
 	return result
 }
 
-func (s AsyncSliceUint32) MapString(f func(el uint32) string) []string {
+func (s AsyncSliceUint64) MapString(f func(el uint64) string) []string {
 	result := make([]string, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -43062,7 +45354,7 @@ func (s AsyncSliceUint32) MapString(f func(el uint32) string) []string {
 	return result
 }
 
-func (s AsyncSliceUint32) MapFloat32(f func(el uint32) float32) []float32 {
+func (s AsyncSliceUint64) MapFloat32(f func(el uint64) float32) []float32 {
 	result := make([]float32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -43095,7 +45387,7 @@ func (s AsyncSliceUint32) MapFloat32(f func(el uint32) float32) []float32 {
 	return result
 }
 
-func (s AsyncSliceUint32) MapFloat64(f func(el uint32) float64) []float64 {
+func (s AsyncSliceUint64) MapFloat64(f func(el uint64) float64) []float64 {
 	result := make([]float64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -43128,7 +45420,7 @@ func (s AsyncSliceUint32) MapFloat64(f func(el uint32) float64) []float64 {
 	return result
 }
 
-func (s AsyncSliceUint32) MapInt(f func(el uint32) int) []int {
+func (s AsyncSliceUint64) MapInt(f func(el uint64) int) []int {
 	result := make([]int, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -43161,7 +45453,7 @@ func (s AsyncSliceUint32) MapInt(f func(el uint32) int) []int {
 	return result
 }
 
-func (s AsyncSliceUint32) MapInt8(f func(el uint32) int8) []int8 {
+func (s AsyncSliceUint64) MapInt8(f func(el uint64) int8) []int8 {
 	result := make([]int8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -43194,7 +45486,7 @@ func (s AsyncSliceUint32) MapInt8(f func(el uint32) int8) []int8 {
 	return result
 }
 
-func (s AsyncSliceUint32) MapInt16(f func(el uint32) int16) []int16 {
+func (s AsyncSliceUint64) MapInt16(f func(el uint64) int16) []int16 {
 	result := make([]int16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -43227,7 +45519,7 @@ func (s AsyncSliceUint32) MapInt16(f func(el uint32) int16) []int16 {
 	return result
 }
 
-func (s AsyncSliceUint32) MapInt32(f func(el uint32) int32) []int32 {
+func (s AsyncSliceUint64) MapInt32(f func(el uint64) int32) []int32 {
 	result := make([]int32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -43260,7 +45552,7 @@ func (s AsyncSliceUint32) MapInt32(f func(el uint32) int32) []int32 {
 	return result
 }
 
-func (s AsyncSliceUint32) MapInt64(f func(el uint32) int64) []int64 {
+func (s AsyncSliceUint64) MapInt64(f func(el uint64) int64) []int64 {
 	result := make([]int64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -43293,7 +45585,7 @@ func (s AsyncSliceUint32) MapInt64(f func(el uint32) int64) []int64 {
 	return result
 }
 
-func (s AsyncSliceUint32) MapUint(f func(el uint32) uint) []uint {
+func (s AsyncSliceUint64) MapUint(f func(el uint64) uint) []uint {
 	result := make([]uint, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -43326,7 +45618,7 @@ func (s AsyncSliceUint32) MapUint(f func(el uint32) uint) []uint {
 	return result
 }
 
-func (s AsyncSliceUint32) MapUint8(f func(el uint32) uint8) []uint8 {
+func (s AsyncSliceUint64) MapUint8(f func(el uint64) uint8) []uint8 {
 	result := make([]uint8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -43359,7 +45651,7 @@ func (s AsyncSliceUint32) MapUint8(f func(el uint32) uint8) []uint8 {
 	return result
 }
 
-func (s AsyncSliceUint32) MapUint16(f func(el uint32) uint16) []uint16 {
+func (s AsyncSliceUint64) MapUint16(f func(el uint64) uint16) []uint16 {
 	result := make([]uint16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -43392,7 +45684,7 @@ func (s AsyncSliceUint32) MapUint16(f func(el uint32) uint16) []uint16 {
 	return result
 }
 
-func (s AsyncSliceUint32) MapUint32(f func(el uint32) uint32) []uint32 {
+func (s AsyncSliceUint64) MapUint32(f func(el uint64) uint32) []uint32 {
 	result := make([]uint32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -43425,7 +45717,7 @@ func (s AsyncSliceUint32) MapUint32(f func(el uint32) uint32) []uint32 {
 	return result
 }
 
-func (s AsyncSliceUint32) MapUint64(f func(el uint32) uint64) []uint64 {
+func (s AsyncSliceUint64) MapUint64(f func(el uint64) uint64) []uint64 {
 	result := make([]uint64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -43458,7 +45750,7 @@ func (s AsyncSliceUint32) MapUint64(f func(el uint32) uint64) []uint64 {
 	return result
 }
 
-func (s AsyncSliceUint32) MapInterface(f func(el uint32) interface{}) []interface{} {
+func (s AsyncSliceUint64) MapInterface(f func(el uint64) interface{}) []interface{} {
 	result := make([]interface{}, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -43491,8 +45783,66 @@ func (s AsyncSliceUint32) MapInterface(f func(el uint32) interface{}) []interfac
 	return result
 }
 
-func (s SequenceUint32) Count(start uint32, step uint32) chan uint32 {
-	c := make(chan uint32, 1)
+func (s AsyncSliceUint64) Reduce(f func(left uint64, right uint64) uint64) uint64 {
+	if len(s.data) == 0 {
+		var tmp uint64
+		return tmp
+	}
+
+	state := make([]uint64, len(s.data))
+	state = append(state, s.data...)
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- uint64) {
+		for index := range jobs {
+			result <- f(state[index], state[index+1])
+		}
+		wg.Done()
+	}
+
+	for len(state) > 1 {
+		// calculate workers count
+		workers := s.workers
+		if workers == 0 || workers > len(state) {
+			workers = len(state)
+		}
+
+		// run workers
+		jobs := make(chan int, len(state))
+		wg.Add(workers)
+		result := make(chan uint64, 1)
+		for i := 0; i < workers; i++ {
+			go worker(jobs, result)
+		}
+
+		go func() {
+			wg.Wait()
+			close(result)
+		}()
+
+		// add indices into jobs for workers
+		for i := 0; i < len(state)-1; i += 2 {
+			jobs <- i
+		}
+		close(jobs)
+
+		// collect new state
+		newState := make([]uint64, 0, len(state)/2+len(state)%2)
+		for el := range result {
+			newState = append(newState, el)
+		}
+		if len(state)%2 == 1 {
+			newState = append(newState, state[len(state)-1])
+		}
+		// put new state as current state after all
+		state = newState
+	}
+
+	return state[0]
+}
+
+func (s SequenceUint64) Count(start uint64, step uint64) chan uint64 {
+	c := make(chan uint64, 1)
 	go func() {
 		for {
 			c <- start
@@ -43502,8 +45852,8 @@ func (s SequenceUint32) Count(start uint32, step uint32) chan uint32 {
 	return c
 }
 
-func (s SequenceUint32) Exponential(start uint32, factor uint32) chan uint32 {
-	c := make(chan uint32, 1)
+func (s SequenceUint64) Exponential(start uint64, factor uint64) chan uint64 {
+	c := make(chan uint64, 1)
 	go func() {
 		for {
 			c <- start
@@ -43513,8 +45863,8 @@ func (s SequenceUint32) Exponential(start uint32, factor uint32) chan uint32 {
 	return c
 }
 
-func (s SequenceUint32) Range(start uint32, end uint32, step uint32) chan uint32 {
-	c := make(chan uint32, 1)
+func (s SequenceUint64) Range(start uint64, end uint64, step uint64) chan uint64 {
+	c := make(chan uint64, 1)
 	pos := start <= end
 	go func() {
 		for pos && (start < end) || !pos && (start > end) {
@@ -43526,92 +45876,14 @@ func (s SequenceUint32) Range(start uint32, end uint32, step uint32) chan uint32
 	return c
 }
 
-func (s SequenceUint32) Repeat(val uint32) chan uint32 {
-	c := make(chan uint32, 1)
+func (s SequenceUint64) Repeat(val uint64) chan uint64 {
+	c := make(chan uint64, 1)
 	go func() {
 		for {
 			c <- val
 		}
 	}()
 	return c
-}
-
-func (s SlicesUint32) Concat() []uint32 {
-	result := make([]uint32, 0)
-	for _, arr := range s.data {
-		result = append(result, arr...)
-	}
-	return result
-}
-
-func (s SlicesUint32) Product() chan []uint32 {
-	c := make(chan []uint32, 1)
-	go s.product(c, []uint32{}, 0)
-	return c
-}
-
-func (s SlicesUint32) product(c chan []uint32, left []uint32, pos int) {
-	// iterate over the last array
-	if pos == len(s.data)-1 {
-		for _, el := range s.data[pos] {
-			result := make([]uint32, 0, len(left)+1)
-			result = append(result, left...)
-			result = append(result, el)
-			c <- result
-		}
-		return
-	}
-
-	for _, el := range s.data[pos] {
-		result := make([]uint32, 0, len(left)+1)
-		result = append(result, left...)
-		result = append(result, el)
-		s.product(c, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
-	}
-}
-
-func (s SlicesUint32) Zip() [][]uint32 {
-	size := len(s.data[0])
-	for _, arr := range s.data[1:] {
-		if len(arr) > size {
-			size = len(arr)
-		}
-	}
-
-	result := make([][]uint32, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]uint32, 0, len(s.data))
-		for _, arr := range s.data {
-			chunk = append(chunk, arr[i])
-		}
-		result = append(result, chunk)
-	}
-	return result
-}
-
-type SliceUint64 struct {
-	data []uint64
-}
-
-type ChannelUint64 struct {
-	data chan uint64
-}
-
-type AsyncSliceUint64 struct {
-	data    []uint64
-	workers int
-}
-
-type SequenceUint64 struct {
-	data chan uint64
-}
-
-type SlicesUint64 struct {
-	data [][]uint64
 }
 
 func (s SliceUint64) Any(f func(el uint64) bool) bool {
@@ -45260,7 +47532,85 @@ func (s SliceUint64) Window(size int) [][]uint64 {
 	return result
 }
 
-func (c ChannelUint64) Any(f func(el uint64) bool) bool {
+func (s SlicesUint64) Concat() []uint64 {
+	result := make([]uint64, 0)
+	for _, arr := range s.data {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+func (s SlicesUint64) Product() chan []uint64 {
+	c := make(chan []uint64, 1)
+	go s.product(c, []uint64{}, 0)
+	return c
+}
+
+func (s SlicesUint64) product(c chan []uint64, left []uint64, pos int) {
+	// iterate over the last array
+	if pos == len(s.data)-1 {
+		for _, el := range s.data[pos] {
+			result := make([]uint64, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.data[pos] {
+		result := make([]uint64, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
+func (s SlicesUint64) Zip() [][]uint64 {
+	size := len(s.data[0])
+	for _, arr := range s.data[1:] {
+		if len(arr) > size {
+			size = len(arr)
+		}
+	}
+
+	result := make([][]uint64, 0, size)
+	for i := 0; i <= size; i++ {
+		chunk := make([]uint64, 0, len(s.data))
+		for _, arr := range s.data {
+			chunk = append(chunk, arr[i])
+		}
+		result = append(result, chunk)
+	}
+	return result
+}
+
+type ChannelInterface struct {
+	data chan interface{}
+}
+
+type AsyncSliceInterface struct {
+	data    []interface{}
+	workers int
+}
+
+type SequenceInterface struct {
+	data chan interface{}
+}
+
+type SliceInterface struct {
+	data []interface{}
+}
+
+type SlicesInterface struct {
+	data [][]interface{}
+}
+
+func (c ChannelInterface) Any(f func(el interface{}) bool) bool {
 	for el := range c.data {
 		if f(el) {
 			return true
@@ -45269,7 +47619,7 @@ func (c ChannelUint64) Any(f func(el uint64) bool) bool {
 	return false
 }
 
-func (c ChannelUint64) All(f func(el uint64) bool) bool {
+func (c ChannelInterface) All(f func(el interface{}) bool) bool {
 	for el := range c.data {
 		if !f(el) {
 			return false
@@ -45278,10 +47628,10 @@ func (c ChannelUint64) All(f func(el uint64) bool) bool {
 	return true
 }
 
-func (c ChannelUint64) ChunkEvery(count int) chan []uint64 {
-	chunks := make(chan []uint64, 1)
+func (c ChannelInterface) ChunkEvery(count int) chan []interface{} {
+	chunks := make(chan []interface{}, 1)
 	go func() {
-		chunk := make([]uint64, 0, count)
+		chunk := make([]interface{}, 0, count)
 		i := 0
 		for el := range c.data {
 			chunk = append(chunk, el)
@@ -45289,7 +47639,7 @@ func (c ChannelUint64) ChunkEvery(count int) chan []uint64 {
 			if i%count == 0 {
 				i = 0
 				chunks <- chunk
-				chunk = make([]uint64, 0, count)
+				chunk = make([]interface{}, 0, count)
 			}
 		}
 		if len(chunk) > 0 {
@@ -45300,7 +47650,7 @@ func (c ChannelUint64) ChunkEvery(count int) chan []uint64 {
 	return chunks
 }
 
-func (c ChannelUint64) Count(el uint64) int {
+func (c ChannelInterface) Count(el interface{}) int {
 	count := 0
 	for val := range c.data {
 		if val == el {
@@ -45310,8 +47660,8 @@ func (c ChannelUint64) Count(el uint64) int {
 	return count
 }
 
-func (c ChannelUint64) Drop(n int) chan uint64 {
-	result := make(chan uint64, 1)
+func (c ChannelInterface) Drop(n int) chan interface{} {
+	result := make(chan interface{}, 1)
 	go func() {
 		i := 0
 		for el := range c.data {
@@ -45325,14 +47675,14 @@ func (c ChannelUint64) Drop(n int) chan uint64 {
 	return result
 }
 
-func (c ChannelUint64) Each(f func(el uint64)) {
+func (c ChannelInterface) Each(f func(el interface{})) {
 	for el := range c.data {
 		f(el)
 	}
 }
 
-func (c ChannelUint64) Filter(f func(el uint64) bool) chan uint64 {
-	result := make(chan uint64, 1)
+func (c ChannelInterface) Filter(f func(el interface{}) bool) chan interface{} {
+	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
 			if f(el) {
@@ -45344,7 +47694,7 @@ func (c ChannelUint64) Filter(f func(el uint64) bool) chan uint64 {
 	return result
 }
 
-func (c ChannelUint64) MapBool(f func(el uint64) bool) chan bool {
+func (c ChannelInterface) MapBool(f func(el interface{}) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -45355,7 +47705,7 @@ func (c ChannelUint64) MapBool(f func(el uint64) bool) chan bool {
 	return result
 }
 
-func (c ChannelUint64) MapByte(f func(el uint64) byte) chan byte {
+func (c ChannelInterface) MapByte(f func(el interface{}) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -45366,7 +47716,7 @@ func (c ChannelUint64) MapByte(f func(el uint64) byte) chan byte {
 	return result
 }
 
-func (c ChannelUint64) MapString(f func(el uint64) string) chan string {
+func (c ChannelInterface) MapString(f func(el interface{}) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -45377,7 +47727,7 @@ func (c ChannelUint64) MapString(f func(el uint64) string) chan string {
 	return result
 }
 
-func (c ChannelUint64) MapFloat32(f func(el uint64) float32) chan float32 {
+func (c ChannelInterface) MapFloat32(f func(el interface{}) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -45388,7 +47738,7 @@ func (c ChannelUint64) MapFloat32(f func(el uint64) float32) chan float32 {
 	return result
 }
 
-func (c ChannelUint64) MapFloat64(f func(el uint64) float64) chan float64 {
+func (c ChannelInterface) MapFloat64(f func(el interface{}) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -45399,7 +47749,7 @@ func (c ChannelUint64) MapFloat64(f func(el uint64) float64) chan float64 {
 	return result
 }
 
-func (c ChannelUint64) MapInt(f func(el uint64) int) chan int {
+func (c ChannelInterface) MapInt(f func(el interface{}) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -45410,7 +47760,7 @@ func (c ChannelUint64) MapInt(f func(el uint64) int) chan int {
 	return result
 }
 
-func (c ChannelUint64) MapInt8(f func(el uint64) int8) chan int8 {
+func (c ChannelInterface) MapInt8(f func(el interface{}) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -45421,7 +47771,7 @@ func (c ChannelUint64) MapInt8(f func(el uint64) int8) chan int8 {
 	return result
 }
 
-func (c ChannelUint64) MapInt16(f func(el uint64) int16) chan int16 {
+func (c ChannelInterface) MapInt16(f func(el interface{}) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -45432,7 +47782,7 @@ func (c ChannelUint64) MapInt16(f func(el uint64) int16) chan int16 {
 	return result
 }
 
-func (c ChannelUint64) MapInt32(f func(el uint64) int32) chan int32 {
+func (c ChannelInterface) MapInt32(f func(el interface{}) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -45443,7 +47793,7 @@ func (c ChannelUint64) MapInt32(f func(el uint64) int32) chan int32 {
 	return result
 }
 
-func (c ChannelUint64) MapInt64(f func(el uint64) int64) chan int64 {
+func (c ChannelInterface) MapInt64(f func(el interface{}) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -45454,7 +47804,7 @@ func (c ChannelUint64) MapInt64(f func(el uint64) int64) chan int64 {
 	return result
 }
 
-func (c ChannelUint64) MapUint(f func(el uint64) uint) chan uint {
+func (c ChannelInterface) MapUint(f func(el interface{}) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -45465,7 +47815,7 @@ func (c ChannelUint64) MapUint(f func(el uint64) uint) chan uint {
 	return result
 }
 
-func (c ChannelUint64) MapUint8(f func(el uint64) uint8) chan uint8 {
+func (c ChannelInterface) MapUint8(f func(el interface{}) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -45476,7 +47826,7 @@ func (c ChannelUint64) MapUint8(f func(el uint64) uint8) chan uint8 {
 	return result
 }
 
-func (c ChannelUint64) MapUint16(f func(el uint64) uint16) chan uint16 {
+func (c ChannelInterface) MapUint16(f func(el interface{}) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -45487,7 +47837,7 @@ func (c ChannelUint64) MapUint16(f func(el uint64) uint16) chan uint16 {
 	return result
 }
 
-func (c ChannelUint64) MapUint32(f func(el uint64) uint32) chan uint32 {
+func (c ChannelInterface) MapUint32(f func(el interface{}) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -45498,7 +47848,7 @@ func (c ChannelUint64) MapUint32(f func(el uint64) uint32) chan uint32 {
 	return result
 }
 
-func (c ChannelUint64) MapUint64(f func(el uint64) uint64) chan uint64 {
+func (c ChannelInterface) MapUint64(f func(el interface{}) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -45509,7 +47859,7 @@ func (c ChannelUint64) MapUint64(f func(el uint64) uint64) chan uint64 {
 	return result
 }
 
-func (c ChannelUint64) MapInterface(f func(el uint64) interface{}) chan interface{} {
+func (c ChannelInterface) MapInterface(f func(el interface{}) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -45520,139 +47870,119 @@ func (c ChannelUint64) MapInterface(f func(el uint64) interface{}) chan interfac
 	return result
 }
 
-func (c ChannelUint64) Max() uint64 {
-	max := <-c.data
-	for el := range c.data {
-		if el > max {
-			max = el
-		}
-	}
-	return max
-}
-
-func (c ChannelUint64) Min() uint64 {
-	min := <-c.data
-	for el := range c.data {
-		if el < min {
-			min = el
-		}
-	}
-	return min
-}
-
-func (c ChannelUint64) ReduceBool(acc bool, f func(el uint64, acc bool) bool) bool {
+func (c ChannelInterface) ReduceBool(acc bool, f func(el interface{}, acc bool) bool) bool {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint64) ReduceByte(acc byte, f func(el uint64, acc byte) byte) byte {
+func (c ChannelInterface) ReduceByte(acc byte, f func(el interface{}, acc byte) byte) byte {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint64) ReduceString(acc string, f func(el uint64, acc string) string) string {
+func (c ChannelInterface) ReduceString(acc string, f func(el interface{}, acc string) string) string {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint64) ReduceFloat32(acc float32, f func(el uint64, acc float32) float32) float32 {
+func (c ChannelInterface) ReduceFloat32(acc float32, f func(el interface{}, acc float32) float32) float32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint64) ReduceFloat64(acc float64, f func(el uint64, acc float64) float64) float64 {
+func (c ChannelInterface) ReduceFloat64(acc float64, f func(el interface{}, acc float64) float64) float64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint64) ReduceInt(acc int, f func(el uint64, acc int) int) int {
+func (c ChannelInterface) ReduceInt(acc int, f func(el interface{}, acc int) int) int {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint64) ReduceInt8(acc int8, f func(el uint64, acc int8) int8) int8 {
+func (c ChannelInterface) ReduceInt8(acc int8, f func(el interface{}, acc int8) int8) int8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint64) ReduceInt16(acc int16, f func(el uint64, acc int16) int16) int16 {
+func (c ChannelInterface) ReduceInt16(acc int16, f func(el interface{}, acc int16) int16) int16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint64) ReduceInt32(acc int32, f func(el uint64, acc int32) int32) int32 {
+func (c ChannelInterface) ReduceInt32(acc int32, f func(el interface{}, acc int32) int32) int32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint64) ReduceInt64(acc int64, f func(el uint64, acc int64) int64) int64 {
+func (c ChannelInterface) ReduceInt64(acc int64, f func(el interface{}, acc int64) int64) int64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint64) ReduceUint(acc uint, f func(el uint64, acc uint) uint) uint {
+func (c ChannelInterface) ReduceUint(acc uint, f func(el interface{}, acc uint) uint) uint {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint64) ReduceUint8(acc uint8, f func(el uint64, acc uint8) uint8) uint8 {
+func (c ChannelInterface) ReduceUint8(acc uint8, f func(el interface{}, acc uint8) uint8) uint8 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint64) ReduceUint16(acc uint16, f func(el uint64, acc uint16) uint16) uint16 {
+func (c ChannelInterface) ReduceUint16(acc uint16, f func(el interface{}, acc uint16) uint16) uint16 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint64) ReduceUint32(acc uint32, f func(el uint64, acc uint32) uint32) uint32 {
+func (c ChannelInterface) ReduceUint32(acc uint32, f func(el interface{}, acc uint32) uint32) uint32 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint64) ReduceUint64(acc uint64, f func(el uint64, acc uint64) uint64) uint64 {
+func (c ChannelInterface) ReduceUint64(acc uint64, f func(el interface{}, acc uint64) uint64) uint64 {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint64) ReduceInterface(acc interface{}, f func(el uint64, acc interface{}) interface{}) interface{} {
+func (c ChannelInterface) ReduceInterface(acc interface{}, f func(el interface{}, acc interface{}) interface{}) interface{} {
 	for el := range c.data {
 		acc = f(el, acc)
 	}
 	return acc
 }
 
-func (c ChannelUint64) ScanBool(acc bool, f func(el uint64, acc bool) bool) chan bool {
+func (c ChannelInterface) ScanBool(acc bool, f func(el interface{}, acc bool) bool) chan bool {
 	result := make(chan bool, 1)
 	go func() {
 		for el := range c.data {
@@ -45664,7 +47994,7 @@ func (c ChannelUint64) ScanBool(acc bool, f func(el uint64, acc bool) bool) chan
 	return result
 }
 
-func (c ChannelUint64) ScanByte(acc byte, f func(el uint64, acc byte) byte) chan byte {
+func (c ChannelInterface) ScanByte(acc byte, f func(el interface{}, acc byte) byte) chan byte {
 	result := make(chan byte, 1)
 	go func() {
 		for el := range c.data {
@@ -45676,7 +48006,7 @@ func (c ChannelUint64) ScanByte(acc byte, f func(el uint64, acc byte) byte) chan
 	return result
 }
 
-func (c ChannelUint64) ScanString(acc string, f func(el uint64, acc string) string) chan string {
+func (c ChannelInterface) ScanString(acc string, f func(el interface{}, acc string) string) chan string {
 	result := make(chan string, 1)
 	go func() {
 		for el := range c.data {
@@ -45688,7 +48018,7 @@ func (c ChannelUint64) ScanString(acc string, f func(el uint64, acc string) stri
 	return result
 }
 
-func (c ChannelUint64) ScanFloat32(acc float32, f func(el uint64, acc float32) float32) chan float32 {
+func (c ChannelInterface) ScanFloat32(acc float32, f func(el interface{}, acc float32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
 		for el := range c.data {
@@ -45700,7 +48030,7 @@ func (c ChannelUint64) ScanFloat32(acc float32, f func(el uint64, acc float32) f
 	return result
 }
 
-func (c ChannelUint64) ScanFloat64(acc float64, f func(el uint64, acc float64) float64) chan float64 {
+func (c ChannelInterface) ScanFloat64(acc float64, f func(el interface{}, acc float64) float64) chan float64 {
 	result := make(chan float64, 1)
 	go func() {
 		for el := range c.data {
@@ -45712,7 +48042,7 @@ func (c ChannelUint64) ScanFloat64(acc float64, f func(el uint64, acc float64) f
 	return result
 }
 
-func (c ChannelUint64) ScanInt(acc int, f func(el uint64, acc int) int) chan int {
+func (c ChannelInterface) ScanInt(acc int, f func(el interface{}, acc int) int) chan int {
 	result := make(chan int, 1)
 	go func() {
 		for el := range c.data {
@@ -45724,7 +48054,7 @@ func (c ChannelUint64) ScanInt(acc int, f func(el uint64, acc int) int) chan int
 	return result
 }
 
-func (c ChannelUint64) ScanInt8(acc int8, f func(el uint64, acc int8) int8) chan int8 {
+func (c ChannelInterface) ScanInt8(acc int8, f func(el interface{}, acc int8) int8) chan int8 {
 	result := make(chan int8, 1)
 	go func() {
 		for el := range c.data {
@@ -45736,7 +48066,7 @@ func (c ChannelUint64) ScanInt8(acc int8, f func(el uint64, acc int8) int8) chan
 	return result
 }
 
-func (c ChannelUint64) ScanInt16(acc int16, f func(el uint64, acc int16) int16) chan int16 {
+func (c ChannelInterface) ScanInt16(acc int16, f func(el interface{}, acc int16) int16) chan int16 {
 	result := make(chan int16, 1)
 	go func() {
 		for el := range c.data {
@@ -45748,7 +48078,7 @@ func (c ChannelUint64) ScanInt16(acc int16, f func(el uint64, acc int16) int16) 
 	return result
 }
 
-func (c ChannelUint64) ScanInt32(acc int32, f func(el uint64, acc int32) int32) chan int32 {
+func (c ChannelInterface) ScanInt32(acc int32, f func(el interface{}, acc int32) int32) chan int32 {
 	result := make(chan int32, 1)
 	go func() {
 		for el := range c.data {
@@ -45760,7 +48090,7 @@ func (c ChannelUint64) ScanInt32(acc int32, f func(el uint64, acc int32) int32) 
 	return result
 }
 
-func (c ChannelUint64) ScanInt64(acc int64, f func(el uint64, acc int64) int64) chan int64 {
+func (c ChannelInterface) ScanInt64(acc int64, f func(el interface{}, acc int64) int64) chan int64 {
 	result := make(chan int64, 1)
 	go func() {
 		for el := range c.data {
@@ -45772,7 +48102,7 @@ func (c ChannelUint64) ScanInt64(acc int64, f func(el uint64, acc int64) int64) 
 	return result
 }
 
-func (c ChannelUint64) ScanUint(acc uint, f func(el uint64, acc uint) uint) chan uint {
+func (c ChannelInterface) ScanUint(acc uint, f func(el interface{}, acc uint) uint) chan uint {
 	result := make(chan uint, 1)
 	go func() {
 		for el := range c.data {
@@ -45784,7 +48114,7 @@ func (c ChannelUint64) ScanUint(acc uint, f func(el uint64, acc uint) uint) chan
 	return result
 }
 
-func (c ChannelUint64) ScanUint8(acc uint8, f func(el uint64, acc uint8) uint8) chan uint8 {
+func (c ChannelInterface) ScanUint8(acc uint8, f func(el interface{}, acc uint8) uint8) chan uint8 {
 	result := make(chan uint8, 1)
 	go func() {
 		for el := range c.data {
@@ -45796,7 +48126,7 @@ func (c ChannelUint64) ScanUint8(acc uint8, f func(el uint64, acc uint8) uint8) 
 	return result
 }
 
-func (c ChannelUint64) ScanUint16(acc uint16, f func(el uint64, acc uint16) uint16) chan uint16 {
+func (c ChannelInterface) ScanUint16(acc uint16, f func(el interface{}, acc uint16) uint16) chan uint16 {
 	result := make(chan uint16, 1)
 	go func() {
 		for el := range c.data {
@@ -45808,7 +48138,7 @@ func (c ChannelUint64) ScanUint16(acc uint16, f func(el uint64, acc uint16) uint
 	return result
 }
 
-func (c ChannelUint64) ScanUint32(acc uint32, f func(el uint64, acc uint32) uint32) chan uint32 {
+func (c ChannelInterface) ScanUint32(acc uint32, f func(el interface{}, acc uint32) uint32) chan uint32 {
 	result := make(chan uint32, 1)
 	go func() {
 		for el := range c.data {
@@ -45820,7 +48150,7 @@ func (c ChannelUint64) ScanUint32(acc uint32, f func(el uint64, acc uint32) uint
 	return result
 }
 
-func (c ChannelUint64) ScanUint64(acc uint64, f func(el uint64, acc uint64) uint64) chan uint64 {
+func (c ChannelInterface) ScanUint64(acc uint64, f func(el interface{}, acc uint64) uint64) chan uint64 {
 	result := make(chan uint64, 1)
 	go func() {
 		for el := range c.data {
@@ -45832,7 +48162,7 @@ func (c ChannelUint64) ScanUint64(acc uint64, f func(el uint64, acc uint64) uint
 	return result
 }
 
-func (c ChannelUint64) ScanInterface(acc interface{}, f func(el uint64, acc interface{}) interface{}) chan interface{} {
+func (c ChannelInterface) ScanInterface(acc interface{}, f func(el interface{}, acc interface{}) interface{}) chan interface{} {
 	result := make(chan interface{}, 1)
 	go func() {
 		for el := range c.data {
@@ -45844,31 +48174,23 @@ func (c ChannelUint64) ScanInterface(acc interface{}, f func(el uint64, acc inte
 	return result
 }
 
-func (c ChannelUint64) Sum() uint64 {
-	var sum uint64
-	for el := range c.data {
-		sum += el
-	}
-	return sum
-}
-
-func (c ChannelUint64) Take(n int) []uint64 {
-	result := make([]uint64, 0, n)
+func (c ChannelInterface) Take(n int) []interface{} {
+	result := make([]interface{}, 0, n)
 	for i := 0; i < n; i++ {
 		result = append(result, <-c.data)
 	}
 	return result
 }
 
-func (c ChannelUint64) Tee(count int) []chan uint64 {
-	channels := make([]chan uint64, 0, count)
+func (c ChannelInterface) Tee(count int) []chan interface{} {
+	channels := make([]chan interface{}, 0, count)
 	for i := 0; i < count; i++ {
-		channels = append(channels, make(chan uint64, 1))
+		channels = append(channels, make(chan interface{}, 1))
 	}
 	go func() {
 		for el := range c.data {
 			wg := sync.WaitGroup{}
-			putInto := func(ch chan uint64) {
+			putInto := func(ch chan interface{}) {
 				wg.Add(1)
 				defer wg.Done()
 				ch <- el
@@ -45885,15 +48207,15 @@ func (c ChannelUint64) Tee(count int) []chan uint64 {
 	return channels
 }
 
-func (c ChannelUint64) ToSlice() []uint64 {
-	result := make([]uint64, 0)
+func (c ChannelInterface) ToSlice() []interface{} {
+	result := make([]interface{}, 0)
 	for val := range c.data {
 		result = append(result, val)
 	}
 	return result
 }
 
-func (s AsyncSliceUint64) All(f func(el uint64) bool) bool {
+func (s AsyncSliceInterface) All(f func(el interface{}) bool) bool {
 	if len(s.data) == 0 {
 		return true
 	}
@@ -45954,7 +48276,7 @@ func (s AsyncSliceUint64) All(f func(el uint64) bool) bool {
 	return true
 }
 
-func (s AsyncSliceUint64) Any(f func(el uint64) bool) bool {
+func (s AsyncSliceInterface) Any(f func(el interface{}) bool) bool {
 	if len(s.data) == 0 {
 		return false
 	}
@@ -46015,7 +48337,7 @@ func (s AsyncSliceUint64) Any(f func(el uint64) bool) bool {
 	return false
 }
 
-func (s AsyncSliceUint64) Each(f func(el uint64)) {
+func (s AsyncSliceInterface) Each(f func(el interface{})) {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -46046,7 +48368,7 @@ func (s AsyncSliceUint64) Each(f func(el uint64)) {
 	wg.Wait()
 }
 
-func (s AsyncSliceUint64) Filter(f func(el uint64) bool) []uint64 {
+func (s AsyncSliceInterface) Filter(f func(el interface{}) bool) []interface{} {
 	resultMap := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -46080,7 +48402,7 @@ func (s AsyncSliceUint64) Filter(f func(el uint64) bool) []uint64 {
 	wg.Wait()
 
 	// return filtered results
-	result := make([]uint64, 0, len(s.data))
+	result := make([]interface{}, 0, len(s.data))
 	for i, el := range s.data {
 		if resultMap[i] {
 			result = append(result, el)
@@ -46089,7 +48411,7 @@ func (s AsyncSliceUint64) Filter(f func(el uint64) bool) []uint64 {
 	return result
 }
 
-func (s AsyncSliceUint64) MapBool(f func(el uint64) bool) []bool {
+func (s AsyncSliceInterface) MapBool(f func(el interface{}) bool) []bool {
 	result := make([]bool, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -46122,7 +48444,7 @@ func (s AsyncSliceUint64) MapBool(f func(el uint64) bool) []bool {
 	return result
 }
 
-func (s AsyncSliceUint64) MapByte(f func(el uint64) byte) []byte {
+func (s AsyncSliceInterface) MapByte(f func(el interface{}) byte) []byte {
 	result := make([]byte, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -46155,7 +48477,7 @@ func (s AsyncSliceUint64) MapByte(f func(el uint64) byte) []byte {
 	return result
 }
 
-func (s AsyncSliceUint64) MapString(f func(el uint64) string) []string {
+func (s AsyncSliceInterface) MapString(f func(el interface{}) string) []string {
 	result := make([]string, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -46188,7 +48510,7 @@ func (s AsyncSliceUint64) MapString(f func(el uint64) string) []string {
 	return result
 }
 
-func (s AsyncSliceUint64) MapFloat32(f func(el uint64) float32) []float32 {
+func (s AsyncSliceInterface) MapFloat32(f func(el interface{}) float32) []float32 {
 	result := make([]float32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -46221,7 +48543,7 @@ func (s AsyncSliceUint64) MapFloat32(f func(el uint64) float32) []float32 {
 	return result
 }
 
-func (s AsyncSliceUint64) MapFloat64(f func(el uint64) float64) []float64 {
+func (s AsyncSliceInterface) MapFloat64(f func(el interface{}) float64) []float64 {
 	result := make([]float64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -46254,7 +48576,7 @@ func (s AsyncSliceUint64) MapFloat64(f func(el uint64) float64) []float64 {
 	return result
 }
 
-func (s AsyncSliceUint64) MapInt(f func(el uint64) int) []int {
+func (s AsyncSliceInterface) MapInt(f func(el interface{}) int) []int {
 	result := make([]int, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -46287,7 +48609,7 @@ func (s AsyncSliceUint64) MapInt(f func(el uint64) int) []int {
 	return result
 }
 
-func (s AsyncSliceUint64) MapInt8(f func(el uint64) int8) []int8 {
+func (s AsyncSliceInterface) MapInt8(f func(el interface{}) int8) []int8 {
 	result := make([]int8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -46320,7 +48642,7 @@ func (s AsyncSliceUint64) MapInt8(f func(el uint64) int8) []int8 {
 	return result
 }
 
-func (s AsyncSliceUint64) MapInt16(f func(el uint64) int16) []int16 {
+func (s AsyncSliceInterface) MapInt16(f func(el interface{}) int16) []int16 {
 	result := make([]int16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -46353,7 +48675,7 @@ func (s AsyncSliceUint64) MapInt16(f func(el uint64) int16) []int16 {
 	return result
 }
 
-func (s AsyncSliceUint64) MapInt32(f func(el uint64) int32) []int32 {
+func (s AsyncSliceInterface) MapInt32(f func(el interface{}) int32) []int32 {
 	result := make([]int32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -46386,7 +48708,7 @@ func (s AsyncSliceUint64) MapInt32(f func(el uint64) int32) []int32 {
 	return result
 }
 
-func (s AsyncSliceUint64) MapInt64(f func(el uint64) int64) []int64 {
+func (s AsyncSliceInterface) MapInt64(f func(el interface{}) int64) []int64 {
 	result := make([]int64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -46419,7 +48741,7 @@ func (s AsyncSliceUint64) MapInt64(f func(el uint64) int64) []int64 {
 	return result
 }
 
-func (s AsyncSliceUint64) MapUint(f func(el uint64) uint) []uint {
+func (s AsyncSliceInterface) MapUint(f func(el interface{}) uint) []uint {
 	result := make([]uint, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -46452,7 +48774,7 @@ func (s AsyncSliceUint64) MapUint(f func(el uint64) uint) []uint {
 	return result
 }
 
-func (s AsyncSliceUint64) MapUint8(f func(el uint64) uint8) []uint8 {
+func (s AsyncSliceInterface) MapUint8(f func(el interface{}) uint8) []uint8 {
 	result := make([]uint8, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -46485,7 +48807,7 @@ func (s AsyncSliceUint64) MapUint8(f func(el uint64) uint8) []uint8 {
 	return result
 }
 
-func (s AsyncSliceUint64) MapUint16(f func(el uint64) uint16) []uint16 {
+func (s AsyncSliceInterface) MapUint16(f func(el interface{}) uint16) []uint16 {
 	result := make([]uint16, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -46518,7 +48840,7 @@ func (s AsyncSliceUint64) MapUint16(f func(el uint64) uint16) []uint16 {
 	return result
 }
 
-func (s AsyncSliceUint64) MapUint32(f func(el uint64) uint32) []uint32 {
+func (s AsyncSliceInterface) MapUint32(f func(el interface{}) uint32) []uint32 {
 	result := make([]uint32, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -46551,7 +48873,7 @@ func (s AsyncSliceUint64) MapUint32(f func(el uint64) uint32) []uint32 {
 	return result
 }
 
-func (s AsyncSliceUint64) MapUint64(f func(el uint64) uint64) []uint64 {
+func (s AsyncSliceInterface) MapUint64(f func(el interface{}) uint64) []uint64 {
 	result := make([]uint64, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -46584,7 +48906,7 @@ func (s AsyncSliceUint64) MapUint64(f func(el uint64) uint64) []uint64 {
 	return result
 }
 
-func (s AsyncSliceUint64) MapInterface(f func(el uint64) interface{}) []interface{} {
+func (s AsyncSliceInterface) MapInterface(f func(el interface{}) interface{}) []interface{} {
 	result := make([]interface{}, len(s.data))
 	wg := sync.WaitGroup{}
 
@@ -46617,127 +48939,72 @@ func (s AsyncSliceUint64) MapInterface(f func(el uint64) interface{}) []interfac
 	return result
 }
 
-func (s SequenceUint64) Count(start uint64, step uint64) chan uint64 {
-	c := make(chan uint64, 1)
-	go func() {
-		for {
-			c <- start
-			start += step
+func (s AsyncSliceInterface) Reduce(f func(left interface{}, right interface{}) interface{}) interface{} {
+	if len(s.data) == 0 {
+		var tmp interface{}
+		return tmp
+	}
+
+	state := make([]interface{}, len(s.data))
+	state = append(state, s.data...)
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- interface{}) {
+		for index := range jobs {
+			result <- f(state[index], state[index+1])
 		}
-	}()
-	return c
+		wg.Done()
+	}
+
+	for len(state) > 1 {
+		// calculate workers count
+		workers := s.workers
+		if workers == 0 || workers > len(state) {
+			workers = len(state)
+		}
+
+		// run workers
+		jobs := make(chan int, len(state))
+		wg.Add(workers)
+		result := make(chan interface{}, 1)
+		for i := 0; i < workers; i++ {
+			go worker(jobs, result)
+		}
+
+		go func() {
+			wg.Wait()
+			close(result)
+		}()
+
+		// add indices into jobs for workers
+		for i := 0; i < len(state)-1; i += 2 {
+			jobs <- i
+		}
+		close(jobs)
+
+		// collect new state
+		newState := make([]interface{}, 0, len(state)/2+len(state)%2)
+		for el := range result {
+			newState = append(newState, el)
+		}
+		if len(state)%2 == 1 {
+			newState = append(newState, state[len(state)-1])
+		}
+		// put new state as current state after all
+		state = newState
+	}
+
+	return state[0]
 }
 
-func (s SequenceUint64) Exponential(start uint64, factor uint64) chan uint64 {
-	c := make(chan uint64, 1)
-	go func() {
-		for {
-			c <- start
-			start *= factor
-		}
-	}()
-	return c
-}
-
-func (s SequenceUint64) Range(start uint64, end uint64, step uint64) chan uint64 {
-	c := make(chan uint64, 1)
-	pos := start <= end
-	go func() {
-		for pos && (start < end) || !pos && (start > end) {
-			c <- start
-			start += step
-		}
-		close(c)
-	}()
-	return c
-}
-
-func (s SequenceUint64) Repeat(val uint64) chan uint64 {
-	c := make(chan uint64, 1)
+func (s SequenceInterface) Repeat(val interface{}) chan interface{} {
+	c := make(chan interface{}, 1)
 	go func() {
 		for {
 			c <- val
 		}
 	}()
 	return c
-}
-
-func (s SlicesUint64) Concat() []uint64 {
-	result := make([]uint64, 0)
-	for _, arr := range s.data {
-		result = append(result, arr...)
-	}
-	return result
-}
-
-func (s SlicesUint64) Product() chan []uint64 {
-	c := make(chan []uint64, 1)
-	go s.product(c, []uint64{}, 0)
-	return c
-}
-
-func (s SlicesUint64) product(c chan []uint64, left []uint64, pos int) {
-	// iterate over the last array
-	if pos == len(s.data)-1 {
-		for _, el := range s.data[pos] {
-			result := make([]uint64, 0, len(left)+1)
-			result = append(result, left...)
-			result = append(result, el)
-			c <- result
-		}
-		return
-	}
-
-	for _, el := range s.data[pos] {
-		result := make([]uint64, 0, len(left)+1)
-		result = append(result, left...)
-		result = append(result, el)
-		s.product(c, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
-	}
-}
-
-func (s SlicesUint64) Zip() [][]uint64 {
-	size := len(s.data[0])
-	for _, arr := range s.data[1:] {
-		if len(arr) > size {
-			size = len(arr)
-		}
-	}
-
-	result := make([][]uint64, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]uint64, 0, len(s.data))
-		for _, arr := range s.data {
-			chunk = append(chunk, arr[i])
-		}
-		result = append(result, chunk)
-	}
-	return result
-}
-
-type SliceInterface struct {
-	data []interface{}
-}
-
-type ChannelInterface struct {
-	data chan interface{}
-}
-
-type AsyncSliceInterface struct {
-	data    []interface{}
-	workers int
-}
-
-type SequenceInterface struct {
-	data chan interface{}
-}
-
-type SlicesInterface struct {
-	data [][]interface{}
 }
 
 func (s SliceInterface) Any(f func(el interface{}) bool) bool {
@@ -48339,1345 +50606,6 @@ func (s SliceInterface) Window(size int) [][]interface{} {
 		result = append(result, chunk)
 	}
 	return result
-}
-
-func (c ChannelInterface) Any(f func(el interface{}) bool) bool {
-	for el := range c.data {
-		if f(el) {
-			return true
-		}
-	}
-	return false
-}
-
-func (c ChannelInterface) All(f func(el interface{}) bool) bool {
-	for el := range c.data {
-		if !f(el) {
-			return false
-		}
-	}
-	return true
-}
-
-func (c ChannelInterface) ChunkEvery(count int) chan []interface{} {
-	chunks := make(chan []interface{}, 1)
-	go func() {
-		chunk := make([]interface{}, 0, count)
-		i := 0
-		for el := range c.data {
-			chunk = append(chunk, el)
-			i++
-			if i%count == 0 {
-				i = 0
-				chunks <- chunk
-				chunk = make([]interface{}, 0, count)
-			}
-		}
-		if len(chunk) > 0 {
-			chunks <- chunk
-		}
-		close(chunks)
-	}()
-	return chunks
-}
-
-func (c ChannelInterface) Count(el interface{}) int {
-	count := 0
-	for val := range c.data {
-		if val == el {
-			count++
-		}
-	}
-	return count
-}
-
-func (c ChannelInterface) Drop(n int) chan interface{} {
-	result := make(chan interface{}, 1)
-	go func() {
-		i := 0
-		for el := range c.data {
-			if i >= n {
-				result <- el
-			}
-			i++
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) Each(f func(el interface{})) {
-	for el := range c.data {
-		f(el)
-	}
-}
-
-func (c ChannelInterface) Filter(f func(el interface{}) bool) chan interface{} {
-	result := make(chan interface{}, 1)
-	go func() {
-		for el := range c.data {
-			if f(el) {
-				result <- el
-			}
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) MapBool(f func(el interface{}) bool) chan bool {
-	result := make(chan bool, 1)
-	go func() {
-		for el := range c.data {
-			result <- f(el)
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) MapByte(f func(el interface{}) byte) chan byte {
-	result := make(chan byte, 1)
-	go func() {
-		for el := range c.data {
-			result <- f(el)
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) MapString(f func(el interface{}) string) chan string {
-	result := make(chan string, 1)
-	go func() {
-		for el := range c.data {
-			result <- f(el)
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) MapFloat32(f func(el interface{}) float32) chan float32 {
-	result := make(chan float32, 1)
-	go func() {
-		for el := range c.data {
-			result <- f(el)
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) MapFloat64(f func(el interface{}) float64) chan float64 {
-	result := make(chan float64, 1)
-	go func() {
-		for el := range c.data {
-			result <- f(el)
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) MapInt(f func(el interface{}) int) chan int {
-	result := make(chan int, 1)
-	go func() {
-		for el := range c.data {
-			result <- f(el)
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) MapInt8(f func(el interface{}) int8) chan int8 {
-	result := make(chan int8, 1)
-	go func() {
-		for el := range c.data {
-			result <- f(el)
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) MapInt16(f func(el interface{}) int16) chan int16 {
-	result := make(chan int16, 1)
-	go func() {
-		for el := range c.data {
-			result <- f(el)
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) MapInt32(f func(el interface{}) int32) chan int32 {
-	result := make(chan int32, 1)
-	go func() {
-		for el := range c.data {
-			result <- f(el)
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) MapInt64(f func(el interface{}) int64) chan int64 {
-	result := make(chan int64, 1)
-	go func() {
-		for el := range c.data {
-			result <- f(el)
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) MapUint(f func(el interface{}) uint) chan uint {
-	result := make(chan uint, 1)
-	go func() {
-		for el := range c.data {
-			result <- f(el)
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) MapUint8(f func(el interface{}) uint8) chan uint8 {
-	result := make(chan uint8, 1)
-	go func() {
-		for el := range c.data {
-			result <- f(el)
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) MapUint16(f func(el interface{}) uint16) chan uint16 {
-	result := make(chan uint16, 1)
-	go func() {
-		for el := range c.data {
-			result <- f(el)
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) MapUint32(f func(el interface{}) uint32) chan uint32 {
-	result := make(chan uint32, 1)
-	go func() {
-		for el := range c.data {
-			result <- f(el)
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) MapUint64(f func(el interface{}) uint64) chan uint64 {
-	result := make(chan uint64, 1)
-	go func() {
-		for el := range c.data {
-			result <- f(el)
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) MapInterface(f func(el interface{}) interface{}) chan interface{} {
-	result := make(chan interface{}, 1)
-	go func() {
-		for el := range c.data {
-			result <- f(el)
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) ReduceBool(acc bool, f func(el interface{}, acc bool) bool) bool {
-	for el := range c.data {
-		acc = f(el, acc)
-	}
-	return acc
-}
-
-func (c ChannelInterface) ReduceByte(acc byte, f func(el interface{}, acc byte) byte) byte {
-	for el := range c.data {
-		acc = f(el, acc)
-	}
-	return acc
-}
-
-func (c ChannelInterface) ReduceString(acc string, f func(el interface{}, acc string) string) string {
-	for el := range c.data {
-		acc = f(el, acc)
-	}
-	return acc
-}
-
-func (c ChannelInterface) ReduceFloat32(acc float32, f func(el interface{}, acc float32) float32) float32 {
-	for el := range c.data {
-		acc = f(el, acc)
-	}
-	return acc
-}
-
-func (c ChannelInterface) ReduceFloat64(acc float64, f func(el interface{}, acc float64) float64) float64 {
-	for el := range c.data {
-		acc = f(el, acc)
-	}
-	return acc
-}
-
-func (c ChannelInterface) ReduceInt(acc int, f func(el interface{}, acc int) int) int {
-	for el := range c.data {
-		acc = f(el, acc)
-	}
-	return acc
-}
-
-func (c ChannelInterface) ReduceInt8(acc int8, f func(el interface{}, acc int8) int8) int8 {
-	for el := range c.data {
-		acc = f(el, acc)
-	}
-	return acc
-}
-
-func (c ChannelInterface) ReduceInt16(acc int16, f func(el interface{}, acc int16) int16) int16 {
-	for el := range c.data {
-		acc = f(el, acc)
-	}
-	return acc
-}
-
-func (c ChannelInterface) ReduceInt32(acc int32, f func(el interface{}, acc int32) int32) int32 {
-	for el := range c.data {
-		acc = f(el, acc)
-	}
-	return acc
-}
-
-func (c ChannelInterface) ReduceInt64(acc int64, f func(el interface{}, acc int64) int64) int64 {
-	for el := range c.data {
-		acc = f(el, acc)
-	}
-	return acc
-}
-
-func (c ChannelInterface) ReduceUint(acc uint, f func(el interface{}, acc uint) uint) uint {
-	for el := range c.data {
-		acc = f(el, acc)
-	}
-	return acc
-}
-
-func (c ChannelInterface) ReduceUint8(acc uint8, f func(el interface{}, acc uint8) uint8) uint8 {
-	for el := range c.data {
-		acc = f(el, acc)
-	}
-	return acc
-}
-
-func (c ChannelInterface) ReduceUint16(acc uint16, f func(el interface{}, acc uint16) uint16) uint16 {
-	for el := range c.data {
-		acc = f(el, acc)
-	}
-	return acc
-}
-
-func (c ChannelInterface) ReduceUint32(acc uint32, f func(el interface{}, acc uint32) uint32) uint32 {
-	for el := range c.data {
-		acc = f(el, acc)
-	}
-	return acc
-}
-
-func (c ChannelInterface) ReduceUint64(acc uint64, f func(el interface{}, acc uint64) uint64) uint64 {
-	for el := range c.data {
-		acc = f(el, acc)
-	}
-	return acc
-}
-
-func (c ChannelInterface) ReduceInterface(acc interface{}, f func(el interface{}, acc interface{}) interface{}) interface{} {
-	for el := range c.data {
-		acc = f(el, acc)
-	}
-	return acc
-}
-
-func (c ChannelInterface) ScanBool(acc bool, f func(el interface{}, acc bool) bool) chan bool {
-	result := make(chan bool, 1)
-	go func() {
-		for el := range c.data {
-			acc = f(el, acc)
-			result <- acc
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) ScanByte(acc byte, f func(el interface{}, acc byte) byte) chan byte {
-	result := make(chan byte, 1)
-	go func() {
-		for el := range c.data {
-			acc = f(el, acc)
-			result <- acc
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) ScanString(acc string, f func(el interface{}, acc string) string) chan string {
-	result := make(chan string, 1)
-	go func() {
-		for el := range c.data {
-			acc = f(el, acc)
-			result <- acc
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) ScanFloat32(acc float32, f func(el interface{}, acc float32) float32) chan float32 {
-	result := make(chan float32, 1)
-	go func() {
-		for el := range c.data {
-			acc = f(el, acc)
-			result <- acc
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) ScanFloat64(acc float64, f func(el interface{}, acc float64) float64) chan float64 {
-	result := make(chan float64, 1)
-	go func() {
-		for el := range c.data {
-			acc = f(el, acc)
-			result <- acc
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) ScanInt(acc int, f func(el interface{}, acc int) int) chan int {
-	result := make(chan int, 1)
-	go func() {
-		for el := range c.data {
-			acc = f(el, acc)
-			result <- acc
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) ScanInt8(acc int8, f func(el interface{}, acc int8) int8) chan int8 {
-	result := make(chan int8, 1)
-	go func() {
-		for el := range c.data {
-			acc = f(el, acc)
-			result <- acc
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) ScanInt16(acc int16, f func(el interface{}, acc int16) int16) chan int16 {
-	result := make(chan int16, 1)
-	go func() {
-		for el := range c.data {
-			acc = f(el, acc)
-			result <- acc
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) ScanInt32(acc int32, f func(el interface{}, acc int32) int32) chan int32 {
-	result := make(chan int32, 1)
-	go func() {
-		for el := range c.data {
-			acc = f(el, acc)
-			result <- acc
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) ScanInt64(acc int64, f func(el interface{}, acc int64) int64) chan int64 {
-	result := make(chan int64, 1)
-	go func() {
-		for el := range c.data {
-			acc = f(el, acc)
-			result <- acc
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) ScanUint(acc uint, f func(el interface{}, acc uint) uint) chan uint {
-	result := make(chan uint, 1)
-	go func() {
-		for el := range c.data {
-			acc = f(el, acc)
-			result <- acc
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) ScanUint8(acc uint8, f func(el interface{}, acc uint8) uint8) chan uint8 {
-	result := make(chan uint8, 1)
-	go func() {
-		for el := range c.data {
-			acc = f(el, acc)
-			result <- acc
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) ScanUint16(acc uint16, f func(el interface{}, acc uint16) uint16) chan uint16 {
-	result := make(chan uint16, 1)
-	go func() {
-		for el := range c.data {
-			acc = f(el, acc)
-			result <- acc
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) ScanUint32(acc uint32, f func(el interface{}, acc uint32) uint32) chan uint32 {
-	result := make(chan uint32, 1)
-	go func() {
-		for el := range c.data {
-			acc = f(el, acc)
-			result <- acc
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) ScanUint64(acc uint64, f func(el interface{}, acc uint64) uint64) chan uint64 {
-	result := make(chan uint64, 1)
-	go func() {
-		for el := range c.data {
-			acc = f(el, acc)
-			result <- acc
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) ScanInterface(acc interface{}, f func(el interface{}, acc interface{}) interface{}) chan interface{} {
-	result := make(chan interface{}, 1)
-	go func() {
-		for el := range c.data {
-			acc = f(el, acc)
-			result <- acc
-		}
-		close(result)
-	}()
-	return result
-}
-
-func (c ChannelInterface) Take(n int) []interface{} {
-	result := make([]interface{}, 0, n)
-	for i := 0; i < n; i++ {
-		result = append(result, <-c.data)
-	}
-	return result
-}
-
-func (c ChannelInterface) Tee(count int) []chan interface{} {
-	channels := make([]chan interface{}, 0, count)
-	for i := 0; i < count; i++ {
-		channels = append(channels, make(chan interface{}, 1))
-	}
-	go func() {
-		for el := range c.data {
-			wg := sync.WaitGroup{}
-			putInto := func(ch chan interface{}) {
-				wg.Add(1)
-				defer wg.Done()
-				ch <- el
-			}
-			for _, ch := range channels {
-				putInto(ch)
-			}
-			wg.Wait()
-		}
-		for _, ch := range channels {
-			close(ch)
-		}
-	}()
-	return channels
-}
-
-func (c ChannelInterface) ToSlice() []interface{} {
-	result := make([]interface{}, 0)
-	for val := range c.data {
-		result = append(result, val)
-	}
-	return result
-}
-
-func (s AsyncSliceInterface) All(f func(el interface{}) bool) bool {
-	if len(s.data) == 0 {
-		return true
-	}
-
-	wg := sync.WaitGroup{}
-
-	worker := func(jobs <-chan int, result chan<- bool, ctx context.Context) {
-		defer wg.Done()
-		for {
-			select {
-			case <-ctx.Done():
-				return
-			case index, ok := <-jobs:
-				if !ok {
-					return
-				}
-				if !f(s.data[index]) {
-					result <- false
-					return
-				}
-			}
-		}
-	}
-
-	ctx, cancel := context.WithCancel(context.Background())
-	// when we're returning the result, cancel all workers
-	defer cancel()
-
-	// calculate workers count
-	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
-	}
-
-	// run workers
-	jobs := make(chan int, len(s.data))
-	result := make(chan bool, workers)
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go worker(jobs, result, ctx)
-	}
-
-	// close the result channel when all workers have done
-	go func() {
-		wg.Wait()
-		close(result)
-	}()
-
-	// schedule the jobs: indices to check
-	for i := 0; i < len(s.data); i++ {
-		jobs <- i
-	}
-	close(jobs)
-
-	for range result {
-		return false
-	}
-	return true
-}
-
-func (s AsyncSliceInterface) Any(f func(el interface{}) bool) bool {
-	if len(s.data) == 0 {
-		return false
-	}
-
-	wg := sync.WaitGroup{}
-
-	worker := func(jobs <-chan int, result chan<- bool, ctx context.Context) {
-		defer wg.Done()
-		for {
-			select {
-			case <-ctx.Done():
-				return
-			case index, ok := <-jobs:
-				if !ok {
-					return
-				}
-				if f(s.data[index]) {
-					result <- true
-					return
-				}
-			}
-		}
-	}
-
-	ctx, cancel := context.WithCancel(context.Background())
-	// when we're returning the result, cancel all workers
-	defer cancel()
-
-	// calculate workers count
-	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
-	}
-
-	// run workers
-	jobs := make(chan int, len(s.data))
-	result := make(chan bool, workers)
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go worker(jobs, result, ctx)
-	}
-
-	// close the result channel when all workers have done
-	go func() {
-		wg.Wait()
-		close(result)
-	}()
-
-	// schedule the jobs: indices to check
-	for i := 0; i < len(s.data); i++ {
-		jobs <- i
-	}
-	close(jobs)
-
-	for range result {
-		return true
-	}
-	return false
-}
-
-func (s AsyncSliceInterface) Each(f func(el interface{})) {
-	wg := sync.WaitGroup{}
-
-	worker := func(jobs <-chan int) {
-		defer wg.Done()
-		for index := range jobs {
-			f(s.data[index])
-		}
-	}
-
-	// calculate workers count
-	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
-	}
-
-	// run workers
-	jobs := make(chan int, len(s.data))
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go worker(jobs)
-	}
-
-	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
-		jobs <- i
-	}
-	close(jobs)
-	wg.Wait()
-}
-
-func (s AsyncSliceInterface) Filter(f func(el interface{}) bool) []interface{} {
-	resultMap := make([]bool, len(s.data))
-	wg := sync.WaitGroup{}
-
-	worker := func(jobs <-chan int) {
-		for index := range jobs {
-			if f(s.data[index]) {
-				resultMap[index] = true
-			}
-		}
-		wg.Done()
-	}
-
-	// calculate workers count
-	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
-	}
-
-	// run workers
-	jobs := make(chan int, len(s.data))
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go worker(jobs)
-	}
-
-	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
-		jobs <- i
-	}
-	close(jobs)
-	wg.Wait()
-
-	// return filtered results
-	result := make([]interface{}, 0, len(s.data))
-	for i, el := range s.data {
-		if resultMap[i] {
-			result = append(result, el)
-		}
-	}
-	return result
-}
-
-func (s AsyncSliceInterface) MapBool(f func(el interface{}) bool) []bool {
-	result := make([]bool, len(s.data))
-	wg := sync.WaitGroup{}
-
-	worker := func(jobs <-chan int) {
-		for index := range jobs {
-			result[index] = f(s.data[index])
-		}
-		wg.Done()
-	}
-
-	// calculate workers count
-	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
-	}
-
-	// run workers
-	jobs := make(chan int, len(s.data))
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go worker(jobs)
-	}
-
-	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
-		jobs <- i
-	}
-	close(jobs)
-	wg.Wait()
-	return result
-}
-
-func (s AsyncSliceInterface) MapByte(f func(el interface{}) byte) []byte {
-	result := make([]byte, len(s.data))
-	wg := sync.WaitGroup{}
-
-	worker := func(jobs <-chan int) {
-		for index := range jobs {
-			result[index] = f(s.data[index])
-		}
-		wg.Done()
-	}
-
-	// calculate workers count
-	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
-	}
-
-	// run workers
-	jobs := make(chan int, len(s.data))
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go worker(jobs)
-	}
-
-	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
-		jobs <- i
-	}
-	close(jobs)
-	wg.Wait()
-	return result
-}
-
-func (s AsyncSliceInterface) MapString(f func(el interface{}) string) []string {
-	result := make([]string, len(s.data))
-	wg := sync.WaitGroup{}
-
-	worker := func(jobs <-chan int) {
-		for index := range jobs {
-			result[index] = f(s.data[index])
-		}
-		wg.Done()
-	}
-
-	// calculate workers count
-	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
-	}
-
-	// run workers
-	jobs := make(chan int, len(s.data))
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go worker(jobs)
-	}
-
-	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
-		jobs <- i
-	}
-	close(jobs)
-	wg.Wait()
-	return result
-}
-
-func (s AsyncSliceInterface) MapFloat32(f func(el interface{}) float32) []float32 {
-	result := make([]float32, len(s.data))
-	wg := sync.WaitGroup{}
-
-	worker := func(jobs <-chan int) {
-		for index := range jobs {
-			result[index] = f(s.data[index])
-		}
-		wg.Done()
-	}
-
-	// calculate workers count
-	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
-	}
-
-	// run workers
-	jobs := make(chan int, len(s.data))
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go worker(jobs)
-	}
-
-	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
-		jobs <- i
-	}
-	close(jobs)
-	wg.Wait()
-	return result
-}
-
-func (s AsyncSliceInterface) MapFloat64(f func(el interface{}) float64) []float64 {
-	result := make([]float64, len(s.data))
-	wg := sync.WaitGroup{}
-
-	worker := func(jobs <-chan int) {
-		for index := range jobs {
-			result[index] = f(s.data[index])
-		}
-		wg.Done()
-	}
-
-	// calculate workers count
-	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
-	}
-
-	// run workers
-	jobs := make(chan int, len(s.data))
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go worker(jobs)
-	}
-
-	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
-		jobs <- i
-	}
-	close(jobs)
-	wg.Wait()
-	return result
-}
-
-func (s AsyncSliceInterface) MapInt(f func(el interface{}) int) []int {
-	result := make([]int, len(s.data))
-	wg := sync.WaitGroup{}
-
-	worker := func(jobs <-chan int) {
-		for index := range jobs {
-			result[index] = f(s.data[index])
-		}
-		wg.Done()
-	}
-
-	// calculate workers count
-	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
-	}
-
-	// run workers
-	jobs := make(chan int, len(s.data))
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go worker(jobs)
-	}
-
-	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
-		jobs <- i
-	}
-	close(jobs)
-	wg.Wait()
-	return result
-}
-
-func (s AsyncSliceInterface) MapInt8(f func(el interface{}) int8) []int8 {
-	result := make([]int8, len(s.data))
-	wg := sync.WaitGroup{}
-
-	worker := func(jobs <-chan int) {
-		for index := range jobs {
-			result[index] = f(s.data[index])
-		}
-		wg.Done()
-	}
-
-	// calculate workers count
-	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
-	}
-
-	// run workers
-	jobs := make(chan int, len(s.data))
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go worker(jobs)
-	}
-
-	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
-		jobs <- i
-	}
-	close(jobs)
-	wg.Wait()
-	return result
-}
-
-func (s AsyncSliceInterface) MapInt16(f func(el interface{}) int16) []int16 {
-	result := make([]int16, len(s.data))
-	wg := sync.WaitGroup{}
-
-	worker := func(jobs <-chan int) {
-		for index := range jobs {
-			result[index] = f(s.data[index])
-		}
-		wg.Done()
-	}
-
-	// calculate workers count
-	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
-	}
-
-	// run workers
-	jobs := make(chan int, len(s.data))
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go worker(jobs)
-	}
-
-	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
-		jobs <- i
-	}
-	close(jobs)
-	wg.Wait()
-	return result
-}
-
-func (s AsyncSliceInterface) MapInt32(f func(el interface{}) int32) []int32 {
-	result := make([]int32, len(s.data))
-	wg := sync.WaitGroup{}
-
-	worker := func(jobs <-chan int) {
-		for index := range jobs {
-			result[index] = f(s.data[index])
-		}
-		wg.Done()
-	}
-
-	// calculate workers count
-	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
-	}
-
-	// run workers
-	jobs := make(chan int, len(s.data))
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go worker(jobs)
-	}
-
-	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
-		jobs <- i
-	}
-	close(jobs)
-	wg.Wait()
-	return result
-}
-
-func (s AsyncSliceInterface) MapInt64(f func(el interface{}) int64) []int64 {
-	result := make([]int64, len(s.data))
-	wg := sync.WaitGroup{}
-
-	worker := func(jobs <-chan int) {
-		for index := range jobs {
-			result[index] = f(s.data[index])
-		}
-		wg.Done()
-	}
-
-	// calculate workers count
-	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
-	}
-
-	// run workers
-	jobs := make(chan int, len(s.data))
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go worker(jobs)
-	}
-
-	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
-		jobs <- i
-	}
-	close(jobs)
-	wg.Wait()
-	return result
-}
-
-func (s AsyncSliceInterface) MapUint(f func(el interface{}) uint) []uint {
-	result := make([]uint, len(s.data))
-	wg := sync.WaitGroup{}
-
-	worker := func(jobs <-chan int) {
-		for index := range jobs {
-			result[index] = f(s.data[index])
-		}
-		wg.Done()
-	}
-
-	// calculate workers count
-	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
-	}
-
-	// run workers
-	jobs := make(chan int, len(s.data))
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go worker(jobs)
-	}
-
-	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
-		jobs <- i
-	}
-	close(jobs)
-	wg.Wait()
-	return result
-}
-
-func (s AsyncSliceInterface) MapUint8(f func(el interface{}) uint8) []uint8 {
-	result := make([]uint8, len(s.data))
-	wg := sync.WaitGroup{}
-
-	worker := func(jobs <-chan int) {
-		for index := range jobs {
-			result[index] = f(s.data[index])
-		}
-		wg.Done()
-	}
-
-	// calculate workers count
-	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
-	}
-
-	// run workers
-	jobs := make(chan int, len(s.data))
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go worker(jobs)
-	}
-
-	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
-		jobs <- i
-	}
-	close(jobs)
-	wg.Wait()
-	return result
-}
-
-func (s AsyncSliceInterface) MapUint16(f func(el interface{}) uint16) []uint16 {
-	result := make([]uint16, len(s.data))
-	wg := sync.WaitGroup{}
-
-	worker := func(jobs <-chan int) {
-		for index := range jobs {
-			result[index] = f(s.data[index])
-		}
-		wg.Done()
-	}
-
-	// calculate workers count
-	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
-	}
-
-	// run workers
-	jobs := make(chan int, len(s.data))
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go worker(jobs)
-	}
-
-	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
-		jobs <- i
-	}
-	close(jobs)
-	wg.Wait()
-	return result
-}
-
-func (s AsyncSliceInterface) MapUint32(f func(el interface{}) uint32) []uint32 {
-	result := make([]uint32, len(s.data))
-	wg := sync.WaitGroup{}
-
-	worker := func(jobs <-chan int) {
-		for index := range jobs {
-			result[index] = f(s.data[index])
-		}
-		wg.Done()
-	}
-
-	// calculate workers count
-	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
-	}
-
-	// run workers
-	jobs := make(chan int, len(s.data))
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go worker(jobs)
-	}
-
-	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
-		jobs <- i
-	}
-	close(jobs)
-	wg.Wait()
-	return result
-}
-
-func (s AsyncSliceInterface) MapUint64(f func(el interface{}) uint64) []uint64 {
-	result := make([]uint64, len(s.data))
-	wg := sync.WaitGroup{}
-
-	worker := func(jobs <-chan int) {
-		for index := range jobs {
-			result[index] = f(s.data[index])
-		}
-		wg.Done()
-	}
-
-	// calculate workers count
-	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
-	}
-
-	// run workers
-	jobs := make(chan int, len(s.data))
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go worker(jobs)
-	}
-
-	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
-		jobs <- i
-	}
-	close(jobs)
-	wg.Wait()
-	return result
-}
-
-func (s AsyncSliceInterface) MapInterface(f func(el interface{}) interface{}) []interface{} {
-	result := make([]interface{}, len(s.data))
-	wg := sync.WaitGroup{}
-
-	worker := func(jobs <-chan int) {
-		for index := range jobs {
-			result[index] = f(s.data[index])
-		}
-		wg.Done()
-	}
-
-	// calculate workers count
-	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
-	}
-
-	// run workers
-	jobs := make(chan int, len(s.data))
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go worker(jobs)
-	}
-
-	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
-		jobs <- i
-	}
-	close(jobs)
-	wg.Wait()
-	return result
-}
-
-func (s SequenceInterface) Repeat(val interface{}) chan interface{} {
-	c := make(chan interface{}, 1)
-	go func() {
-		for {
-			c <- val
-		}
-	}()
-	return c
 }
 
 func (s SlicesInterface) Concat() []interface{} {
