@@ -60,3 +60,44 @@ func TestChannelAll(t *testing.T) {
 	f([]T{2, 4, 6, 8, 10, 12}, true)
 	f([]T{2, 4, 6, 8, 11, 12}, false)
 }
+
+func TestChannelChunkEvery(t *testing.T) {
+	f := func(size int, given []T, expected [][]T) {
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := Channel{c}.ChunkEvery(size)
+		actual := make([][]T, 0)
+		for el := range result {
+			actual = append(actual, el)
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, []T{}, [][]T{})
+	f(2, []T{1}, [][]T{{1}})
+	f(2, []T{1, 2}, [][]T{{1, 2}})
+	f(2, []T{1, 2, 3, 4}, [][]T{{1, 2}, {3, 4}})
+	f(2, []T{1, 2, 3, 4, 5}, [][]T{{1, 2}, {3, 4}, {5}})
+}
+
+func TestChannelCount(t *testing.T) {
+	f := func(element T, given []T, expected int) {
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := Channel{c}.Count(element)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []T{}, 0)
+	f(1, []T{1}, 1)
+	f(1, []T{2}, 0)
+	f(1, []T{1, 2, 3, 1, 4}, 2)
+}
