@@ -1,8 +1,11 @@
 import attr
 from jinja2 import Environment, PackageLoader
 from pathlib import Path
+from typing import Sequence
 
 from ._file import File
+from ._types import Type
+from ._exclude import is_excluded
 
 
 env = Environment(
@@ -14,6 +17,7 @@ env = Environment(
 class Docs:
     code_file = attr.ib(type=File)
     test_file = attr.ib(type=File)
+    types = attr.ib(type=Sequence[Type])
 
     def render_root(self) -> str:
         template = env.get_template('root.md.j2')
@@ -39,6 +43,9 @@ class Docs:
         return template.render(
             func=func,
             test=test,
+            types=self.types,
+            structs=self.code_file.structs,
+            is_excluded=is_excluded,
         )
 
     def render(self, path: Path) -> None:

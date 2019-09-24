@@ -71,8 +71,13 @@ def entrypoint(argv: List[str] = None) -> None:
     Path(args.tests).write_text(content)
 
     # generate docs
+    if args.types:
+        types = [Type(t) for t in args.types]
+    else:
+        types = TYPES
     docs = Docs(
         code_file=merge(paths=paths_code, package=args.package),
         test_file=merge(paths=paths_test, package=args.package),
+        types=types,
     )
     docs.render(path=Path(args.docs))

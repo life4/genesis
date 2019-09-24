@@ -2,6 +2,22 @@
 
 {{ func.clean_docs }}
 
+Generic types: {{ ', '.join(sorted(func.generics)) }}.
+
+## Structs
+
+| Struct | T type |
+| ------ | ------ |
+{% for struct in structs -%}
+{% if func.struct == struct.name -%}
+{% for t in types -%}
+{% if not is_excluded(func=func, t=t) -%}
+  | {{ struct.name }}{{ t.title }} | {{ t.name }} |
+{% endif %}
+{%- endfor %}
+{%- endif %}
+{%- endfor %}
+
 ## Source
 
 ```go
