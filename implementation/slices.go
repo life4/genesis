@@ -22,6 +22,7 @@ func (s Slices) Product() chan []T {
 	return c
 }
 
+// product is a core implementation of Product
 func (s Slices) product(c chan []T, left []T, pos int) {
 	// iterate over the last array
 	if pos == len(s.data)-1 {

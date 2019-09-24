@@ -3345,14 +3345,7 @@ func (s SlicesBool) Product() chan []bool {
 	return c
 }
 
-// Product returns cortesian product of elements
-// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
-func (s Slices) Product() chan []T {
-	c := make(chan []T, 1)
-	go s.product(c, []T{}, 0)
-	return c
-}
-
+// product is a core implementation of Product
 func (s SlicesBool) product(c chan []bool, left []bool, pos int) {
 	// iterate over the last array
 	if pos == len(s.data)-1 {
@@ -6817,14 +6810,7 @@ func (s SlicesByte) Product() chan []byte {
 	return c
 }
 
-// Product returns cortesian product of elements
-// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
-func (s Slices) Product() chan []T {
-	c := make(chan []T, 1)
-	go s.product(c, []T{}, 0)
-	return c
-}
-
+// product is a core implementation of Product
 func (s SlicesByte) product(c chan []byte, left []byte, pos int) {
 	// iterate over the last array
 	if pos == len(s.data)-1 {
@@ -10289,14 +10275,7 @@ func (s SlicesString) Product() chan []string {
 	return c
 }
 
-// Product returns cortesian product of elements
-// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
-func (s Slices) Product() chan []T {
-	c := make(chan []T, 1)
-	go s.product(c, []T{}, 0)
-	return c
-}
-
+// product is a core implementation of Product
 func (s SlicesString) product(c chan []string, left []string, pos int) {
 	// iterate over the last array
 	if pos == len(s.data)-1 {
@@ -13800,14 +13779,7 @@ func (s SlicesFloat32) Product() chan []float32 {
 	return c
 }
 
-// Product returns cortesian product of elements
-// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
-func (s Slices) Product() chan []T {
-	c := make(chan []T, 1)
-	go s.product(c, []T{}, 0)
-	return c
-}
-
+// product is a core implementation of Product
 func (s SlicesFloat32) product(c chan []float32, left []float32, pos int) {
 	// iterate over the last array
 	if pos == len(s.data)-1 {
@@ -17311,14 +17283,7 @@ func (s SlicesFloat64) Product() chan []float64 {
 	return c
 }
 
-// Product returns cortesian product of elements
-// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
-func (s Slices) Product() chan []T {
-	c := make(chan []T, 1)
-	go s.product(c, []T{}, 0)
-	return c
-}
-
+// product is a core implementation of Product
 func (s SlicesFloat64) product(c chan []float64, left []float64, pos int) {
 	// iterate over the last array
 	if pos == len(s.data)-1 {
@@ -20822,14 +20787,7 @@ func (s SlicesInt) Product() chan []int {
 	return c
 }
 
-// Product returns cortesian product of elements
-// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
-func (s Slices) Product() chan []T {
-	c := make(chan []T, 1)
-	go s.product(c, []T{}, 0)
-	return c
-}
-
+// product is a core implementation of Product
 func (s SlicesInt) product(c chan []int, left []int, pos int) {
 	// iterate over the last array
 	if pos == len(s.data)-1 {
@@ -24333,14 +24291,7 @@ func (s SlicesInt8) Product() chan []int8 {
 	return c
 }
 
-// Product returns cortesian product of elements
-// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
-func (s Slices) Product() chan []T {
-	c := make(chan []T, 1)
-	go s.product(c, []T{}, 0)
-	return c
-}
-
+// product is a core implementation of Product
 func (s SlicesInt8) product(c chan []int8, left []int8, pos int) {
 	// iterate over the last array
 	if pos == len(s.data)-1 {
@@ -27844,14 +27795,7 @@ func (s SlicesInt16) Product() chan []int16 {
 	return c
 }
 
-// Product returns cortesian product of elements
-// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
-func (s Slices) Product() chan []T {
-	c := make(chan []T, 1)
-	go s.product(c, []T{}, 0)
-	return c
-}
-
+// product is a core implementation of Product
 func (s SlicesInt16) product(c chan []int16, left []int16, pos int) {
 	// iterate over the last array
 	if pos == len(s.data)-1 {
@@ -31355,14 +31299,7 @@ func (s SlicesInt32) Product() chan []int32 {
 	return c
 }
 
-// Product returns cortesian product of elements
-// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
-func (s Slices) Product() chan []T {
-	c := make(chan []T, 1)
-	go s.product(c, []T{}, 0)
-	return c
-}
-
+// product is a core implementation of Product
 func (s SlicesInt32) product(c chan []int32, left []int32, pos int) {
 	// iterate over the last array
 	if pos == len(s.data)-1 {
@@ -34866,14 +34803,7 @@ func (s SlicesInt64) Product() chan []int64 {
 	return c
 }
 
-// Product returns cortesian product of elements
-// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
-func (s Slices) Product() chan []T {
-	c := make(chan []T, 1)
-	go s.product(c, []T{}, 0)
-	return c
-}
-
+// product is a core implementation of Product
 func (s SlicesInt64) product(c chan []int64, left []int64, pos int) {
 	// iterate over the last array
 	if pos == len(s.data)-1 {
@@ -38377,14 +38307,7 @@ func (s SlicesUint) Product() chan []uint {
 	return c
 }
 
-// Product returns cortesian product of elements
-// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
-func (s Slices) Product() chan []T {
-	c := make(chan []T, 1)
-	go s.product(c, []T{}, 0)
-	return c
-}
-
+// product is a core implementation of Product
 func (s SlicesUint) product(c chan []uint, left []uint, pos int) {
 	// iterate over the last array
 	if pos == len(s.data)-1 {
@@ -41888,14 +41811,7 @@ func (s SlicesUint8) Product() chan []uint8 {
 	return c
 }
 
-// Product returns cortesian product of elements
-// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
-func (s Slices) Product() chan []T {
-	c := make(chan []T, 1)
-	go s.product(c, []T{}, 0)
-	return c
-}
-
+// product is a core implementation of Product
 func (s SlicesUint8) product(c chan []uint8, left []uint8, pos int) {
 	// iterate over the last array
 	if pos == len(s.data)-1 {
@@ -45399,14 +45315,7 @@ func (s SlicesUint16) Product() chan []uint16 {
 	return c
 }
 
-// Product returns cortesian product of elements
-// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
-func (s Slices) Product() chan []T {
-	c := make(chan []T, 1)
-	go s.product(c, []T{}, 0)
-	return c
-}
-
+// product is a core implementation of Product
 func (s SlicesUint16) product(c chan []uint16, left []uint16, pos int) {
 	// iterate over the last array
 	if pos == len(s.data)-1 {
@@ -48910,14 +48819,7 @@ func (s SlicesUint32) Product() chan []uint32 {
 	return c
 }
 
-// Product returns cortesian product of elements
-// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
-func (s Slices) Product() chan []T {
-	c := make(chan []T, 1)
-	go s.product(c, []T{}, 0)
-	return c
-}
-
+// product is a core implementation of Product
 func (s SlicesUint32) product(c chan []uint32, left []uint32, pos int) {
 	// iterate over the last array
 	if pos == len(s.data)-1 {
@@ -52421,14 +52323,7 @@ func (s SlicesUint64) Product() chan []uint64 {
 	return c
 }
 
-// Product returns cortesian product of elements
-// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
-func (s Slices) Product() chan []T {
-	c := make(chan []T, 1)
-	go s.product(c, []T{}, 0)
-	return c
-}
-
+// product is a core implementation of Product
 func (s SlicesUint64) product(c chan []uint64, left []uint64, pos int) {
 	// iterate over the last array
 	if pos == len(s.data)-1 {
@@ -55812,14 +55707,7 @@ func (s SlicesInterface) Product() chan []interface{} {
 	return c
 }
 
-// Product returns cortesian product of elements
-// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
-func (s Slices) Product() chan []T {
-	c := make(chan []T, 1)
-	go s.product(c, []T{}, 0)
-	return c
-}
-
+// product is a core implementation of Product
 func (s SlicesInterface) product(c chan []interface{}, left []interface{}, pos int) {
 	// iterate over the last array
 	if pos == len(s.data)-1 {
