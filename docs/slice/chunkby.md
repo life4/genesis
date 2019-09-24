@@ -56,8 +56,11 @@ Generic types: G, T.
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s Slice) ChunkBy(f func(el T) G) [][]T {
 	chunks := make([][]T, 0)
-	chunk := make([]T, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]T, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -81,14 +84,14 @@ func (s Slice) ChunkBy(f func(el T) G) [][]T {
 
 ```go
 func TestSliceChunkBy(t *testing.T) {
-	f := func(mapper func(t T) G, given []T, expected [][]T) {
-		actual := Slice{given}.ChunkBy(mapper)
+	f := func(given []T, expected [][]T) {
+		reminder := func(t T) G { return G((t % 2)) }
+		actual := Slice{given}.ChunkBy(reminder)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	remainder := func(t T) G { return G((t % 2)) }
-
-	f(remainder, []T{1}, [][]T{{1}})
-	f(remainder, []T{1, 2, 3}, [][]T{{1}, {2}, {3}})
-	f(remainder, []T{1, 3, 2, 4, 5}, [][]T{{1, 3}, {2, 4}, {5}})
+	f([]T{}, [][]T{})
+	f([]T{1}, [][]T{{1}})
+	f([]T{1, 2, 3}, [][]T{{1}, {2}, {3}})
+	f([]T{1, 3, 2, 4, 5}, [][]T{{1, 3}, {2, 4}, {5}})
 }
 ```

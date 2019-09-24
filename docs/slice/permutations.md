@@ -36,7 +36,12 @@ Generic types: T.
 // {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
 func (s Slice) Permutations(size int) chan []T {
 	c := make(chan []T, 1)
-	go s.permutations(c, size, []T{}, s.Data)
+	go func() {
+		if len(s.Data) > 0 {
+			s.permutations(c, size, []T{}, s.Data)
+		}
+		close(c)
+	}()
 	return c
 }
 ```

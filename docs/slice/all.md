@@ -47,17 +47,16 @@ func (s Slice) All(f func(el T) bool) bool {
 
 ```go
 func TestSliceAll(t *testing.T) {
-	f := func(check func(t T) bool, given []T, expected bool) {
-		actual := Slice{given}.All(check)
+	f := func(given []T, expected bool) {
+		even := func(t T) bool { return (t % 2) == 0 }
+		actual := Slice{given}.All(even)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	isEven := func(t T) bool { return (t % 2) == 0 }
-
-	f(isEven, []T{}, true)
-	f(isEven, []T{2}, true)
-	f(isEven, []T{1}, false)
-	f(isEven, []T{2, 4}, true)
-	f(isEven, []T{2, 4, 1}, false)
-	f(isEven, []T{1, 2, 4}, false)
+	f([]T{}, true)
+	f([]T{2}, true)
+	f([]T{1}, false)
+	f([]T{2, 4}, true)
+	f([]T{2, 4, 1}, false)
+	f([]T{1, 2, 4}, false)
 }
 ```

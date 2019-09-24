@@ -1559,8 +1559,11 @@ func (s SliceBool) All(f func(el bool) bool) bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceBool) ChunkByBool(f func(el bool) bool) [][]bool {
 	chunks := make([][]bool, 0)
-	chunk := make([]bool, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]bool, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -1582,8 +1585,11 @@ func (s SliceBool) ChunkByBool(f func(el bool) bool) [][]bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceBool) ChunkByByte(f func(el bool) byte) [][]bool {
 	chunks := make([][]bool, 0)
-	chunk := make([]bool, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]bool, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -1605,8 +1611,11 @@ func (s SliceBool) ChunkByByte(f func(el bool) byte) [][]bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceBool) ChunkByString(f func(el bool) string) [][]bool {
 	chunks := make([][]bool, 0)
-	chunk := make([]bool, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]bool, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -1628,8 +1637,11 @@ func (s SliceBool) ChunkByString(f func(el bool) string) [][]bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceBool) ChunkByFloat32(f func(el bool) float32) [][]bool {
 	chunks := make([][]bool, 0)
-	chunk := make([]bool, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]bool, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -1651,8 +1663,11 @@ func (s SliceBool) ChunkByFloat32(f func(el bool) float32) [][]bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceBool) ChunkByFloat64(f func(el bool) float64) [][]bool {
 	chunks := make([][]bool, 0)
-	chunk := make([]bool, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]bool, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -1674,8 +1689,11 @@ func (s SliceBool) ChunkByFloat64(f func(el bool) float64) [][]bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceBool) ChunkByInt(f func(el bool) int) [][]bool {
 	chunks := make([][]bool, 0)
-	chunk := make([]bool, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]bool, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -1697,8 +1715,11 @@ func (s SliceBool) ChunkByInt(f func(el bool) int) [][]bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceBool) ChunkByInt8(f func(el bool) int8) [][]bool {
 	chunks := make([][]bool, 0)
-	chunk := make([]bool, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]bool, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -1720,8 +1741,11 @@ func (s SliceBool) ChunkByInt8(f func(el bool) int8) [][]bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceBool) ChunkByInt16(f func(el bool) int16) [][]bool {
 	chunks := make([][]bool, 0)
-	chunk := make([]bool, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]bool, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -1743,8 +1767,11 @@ func (s SliceBool) ChunkByInt16(f func(el bool) int16) [][]bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceBool) ChunkByInt32(f func(el bool) int32) [][]bool {
 	chunks := make([][]bool, 0)
-	chunk := make([]bool, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]bool, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -1766,8 +1793,11 @@ func (s SliceBool) ChunkByInt32(f func(el bool) int32) [][]bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceBool) ChunkByInt64(f func(el bool) int64) [][]bool {
 	chunks := make([][]bool, 0)
-	chunk := make([]bool, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]bool, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -1789,8 +1819,11 @@ func (s SliceBool) ChunkByInt64(f func(el bool) int64) [][]bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceBool) ChunkByUint(f func(el bool) uint) [][]bool {
 	chunks := make([][]bool, 0)
-	chunk := make([]bool, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]bool, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -1812,8 +1845,11 @@ func (s SliceBool) ChunkByUint(f func(el bool) uint) [][]bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceBool) ChunkByUint8(f func(el bool) uint8) [][]bool {
 	chunks := make([][]bool, 0)
-	chunk := make([]bool, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]bool, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -1835,8 +1871,11 @@ func (s SliceBool) ChunkByUint8(f func(el bool) uint8) [][]bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceBool) ChunkByUint16(f func(el bool) uint16) [][]bool {
 	chunks := make([][]bool, 0)
-	chunk := make([]bool, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]bool, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -1858,8 +1897,11 @@ func (s SliceBool) ChunkByUint16(f func(el bool) uint16) [][]bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceBool) ChunkByUint32(f func(el bool) uint32) [][]bool {
 	chunks := make([][]bool, 0)
-	chunk := make([]bool, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]bool, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -1881,8 +1923,11 @@ func (s SliceBool) ChunkByUint32(f func(el bool) uint32) [][]bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceBool) ChunkByUint64(f func(el bool) uint64) [][]bool {
 	chunks := make([][]bool, 0)
-	chunk := make([]bool, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]bool, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -1904,8 +1949,11 @@ func (s SliceBool) ChunkByUint64(f func(el bool) uint64) [][]bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceBool) ChunkByInterface(f func(el bool) interface{}) [][]bool {
 	chunks := make([][]bool, 0)
-	chunk := make([]bool, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]bool, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -2564,6 +2612,10 @@ func (s SliceBool) GroupByInterface(f func(el bool) interface{}) map[interface{}
 
 // Intersperse inserts el between each element of arr
 func (s SliceBool) Intersperse(el bool) []bool {
+	if len(s.Data) == 0 {
+		tmp := make([]bool, 0)
+		return tmp
+	}
 	result := make([]bool, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
 	for _, val := range s.Data[1:] {
@@ -2720,13 +2772,18 @@ func (s SliceBool) MapInterface(f func(el bool) interface{}) []interface{} {
 // {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
 func (s SliceBool) Permutations(size int) chan []bool {
 	c := make(chan []bool, 1)
-	go s.permutations(c, size, []bool{}, s.Data)
+	go func() {
+		if len(s.Data) > 0 {
+			s.permutations(c, size, []bool{}, s.Data)
+		}
+		close(c)
+	}()
 	return c
 }
 
 // permutations is a core implementation for Permutations
 func (s SliceBool) permutations(c chan []bool, size int, left []bool, right []bool) {
-	if len(left) == size {
+	if len(left) == size || len(right) == 0 {
 		c <- left
 		return
 	}
@@ -2743,11 +2800,6 @@ func (s SliceBool) permutations(c chan []bool, size int, left []bool, right []bo
 			}
 		}
 		s.permutations(c, size, newLeft, newRight)
-	}
-
-	// close channel in the first function call after all
-	if len(right) == len(s.Data) {
-		close(c)
 	}
 }
 
@@ -5004,8 +5056,11 @@ func (s SliceByte) All(f func(el byte) bool) bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceByte) ChunkByBool(f func(el byte) bool) [][]byte {
 	chunks := make([][]byte, 0)
-	chunk := make([]byte, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]byte, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -5027,8 +5082,11 @@ func (s SliceByte) ChunkByBool(f func(el byte) bool) [][]byte {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceByte) ChunkByByte(f func(el byte) byte) [][]byte {
 	chunks := make([][]byte, 0)
-	chunk := make([]byte, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]byte, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -5050,8 +5108,11 @@ func (s SliceByte) ChunkByByte(f func(el byte) byte) [][]byte {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceByte) ChunkByString(f func(el byte) string) [][]byte {
 	chunks := make([][]byte, 0)
-	chunk := make([]byte, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]byte, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -5073,8 +5134,11 @@ func (s SliceByte) ChunkByString(f func(el byte) string) [][]byte {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceByte) ChunkByFloat32(f func(el byte) float32) [][]byte {
 	chunks := make([][]byte, 0)
-	chunk := make([]byte, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]byte, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -5096,8 +5160,11 @@ func (s SliceByte) ChunkByFloat32(f func(el byte) float32) [][]byte {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceByte) ChunkByFloat64(f func(el byte) float64) [][]byte {
 	chunks := make([][]byte, 0)
-	chunk := make([]byte, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]byte, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -5119,8 +5186,11 @@ func (s SliceByte) ChunkByFloat64(f func(el byte) float64) [][]byte {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceByte) ChunkByInt(f func(el byte) int) [][]byte {
 	chunks := make([][]byte, 0)
-	chunk := make([]byte, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]byte, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -5142,8 +5212,11 @@ func (s SliceByte) ChunkByInt(f func(el byte) int) [][]byte {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceByte) ChunkByInt8(f func(el byte) int8) [][]byte {
 	chunks := make([][]byte, 0)
-	chunk := make([]byte, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]byte, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -5165,8 +5238,11 @@ func (s SliceByte) ChunkByInt8(f func(el byte) int8) [][]byte {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceByte) ChunkByInt16(f func(el byte) int16) [][]byte {
 	chunks := make([][]byte, 0)
-	chunk := make([]byte, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]byte, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -5188,8 +5264,11 @@ func (s SliceByte) ChunkByInt16(f func(el byte) int16) [][]byte {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceByte) ChunkByInt32(f func(el byte) int32) [][]byte {
 	chunks := make([][]byte, 0)
-	chunk := make([]byte, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]byte, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -5211,8 +5290,11 @@ func (s SliceByte) ChunkByInt32(f func(el byte) int32) [][]byte {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceByte) ChunkByInt64(f func(el byte) int64) [][]byte {
 	chunks := make([][]byte, 0)
-	chunk := make([]byte, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]byte, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -5234,8 +5316,11 @@ func (s SliceByte) ChunkByInt64(f func(el byte) int64) [][]byte {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceByte) ChunkByUint(f func(el byte) uint) [][]byte {
 	chunks := make([][]byte, 0)
-	chunk := make([]byte, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]byte, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -5257,8 +5342,11 @@ func (s SliceByte) ChunkByUint(f func(el byte) uint) [][]byte {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceByte) ChunkByUint8(f func(el byte) uint8) [][]byte {
 	chunks := make([][]byte, 0)
-	chunk := make([]byte, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]byte, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -5280,8 +5368,11 @@ func (s SliceByte) ChunkByUint8(f func(el byte) uint8) [][]byte {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceByte) ChunkByUint16(f func(el byte) uint16) [][]byte {
 	chunks := make([][]byte, 0)
-	chunk := make([]byte, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]byte, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -5303,8 +5394,11 @@ func (s SliceByte) ChunkByUint16(f func(el byte) uint16) [][]byte {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceByte) ChunkByUint32(f func(el byte) uint32) [][]byte {
 	chunks := make([][]byte, 0)
-	chunk := make([]byte, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]byte, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -5326,8 +5420,11 @@ func (s SliceByte) ChunkByUint32(f func(el byte) uint32) [][]byte {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceByte) ChunkByUint64(f func(el byte) uint64) [][]byte {
 	chunks := make([][]byte, 0)
-	chunk := make([]byte, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]byte, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -5349,8 +5446,11 @@ func (s SliceByte) ChunkByUint64(f func(el byte) uint64) [][]byte {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceByte) ChunkByInterface(f func(el byte) interface{}) [][]byte {
 	chunks := make([][]byte, 0)
-	chunk := make([]byte, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]byte, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -6018,6 +6118,10 @@ func (s SliceByte) GroupByInterface(f func(el byte) interface{}) map[interface{}
 
 // Intersperse inserts el between each element of arr
 func (s SliceByte) Intersperse(el byte) []byte {
+	if len(s.Data) == 0 {
+		tmp := make([]byte, 0)
+		return tmp
+	}
 	result := make([]byte, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
 	for _, val := range s.Data[1:] {
@@ -6196,13 +6300,18 @@ func (s SliceByte) Min() byte {
 // {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
 func (s SliceByte) Permutations(size int) chan []byte {
 	c := make(chan []byte, 1)
-	go s.permutations(c, size, []byte{}, s.Data)
+	go func() {
+		if len(s.Data) > 0 {
+			s.permutations(c, size, []byte{}, s.Data)
+		}
+		close(c)
+	}()
 	return c
 }
 
 // permutations is a core implementation for Permutations
 func (s SliceByte) permutations(c chan []byte, size int, left []byte, right []byte) {
-	if len(left) == size {
+	if len(left) == size || len(right) == 0 {
 		c <- left
 		return
 	}
@@ -6219,11 +6328,6 @@ func (s SliceByte) permutations(c chan []byte, size int, left []byte, right []by
 			}
 		}
 		s.permutations(c, size, newLeft, newRight)
-	}
-
-	// close channel in the first function call after all
-	if len(right) == len(s.Data) {
-		close(c)
 	}
 }
 
@@ -8508,8 +8612,11 @@ func (s SliceString) All(f func(el string) bool) bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceString) ChunkByBool(f func(el string) bool) [][]string {
 	chunks := make([][]string, 0)
-	chunk := make([]string, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]string, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -8531,8 +8638,11 @@ func (s SliceString) ChunkByBool(f func(el string) bool) [][]string {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceString) ChunkByByte(f func(el string) byte) [][]string {
 	chunks := make([][]string, 0)
-	chunk := make([]string, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]string, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -8554,8 +8664,11 @@ func (s SliceString) ChunkByByte(f func(el string) byte) [][]string {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceString) ChunkByString(f func(el string) string) [][]string {
 	chunks := make([][]string, 0)
-	chunk := make([]string, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]string, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -8577,8 +8690,11 @@ func (s SliceString) ChunkByString(f func(el string) string) [][]string {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceString) ChunkByFloat32(f func(el string) float32) [][]string {
 	chunks := make([][]string, 0)
-	chunk := make([]string, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]string, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -8600,8 +8716,11 @@ func (s SliceString) ChunkByFloat32(f func(el string) float32) [][]string {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceString) ChunkByFloat64(f func(el string) float64) [][]string {
 	chunks := make([][]string, 0)
-	chunk := make([]string, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]string, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -8623,8 +8742,11 @@ func (s SliceString) ChunkByFloat64(f func(el string) float64) [][]string {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceString) ChunkByInt(f func(el string) int) [][]string {
 	chunks := make([][]string, 0)
-	chunk := make([]string, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]string, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -8646,8 +8768,11 @@ func (s SliceString) ChunkByInt(f func(el string) int) [][]string {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceString) ChunkByInt8(f func(el string) int8) [][]string {
 	chunks := make([][]string, 0)
-	chunk := make([]string, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]string, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -8669,8 +8794,11 @@ func (s SliceString) ChunkByInt8(f func(el string) int8) [][]string {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceString) ChunkByInt16(f func(el string) int16) [][]string {
 	chunks := make([][]string, 0)
-	chunk := make([]string, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]string, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -8692,8 +8820,11 @@ func (s SliceString) ChunkByInt16(f func(el string) int16) [][]string {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceString) ChunkByInt32(f func(el string) int32) [][]string {
 	chunks := make([][]string, 0)
-	chunk := make([]string, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]string, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -8715,8 +8846,11 @@ func (s SliceString) ChunkByInt32(f func(el string) int32) [][]string {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceString) ChunkByInt64(f func(el string) int64) [][]string {
 	chunks := make([][]string, 0)
-	chunk := make([]string, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]string, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -8738,8 +8872,11 @@ func (s SliceString) ChunkByInt64(f func(el string) int64) [][]string {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceString) ChunkByUint(f func(el string) uint) [][]string {
 	chunks := make([][]string, 0)
-	chunk := make([]string, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]string, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -8761,8 +8898,11 @@ func (s SliceString) ChunkByUint(f func(el string) uint) [][]string {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceString) ChunkByUint8(f func(el string) uint8) [][]string {
 	chunks := make([][]string, 0)
-	chunk := make([]string, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]string, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -8784,8 +8924,11 @@ func (s SliceString) ChunkByUint8(f func(el string) uint8) [][]string {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceString) ChunkByUint16(f func(el string) uint16) [][]string {
 	chunks := make([][]string, 0)
-	chunk := make([]string, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]string, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -8807,8 +8950,11 @@ func (s SliceString) ChunkByUint16(f func(el string) uint16) [][]string {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceString) ChunkByUint32(f func(el string) uint32) [][]string {
 	chunks := make([][]string, 0)
-	chunk := make([]string, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]string, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -8830,8 +8976,11 @@ func (s SliceString) ChunkByUint32(f func(el string) uint32) [][]string {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceString) ChunkByUint64(f func(el string) uint64) [][]string {
 	chunks := make([][]string, 0)
-	chunk := make([]string, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]string, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -8853,8 +9002,11 @@ func (s SliceString) ChunkByUint64(f func(el string) uint64) [][]string {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceString) ChunkByInterface(f func(el string) interface{}) [][]string {
 	chunks := make([][]string, 0)
-	chunk := make([]string, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]string, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -9522,6 +9674,10 @@ func (s SliceString) GroupByInterface(f func(el string) interface{}) map[interfa
 
 // Intersperse inserts el between each element of arr
 func (s SliceString) Intersperse(el string) []string {
+	if len(s.Data) == 0 {
+		tmp := make([]string, 0)
+		return tmp
+	}
 	result := make([]string, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
 	for _, val := range s.Data[1:] {
@@ -9700,13 +9856,18 @@ func (s SliceString) Min() string {
 // {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
 func (s SliceString) Permutations(size int) chan []string {
 	c := make(chan []string, 1)
-	go s.permutations(c, size, []string{}, s.Data)
+	go func() {
+		if len(s.Data) > 0 {
+			s.permutations(c, size, []string{}, s.Data)
+		}
+		close(c)
+	}()
 	return c
 }
 
 // permutations is a core implementation for Permutations
 func (s SliceString) permutations(c chan []string, size int, left []string, right []string) {
-	if len(left) == size {
+	if len(left) == size || len(right) == 0 {
 		c <- left
 		return
 	}
@@ -9723,11 +9884,6 @@ func (s SliceString) permutations(c chan []string, size int, left []string, righ
 			}
 		}
 		s.permutations(c, size, newLeft, newRight)
-	}
-
-	// close channel in the first function call after all
-	if len(right) == len(s.Data) {
-		close(c)
 	}
 }
 
@@ -12051,8 +12207,11 @@ func (s SliceFloat32) All(f func(el float32) bool) bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat32) ChunkByBool(f func(el float32) bool) [][]float32 {
 	chunks := make([][]float32, 0)
-	chunk := make([]float32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -12074,8 +12233,11 @@ func (s SliceFloat32) ChunkByBool(f func(el float32) bool) [][]float32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat32) ChunkByByte(f func(el float32) byte) [][]float32 {
 	chunks := make([][]float32, 0)
-	chunk := make([]float32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -12097,8 +12259,11 @@ func (s SliceFloat32) ChunkByByte(f func(el float32) byte) [][]float32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat32) ChunkByString(f func(el float32) string) [][]float32 {
 	chunks := make([][]float32, 0)
-	chunk := make([]float32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -12120,8 +12285,11 @@ func (s SliceFloat32) ChunkByString(f func(el float32) string) [][]float32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat32) ChunkByFloat32(f func(el float32) float32) [][]float32 {
 	chunks := make([][]float32, 0)
-	chunk := make([]float32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -12143,8 +12311,11 @@ func (s SliceFloat32) ChunkByFloat32(f func(el float32) float32) [][]float32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat32) ChunkByFloat64(f func(el float32) float64) [][]float32 {
 	chunks := make([][]float32, 0)
-	chunk := make([]float32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -12166,8 +12337,11 @@ func (s SliceFloat32) ChunkByFloat64(f func(el float32) float64) [][]float32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat32) ChunkByInt(f func(el float32) int) [][]float32 {
 	chunks := make([][]float32, 0)
-	chunk := make([]float32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -12189,8 +12363,11 @@ func (s SliceFloat32) ChunkByInt(f func(el float32) int) [][]float32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat32) ChunkByInt8(f func(el float32) int8) [][]float32 {
 	chunks := make([][]float32, 0)
-	chunk := make([]float32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -12212,8 +12389,11 @@ func (s SliceFloat32) ChunkByInt8(f func(el float32) int8) [][]float32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat32) ChunkByInt16(f func(el float32) int16) [][]float32 {
 	chunks := make([][]float32, 0)
-	chunk := make([]float32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -12235,8 +12415,11 @@ func (s SliceFloat32) ChunkByInt16(f func(el float32) int16) [][]float32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat32) ChunkByInt32(f func(el float32) int32) [][]float32 {
 	chunks := make([][]float32, 0)
-	chunk := make([]float32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -12258,8 +12441,11 @@ func (s SliceFloat32) ChunkByInt32(f func(el float32) int32) [][]float32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat32) ChunkByInt64(f func(el float32) int64) [][]float32 {
 	chunks := make([][]float32, 0)
-	chunk := make([]float32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -12281,8 +12467,11 @@ func (s SliceFloat32) ChunkByInt64(f func(el float32) int64) [][]float32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat32) ChunkByUint(f func(el float32) uint) [][]float32 {
 	chunks := make([][]float32, 0)
-	chunk := make([]float32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -12304,8 +12493,11 @@ func (s SliceFloat32) ChunkByUint(f func(el float32) uint) [][]float32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat32) ChunkByUint8(f func(el float32) uint8) [][]float32 {
 	chunks := make([][]float32, 0)
-	chunk := make([]float32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -12327,8 +12519,11 @@ func (s SliceFloat32) ChunkByUint8(f func(el float32) uint8) [][]float32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat32) ChunkByUint16(f func(el float32) uint16) [][]float32 {
 	chunks := make([][]float32, 0)
-	chunk := make([]float32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -12350,8 +12545,11 @@ func (s SliceFloat32) ChunkByUint16(f func(el float32) uint16) [][]float32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat32) ChunkByUint32(f func(el float32) uint32) [][]float32 {
 	chunks := make([][]float32, 0)
-	chunk := make([]float32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -12373,8 +12571,11 @@ func (s SliceFloat32) ChunkByUint32(f func(el float32) uint32) [][]float32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat32) ChunkByUint64(f func(el float32) uint64) [][]float32 {
 	chunks := make([][]float32, 0)
-	chunk := make([]float32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -12396,8 +12597,11 @@ func (s SliceFloat32) ChunkByUint64(f func(el float32) uint64) [][]float32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat32) ChunkByInterface(f func(el float32) interface{}) [][]float32 {
 	chunks := make([][]float32, 0)
-	chunk := make([]float32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -13056,6 +13260,10 @@ func (s SliceFloat32) GroupByInterface(f func(el float32) interface{}) map[inter
 
 // Intersperse inserts el between each element of arr
 func (s SliceFloat32) Intersperse(el float32) []float32 {
+	if len(s.Data) == 0 {
+		tmp := make([]float32, 0)
+		return tmp
+	}
 	result := make([]float32, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
 	for _, val := range s.Data[1:] {
@@ -13234,13 +13442,18 @@ func (s SliceFloat32) Min() float32 {
 // {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
 func (s SliceFloat32) Permutations(size int) chan []float32 {
 	c := make(chan []float32, 1)
-	go s.permutations(c, size, []float32{}, s.Data)
+	go func() {
+		if len(s.Data) > 0 {
+			s.permutations(c, size, []float32{}, s.Data)
+		}
+		close(c)
+	}()
 	return c
 }
 
 // permutations is a core implementation for Permutations
 func (s SliceFloat32) permutations(c chan []float32, size int, left []float32, right []float32) {
-	if len(left) == size {
+	if len(left) == size || len(right) == 0 {
 		c <- left
 		return
 	}
@@ -13257,11 +13470,6 @@ func (s SliceFloat32) permutations(c chan []float32, size int, left []float32, r
 			}
 		}
 		s.permutations(c, size, newLeft, newRight)
-	}
-
-	// close channel in the first function call after all
-	if len(right) == len(s.Data) {
-		close(c)
 	}
 }
 
@@ -15585,8 +15793,11 @@ func (s SliceFloat64) All(f func(el float64) bool) bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat64) ChunkByBool(f func(el float64) bool) [][]float64 {
 	chunks := make([][]float64, 0)
-	chunk := make([]float64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -15608,8 +15819,11 @@ func (s SliceFloat64) ChunkByBool(f func(el float64) bool) [][]float64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat64) ChunkByByte(f func(el float64) byte) [][]float64 {
 	chunks := make([][]float64, 0)
-	chunk := make([]float64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -15631,8 +15845,11 @@ func (s SliceFloat64) ChunkByByte(f func(el float64) byte) [][]float64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat64) ChunkByString(f func(el float64) string) [][]float64 {
 	chunks := make([][]float64, 0)
-	chunk := make([]float64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -15654,8 +15871,11 @@ func (s SliceFloat64) ChunkByString(f func(el float64) string) [][]float64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat64) ChunkByFloat32(f func(el float64) float32) [][]float64 {
 	chunks := make([][]float64, 0)
-	chunk := make([]float64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -15677,8 +15897,11 @@ func (s SliceFloat64) ChunkByFloat32(f func(el float64) float32) [][]float64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat64) ChunkByFloat64(f func(el float64) float64) [][]float64 {
 	chunks := make([][]float64, 0)
-	chunk := make([]float64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -15700,8 +15923,11 @@ func (s SliceFloat64) ChunkByFloat64(f func(el float64) float64) [][]float64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat64) ChunkByInt(f func(el float64) int) [][]float64 {
 	chunks := make([][]float64, 0)
-	chunk := make([]float64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -15723,8 +15949,11 @@ func (s SliceFloat64) ChunkByInt(f func(el float64) int) [][]float64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat64) ChunkByInt8(f func(el float64) int8) [][]float64 {
 	chunks := make([][]float64, 0)
-	chunk := make([]float64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -15746,8 +15975,11 @@ func (s SliceFloat64) ChunkByInt8(f func(el float64) int8) [][]float64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat64) ChunkByInt16(f func(el float64) int16) [][]float64 {
 	chunks := make([][]float64, 0)
-	chunk := make([]float64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -15769,8 +16001,11 @@ func (s SliceFloat64) ChunkByInt16(f func(el float64) int16) [][]float64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat64) ChunkByInt32(f func(el float64) int32) [][]float64 {
 	chunks := make([][]float64, 0)
-	chunk := make([]float64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -15792,8 +16027,11 @@ func (s SliceFloat64) ChunkByInt32(f func(el float64) int32) [][]float64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat64) ChunkByInt64(f func(el float64) int64) [][]float64 {
 	chunks := make([][]float64, 0)
-	chunk := make([]float64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -15815,8 +16053,11 @@ func (s SliceFloat64) ChunkByInt64(f func(el float64) int64) [][]float64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat64) ChunkByUint(f func(el float64) uint) [][]float64 {
 	chunks := make([][]float64, 0)
-	chunk := make([]float64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -15838,8 +16079,11 @@ func (s SliceFloat64) ChunkByUint(f func(el float64) uint) [][]float64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat64) ChunkByUint8(f func(el float64) uint8) [][]float64 {
 	chunks := make([][]float64, 0)
-	chunk := make([]float64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -15861,8 +16105,11 @@ func (s SliceFloat64) ChunkByUint8(f func(el float64) uint8) [][]float64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat64) ChunkByUint16(f func(el float64) uint16) [][]float64 {
 	chunks := make([][]float64, 0)
-	chunk := make([]float64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -15884,8 +16131,11 @@ func (s SliceFloat64) ChunkByUint16(f func(el float64) uint16) [][]float64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat64) ChunkByUint32(f func(el float64) uint32) [][]float64 {
 	chunks := make([][]float64, 0)
-	chunk := make([]float64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -15907,8 +16157,11 @@ func (s SliceFloat64) ChunkByUint32(f func(el float64) uint32) [][]float64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat64) ChunkByUint64(f func(el float64) uint64) [][]float64 {
 	chunks := make([][]float64, 0)
-	chunk := make([]float64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -15930,8 +16183,11 @@ func (s SliceFloat64) ChunkByUint64(f func(el float64) uint64) [][]float64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat64) ChunkByInterface(f func(el float64) interface{}) [][]float64 {
 	chunks := make([][]float64, 0)
-	chunk := make([]float64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]float64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -16590,6 +16846,10 @@ func (s SliceFloat64) GroupByInterface(f func(el float64) interface{}) map[inter
 
 // Intersperse inserts el between each element of arr
 func (s SliceFloat64) Intersperse(el float64) []float64 {
+	if len(s.Data) == 0 {
+		tmp := make([]float64, 0)
+		return tmp
+	}
 	result := make([]float64, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
 	for _, val := range s.Data[1:] {
@@ -16768,13 +17028,18 @@ func (s SliceFloat64) Min() float64 {
 // {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
 func (s SliceFloat64) Permutations(size int) chan []float64 {
 	c := make(chan []float64, 1)
-	go s.permutations(c, size, []float64{}, s.Data)
+	go func() {
+		if len(s.Data) > 0 {
+			s.permutations(c, size, []float64{}, s.Data)
+		}
+		close(c)
+	}()
 	return c
 }
 
 // permutations is a core implementation for Permutations
 func (s SliceFloat64) permutations(c chan []float64, size int, left []float64, right []float64) {
-	if len(left) == size {
+	if len(left) == size || len(right) == 0 {
 		c <- left
 		return
 	}
@@ -16791,11 +17056,6 @@ func (s SliceFloat64) permutations(c chan []float64, size int, left []float64, r
 			}
 		}
 		s.permutations(c, size, newLeft, newRight)
-	}
-
-	// close channel in the first function call after all
-	if len(right) == len(s.Data) {
-		close(c)
 	}
 }
 
@@ -19119,8 +19379,11 @@ func (s SliceInt) All(f func(el int) bool) bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt) ChunkByBool(f func(el int) bool) [][]int {
 	chunks := make([][]int, 0)
-	chunk := make([]int, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -19142,8 +19405,11 @@ func (s SliceInt) ChunkByBool(f func(el int) bool) [][]int {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt) ChunkByByte(f func(el int) byte) [][]int {
 	chunks := make([][]int, 0)
-	chunk := make([]int, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -19165,8 +19431,11 @@ func (s SliceInt) ChunkByByte(f func(el int) byte) [][]int {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt) ChunkByString(f func(el int) string) [][]int {
 	chunks := make([][]int, 0)
-	chunk := make([]int, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -19188,8 +19457,11 @@ func (s SliceInt) ChunkByString(f func(el int) string) [][]int {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt) ChunkByFloat32(f func(el int) float32) [][]int {
 	chunks := make([][]int, 0)
-	chunk := make([]int, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -19211,8 +19483,11 @@ func (s SliceInt) ChunkByFloat32(f func(el int) float32) [][]int {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt) ChunkByFloat64(f func(el int) float64) [][]int {
 	chunks := make([][]int, 0)
-	chunk := make([]int, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -19234,8 +19509,11 @@ func (s SliceInt) ChunkByFloat64(f func(el int) float64) [][]int {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt) ChunkByInt(f func(el int) int) [][]int {
 	chunks := make([][]int, 0)
-	chunk := make([]int, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -19257,8 +19535,11 @@ func (s SliceInt) ChunkByInt(f func(el int) int) [][]int {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt) ChunkByInt8(f func(el int) int8) [][]int {
 	chunks := make([][]int, 0)
-	chunk := make([]int, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -19280,8 +19561,11 @@ func (s SliceInt) ChunkByInt8(f func(el int) int8) [][]int {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt) ChunkByInt16(f func(el int) int16) [][]int {
 	chunks := make([][]int, 0)
-	chunk := make([]int, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -19303,8 +19587,11 @@ func (s SliceInt) ChunkByInt16(f func(el int) int16) [][]int {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt) ChunkByInt32(f func(el int) int32) [][]int {
 	chunks := make([][]int, 0)
-	chunk := make([]int, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -19326,8 +19613,11 @@ func (s SliceInt) ChunkByInt32(f func(el int) int32) [][]int {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt) ChunkByInt64(f func(el int) int64) [][]int {
 	chunks := make([][]int, 0)
-	chunk := make([]int, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -19349,8 +19639,11 @@ func (s SliceInt) ChunkByInt64(f func(el int) int64) [][]int {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt) ChunkByUint(f func(el int) uint) [][]int {
 	chunks := make([][]int, 0)
-	chunk := make([]int, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -19372,8 +19665,11 @@ func (s SliceInt) ChunkByUint(f func(el int) uint) [][]int {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt) ChunkByUint8(f func(el int) uint8) [][]int {
 	chunks := make([][]int, 0)
-	chunk := make([]int, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -19395,8 +19691,11 @@ func (s SliceInt) ChunkByUint8(f func(el int) uint8) [][]int {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt) ChunkByUint16(f func(el int) uint16) [][]int {
 	chunks := make([][]int, 0)
-	chunk := make([]int, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -19418,8 +19717,11 @@ func (s SliceInt) ChunkByUint16(f func(el int) uint16) [][]int {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt) ChunkByUint32(f func(el int) uint32) [][]int {
 	chunks := make([][]int, 0)
-	chunk := make([]int, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -19441,8 +19743,11 @@ func (s SliceInt) ChunkByUint32(f func(el int) uint32) [][]int {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt) ChunkByUint64(f func(el int) uint64) [][]int {
 	chunks := make([][]int, 0)
-	chunk := make([]int, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -19464,8 +19769,11 @@ func (s SliceInt) ChunkByUint64(f func(el int) uint64) [][]int {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt) ChunkByInterface(f func(el int) interface{}) [][]int {
 	chunks := make([][]int, 0)
-	chunk := make([]int, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -20133,6 +20441,10 @@ func (s SliceInt) GroupByInterface(f func(el int) interface{}) map[interface{}][
 
 // Intersperse inserts el between each element of arr
 func (s SliceInt) Intersperse(el int) []int {
+	if len(s.Data) == 0 {
+		tmp := make([]int, 0)
+		return tmp
+	}
 	result := make([]int, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
 	for _, val := range s.Data[1:] {
@@ -20311,13 +20623,18 @@ func (s SliceInt) Min() int {
 // {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
 func (s SliceInt) Permutations(size int) chan []int {
 	c := make(chan []int, 1)
-	go s.permutations(c, size, []int{}, s.Data)
+	go func() {
+		if len(s.Data) > 0 {
+			s.permutations(c, size, []int{}, s.Data)
+		}
+		close(c)
+	}()
 	return c
 }
 
 // permutations is a core implementation for Permutations
 func (s SliceInt) permutations(c chan []int, size int, left []int, right []int) {
-	if len(left) == size {
+	if len(left) == size || len(right) == 0 {
 		c <- left
 		return
 	}
@@ -20334,11 +20651,6 @@ func (s SliceInt) permutations(c chan []int, size int, left []int, right []int) 
 			}
 		}
 		s.permutations(c, size, newLeft, newRight)
-	}
-
-	// close channel in the first function call after all
-	if len(right) == len(s.Data) {
-		close(c)
 	}
 }
 
@@ -22662,8 +22974,11 @@ func (s SliceInt8) All(f func(el int8) bool) bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt8) ChunkByBool(f func(el int8) bool) [][]int8 {
 	chunks := make([][]int8, 0)
-	chunk := make([]int8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -22685,8 +23000,11 @@ func (s SliceInt8) ChunkByBool(f func(el int8) bool) [][]int8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt8) ChunkByByte(f func(el int8) byte) [][]int8 {
 	chunks := make([][]int8, 0)
-	chunk := make([]int8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -22708,8 +23026,11 @@ func (s SliceInt8) ChunkByByte(f func(el int8) byte) [][]int8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt8) ChunkByString(f func(el int8) string) [][]int8 {
 	chunks := make([][]int8, 0)
-	chunk := make([]int8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -22731,8 +23052,11 @@ func (s SliceInt8) ChunkByString(f func(el int8) string) [][]int8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt8) ChunkByFloat32(f func(el int8) float32) [][]int8 {
 	chunks := make([][]int8, 0)
-	chunk := make([]int8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -22754,8 +23078,11 @@ func (s SliceInt8) ChunkByFloat32(f func(el int8) float32) [][]int8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt8) ChunkByFloat64(f func(el int8) float64) [][]int8 {
 	chunks := make([][]int8, 0)
-	chunk := make([]int8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -22777,8 +23104,11 @@ func (s SliceInt8) ChunkByFloat64(f func(el int8) float64) [][]int8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt8) ChunkByInt(f func(el int8) int) [][]int8 {
 	chunks := make([][]int8, 0)
-	chunk := make([]int8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -22800,8 +23130,11 @@ func (s SliceInt8) ChunkByInt(f func(el int8) int) [][]int8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt8) ChunkByInt8(f func(el int8) int8) [][]int8 {
 	chunks := make([][]int8, 0)
-	chunk := make([]int8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -22823,8 +23156,11 @@ func (s SliceInt8) ChunkByInt8(f func(el int8) int8) [][]int8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt8) ChunkByInt16(f func(el int8) int16) [][]int8 {
 	chunks := make([][]int8, 0)
-	chunk := make([]int8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -22846,8 +23182,11 @@ func (s SliceInt8) ChunkByInt16(f func(el int8) int16) [][]int8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt8) ChunkByInt32(f func(el int8) int32) [][]int8 {
 	chunks := make([][]int8, 0)
-	chunk := make([]int8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -22869,8 +23208,11 @@ func (s SliceInt8) ChunkByInt32(f func(el int8) int32) [][]int8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt8) ChunkByInt64(f func(el int8) int64) [][]int8 {
 	chunks := make([][]int8, 0)
-	chunk := make([]int8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -22892,8 +23234,11 @@ func (s SliceInt8) ChunkByInt64(f func(el int8) int64) [][]int8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt8) ChunkByUint(f func(el int8) uint) [][]int8 {
 	chunks := make([][]int8, 0)
-	chunk := make([]int8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -22915,8 +23260,11 @@ func (s SliceInt8) ChunkByUint(f func(el int8) uint) [][]int8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt8) ChunkByUint8(f func(el int8) uint8) [][]int8 {
 	chunks := make([][]int8, 0)
-	chunk := make([]int8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -22938,8 +23286,11 @@ func (s SliceInt8) ChunkByUint8(f func(el int8) uint8) [][]int8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt8) ChunkByUint16(f func(el int8) uint16) [][]int8 {
 	chunks := make([][]int8, 0)
-	chunk := make([]int8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -22961,8 +23312,11 @@ func (s SliceInt8) ChunkByUint16(f func(el int8) uint16) [][]int8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt8) ChunkByUint32(f func(el int8) uint32) [][]int8 {
 	chunks := make([][]int8, 0)
-	chunk := make([]int8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -22984,8 +23338,11 @@ func (s SliceInt8) ChunkByUint32(f func(el int8) uint32) [][]int8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt8) ChunkByUint64(f func(el int8) uint64) [][]int8 {
 	chunks := make([][]int8, 0)
-	chunk := make([]int8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -23007,8 +23364,11 @@ func (s SliceInt8) ChunkByUint64(f func(el int8) uint64) [][]int8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt8) ChunkByInterface(f func(el int8) interface{}) [][]int8 {
 	chunks := make([][]int8, 0)
-	chunk := make([]int8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -23676,6 +24036,10 @@ func (s SliceInt8) GroupByInterface(f func(el int8) interface{}) map[interface{}
 
 // Intersperse inserts el between each element of arr
 func (s SliceInt8) Intersperse(el int8) []int8 {
+	if len(s.Data) == 0 {
+		tmp := make([]int8, 0)
+		return tmp
+	}
 	result := make([]int8, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
 	for _, val := range s.Data[1:] {
@@ -23854,13 +24218,18 @@ func (s SliceInt8) Min() int8 {
 // {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
 func (s SliceInt8) Permutations(size int) chan []int8 {
 	c := make(chan []int8, 1)
-	go s.permutations(c, size, []int8{}, s.Data)
+	go func() {
+		if len(s.Data) > 0 {
+			s.permutations(c, size, []int8{}, s.Data)
+		}
+		close(c)
+	}()
 	return c
 }
 
 // permutations is a core implementation for Permutations
 func (s SliceInt8) permutations(c chan []int8, size int, left []int8, right []int8) {
-	if len(left) == size {
+	if len(left) == size || len(right) == 0 {
 		c <- left
 		return
 	}
@@ -23877,11 +24246,6 @@ func (s SliceInt8) permutations(c chan []int8, size int, left []int8, right []in
 			}
 		}
 		s.permutations(c, size, newLeft, newRight)
-	}
-
-	// close channel in the first function call after all
-	if len(right) == len(s.Data) {
-		close(c)
 	}
 }
 
@@ -26205,8 +26569,11 @@ func (s SliceInt16) All(f func(el int16) bool) bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt16) ChunkByBool(f func(el int16) bool) [][]int16 {
 	chunks := make([][]int16, 0)
-	chunk := make([]int16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -26228,8 +26595,11 @@ func (s SliceInt16) ChunkByBool(f func(el int16) bool) [][]int16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt16) ChunkByByte(f func(el int16) byte) [][]int16 {
 	chunks := make([][]int16, 0)
-	chunk := make([]int16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -26251,8 +26621,11 @@ func (s SliceInt16) ChunkByByte(f func(el int16) byte) [][]int16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt16) ChunkByString(f func(el int16) string) [][]int16 {
 	chunks := make([][]int16, 0)
-	chunk := make([]int16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -26274,8 +26647,11 @@ func (s SliceInt16) ChunkByString(f func(el int16) string) [][]int16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt16) ChunkByFloat32(f func(el int16) float32) [][]int16 {
 	chunks := make([][]int16, 0)
-	chunk := make([]int16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -26297,8 +26673,11 @@ func (s SliceInt16) ChunkByFloat32(f func(el int16) float32) [][]int16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt16) ChunkByFloat64(f func(el int16) float64) [][]int16 {
 	chunks := make([][]int16, 0)
-	chunk := make([]int16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -26320,8 +26699,11 @@ func (s SliceInt16) ChunkByFloat64(f func(el int16) float64) [][]int16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt16) ChunkByInt(f func(el int16) int) [][]int16 {
 	chunks := make([][]int16, 0)
-	chunk := make([]int16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -26343,8 +26725,11 @@ func (s SliceInt16) ChunkByInt(f func(el int16) int) [][]int16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt16) ChunkByInt8(f func(el int16) int8) [][]int16 {
 	chunks := make([][]int16, 0)
-	chunk := make([]int16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -26366,8 +26751,11 @@ func (s SliceInt16) ChunkByInt8(f func(el int16) int8) [][]int16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt16) ChunkByInt16(f func(el int16) int16) [][]int16 {
 	chunks := make([][]int16, 0)
-	chunk := make([]int16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -26389,8 +26777,11 @@ func (s SliceInt16) ChunkByInt16(f func(el int16) int16) [][]int16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt16) ChunkByInt32(f func(el int16) int32) [][]int16 {
 	chunks := make([][]int16, 0)
-	chunk := make([]int16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -26412,8 +26803,11 @@ func (s SliceInt16) ChunkByInt32(f func(el int16) int32) [][]int16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt16) ChunkByInt64(f func(el int16) int64) [][]int16 {
 	chunks := make([][]int16, 0)
-	chunk := make([]int16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -26435,8 +26829,11 @@ func (s SliceInt16) ChunkByInt64(f func(el int16) int64) [][]int16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt16) ChunkByUint(f func(el int16) uint) [][]int16 {
 	chunks := make([][]int16, 0)
-	chunk := make([]int16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -26458,8 +26855,11 @@ func (s SliceInt16) ChunkByUint(f func(el int16) uint) [][]int16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt16) ChunkByUint8(f func(el int16) uint8) [][]int16 {
 	chunks := make([][]int16, 0)
-	chunk := make([]int16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -26481,8 +26881,11 @@ func (s SliceInt16) ChunkByUint8(f func(el int16) uint8) [][]int16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt16) ChunkByUint16(f func(el int16) uint16) [][]int16 {
 	chunks := make([][]int16, 0)
-	chunk := make([]int16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -26504,8 +26907,11 @@ func (s SliceInt16) ChunkByUint16(f func(el int16) uint16) [][]int16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt16) ChunkByUint32(f func(el int16) uint32) [][]int16 {
 	chunks := make([][]int16, 0)
-	chunk := make([]int16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -26527,8 +26933,11 @@ func (s SliceInt16) ChunkByUint32(f func(el int16) uint32) [][]int16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt16) ChunkByUint64(f func(el int16) uint64) [][]int16 {
 	chunks := make([][]int16, 0)
-	chunk := make([]int16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -26550,8 +26959,11 @@ func (s SliceInt16) ChunkByUint64(f func(el int16) uint64) [][]int16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt16) ChunkByInterface(f func(el int16) interface{}) [][]int16 {
 	chunks := make([][]int16, 0)
-	chunk := make([]int16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -27219,6 +27631,10 @@ func (s SliceInt16) GroupByInterface(f func(el int16) interface{}) map[interface
 
 // Intersperse inserts el between each element of arr
 func (s SliceInt16) Intersperse(el int16) []int16 {
+	if len(s.Data) == 0 {
+		tmp := make([]int16, 0)
+		return tmp
+	}
 	result := make([]int16, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
 	for _, val := range s.Data[1:] {
@@ -27397,13 +27813,18 @@ func (s SliceInt16) Min() int16 {
 // {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
 func (s SliceInt16) Permutations(size int) chan []int16 {
 	c := make(chan []int16, 1)
-	go s.permutations(c, size, []int16{}, s.Data)
+	go func() {
+		if len(s.Data) > 0 {
+			s.permutations(c, size, []int16{}, s.Data)
+		}
+		close(c)
+	}()
 	return c
 }
 
 // permutations is a core implementation for Permutations
 func (s SliceInt16) permutations(c chan []int16, size int, left []int16, right []int16) {
-	if len(left) == size {
+	if len(left) == size || len(right) == 0 {
 		c <- left
 		return
 	}
@@ -27420,11 +27841,6 @@ func (s SliceInt16) permutations(c chan []int16, size int, left []int16, right [
 			}
 		}
 		s.permutations(c, size, newLeft, newRight)
-	}
-
-	// close channel in the first function call after all
-	if len(right) == len(s.Data) {
-		close(c)
 	}
 }
 
@@ -29748,8 +30164,11 @@ func (s SliceInt32) All(f func(el int32) bool) bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt32) ChunkByBool(f func(el int32) bool) [][]int32 {
 	chunks := make([][]int32, 0)
-	chunk := make([]int32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -29771,8 +30190,11 @@ func (s SliceInt32) ChunkByBool(f func(el int32) bool) [][]int32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt32) ChunkByByte(f func(el int32) byte) [][]int32 {
 	chunks := make([][]int32, 0)
-	chunk := make([]int32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -29794,8 +30216,11 @@ func (s SliceInt32) ChunkByByte(f func(el int32) byte) [][]int32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt32) ChunkByString(f func(el int32) string) [][]int32 {
 	chunks := make([][]int32, 0)
-	chunk := make([]int32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -29817,8 +30242,11 @@ func (s SliceInt32) ChunkByString(f func(el int32) string) [][]int32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt32) ChunkByFloat32(f func(el int32) float32) [][]int32 {
 	chunks := make([][]int32, 0)
-	chunk := make([]int32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -29840,8 +30268,11 @@ func (s SliceInt32) ChunkByFloat32(f func(el int32) float32) [][]int32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt32) ChunkByFloat64(f func(el int32) float64) [][]int32 {
 	chunks := make([][]int32, 0)
-	chunk := make([]int32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -29863,8 +30294,11 @@ func (s SliceInt32) ChunkByFloat64(f func(el int32) float64) [][]int32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt32) ChunkByInt(f func(el int32) int) [][]int32 {
 	chunks := make([][]int32, 0)
-	chunk := make([]int32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -29886,8 +30320,11 @@ func (s SliceInt32) ChunkByInt(f func(el int32) int) [][]int32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt32) ChunkByInt8(f func(el int32) int8) [][]int32 {
 	chunks := make([][]int32, 0)
-	chunk := make([]int32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -29909,8 +30346,11 @@ func (s SliceInt32) ChunkByInt8(f func(el int32) int8) [][]int32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt32) ChunkByInt16(f func(el int32) int16) [][]int32 {
 	chunks := make([][]int32, 0)
-	chunk := make([]int32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -29932,8 +30372,11 @@ func (s SliceInt32) ChunkByInt16(f func(el int32) int16) [][]int32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt32) ChunkByInt32(f func(el int32) int32) [][]int32 {
 	chunks := make([][]int32, 0)
-	chunk := make([]int32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -29955,8 +30398,11 @@ func (s SliceInt32) ChunkByInt32(f func(el int32) int32) [][]int32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt32) ChunkByInt64(f func(el int32) int64) [][]int32 {
 	chunks := make([][]int32, 0)
-	chunk := make([]int32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -29978,8 +30424,11 @@ func (s SliceInt32) ChunkByInt64(f func(el int32) int64) [][]int32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt32) ChunkByUint(f func(el int32) uint) [][]int32 {
 	chunks := make([][]int32, 0)
-	chunk := make([]int32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -30001,8 +30450,11 @@ func (s SliceInt32) ChunkByUint(f func(el int32) uint) [][]int32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt32) ChunkByUint8(f func(el int32) uint8) [][]int32 {
 	chunks := make([][]int32, 0)
-	chunk := make([]int32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -30024,8 +30476,11 @@ func (s SliceInt32) ChunkByUint8(f func(el int32) uint8) [][]int32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt32) ChunkByUint16(f func(el int32) uint16) [][]int32 {
 	chunks := make([][]int32, 0)
-	chunk := make([]int32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -30047,8 +30502,11 @@ func (s SliceInt32) ChunkByUint16(f func(el int32) uint16) [][]int32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt32) ChunkByUint32(f func(el int32) uint32) [][]int32 {
 	chunks := make([][]int32, 0)
-	chunk := make([]int32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -30070,8 +30528,11 @@ func (s SliceInt32) ChunkByUint32(f func(el int32) uint32) [][]int32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt32) ChunkByUint64(f func(el int32) uint64) [][]int32 {
 	chunks := make([][]int32, 0)
-	chunk := make([]int32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -30093,8 +30554,11 @@ func (s SliceInt32) ChunkByUint64(f func(el int32) uint64) [][]int32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt32) ChunkByInterface(f func(el int32) interface{}) [][]int32 {
 	chunks := make([][]int32, 0)
-	chunk := make([]int32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -30762,6 +31226,10 @@ func (s SliceInt32) GroupByInterface(f func(el int32) interface{}) map[interface
 
 // Intersperse inserts el between each element of arr
 func (s SliceInt32) Intersperse(el int32) []int32 {
+	if len(s.Data) == 0 {
+		tmp := make([]int32, 0)
+		return tmp
+	}
 	result := make([]int32, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
 	for _, val := range s.Data[1:] {
@@ -30940,13 +31408,18 @@ func (s SliceInt32) Min() int32 {
 // {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
 func (s SliceInt32) Permutations(size int) chan []int32 {
 	c := make(chan []int32, 1)
-	go s.permutations(c, size, []int32{}, s.Data)
+	go func() {
+		if len(s.Data) > 0 {
+			s.permutations(c, size, []int32{}, s.Data)
+		}
+		close(c)
+	}()
 	return c
 }
 
 // permutations is a core implementation for Permutations
 func (s SliceInt32) permutations(c chan []int32, size int, left []int32, right []int32) {
-	if len(left) == size {
+	if len(left) == size || len(right) == 0 {
 		c <- left
 		return
 	}
@@ -30963,11 +31436,6 @@ func (s SliceInt32) permutations(c chan []int32, size int, left []int32, right [
 			}
 		}
 		s.permutations(c, size, newLeft, newRight)
-	}
-
-	// close channel in the first function call after all
-	if len(right) == len(s.Data) {
-		close(c)
 	}
 }
 
@@ -33291,8 +33759,11 @@ func (s SliceInt64) All(f func(el int64) bool) bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt64) ChunkByBool(f func(el int64) bool) [][]int64 {
 	chunks := make([][]int64, 0)
-	chunk := make([]int64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -33314,8 +33785,11 @@ func (s SliceInt64) ChunkByBool(f func(el int64) bool) [][]int64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt64) ChunkByByte(f func(el int64) byte) [][]int64 {
 	chunks := make([][]int64, 0)
-	chunk := make([]int64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -33337,8 +33811,11 @@ func (s SliceInt64) ChunkByByte(f func(el int64) byte) [][]int64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt64) ChunkByString(f func(el int64) string) [][]int64 {
 	chunks := make([][]int64, 0)
-	chunk := make([]int64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -33360,8 +33837,11 @@ func (s SliceInt64) ChunkByString(f func(el int64) string) [][]int64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt64) ChunkByFloat32(f func(el int64) float32) [][]int64 {
 	chunks := make([][]int64, 0)
-	chunk := make([]int64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -33383,8 +33863,11 @@ func (s SliceInt64) ChunkByFloat32(f func(el int64) float32) [][]int64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt64) ChunkByFloat64(f func(el int64) float64) [][]int64 {
 	chunks := make([][]int64, 0)
-	chunk := make([]int64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -33406,8 +33889,11 @@ func (s SliceInt64) ChunkByFloat64(f func(el int64) float64) [][]int64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt64) ChunkByInt(f func(el int64) int) [][]int64 {
 	chunks := make([][]int64, 0)
-	chunk := make([]int64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -33429,8 +33915,11 @@ func (s SliceInt64) ChunkByInt(f func(el int64) int) [][]int64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt64) ChunkByInt8(f func(el int64) int8) [][]int64 {
 	chunks := make([][]int64, 0)
-	chunk := make([]int64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -33452,8 +33941,11 @@ func (s SliceInt64) ChunkByInt8(f func(el int64) int8) [][]int64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt64) ChunkByInt16(f func(el int64) int16) [][]int64 {
 	chunks := make([][]int64, 0)
-	chunk := make([]int64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -33475,8 +33967,11 @@ func (s SliceInt64) ChunkByInt16(f func(el int64) int16) [][]int64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt64) ChunkByInt32(f func(el int64) int32) [][]int64 {
 	chunks := make([][]int64, 0)
-	chunk := make([]int64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -33498,8 +33993,11 @@ func (s SliceInt64) ChunkByInt32(f func(el int64) int32) [][]int64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt64) ChunkByInt64(f func(el int64) int64) [][]int64 {
 	chunks := make([][]int64, 0)
-	chunk := make([]int64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -33521,8 +34019,11 @@ func (s SliceInt64) ChunkByInt64(f func(el int64) int64) [][]int64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt64) ChunkByUint(f func(el int64) uint) [][]int64 {
 	chunks := make([][]int64, 0)
-	chunk := make([]int64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -33544,8 +34045,11 @@ func (s SliceInt64) ChunkByUint(f func(el int64) uint) [][]int64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt64) ChunkByUint8(f func(el int64) uint8) [][]int64 {
 	chunks := make([][]int64, 0)
-	chunk := make([]int64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -33567,8 +34071,11 @@ func (s SliceInt64) ChunkByUint8(f func(el int64) uint8) [][]int64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt64) ChunkByUint16(f func(el int64) uint16) [][]int64 {
 	chunks := make([][]int64, 0)
-	chunk := make([]int64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -33590,8 +34097,11 @@ func (s SliceInt64) ChunkByUint16(f func(el int64) uint16) [][]int64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt64) ChunkByUint32(f func(el int64) uint32) [][]int64 {
 	chunks := make([][]int64, 0)
-	chunk := make([]int64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -33613,8 +34123,11 @@ func (s SliceInt64) ChunkByUint32(f func(el int64) uint32) [][]int64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt64) ChunkByUint64(f func(el int64) uint64) [][]int64 {
 	chunks := make([][]int64, 0)
-	chunk := make([]int64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -33636,8 +34149,11 @@ func (s SliceInt64) ChunkByUint64(f func(el int64) uint64) [][]int64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt64) ChunkByInterface(f func(el int64) interface{}) [][]int64 {
 	chunks := make([][]int64, 0)
-	chunk := make([]int64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]int64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -34305,6 +34821,10 @@ func (s SliceInt64) GroupByInterface(f func(el int64) interface{}) map[interface
 
 // Intersperse inserts el between each element of arr
 func (s SliceInt64) Intersperse(el int64) []int64 {
+	if len(s.Data) == 0 {
+		tmp := make([]int64, 0)
+		return tmp
+	}
 	result := make([]int64, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
 	for _, val := range s.Data[1:] {
@@ -34483,13 +35003,18 @@ func (s SliceInt64) Min() int64 {
 // {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
 func (s SliceInt64) Permutations(size int) chan []int64 {
 	c := make(chan []int64, 1)
-	go s.permutations(c, size, []int64{}, s.Data)
+	go func() {
+		if len(s.Data) > 0 {
+			s.permutations(c, size, []int64{}, s.Data)
+		}
+		close(c)
+	}()
 	return c
 }
 
 // permutations is a core implementation for Permutations
 func (s SliceInt64) permutations(c chan []int64, size int, left []int64, right []int64) {
-	if len(left) == size {
+	if len(left) == size || len(right) == 0 {
 		c <- left
 		return
 	}
@@ -34506,11 +35031,6 @@ func (s SliceInt64) permutations(c chan []int64, size int, left []int64, right [
 			}
 		}
 		s.permutations(c, size, newLeft, newRight)
-	}
-
-	// close channel in the first function call after all
-	if len(right) == len(s.Data) {
-		close(c)
 	}
 }
 
@@ -36834,8 +37354,11 @@ func (s SliceUint) All(f func(el uint) bool) bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint) ChunkByBool(f func(el uint) bool) [][]uint {
 	chunks := make([][]uint, 0)
-	chunk := make([]uint, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -36857,8 +37380,11 @@ func (s SliceUint) ChunkByBool(f func(el uint) bool) [][]uint {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint) ChunkByByte(f func(el uint) byte) [][]uint {
 	chunks := make([][]uint, 0)
-	chunk := make([]uint, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -36880,8 +37406,11 @@ func (s SliceUint) ChunkByByte(f func(el uint) byte) [][]uint {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint) ChunkByString(f func(el uint) string) [][]uint {
 	chunks := make([][]uint, 0)
-	chunk := make([]uint, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -36903,8 +37432,11 @@ func (s SliceUint) ChunkByString(f func(el uint) string) [][]uint {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint) ChunkByFloat32(f func(el uint) float32) [][]uint {
 	chunks := make([][]uint, 0)
-	chunk := make([]uint, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -36926,8 +37458,11 @@ func (s SliceUint) ChunkByFloat32(f func(el uint) float32) [][]uint {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint) ChunkByFloat64(f func(el uint) float64) [][]uint {
 	chunks := make([][]uint, 0)
-	chunk := make([]uint, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -36949,8 +37484,11 @@ func (s SliceUint) ChunkByFloat64(f func(el uint) float64) [][]uint {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint) ChunkByInt(f func(el uint) int) [][]uint {
 	chunks := make([][]uint, 0)
-	chunk := make([]uint, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -36972,8 +37510,11 @@ func (s SliceUint) ChunkByInt(f func(el uint) int) [][]uint {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint) ChunkByInt8(f func(el uint) int8) [][]uint {
 	chunks := make([][]uint, 0)
-	chunk := make([]uint, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -36995,8 +37536,11 @@ func (s SliceUint) ChunkByInt8(f func(el uint) int8) [][]uint {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint) ChunkByInt16(f func(el uint) int16) [][]uint {
 	chunks := make([][]uint, 0)
-	chunk := make([]uint, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -37018,8 +37562,11 @@ func (s SliceUint) ChunkByInt16(f func(el uint) int16) [][]uint {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint) ChunkByInt32(f func(el uint) int32) [][]uint {
 	chunks := make([][]uint, 0)
-	chunk := make([]uint, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -37041,8 +37588,11 @@ func (s SliceUint) ChunkByInt32(f func(el uint) int32) [][]uint {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint) ChunkByInt64(f func(el uint) int64) [][]uint {
 	chunks := make([][]uint, 0)
-	chunk := make([]uint, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -37064,8 +37614,11 @@ func (s SliceUint) ChunkByInt64(f func(el uint) int64) [][]uint {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint) ChunkByUint(f func(el uint) uint) [][]uint {
 	chunks := make([][]uint, 0)
-	chunk := make([]uint, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -37087,8 +37640,11 @@ func (s SliceUint) ChunkByUint(f func(el uint) uint) [][]uint {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint) ChunkByUint8(f func(el uint) uint8) [][]uint {
 	chunks := make([][]uint, 0)
-	chunk := make([]uint, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -37110,8 +37666,11 @@ func (s SliceUint) ChunkByUint8(f func(el uint) uint8) [][]uint {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint) ChunkByUint16(f func(el uint) uint16) [][]uint {
 	chunks := make([][]uint, 0)
-	chunk := make([]uint, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -37133,8 +37692,11 @@ func (s SliceUint) ChunkByUint16(f func(el uint) uint16) [][]uint {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint) ChunkByUint32(f func(el uint) uint32) [][]uint {
 	chunks := make([][]uint, 0)
-	chunk := make([]uint, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -37156,8 +37718,11 @@ func (s SliceUint) ChunkByUint32(f func(el uint) uint32) [][]uint {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint) ChunkByUint64(f func(el uint) uint64) [][]uint {
 	chunks := make([][]uint, 0)
-	chunk := make([]uint, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -37179,8 +37744,11 @@ func (s SliceUint) ChunkByUint64(f func(el uint) uint64) [][]uint {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint) ChunkByInterface(f func(el uint) interface{}) [][]uint {
 	chunks := make([][]uint, 0)
-	chunk := make([]uint, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -37848,6 +38416,10 @@ func (s SliceUint) GroupByInterface(f func(el uint) interface{}) map[interface{}
 
 // Intersperse inserts el between each element of arr
 func (s SliceUint) Intersperse(el uint) []uint {
+	if len(s.Data) == 0 {
+		tmp := make([]uint, 0)
+		return tmp
+	}
 	result := make([]uint, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
 	for _, val := range s.Data[1:] {
@@ -38026,13 +38598,18 @@ func (s SliceUint) Min() uint {
 // {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
 func (s SliceUint) Permutations(size int) chan []uint {
 	c := make(chan []uint, 1)
-	go s.permutations(c, size, []uint{}, s.Data)
+	go func() {
+		if len(s.Data) > 0 {
+			s.permutations(c, size, []uint{}, s.Data)
+		}
+		close(c)
+	}()
 	return c
 }
 
 // permutations is a core implementation for Permutations
 func (s SliceUint) permutations(c chan []uint, size int, left []uint, right []uint) {
-	if len(left) == size {
+	if len(left) == size || len(right) == 0 {
 		c <- left
 		return
 	}
@@ -38049,11 +38626,6 @@ func (s SliceUint) permutations(c chan []uint, size int, left []uint, right []ui
 			}
 		}
 		s.permutations(c, size, newLeft, newRight)
-	}
-
-	// close channel in the first function call after all
-	if len(right) == len(s.Data) {
-		close(c)
 	}
 }
 
@@ -40377,8 +40949,11 @@ func (s SliceUint8) All(f func(el uint8) bool) bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint8) ChunkByBool(f func(el uint8) bool) [][]uint8 {
 	chunks := make([][]uint8, 0)
-	chunk := make([]uint8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -40400,8 +40975,11 @@ func (s SliceUint8) ChunkByBool(f func(el uint8) bool) [][]uint8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint8) ChunkByByte(f func(el uint8) byte) [][]uint8 {
 	chunks := make([][]uint8, 0)
-	chunk := make([]uint8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -40423,8 +41001,11 @@ func (s SliceUint8) ChunkByByte(f func(el uint8) byte) [][]uint8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint8) ChunkByString(f func(el uint8) string) [][]uint8 {
 	chunks := make([][]uint8, 0)
-	chunk := make([]uint8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -40446,8 +41027,11 @@ func (s SliceUint8) ChunkByString(f func(el uint8) string) [][]uint8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint8) ChunkByFloat32(f func(el uint8) float32) [][]uint8 {
 	chunks := make([][]uint8, 0)
-	chunk := make([]uint8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -40469,8 +41053,11 @@ func (s SliceUint8) ChunkByFloat32(f func(el uint8) float32) [][]uint8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint8) ChunkByFloat64(f func(el uint8) float64) [][]uint8 {
 	chunks := make([][]uint8, 0)
-	chunk := make([]uint8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -40492,8 +41079,11 @@ func (s SliceUint8) ChunkByFloat64(f func(el uint8) float64) [][]uint8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint8) ChunkByInt(f func(el uint8) int) [][]uint8 {
 	chunks := make([][]uint8, 0)
-	chunk := make([]uint8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -40515,8 +41105,11 @@ func (s SliceUint8) ChunkByInt(f func(el uint8) int) [][]uint8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint8) ChunkByInt8(f func(el uint8) int8) [][]uint8 {
 	chunks := make([][]uint8, 0)
-	chunk := make([]uint8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -40538,8 +41131,11 @@ func (s SliceUint8) ChunkByInt8(f func(el uint8) int8) [][]uint8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint8) ChunkByInt16(f func(el uint8) int16) [][]uint8 {
 	chunks := make([][]uint8, 0)
-	chunk := make([]uint8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -40561,8 +41157,11 @@ func (s SliceUint8) ChunkByInt16(f func(el uint8) int16) [][]uint8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint8) ChunkByInt32(f func(el uint8) int32) [][]uint8 {
 	chunks := make([][]uint8, 0)
-	chunk := make([]uint8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -40584,8 +41183,11 @@ func (s SliceUint8) ChunkByInt32(f func(el uint8) int32) [][]uint8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint8) ChunkByInt64(f func(el uint8) int64) [][]uint8 {
 	chunks := make([][]uint8, 0)
-	chunk := make([]uint8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -40607,8 +41209,11 @@ func (s SliceUint8) ChunkByInt64(f func(el uint8) int64) [][]uint8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint8) ChunkByUint(f func(el uint8) uint) [][]uint8 {
 	chunks := make([][]uint8, 0)
-	chunk := make([]uint8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -40630,8 +41235,11 @@ func (s SliceUint8) ChunkByUint(f func(el uint8) uint) [][]uint8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint8) ChunkByUint8(f func(el uint8) uint8) [][]uint8 {
 	chunks := make([][]uint8, 0)
-	chunk := make([]uint8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -40653,8 +41261,11 @@ func (s SliceUint8) ChunkByUint8(f func(el uint8) uint8) [][]uint8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint8) ChunkByUint16(f func(el uint8) uint16) [][]uint8 {
 	chunks := make([][]uint8, 0)
-	chunk := make([]uint8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -40676,8 +41287,11 @@ func (s SliceUint8) ChunkByUint16(f func(el uint8) uint16) [][]uint8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint8) ChunkByUint32(f func(el uint8) uint32) [][]uint8 {
 	chunks := make([][]uint8, 0)
-	chunk := make([]uint8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -40699,8 +41313,11 @@ func (s SliceUint8) ChunkByUint32(f func(el uint8) uint32) [][]uint8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint8) ChunkByUint64(f func(el uint8) uint64) [][]uint8 {
 	chunks := make([][]uint8, 0)
-	chunk := make([]uint8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -40722,8 +41339,11 @@ func (s SliceUint8) ChunkByUint64(f func(el uint8) uint64) [][]uint8 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint8) ChunkByInterface(f func(el uint8) interface{}) [][]uint8 {
 	chunks := make([][]uint8, 0)
-	chunk := make([]uint8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint8, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -41391,6 +42011,10 @@ func (s SliceUint8) GroupByInterface(f func(el uint8) interface{}) map[interface
 
 // Intersperse inserts el between each element of arr
 func (s SliceUint8) Intersperse(el uint8) []uint8 {
+	if len(s.Data) == 0 {
+		tmp := make([]uint8, 0)
+		return tmp
+	}
 	result := make([]uint8, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
 	for _, val := range s.Data[1:] {
@@ -41569,13 +42193,18 @@ func (s SliceUint8) Min() uint8 {
 // {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
 func (s SliceUint8) Permutations(size int) chan []uint8 {
 	c := make(chan []uint8, 1)
-	go s.permutations(c, size, []uint8{}, s.Data)
+	go func() {
+		if len(s.Data) > 0 {
+			s.permutations(c, size, []uint8{}, s.Data)
+		}
+		close(c)
+	}()
 	return c
 }
 
 // permutations is a core implementation for Permutations
 func (s SliceUint8) permutations(c chan []uint8, size int, left []uint8, right []uint8) {
-	if len(left) == size {
+	if len(left) == size || len(right) == 0 {
 		c <- left
 		return
 	}
@@ -41592,11 +42221,6 @@ func (s SliceUint8) permutations(c chan []uint8, size int, left []uint8, right [
 			}
 		}
 		s.permutations(c, size, newLeft, newRight)
-	}
-
-	// close channel in the first function call after all
-	if len(right) == len(s.Data) {
-		close(c)
 	}
 }
 
@@ -43920,8 +44544,11 @@ func (s SliceUint16) All(f func(el uint16) bool) bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint16) ChunkByBool(f func(el uint16) bool) [][]uint16 {
 	chunks := make([][]uint16, 0)
-	chunk := make([]uint16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -43943,8 +44570,11 @@ func (s SliceUint16) ChunkByBool(f func(el uint16) bool) [][]uint16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint16) ChunkByByte(f func(el uint16) byte) [][]uint16 {
 	chunks := make([][]uint16, 0)
-	chunk := make([]uint16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -43966,8 +44596,11 @@ func (s SliceUint16) ChunkByByte(f func(el uint16) byte) [][]uint16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint16) ChunkByString(f func(el uint16) string) [][]uint16 {
 	chunks := make([][]uint16, 0)
-	chunk := make([]uint16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -43989,8 +44622,11 @@ func (s SliceUint16) ChunkByString(f func(el uint16) string) [][]uint16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint16) ChunkByFloat32(f func(el uint16) float32) [][]uint16 {
 	chunks := make([][]uint16, 0)
-	chunk := make([]uint16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -44012,8 +44648,11 @@ func (s SliceUint16) ChunkByFloat32(f func(el uint16) float32) [][]uint16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint16) ChunkByFloat64(f func(el uint16) float64) [][]uint16 {
 	chunks := make([][]uint16, 0)
-	chunk := make([]uint16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -44035,8 +44674,11 @@ func (s SliceUint16) ChunkByFloat64(f func(el uint16) float64) [][]uint16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint16) ChunkByInt(f func(el uint16) int) [][]uint16 {
 	chunks := make([][]uint16, 0)
-	chunk := make([]uint16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -44058,8 +44700,11 @@ func (s SliceUint16) ChunkByInt(f func(el uint16) int) [][]uint16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint16) ChunkByInt8(f func(el uint16) int8) [][]uint16 {
 	chunks := make([][]uint16, 0)
-	chunk := make([]uint16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -44081,8 +44726,11 @@ func (s SliceUint16) ChunkByInt8(f func(el uint16) int8) [][]uint16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint16) ChunkByInt16(f func(el uint16) int16) [][]uint16 {
 	chunks := make([][]uint16, 0)
-	chunk := make([]uint16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -44104,8 +44752,11 @@ func (s SliceUint16) ChunkByInt16(f func(el uint16) int16) [][]uint16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint16) ChunkByInt32(f func(el uint16) int32) [][]uint16 {
 	chunks := make([][]uint16, 0)
-	chunk := make([]uint16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -44127,8 +44778,11 @@ func (s SliceUint16) ChunkByInt32(f func(el uint16) int32) [][]uint16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint16) ChunkByInt64(f func(el uint16) int64) [][]uint16 {
 	chunks := make([][]uint16, 0)
-	chunk := make([]uint16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -44150,8 +44804,11 @@ func (s SliceUint16) ChunkByInt64(f func(el uint16) int64) [][]uint16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint16) ChunkByUint(f func(el uint16) uint) [][]uint16 {
 	chunks := make([][]uint16, 0)
-	chunk := make([]uint16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -44173,8 +44830,11 @@ func (s SliceUint16) ChunkByUint(f func(el uint16) uint) [][]uint16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint16) ChunkByUint8(f func(el uint16) uint8) [][]uint16 {
 	chunks := make([][]uint16, 0)
-	chunk := make([]uint16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -44196,8 +44856,11 @@ func (s SliceUint16) ChunkByUint8(f func(el uint16) uint8) [][]uint16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint16) ChunkByUint16(f func(el uint16) uint16) [][]uint16 {
 	chunks := make([][]uint16, 0)
-	chunk := make([]uint16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -44219,8 +44882,11 @@ func (s SliceUint16) ChunkByUint16(f func(el uint16) uint16) [][]uint16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint16) ChunkByUint32(f func(el uint16) uint32) [][]uint16 {
 	chunks := make([][]uint16, 0)
-	chunk := make([]uint16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -44242,8 +44908,11 @@ func (s SliceUint16) ChunkByUint32(f func(el uint16) uint32) [][]uint16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint16) ChunkByUint64(f func(el uint16) uint64) [][]uint16 {
 	chunks := make([][]uint16, 0)
-	chunk := make([]uint16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -44265,8 +44934,11 @@ func (s SliceUint16) ChunkByUint64(f func(el uint16) uint64) [][]uint16 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint16) ChunkByInterface(f func(el uint16) interface{}) [][]uint16 {
 	chunks := make([][]uint16, 0)
-	chunk := make([]uint16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint16, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -44934,6 +45606,10 @@ func (s SliceUint16) GroupByInterface(f func(el uint16) interface{}) map[interfa
 
 // Intersperse inserts el between each element of arr
 func (s SliceUint16) Intersperse(el uint16) []uint16 {
+	if len(s.Data) == 0 {
+		tmp := make([]uint16, 0)
+		return tmp
+	}
 	result := make([]uint16, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
 	for _, val := range s.Data[1:] {
@@ -45112,13 +45788,18 @@ func (s SliceUint16) Min() uint16 {
 // {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
 func (s SliceUint16) Permutations(size int) chan []uint16 {
 	c := make(chan []uint16, 1)
-	go s.permutations(c, size, []uint16{}, s.Data)
+	go func() {
+		if len(s.Data) > 0 {
+			s.permutations(c, size, []uint16{}, s.Data)
+		}
+		close(c)
+	}()
 	return c
 }
 
 // permutations is a core implementation for Permutations
 func (s SliceUint16) permutations(c chan []uint16, size int, left []uint16, right []uint16) {
-	if len(left) == size {
+	if len(left) == size || len(right) == 0 {
 		c <- left
 		return
 	}
@@ -45135,11 +45816,6 @@ func (s SliceUint16) permutations(c chan []uint16, size int, left []uint16, righ
 			}
 		}
 		s.permutations(c, size, newLeft, newRight)
-	}
-
-	// close channel in the first function call after all
-	if len(right) == len(s.Data) {
-		close(c)
 	}
 }
 
@@ -47463,8 +48139,11 @@ func (s SliceUint32) All(f func(el uint32) bool) bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint32) ChunkByBool(f func(el uint32) bool) [][]uint32 {
 	chunks := make([][]uint32, 0)
-	chunk := make([]uint32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -47486,8 +48165,11 @@ func (s SliceUint32) ChunkByBool(f func(el uint32) bool) [][]uint32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint32) ChunkByByte(f func(el uint32) byte) [][]uint32 {
 	chunks := make([][]uint32, 0)
-	chunk := make([]uint32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -47509,8 +48191,11 @@ func (s SliceUint32) ChunkByByte(f func(el uint32) byte) [][]uint32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint32) ChunkByString(f func(el uint32) string) [][]uint32 {
 	chunks := make([][]uint32, 0)
-	chunk := make([]uint32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -47532,8 +48217,11 @@ func (s SliceUint32) ChunkByString(f func(el uint32) string) [][]uint32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint32) ChunkByFloat32(f func(el uint32) float32) [][]uint32 {
 	chunks := make([][]uint32, 0)
-	chunk := make([]uint32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -47555,8 +48243,11 @@ func (s SliceUint32) ChunkByFloat32(f func(el uint32) float32) [][]uint32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint32) ChunkByFloat64(f func(el uint32) float64) [][]uint32 {
 	chunks := make([][]uint32, 0)
-	chunk := make([]uint32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -47578,8 +48269,11 @@ func (s SliceUint32) ChunkByFloat64(f func(el uint32) float64) [][]uint32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint32) ChunkByInt(f func(el uint32) int) [][]uint32 {
 	chunks := make([][]uint32, 0)
-	chunk := make([]uint32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -47601,8 +48295,11 @@ func (s SliceUint32) ChunkByInt(f func(el uint32) int) [][]uint32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint32) ChunkByInt8(f func(el uint32) int8) [][]uint32 {
 	chunks := make([][]uint32, 0)
-	chunk := make([]uint32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -47624,8 +48321,11 @@ func (s SliceUint32) ChunkByInt8(f func(el uint32) int8) [][]uint32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint32) ChunkByInt16(f func(el uint32) int16) [][]uint32 {
 	chunks := make([][]uint32, 0)
-	chunk := make([]uint32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -47647,8 +48347,11 @@ func (s SliceUint32) ChunkByInt16(f func(el uint32) int16) [][]uint32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint32) ChunkByInt32(f func(el uint32) int32) [][]uint32 {
 	chunks := make([][]uint32, 0)
-	chunk := make([]uint32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -47670,8 +48373,11 @@ func (s SliceUint32) ChunkByInt32(f func(el uint32) int32) [][]uint32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint32) ChunkByInt64(f func(el uint32) int64) [][]uint32 {
 	chunks := make([][]uint32, 0)
-	chunk := make([]uint32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -47693,8 +48399,11 @@ func (s SliceUint32) ChunkByInt64(f func(el uint32) int64) [][]uint32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint32) ChunkByUint(f func(el uint32) uint) [][]uint32 {
 	chunks := make([][]uint32, 0)
-	chunk := make([]uint32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -47716,8 +48425,11 @@ func (s SliceUint32) ChunkByUint(f func(el uint32) uint) [][]uint32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint32) ChunkByUint8(f func(el uint32) uint8) [][]uint32 {
 	chunks := make([][]uint32, 0)
-	chunk := make([]uint32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -47739,8 +48451,11 @@ func (s SliceUint32) ChunkByUint8(f func(el uint32) uint8) [][]uint32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint32) ChunkByUint16(f func(el uint32) uint16) [][]uint32 {
 	chunks := make([][]uint32, 0)
-	chunk := make([]uint32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -47762,8 +48477,11 @@ func (s SliceUint32) ChunkByUint16(f func(el uint32) uint16) [][]uint32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint32) ChunkByUint32(f func(el uint32) uint32) [][]uint32 {
 	chunks := make([][]uint32, 0)
-	chunk := make([]uint32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -47785,8 +48503,11 @@ func (s SliceUint32) ChunkByUint32(f func(el uint32) uint32) [][]uint32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint32) ChunkByUint64(f func(el uint32) uint64) [][]uint32 {
 	chunks := make([][]uint32, 0)
-	chunk := make([]uint32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -47808,8 +48529,11 @@ func (s SliceUint32) ChunkByUint64(f func(el uint32) uint64) [][]uint32 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint32) ChunkByInterface(f func(el uint32) interface{}) [][]uint32 {
 	chunks := make([][]uint32, 0)
-	chunk := make([]uint32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint32, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -48477,6 +49201,10 @@ func (s SliceUint32) GroupByInterface(f func(el uint32) interface{}) map[interfa
 
 // Intersperse inserts el between each element of arr
 func (s SliceUint32) Intersperse(el uint32) []uint32 {
+	if len(s.Data) == 0 {
+		tmp := make([]uint32, 0)
+		return tmp
+	}
 	result := make([]uint32, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
 	for _, val := range s.Data[1:] {
@@ -48655,13 +49383,18 @@ func (s SliceUint32) Min() uint32 {
 // {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
 func (s SliceUint32) Permutations(size int) chan []uint32 {
 	c := make(chan []uint32, 1)
-	go s.permutations(c, size, []uint32{}, s.Data)
+	go func() {
+		if len(s.Data) > 0 {
+			s.permutations(c, size, []uint32{}, s.Data)
+		}
+		close(c)
+	}()
 	return c
 }
 
 // permutations is a core implementation for Permutations
 func (s SliceUint32) permutations(c chan []uint32, size int, left []uint32, right []uint32) {
-	if len(left) == size {
+	if len(left) == size || len(right) == 0 {
 		c <- left
 		return
 	}
@@ -48678,11 +49411,6 @@ func (s SliceUint32) permutations(c chan []uint32, size int, left []uint32, righ
 			}
 		}
 		s.permutations(c, size, newLeft, newRight)
-	}
-
-	// close channel in the first function call after all
-	if len(right) == len(s.Data) {
-		close(c)
 	}
 }
 
@@ -51006,8 +51734,11 @@ func (s SliceUint64) All(f func(el uint64) bool) bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint64) ChunkByBool(f func(el uint64) bool) [][]uint64 {
 	chunks := make([][]uint64, 0)
-	chunk := make([]uint64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -51029,8 +51760,11 @@ func (s SliceUint64) ChunkByBool(f func(el uint64) bool) [][]uint64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint64) ChunkByByte(f func(el uint64) byte) [][]uint64 {
 	chunks := make([][]uint64, 0)
-	chunk := make([]uint64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -51052,8 +51786,11 @@ func (s SliceUint64) ChunkByByte(f func(el uint64) byte) [][]uint64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint64) ChunkByString(f func(el uint64) string) [][]uint64 {
 	chunks := make([][]uint64, 0)
-	chunk := make([]uint64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -51075,8 +51812,11 @@ func (s SliceUint64) ChunkByString(f func(el uint64) string) [][]uint64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint64) ChunkByFloat32(f func(el uint64) float32) [][]uint64 {
 	chunks := make([][]uint64, 0)
-	chunk := make([]uint64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -51098,8 +51838,11 @@ func (s SliceUint64) ChunkByFloat32(f func(el uint64) float32) [][]uint64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint64) ChunkByFloat64(f func(el uint64) float64) [][]uint64 {
 	chunks := make([][]uint64, 0)
-	chunk := make([]uint64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -51121,8 +51864,11 @@ func (s SliceUint64) ChunkByFloat64(f func(el uint64) float64) [][]uint64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint64) ChunkByInt(f func(el uint64) int) [][]uint64 {
 	chunks := make([][]uint64, 0)
-	chunk := make([]uint64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -51144,8 +51890,11 @@ func (s SliceUint64) ChunkByInt(f func(el uint64) int) [][]uint64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint64) ChunkByInt8(f func(el uint64) int8) [][]uint64 {
 	chunks := make([][]uint64, 0)
-	chunk := make([]uint64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -51167,8 +51916,11 @@ func (s SliceUint64) ChunkByInt8(f func(el uint64) int8) [][]uint64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint64) ChunkByInt16(f func(el uint64) int16) [][]uint64 {
 	chunks := make([][]uint64, 0)
-	chunk := make([]uint64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -51190,8 +51942,11 @@ func (s SliceUint64) ChunkByInt16(f func(el uint64) int16) [][]uint64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint64) ChunkByInt32(f func(el uint64) int32) [][]uint64 {
 	chunks := make([][]uint64, 0)
-	chunk := make([]uint64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -51213,8 +51968,11 @@ func (s SliceUint64) ChunkByInt32(f func(el uint64) int32) [][]uint64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint64) ChunkByInt64(f func(el uint64) int64) [][]uint64 {
 	chunks := make([][]uint64, 0)
-	chunk := make([]uint64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -51236,8 +51994,11 @@ func (s SliceUint64) ChunkByInt64(f func(el uint64) int64) [][]uint64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint64) ChunkByUint(f func(el uint64) uint) [][]uint64 {
 	chunks := make([][]uint64, 0)
-	chunk := make([]uint64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -51259,8 +52020,11 @@ func (s SliceUint64) ChunkByUint(f func(el uint64) uint) [][]uint64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint64) ChunkByUint8(f func(el uint64) uint8) [][]uint64 {
 	chunks := make([][]uint64, 0)
-	chunk := make([]uint64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -51282,8 +52046,11 @@ func (s SliceUint64) ChunkByUint8(f func(el uint64) uint8) [][]uint64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint64) ChunkByUint16(f func(el uint64) uint16) [][]uint64 {
 	chunks := make([][]uint64, 0)
-	chunk := make([]uint64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -51305,8 +52072,11 @@ func (s SliceUint64) ChunkByUint16(f func(el uint64) uint16) [][]uint64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint64) ChunkByUint32(f func(el uint64) uint32) [][]uint64 {
 	chunks := make([][]uint64, 0)
-	chunk := make([]uint64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -51328,8 +52098,11 @@ func (s SliceUint64) ChunkByUint32(f func(el uint64) uint32) [][]uint64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint64) ChunkByUint64(f func(el uint64) uint64) [][]uint64 {
 	chunks := make([][]uint64, 0)
-	chunk := make([]uint64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -51351,8 +52124,11 @@ func (s SliceUint64) ChunkByUint64(f func(el uint64) uint64) [][]uint64 {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint64) ChunkByInterface(f func(el uint64) interface{}) [][]uint64 {
 	chunks := make([][]uint64, 0)
-	chunk := make([]uint64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]uint64, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -52020,6 +52796,10 @@ func (s SliceUint64) GroupByInterface(f func(el uint64) interface{}) map[interfa
 
 // Intersperse inserts el between each element of arr
 func (s SliceUint64) Intersperse(el uint64) []uint64 {
+	if len(s.Data) == 0 {
+		tmp := make([]uint64, 0)
+		return tmp
+	}
 	result := make([]uint64, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
 	for _, val := range s.Data[1:] {
@@ -52198,13 +52978,18 @@ func (s SliceUint64) Min() uint64 {
 // {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
 func (s SliceUint64) Permutations(size int) chan []uint64 {
 	c := make(chan []uint64, 1)
-	go s.permutations(c, size, []uint64{}, s.Data)
+	go func() {
+		if len(s.Data) > 0 {
+			s.permutations(c, size, []uint64{}, s.Data)
+		}
+		close(c)
+	}()
 	return c
 }
 
 // permutations is a core implementation for Permutations
 func (s SliceUint64) permutations(c chan []uint64, size int, left []uint64, right []uint64) {
-	if len(left) == size {
+	if len(left) == size || len(right) == 0 {
 		c <- left
 		return
 	}
@@ -52221,11 +53006,6 @@ func (s SliceUint64) permutations(c chan []uint64, size int, left []uint64, righ
 			}
 		}
 		s.permutations(c, size, newLeft, newRight)
-	}
-
-	// close channel in the first function call after all
-	if len(right) == len(s.Data) {
-		close(c)
 	}
 }
 
@@ -54479,8 +55259,11 @@ func (s SliceInterface) All(f func(el interface{}) bool) bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInterface) ChunkByBool(f func(el interface{}) bool) [][]interface{} {
 	chunks := make([][]interface{}, 0)
-	chunk := make([]interface{}, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]interface{}, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -54502,8 +55285,11 @@ func (s SliceInterface) ChunkByBool(f func(el interface{}) bool) [][]interface{}
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInterface) ChunkByByte(f func(el interface{}) byte) [][]interface{} {
 	chunks := make([][]interface{}, 0)
-	chunk := make([]interface{}, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]interface{}, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -54525,8 +55311,11 @@ func (s SliceInterface) ChunkByByte(f func(el interface{}) byte) [][]interface{}
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInterface) ChunkByString(f func(el interface{}) string) [][]interface{} {
 	chunks := make([][]interface{}, 0)
-	chunk := make([]interface{}, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]interface{}, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -54548,8 +55337,11 @@ func (s SliceInterface) ChunkByString(f func(el interface{}) string) [][]interfa
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInterface) ChunkByFloat32(f func(el interface{}) float32) [][]interface{} {
 	chunks := make([][]interface{}, 0)
-	chunk := make([]interface{}, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]interface{}, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -54571,8 +55363,11 @@ func (s SliceInterface) ChunkByFloat32(f func(el interface{}) float32) [][]inter
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInterface) ChunkByFloat64(f func(el interface{}) float64) [][]interface{} {
 	chunks := make([][]interface{}, 0)
-	chunk := make([]interface{}, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]interface{}, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -54594,8 +55389,11 @@ func (s SliceInterface) ChunkByFloat64(f func(el interface{}) float64) [][]inter
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInterface) ChunkByInt(f func(el interface{}) int) [][]interface{} {
 	chunks := make([][]interface{}, 0)
-	chunk := make([]interface{}, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]interface{}, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -54617,8 +55415,11 @@ func (s SliceInterface) ChunkByInt(f func(el interface{}) int) [][]interface{} {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInterface) ChunkByInt8(f func(el interface{}) int8) [][]interface{} {
 	chunks := make([][]interface{}, 0)
-	chunk := make([]interface{}, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]interface{}, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -54640,8 +55441,11 @@ func (s SliceInterface) ChunkByInt8(f func(el interface{}) int8) [][]interface{}
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInterface) ChunkByInt16(f func(el interface{}) int16) [][]interface{} {
 	chunks := make([][]interface{}, 0)
-	chunk := make([]interface{}, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]interface{}, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -54663,8 +55467,11 @@ func (s SliceInterface) ChunkByInt16(f func(el interface{}) int16) [][]interface
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInterface) ChunkByInt32(f func(el interface{}) int32) [][]interface{} {
 	chunks := make([][]interface{}, 0)
-	chunk := make([]interface{}, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]interface{}, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -54686,8 +55493,11 @@ func (s SliceInterface) ChunkByInt32(f func(el interface{}) int32) [][]interface
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInterface) ChunkByInt64(f func(el interface{}) int64) [][]interface{} {
 	chunks := make([][]interface{}, 0)
-	chunk := make([]interface{}, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]interface{}, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -54709,8 +55519,11 @@ func (s SliceInterface) ChunkByInt64(f func(el interface{}) int64) [][]interface
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInterface) ChunkByUint(f func(el interface{}) uint) [][]interface{} {
 	chunks := make([][]interface{}, 0)
-	chunk := make([]interface{}, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]interface{}, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -54732,8 +55545,11 @@ func (s SliceInterface) ChunkByUint(f func(el interface{}) uint) [][]interface{}
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInterface) ChunkByUint8(f func(el interface{}) uint8) [][]interface{} {
 	chunks := make([][]interface{}, 0)
-	chunk := make([]interface{}, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]interface{}, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -54755,8 +55571,11 @@ func (s SliceInterface) ChunkByUint8(f func(el interface{}) uint8) [][]interface
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInterface) ChunkByUint16(f func(el interface{}) uint16) [][]interface{} {
 	chunks := make([][]interface{}, 0)
-	chunk := make([]interface{}, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]interface{}, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -54778,8 +55597,11 @@ func (s SliceInterface) ChunkByUint16(f func(el interface{}) uint16) [][]interfa
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInterface) ChunkByUint32(f func(el interface{}) uint32) [][]interface{} {
 	chunks := make([][]interface{}, 0)
-	chunk := make([]interface{}, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]interface{}, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -54801,8 +55623,11 @@ func (s SliceInterface) ChunkByUint32(f func(el interface{}) uint32) [][]interfa
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInterface) ChunkByUint64(f func(el interface{}) uint64) [][]interface{} {
 	chunks := make([][]interface{}, 0)
-	chunk := make([]interface{}, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]interface{}, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -54824,8 +55649,11 @@ func (s SliceInterface) ChunkByUint64(f func(el interface{}) uint64) [][]interfa
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInterface) ChunkByInterface(f func(el interface{}) interface{}) [][]interface{} {
 	chunks := make([][]interface{}, 0)
-	chunk := make([]interface{}, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]interface{}, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -55484,6 +56312,10 @@ func (s SliceInterface) GroupByInterface(f func(el interface{}) interface{}) map
 
 // Intersperse inserts el between each element of arr
 func (s SliceInterface) Intersperse(el interface{}) []interface{} {
+	if len(s.Data) == 0 {
+		tmp := make([]interface{}, 0)
+		return tmp
+	}
 	result := make([]interface{}, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
 	for _, val := range s.Data[1:] {
@@ -55640,13 +56472,18 @@ func (s SliceInterface) MapInterface(f func(el interface{}) interface{}) []inter
 // {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
 func (s SliceInterface) Permutations(size int) chan []interface{} {
 	c := make(chan []interface{}, 1)
-	go s.permutations(c, size, []interface{}{}, s.Data)
+	go func() {
+		if len(s.Data) > 0 {
+			s.permutations(c, size, []interface{}{}, s.Data)
+		}
+		close(c)
+	}()
 	return c
 }
 
 // permutations is a core implementation for Permutations
 func (s SliceInterface) permutations(c chan []interface{}, size int, left []interface{}, right []interface{}) {
-	if len(left) == size {
+	if len(left) == size || len(right) == 0 {
 		c <- left
 		return
 	}
@@ -55663,11 +56500,6 @@ func (s SliceInterface) permutations(c chan []interface{}, size int, left []inte
 			}
 		}
 		s.permutations(c, size, newLeft, newRight)
-	}
-
-	// close channel in the first function call after all
-	if len(right) == len(s.Data) {
-		close(c)
 	}
 }
 

@@ -34,6 +34,10 @@ Generic types: T.
 ```go
 // Intersperse inserts el between each element of arr
 func (s Slice) Intersperse(el T) []T {
+	if len(s.Data) == 0 {
+		tmp := make([]T, 0)
+		return tmp
+	}
 	result := make([]T, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
 	for _, val := range s.Data[1:] {
@@ -51,6 +55,9 @@ func TestSliceIntersperse(t *testing.T) {
 		actual := Slice{given}.Intersperse(el)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
+	f(0, []T{}, []T{})
+	f(0, []T{1}, []T{1})
+	f(0, []T{1, 2}, []T{1, 0, 2})
 	f(0, []T{1, 2, 3}, []T{1, 0, 2, 0, 3})
 }
 ```

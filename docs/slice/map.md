@@ -67,12 +67,13 @@ func (s Slice) Map(f func(el T) G) []G {
 
 ```go
 func TestSliceMap(t *testing.T) {
-	f := func(mapper func(t T) G, given []T, expected []G) {
-		actual := Slice{given}.Map(mapper)
+	f := func(given []T, expected []G) {
+		double := func(t T) G { return G((t * 2)) }
+		actual := Slice{given}.Map(double)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	double := func(t T) G { return G((t * 2)) }
-
-	f(double, []T{1, 2, 3}, []G{2, 4, 6})
+	f([]T{}, []G{})
+	f([]T{1}, []G{2})
+	f([]T{1, 2, 3}, []G{2, 4, 6})
 }
 ```

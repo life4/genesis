@@ -35,8 +35,11 @@ func (s Slice) All(f func(el T) bool) bool {
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s Slice) ChunkBy(f func(el T) G) [][]T {
 	chunks := make([][]T, 0)
-	chunk := make([]T, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
 
+	chunk := make([]T, 0)
 	prev := f(s.Data[0])
 	chunk = append(chunk, s.Data[0])
 
@@ -239,6 +242,10 @@ func (s Slice) GroupBy(f func(el T) G) map[G][]T {
 
 // Intersperse inserts el between each element of arr
 func (s Slice) Intersperse(el T) []T {
+	if len(s.Data) == 0 {
+		tmp := make([]T, 0)
+		return tmp
+	}
 	result := make([]T, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
 	for _, val := range s.Data[1:] {
@@ -282,13 +289,18 @@ func (s Slice) Min() T {
 // {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
 func (s Slice) Permutations(size int) chan []T {
 	c := make(chan []T, 1)
-	go s.permutations(c, size, []T{}, s.Data)
+	go func() {
+		if len(s.Data) > 0 {
+			s.permutations(c, size, []T{}, s.Data)
+		}
+		close(c)
+	}()
 	return c
 }
 
 // permutations is a core implementation for Permutations
 func (s Slice) permutations(c chan []T, size int, left []T, right []T) {
-	if len(left) == size {
+	if len(left) == size || len(right) == 0 {
 		c <- left
 		return
 	}
@@ -305,11 +317,6 @@ func (s Slice) permutations(c chan []T, size int, left []T, right []T) {
 			}
 		}
 		s.permutations(c, size, newLeft, newRight)
-	}
-
-	// close channel in the first function call after all
-	if len(right) == len(s.Data) {
-		close(c)
 	}
 }
 
