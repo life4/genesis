@@ -8,7 +8,7 @@ from ._exclude import is_excluded
 from ._function import Function
 from ._struct import Struct
 from ._test import Test
-from ._types import Type, TYPES
+from ._types import Type
 
 
 REX_PACKAGE = re.compile(r'package (\w+)')
@@ -58,9 +58,7 @@ class File:
             structs=self.structs + other.structs,
         )
 
-    def render(self, types: Iterable[Type] = None) -> str:
-        if types is None:
-            types = TYPES
+    def render(self, types: Iterable[Type]) -> str:
         result = 'package {package}'.format(package=self.package)
         if self.imports:
             result += '\n\nimport ({})'.format('\n'.join(sorted(self.imports)))
