@@ -66,7 +66,7 @@ func (s AsyncSlice) Map(f func(el T) G) []G {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -93,7 +93,7 @@ func (s AsyncSlice) Map(f func(el T) G) []G {
 ```go
 func TestAsyncSliceMap(t *testing.T) {
 	f := func(mapper func(t T) G, given []T, expected []G) {
-		s := AsyncSlice{Data: given, workers: 2}
+		s := AsyncSlice{Data: given, Workers: 2}
 		actual := s.Map(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}

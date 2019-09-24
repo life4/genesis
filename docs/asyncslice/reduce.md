@@ -52,7 +52,7 @@ func (s AsyncSlice) Reduce(f func(left T, right T) T) T {
 
 	for len(state) > 1 {
 		// calculate workers count
-		workers := s.workers
+		workers := s.Workers
 		if workers == 0 || workers > len(state) {
 			workers = len(state)
 		}
@@ -97,7 +97,7 @@ func (s AsyncSlice) Reduce(f func(left T, right T) T) T {
 ```go
 func TestAsyncSliceReduce(t *testing.T) {
 	f := func(reducer func(a T, b T) T, given []T, expected T) {
-		s := AsyncSlice{Data: given, workers: 4}
+		s := AsyncSlice{Data: given, Workers: 4}
 		actual := s.Reduce(reducer)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}

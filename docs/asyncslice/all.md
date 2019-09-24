@@ -63,7 +63,7 @@ func (s AsyncSlice) All(f func(el T) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -100,7 +100,7 @@ func (s AsyncSlice) All(f func(el T) bool) bool {
 ```go
 func TestAsyncSliceAll(t *testing.T) {
 	f := func(check func(t T) bool, given []T, expected bool) {
-		s := AsyncSlice{Data: given, workers: 2}
+		s := AsyncSlice{Data: given, Workers: 2}
 		actual := s.All(check)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}

@@ -8,7 +8,7 @@ import (
 
 func TestAsyncSliceAny(t *testing.T) {
 	f := func(check func(t T) bool, given []T, expected bool) {
-		s := AsyncSlice{Data: given, workers: 2}
+		s := AsyncSlice{Data: given, Workers: 2}
 		actual := s.Any(check)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -25,7 +25,7 @@ func TestAsyncSliceAny(t *testing.T) {
 
 func TestAsyncSliceAll(t *testing.T) {
 	f := func(check func(t T) bool, given []T, expected bool) {
-		s := AsyncSlice{Data: given, workers: 2}
+		s := AsyncSlice{Data: given, Workers: 2}
 		actual := s.All(check)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -43,7 +43,7 @@ func TestAsyncSliceAll(t *testing.T) {
 
 func TestAsyncSliceEach(t *testing.T) {
 	f := func(given []T) {
-		s := AsyncSlice{Data: given, workers: 2}
+		s := AsyncSlice{Data: given, Workers: 2}
 		result := make(chan T, len(given))
 		mapper := func(t T) { result <- t }
 		s.Each(mapper)
@@ -61,7 +61,7 @@ func TestAsyncSliceEach(t *testing.T) {
 
 func TestAsyncSliceMap(t *testing.T) {
 	f := func(mapper func(t T) G, given []T, expected []G) {
-		s := AsyncSlice{Data: given, workers: 2}
+		s := AsyncSlice{Data: given, Workers: 2}
 		actual := s.Map(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -73,7 +73,7 @@ func TestAsyncSliceMap(t *testing.T) {
 }
 func TestAsyncSliceReduce(t *testing.T) {
 	f := func(reducer func(a T, b T) T, given []T, expected T) {
-		s := AsyncSlice{Data: given, workers: 4}
+		s := AsyncSlice{Data: given, Workers: 4}
 		actual := s.Reduce(reducer)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}

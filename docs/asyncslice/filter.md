@@ -47,7 +47,7 @@ func (s AsyncSlice) Filter(f func(el T) bool) []T {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}

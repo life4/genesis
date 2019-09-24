@@ -16,7 +16,7 @@ type ChannelBool struct {
 // AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceBool struct {
 	Data    []bool
-	workers int
+	Workers int
 }
 
 // Sequence is a set of operations to generate sequences
@@ -730,7 +730,7 @@ func (s AsyncSliceBool) All(f func(el bool) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -792,7 +792,7 @@ func (s AsyncSliceBool) Any(f func(el bool) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -835,7 +835,7 @@ func (s AsyncSliceBool) Each(f func(el bool)) {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -870,7 +870,7 @@ func (s AsyncSliceBool) Filter(f func(el bool) bool) []bool {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -912,7 +912,7 @@ func (s AsyncSliceBool) MapBool(f func(el bool) bool) []bool {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -946,7 +946,7 @@ func (s AsyncSliceBool) MapByte(f func(el bool) byte) []byte {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -980,7 +980,7 @@ func (s AsyncSliceBool) MapString(f func(el bool) string) []string {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -1014,7 +1014,7 @@ func (s AsyncSliceBool) MapFloat32(f func(el bool) float32) []float32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -1048,7 +1048,7 @@ func (s AsyncSliceBool) MapFloat64(f func(el bool) float64) []float64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -1082,7 +1082,7 @@ func (s AsyncSliceBool) MapInt(f func(el bool) int) []int {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -1116,7 +1116,7 @@ func (s AsyncSliceBool) MapInt8(f func(el bool) int8) []int8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -1150,7 +1150,7 @@ func (s AsyncSliceBool) MapInt16(f func(el bool) int16) []int16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -1184,7 +1184,7 @@ func (s AsyncSliceBool) MapInt32(f func(el bool) int32) []int32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -1218,7 +1218,7 @@ func (s AsyncSliceBool) MapInt64(f func(el bool) int64) []int64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -1252,7 +1252,7 @@ func (s AsyncSliceBool) MapUint(f func(el bool) uint) []uint {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -1286,7 +1286,7 @@ func (s AsyncSliceBool) MapUint8(f func(el bool) uint8) []uint8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -1320,7 +1320,7 @@ func (s AsyncSliceBool) MapUint16(f func(el bool) uint16) []uint16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -1354,7 +1354,7 @@ func (s AsyncSliceBool) MapUint32(f func(el bool) uint32) []uint32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -1388,7 +1388,7 @@ func (s AsyncSliceBool) MapUint64(f func(el bool) uint64) []uint64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -1422,7 +1422,7 @@ func (s AsyncSliceBool) MapInterface(f func(el bool) interface{}) []interface{} 
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -1463,7 +1463,7 @@ func (s AsyncSliceBool) Reduce(f func(left bool, right bool) bool) bool {
 
 	for len(state) > 1 {
 		// calculate workers count
-		workers := s.workers
+		workers := s.Workers
 		if workers == 0 || workers > len(state) {
 			workers = len(state)
 		}
@@ -3430,7 +3430,7 @@ type ChannelByte struct {
 // AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceByte struct {
 	Data    []byte
-	workers int
+	Workers int
 }
 
 // Sequence is a set of operations to generate sequences
@@ -4175,7 +4175,7 @@ func (s AsyncSliceByte) All(f func(el byte) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -4237,7 +4237,7 @@ func (s AsyncSliceByte) Any(f func(el byte) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -4280,7 +4280,7 @@ func (s AsyncSliceByte) Each(f func(el byte)) {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -4315,7 +4315,7 @@ func (s AsyncSliceByte) Filter(f func(el byte) bool) []byte {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -4357,7 +4357,7 @@ func (s AsyncSliceByte) MapBool(f func(el byte) bool) []bool {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -4391,7 +4391,7 @@ func (s AsyncSliceByte) MapByte(f func(el byte) byte) []byte {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -4425,7 +4425,7 @@ func (s AsyncSliceByte) MapString(f func(el byte) string) []string {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -4459,7 +4459,7 @@ func (s AsyncSliceByte) MapFloat32(f func(el byte) float32) []float32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -4493,7 +4493,7 @@ func (s AsyncSliceByte) MapFloat64(f func(el byte) float64) []float64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -4527,7 +4527,7 @@ func (s AsyncSliceByte) MapInt(f func(el byte) int) []int {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -4561,7 +4561,7 @@ func (s AsyncSliceByte) MapInt8(f func(el byte) int8) []int8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -4595,7 +4595,7 @@ func (s AsyncSliceByte) MapInt16(f func(el byte) int16) []int16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -4629,7 +4629,7 @@ func (s AsyncSliceByte) MapInt32(f func(el byte) int32) []int32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -4663,7 +4663,7 @@ func (s AsyncSliceByte) MapInt64(f func(el byte) int64) []int64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -4697,7 +4697,7 @@ func (s AsyncSliceByte) MapUint(f func(el byte) uint) []uint {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -4731,7 +4731,7 @@ func (s AsyncSliceByte) MapUint8(f func(el byte) uint8) []uint8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -4765,7 +4765,7 @@ func (s AsyncSliceByte) MapUint16(f func(el byte) uint16) []uint16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -4799,7 +4799,7 @@ func (s AsyncSliceByte) MapUint32(f func(el byte) uint32) []uint32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -4833,7 +4833,7 @@ func (s AsyncSliceByte) MapUint64(f func(el byte) uint64) []uint64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -4867,7 +4867,7 @@ func (s AsyncSliceByte) MapInterface(f func(el byte) interface{}) []interface{} 
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -4908,7 +4908,7 @@ func (s AsyncSliceByte) Reduce(f func(left byte, right byte) byte) byte {
 
 	for len(state) > 1 {
 		// calculate workers count
-		workers := s.workers
+		workers := s.Workers
 		if workers == 0 || workers > len(state) {
 			workers = len(state)
 		}
@@ -6934,7 +6934,7 @@ type ChannelString struct {
 // AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceString struct {
 	Data    []string
-	workers int
+	Workers int
 }
 
 // Sequence is a set of operations to generate sequences
@@ -7679,7 +7679,7 @@ func (s AsyncSliceString) All(f func(el string) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -7741,7 +7741,7 @@ func (s AsyncSliceString) Any(f func(el string) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -7784,7 +7784,7 @@ func (s AsyncSliceString) Each(f func(el string)) {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -7819,7 +7819,7 @@ func (s AsyncSliceString) Filter(f func(el string) bool) []string {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -7861,7 +7861,7 @@ func (s AsyncSliceString) MapBool(f func(el string) bool) []bool {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -7895,7 +7895,7 @@ func (s AsyncSliceString) MapByte(f func(el string) byte) []byte {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -7929,7 +7929,7 @@ func (s AsyncSliceString) MapString(f func(el string) string) []string {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -7963,7 +7963,7 @@ func (s AsyncSliceString) MapFloat32(f func(el string) float32) []float32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -7997,7 +7997,7 @@ func (s AsyncSliceString) MapFloat64(f func(el string) float64) []float64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -8031,7 +8031,7 @@ func (s AsyncSliceString) MapInt(f func(el string) int) []int {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -8065,7 +8065,7 @@ func (s AsyncSliceString) MapInt8(f func(el string) int8) []int8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -8099,7 +8099,7 @@ func (s AsyncSliceString) MapInt16(f func(el string) int16) []int16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -8133,7 +8133,7 @@ func (s AsyncSliceString) MapInt32(f func(el string) int32) []int32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -8167,7 +8167,7 @@ func (s AsyncSliceString) MapInt64(f func(el string) int64) []int64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -8201,7 +8201,7 @@ func (s AsyncSliceString) MapUint(f func(el string) uint) []uint {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -8235,7 +8235,7 @@ func (s AsyncSliceString) MapUint8(f func(el string) uint8) []uint8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -8269,7 +8269,7 @@ func (s AsyncSliceString) MapUint16(f func(el string) uint16) []uint16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -8303,7 +8303,7 @@ func (s AsyncSliceString) MapUint32(f func(el string) uint32) []uint32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -8337,7 +8337,7 @@ func (s AsyncSliceString) MapUint64(f func(el string) uint64) []uint64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -8371,7 +8371,7 @@ func (s AsyncSliceString) MapInterface(f func(el string) interface{}) []interfac
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -8412,7 +8412,7 @@ func (s AsyncSliceString) Reduce(f func(left string, right string) string) strin
 
 	for len(state) > 1 {
 		// calculate workers count
-		workers := s.workers
+		workers := s.Workers
 		if workers == 0 || workers > len(state) {
 			workers = len(state)
 		}
@@ -10438,7 +10438,7 @@ type ChannelFloat32 struct {
 // AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceFloat32 struct {
 	Data    []float32
-	workers int
+	Workers int
 }
 
 // Sequence is a set of operations to generate sequences
@@ -11183,7 +11183,7 @@ func (s AsyncSliceFloat32) All(f func(el float32) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -11245,7 +11245,7 @@ func (s AsyncSliceFloat32) Any(f func(el float32) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -11288,7 +11288,7 @@ func (s AsyncSliceFloat32) Each(f func(el float32)) {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -11323,7 +11323,7 @@ func (s AsyncSliceFloat32) Filter(f func(el float32) bool) []float32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -11365,7 +11365,7 @@ func (s AsyncSliceFloat32) MapBool(f func(el float32) bool) []bool {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -11399,7 +11399,7 @@ func (s AsyncSliceFloat32) MapByte(f func(el float32) byte) []byte {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -11433,7 +11433,7 @@ func (s AsyncSliceFloat32) MapString(f func(el float32) string) []string {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -11467,7 +11467,7 @@ func (s AsyncSliceFloat32) MapFloat32(f func(el float32) float32) []float32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -11501,7 +11501,7 @@ func (s AsyncSliceFloat32) MapFloat64(f func(el float32) float64) []float64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -11535,7 +11535,7 @@ func (s AsyncSliceFloat32) MapInt(f func(el float32) int) []int {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -11569,7 +11569,7 @@ func (s AsyncSliceFloat32) MapInt8(f func(el float32) int8) []int8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -11603,7 +11603,7 @@ func (s AsyncSliceFloat32) MapInt16(f func(el float32) int16) []int16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -11637,7 +11637,7 @@ func (s AsyncSliceFloat32) MapInt32(f func(el float32) int32) []int32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -11671,7 +11671,7 @@ func (s AsyncSliceFloat32) MapInt64(f func(el float32) int64) []int64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -11705,7 +11705,7 @@ func (s AsyncSliceFloat32) MapUint(f func(el float32) uint) []uint {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -11739,7 +11739,7 @@ func (s AsyncSliceFloat32) MapUint8(f func(el float32) uint8) []uint8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -11773,7 +11773,7 @@ func (s AsyncSliceFloat32) MapUint16(f func(el float32) uint16) []uint16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -11807,7 +11807,7 @@ func (s AsyncSliceFloat32) MapUint32(f func(el float32) uint32) []uint32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -11841,7 +11841,7 @@ func (s AsyncSliceFloat32) MapUint64(f func(el float32) uint64) []uint64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -11875,7 +11875,7 @@ func (s AsyncSliceFloat32) MapInterface(f func(el float32) interface{}) []interf
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -11916,7 +11916,7 @@ func (s AsyncSliceFloat32) Reduce(f func(left float32, right float32) float32) f
 
 	for len(state) > 1 {
 		// calculate workers count
-		workers := s.workers
+		workers := s.Workers
 		if workers == 0 || workers > len(state) {
 			workers = len(state)
 		}
@@ -13972,7 +13972,7 @@ type ChannelFloat64 struct {
 // AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceFloat64 struct {
 	Data    []float64
-	workers int
+	Workers int
 }
 
 // Sequence is a set of operations to generate sequences
@@ -14717,7 +14717,7 @@ func (s AsyncSliceFloat64) All(f func(el float64) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -14779,7 +14779,7 @@ func (s AsyncSliceFloat64) Any(f func(el float64) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -14822,7 +14822,7 @@ func (s AsyncSliceFloat64) Each(f func(el float64)) {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -14857,7 +14857,7 @@ func (s AsyncSliceFloat64) Filter(f func(el float64) bool) []float64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -14899,7 +14899,7 @@ func (s AsyncSliceFloat64) MapBool(f func(el float64) bool) []bool {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -14933,7 +14933,7 @@ func (s AsyncSliceFloat64) MapByte(f func(el float64) byte) []byte {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -14967,7 +14967,7 @@ func (s AsyncSliceFloat64) MapString(f func(el float64) string) []string {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -15001,7 +15001,7 @@ func (s AsyncSliceFloat64) MapFloat32(f func(el float64) float32) []float32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -15035,7 +15035,7 @@ func (s AsyncSliceFloat64) MapFloat64(f func(el float64) float64) []float64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -15069,7 +15069,7 @@ func (s AsyncSliceFloat64) MapInt(f func(el float64) int) []int {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -15103,7 +15103,7 @@ func (s AsyncSliceFloat64) MapInt8(f func(el float64) int8) []int8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -15137,7 +15137,7 @@ func (s AsyncSliceFloat64) MapInt16(f func(el float64) int16) []int16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -15171,7 +15171,7 @@ func (s AsyncSliceFloat64) MapInt32(f func(el float64) int32) []int32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -15205,7 +15205,7 @@ func (s AsyncSliceFloat64) MapInt64(f func(el float64) int64) []int64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -15239,7 +15239,7 @@ func (s AsyncSliceFloat64) MapUint(f func(el float64) uint) []uint {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -15273,7 +15273,7 @@ func (s AsyncSliceFloat64) MapUint8(f func(el float64) uint8) []uint8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -15307,7 +15307,7 @@ func (s AsyncSliceFloat64) MapUint16(f func(el float64) uint16) []uint16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -15341,7 +15341,7 @@ func (s AsyncSliceFloat64) MapUint32(f func(el float64) uint32) []uint32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -15375,7 +15375,7 @@ func (s AsyncSliceFloat64) MapUint64(f func(el float64) uint64) []uint64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -15409,7 +15409,7 @@ func (s AsyncSliceFloat64) MapInterface(f func(el float64) interface{}) []interf
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -15450,7 +15450,7 @@ func (s AsyncSliceFloat64) Reduce(f func(left float64, right float64) float64) f
 
 	for len(state) > 1 {
 		// calculate workers count
-		workers := s.workers
+		workers := s.Workers
 		if workers == 0 || workers > len(state) {
 			workers = len(state)
 		}
@@ -17506,7 +17506,7 @@ type ChannelInt struct {
 // AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceInt struct {
 	Data    []int
-	workers int
+	Workers int
 }
 
 // Sequence is a set of operations to generate sequences
@@ -18251,7 +18251,7 @@ func (s AsyncSliceInt) All(f func(el int) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -18313,7 +18313,7 @@ func (s AsyncSliceInt) Any(f func(el int) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -18356,7 +18356,7 @@ func (s AsyncSliceInt) Each(f func(el int)) {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -18391,7 +18391,7 @@ func (s AsyncSliceInt) Filter(f func(el int) bool) []int {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -18433,7 +18433,7 @@ func (s AsyncSliceInt) MapBool(f func(el int) bool) []bool {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -18467,7 +18467,7 @@ func (s AsyncSliceInt) MapByte(f func(el int) byte) []byte {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -18501,7 +18501,7 @@ func (s AsyncSliceInt) MapString(f func(el int) string) []string {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -18535,7 +18535,7 @@ func (s AsyncSliceInt) MapFloat32(f func(el int) float32) []float32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -18569,7 +18569,7 @@ func (s AsyncSliceInt) MapFloat64(f func(el int) float64) []float64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -18603,7 +18603,7 @@ func (s AsyncSliceInt) MapInt(f func(el int) int) []int {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -18637,7 +18637,7 @@ func (s AsyncSliceInt) MapInt8(f func(el int) int8) []int8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -18671,7 +18671,7 @@ func (s AsyncSliceInt) MapInt16(f func(el int) int16) []int16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -18705,7 +18705,7 @@ func (s AsyncSliceInt) MapInt32(f func(el int) int32) []int32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -18739,7 +18739,7 @@ func (s AsyncSliceInt) MapInt64(f func(el int) int64) []int64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -18773,7 +18773,7 @@ func (s AsyncSliceInt) MapUint(f func(el int) uint) []uint {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -18807,7 +18807,7 @@ func (s AsyncSliceInt) MapUint8(f func(el int) uint8) []uint8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -18841,7 +18841,7 @@ func (s AsyncSliceInt) MapUint16(f func(el int) uint16) []uint16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -18875,7 +18875,7 @@ func (s AsyncSliceInt) MapUint32(f func(el int) uint32) []uint32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -18909,7 +18909,7 @@ func (s AsyncSliceInt) MapUint64(f func(el int) uint64) []uint64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -18943,7 +18943,7 @@ func (s AsyncSliceInt) MapInterface(f func(el int) interface{}) []interface{} {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -18984,7 +18984,7 @@ func (s AsyncSliceInt) Reduce(f func(left int, right int) int) int {
 
 	for len(state) > 1 {
 		// calculate workers count
-		workers := s.workers
+		workers := s.Workers
 		if workers == 0 || workers > len(state) {
 			workers = len(state)
 		}
@@ -21049,7 +21049,7 @@ type ChannelInt8 struct {
 // AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceInt8 struct {
 	Data    []int8
-	workers int
+	Workers int
 }
 
 // Sequence is a set of operations to generate sequences
@@ -21794,7 +21794,7 @@ func (s AsyncSliceInt8) All(f func(el int8) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -21856,7 +21856,7 @@ func (s AsyncSliceInt8) Any(f func(el int8) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -21899,7 +21899,7 @@ func (s AsyncSliceInt8) Each(f func(el int8)) {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -21934,7 +21934,7 @@ func (s AsyncSliceInt8) Filter(f func(el int8) bool) []int8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -21976,7 +21976,7 @@ func (s AsyncSliceInt8) MapBool(f func(el int8) bool) []bool {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -22010,7 +22010,7 @@ func (s AsyncSliceInt8) MapByte(f func(el int8) byte) []byte {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -22044,7 +22044,7 @@ func (s AsyncSliceInt8) MapString(f func(el int8) string) []string {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -22078,7 +22078,7 @@ func (s AsyncSliceInt8) MapFloat32(f func(el int8) float32) []float32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -22112,7 +22112,7 @@ func (s AsyncSliceInt8) MapFloat64(f func(el int8) float64) []float64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -22146,7 +22146,7 @@ func (s AsyncSliceInt8) MapInt(f func(el int8) int) []int {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -22180,7 +22180,7 @@ func (s AsyncSliceInt8) MapInt8(f func(el int8) int8) []int8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -22214,7 +22214,7 @@ func (s AsyncSliceInt8) MapInt16(f func(el int8) int16) []int16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -22248,7 +22248,7 @@ func (s AsyncSliceInt8) MapInt32(f func(el int8) int32) []int32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -22282,7 +22282,7 @@ func (s AsyncSliceInt8) MapInt64(f func(el int8) int64) []int64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -22316,7 +22316,7 @@ func (s AsyncSliceInt8) MapUint(f func(el int8) uint) []uint {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -22350,7 +22350,7 @@ func (s AsyncSliceInt8) MapUint8(f func(el int8) uint8) []uint8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -22384,7 +22384,7 @@ func (s AsyncSliceInt8) MapUint16(f func(el int8) uint16) []uint16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -22418,7 +22418,7 @@ func (s AsyncSliceInt8) MapUint32(f func(el int8) uint32) []uint32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -22452,7 +22452,7 @@ func (s AsyncSliceInt8) MapUint64(f func(el int8) uint64) []uint64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -22486,7 +22486,7 @@ func (s AsyncSliceInt8) MapInterface(f func(el int8) interface{}) []interface{} 
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -22527,7 +22527,7 @@ func (s AsyncSliceInt8) Reduce(f func(left int8, right int8) int8) int8 {
 
 	for len(state) > 1 {
 		// calculate workers count
-		workers := s.workers
+		workers := s.Workers
 		if workers == 0 || workers > len(state) {
 			workers = len(state)
 		}
@@ -24592,7 +24592,7 @@ type ChannelInt16 struct {
 // AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceInt16 struct {
 	Data    []int16
-	workers int
+	Workers int
 }
 
 // Sequence is a set of operations to generate sequences
@@ -25337,7 +25337,7 @@ func (s AsyncSliceInt16) All(f func(el int16) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -25399,7 +25399,7 @@ func (s AsyncSliceInt16) Any(f func(el int16) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -25442,7 +25442,7 @@ func (s AsyncSliceInt16) Each(f func(el int16)) {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -25477,7 +25477,7 @@ func (s AsyncSliceInt16) Filter(f func(el int16) bool) []int16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -25519,7 +25519,7 @@ func (s AsyncSliceInt16) MapBool(f func(el int16) bool) []bool {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -25553,7 +25553,7 @@ func (s AsyncSliceInt16) MapByte(f func(el int16) byte) []byte {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -25587,7 +25587,7 @@ func (s AsyncSliceInt16) MapString(f func(el int16) string) []string {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -25621,7 +25621,7 @@ func (s AsyncSliceInt16) MapFloat32(f func(el int16) float32) []float32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -25655,7 +25655,7 @@ func (s AsyncSliceInt16) MapFloat64(f func(el int16) float64) []float64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -25689,7 +25689,7 @@ func (s AsyncSliceInt16) MapInt(f func(el int16) int) []int {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -25723,7 +25723,7 @@ func (s AsyncSliceInt16) MapInt8(f func(el int16) int8) []int8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -25757,7 +25757,7 @@ func (s AsyncSliceInt16) MapInt16(f func(el int16) int16) []int16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -25791,7 +25791,7 @@ func (s AsyncSliceInt16) MapInt32(f func(el int16) int32) []int32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -25825,7 +25825,7 @@ func (s AsyncSliceInt16) MapInt64(f func(el int16) int64) []int64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -25859,7 +25859,7 @@ func (s AsyncSliceInt16) MapUint(f func(el int16) uint) []uint {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -25893,7 +25893,7 @@ func (s AsyncSliceInt16) MapUint8(f func(el int16) uint8) []uint8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -25927,7 +25927,7 @@ func (s AsyncSliceInt16) MapUint16(f func(el int16) uint16) []uint16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -25961,7 +25961,7 @@ func (s AsyncSliceInt16) MapUint32(f func(el int16) uint32) []uint32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -25995,7 +25995,7 @@ func (s AsyncSliceInt16) MapUint64(f func(el int16) uint64) []uint64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -26029,7 +26029,7 @@ func (s AsyncSliceInt16) MapInterface(f func(el int16) interface{}) []interface{
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -26070,7 +26070,7 @@ func (s AsyncSliceInt16) Reduce(f func(left int16, right int16) int16) int16 {
 
 	for len(state) > 1 {
 		// calculate workers count
-		workers := s.workers
+		workers := s.Workers
 		if workers == 0 || workers > len(state) {
 			workers = len(state)
 		}
@@ -28135,7 +28135,7 @@ type ChannelInt32 struct {
 // AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceInt32 struct {
 	Data    []int32
-	workers int
+	Workers int
 }
 
 // Sequence is a set of operations to generate sequences
@@ -28880,7 +28880,7 @@ func (s AsyncSliceInt32) All(f func(el int32) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -28942,7 +28942,7 @@ func (s AsyncSliceInt32) Any(f func(el int32) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -28985,7 +28985,7 @@ func (s AsyncSliceInt32) Each(f func(el int32)) {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -29020,7 +29020,7 @@ func (s AsyncSliceInt32) Filter(f func(el int32) bool) []int32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -29062,7 +29062,7 @@ func (s AsyncSliceInt32) MapBool(f func(el int32) bool) []bool {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -29096,7 +29096,7 @@ func (s AsyncSliceInt32) MapByte(f func(el int32) byte) []byte {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -29130,7 +29130,7 @@ func (s AsyncSliceInt32) MapString(f func(el int32) string) []string {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -29164,7 +29164,7 @@ func (s AsyncSliceInt32) MapFloat32(f func(el int32) float32) []float32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -29198,7 +29198,7 @@ func (s AsyncSliceInt32) MapFloat64(f func(el int32) float64) []float64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -29232,7 +29232,7 @@ func (s AsyncSliceInt32) MapInt(f func(el int32) int) []int {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -29266,7 +29266,7 @@ func (s AsyncSliceInt32) MapInt8(f func(el int32) int8) []int8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -29300,7 +29300,7 @@ func (s AsyncSliceInt32) MapInt16(f func(el int32) int16) []int16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -29334,7 +29334,7 @@ func (s AsyncSliceInt32) MapInt32(f func(el int32) int32) []int32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -29368,7 +29368,7 @@ func (s AsyncSliceInt32) MapInt64(f func(el int32) int64) []int64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -29402,7 +29402,7 @@ func (s AsyncSliceInt32) MapUint(f func(el int32) uint) []uint {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -29436,7 +29436,7 @@ func (s AsyncSliceInt32) MapUint8(f func(el int32) uint8) []uint8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -29470,7 +29470,7 @@ func (s AsyncSliceInt32) MapUint16(f func(el int32) uint16) []uint16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -29504,7 +29504,7 @@ func (s AsyncSliceInt32) MapUint32(f func(el int32) uint32) []uint32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -29538,7 +29538,7 @@ func (s AsyncSliceInt32) MapUint64(f func(el int32) uint64) []uint64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -29572,7 +29572,7 @@ func (s AsyncSliceInt32) MapInterface(f func(el int32) interface{}) []interface{
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -29613,7 +29613,7 @@ func (s AsyncSliceInt32) Reduce(f func(left int32, right int32) int32) int32 {
 
 	for len(state) > 1 {
 		// calculate workers count
-		workers := s.workers
+		workers := s.Workers
 		if workers == 0 || workers > len(state) {
 			workers = len(state)
 		}
@@ -31678,7 +31678,7 @@ type ChannelInt64 struct {
 // AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceInt64 struct {
 	Data    []int64
-	workers int
+	Workers int
 }
 
 // Sequence is a set of operations to generate sequences
@@ -32423,7 +32423,7 @@ func (s AsyncSliceInt64) All(f func(el int64) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -32485,7 +32485,7 @@ func (s AsyncSliceInt64) Any(f func(el int64) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -32528,7 +32528,7 @@ func (s AsyncSliceInt64) Each(f func(el int64)) {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -32563,7 +32563,7 @@ func (s AsyncSliceInt64) Filter(f func(el int64) bool) []int64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -32605,7 +32605,7 @@ func (s AsyncSliceInt64) MapBool(f func(el int64) bool) []bool {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -32639,7 +32639,7 @@ func (s AsyncSliceInt64) MapByte(f func(el int64) byte) []byte {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -32673,7 +32673,7 @@ func (s AsyncSliceInt64) MapString(f func(el int64) string) []string {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -32707,7 +32707,7 @@ func (s AsyncSliceInt64) MapFloat32(f func(el int64) float32) []float32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -32741,7 +32741,7 @@ func (s AsyncSliceInt64) MapFloat64(f func(el int64) float64) []float64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -32775,7 +32775,7 @@ func (s AsyncSliceInt64) MapInt(f func(el int64) int) []int {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -32809,7 +32809,7 @@ func (s AsyncSliceInt64) MapInt8(f func(el int64) int8) []int8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -32843,7 +32843,7 @@ func (s AsyncSliceInt64) MapInt16(f func(el int64) int16) []int16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -32877,7 +32877,7 @@ func (s AsyncSliceInt64) MapInt32(f func(el int64) int32) []int32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -32911,7 +32911,7 @@ func (s AsyncSliceInt64) MapInt64(f func(el int64) int64) []int64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -32945,7 +32945,7 @@ func (s AsyncSliceInt64) MapUint(f func(el int64) uint) []uint {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -32979,7 +32979,7 @@ func (s AsyncSliceInt64) MapUint8(f func(el int64) uint8) []uint8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -33013,7 +33013,7 @@ func (s AsyncSliceInt64) MapUint16(f func(el int64) uint16) []uint16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -33047,7 +33047,7 @@ func (s AsyncSliceInt64) MapUint32(f func(el int64) uint32) []uint32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -33081,7 +33081,7 @@ func (s AsyncSliceInt64) MapUint64(f func(el int64) uint64) []uint64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -33115,7 +33115,7 @@ func (s AsyncSliceInt64) MapInterface(f func(el int64) interface{}) []interface{
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -33156,7 +33156,7 @@ func (s AsyncSliceInt64) Reduce(f func(left int64, right int64) int64) int64 {
 
 	for len(state) > 1 {
 		// calculate workers count
-		workers := s.workers
+		workers := s.Workers
 		if workers == 0 || workers > len(state) {
 			workers = len(state)
 		}
@@ -35221,7 +35221,7 @@ type ChannelUint struct {
 // AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceUint struct {
 	Data    []uint
-	workers int
+	Workers int
 }
 
 // Sequence is a set of operations to generate sequences
@@ -35966,7 +35966,7 @@ func (s AsyncSliceUint) All(f func(el uint) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -36028,7 +36028,7 @@ func (s AsyncSliceUint) Any(f func(el uint) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -36071,7 +36071,7 @@ func (s AsyncSliceUint) Each(f func(el uint)) {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -36106,7 +36106,7 @@ func (s AsyncSliceUint) Filter(f func(el uint) bool) []uint {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -36148,7 +36148,7 @@ func (s AsyncSliceUint) MapBool(f func(el uint) bool) []bool {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -36182,7 +36182,7 @@ func (s AsyncSliceUint) MapByte(f func(el uint) byte) []byte {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -36216,7 +36216,7 @@ func (s AsyncSliceUint) MapString(f func(el uint) string) []string {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -36250,7 +36250,7 @@ func (s AsyncSliceUint) MapFloat32(f func(el uint) float32) []float32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -36284,7 +36284,7 @@ func (s AsyncSliceUint) MapFloat64(f func(el uint) float64) []float64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -36318,7 +36318,7 @@ func (s AsyncSliceUint) MapInt(f func(el uint) int) []int {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -36352,7 +36352,7 @@ func (s AsyncSliceUint) MapInt8(f func(el uint) int8) []int8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -36386,7 +36386,7 @@ func (s AsyncSliceUint) MapInt16(f func(el uint) int16) []int16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -36420,7 +36420,7 @@ func (s AsyncSliceUint) MapInt32(f func(el uint) int32) []int32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -36454,7 +36454,7 @@ func (s AsyncSliceUint) MapInt64(f func(el uint) int64) []int64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -36488,7 +36488,7 @@ func (s AsyncSliceUint) MapUint(f func(el uint) uint) []uint {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -36522,7 +36522,7 @@ func (s AsyncSliceUint) MapUint8(f func(el uint) uint8) []uint8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -36556,7 +36556,7 @@ func (s AsyncSliceUint) MapUint16(f func(el uint) uint16) []uint16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -36590,7 +36590,7 @@ func (s AsyncSliceUint) MapUint32(f func(el uint) uint32) []uint32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -36624,7 +36624,7 @@ func (s AsyncSliceUint) MapUint64(f func(el uint) uint64) []uint64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -36658,7 +36658,7 @@ func (s AsyncSliceUint) MapInterface(f func(el uint) interface{}) []interface{} 
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -36699,7 +36699,7 @@ func (s AsyncSliceUint) Reduce(f func(left uint, right uint) uint) uint {
 
 	for len(state) > 1 {
 		// calculate workers count
-		workers := s.workers
+		workers := s.Workers
 		if workers == 0 || workers > len(state) {
 			workers = len(state)
 		}
@@ -38764,7 +38764,7 @@ type ChannelUint8 struct {
 // AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceUint8 struct {
 	Data    []uint8
-	workers int
+	Workers int
 }
 
 // Sequence is a set of operations to generate sequences
@@ -39509,7 +39509,7 @@ func (s AsyncSliceUint8) All(f func(el uint8) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -39571,7 +39571,7 @@ func (s AsyncSliceUint8) Any(f func(el uint8) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -39614,7 +39614,7 @@ func (s AsyncSliceUint8) Each(f func(el uint8)) {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -39649,7 +39649,7 @@ func (s AsyncSliceUint8) Filter(f func(el uint8) bool) []uint8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -39691,7 +39691,7 @@ func (s AsyncSliceUint8) MapBool(f func(el uint8) bool) []bool {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -39725,7 +39725,7 @@ func (s AsyncSliceUint8) MapByte(f func(el uint8) byte) []byte {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -39759,7 +39759,7 @@ func (s AsyncSliceUint8) MapString(f func(el uint8) string) []string {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -39793,7 +39793,7 @@ func (s AsyncSliceUint8) MapFloat32(f func(el uint8) float32) []float32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -39827,7 +39827,7 @@ func (s AsyncSliceUint8) MapFloat64(f func(el uint8) float64) []float64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -39861,7 +39861,7 @@ func (s AsyncSliceUint8) MapInt(f func(el uint8) int) []int {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -39895,7 +39895,7 @@ func (s AsyncSliceUint8) MapInt8(f func(el uint8) int8) []int8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -39929,7 +39929,7 @@ func (s AsyncSliceUint8) MapInt16(f func(el uint8) int16) []int16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -39963,7 +39963,7 @@ func (s AsyncSliceUint8) MapInt32(f func(el uint8) int32) []int32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -39997,7 +39997,7 @@ func (s AsyncSliceUint8) MapInt64(f func(el uint8) int64) []int64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -40031,7 +40031,7 @@ func (s AsyncSliceUint8) MapUint(f func(el uint8) uint) []uint {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -40065,7 +40065,7 @@ func (s AsyncSliceUint8) MapUint8(f func(el uint8) uint8) []uint8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -40099,7 +40099,7 @@ func (s AsyncSliceUint8) MapUint16(f func(el uint8) uint16) []uint16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -40133,7 +40133,7 @@ func (s AsyncSliceUint8) MapUint32(f func(el uint8) uint32) []uint32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -40167,7 +40167,7 @@ func (s AsyncSliceUint8) MapUint64(f func(el uint8) uint64) []uint64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -40201,7 +40201,7 @@ func (s AsyncSliceUint8) MapInterface(f func(el uint8) interface{}) []interface{
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -40242,7 +40242,7 @@ func (s AsyncSliceUint8) Reduce(f func(left uint8, right uint8) uint8) uint8 {
 
 	for len(state) > 1 {
 		// calculate workers count
-		workers := s.workers
+		workers := s.Workers
 		if workers == 0 || workers > len(state) {
 			workers = len(state)
 		}
@@ -42307,7 +42307,7 @@ type ChannelUint16 struct {
 // AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceUint16 struct {
 	Data    []uint16
-	workers int
+	Workers int
 }
 
 // Sequence is a set of operations to generate sequences
@@ -43052,7 +43052,7 @@ func (s AsyncSliceUint16) All(f func(el uint16) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -43114,7 +43114,7 @@ func (s AsyncSliceUint16) Any(f func(el uint16) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -43157,7 +43157,7 @@ func (s AsyncSliceUint16) Each(f func(el uint16)) {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -43192,7 +43192,7 @@ func (s AsyncSliceUint16) Filter(f func(el uint16) bool) []uint16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -43234,7 +43234,7 @@ func (s AsyncSliceUint16) MapBool(f func(el uint16) bool) []bool {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -43268,7 +43268,7 @@ func (s AsyncSliceUint16) MapByte(f func(el uint16) byte) []byte {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -43302,7 +43302,7 @@ func (s AsyncSliceUint16) MapString(f func(el uint16) string) []string {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -43336,7 +43336,7 @@ func (s AsyncSliceUint16) MapFloat32(f func(el uint16) float32) []float32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -43370,7 +43370,7 @@ func (s AsyncSliceUint16) MapFloat64(f func(el uint16) float64) []float64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -43404,7 +43404,7 @@ func (s AsyncSliceUint16) MapInt(f func(el uint16) int) []int {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -43438,7 +43438,7 @@ func (s AsyncSliceUint16) MapInt8(f func(el uint16) int8) []int8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -43472,7 +43472,7 @@ func (s AsyncSliceUint16) MapInt16(f func(el uint16) int16) []int16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -43506,7 +43506,7 @@ func (s AsyncSliceUint16) MapInt32(f func(el uint16) int32) []int32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -43540,7 +43540,7 @@ func (s AsyncSliceUint16) MapInt64(f func(el uint16) int64) []int64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -43574,7 +43574,7 @@ func (s AsyncSliceUint16) MapUint(f func(el uint16) uint) []uint {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -43608,7 +43608,7 @@ func (s AsyncSliceUint16) MapUint8(f func(el uint16) uint8) []uint8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -43642,7 +43642,7 @@ func (s AsyncSliceUint16) MapUint16(f func(el uint16) uint16) []uint16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -43676,7 +43676,7 @@ func (s AsyncSliceUint16) MapUint32(f func(el uint16) uint32) []uint32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -43710,7 +43710,7 @@ func (s AsyncSliceUint16) MapUint64(f func(el uint16) uint64) []uint64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -43744,7 +43744,7 @@ func (s AsyncSliceUint16) MapInterface(f func(el uint16) interface{}) []interfac
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -43785,7 +43785,7 @@ func (s AsyncSliceUint16) Reduce(f func(left uint16, right uint16) uint16) uint1
 
 	for len(state) > 1 {
 		// calculate workers count
-		workers := s.workers
+		workers := s.Workers
 		if workers == 0 || workers > len(state) {
 			workers = len(state)
 		}
@@ -45850,7 +45850,7 @@ type ChannelUint32 struct {
 // AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceUint32 struct {
 	Data    []uint32
-	workers int
+	Workers int
 }
 
 // Sequence is a set of operations to generate sequences
@@ -46595,7 +46595,7 @@ func (s AsyncSliceUint32) All(f func(el uint32) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -46657,7 +46657,7 @@ func (s AsyncSliceUint32) Any(f func(el uint32) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -46700,7 +46700,7 @@ func (s AsyncSliceUint32) Each(f func(el uint32)) {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -46735,7 +46735,7 @@ func (s AsyncSliceUint32) Filter(f func(el uint32) bool) []uint32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -46777,7 +46777,7 @@ func (s AsyncSliceUint32) MapBool(f func(el uint32) bool) []bool {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -46811,7 +46811,7 @@ func (s AsyncSliceUint32) MapByte(f func(el uint32) byte) []byte {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -46845,7 +46845,7 @@ func (s AsyncSliceUint32) MapString(f func(el uint32) string) []string {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -46879,7 +46879,7 @@ func (s AsyncSliceUint32) MapFloat32(f func(el uint32) float32) []float32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -46913,7 +46913,7 @@ func (s AsyncSliceUint32) MapFloat64(f func(el uint32) float64) []float64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -46947,7 +46947,7 @@ func (s AsyncSliceUint32) MapInt(f func(el uint32) int) []int {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -46981,7 +46981,7 @@ func (s AsyncSliceUint32) MapInt8(f func(el uint32) int8) []int8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -47015,7 +47015,7 @@ func (s AsyncSliceUint32) MapInt16(f func(el uint32) int16) []int16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -47049,7 +47049,7 @@ func (s AsyncSliceUint32) MapInt32(f func(el uint32) int32) []int32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -47083,7 +47083,7 @@ func (s AsyncSliceUint32) MapInt64(f func(el uint32) int64) []int64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -47117,7 +47117,7 @@ func (s AsyncSliceUint32) MapUint(f func(el uint32) uint) []uint {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -47151,7 +47151,7 @@ func (s AsyncSliceUint32) MapUint8(f func(el uint32) uint8) []uint8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -47185,7 +47185,7 @@ func (s AsyncSliceUint32) MapUint16(f func(el uint32) uint16) []uint16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -47219,7 +47219,7 @@ func (s AsyncSliceUint32) MapUint32(f func(el uint32) uint32) []uint32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -47253,7 +47253,7 @@ func (s AsyncSliceUint32) MapUint64(f func(el uint32) uint64) []uint64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -47287,7 +47287,7 @@ func (s AsyncSliceUint32) MapInterface(f func(el uint32) interface{}) []interfac
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -47328,7 +47328,7 @@ func (s AsyncSliceUint32) Reduce(f func(left uint32, right uint32) uint32) uint3
 
 	for len(state) > 1 {
 		// calculate workers count
-		workers := s.workers
+		workers := s.Workers
 		if workers == 0 || workers > len(state) {
 			workers = len(state)
 		}
@@ -49393,7 +49393,7 @@ type ChannelUint64 struct {
 // AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceUint64 struct {
 	Data    []uint64
-	workers int
+	Workers int
 }
 
 // Sequence is a set of operations to generate sequences
@@ -50138,7 +50138,7 @@ func (s AsyncSliceUint64) All(f func(el uint64) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -50200,7 +50200,7 @@ func (s AsyncSliceUint64) Any(f func(el uint64) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -50243,7 +50243,7 @@ func (s AsyncSliceUint64) Each(f func(el uint64)) {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -50278,7 +50278,7 @@ func (s AsyncSliceUint64) Filter(f func(el uint64) bool) []uint64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -50320,7 +50320,7 @@ func (s AsyncSliceUint64) MapBool(f func(el uint64) bool) []bool {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -50354,7 +50354,7 @@ func (s AsyncSliceUint64) MapByte(f func(el uint64) byte) []byte {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -50388,7 +50388,7 @@ func (s AsyncSliceUint64) MapString(f func(el uint64) string) []string {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -50422,7 +50422,7 @@ func (s AsyncSliceUint64) MapFloat32(f func(el uint64) float32) []float32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -50456,7 +50456,7 @@ func (s AsyncSliceUint64) MapFloat64(f func(el uint64) float64) []float64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -50490,7 +50490,7 @@ func (s AsyncSliceUint64) MapInt(f func(el uint64) int) []int {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -50524,7 +50524,7 @@ func (s AsyncSliceUint64) MapInt8(f func(el uint64) int8) []int8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -50558,7 +50558,7 @@ func (s AsyncSliceUint64) MapInt16(f func(el uint64) int16) []int16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -50592,7 +50592,7 @@ func (s AsyncSliceUint64) MapInt32(f func(el uint64) int32) []int32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -50626,7 +50626,7 @@ func (s AsyncSliceUint64) MapInt64(f func(el uint64) int64) []int64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -50660,7 +50660,7 @@ func (s AsyncSliceUint64) MapUint(f func(el uint64) uint) []uint {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -50694,7 +50694,7 @@ func (s AsyncSliceUint64) MapUint8(f func(el uint64) uint8) []uint8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -50728,7 +50728,7 @@ func (s AsyncSliceUint64) MapUint16(f func(el uint64) uint16) []uint16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -50762,7 +50762,7 @@ func (s AsyncSliceUint64) MapUint32(f func(el uint64) uint32) []uint32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -50796,7 +50796,7 @@ func (s AsyncSliceUint64) MapUint64(f func(el uint64) uint64) []uint64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -50830,7 +50830,7 @@ func (s AsyncSliceUint64) MapInterface(f func(el uint64) interface{}) []interfac
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -50871,7 +50871,7 @@ func (s AsyncSliceUint64) Reduce(f func(left uint64, right uint64) uint64) uint6
 
 	for len(state) > 1 {
 		// calculate workers count
-		workers := s.workers
+		workers := s.Workers
 		if workers == 0 || workers > len(state) {
 			workers = len(state)
 		}
@@ -52936,7 +52936,7 @@ type ChannelInterface struct {
 // AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceInterface struct {
 	Data    []interface{}
-	workers int
+	Workers int
 }
 
 // Sequence is a set of operations to generate sequences
@@ -53650,7 +53650,7 @@ func (s AsyncSliceInterface) All(f func(el interface{}) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -53712,7 +53712,7 @@ func (s AsyncSliceInterface) Any(f func(el interface{}) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -53755,7 +53755,7 @@ func (s AsyncSliceInterface) Each(f func(el interface{})) {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -53790,7 +53790,7 @@ func (s AsyncSliceInterface) Filter(f func(el interface{}) bool) []interface{} {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -53832,7 +53832,7 @@ func (s AsyncSliceInterface) MapBool(f func(el interface{}) bool) []bool {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -53866,7 +53866,7 @@ func (s AsyncSliceInterface) MapByte(f func(el interface{}) byte) []byte {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -53900,7 +53900,7 @@ func (s AsyncSliceInterface) MapString(f func(el interface{}) string) []string {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -53934,7 +53934,7 @@ func (s AsyncSliceInterface) MapFloat32(f func(el interface{}) float32) []float3
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -53968,7 +53968,7 @@ func (s AsyncSliceInterface) MapFloat64(f func(el interface{}) float64) []float6
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -54002,7 +54002,7 @@ func (s AsyncSliceInterface) MapInt(f func(el interface{}) int) []int {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -54036,7 +54036,7 @@ func (s AsyncSliceInterface) MapInt8(f func(el interface{}) int8) []int8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -54070,7 +54070,7 @@ func (s AsyncSliceInterface) MapInt16(f func(el interface{}) int16) []int16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -54104,7 +54104,7 @@ func (s AsyncSliceInterface) MapInt32(f func(el interface{}) int32) []int32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -54138,7 +54138,7 @@ func (s AsyncSliceInterface) MapInt64(f func(el interface{}) int64) []int64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -54172,7 +54172,7 @@ func (s AsyncSliceInterface) MapUint(f func(el interface{}) uint) []uint {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -54206,7 +54206,7 @@ func (s AsyncSliceInterface) MapUint8(f func(el interface{}) uint8) []uint8 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -54240,7 +54240,7 @@ func (s AsyncSliceInterface) MapUint16(f func(el interface{}) uint16) []uint16 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -54274,7 +54274,7 @@ func (s AsyncSliceInterface) MapUint32(f func(el interface{}) uint32) []uint32 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -54308,7 +54308,7 @@ func (s AsyncSliceInterface) MapUint64(f func(el interface{}) uint64) []uint64 {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -54342,7 +54342,7 @@ func (s AsyncSliceInterface) MapInterface(f func(el interface{}) interface{}) []
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -54383,7 +54383,7 @@ func (s AsyncSliceInterface) Reduce(f func(left interface{}, right interface{}) 
 
 	for len(state) > 1 {
 		// calculate workers count
-		workers := s.workers
+		workers := s.Workers
 		if workers == 0 || workers > len(state) {
 			workers = len(state)
 		}

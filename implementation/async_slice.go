@@ -8,7 +8,7 @@ import (
 // AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSlice struct {
 	Data    []T
-	workers int
+	Workers int
 }
 
 // All returns true if f returns true for all elements in slice
@@ -42,7 +42,7 @@ func (s AsyncSlice) All(f func(el T) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -104,7 +104,7 @@ func (s AsyncSlice) Any(f func(el T) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -147,7 +147,7 @@ func (s AsyncSlice) Each(f func(el T)) {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -182,7 +182,7 @@ func (s AsyncSlice) Filter(f func(el T) bool) []T {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -224,7 +224,7 @@ func (s AsyncSlice) Map(f func(el T) G) []G {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -265,7 +265,7 @@ func (s AsyncSlice) Reduce(f func(left T, right T) T) T {
 
 	for len(state) > 1 {
 		// calculate workers count
-		workers := s.workers
+		workers := s.Workers
 		if workers == 0 || workers > len(state) {
 			workers = len(state)
 		}

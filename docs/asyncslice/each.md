@@ -44,7 +44,7 @@ func (s AsyncSlice) Each(f func(el T)) {
 	}
 
 	// calculate workers count
-	workers := s.workers
+	workers := s.Workers
 	if workers == 0 || workers > len(s.Data) {
 		workers = len(s.Data)
 	}
@@ -70,7 +70,7 @@ func (s AsyncSlice) Each(f func(el T)) {
 ```go
 func TestAsyncSliceEach(t *testing.T) {
 	f := func(given []T) {
-		s := AsyncSlice{Data: given, workers: 2}
+		s := AsyncSlice{Data: given, Workers: 2}
 		result := make(chan T, len(given))
 		mapper := func(t T) { result <- t }
 		s.Each(mapper)
