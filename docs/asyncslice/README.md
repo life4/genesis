@@ -12,9 +12,9 @@ type AsyncSlice struct {
 
 | Function | Description |
 | -------- | ----------- |
-| All | TODO |
-| Any | TODO |
-| Each | TODO |
-| Filter | TODO |
-| Map | TODO |
-| Reduce | TODO |
+| All | All returns true if f returns true for all elements in slice |
+| Any | Any returns true if f returns true for any element from slice |
+| Each | Each calls f for every element from slice |
+| Filter | Filter returns slice of element for which f returns true |
+| Map | Map applies F to all elements in slice of T and returns slice of results |
+| Reduce | Reduce reduces slice to a single value with f |

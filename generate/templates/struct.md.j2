@@ -10,6 +10,6 @@
 | -------- | ----------- |
 {% for func in funcs -%}
 {% if func.struct == struct.name -%}
-  | {{ func.name }} | TODO |
+  | {{ func.name }} | {{ func.clean_docs }} |
 {% endif %}
 {%- endfor %}

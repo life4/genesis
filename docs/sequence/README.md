@@ -11,9 +11,9 @@ type Sequence struct {
 
 | Function | Description |
 | -------- | ----------- |
-| Count | TODO |
-| Exponential | TODO |
-| Iterate | TODO |
-| Range | TODO |
-| Repeat | TODO |
-| Replicate | TODO |
+| Count | Count is like Range, but infinite |
+| Exponential | Exponential generates elements from start with multiplication of value on factor on every step |
+| Iterate | Iterate returns an infinite list of repeated applications of f to val |
+| Range | Range generates elements from start to end with given step |
+| Repeat | Repeat returns channel that produces val infinite times |
+| Replicate | Replicate returns channel that produces val n times |

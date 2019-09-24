@@ -48,6 +48,10 @@ class Function:
             docs=self.docs,
         )
 
+    @property
+    def clean_docs(self) -> str:
+        return self.docs.replace('// ', '').replace('\n', ' ')
+
     def render(self, types: Dict[str, Type]) -> str:
         function_name = self.name
         signature = self.signature
