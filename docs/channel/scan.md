@@ -42,3 +42,4 @@ func (c Channel) Scan(acc G, f func(el T, acc G) G) chan G {
 	return result
 }
 ```
+

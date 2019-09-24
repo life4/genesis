@@ -42,3 +42,4 @@ func (s Slice) Cycle() chan T {
 	return c
 }
 ```
+

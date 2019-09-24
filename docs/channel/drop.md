@@ -46,3 +46,32 @@ func (c Channel) Drop(n int) chan T {
 	return result
 }
 ```
+
+## Tests
+
+```go
+func TestChannelDrop(t *testing.T) {
+	f := func(count int, given []T, expected []T) {
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := Channel{c}.Drop(count)
+		actual := make([]T, 0)
+		for el := range result {
+			actual = append(actual, el)
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []T{}, []T{})
+	f(1, []T{2}, []T{})
+	f(1, []T{2, 3}, []T{3})
+	f(1, []T{1, 2, 3}, []T{2, 3})
+	f(0, []T{1, 2, 3}, []T{1, 2, 3})
+	f(3, []T{1, 2, 3, 4, 5, 6}, []T{4, 5, 6})
+	f(1, []T{1, 2, 3, 4, 5, 6}, []T{2, 3, 4, 5, 6})
+}
+```

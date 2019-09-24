@@ -46,3 +46,16 @@ func (s Slice) ChunkEvery(count int) [][]T {
 	return chunks
 }
 ```
+
+## Tests
+
+```go
+func TestSliceChunkEvery(t *testing.T) {
+	f := func(count int, given []T, expected [][]T) {
+		actual := Slice{given}.ChunkEvery(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, []T{1, 2, 3, 4}, [][]T{[]T{1, 2}, []T{3, 4}})
+	f(2, []T{1, 2, 3, 4, 5}, [][]T{[]T{1, 2}, []T{3, 4}, []T{5}})
+}
+```

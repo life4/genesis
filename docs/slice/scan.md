@@ -39,3 +39,4 @@ func (s Slice) Scan(acc G, f func(el T, acc G) G) []G {
 	return result
 }
 ```
+

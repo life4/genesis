@@ -56,3 +56,4 @@ func (s Slice) permutations(c chan []T, size int, left []T, right []T) {
 	}
 }
 ```
+

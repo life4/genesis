@@ -36,3 +36,4 @@ func (s Slice) Each(f func(el T)) {
 	}
 }
 ```
+

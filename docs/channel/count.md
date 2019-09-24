@@ -40,3 +40,25 @@ func (c Channel) Count(el T) int {
 	return count
 }
 ```
+
+## Tests
+
+```go
+func TestChannelCount(t *testing.T) {
+	f := func(element T, given []T, expected int) {
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := Channel{c}.Count(element)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []T{}, 0)
+	f(1, []T{1}, 1)
+	f(1, []T{2}, 0)
+	f(1, []T{1, 2, 3, 1, 4}, 2)
+}
+```

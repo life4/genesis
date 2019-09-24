@@ -46,6 +46,7 @@ class Docs:
             types=self.types,
             structs=self.code_file.structs,
             is_excluded=is_excluded,
+            sorted=sorted,
         )
 
     def render(self, path: Path) -> None:

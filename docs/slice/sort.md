@@ -36,3 +36,4 @@ func (s Slice) Sort() []T {
 	return s.data
 }
 ```
+

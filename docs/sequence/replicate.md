@@ -40,3 +40,4 @@ func (s Sequence) Replicate(val T, n int) chan T {
 	return c
 }
 ```
+

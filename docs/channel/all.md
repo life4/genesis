@@ -39,3 +39,29 @@ func (c Channel) All(f func(el T) bool) bool {
 	return true
 }
 ```
+
+## Tests
+
+```go
+func TestChannelAll(t *testing.T) {
+	f := func(given []T, expected bool) {
+		even := func(t T) bool { return t%2 == 0 }
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := Channel{c}.All(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, true)
+	f([]T{1}, false)
+	f([]T{2}, true)
+	f([]T{1, 2}, false)
+	f([]T{2, 4}, true)
+	f([]T{2, 4, 6, 8, 10, 12}, true)
+	f([]T{2, 4, 6, 8, 11, 12}, false)
+}
+```

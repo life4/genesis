@@ -40,3 +40,4 @@ func (s Slice) StartsWith(prefix []T) bool {
 	return true
 }
 ```
+

@@ -53,6 +53,13 @@ class Test:
                 result.add(name)
         return result
 
+    @property
+    def source(self) -> str:
+        return TEMPLATE.format(
+            func=self.struct + self.name,
+            body=self.body,
+        )
+
     def render(self, types: Dict[str, Type]) -> str:
         test_name = self.struct + self.name
         body = self.body

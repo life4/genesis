@@ -38,3 +38,17 @@ func (s Slice) Map(f func(el T) G) []G {
 	return result
 }
 ```
+
+## Tests
+
+```go
+func TestSliceMap(t *testing.T) {
+	f := func(mapper func(t T) G, given []T, expected []G) {
+		actual := Slice{given}.Map(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t T) G { return G((t * 2)) }
+
+	f(double, []T{1, 2, 3}, []G{2, 4, 6})
+}
+```

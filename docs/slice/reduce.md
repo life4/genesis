@@ -37,3 +37,4 @@ func (s Slice) Reduce(acc G, f func(el T, acc G) G) G {
 	return acc
 }
 ```
+

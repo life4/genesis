@@ -44,3 +44,4 @@ func (c Channel) Filter(f func(el T) bool) chan T {
 	return result
 }
 ```
+

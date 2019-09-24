@@ -36,3 +36,4 @@ func (c Channel) Sum() T {
 	return sum
 }
 ```
+

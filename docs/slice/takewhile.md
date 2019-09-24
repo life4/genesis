@@ -41,3 +41,4 @@ func (s Slice) TakeWhile(f func(el T) bool) []T {
 	return result
 }
 ```
+

@@ -61,3 +61,4 @@ func (s Slices) product(c chan []T, left []T, pos int) {
 	}
 }
 ```
+

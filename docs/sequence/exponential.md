@@ -38,3 +38,17 @@ func (s Sequence) Exponential(start T, factor T) chan T {
 	return c
 }
 ```
+
+## Tests
+
+```go
+func TestSequenceExponential(t *testing.T) {
+	s := Sequence{}
+	f := func(start T, factor T, count int, expected []T) {
+		seq := s.Exponential(start, factor)
+		actual := Channel{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 2, 4, []T{1, 2, 4, 8})
+}
+```

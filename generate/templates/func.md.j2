@@ -23,3 +23,11 @@ Generic types: {{ ', '.join(sorted(func.generics)) }}.
 ```go
 {{ func.source }}
 ```
+
+{% if test -%}
+## Tests
+
+```go
+{{ test.source }}
+```
+{%- endif %}

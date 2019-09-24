@@ -52,3 +52,19 @@ func (s Slice) ChunkBy(f func(el T) G) [][]T {
 	return chunks
 }
 ```
+
+## Tests
+
+```go
+func TestSliceChunkBy(t *testing.T) {
+	f := func(mapper func(t T) G, given []T, expected [][]T) {
+		actual := Slice{given}.ChunkBy(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	remainder := func(t T) G { return G((t % 2)) }
+
+	f(remainder, []T{1}, [][]T{{1}})
+	f(remainder, []T{1, 2, 3}, [][]T{{1}, {2}, {3}})
+	f(remainder, []T{1, 3, 2, 4, 5}, [][]T{{1, 3}, {2, 4}, {5}})
+}
+```

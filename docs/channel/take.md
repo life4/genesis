@@ -38,3 +38,4 @@ func (c Channel) Take(n int) []T {
 	return result
 }
 ```
+

@@ -39,3 +39,20 @@ func (s Slice) Any(f func(el T) bool) bool {
 	return false
 }
 ```
+
+## Tests
+
+```go
+func TestSliceAny(t *testing.T) {
+	f := func(check func(t T) bool, given []T, expected bool) {
+		actual := Slice{given}.Any(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t T) bool { return (t % 2) == 0 }
+
+	f(isEven, []T{}, false)
+	f(isEven, []T{1, 3}, false)
+	f(isEven, []T{2}, true)
+	f(isEven, []T{1, 2}, true)
+}
+```

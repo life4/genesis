@@ -38,3 +38,4 @@ func (c Channel) Min() T {
 	return min
 }
 ```
+

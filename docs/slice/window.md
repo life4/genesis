@@ -40,3 +40,4 @@ func (s Slice) Window(size int) [][]T {
 	return result
 }
 ```
+

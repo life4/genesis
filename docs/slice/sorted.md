@@ -37,3 +37,4 @@ func (s Slice) Sorted() bool {
 	return true
 }
 ```
+

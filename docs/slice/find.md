@@ -39,3 +39,4 @@ func (s Slice) Find(def T, f func(el T) bool) T {
 	return def
 }
 ```
+

@@ -41,3 +41,4 @@ func (s Sequence) Iterate(val T, f func(val T) T) chan T {
 	return c
 }
 ```
+

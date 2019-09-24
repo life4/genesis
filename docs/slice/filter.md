@@ -40,3 +40,19 @@ func (s Slice) Filter(f func(el T) bool) []T {
 	return result
 }
 ```
+
+## Tests
+
+```go
+func TestSliceFilter(t *testing.T) {
+	f := func(filter func(t T) bool, given []T, expected []T) {
+		actual := Slice{given}.Filter(filter)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	filterPositive := func(t T) bool { return t > 0 }
+
+	f(filterPositive, []T{1, -1, 2, -2, 3, -3}, []T{1, 2, 3})
+	f(filterPositive, []T{1, 2, 3}, []T{1, 2, 3})
+	f(filterPositive, []T{-1, -2, -3}, []T{})
+}
+```

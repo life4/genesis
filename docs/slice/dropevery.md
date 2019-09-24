@@ -41,3 +41,4 @@ func (s Slice) DropEvery(nth int) []T {
 	return result
 }
 ```
+

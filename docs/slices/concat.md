@@ -38,3 +38,4 @@ func (s Slices) Concat() []T {
 	return result
 }
 ```
+

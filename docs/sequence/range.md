@@ -39,3 +39,18 @@ func (s Sequence) Range(start T, end T, step T) chan T {
 	return c
 }
 ```
+
+## Tests
+
+```go
+func TestSequenceRange(t *testing.T) {
+	s := Sequence{}
+	f := func(start T, stop T, step T, expected []T) {
+		seq := s.Range(start, stop, step)
+		actual := Channel{seq}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, 1, []T{1, 2, 3})
+	f(3, 0, -1, []T{3, 2, 1})
+}
+```

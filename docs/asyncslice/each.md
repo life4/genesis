@@ -61,3 +61,25 @@ func (s AsyncSlice) Each(f func(el T)) {
 	wg.Wait()
 }
 ```
+
+## Tests
+
+```go
+func TestAsyncSliceEach(t *testing.T) {
+	f := func(given []T) {
+		s := AsyncSlice{data: given, workers: 2}
+		result := make(chan T, len(given))
+		mapper := func(t T) { result <- t }
+		s.Each(mapper)
+		close(result)
+		actual := Channel{result}.ToSlice()
+		sorted := Slice{actual}.Sort()
+		assert.Equal(t, given, sorted, "they should be equal")
+	}
+
+	f([]T{})
+	f([]T{1})
+	f([]T{1, 2, 3})
+	f([]T{1, 2, 3, 4, 5, 6, 7})
+}
+```

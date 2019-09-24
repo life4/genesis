@@ -41,3 +41,4 @@ func (c Channel) Map(f func(el T) G) chan G {
 	return result
 }
 ```
+

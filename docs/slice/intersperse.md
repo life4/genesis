@@ -39,3 +39,15 @@ func (s Slice) Intersperse(el T) []T {
 	return result
 }
 ```
+
+## Tests
+
+```go
+func TestSliceIntersperse(t *testing.T) {
+	f := func(el T, given []T, expected []T) {
+		actual := Slice{given}.Intersperse(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, []T{1, 2, 3}, []T{1, 0, 2, 0, 3})
+}
+```

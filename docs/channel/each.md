@@ -36,3 +36,4 @@ func (c Channel) Each(f func(el T)) {
 	}
 }
 ```
+

@@ -54,3 +54,4 @@ func (s Slice) product(c chan []T, repeat int, left []T, pos int) {
 	}
 }
 ```
+

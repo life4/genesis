@@ -88,3 +88,23 @@ func (s AsyncSlice) Reduce(f func(left T, right T) T) T {
 	return state[0]
 }
 ```
+
+## Tests
+
+```go
+func TestAsyncSliceReduce(t *testing.T) {
+	f := func(reducer func(a T, b T) T, given []T, expected T) {
+		s := AsyncSlice{data: given, workers: 4}
+		actual := s.Reduce(reducer)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	sum := func(a T, b T) T { return a + b }
+
+	f(sum, []T{}, 0)
+	f(sum, []T{1}, 1)
+	f(sum, []T{1, 2}, 3)
+	f(sum, []T{1, 2, 3}, 6)
+	f(sum, []T{1, 2, 3, 4}, 10)
+	f(sum, []T{1, 2, 3, 4, 5}, 15)
+}
+```

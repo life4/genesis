@@ -40,3 +40,4 @@ func (s Slice) ReduceWhile(acc G, f func(el T, acc G) (G, error)) (G, error) {
 	return acc, nil
 }
 ```
+

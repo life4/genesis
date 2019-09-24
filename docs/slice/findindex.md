@@ -40,3 +40,4 @@ func (s Slice) FindIndex(f func(el T) bool) int {
 	return -1
 }
 ```
+

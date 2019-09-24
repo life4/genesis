@@ -43,3 +43,19 @@ func (s Slice) GroupBy(f func(el T) G) map[G][]T {
 	return result
 }
 ```
+
+## Tests
+
+```go
+func TestSliceGroupBy(t *testing.T) {
+	f := func(mapper func(t T) G, given []T, expected map[G][]T) {
+		actual := Slice{given}.GroupBy(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	remainder := func(t T) G { return G((t % 2)) }
+
+	f(remainder, []T{}, map[G][]T{})
+	f(remainder, []T{1}, map[G][]T{1: {1}})
+	f(remainder, []T{1, 3, 2, 4, 5}, map[G][]T{0: {2, 4}, 1: {1, 3, 5}})
+}
+```

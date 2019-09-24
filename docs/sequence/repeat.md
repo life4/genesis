@@ -40,3 +40,17 @@ func (s Sequence) Repeat(val T) chan T {
 	return c
 }
 ```
+
+## Tests
+
+```go
+func TestSequenceRepeat(t *testing.T) {
+	s := Sequence{}
+	f := func(count int, given T, expected []T) {
+		seq := s.Repeat(given)
+		actual := Channel{seq}.Take(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, 1, []T{1, 1})
+}
+```

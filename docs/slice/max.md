@@ -38,3 +38,4 @@ func (s Slice) Max() T {
 	return max
 }
 ```
+

@@ -38,3 +38,4 @@ func (c Channel) Max() T {
 	return max
 }
 ```
+

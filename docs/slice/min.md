@@ -38,3 +38,4 @@ func (s Slice) Min() T {
 	return min
 }
 ```
+
