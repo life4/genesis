@@ -55,5 +55,7 @@ func TestSequenceRange(t *testing.T) {
 	}
 	f(1, 4, 1, []T{1, 2, 3})
 	f(3, 0, -1, []T{3, 2, 1})
+	f(1, 1, 1, []T{})
+	f(1, 2, 1, []T{1})
 }
 ```

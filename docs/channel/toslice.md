@@ -46,12 +46,19 @@ func (c Channel) ToSlice() []T {
 
 ```go
 func TestChannelToSlice(t *testing.T) {
-	s := Sequence{}
-	f := func(start T, stop T, step T, expected []T) {
-		seq := s.Range(start, stop, step)
-		actual := Channel{seq}.ToSlice()
-		assert.Equal(t, expected, actual, "they should be equal")
+	f := func(given []T) {
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := Channel{c}.ToSlice()
+		assert.Equal(t, given, actual, "they should be equal")
 	}
-	f(1, 4, 1, []T{1, 2, 3})
+	f([]T{})
+	f([]T{1})
+	f([]T{1, 2, 3, 1, 2})
 }
 ```

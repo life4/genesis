@@ -267,13 +267,20 @@ func TestSlicesPermutationsInt(t *testing.T) {
 }
 
 func TestChannelToSliceInt(t *testing.T) {
-	s := SequenceInt{}
-	f := func(start int, stop int, step int, expected []int) {
-		seq := s.Range(start, stop, step)
-		actual := ChannelInt{seq}.ToSlice()
-		assert.Equal(t, expected, actual, "they should be equal")
+	f := func(given []int) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := ChannelInt{c}.ToSlice()
+		assert.Equal(t, given, actual, "they should be equal")
 	}
-	f(1, 4, 1, []int{1, 2, 3})
+	f([]int{})
+	f([]int{1})
+	f([]int{1, 2, 3, 1, 2})
 }
 
 func TestChannelAnyInt(t *testing.T) {
@@ -437,6 +444,7 @@ func TestSequenceExponentialInt(t *testing.T) {
 		actual := ChannelInt{seq}.Take(count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
+	f(1, 1, 4, []int{1, 1, 1, 1})
 	f(1, 2, 4, []int{1, 2, 4, 8})
 }
 
@@ -449,6 +457,8 @@ func TestSequenceRangeInt(t *testing.T) {
 	}
 	f(1, 4, 1, []int{1, 2, 3})
 	f(3, 0, -1, []int{3, 2, 1})
+	f(1, 1, 1, []int{})
+	f(1, 2, 1, []int{1})
 }
 
 func TestSequenceRepeatInt(t *testing.T) {
@@ -870,13 +880,20 @@ func TestSlicesPermutationsInt8(t *testing.T) {
 }
 
 func TestChannelToSliceInt8(t *testing.T) {
-	s := SequenceInt8{}
-	f := func(start int8, stop int8, step int8, expected []int8) {
-		seq := s.Range(start, stop, step)
-		actual := ChannelInt8{seq}.ToSlice()
-		assert.Equal(t, expected, actual, "they should be equal")
+	f := func(given []int8) {
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := ChannelInt8{c}.ToSlice()
+		assert.Equal(t, given, actual, "they should be equal")
 	}
-	f(1, 4, 1, []int8{1, 2, 3})
+	f([]int8{})
+	f([]int8{1})
+	f([]int8{1, 2, 3, 1, 2})
 }
 
 func TestChannelAnyInt8(t *testing.T) {
@@ -1040,6 +1057,7 @@ func TestSequenceExponentialInt8(t *testing.T) {
 		actual := ChannelInt8{seq}.Take(count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
+	f(1, 1, 4, []int8{1, 1, 1, 1})
 	f(1, 2, 4, []int8{1, 2, 4, 8})
 }
 
@@ -1052,6 +1070,8 @@ func TestSequenceRangeInt8(t *testing.T) {
 	}
 	f(1, 4, 1, []int8{1, 2, 3})
 	f(3, 0, -1, []int8{3, 2, 1})
+	f(1, 1, 1, []int8{})
+	f(1, 2, 1, []int8{1})
 }
 
 func TestSequenceRepeatInt8(t *testing.T) {
@@ -1473,13 +1493,20 @@ func TestSlicesPermutationsInt16(t *testing.T) {
 }
 
 func TestChannelToSliceInt16(t *testing.T) {
-	s := SequenceInt16{}
-	f := func(start int16, stop int16, step int16, expected []int16) {
-		seq := s.Range(start, stop, step)
-		actual := ChannelInt16{seq}.ToSlice()
-		assert.Equal(t, expected, actual, "they should be equal")
+	f := func(given []int16) {
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := ChannelInt16{c}.ToSlice()
+		assert.Equal(t, given, actual, "they should be equal")
 	}
-	f(1, 4, 1, []int16{1, 2, 3})
+	f([]int16{})
+	f([]int16{1})
+	f([]int16{1, 2, 3, 1, 2})
 }
 
 func TestChannelAnyInt16(t *testing.T) {
@@ -1643,6 +1670,7 @@ func TestSequenceExponentialInt16(t *testing.T) {
 		actual := ChannelInt16{seq}.Take(count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
+	f(1, 1, 4, []int16{1, 1, 1, 1})
 	f(1, 2, 4, []int16{1, 2, 4, 8})
 }
 
@@ -1655,6 +1683,8 @@ func TestSequenceRangeInt16(t *testing.T) {
 	}
 	f(1, 4, 1, []int16{1, 2, 3})
 	f(3, 0, -1, []int16{3, 2, 1})
+	f(1, 1, 1, []int16{})
+	f(1, 2, 1, []int16{1})
 }
 
 func TestSequenceRepeatInt16(t *testing.T) {
@@ -2076,13 +2106,20 @@ func TestSlicesPermutationsInt32(t *testing.T) {
 }
 
 func TestChannelToSliceInt32(t *testing.T) {
-	s := SequenceInt32{}
-	f := func(start int32, stop int32, step int32, expected []int32) {
-		seq := s.Range(start, stop, step)
-		actual := ChannelInt32{seq}.ToSlice()
-		assert.Equal(t, expected, actual, "they should be equal")
+	f := func(given []int32) {
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := ChannelInt32{c}.ToSlice()
+		assert.Equal(t, given, actual, "they should be equal")
 	}
-	f(1, 4, 1, []int32{1, 2, 3})
+	f([]int32{})
+	f([]int32{1})
+	f([]int32{1, 2, 3, 1, 2})
 }
 
 func TestChannelAnyInt32(t *testing.T) {
@@ -2246,6 +2283,7 @@ func TestSequenceExponentialInt32(t *testing.T) {
 		actual := ChannelInt32{seq}.Take(count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
+	f(1, 1, 4, []int32{1, 1, 1, 1})
 	f(1, 2, 4, []int32{1, 2, 4, 8})
 }
 
@@ -2258,6 +2296,8 @@ func TestSequenceRangeInt32(t *testing.T) {
 	}
 	f(1, 4, 1, []int32{1, 2, 3})
 	f(3, 0, -1, []int32{3, 2, 1})
+	f(1, 1, 1, []int32{})
+	f(1, 2, 1, []int32{1})
 }
 
 func TestSequenceRepeatInt32(t *testing.T) {
@@ -2679,13 +2719,20 @@ func TestSlicesPermutationsInt64(t *testing.T) {
 }
 
 func TestChannelToSliceInt64(t *testing.T) {
-	s := SequenceInt64{}
-	f := func(start int64, stop int64, step int64, expected []int64) {
-		seq := s.Range(start, stop, step)
-		actual := ChannelInt64{seq}.ToSlice()
-		assert.Equal(t, expected, actual, "they should be equal")
+	f := func(given []int64) {
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := ChannelInt64{c}.ToSlice()
+		assert.Equal(t, given, actual, "they should be equal")
 	}
-	f(1, 4, 1, []int64{1, 2, 3})
+	f([]int64{})
+	f([]int64{1})
+	f([]int64{1, 2, 3, 1, 2})
 }
 
 func TestChannelAnyInt64(t *testing.T) {
@@ -2849,6 +2896,7 @@ func TestSequenceExponentialInt64(t *testing.T) {
 		actual := ChannelInt64{seq}.Take(count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
+	f(1, 1, 4, []int64{1, 1, 1, 1})
 	f(1, 2, 4, []int64{1, 2, 4, 8})
 }
 
@@ -2861,6 +2909,8 @@ func TestSequenceRangeInt64(t *testing.T) {
 	}
 	f(1, 4, 1, []int64{1, 2, 3})
 	f(3, 0, -1, []int64{3, 2, 1})
+	f(1, 1, 1, []int64{})
+	f(1, 2, 1, []int64{1})
 }
 
 func TestSequenceRepeatInt64(t *testing.T) {

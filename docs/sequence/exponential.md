@@ -52,6 +52,7 @@ func TestSequenceExponential(t *testing.T) {
 		actual := Channel{seq}.Take(count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
+	f(1, 1, 4, []T{1, 1, 1, 1})
 	f(1, 2, 4, []T{1, 2, 4, 8})
 }
 ```
