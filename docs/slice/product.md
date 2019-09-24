@@ -1,5 +1,9 @@
 # Slice.Product
 
+```go
+func (s Slice) Product(repeat int) chan []T
+```
+
 Product returns cortesian product of elements {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 
 Generic types: T.

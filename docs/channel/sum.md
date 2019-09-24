@@ -1,5 +1,9 @@
 # Channel.Sum
 
+```go
+func (c Channel) Sum() T
+```
+
 Sum returns sum of all elements from channel
 
 Generic types: T.

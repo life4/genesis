@@ -1,5 +1,9 @@
 # Channel.Scan
 
+```go
+func (c Channel) Scan(acc G, f func(el T, acc G) G) chan G
+```
+
 Scan is like Reduce, but returns slice of f results
 
 Generic types: G, T.

@@ -1,5 +1,9 @@
 # Slice.ChunkEvery
 
+```go
+func (s Slice) ChunkEvery(count int) [][]T
+```
+
 ChunkEvery returns slice of slices containing count elements each
 
 Generic types: T.

@@ -1,5 +1,9 @@
 # Slice.Sorted
 
+```go
+func (s Slice) Sorted() bool
+```
+
 Sorted returns true if slice is sorted
 
 Generic types: T.

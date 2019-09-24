@@ -1,5 +1,9 @@
 # AsyncSlice.Reduce
 
+```go
+func (s AsyncSlice) Reduce(f func(left T, right T) T) T
+```
+
 Reduce reduces slice to a single value with f
 
 Generic types: T.

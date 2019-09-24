@@ -1,5 +1,9 @@
 # Channel.Filter
 
+```go
+func (c Channel) Filter(f func(el T) bool) chan T
+```
+
 Filter returns a new channel with elements from input channel for which f returns true
 
 Generic types: T.

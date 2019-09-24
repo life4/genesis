@@ -1,5 +1,9 @@
 # Channel.ToSlice
 
+```go
+func (c Channel) ToSlice() []T
+```
+
 ToSlice returns slice with all elements from channel.
 
 Generic types: T.

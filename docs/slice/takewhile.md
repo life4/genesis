@@ -1,5 +1,9 @@
 # Slice.TakeWhile
 
+```go
+func (s Slice) TakeWhile(f func(el T) bool) []T
+```
+
 TakeWhile takes elements from arr while f returns true
 
 Generic types: T.

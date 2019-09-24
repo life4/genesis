@@ -1,5 +1,9 @@
 # Channel.Each
 
+```go
+func (c Channel) Each(f func(el T))
+```
+
 Each calls f for every element in the channel
 
 Generic types: T.

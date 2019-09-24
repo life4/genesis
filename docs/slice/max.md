@@ -1,5 +1,9 @@
 # Slice.Max
 
+```go
+func (s Slice) Max() T
+```
+
 Max returns the maximal element from arr
 
 Generic types: T.

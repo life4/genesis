@@ -1,5 +1,9 @@
 # Slice.Intersperse
 
+```go
+func (s Slice) Intersperse(el T) []T
+```
+
 Intersperse inserts el between each element of arr
 
 Generic types: T.

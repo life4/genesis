@@ -1,5 +1,9 @@
 # Slice.GroupBy
 
+```go
+func (s Slice) GroupBy(f func(el T) G) map[G][]T
+```
+
 GroupBy groups element from array by value returned by f
 
 Generic types: G, T.

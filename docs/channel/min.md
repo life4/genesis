@@ -1,5 +1,9 @@
 # Channel.Min
 
+```go
+func (c Channel) Min() T
+```
+
 Min returns the minimal element from channel
 
 Generic types: T.

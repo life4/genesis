@@ -1,5 +1,9 @@
 # Channel.All
 
+```go
+func (c Channel) All(f func(el T) bool) bool
+```
+
 All returns true if f returns true for all elements in channel
 
 Generic types: T.

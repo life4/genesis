@@ -1,5 +1,9 @@
 # AsyncSlice.All
 
+```go
+func (s AsyncSlice) All(f func(el T) bool) bool
+```
+
 All returns true if f returns true for all elements in slice
 
 Generic types: T.

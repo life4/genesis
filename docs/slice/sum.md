@@ -1,5 +1,9 @@
 # Slice.Sum
 
+```go
+func (s Slice) Sum() T
+```
+
 Sum return sum of all elements from arr
 
 Generic types: T.

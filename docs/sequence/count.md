@@ -1,5 +1,9 @@
 # Sequence.Count
 
+```go
+func (s Sequence) Count(start T, step T) chan T
+```
+
 Count is like Range, but infinite
 
 Generic types: T.

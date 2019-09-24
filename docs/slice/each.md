@@ -1,5 +1,9 @@
 # Slice.Each
 
+```go
+func (s Slice) Each(f func(el T))
+```
+
 Each calls f for every element from arr
 
 Generic types: T.

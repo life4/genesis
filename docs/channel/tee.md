@@ -1,5 +1,9 @@
 # Channel.Tee
 
+```go
+func (c Channel) Tee(count int) []chan T
+```
+
 Tee returns 2 channels with elements from the input channel
 
 Generic types: T.

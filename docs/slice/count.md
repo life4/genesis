@@ -1,5 +1,9 @@
 # Slice.Count
 
+```go
+func (s Slice) Count(el T) int
+```
+
 Count return count of el occurences in arr.
 
 Generic types: T.

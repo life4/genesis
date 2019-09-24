@@ -1,5 +1,9 @@
 # Channel.Drop
 
+```go
+func (c Channel) Drop(n int) chan T
+```
+
 Drop drops first n elements from channel c and returns a new channel with the rest. It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
 
 Generic types: T.

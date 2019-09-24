@@ -1,5 +1,9 @@
 # Slice.FindIndex
 
+```go
+func (s Slice) FindIndex(f func(el T) bool) int
+```
+
 FindIndex is like Find, but return element index instead of element itself Returns -1 if element is not found
 
 Generic types: T.

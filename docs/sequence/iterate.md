@@ -1,5 +1,9 @@
 # Sequence.Iterate
 
+```go
+func (s Sequence) Iterate(val T, f func(val T) T) chan T
+```
+
 Iterate returns an infinite list of repeated applications of f to val
 
 Generic types: T.

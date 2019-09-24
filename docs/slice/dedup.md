@@ -1,5 +1,9 @@
 # Slice.Dedup
 
+```go
+func (s Slice) Dedup() []T
+```
+
 Dedup returns a given slice without consecutive duplicated elements
 
 Generic types: T.

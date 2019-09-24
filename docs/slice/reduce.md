@@ -1,5 +1,9 @@
 # Slice.Reduce
 
+```go
+func (s Slice) Reduce(acc G, f func(el T, acc G) G) G
+```
+
 Reduce applies F to acc and every element in slice of T and returns acc
 
 Generic types: G, T.

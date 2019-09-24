@@ -1,5 +1,9 @@
 # Slice.Reverse
 
+```go
+func (s Slice) Reverse() []T
+```
+
 Reverse returns given arr in reversed order
 
 Generic types: T.

@@ -1,5 +1,9 @@
 # Slice.Contains
 
+```go
+func (s Slice) Contains(el T) bool
+```
+
 Contains returns true if el in arr.
 
 Generic types: T.

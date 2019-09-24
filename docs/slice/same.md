@@ -1,5 +1,9 @@
 # Slice.Same
 
+```go
+func (s Slice) Same() bool
+```
+
 Same returns true if all element in arr the same
 
 Generic types: T.

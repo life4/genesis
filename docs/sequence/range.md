@@ -1,5 +1,9 @@
 # Sequence.Range
 
+```go
+func (s Sequence) Range(start T, end T, step T) chan T
+```
+
 Range generates elements from start to end with given step
 
 Generic types: T.

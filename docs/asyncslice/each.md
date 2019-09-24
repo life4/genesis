@@ -1,5 +1,9 @@
 # AsyncSlice.Each
 
+```go
+func (s AsyncSlice) Each(f func(el T))
+```
+
 Each calls f for every element from slice
 
 Generic types: T.

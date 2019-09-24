@@ -1,5 +1,9 @@
 # Slices.Zip
 
+```go
+func (s Slices) Zip() [][]T
+```
+
 Zip returns array of arrays of elements from given arrs on the same position
 
 Generic types: T.

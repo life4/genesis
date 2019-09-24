@@ -1,5 +1,9 @@
 # Channel.ChunkEvery
 
+```go
+func (c Channel) ChunkEvery(count int) chan []T
+```
+
 ChunkEvery returns channel with slices containing count elements each
 
 Generic types: T.

@@ -1,5 +1,9 @@
 # Slice.DedupBy
 
+```go
+func (s Slice) DedupBy(f func(el T) G) []T
+```
+
 DedupBy returns a given slice without consecutive elements For which f returns the same result
 
 Generic types: G, T.

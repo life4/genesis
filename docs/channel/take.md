@@ -1,5 +1,9 @@
 # Channel.Take
 
+```go
+func (c Channel) Take(n int) []T
+```
+
 Take takes first n elements from channel c.
 
 Generic types: T.

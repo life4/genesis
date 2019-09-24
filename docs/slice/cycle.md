@@ -1,5 +1,9 @@
 # Slice.Cycle
 
+```go
+func (s Slice) Cycle() chan T
+```
+
 Cycle is an infinite loop over slice
 
 Generic types: T.

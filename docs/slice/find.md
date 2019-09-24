@@ -1,5 +1,9 @@
 # Slice.Find
 
+```go
+func (s Slice) Find(def T, f func(el T) bool) T
+```
+
 Find returns the first element for which f returns true
 
 Generic types: T.

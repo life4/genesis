@@ -1,5 +1,9 @@
 # Slice.DropWhile
 
+```go
+func (s Slice) DropWhile(f func(arr T) bool) []T
+```
+
 DropWhile drops elements from arr while f returns true
 
 Generic types: T.

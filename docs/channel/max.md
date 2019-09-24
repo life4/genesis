@@ -1,5 +1,9 @@
 # Channel.Max
 
+```go
+func (c Channel) Max() T
+```
+
 Max returns the maximal element from channel
 
 Generic types: T.

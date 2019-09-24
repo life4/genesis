@@ -1,5 +1,9 @@
 # Sequence.Repeat
 
+```go
+func (s Sequence) Repeat(val T) chan T
+```
+
 Repeat returns channel that produces val infinite times
 
 Generic types: T.

@@ -1,5 +1,9 @@
 # AsyncSlice.Map
 
+```go
+func (s AsyncSlice) Map(f func(el T) G) []G
+```
+
 Map applies F to all elements in slice of T and returns slice of results
 
 Generic types: G, T.

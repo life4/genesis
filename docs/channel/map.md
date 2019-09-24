@@ -1,5 +1,9 @@
 # Channel.Map
 
+```go
+func (c Channel) Map(f func(el T) G) chan G
+```
+
 Map applies f to all elements from channel and returns channel with results
 
 Generic types: G, T.

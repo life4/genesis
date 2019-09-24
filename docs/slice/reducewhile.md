@@ -1,5 +1,9 @@
 # Slice.ReduceWhile
 
+```go
+func (s Slice) ReduceWhile(acc G, f func(el T, acc G) (G, error)) (G, error)
+```
+
 ReduceWhile is like Reduce, but stops when f returns error
 
 Generic types: G, T.

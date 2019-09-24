@@ -1,5 +1,9 @@
 # Slice.Any
 
+```go
+func (s Slice) Any(f func(el T) bool) bool
+```
+
 Any returns true if f returns true for any element in arr
 
 Generic types: T.

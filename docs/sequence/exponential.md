@@ -1,5 +1,9 @@
 # Sequence.Exponential
 
+```go
+func (s Sequence) Exponential(start T, factor T) chan T
+```
+
 Exponential generates elements from start with multiplication of value on factor on every step
 
 Generic types: T.

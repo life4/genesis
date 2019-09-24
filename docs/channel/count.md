@@ -1,5 +1,9 @@
 # Channel.Count
 
+```go
+func (c Channel) Count(el T) int
+```
+
 Count return count of el occurences in channel.
 
 Generic types: T.

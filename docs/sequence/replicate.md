@@ -1,5 +1,9 @@
 # Sequence.Replicate
 
+```go
+func (s Sequence) Replicate(val T, n int) chan T
+```
+
 Replicate returns channel that produces val n times
 
 Generic types: T.

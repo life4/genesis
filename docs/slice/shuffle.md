@@ -1,5 +1,9 @@
 # Slice.Shuffle
 
+```go
+func (s Slice) Shuffle() []T
+```
+
 Shuffle in random order arr elements
 
 Generic types: T.

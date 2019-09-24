@@ -1,5 +1,9 @@
 # Slice.Sort
 
+```go
+func (s Slice) Sort() []T
+```
+
 Sort returns sorted slice
 
 Generic types: T.

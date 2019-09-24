@@ -1,5 +1,9 @@
 # Slice.Permutations
 
+```go
+func (s Slice) Permutations(size int) chan []T
+```
+
 Permutations returns successive size-length permutations of elements from the slice. {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
 
 Generic types: T.

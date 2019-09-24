@@ -1,5 +1,9 @@
 # Slice.Split
 
+```go
+func (s Slice) Split(sep T) [][]T
+```
+
 Split splits arr by sep
 
 Generic types: T.

@@ -1,5 +1,9 @@
 # Slice.Window
 
+```go
+func (s Slice) Window(size int) [][]T
+```
+
 Window makes sliding window for a given slice: ({1,2,3}, 2) -> (1,2), (2,3)
 
 Generic types: T.

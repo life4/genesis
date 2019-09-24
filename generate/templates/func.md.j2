@@ -1,5 +1,9 @@
 # {{ func.struct }}.{{ func.name }}
 
+```go
+func ({{ func.pointer }}{{ func.struct }}) {{ func.name }}{{ func.signature }}
+```
+
 {{ func.clean_docs }}
 
 Generic types: {{ ', '.join(sorted(func.generics)) }}.

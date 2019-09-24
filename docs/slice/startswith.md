@@ -1,5 +1,9 @@
 # Slice.StartsWith
 
+```go
+func (s Slice) StartsWith(prefix []T) bool
+```
+
 StartsWith returns true if slice starts with the given prefix slice. If prefix is empty, it returns true.
 
 Generic types: T.

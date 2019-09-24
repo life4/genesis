@@ -1,5 +1,9 @@
 # Slice.DropEvery
 
+```go
+func (s Slice) DropEvery(nth int) []T
+```
+
 DropEvery returns a slice of every nth element in the enumerable dropped, starting with the first element.
 
 Generic types: T.

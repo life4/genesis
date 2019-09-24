@@ -1,5 +1,9 @@
 # Slice.Uniq
 
+```go
+func (s Slice) Uniq() []T
+```
+
 Uniq returns arr with only first occurences of every element.
 
 Generic types: T.

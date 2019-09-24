@@ -1,5 +1,9 @@
 # AsyncSlice.Filter
 
+```go
+func (s AsyncSlice) Filter(f func(el T) bool) []T
+```
+
 Filter returns slice of element for which f returns true
 
 Generic types: T.

@@ -1,5 +1,9 @@
 # Slice.Filter
 
+```go
+func (s Slice) Filter(f func(el T) bool) []T
+```
+
 Filter returns slice of T for which F returned true
 
 Generic types: T.

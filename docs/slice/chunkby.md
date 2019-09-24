@@ -1,5 +1,9 @@
 # Slice.ChunkBy
 
+```go
+func (s Slice) ChunkBy(f func(el T) G) [][]T
+```
+
 ChunkBy splits arr on every element for which f returns a new value.
 
 Generic types: G, T.

@@ -1,5 +1,9 @@
 # Slices.Concat
 
+```go
+func (s Slices) Concat() []T
+```
+
 Concat concatenates given slices into a single slice.
 
 Generic types: T.

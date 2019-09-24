@@ -1,5 +1,9 @@
 # Slice.Min
 
+```go
+func (s Slice) Min() T
+```
+
 Min returns the minimal element from arr
 
 Generic types: T.

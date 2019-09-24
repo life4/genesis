@@ -1,5 +1,9 @@
 # Channel.Reduce
 
+```go
+func (c Channel) Reduce(acc G, f func(el T, acc G) G) G
+```
+
 Reduce applies f to acc and every element from channel and returns acc
 
 Generic types: G, T.
