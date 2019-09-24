@@ -34,8 +34,8 @@ Generic types: T.
 ```go
 // Same returns true if all element in arr the same
 func (s Slice) Same() bool {
-	for i := 0; i < len(s.data)-1; i++ {
-		if s.data[i] != s.data[i+1] {
+	for i := 0; i < len(s.Data)-1; i++ {
+		if s.Data[i] != s.Data[i+1] {
 			return false
 		}
 	}

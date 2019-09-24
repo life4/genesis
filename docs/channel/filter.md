@@ -37,7 +37,7 @@ Generic types: T.
 func (c Channel) Filter(f func(el T) bool) chan T {
 	result := make(chan T, 1)
 	go func() {
-		for el := range c.data {
+		for el := range c.Data {
 			if f(el) {
 				result <- el
 			}

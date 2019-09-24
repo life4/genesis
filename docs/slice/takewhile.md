@@ -34,8 +34,8 @@ Generic types: T.
 ```go
 // TakeWhile takes elements from arr while f returns true
 func (s Slice) TakeWhile(f func(el T) bool) []T {
-	result := make([]T, 0, len(s.data))
-	for _, el := range s.data {
+	result := make([]T, 0, len(s.Data))
+	for _, el := range s.Data {
 		if !f(el) {
 			return result
 		}

@@ -34,7 +34,7 @@ Generic types: T.
 ```go
 // Contains returns true if el in arr.
 func (s Slice) Contains(el T) bool {
-	for _, val := range s.data {
+	for _, val := range s.Data {
 		if val == el {
 			return true
 		}

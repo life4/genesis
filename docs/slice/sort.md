@@ -33,10 +33,10 @@ Generic types: T.
 // Sort returns sorted slice
 func (s Slice) Sort() []T {
 	less := func(i int, j int) bool {
-		return s.data[i] < s.data[j]
+		return s.Data[i] < s.Data[j]
 	}
-	sort.SliceStable(s.data, less)
-	return s.data
+	sort.SliceStable(s.Data, less)
+	return s.Data
 }
 ```
 

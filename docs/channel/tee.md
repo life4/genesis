@@ -39,7 +39,7 @@ func (c Channel) Tee(count int) []chan T {
 		channels = append(channels, make(chan T, 1))
 	}
 	go func() {
-		for el := range c.data {
+		for el := range c.Data {
 			wg := sync.WaitGroup{}
 			putInto := func(ch chan T) {
 				wg.Add(1)

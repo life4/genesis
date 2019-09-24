@@ -55,7 +55,7 @@ Generic types: G, T.
 ```go
 // Reduce applies F to acc and every element in slice of T and returns acc
 func (s Slice) Reduce(acc G, f func(el T, acc G) G) G {
-	for _, el := range s.data {
+	for _, el := range s.Data {
 		acc = f(el, acc)
 	}
 	return acc

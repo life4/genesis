@@ -36,7 +36,7 @@ Generic types: T.
 func (c Channel) Take(n int) []T {
 	result := make([]T, 0, n)
 	for i := 0; i < n; i++ {
-		result = append(result, <-c.data)
+		result = append(result, <-c.Data)
 	}
 	return result
 }

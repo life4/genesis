@@ -36,10 +36,10 @@ Generic types: T.
 func (s Slice) Shuffle() []T {
 	rand.Seed(time.Now().UnixNano())
 	swap := func(i, j int) {
-		s.data[i], s.data[j] = s.data[j], s.data[i]
+		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
-	rand.Shuffle(len(s.data), swap)
-	return s.data
+	rand.Shuffle(len(s.Data), swap)
+	return s.Data
 }
 ```
 

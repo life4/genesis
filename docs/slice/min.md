@@ -32,8 +32,8 @@ Generic types: T.
 ```go
 // Min returns the minimal element from arr
 func (s Slice) Min() T {
-	min := s.data[0]
-	for _, el := range s.data[1:] {
+	min := s.Data[0]
+	for _, el := range s.Data[1:] {
 		if el < min {
 			min = el
 		}

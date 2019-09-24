@@ -5,7 +5,7 @@ Sequence is a set of operations to generate sequences
 ```go
 // Sequence is a set of operations to generate sequences
 type Sequence struct {
-	data chan T
+	Data chan T
 }
 ```
 

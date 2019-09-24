@@ -38,7 +38,7 @@ func (c Channel) ChunkEvery(count int) chan []T {
 	go func() {
 		chunk := make([]T, 0, count)
 		i := 0
-		for el := range c.data {
+		for el := range c.Data {
 			chunk = append(chunk, el)
 			i++
 			if i%count == 0 {

@@ -34,12 +34,12 @@ Generic types: T.
 ```go
 // Filter returns slice of element for which f returns true
 func (s AsyncSlice) Filter(f func(el T) bool) []T {
-	resultMap := make([]bool, len(s.data))
+	resultMap := make([]bool, len(s.Data))
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
 		for index := range jobs {
-			if f(s.data[index]) {
+			if f(s.Data[index]) {
 				resultMap[index] = true
 			}
 		}
@@ -48,27 +48,27 @@ func (s AsyncSlice) Filter(f func(el T) bool) []T {
 
 	// calculate workers count
 	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
 	}
 
 	// run workers
-	jobs := make(chan int, len(s.data))
+	jobs := make(chan int, len(s.Data))
 	wg.Add(workers)
 	for i := 0; i < workers; i++ {
 		go worker(jobs)
 	}
 
 	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
+	for i := 0; i < len(s.Data); i++ {
 		jobs <- i
 	}
 	close(jobs)
 	wg.Wait()
 
 	// return filtered results
-	result := make([]T, 0, len(s.data))
-	for i, el := range s.data {
+	result := make([]T, 0, len(s.Data))
+	for i, el := range s.Data {
 		if resultMap[i] {
 			result = append(result, el)
 		}

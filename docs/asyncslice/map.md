@@ -55,31 +55,31 @@ Generic types: G, T.
 ```go
 // Map applies F to all elements in slice of T and returns slice of results
 func (s AsyncSlice) Map(f func(el T) G) []G {
-	result := make([]G, len(s.data))
+	result := make([]G, len(s.Data))
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
 		for index := range jobs {
-			result[index] = f(s.data[index])
+			result[index] = f(s.Data[index])
 		}
 		wg.Done()
 	}
 
 	// calculate workers count
 	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
 	}
 
 	// run workers
-	jobs := make(chan int, len(s.data))
+	jobs := make(chan int, len(s.Data))
 	wg.Add(workers)
 	for i := 0; i < workers; i++ {
 		go worker(jobs)
 	}
 
 	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
+	for i := 0; i < len(s.Data); i++ {
 		jobs <- i
 	}
 	close(jobs)
@@ -93,7 +93,7 @@ func (s AsyncSlice) Map(f func(el T) G) []G {
 ```go
 func TestAsyncSliceMap(t *testing.T) {
 	f := func(mapper func(t T) G, given []T, expected []G) {
-		s := AsyncSlice{data: given, workers: 2}
+		s := AsyncSlice{Data: given, workers: 2}
 		actual := s.Map(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}

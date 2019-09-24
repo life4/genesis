@@ -58,10 +58,10 @@ func (s Slice) ChunkBy(f func(el T) G) [][]T {
 	chunks := make([][]T, 0)
 	chunk := make([]T, 0)
 
-	prev := f(s.data[0])
-	chunk = append(chunk, s.data[0])
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
 
-	for _, el := range s.data[1:] {
+	for _, el := range s.Data[1:] {
 		curr := f(el)
 		if curr != prev {
 			chunks = append(chunks, chunk)

@@ -5,7 +5,7 @@ Channel is a set of operations with channel
 ```go
 // Channel is a set of operations with channel
 type Channel struct {
-	data chan T
+	Data chan T
 }
 ```
 

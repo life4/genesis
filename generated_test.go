@@ -475,7 +475,7 @@ func TestSequenceTakeInt(t *testing.T) {
 
 func TestAsyncSliceAnyInt(t *testing.T) {
 	f := func(check func(t int) bool, given []int, expected bool) {
-		s := AsyncSliceInt{data: given, workers: 2}
+		s := AsyncSliceInt{Data: given, workers: 2}
 		actual := s.Any(check)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -492,7 +492,7 @@ func TestAsyncSliceAnyInt(t *testing.T) {
 
 func TestAsyncSliceAllInt(t *testing.T) {
 	f := func(check func(t int) bool, given []int, expected bool) {
-		s := AsyncSliceInt{data: given, workers: 2}
+		s := AsyncSliceInt{Data: given, workers: 2}
 		actual := s.All(check)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -510,7 +510,7 @@ func TestAsyncSliceAllInt(t *testing.T) {
 
 func TestAsyncSliceEachInt(t *testing.T) {
 	f := func(given []int) {
-		s := AsyncSliceInt{data: given, workers: 2}
+		s := AsyncSliceInt{Data: given, workers: 2}
 		result := make(chan int, len(given))
 		mapper := func(t int) { result <- t }
 		s.Each(mapper)
@@ -528,7 +528,7 @@ func TestAsyncSliceEachInt(t *testing.T) {
 
 func TestAsyncSliceMapIntInt(t *testing.T) {
 	f := func(mapper func(t int) int, given []int, expected []int) {
-		s := AsyncSliceInt{data: given, workers: 2}
+		s := AsyncSliceInt{Data: given, workers: 2}
 		actual := s.MapInt(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -541,7 +541,7 @@ func TestAsyncSliceMapIntInt(t *testing.T) {
 
 func TestAsyncSliceMapIntInt8(t *testing.T) {
 	f := func(mapper func(t int) int8, given []int, expected []int8) {
-		s := AsyncSliceInt{data: given, workers: 2}
+		s := AsyncSliceInt{Data: given, workers: 2}
 		actual := s.MapInt8(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -554,7 +554,7 @@ func TestAsyncSliceMapIntInt8(t *testing.T) {
 
 func TestAsyncSliceMapIntInt16(t *testing.T) {
 	f := func(mapper func(t int) int16, given []int, expected []int16) {
-		s := AsyncSliceInt{data: given, workers: 2}
+		s := AsyncSliceInt{Data: given, workers: 2}
 		actual := s.MapInt16(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -567,7 +567,7 @@ func TestAsyncSliceMapIntInt16(t *testing.T) {
 
 func TestAsyncSliceMapIntInt32(t *testing.T) {
 	f := func(mapper func(t int) int32, given []int, expected []int32) {
-		s := AsyncSliceInt{data: given, workers: 2}
+		s := AsyncSliceInt{Data: given, workers: 2}
 		actual := s.MapInt32(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -580,7 +580,7 @@ func TestAsyncSliceMapIntInt32(t *testing.T) {
 
 func TestAsyncSliceMapIntInt64(t *testing.T) {
 	f := func(mapper func(t int) int64, given []int, expected []int64) {
-		s := AsyncSliceInt{data: given, workers: 2}
+		s := AsyncSliceInt{Data: given, workers: 2}
 		actual := s.MapInt64(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -593,7 +593,7 @@ func TestAsyncSliceMapIntInt64(t *testing.T) {
 
 func TestAsyncSliceReduceInt(t *testing.T) {
 	f := func(reducer func(a int, b int) int, given []int, expected int) {
-		s := AsyncSliceInt{data: given, workers: 4}
+		s := AsyncSliceInt{Data: given, workers: 4}
 		actual := s.Reduce(reducer)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -1078,7 +1078,7 @@ func TestSequenceTakeInt8(t *testing.T) {
 
 func TestAsyncSliceAnyInt8(t *testing.T) {
 	f := func(check func(t int8) bool, given []int8, expected bool) {
-		s := AsyncSliceInt8{data: given, workers: 2}
+		s := AsyncSliceInt8{Data: given, workers: 2}
 		actual := s.Any(check)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -1095,7 +1095,7 @@ func TestAsyncSliceAnyInt8(t *testing.T) {
 
 func TestAsyncSliceAllInt8(t *testing.T) {
 	f := func(check func(t int8) bool, given []int8, expected bool) {
-		s := AsyncSliceInt8{data: given, workers: 2}
+		s := AsyncSliceInt8{Data: given, workers: 2}
 		actual := s.All(check)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -1113,7 +1113,7 @@ func TestAsyncSliceAllInt8(t *testing.T) {
 
 func TestAsyncSliceEachInt8(t *testing.T) {
 	f := func(given []int8) {
-		s := AsyncSliceInt8{data: given, workers: 2}
+		s := AsyncSliceInt8{Data: given, workers: 2}
 		result := make(chan int8, len(given))
 		mapper := func(t int8) { result <- t }
 		s.Each(mapper)
@@ -1131,7 +1131,7 @@ func TestAsyncSliceEachInt8(t *testing.T) {
 
 func TestAsyncSliceMapInt8Int(t *testing.T) {
 	f := func(mapper func(t int8) int, given []int8, expected []int) {
-		s := AsyncSliceInt8{data: given, workers: 2}
+		s := AsyncSliceInt8{Data: given, workers: 2}
 		actual := s.MapInt(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -1144,7 +1144,7 @@ func TestAsyncSliceMapInt8Int(t *testing.T) {
 
 func TestAsyncSliceMapInt8Int8(t *testing.T) {
 	f := func(mapper func(t int8) int8, given []int8, expected []int8) {
-		s := AsyncSliceInt8{data: given, workers: 2}
+		s := AsyncSliceInt8{Data: given, workers: 2}
 		actual := s.MapInt8(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -1157,7 +1157,7 @@ func TestAsyncSliceMapInt8Int8(t *testing.T) {
 
 func TestAsyncSliceMapInt8Int16(t *testing.T) {
 	f := func(mapper func(t int8) int16, given []int8, expected []int16) {
-		s := AsyncSliceInt8{data: given, workers: 2}
+		s := AsyncSliceInt8{Data: given, workers: 2}
 		actual := s.MapInt16(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -1170,7 +1170,7 @@ func TestAsyncSliceMapInt8Int16(t *testing.T) {
 
 func TestAsyncSliceMapInt8Int32(t *testing.T) {
 	f := func(mapper func(t int8) int32, given []int8, expected []int32) {
-		s := AsyncSliceInt8{data: given, workers: 2}
+		s := AsyncSliceInt8{Data: given, workers: 2}
 		actual := s.MapInt32(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -1183,7 +1183,7 @@ func TestAsyncSliceMapInt8Int32(t *testing.T) {
 
 func TestAsyncSliceMapInt8Int64(t *testing.T) {
 	f := func(mapper func(t int8) int64, given []int8, expected []int64) {
-		s := AsyncSliceInt8{data: given, workers: 2}
+		s := AsyncSliceInt8{Data: given, workers: 2}
 		actual := s.MapInt64(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -1196,7 +1196,7 @@ func TestAsyncSliceMapInt8Int64(t *testing.T) {
 
 func TestAsyncSliceReduceInt8(t *testing.T) {
 	f := func(reducer func(a int8, b int8) int8, given []int8, expected int8) {
-		s := AsyncSliceInt8{data: given, workers: 4}
+		s := AsyncSliceInt8{Data: given, workers: 4}
 		actual := s.Reduce(reducer)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -1681,7 +1681,7 @@ func TestSequenceTakeInt16(t *testing.T) {
 
 func TestAsyncSliceAnyInt16(t *testing.T) {
 	f := func(check func(t int16) bool, given []int16, expected bool) {
-		s := AsyncSliceInt16{data: given, workers: 2}
+		s := AsyncSliceInt16{Data: given, workers: 2}
 		actual := s.Any(check)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -1698,7 +1698,7 @@ func TestAsyncSliceAnyInt16(t *testing.T) {
 
 func TestAsyncSliceAllInt16(t *testing.T) {
 	f := func(check func(t int16) bool, given []int16, expected bool) {
-		s := AsyncSliceInt16{data: given, workers: 2}
+		s := AsyncSliceInt16{Data: given, workers: 2}
 		actual := s.All(check)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -1716,7 +1716,7 @@ func TestAsyncSliceAllInt16(t *testing.T) {
 
 func TestAsyncSliceEachInt16(t *testing.T) {
 	f := func(given []int16) {
-		s := AsyncSliceInt16{data: given, workers: 2}
+		s := AsyncSliceInt16{Data: given, workers: 2}
 		result := make(chan int16, len(given))
 		mapper := func(t int16) { result <- t }
 		s.Each(mapper)
@@ -1734,7 +1734,7 @@ func TestAsyncSliceEachInt16(t *testing.T) {
 
 func TestAsyncSliceMapInt16Int(t *testing.T) {
 	f := func(mapper func(t int16) int, given []int16, expected []int) {
-		s := AsyncSliceInt16{data: given, workers: 2}
+		s := AsyncSliceInt16{Data: given, workers: 2}
 		actual := s.MapInt(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -1747,7 +1747,7 @@ func TestAsyncSliceMapInt16Int(t *testing.T) {
 
 func TestAsyncSliceMapInt16Int8(t *testing.T) {
 	f := func(mapper func(t int16) int8, given []int16, expected []int8) {
-		s := AsyncSliceInt16{data: given, workers: 2}
+		s := AsyncSliceInt16{Data: given, workers: 2}
 		actual := s.MapInt8(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -1760,7 +1760,7 @@ func TestAsyncSliceMapInt16Int8(t *testing.T) {
 
 func TestAsyncSliceMapInt16Int16(t *testing.T) {
 	f := func(mapper func(t int16) int16, given []int16, expected []int16) {
-		s := AsyncSliceInt16{data: given, workers: 2}
+		s := AsyncSliceInt16{Data: given, workers: 2}
 		actual := s.MapInt16(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -1773,7 +1773,7 @@ func TestAsyncSliceMapInt16Int16(t *testing.T) {
 
 func TestAsyncSliceMapInt16Int32(t *testing.T) {
 	f := func(mapper func(t int16) int32, given []int16, expected []int32) {
-		s := AsyncSliceInt16{data: given, workers: 2}
+		s := AsyncSliceInt16{Data: given, workers: 2}
 		actual := s.MapInt32(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -1786,7 +1786,7 @@ func TestAsyncSliceMapInt16Int32(t *testing.T) {
 
 func TestAsyncSliceMapInt16Int64(t *testing.T) {
 	f := func(mapper func(t int16) int64, given []int16, expected []int64) {
-		s := AsyncSliceInt16{data: given, workers: 2}
+		s := AsyncSliceInt16{Data: given, workers: 2}
 		actual := s.MapInt64(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -1799,7 +1799,7 @@ func TestAsyncSliceMapInt16Int64(t *testing.T) {
 
 func TestAsyncSliceReduceInt16(t *testing.T) {
 	f := func(reducer func(a int16, b int16) int16, given []int16, expected int16) {
-		s := AsyncSliceInt16{data: given, workers: 4}
+		s := AsyncSliceInt16{Data: given, workers: 4}
 		actual := s.Reduce(reducer)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -2284,7 +2284,7 @@ func TestSequenceTakeInt32(t *testing.T) {
 
 func TestAsyncSliceAnyInt32(t *testing.T) {
 	f := func(check func(t int32) bool, given []int32, expected bool) {
-		s := AsyncSliceInt32{data: given, workers: 2}
+		s := AsyncSliceInt32{Data: given, workers: 2}
 		actual := s.Any(check)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -2301,7 +2301,7 @@ func TestAsyncSliceAnyInt32(t *testing.T) {
 
 func TestAsyncSliceAllInt32(t *testing.T) {
 	f := func(check func(t int32) bool, given []int32, expected bool) {
-		s := AsyncSliceInt32{data: given, workers: 2}
+		s := AsyncSliceInt32{Data: given, workers: 2}
 		actual := s.All(check)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -2319,7 +2319,7 @@ func TestAsyncSliceAllInt32(t *testing.T) {
 
 func TestAsyncSliceEachInt32(t *testing.T) {
 	f := func(given []int32) {
-		s := AsyncSliceInt32{data: given, workers: 2}
+		s := AsyncSliceInt32{Data: given, workers: 2}
 		result := make(chan int32, len(given))
 		mapper := func(t int32) { result <- t }
 		s.Each(mapper)
@@ -2337,7 +2337,7 @@ func TestAsyncSliceEachInt32(t *testing.T) {
 
 func TestAsyncSliceMapInt32Int(t *testing.T) {
 	f := func(mapper func(t int32) int, given []int32, expected []int) {
-		s := AsyncSliceInt32{data: given, workers: 2}
+		s := AsyncSliceInt32{Data: given, workers: 2}
 		actual := s.MapInt(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -2350,7 +2350,7 @@ func TestAsyncSliceMapInt32Int(t *testing.T) {
 
 func TestAsyncSliceMapInt32Int8(t *testing.T) {
 	f := func(mapper func(t int32) int8, given []int32, expected []int8) {
-		s := AsyncSliceInt32{data: given, workers: 2}
+		s := AsyncSliceInt32{Data: given, workers: 2}
 		actual := s.MapInt8(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -2363,7 +2363,7 @@ func TestAsyncSliceMapInt32Int8(t *testing.T) {
 
 func TestAsyncSliceMapInt32Int16(t *testing.T) {
 	f := func(mapper func(t int32) int16, given []int32, expected []int16) {
-		s := AsyncSliceInt32{data: given, workers: 2}
+		s := AsyncSliceInt32{Data: given, workers: 2}
 		actual := s.MapInt16(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -2376,7 +2376,7 @@ func TestAsyncSliceMapInt32Int16(t *testing.T) {
 
 func TestAsyncSliceMapInt32Int32(t *testing.T) {
 	f := func(mapper func(t int32) int32, given []int32, expected []int32) {
-		s := AsyncSliceInt32{data: given, workers: 2}
+		s := AsyncSliceInt32{Data: given, workers: 2}
 		actual := s.MapInt32(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -2389,7 +2389,7 @@ func TestAsyncSliceMapInt32Int32(t *testing.T) {
 
 func TestAsyncSliceMapInt32Int64(t *testing.T) {
 	f := func(mapper func(t int32) int64, given []int32, expected []int64) {
-		s := AsyncSliceInt32{data: given, workers: 2}
+		s := AsyncSliceInt32{Data: given, workers: 2}
 		actual := s.MapInt64(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -2402,7 +2402,7 @@ func TestAsyncSliceMapInt32Int64(t *testing.T) {
 
 func TestAsyncSliceReduceInt32(t *testing.T) {
 	f := func(reducer func(a int32, b int32) int32, given []int32, expected int32) {
-		s := AsyncSliceInt32{data: given, workers: 4}
+		s := AsyncSliceInt32{Data: given, workers: 4}
 		actual := s.Reduce(reducer)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -2887,7 +2887,7 @@ func TestSequenceTakeInt64(t *testing.T) {
 
 func TestAsyncSliceAnyInt64(t *testing.T) {
 	f := func(check func(t int64) bool, given []int64, expected bool) {
-		s := AsyncSliceInt64{data: given, workers: 2}
+		s := AsyncSliceInt64{Data: given, workers: 2}
 		actual := s.Any(check)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -2904,7 +2904,7 @@ func TestAsyncSliceAnyInt64(t *testing.T) {
 
 func TestAsyncSliceAllInt64(t *testing.T) {
 	f := func(check func(t int64) bool, given []int64, expected bool) {
-		s := AsyncSliceInt64{data: given, workers: 2}
+		s := AsyncSliceInt64{Data: given, workers: 2}
 		actual := s.All(check)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -2922,7 +2922,7 @@ func TestAsyncSliceAllInt64(t *testing.T) {
 
 func TestAsyncSliceEachInt64(t *testing.T) {
 	f := func(given []int64) {
-		s := AsyncSliceInt64{data: given, workers: 2}
+		s := AsyncSliceInt64{Data: given, workers: 2}
 		result := make(chan int64, len(given))
 		mapper := func(t int64) { result <- t }
 		s.Each(mapper)
@@ -2940,7 +2940,7 @@ func TestAsyncSliceEachInt64(t *testing.T) {
 
 func TestAsyncSliceMapInt64Int(t *testing.T) {
 	f := func(mapper func(t int64) int, given []int64, expected []int) {
-		s := AsyncSliceInt64{data: given, workers: 2}
+		s := AsyncSliceInt64{Data: given, workers: 2}
 		actual := s.MapInt(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -2953,7 +2953,7 @@ func TestAsyncSliceMapInt64Int(t *testing.T) {
 
 func TestAsyncSliceMapInt64Int8(t *testing.T) {
 	f := func(mapper func(t int64) int8, given []int64, expected []int8) {
-		s := AsyncSliceInt64{data: given, workers: 2}
+		s := AsyncSliceInt64{Data: given, workers: 2}
 		actual := s.MapInt8(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -2966,7 +2966,7 @@ func TestAsyncSliceMapInt64Int8(t *testing.T) {
 
 func TestAsyncSliceMapInt64Int16(t *testing.T) {
 	f := func(mapper func(t int64) int16, given []int64, expected []int16) {
-		s := AsyncSliceInt64{data: given, workers: 2}
+		s := AsyncSliceInt64{Data: given, workers: 2}
 		actual := s.MapInt16(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -2979,7 +2979,7 @@ func TestAsyncSliceMapInt64Int16(t *testing.T) {
 
 func TestAsyncSliceMapInt64Int32(t *testing.T) {
 	f := func(mapper func(t int64) int32, given []int64, expected []int32) {
-		s := AsyncSliceInt64{data: given, workers: 2}
+		s := AsyncSliceInt64{Data: given, workers: 2}
 		actual := s.MapInt32(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -2992,7 +2992,7 @@ func TestAsyncSliceMapInt64Int32(t *testing.T) {
 
 func TestAsyncSliceMapInt64Int64(t *testing.T) {
 	f := func(mapper func(t int64) int64, given []int64, expected []int64) {
-		s := AsyncSliceInt64{data: given, workers: 2}
+		s := AsyncSliceInt64{Data: given, workers: 2}
 		actual := s.MapInt64(mapper)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -3005,7 +3005,7 @@ func TestAsyncSliceMapInt64Int64(t *testing.T) {
 
 func TestAsyncSliceReduceInt64(t *testing.T) {
 	f := func(reducer func(a int64, b int64) int64, given []int64, expected int64) {
-		s := AsyncSliceInt64{data: given, workers: 4}
+		s := AsyncSliceInt64{Data: given, workers: 4}
 		actual := s.Reduce(reducer)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}

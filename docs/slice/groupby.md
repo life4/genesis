@@ -56,7 +56,7 @@ Generic types: G, T.
 // GroupBy groups element from array by value returned by f
 func (s Slice) GroupBy(f func(el T) G) map[G][]T {
 	result := make(map[G][]T)
-	for _, el := range s.data {
+	for _, el := range s.Data {
 		key := f(el)
 		val, ok := result[key]
 		if !ok {

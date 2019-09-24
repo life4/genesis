@@ -35,7 +35,7 @@ Generic types: T.
 // Count return count of el occurences in arr.
 func (s Slice) Count(el T) int {
 	count := 0
-	for _, val := range s.data {
+	for _, val := range s.Data {
 		if val == el {
 			count++
 		}

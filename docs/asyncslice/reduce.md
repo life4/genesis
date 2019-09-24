@@ -34,13 +34,13 @@ Generic types: T.
 ```go
 // Reduce reduces slice to a single value with f
 func (s AsyncSlice) Reduce(f func(left T, right T) T) T {
-	if len(s.data) == 0 {
+	if len(s.Data) == 0 {
 		var tmp T
 		return tmp
 	}
 
-	state := make([]T, len(s.data))
-	state = append(state, s.data...)
+	state := make([]T, len(s.Data))
+	state = append(state, s.Data...)
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int, result chan<- T) {
@@ -97,7 +97,7 @@ func (s AsyncSlice) Reduce(f func(left T, right T) T) T {
 ```go
 func TestAsyncSliceReduce(t *testing.T) {
 	f := func(reducer func(a T, b T) T, given []T, expected T) {
-		s := AsyncSlice{data: given, workers: 4}
+		s := AsyncSlice{Data: given, workers: 4}
 		actual := s.Reduce(reducer)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}

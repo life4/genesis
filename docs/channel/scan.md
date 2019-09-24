@@ -57,7 +57,7 @@ Generic types: G, T.
 func (c Channel) Scan(acc G, f func(el T, acc G) G) chan G {
 	result := make(chan G, 1)
 	go func() {
-		for el := range c.data {
+		for el := range c.Data {
 			acc = f(el, acc)
 			result <- acc
 		}

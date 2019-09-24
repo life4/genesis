@@ -55,7 +55,7 @@ Generic types: G, T.
 ```go
 // Reduce applies f to acc and every element from channel and returns acc
 func (c Channel) Reduce(acc G, f func(el T, acc G) G) G {
-	for el := range c.data {
+	for el := range c.Data {
 		acc = f(el, acc)
 	}
 	return acc

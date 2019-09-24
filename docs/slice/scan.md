@@ -55,8 +55,8 @@ Generic types: G, T.
 ```go
 // Scan is like Reduce, but returns slice of f results
 func (s Slice) Scan(acc G, f func(el T, acc G) G) []G {
-	result := make([]G, 0, len(s.data))
-	for _, el := range s.data {
+	result := make([]G, 0, len(s.Data))
+	for _, el := range s.Data {
 		acc = f(el, acc)
 		result = append(result, acc)
 	}

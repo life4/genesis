@@ -35,7 +35,7 @@ Generic types: T.
 // Concat concatenates given slices into a single slice.
 func (s Slices) Concat() []T {
 	result := make([]T, 0)
-	for _, arr := range s.data {
+	for _, arr := range s.Data {
 		result = append(result, arr...)
 	}
 	return result

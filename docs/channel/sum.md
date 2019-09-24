@@ -33,7 +33,7 @@ Generic types: T.
 // Sum returns sum of all elements from channel
 func (c Channel) Sum() T {
 	var sum T
-	for el := range c.data {
+	for el := range c.Data {
 		sum += el
 	}
 	return sum

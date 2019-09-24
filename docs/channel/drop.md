@@ -38,7 +38,7 @@ func (c Channel) Drop(n int) chan T {
 	result := make(chan T, 1)
 	go func() {
 		i := 0
-		for el := range c.data {
+		for el := range c.Data {
 			if i >= n {
 				result <- el
 			}

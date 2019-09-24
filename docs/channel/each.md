@@ -34,7 +34,7 @@ Generic types: T.
 ```go
 // Each calls f for every element in the channel
 func (c Channel) Each(f func(el T)) {
-	for el := range c.data {
+	for el := range c.Data {
 		f(el)
 	}
 }

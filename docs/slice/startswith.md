@@ -36,7 +36,7 @@ Generic types: T.
 // If prefix is empty, it returns true.
 func (s Slice) StartsWith(prefix []T) bool {
 	for i, el := range prefix {
-		if el != s.data[i] {
+		if el != s.Data[i] {
 			return false
 		}
 	}

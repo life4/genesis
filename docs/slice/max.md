@@ -32,8 +32,8 @@ Generic types: T.
 ```go
 // Max returns the maximal element from arr
 func (s Slice) Max() T {
-	max := s.data[0]
-	for _, el := range s.data[1:] {
+	max := s.Data[0]
+	for _, el := range s.Data[1:] {
 		if el > max {
 			max = el
 		}

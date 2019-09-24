@@ -34,7 +34,7 @@ Generic types: T.
 ```go
 // Any returns true if f returns true for any element in channel
 func (c Channel) Any(f func(el T) bool) bool {
-	for el := range c.data {
+	for el := range c.Data {
 		if f(el) {
 			return true
 		}

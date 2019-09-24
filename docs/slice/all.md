@@ -34,7 +34,7 @@ Generic types: T.
 ```go
 // All returns true if f returns true for all elements in arr
 func (s Slice) All(f func(el T) bool) bool {
-	for _, el := range s.data {
+	for _, el := range s.Data {
 		if !f(el) {
 			return false
 		}

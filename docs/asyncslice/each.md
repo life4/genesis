@@ -39,25 +39,25 @@ func (s AsyncSlice) Each(f func(el T)) {
 	worker := func(jobs <-chan int) {
 		defer wg.Done()
 		for index := range jobs {
-			f(s.data[index])
+			f(s.Data[index])
 		}
 	}
 
 	// calculate workers count
 	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
 	}
 
 	// run workers
-	jobs := make(chan int, len(s.data))
+	jobs := make(chan int, len(s.Data))
 	wg.Add(workers)
 	for i := 0; i < workers; i++ {
 		go worker(jobs)
 	}
 
 	// add indices into jobs for workers
-	for i := 0; i < len(s.data); i++ {
+	for i := 0; i < len(s.Data); i++ {
 		jobs <- i
 	}
 	close(jobs)
@@ -70,7 +70,7 @@ func (s AsyncSlice) Each(f func(el T)) {
 ```go
 func TestAsyncSliceEach(t *testing.T) {
 	f := func(given []T) {
-		s := AsyncSlice{data: given, workers: 2}
+		s := AsyncSlice{Data: given, workers: 2}
 		result := make(chan T, len(given))
 		mapper := func(t T) { result <- t }
 		s.Each(mapper)

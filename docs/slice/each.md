@@ -34,7 +34,7 @@ Generic types: T.
 ```go
 // Each calls f for every element from arr
 func (s Slice) Each(f func(el T)) {
-	for _, el := range s.data {
+	for _, el := range s.Data {
 		f(el)
 	}
 }

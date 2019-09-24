@@ -5,7 +5,7 @@ AsyncSlice is a set of operations to work with slice asynchronously
 ```go
 // AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSlice struct {
-	data    []T
+	Data    []T
 	workers int
 }
 ```

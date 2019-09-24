@@ -5,7 +5,7 @@ Slice is a set of operations to work with slice
 ```go
 // Slice is a set of operations to work with slice
 type Slice struct {
-	data []T
+	Data []T
 }
 ```
 

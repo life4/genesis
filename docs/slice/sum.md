@@ -33,7 +33,7 @@ Generic types: T.
 // Sum return sum of all elements from arr
 func (s Slice) Sum() T {
 	var sum T
-	for _, el := range s.data {
+	for _, el := range s.Data {
 		sum += el
 	}
 	return sum

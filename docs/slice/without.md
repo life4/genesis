@@ -34,8 +34,8 @@ Generic types: T.
 ```go
 // Without returns the slice with filtered out element
 func (s Slice) Without(elements ...T) []T {
-	result := make([]T, 0, len(s.data))
-	for _, el := range s.data {
+	result := make([]T, 0, len(s.Data))
+	for _, el := range s.Data {
 		allowed := true
 		for _, other := range elements {
 			if el == other {

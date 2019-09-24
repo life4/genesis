@@ -2,7 +2,7 @@ package implementation
 
 // Sequence is a set of operations to generate sequences
 type Sequence struct {
-	data chan T
+	Data chan T
 }
 
 // Count is like Range, but infinite

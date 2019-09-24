@@ -32,8 +32,8 @@ Generic types: T.
 ```go
 // Min returns the minimal element from channel
 func (c Channel) Min() T {
-	min := <-c.data
-	for el := range c.data {
+	min := <-c.Data
+	for el := range c.Data {
 		if el < min {
 			min = el
 		}

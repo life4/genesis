@@ -34,7 +34,7 @@ Generic types: T.
 ```go
 // Any returns true if f returns true for any element in arr
 func (s Slice) Any(f func(el T) bool) bool {
-	for _, el := range s.data {
+	for _, el := range s.Data {
 		if f(el) {
 			return true
 		}

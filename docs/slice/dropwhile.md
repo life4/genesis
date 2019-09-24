@@ -34,8 +34,8 @@ Generic types: T.
 ```go
 // DropWhile drops elements from arr while f returns true
 func (s Slice) DropWhile(f func(arr T) bool) []T {
-	result := make([]T, 0, len(s.data))
-	for _, el := range s.data {
+	result := make([]T, 0, len(s.Data))
+	for _, el := range s.Data {
 		if !f(el) {
 			return result
 		}

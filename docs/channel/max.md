@@ -32,8 +32,8 @@ Generic types: T.
 ```go
 // Max returns the maximal element from channel
 func (c Channel) Max() T {
-	max := <-c.data
-	for el := range c.data {
+	max := <-c.Data
+	for el := range c.Data {
 		if el > max {
 			max = el
 		}

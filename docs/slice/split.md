@@ -36,7 +36,7 @@ Generic types: T.
 func (s Slice) Split(sep T) [][]T {
 	result := make([][]T, 0)
 	curr := make([]T, 0)
-	for _, el := range s.data {
+	for _, el := range s.Data {
 		if el == sep {
 			result = append(result, curr)
 		} else {

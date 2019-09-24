@@ -55,8 +55,8 @@ Generic types: G, T.
 ```go
 // Map applies F to all elements in slice of T and returns slice of results
 func (s Slice) Map(f func(el T) G) []G {
-	result := make([]G, 0, len(s.data))
-	for _, el := range s.data {
+	result := make([]G, 0, len(s.Data))
+	for _, el := range s.Data {
 		result = append(result, f(el))
 	}
 	return result

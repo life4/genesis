@@ -34,11 +34,11 @@ Generic types: T.
 ```go
 // Equal returns true if slices are equal
 func (s Slice) Equal(other []T) bool {
-	if len(s.data) != len(other) {
+	if len(s.Data) != len(other) {
 		return false
 	}
 	for i, el := range other {
-		if s.data[i] != el {
+		if s.Data[i] != el {
 			return false
 		}
 	}

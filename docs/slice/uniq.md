@@ -36,8 +36,8 @@ Generic types: T.
 func (s Slice) Uniq() []T {
 	added := make(map[T]struct{})
 	nothing := struct{}{}
-	result := make([]T, 0, len(s.data))
-	for _, el := range s.data {
+	result := make([]T, 0, len(s.Data))
+	for _, el := range s.Data {
 		_, exists := added[el]
 		if !exists {
 			result = append(result, el)

@@ -57,7 +57,7 @@ Generic types: G, T.
 func (c Channel) Map(f func(el T) G) chan G {
 	result := make(chan G, 1)
 	go func() {
-		for el := range c.data {
+		for el := range c.Data {
 			result <- f(el)
 		}
 		close(result)

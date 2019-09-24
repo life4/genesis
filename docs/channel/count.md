@@ -35,7 +35,7 @@ Generic types: T.
 // Count return count of el occurences in channel.
 func (c Channel) Count(el T) int {
 	count := 0
-	for val := range c.data {
+	for val := range c.Data {
 		if val == el {
 			count++
 		}

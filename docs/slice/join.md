@@ -30,8 +30,8 @@ Generic types: T.
 ```go
 // Join concatenates elements of the slice to create a single string.
 func (s Slice) Join(sep string) string {
-	strs := make([]string, 0, len(s.data))
-	for _, el := range s.data {
+	strs := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
 		strs = append(strs, string(el))
 	}
 	return strings.Join(strs, sep)

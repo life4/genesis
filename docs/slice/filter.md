@@ -34,8 +34,8 @@ Generic types: T.
 ```go
 // Filter returns slice of T for which F returned true
 func (s Slice) Filter(f func(el T) bool) []T {
-	result := make([]T, 0, len(s.data))
-	for _, el := range s.data {
+	result := make([]T, 0, len(s.Data))
+	for _, el := range s.Data {
 		if f(el) {
 			result = append(result, el)
 		}

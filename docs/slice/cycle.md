@@ -37,7 +37,7 @@ func (s Slice) Cycle() chan T {
 	c := make(chan T, 1)
 	go func() {
 		for {
-			for _, val := range s.data {
+			for _, val := range s.Data {
 				c <- val
 			}
 		}

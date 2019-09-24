@@ -36,7 +36,7 @@ Generic types: T.
 func (s Slice) ChunkEvery(count int) [][]T {
 	chunks := make([][]T, 0)
 	chunk := make([]T, 0, count)
-	for i, el := range s.data {
+	for i, el := range s.Data {
 		chunk = append(chunk, el)
 		if (i+1)%count == 0 {
 			chunks = append(chunks, chunk)

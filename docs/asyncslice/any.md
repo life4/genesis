@@ -34,7 +34,7 @@ Generic types: T.
 ```go
 // Any returns true if f returns true for any element from slice
 func (s AsyncSlice) Any(f func(el T) bool) bool {
-	if len(s.data) == 0 {
+	if len(s.Data) == 0 {
 		return false
 	}
 
@@ -50,7 +50,7 @@ func (s AsyncSlice) Any(f func(el T) bool) bool {
 				if !ok {
 					return
 				}
-				if f(s.data[index]) {
+				if f(s.Data[index]) {
 					result <- true
 					return
 				}
@@ -64,12 +64,12 @@ func (s AsyncSlice) Any(f func(el T) bool) bool {
 
 	// calculate workers count
 	workers := s.workers
-	if workers == 0 || workers > len(s.data) {
-		workers = len(s.data)
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
 	}
 
 	// run workers
-	jobs := make(chan int, len(s.data))
+	jobs := make(chan int, len(s.Data))
 	result := make(chan bool, workers)
 	wg.Add(workers)
 	for i := 0; i < workers; i++ {
@@ -83,7 +83,7 @@ func (s AsyncSlice) Any(f func(el T) bool) bool {
 	}()
 
 	// schedule the jobs: indices to check
-	for i := 0; i < len(s.data); i++ {
+	for i := 0; i < len(s.Data); i++ {
 		jobs <- i
 	}
 	close(jobs)
@@ -100,7 +100,7 @@ func (s AsyncSlice) Any(f func(el T) bool) bool {
 ```go
 func TestAsyncSliceAny(t *testing.T) {
 	f := func(check func(t T) bool, given []T, expected bool) {
-		s := AsyncSlice{data: given, workers: 2}
+		s := AsyncSlice{Data: given, workers: 2}
 		actual := s.Any(check)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}

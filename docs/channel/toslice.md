@@ -35,7 +35,7 @@ Generic types: T.
 // ToSlice returns slice with all elements from channel.
 func (c Channel) ToSlice() []T {
 	result := make([]T, 0)
-	for val := range c.data {
+	for val := range c.Data {
 		result = append(result, val)
 	}
 	return result

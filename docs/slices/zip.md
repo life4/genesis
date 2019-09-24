@@ -35,8 +35,8 @@ Generic types: T.
 // Zip returns array of arrays of elements from given arrs
 // on the same position
 func (s Slices) Zip() [][]T {
-	size := len(s.data[0])
-	for _, arr := range s.data[1:] {
+	size := len(s.Data[0])
+	for _, arr := range s.Data[1:] {
 		if len(arr) > size {
 			size = len(arr)
 		}
@@ -44,8 +44,8 @@ func (s Slices) Zip() [][]T {
 
 	result := make([][]T, 0, size)
 	for i := 0; i <= size; i++ {
-		chunk := make([]T, 0, len(s.data))
-		for _, arr := range s.data {
+		chunk := make([]T, 0, len(s.Data))
+		for _, arr := range s.Data {
 			chunk = append(chunk, arr[i])
 		}
 		result = append(result, chunk)
