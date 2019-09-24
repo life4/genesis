@@ -249,6 +249,23 @@ func TestSliceMapIntInt64(t *testing.T) {
 	f(double, []int{1, 2, 3}, []int64{2, 4, 6})
 }
 
+func TestSlicesPermutationsInt(t *testing.T) {
+	f := func(size int, given []int, expected [][]int) {
+		actual := make([][]int, 0)
+		i := 0
+		s := SliceInt{given}
+		for el := range s.Permutations(size) {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, []int{1, 2, 3}, [][]int{{1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}})
+}
+
 func TestChannelToSliceInt(t *testing.T) {
 	s := SequenceInt{}
 	f := func(start int, stop int, step int, expected []int) {
@@ -790,6 +807,23 @@ func TestSliceMapInt8Int64(t *testing.T) {
 	double := func(t int8) int64 { return int64((t * 2)) }
 
 	f(double, []int8{1, 2, 3}, []int64{2, 4, 6})
+}
+
+func TestSlicesPermutationsInt8(t *testing.T) {
+	f := func(size int, given []int8, expected [][]int8) {
+		actual := make([][]int8, 0)
+		i := 0
+		s := SliceInt8{given}
+		for el := range s.Permutations(size) {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, []int8{1, 2, 3}, [][]int8{{1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}})
 }
 
 func TestChannelToSliceInt8(t *testing.T) {
@@ -1335,6 +1369,23 @@ func TestSliceMapInt16Int64(t *testing.T) {
 	f(double, []int16{1, 2, 3}, []int64{2, 4, 6})
 }
 
+func TestSlicesPermutationsInt16(t *testing.T) {
+	f := func(size int, given []int16, expected [][]int16) {
+		actual := make([][]int16, 0)
+		i := 0
+		s := SliceInt16{given}
+		for el := range s.Permutations(size) {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, []int16{1, 2, 3}, [][]int16{{1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}})
+}
+
 func TestChannelToSliceInt16(t *testing.T) {
 	s := SequenceInt16{}
 	f := func(start int16, stop int16, step int16, expected []int16) {
@@ -1878,6 +1929,23 @@ func TestSliceMapInt32Int64(t *testing.T) {
 	f(double, []int32{1, 2, 3}, []int64{2, 4, 6})
 }
 
+func TestSlicesPermutationsInt32(t *testing.T) {
+	f := func(size int, given []int32, expected [][]int32) {
+		actual := make([][]int32, 0)
+		i := 0
+		s := SliceInt32{given}
+		for el := range s.Permutations(size) {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, []int32{1, 2, 3}, [][]int32{{1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}})
+}
+
 func TestChannelToSliceInt32(t *testing.T) {
 	s := SequenceInt32{}
 	f := func(start int32, stop int32, step int32, expected []int32) {
@@ -2419,6 +2487,23 @@ func TestSliceMapInt64Int64(t *testing.T) {
 	double := func(t int64) int64 { return int64((t * 2)) }
 
 	f(double, []int64{1, 2, 3}, []int64{2, 4, 6})
+}
+
+func TestSlicesPermutationsInt64(t *testing.T) {
+	f := func(size int, given []int64, expected [][]int64) {
+		actual := make([][]int64, 0)
+		i := 0
+		s := SliceInt64{given}
+		for el := range s.Permutations(size) {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, []int64{1, 2, 3}, [][]int64{{1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}})
 }
 
 func TestChannelToSliceInt64(t *testing.T) {

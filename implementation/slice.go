@@ -255,6 +255,40 @@ func (s Slice) Min() T {
 	return min
 }
 
+// Permutations returns successive size-length permutations of elements from the slice.
+// {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
+func (s Slice) Permutations(size int) chan []T {
+	c := make(chan []T, 1)
+	go s.permutations(c, size, []T{}, s.data)
+	return c
+}
+
+func (s Slice) permutations(c chan []T, size int, left []T, right []T) {
+	if len(left) == size {
+		c <- left
+		return
+	}
+
+	for i, el := range right {
+		newLeft := make([]T, 0, len(left)+1)
+		newLeft = append(newLeft, left...)
+		newLeft = append(newLeft, el)
+
+		newRight := make([]T, 0, len(right)-1)
+		for j, other := range right {
+			if j != i {
+				newRight = append(newRight, other)
+			}
+		}
+		s.permutations(c, size, newLeft, newRight)
+	}
+
+	// close channel in the first function call after all
+	if len(right) == len(s.data) {
+		close(c)
+	}
+}
+
 // Product returns cortesian product of elements
 // {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 func (s Slice) Product(repeat int) chan []T {

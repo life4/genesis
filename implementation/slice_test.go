@@ -96,3 +96,20 @@ func TestSliceMap(t *testing.T) {
 
 	f(double, []T{1, 2, 3}, []G{2, 4, 6})
 }
+
+func TestSlicesPermutations(t *testing.T) {
+	f := func(size int, given []T, expected [][]T) {
+		actual := make([][]T, 0)
+		i := 0
+		s := Slice{given}
+		for el := range s.Permutations(size) {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, []T{1, 2, 3}, [][]T{{1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}})
+}

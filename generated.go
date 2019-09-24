@@ -2517,6 +2517,38 @@ func (s SliceBool) MapInterface(f func(el bool) interface{}) []interface{} {
 	return result
 }
 
+func (s SliceBool) Permutations(size int) chan []bool {
+	c := make(chan []bool, 1)
+	go s.permutations(c, size, []bool{}, s.data)
+	return c
+}
+
+func (s SliceBool) permutations(c chan []bool, size int, left []bool, right []bool) {
+	if len(left) == size {
+		c <- left
+		return
+	}
+
+	for i, el := range right {
+		newLeft := make([]bool, 0, len(left)+1)
+		newLeft = append(newLeft, left...)
+		newLeft = append(newLeft, el)
+
+		newRight := make([]bool, 0, len(right)-1)
+		for j, other := range right {
+			if j != i {
+				newRight = append(newRight, other)
+			}
+		}
+		s.permutations(c, size, newLeft, newRight)
+	}
+
+	// close channel in the first function call after all
+	if len(right) == len(s.data) {
+		close(c)
+	}
+}
+
 func (s SliceBool) Product(repeat int) chan []bool {
 	c := make(chan []bool, 1)
 	go s.product(c, repeat, []bool{}, 0)
@@ -5660,6 +5692,38 @@ func (s SliceByte) Min() byte {
 		}
 	}
 	return min
+}
+
+func (s SliceByte) Permutations(size int) chan []byte {
+	c := make(chan []byte, 1)
+	go s.permutations(c, size, []byte{}, s.data)
+	return c
+}
+
+func (s SliceByte) permutations(c chan []byte, size int, left []byte, right []byte) {
+	if len(left) == size {
+		c <- left
+		return
+	}
+
+	for i, el := range right {
+		newLeft := make([]byte, 0, len(left)+1)
+		newLeft = append(newLeft, left...)
+		newLeft = append(newLeft, el)
+
+		newRight := make([]byte, 0, len(right)-1)
+		for j, other := range right {
+			if j != i {
+				newRight = append(newRight, other)
+			}
+		}
+		s.permutations(c, size, newLeft, newRight)
+	}
+
+	// close channel in the first function call after all
+	if len(right) == len(s.data) {
+		close(c)
+	}
 }
 
 func (s SliceByte) Product(repeat int) chan []byte {
@@ -8830,6 +8894,38 @@ func (s SliceString) Min() string {
 		}
 	}
 	return min
+}
+
+func (s SliceString) Permutations(size int) chan []string {
+	c := make(chan []string, 1)
+	go s.permutations(c, size, []string{}, s.data)
+	return c
+}
+
+func (s SliceString) permutations(c chan []string, size int, left []string, right []string) {
+	if len(left) == size {
+		c <- left
+		return
+	}
+
+	for i, el := range right {
+		newLeft := make([]string, 0, len(left)+1)
+		newLeft = append(newLeft, left...)
+		newLeft = append(newLeft, el)
+
+		newRight := make([]string, 0, len(right)-1)
+		for j, other := range right {
+			if j != i {
+				newRight = append(newRight, other)
+			}
+		}
+		s.permutations(c, size, newLeft, newRight)
+	}
+
+	// close channel in the first function call after all
+	if len(right) == len(s.data) {
+		close(c)
+	}
 }
 
 func (s SliceString) Product(repeat int) chan []string {
@@ -12037,6 +12133,38 @@ func (s SliceFloat32) Min() float32 {
 	return min
 }
 
+func (s SliceFloat32) Permutations(size int) chan []float32 {
+	c := make(chan []float32, 1)
+	go s.permutations(c, size, []float32{}, s.data)
+	return c
+}
+
+func (s SliceFloat32) permutations(c chan []float32, size int, left []float32, right []float32) {
+	if len(left) == size {
+		c <- left
+		return
+	}
+
+	for i, el := range right {
+		newLeft := make([]float32, 0, len(left)+1)
+		newLeft = append(newLeft, left...)
+		newLeft = append(newLeft, el)
+
+		newRight := make([]float32, 0, len(right)-1)
+		for j, other := range right {
+			if j != i {
+				newRight = append(newRight, other)
+			}
+		}
+		s.permutations(c, size, newLeft, newRight)
+	}
+
+	// close channel in the first function call after all
+	if len(right) == len(s.data) {
+		close(c)
+	}
+}
+
 func (s SliceFloat32) Product(repeat int) chan []float32 {
 	c := make(chan []float32, 1)
 	go s.product(c, repeat, []float32{}, 0)
@@ -15240,6 +15368,38 @@ func (s SliceFloat64) Min() float64 {
 		}
 	}
 	return min
+}
+
+func (s SliceFloat64) Permutations(size int) chan []float64 {
+	c := make(chan []float64, 1)
+	go s.permutations(c, size, []float64{}, s.data)
+	return c
+}
+
+func (s SliceFloat64) permutations(c chan []float64, size int, left []float64, right []float64) {
+	if len(left) == size {
+		c <- left
+		return
+	}
+
+	for i, el := range right {
+		newLeft := make([]float64, 0, len(left)+1)
+		newLeft = append(newLeft, left...)
+		newLeft = append(newLeft, el)
+
+		newRight := make([]float64, 0, len(right)-1)
+		for j, other := range right {
+			if j != i {
+				newRight = append(newRight, other)
+			}
+		}
+		s.permutations(c, size, newLeft, newRight)
+	}
+
+	// close channel in the first function call after all
+	if len(right) == len(s.data) {
+		close(c)
+	}
 }
 
 func (s SliceFloat64) Product(repeat int) chan []float64 {
@@ -18447,6 +18607,38 @@ func (s SliceInt) Min() int {
 	return min
 }
 
+func (s SliceInt) Permutations(size int) chan []int {
+	c := make(chan []int, 1)
+	go s.permutations(c, size, []int{}, s.data)
+	return c
+}
+
+func (s SliceInt) permutations(c chan []int, size int, left []int, right []int) {
+	if len(left) == size {
+		c <- left
+		return
+	}
+
+	for i, el := range right {
+		newLeft := make([]int, 0, len(left)+1)
+		newLeft = append(newLeft, left...)
+		newLeft = append(newLeft, el)
+
+		newRight := make([]int, 0, len(right)-1)
+		for j, other := range right {
+			if j != i {
+				newRight = append(newRight, other)
+			}
+		}
+		s.permutations(c, size, newLeft, newRight)
+	}
+
+	// close channel in the first function call after all
+	if len(right) == len(s.data) {
+		close(c)
+	}
+}
+
 func (s SliceInt) Product(repeat int) chan []int {
 	c := make(chan []int, 1)
 	go s.product(c, repeat, []int{}, 0)
@@ -21650,6 +21842,38 @@ func (s SliceInt8) Min() int8 {
 		}
 	}
 	return min
+}
+
+func (s SliceInt8) Permutations(size int) chan []int8 {
+	c := make(chan []int8, 1)
+	go s.permutations(c, size, []int8{}, s.data)
+	return c
+}
+
+func (s SliceInt8) permutations(c chan []int8, size int, left []int8, right []int8) {
+	if len(left) == size {
+		c <- left
+		return
+	}
+
+	for i, el := range right {
+		newLeft := make([]int8, 0, len(left)+1)
+		newLeft = append(newLeft, left...)
+		newLeft = append(newLeft, el)
+
+		newRight := make([]int8, 0, len(right)-1)
+		for j, other := range right {
+			if j != i {
+				newRight = append(newRight, other)
+			}
+		}
+		s.permutations(c, size, newLeft, newRight)
+	}
+
+	// close channel in the first function call after all
+	if len(right) == len(s.data) {
+		close(c)
+	}
 }
 
 func (s SliceInt8) Product(repeat int) chan []int8 {
@@ -24857,6 +25081,38 @@ func (s SliceInt16) Min() int16 {
 	return min
 }
 
+func (s SliceInt16) Permutations(size int) chan []int16 {
+	c := make(chan []int16, 1)
+	go s.permutations(c, size, []int16{}, s.data)
+	return c
+}
+
+func (s SliceInt16) permutations(c chan []int16, size int, left []int16, right []int16) {
+	if len(left) == size {
+		c <- left
+		return
+	}
+
+	for i, el := range right {
+		newLeft := make([]int16, 0, len(left)+1)
+		newLeft = append(newLeft, left...)
+		newLeft = append(newLeft, el)
+
+		newRight := make([]int16, 0, len(right)-1)
+		for j, other := range right {
+			if j != i {
+				newRight = append(newRight, other)
+			}
+		}
+		s.permutations(c, size, newLeft, newRight)
+	}
+
+	// close channel in the first function call after all
+	if len(right) == len(s.data) {
+		close(c)
+	}
+}
+
 func (s SliceInt16) Product(repeat int) chan []int16 {
 	c := make(chan []int16, 1)
 	go s.product(c, repeat, []int16{}, 0)
@@ -28060,6 +28316,38 @@ func (s SliceInt32) Min() int32 {
 		}
 	}
 	return min
+}
+
+func (s SliceInt32) Permutations(size int) chan []int32 {
+	c := make(chan []int32, 1)
+	go s.permutations(c, size, []int32{}, s.data)
+	return c
+}
+
+func (s SliceInt32) permutations(c chan []int32, size int, left []int32, right []int32) {
+	if len(left) == size {
+		c <- left
+		return
+	}
+
+	for i, el := range right {
+		newLeft := make([]int32, 0, len(left)+1)
+		newLeft = append(newLeft, left...)
+		newLeft = append(newLeft, el)
+
+		newRight := make([]int32, 0, len(right)-1)
+		for j, other := range right {
+			if j != i {
+				newRight = append(newRight, other)
+			}
+		}
+		s.permutations(c, size, newLeft, newRight)
+	}
+
+	// close channel in the first function call after all
+	if len(right) == len(s.data) {
+		close(c)
+	}
 }
 
 func (s SliceInt32) Product(repeat int) chan []int32 {
@@ -31267,6 +31555,38 @@ func (s SliceInt64) Min() int64 {
 	return min
 }
 
+func (s SliceInt64) Permutations(size int) chan []int64 {
+	c := make(chan []int64, 1)
+	go s.permutations(c, size, []int64{}, s.data)
+	return c
+}
+
+func (s SliceInt64) permutations(c chan []int64, size int, left []int64, right []int64) {
+	if len(left) == size {
+		c <- left
+		return
+	}
+
+	for i, el := range right {
+		newLeft := make([]int64, 0, len(left)+1)
+		newLeft = append(newLeft, left...)
+		newLeft = append(newLeft, el)
+
+		newRight := make([]int64, 0, len(right)-1)
+		for j, other := range right {
+			if j != i {
+				newRight = append(newRight, other)
+			}
+		}
+		s.permutations(c, size, newLeft, newRight)
+	}
+
+	// close channel in the first function call after all
+	if len(right) == len(s.data) {
+		close(c)
+	}
+}
+
 func (s SliceInt64) Product(repeat int) chan []int64 {
 	c := make(chan []int64, 1)
 	go s.product(c, repeat, []int64{}, 0)
@@ -34470,6 +34790,38 @@ func (s SliceUint) Min() uint {
 		}
 	}
 	return min
+}
+
+func (s SliceUint) Permutations(size int) chan []uint {
+	c := make(chan []uint, 1)
+	go s.permutations(c, size, []uint{}, s.data)
+	return c
+}
+
+func (s SliceUint) permutations(c chan []uint, size int, left []uint, right []uint) {
+	if len(left) == size {
+		c <- left
+		return
+	}
+
+	for i, el := range right {
+		newLeft := make([]uint, 0, len(left)+1)
+		newLeft = append(newLeft, left...)
+		newLeft = append(newLeft, el)
+
+		newRight := make([]uint, 0, len(right)-1)
+		for j, other := range right {
+			if j != i {
+				newRight = append(newRight, other)
+			}
+		}
+		s.permutations(c, size, newLeft, newRight)
+	}
+
+	// close channel in the first function call after all
+	if len(right) == len(s.data) {
+		close(c)
+	}
 }
 
 func (s SliceUint) Product(repeat int) chan []uint {
@@ -37677,6 +38029,38 @@ func (s SliceUint8) Min() uint8 {
 	return min
 }
 
+func (s SliceUint8) Permutations(size int) chan []uint8 {
+	c := make(chan []uint8, 1)
+	go s.permutations(c, size, []uint8{}, s.data)
+	return c
+}
+
+func (s SliceUint8) permutations(c chan []uint8, size int, left []uint8, right []uint8) {
+	if len(left) == size {
+		c <- left
+		return
+	}
+
+	for i, el := range right {
+		newLeft := make([]uint8, 0, len(left)+1)
+		newLeft = append(newLeft, left...)
+		newLeft = append(newLeft, el)
+
+		newRight := make([]uint8, 0, len(right)-1)
+		for j, other := range right {
+			if j != i {
+				newRight = append(newRight, other)
+			}
+		}
+		s.permutations(c, size, newLeft, newRight)
+	}
+
+	// close channel in the first function call after all
+	if len(right) == len(s.data) {
+		close(c)
+	}
+}
+
 func (s SliceUint8) Product(repeat int) chan []uint8 {
 	c := make(chan []uint8, 1)
 	go s.product(c, repeat, []uint8{}, 0)
@@ -40880,6 +41264,38 @@ func (s SliceUint16) Min() uint16 {
 		}
 	}
 	return min
+}
+
+func (s SliceUint16) Permutations(size int) chan []uint16 {
+	c := make(chan []uint16, 1)
+	go s.permutations(c, size, []uint16{}, s.data)
+	return c
+}
+
+func (s SliceUint16) permutations(c chan []uint16, size int, left []uint16, right []uint16) {
+	if len(left) == size {
+		c <- left
+		return
+	}
+
+	for i, el := range right {
+		newLeft := make([]uint16, 0, len(left)+1)
+		newLeft = append(newLeft, left...)
+		newLeft = append(newLeft, el)
+
+		newRight := make([]uint16, 0, len(right)-1)
+		for j, other := range right {
+			if j != i {
+				newRight = append(newRight, other)
+			}
+		}
+		s.permutations(c, size, newLeft, newRight)
+	}
+
+	// close channel in the first function call after all
+	if len(right) == len(s.data) {
+		close(c)
+	}
 }
 
 func (s SliceUint16) Product(repeat int) chan []uint16 {
@@ -44087,6 +44503,38 @@ func (s SliceUint32) Min() uint32 {
 	return min
 }
 
+func (s SliceUint32) Permutations(size int) chan []uint32 {
+	c := make(chan []uint32, 1)
+	go s.permutations(c, size, []uint32{}, s.data)
+	return c
+}
+
+func (s SliceUint32) permutations(c chan []uint32, size int, left []uint32, right []uint32) {
+	if len(left) == size {
+		c <- left
+		return
+	}
+
+	for i, el := range right {
+		newLeft := make([]uint32, 0, len(left)+1)
+		newLeft = append(newLeft, left...)
+		newLeft = append(newLeft, el)
+
+		newRight := make([]uint32, 0, len(right)-1)
+		for j, other := range right {
+			if j != i {
+				newRight = append(newRight, other)
+			}
+		}
+		s.permutations(c, size, newLeft, newRight)
+	}
+
+	// close channel in the first function call after all
+	if len(right) == len(s.data) {
+		close(c)
+	}
+}
+
 func (s SliceUint32) Product(repeat int) chan []uint32 {
 	c := make(chan []uint32, 1)
 	go s.product(c, repeat, []uint32{}, 0)
@@ -47292,6 +47740,38 @@ func (s SliceUint64) Min() uint64 {
 	return min
 }
 
+func (s SliceUint64) Permutations(size int) chan []uint64 {
+	c := make(chan []uint64, 1)
+	go s.permutations(c, size, []uint64{}, s.data)
+	return c
+}
+
+func (s SliceUint64) permutations(c chan []uint64, size int, left []uint64, right []uint64) {
+	if len(left) == size {
+		c <- left
+		return
+	}
+
+	for i, el := range right {
+		newLeft := make([]uint64, 0, len(left)+1)
+		newLeft = append(newLeft, left...)
+		newLeft = append(newLeft, el)
+
+		newRight := make([]uint64, 0, len(right)-1)
+		for j, other := range right {
+			if j != i {
+				newRight = append(newRight, other)
+			}
+		}
+		s.permutations(c, size, newLeft, newRight)
+	}
+
+	// close channel in the first function call after all
+	if len(right) == len(s.data) {
+		close(c)
+	}
+}
+
 func (s SliceUint64) Product(repeat int) chan []uint64 {
 	c := make(chan []uint64, 1)
 	go s.product(c, repeat, []uint64{}, 0)
@@ -50412,6 +50892,38 @@ func (s SliceInterface) MapInterface(f func(el interface{}) interface{}) []inter
 		result = append(result, f(el))
 	}
 	return result
+}
+
+func (s SliceInterface) Permutations(size int) chan []interface{} {
+	c := make(chan []interface{}, 1)
+	go s.permutations(c, size, []interface{}{}, s.data)
+	return c
+}
+
+func (s SliceInterface) permutations(c chan []interface{}, size int, left []interface{}, right []interface{}) {
+	if len(left) == size {
+		c <- left
+		return
+	}
+
+	for i, el := range right {
+		newLeft := make([]interface{}, 0, len(left)+1)
+		newLeft = append(newLeft, left...)
+		newLeft = append(newLeft, el)
+
+		newRight := make([]interface{}, 0, len(right)-1)
+		for j, other := range right {
+			if j != i {
+				newRight = append(newRight, other)
+			}
+		}
+		s.permutations(c, size, newLeft, newRight)
+	}
+
+	// close channel in the first function call after all
+	if len(right) == len(s.data) {
+		close(c)
+	}
 }
 
 func (s SliceInterface) Product(repeat int) chan []interface{} {
