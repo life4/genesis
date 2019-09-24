@@ -25,7 +25,6 @@ Generic types: T.
 | AsyncSliceUint64 | uint64 |
 | AsyncSliceInterface | interface{} |
 
-
 ## Source
 
 ```go

@@ -25,6 +25,26 @@ Generic types: G, T.
 | SliceUint64 | uint64 |
 | SliceInterface | interface{} |
 
+## Functions
+
+| Function | G type |
+| -------- | ------ |
+| DedupByBool | bool |
+| DedupByByte | byte |
+| DedupByString | string |
+| DedupByFloat32 | float32 |
+| DedupByFloat64 | float64 |
+| DedupByInt | int |
+| DedupByInt8 | int8 |
+| DedupByInt16 | int16 |
+| DedupByInt32 | int32 |
+| DedupByInt64 | int64 |
+| DedupByUint | uint |
+| DedupByUint8 | uint8 |
+| DedupByUint16 | uint16 |
+| DedupByUint32 | uint32 |
+| DedupByUint64 | uint64 |
+| DedupByInterface | interface{} |
 
 ## Source
 

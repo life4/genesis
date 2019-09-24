@@ -25,6 +25,26 @@ Generic types: G, T.
 | SliceUint64 | uint64 |
 | SliceInterface | interface{} |
 
+## Functions
+
+| Function | G type |
+| -------- | ------ |
+| ReduceWhileBool | bool |
+| ReduceWhileByte | byte |
+| ReduceWhileString | string |
+| ReduceWhileFloat32 | float32 |
+| ReduceWhileFloat64 | float64 |
+| ReduceWhileInt | int |
+| ReduceWhileInt8 | int8 |
+| ReduceWhileInt16 | int16 |
+| ReduceWhileInt32 | int32 |
+| ReduceWhileInt64 | int64 |
+| ReduceWhileUint | uint |
+| ReduceWhileUint8 | uint8 |
+| ReduceWhileUint16 | uint16 |
+| ReduceWhileUint32 | uint32 |
+| ReduceWhileUint64 | uint64 |
+| ReduceWhileInterface | interface{} |
 
 ## Source
 

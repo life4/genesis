@@ -25,6 +25,26 @@ Generic types: G, T.
 | SliceUint64 | uint64 |
 | SliceInterface | interface{} |
 
+## Functions
+
+| Function | G type |
+| -------- | ------ |
+| GroupByBool | bool |
+| GroupByByte | byte |
+| GroupByString | string |
+| GroupByFloat32 | float32 |
+| GroupByFloat64 | float64 |
+| GroupByInt | int |
+| GroupByInt8 | int8 |
+| GroupByInt16 | int16 |
+| GroupByInt32 | int32 |
+| GroupByInt64 | int64 |
+| GroupByUint | uint |
+| GroupByUint8 | uint8 |
+| GroupByUint16 | uint16 |
+| GroupByUint32 | uint32 |
+| GroupByUint64 | uint64 |
+| GroupByInterface | interface{} |
 
 ## Source
 

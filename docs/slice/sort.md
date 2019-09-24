@@ -23,7 +23,6 @@ Generic types: T.
 | SliceUint32 | uint32 |
 | SliceUint64 | uint64 |
 
-
 ## Source
 
 ```go

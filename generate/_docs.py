@@ -40,7 +40,7 @@ class Docs:
                 break
 
         template = env.get_template('func.md.j2')
-        return template.render(
+        rendered = template.render(
             func=func,
             test=test,
             types=self.types,
@@ -48,6 +48,9 @@ class Docs:
             is_excluded=is_excluded,
             sorted=sorted,
         )
+        while '\n\n\n' in rendered:
+            rendered = rendered.replace('\n\n\n', '\n\n')
+        return rendered
 
     def render(self, path: Path) -> None:
         path.mkdir(parents=True, exist_ok=True)

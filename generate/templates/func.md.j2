@@ -18,6 +18,18 @@ Generic types: {{ ', '.join(sorted(func.generics)) }}.
 {%- endif %}
 {%- endfor %}
 
+{% if 'G' in func.generics -%}
+## Functions
+
+| Function | G type |
+| -------- | ------ |
+{% for t in types -%}
+{% if not is_excluded(func=func, t=t, g=t) -%}
+  | {{ func.name }}{{ t.title }} | {{ t.name }} |
+{% endif %}
+{%- endfor %}
+{%- endif %}
+
 ## Source
 
 ```go

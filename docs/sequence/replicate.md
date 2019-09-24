@@ -25,7 +25,6 @@ Generic types: T.
 | SequenceUint64 | uint64 |
 | SequenceInterface | interface{} |
 
-
 ## Source
 
 ```go

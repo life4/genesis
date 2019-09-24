@@ -25,6 +25,26 @@ Generic types: G, T.
 | AsyncSliceUint64 | uint64 |
 | AsyncSliceInterface | interface{} |
 
+## Functions
+
+| Function | G type |
+| -------- | ------ |
+| MapBool | bool |
+| MapByte | byte |
+| MapString | string |
+| MapFloat32 | float32 |
+| MapFloat64 | float64 |
+| MapInt | int |
+| MapInt8 | int8 |
+| MapInt16 | int16 |
+| MapInt32 | int32 |
+| MapInt64 | int64 |
+| MapUint | uint |
+| MapUint8 | uint8 |
+| MapUint16 | uint16 |
+| MapUint32 | uint32 |
+| MapUint64 | uint64 |
+| MapInterface | interface{} |
 
 ## Source
 

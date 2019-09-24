@@ -25,7 +25,6 @@ Generic types: T.
 | ChannelUint64 | uint64 |
 | ChannelInterface | interface{} |
 
-
 ## Source
 
 ```go

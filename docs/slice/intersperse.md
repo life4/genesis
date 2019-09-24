@@ -25,7 +25,6 @@ Generic types: T.
 | SliceUint64 | uint64 |
 | SliceInterface | interface{} |
 
-
 ## Source
 
 ```go

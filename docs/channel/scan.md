@@ -25,6 +25,26 @@ Generic types: G, T.
 | ChannelUint64 | uint64 |
 | ChannelInterface | interface{} |
 
+## Functions
+
+| Function | G type |
+| -------- | ------ |
+| ScanBool | bool |
+| ScanByte | byte |
+| ScanString | string |
+| ScanFloat32 | float32 |
+| ScanFloat64 | float64 |
+| ScanInt | int |
+| ScanInt8 | int8 |
+| ScanInt16 | int16 |
+| ScanInt32 | int32 |
+| ScanInt64 | int64 |
+| ScanUint | uint |
+| ScanUint8 | uint8 |
+| ScanUint16 | uint16 |
+| ScanUint32 | uint32 |
+| ScanUint64 | uint64 |
+| ScanInterface | interface{} |
 
 ## Source
 

@@ -23,7 +23,6 @@ Generic types: T.
 | ChannelUint32 | uint32 |
 | ChannelUint64 | uint64 |
 
-
 ## Source
 
 ```go

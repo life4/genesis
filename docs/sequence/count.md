@@ -21,7 +21,6 @@ Generic types: T.
 | SequenceUint32 | uint32 |
 | SequenceUint64 | uint64 |
 
-
 ## Source
 
 ```go
