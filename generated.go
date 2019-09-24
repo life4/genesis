@@ -7,23 +7,28 @@ import (
 	"sync"
 	"time")
 
+// Channel is a set of operations with channel
 type ChannelBool struct {
 	data chan bool
 }
 
+// AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceBool struct {
 	data    []bool
 	workers int
 }
 
+// Sequence is a set of operations to generate sequences
 type SequenceBool struct {
 	data chan bool
 }
 
+// Slice is a set of operations to work with slice
 type SliceBool struct {
 	data []bool
 }
 
+// Slices is a set of operations to work with slice of slices
 type SlicesBool struct {
 	data [][]bool
 }
@@ -3136,23 +3141,28 @@ func (s SlicesBool) Zip() [][]bool {
 	return result
 }
 
+// Channel is a set of operations with channel
 type ChannelByte struct {
 	data chan byte
 }
 
+// AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceByte struct {
 	data    []byte
 	workers int
 }
 
+// Sequence is a set of operations to generate sequences
 type SequenceByte struct {
 	data chan byte
 }
 
+// Slice is a set of operations to work with slice
 type SliceByte struct {
 	data []byte
 }
 
+// Slices is a set of operations to work with slice of slices
 type SlicesByte struct {
 	data [][]byte
 }
@@ -6338,23 +6348,28 @@ func (s SlicesByte) Zip() [][]byte {
 	return result
 }
 
+// Channel is a set of operations with channel
 type ChannelString struct {
 	data chan string
 }
 
+// AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceString struct {
 	data    []string
 	workers int
 }
 
+// Sequence is a set of operations to generate sequences
 type SequenceString struct {
 	data chan string
 }
 
+// Slice is a set of operations to work with slice
 type SliceString struct {
 	data []string
 }
 
+// Slices is a set of operations to work with slice of slices
 type SlicesString struct {
 	data [][]string
 }
@@ -9540,23 +9555,28 @@ func (s SlicesString) Zip() [][]string {
 	return result
 }
 
+// Channel is a set of operations with channel
 type ChannelFloat32 struct {
 	data chan float32
 }
 
+// AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceFloat32 struct {
 	data    []float32
 	workers int
 }
 
+// Sequence is a set of operations to generate sequences
 type SequenceFloat32 struct {
 	data chan float32
 }
 
+// Slice is a set of operations to work with slice
 type SliceFloat32 struct {
 	data []float32
 }
 
+// Slices is a set of operations to work with slice of slices
 type SlicesFloat32 struct {
 	data [][]float32
 }
@@ -12777,23 +12797,28 @@ func (s SlicesFloat32) Zip() [][]float32 {
 	return result
 }
 
+// Channel is a set of operations with channel
 type ChannelFloat64 struct {
 	data chan float64
 }
 
+// AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceFloat64 struct {
 	data    []float64
 	workers int
 }
 
+// Sequence is a set of operations to generate sequences
 type SequenceFloat64 struct {
 	data chan float64
 }
 
+// Slice is a set of operations to work with slice
 type SliceFloat64 struct {
 	data []float64
 }
 
+// Slices is a set of operations to work with slice of slices
 type SlicesFloat64 struct {
 	data [][]float64
 }
@@ -16014,23 +16039,28 @@ func (s SlicesFloat64) Zip() [][]float64 {
 	return result
 }
 
+// Channel is a set of operations with channel
 type ChannelInt struct {
 	data chan int
 }
 
+// AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceInt struct {
 	data    []int
 	workers int
 }
 
+// Sequence is a set of operations to generate sequences
 type SequenceInt struct {
 	data chan int
 }
 
+// Slice is a set of operations to work with slice
 type SliceInt struct {
 	data []int
 }
 
+// Slices is a set of operations to work with slice of slices
 type SlicesInt struct {
 	data [][]int
 }
@@ -19251,23 +19281,28 @@ func (s SlicesInt) Zip() [][]int {
 	return result
 }
 
+// Channel is a set of operations with channel
 type ChannelInt8 struct {
 	data chan int8
 }
 
+// AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceInt8 struct {
 	data    []int8
 	workers int
 }
 
+// Sequence is a set of operations to generate sequences
 type SequenceInt8 struct {
 	data chan int8
 }
 
+// Slice is a set of operations to work with slice
 type SliceInt8 struct {
 	data []int8
 }
 
+// Slices is a set of operations to work with slice of slices
 type SlicesInt8 struct {
 	data [][]int8
 }
@@ -22488,23 +22523,28 @@ func (s SlicesInt8) Zip() [][]int8 {
 	return result
 }
 
+// Channel is a set of operations with channel
 type ChannelInt16 struct {
 	data chan int16
 }
 
+// AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceInt16 struct {
 	data    []int16
 	workers int
 }
 
+// Sequence is a set of operations to generate sequences
 type SequenceInt16 struct {
 	data chan int16
 }
 
+// Slice is a set of operations to work with slice
 type SliceInt16 struct {
 	data []int16
 }
 
+// Slices is a set of operations to work with slice of slices
 type SlicesInt16 struct {
 	data [][]int16
 }
@@ -25725,23 +25765,28 @@ func (s SlicesInt16) Zip() [][]int16 {
 	return result
 }
 
+// Channel is a set of operations with channel
 type ChannelInt32 struct {
 	data chan int32
 }
 
+// AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceInt32 struct {
 	data    []int32
 	workers int
 }
 
+// Sequence is a set of operations to generate sequences
 type SequenceInt32 struct {
 	data chan int32
 }
 
+// Slice is a set of operations to work with slice
 type SliceInt32 struct {
 	data []int32
 }
 
+// Slices is a set of operations to work with slice of slices
 type SlicesInt32 struct {
 	data [][]int32
 }
@@ -28962,23 +29007,28 @@ func (s SlicesInt32) Zip() [][]int32 {
 	return result
 }
 
+// Channel is a set of operations with channel
 type ChannelInt64 struct {
 	data chan int64
 }
 
+// AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceInt64 struct {
 	data    []int64
 	workers int
 }
 
+// Sequence is a set of operations to generate sequences
 type SequenceInt64 struct {
 	data chan int64
 }
 
+// Slice is a set of operations to work with slice
 type SliceInt64 struct {
 	data []int64
 }
 
+// Slices is a set of operations to work with slice of slices
 type SlicesInt64 struct {
 	data [][]int64
 }
@@ -32199,23 +32249,28 @@ func (s SlicesInt64) Zip() [][]int64 {
 	return result
 }
 
+// Channel is a set of operations with channel
 type ChannelUint struct {
 	data chan uint
 }
 
+// AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceUint struct {
 	data    []uint
 	workers int
 }
 
+// Sequence is a set of operations to generate sequences
 type SequenceUint struct {
 	data chan uint
 }
 
+// Slice is a set of operations to work with slice
 type SliceUint struct {
 	data []uint
 }
 
+// Slices is a set of operations to work with slice of slices
 type SlicesUint struct {
 	data [][]uint
 }
@@ -35436,23 +35491,28 @@ func (s SlicesUint) Zip() [][]uint {
 	return result
 }
 
+// Channel is a set of operations with channel
 type ChannelUint8 struct {
 	data chan uint8
 }
 
+// AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceUint8 struct {
 	data    []uint8
 	workers int
 }
 
+// Sequence is a set of operations to generate sequences
 type SequenceUint8 struct {
 	data chan uint8
 }
 
+// Slice is a set of operations to work with slice
 type SliceUint8 struct {
 	data []uint8
 }
 
+// Slices is a set of operations to work with slice of slices
 type SlicesUint8 struct {
 	data [][]uint8
 }
@@ -38673,23 +38733,28 @@ func (s SlicesUint8) Zip() [][]uint8 {
 	return result
 }
 
+// Channel is a set of operations with channel
 type ChannelUint16 struct {
 	data chan uint16
 }
 
+// AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceUint16 struct {
 	data    []uint16
 	workers int
 }
 
+// Sequence is a set of operations to generate sequences
 type SequenceUint16 struct {
 	data chan uint16
 }
 
+// Slice is a set of operations to work with slice
 type SliceUint16 struct {
 	data []uint16
 }
 
+// Slices is a set of operations to work with slice of slices
 type SlicesUint16 struct {
 	data [][]uint16
 }
@@ -41910,23 +41975,28 @@ func (s SlicesUint16) Zip() [][]uint16 {
 	return result
 }
 
+// Channel is a set of operations with channel
 type ChannelUint32 struct {
 	data chan uint32
 }
 
+// AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceUint32 struct {
 	data    []uint32
 	workers int
 }
 
+// Sequence is a set of operations to generate sequences
 type SequenceUint32 struct {
 	data chan uint32
 }
 
+// Slice is a set of operations to work with slice
 type SliceUint32 struct {
 	data []uint32
 }
 
+// Slices is a set of operations to work with slice of slices
 type SlicesUint32 struct {
 	data [][]uint32
 }
@@ -45147,23 +45217,28 @@ func (s SlicesUint32) Zip() [][]uint32 {
 	return result
 }
 
+// Channel is a set of operations with channel
 type ChannelUint64 struct {
 	data chan uint64
 }
 
+// AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceUint64 struct {
 	data    []uint64
 	workers int
 }
 
+// Sequence is a set of operations to generate sequences
 type SequenceUint64 struct {
 	data chan uint64
 }
 
+// Slice is a set of operations to work with slice
 type SliceUint64 struct {
 	data []uint64
 }
 
+// Slices is a set of operations to work with slice of slices
 type SlicesUint64 struct {
 	data [][]uint64
 }
@@ -48384,23 +48459,28 @@ func (s SlicesUint64) Zip() [][]uint64 {
 	return result
 }
 
+// Channel is a set of operations with channel
 type ChannelInterface struct {
 	data chan interface{}
 }
 
+// AsyncSlice is a set of operations to work with slice asynchronously
 type AsyncSliceInterface struct {
 	data    []interface{}
 	workers int
 }
 
+// Sequence is a set of operations to generate sequences
 type SequenceInterface struct {
 	data chan interface{}
 }
 
+// Slice is a set of operations to work with slice
 type SliceInterface struct {
 	data []interface{}
 }
 
+// Slices is a set of operations to work with slice of slices
 type SlicesInterface struct {
 	data [][]interface{}
 }

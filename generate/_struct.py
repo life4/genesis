@@ -6,7 +6,7 @@ import parse
 from ._types import Type
 
 
-_t = 'type {name:w} struct {{\n{body}\n}}'
+_t = '// {docs}\ntype {name:w} struct {{\n{body}\n}}'
 parser = parse.compile(_t)
 TEMPLATE = _t.replace(':w}', '}')
 
@@ -15,6 +15,7 @@ TEMPLATE = _t.replace(':w}', '}')
 class Struct:
     name = attr.ib()
     body = attr.ib()
+    docs = attr.ib()
 
     @classmethod
     def from_text(cls, text: str) -> List['Struct']:
@@ -42,6 +43,7 @@ class Struct:
 
         # insert modified values into template
         return TEMPLATE.format(
+            docs=self.docs,
             name=struct_name,
             body=body,
         )

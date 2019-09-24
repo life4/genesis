@@ -263,6 +263,7 @@ func (s Slice) Permutations(size int) chan []T {
 	return c
 }
 
+// permutations is a core implementation for Permutations
 func (s Slice) permutations(c chan []T, size int, left []T, right []T) {
 	if len(left) == size {
 		c <- left
@@ -297,6 +298,7 @@ func (s Slice) Product(repeat int) chan []T {
 	return c
 }
 
+// product is a core implementation for Product
 func (s Slice) product(c chan []T, repeat int, left []T, pos int) {
 	// iterate over the last array
 	if pos == repeat-1 {
