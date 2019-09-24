@@ -3341,6 +3341,23 @@ func (s SliceBool) Window(size int) [][]bool {
 	return result
 }
 
+// Without returns the slice with filtered out element
+func (s SliceBool) Without(elements ...bool) []bool {
+	result := make([]bool, 0, len(s.data))
+	for _, el := range s.data {
+		allowed := true
+		for _, other := range elements {
+			if el == other {
+				allowed = false
+			}
+		}
+		if allowed {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // Concat concatenates given slices into a single slice.
 func (s SlicesBool) Concat() []bool {
 	result := make([]bool, 0)
@@ -6819,6 +6836,23 @@ func (s SliceByte) Window(size int) [][]byte {
 	return result
 }
 
+// Without returns the slice with filtered out element
+func (s SliceByte) Without(elements ...byte) []byte {
+	result := make([]byte, 0, len(s.data))
+	for _, el := range s.data {
+		allowed := true
+		for _, other := range elements {
+			if el == other {
+				allowed = false
+			}
+		}
+		if allowed {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // Concat concatenates given slices into a single slice.
 func (s SlicesByte) Concat() []byte {
 	result := make([]byte, 0)
@@ -10293,6 +10327,23 @@ func (s SliceString) Window(size int) [][]string {
 	for i := 0; i <= len(s.data)-size; i++ {
 		chunk := s.data[i : i+size]
 		result = append(result, chunk)
+	}
+	return result
+}
+
+// Without returns the slice with filtered out element
+func (s SliceString) Without(elements ...string) []string {
+	result := make([]string, 0, len(s.data))
+	for _, el := range s.data {
+		allowed := true
+		for _, other := range elements {
+			if el == other {
+				allowed = false
+			}
+		}
+		if allowed {
+			result = append(result, el)
+		}
 	}
 	return result
 }
@@ -13814,6 +13865,23 @@ func (s SliceFloat32) Window(size int) [][]float32 {
 	return result
 }
 
+// Without returns the slice with filtered out element
+func (s SliceFloat32) Without(elements ...float32) []float32 {
+	result := make([]float32, 0, len(s.data))
+	for _, el := range s.data {
+		allowed := true
+		for _, other := range elements {
+			if el == other {
+				allowed = false
+			}
+		}
+		if allowed {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // Concat concatenates given slices into a single slice.
 func (s SlicesFloat32) Concat() []float32 {
 	result := make([]float32, 0)
@@ -17327,6 +17395,23 @@ func (s SliceFloat64) Window(size int) [][]float64 {
 	for i := 0; i <= len(s.data)-size; i++ {
 		chunk := s.data[i : i+size]
 		result = append(result, chunk)
+	}
+	return result
+}
+
+// Without returns the slice with filtered out element
+func (s SliceFloat64) Without(elements ...float64) []float64 {
+	result := make([]float64, 0, len(s.data))
+	for _, el := range s.data {
+		allowed := true
+		for _, other := range elements {
+			if el == other {
+				allowed = false
+			}
+		}
+		if allowed {
+			result = append(result, el)
+		}
 	}
 	return result
 }
@@ -20848,6 +20933,23 @@ func (s SliceInt) Window(size int) [][]int {
 	return result
 }
 
+// Without returns the slice with filtered out element
+func (s SliceInt) Without(elements ...int) []int {
+	result := make([]int, 0, len(s.data))
+	for _, el := range s.data {
+		allowed := true
+		for _, other := range elements {
+			if el == other {
+				allowed = false
+			}
+		}
+		if allowed {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // Concat concatenates given slices into a single slice.
 func (s SlicesInt) Concat() []int {
 	result := make([]int, 0)
@@ -24361,6 +24463,23 @@ func (s SliceInt8) Window(size int) [][]int8 {
 	for i := 0; i <= len(s.data)-size; i++ {
 		chunk := s.data[i : i+size]
 		result = append(result, chunk)
+	}
+	return result
+}
+
+// Without returns the slice with filtered out element
+func (s SliceInt8) Without(elements ...int8) []int8 {
+	result := make([]int8, 0, len(s.data))
+	for _, el := range s.data {
+		allowed := true
+		for _, other := range elements {
+			if el == other {
+				allowed = false
+			}
+		}
+		if allowed {
+			result = append(result, el)
+		}
 	}
 	return result
 }
@@ -27882,6 +28001,23 @@ func (s SliceInt16) Window(size int) [][]int16 {
 	return result
 }
 
+// Without returns the slice with filtered out element
+func (s SliceInt16) Without(elements ...int16) []int16 {
+	result := make([]int16, 0, len(s.data))
+	for _, el := range s.data {
+		allowed := true
+		for _, other := range elements {
+			if el == other {
+				allowed = false
+			}
+		}
+		if allowed {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // Concat concatenates given slices into a single slice.
 func (s SlicesInt16) Concat() []int16 {
 	result := make([]int16, 0)
@@ -31395,6 +31531,23 @@ func (s SliceInt32) Window(size int) [][]int32 {
 	for i := 0; i <= len(s.data)-size; i++ {
 		chunk := s.data[i : i+size]
 		result = append(result, chunk)
+	}
+	return result
+}
+
+// Without returns the slice with filtered out element
+func (s SliceInt32) Without(elements ...int32) []int32 {
+	result := make([]int32, 0, len(s.data))
+	for _, el := range s.data {
+		allowed := true
+		for _, other := range elements {
+			if el == other {
+				allowed = false
+			}
+		}
+		if allowed {
+			result = append(result, el)
+		}
 	}
 	return result
 }
@@ -34916,6 +35069,23 @@ func (s SliceInt64) Window(size int) [][]int64 {
 	return result
 }
 
+// Without returns the slice with filtered out element
+func (s SliceInt64) Without(elements ...int64) []int64 {
+	result := make([]int64, 0, len(s.data))
+	for _, el := range s.data {
+		allowed := true
+		for _, other := range elements {
+			if el == other {
+				allowed = false
+			}
+		}
+		if allowed {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // Concat concatenates given slices into a single slice.
 func (s SlicesInt64) Concat() []int64 {
 	result := make([]int64, 0)
@@ -38429,6 +38599,23 @@ func (s SliceUint) Window(size int) [][]uint {
 	for i := 0; i <= len(s.data)-size; i++ {
 		chunk := s.data[i : i+size]
 		result = append(result, chunk)
+	}
+	return result
+}
+
+// Without returns the slice with filtered out element
+func (s SliceUint) Without(elements ...uint) []uint {
+	result := make([]uint, 0, len(s.data))
+	for _, el := range s.data {
+		allowed := true
+		for _, other := range elements {
+			if el == other {
+				allowed = false
+			}
+		}
+		if allowed {
+			result = append(result, el)
+		}
 	}
 	return result
 }
@@ -41950,6 +42137,23 @@ func (s SliceUint8) Window(size int) [][]uint8 {
 	return result
 }
 
+// Without returns the slice with filtered out element
+func (s SliceUint8) Without(elements ...uint8) []uint8 {
+	result := make([]uint8, 0, len(s.data))
+	for _, el := range s.data {
+		allowed := true
+		for _, other := range elements {
+			if el == other {
+				allowed = false
+			}
+		}
+		if allowed {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // Concat concatenates given slices into a single slice.
 func (s SlicesUint8) Concat() []uint8 {
 	result := make([]uint8, 0)
@@ -45463,6 +45667,23 @@ func (s SliceUint16) Window(size int) [][]uint16 {
 	for i := 0; i <= len(s.data)-size; i++ {
 		chunk := s.data[i : i+size]
 		result = append(result, chunk)
+	}
+	return result
+}
+
+// Without returns the slice with filtered out element
+func (s SliceUint16) Without(elements ...uint16) []uint16 {
+	result := make([]uint16, 0, len(s.data))
+	for _, el := range s.data {
+		allowed := true
+		for _, other := range elements {
+			if el == other {
+				allowed = false
+			}
+		}
+		if allowed {
+			result = append(result, el)
+		}
 	}
 	return result
 }
@@ -48984,6 +49205,23 @@ func (s SliceUint32) Window(size int) [][]uint32 {
 	return result
 }
 
+// Without returns the slice with filtered out element
+func (s SliceUint32) Without(elements ...uint32) []uint32 {
+	result := make([]uint32, 0, len(s.data))
+	for _, el := range s.data {
+		allowed := true
+		for _, other := range elements {
+			if el == other {
+				allowed = false
+			}
+		}
+		if allowed {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // Concat concatenates given slices into a single slice.
 func (s SlicesUint32) Concat() []uint32 {
 	result := make([]uint32, 0)
@@ -52501,6 +52739,23 @@ func (s SliceUint64) Window(size int) [][]uint64 {
 	return result
 }
 
+// Without returns the slice with filtered out element
+func (s SliceUint64) Without(elements ...uint64) []uint64 {
+	result := make([]uint64, 0, len(s.data))
+	for _, el := range s.data {
+		allowed := true
+		for _, other := range elements {
+			if el == other {
+				allowed = false
+			}
+		}
+		if allowed {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // Concat concatenates given slices into a single slice.
 func (s SlicesUint64) Concat() []uint64 {
 	result := make([]uint64, 0)
@@ -55894,6 +56149,23 @@ func (s SliceInterface) Window(size int) [][]interface{} {
 	for i := 0; i <= len(s.data)-size; i++ {
 		chunk := s.data[i : i+size]
 		result = append(result, chunk)
+	}
+	return result
+}
+
+// Without returns the slice with filtered out element
+func (s SliceInterface) Without(elements ...interface{}) []interface{} {
+	result := make([]interface{}, 0, len(s.data))
+	for _, el := range s.data {
+		allowed := true
+		for _, other := range elements {
+			if el == other {
+				allowed = false
+			}
+		}
+		if allowed {
+			result = append(result, el)
+		}
 	}
 	return result
 }

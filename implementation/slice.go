@@ -486,3 +486,20 @@ func (s Slice) Window(size int) [][]T {
 	}
 	return result
 }
+
+// Without returns the slice with filtered out element
+func (s Slice) Without(elements ...T) []T {
+	result := make([]T, 0, len(s.data))
+	for _, el := range s.data {
+		allowed := true
+		for _, other := range elements {
+			if el == other {
+				allowed = false
+			}
+		}
+		if allowed {
+			result = append(result, el)
+		}
+	}
+	return result
+}

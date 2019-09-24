@@ -71,3 +71,4 @@ type Slice struct {
 | [TakeWhile](./takewhile.md) | TakeWhile takes elements from arr while f returns true |
 | [Uniq](./uniq.md) | Uniq returns arr with only first occurences of every element. |
 | [Window](./window.md) | Window makes sliding window for a given slice: ({1,2,3}, 2) -> (1,2), (2,3) |
+| [Without](./without.md) | Without returns the slice with filtered out element |
