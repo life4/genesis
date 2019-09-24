@@ -3,6 +3,7 @@ package implementation
 import (
 	"math/rand"
 	"sort"
+	"strings"
 	"time"
 )
 
@@ -211,6 +212,15 @@ func (s Slice) FindIndex(f func(el T) bool) int {
 		}
 	}
 	return -1
+}
+
+// Join concatenates elements of the slice to create a single string.
+func (s Slice) Join(sep string) string {
+	strs := make([]string, 0, len(s.data))
+	for _, el := range s.data {
+		strs = append(strs, string(el))
+	}
+	return strings.Join(strs, sep)
 }
 
 // GroupBy groups element from array by value returned by f

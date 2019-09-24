@@ -14,6 +14,7 @@ EXCLUDED = {
         'Range': ['bool', 'byte', 'string', 'interface{}'],
     },
     'Slice': {
+        'Join': ('float32', 'float64', 'bool', 'interface{}'),
         'Max': ('bool', 'interface{}'),
         'Min': ('bool', 'interface{}'),
         'Sum': ('bool', 'interface{}'),

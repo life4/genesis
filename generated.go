@@ -4,6 +4,7 @@ import (
 	"context"
 	"math/rand"
 	"sort"
+	"strings"
 	"sync"
 	"time")
 
@@ -5782,6 +5783,15 @@ func (s SliceByte) FindIndex(f func(el byte) bool) int {
 	return -1
 }
 
+// Join concatenates elements of the slice to create a single string.
+func (s SliceByte) Join(sep string) string {
+	strs := make([]string, 0, len(s.data))
+	for _, el := range s.data {
+		strs = append(strs, string(el))
+	}
+	return strings.Join(strs, sep)
+}
+
 // GroupBy groups element from array by value returned by f
 func (s SliceByte) GroupByBool(f func(el byte) bool) map[bool][]byte {
 	result := make(map[bool][]byte)
@@ -9275,6 +9285,15 @@ func (s SliceString) FindIndex(f func(el string) bool) int {
 		}
 	}
 	return -1
+}
+
+// Join concatenates elements of the slice to create a single string.
+func (s SliceString) Join(sep string) string {
+	strs := make([]string, 0, len(s.data))
+	for _, el := range s.data {
+		strs = append(strs, string(el))
+	}
+	return strings.Join(strs, sep)
 }
 
 // GroupBy groups element from array by value returned by f
@@ -19879,6 +19898,15 @@ func (s SliceInt) FindIndex(f func(el int) bool) int {
 	return -1
 }
 
+// Join concatenates elements of the slice to create a single string.
+func (s SliceInt) Join(sep string) string {
+	strs := make([]string, 0, len(s.data))
+	for _, el := range s.data {
+		strs = append(strs, string(el))
+	}
+	return strings.Join(strs, sep)
+}
+
 // GroupBy groups element from array by value returned by f
 func (s SliceInt) GroupByBool(f func(el int) bool) map[bool][]int {
 	result := make(map[bool][]int)
@@ -23411,6 +23439,15 @@ func (s SliceInt8) FindIndex(f func(el int8) bool) int {
 		}
 	}
 	return -1
+}
+
+// Join concatenates elements of the slice to create a single string.
+func (s SliceInt8) Join(sep string) string {
+	strs := make([]string, 0, len(s.data))
+	for _, el := range s.data {
+		strs = append(strs, string(el))
+	}
+	return strings.Join(strs, sep)
 }
 
 // GroupBy groups element from array by value returned by f
@@ -26947,6 +26984,15 @@ func (s SliceInt16) FindIndex(f func(el int16) bool) int {
 	return -1
 }
 
+// Join concatenates elements of the slice to create a single string.
+func (s SliceInt16) Join(sep string) string {
+	strs := make([]string, 0, len(s.data))
+	for _, el := range s.data {
+		strs = append(strs, string(el))
+	}
+	return strings.Join(strs, sep)
+}
+
 // GroupBy groups element from array by value returned by f
 func (s SliceInt16) GroupByBool(f func(el int16) bool) map[bool][]int16 {
 	result := make(map[bool][]int16)
@@ -30479,6 +30525,15 @@ func (s SliceInt32) FindIndex(f func(el int32) bool) int {
 		}
 	}
 	return -1
+}
+
+// Join concatenates elements of the slice to create a single string.
+func (s SliceInt32) Join(sep string) string {
+	strs := make([]string, 0, len(s.data))
+	for _, el := range s.data {
+		strs = append(strs, string(el))
+	}
+	return strings.Join(strs, sep)
 }
 
 // GroupBy groups element from array by value returned by f
@@ -34015,6 +34070,15 @@ func (s SliceInt64) FindIndex(f func(el int64) bool) int {
 	return -1
 }
 
+// Join concatenates elements of the slice to create a single string.
+func (s SliceInt64) Join(sep string) string {
+	strs := make([]string, 0, len(s.data))
+	for _, el := range s.data {
+		strs = append(strs, string(el))
+	}
+	return strings.Join(strs, sep)
+}
+
 // GroupBy groups element from array by value returned by f
 func (s SliceInt64) GroupByBool(f func(el int64) bool) map[bool][]int64 {
 	result := make(map[bool][]int64)
@@ -37547,6 +37611,15 @@ func (s SliceUint) FindIndex(f func(el uint) bool) int {
 		}
 	}
 	return -1
+}
+
+// Join concatenates elements of the slice to create a single string.
+func (s SliceUint) Join(sep string) string {
+	strs := make([]string, 0, len(s.data))
+	for _, el := range s.data {
+		strs = append(strs, string(el))
+	}
+	return strings.Join(strs, sep)
 }
 
 // GroupBy groups element from array by value returned by f
@@ -41083,6 +41156,15 @@ func (s SliceUint8) FindIndex(f func(el uint8) bool) int {
 	return -1
 }
 
+// Join concatenates elements of the slice to create a single string.
+func (s SliceUint8) Join(sep string) string {
+	strs := make([]string, 0, len(s.data))
+	for _, el := range s.data {
+		strs = append(strs, string(el))
+	}
+	return strings.Join(strs, sep)
+}
+
 // GroupBy groups element from array by value returned by f
 func (s SliceUint8) GroupByBool(f func(el uint8) bool) map[bool][]uint8 {
 	result := make(map[bool][]uint8)
@@ -44615,6 +44697,15 @@ func (s SliceUint16) FindIndex(f func(el uint16) bool) int {
 		}
 	}
 	return -1
+}
+
+// Join concatenates elements of the slice to create a single string.
+func (s SliceUint16) Join(sep string) string {
+	strs := make([]string, 0, len(s.data))
+	for _, el := range s.data {
+		strs = append(strs, string(el))
+	}
+	return strings.Join(strs, sep)
 }
 
 // GroupBy groups element from array by value returned by f
@@ -48151,6 +48242,15 @@ func (s SliceUint32) FindIndex(f func(el uint32) bool) int {
 	return -1
 }
 
+// Join concatenates elements of the slice to create a single string.
+func (s SliceUint32) Join(sep string) string {
+	strs := make([]string, 0, len(s.data))
+	for _, el := range s.data {
+		strs = append(strs, string(el))
+	}
+	return strings.Join(strs, sep)
+}
+
 // GroupBy groups element from array by value returned by f
 func (s SliceUint32) GroupByBool(f func(el uint32) bool) map[bool][]uint32 {
 	result := make(map[bool][]uint32)
@@ -51683,6 +51783,15 @@ func (s SliceUint64) FindIndex(f func(el uint64) bool) int {
 		}
 	}
 	return -1
+}
+
+// Join concatenates elements of the slice to create a single string.
+func (s SliceUint64) Join(sep string) string {
+	strs := make([]string, 0, len(s.data))
+	for _, el := range s.data {
+		strs = append(strs, string(el))
+	}
+	return strings.Join(strs, sep)
 }
 
 // GroupBy groups element from array by value returned by f

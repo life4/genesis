@@ -50,6 +50,7 @@ type Slice struct {
 | [Filter](./filter.md) | Filter returns slice of T for which F returned true |
 | [Find](./find.md) | Find returns the first element for which f returns true |
 | [FindIndex](./findindex.md) | FindIndex is like Find, but return element index instead of element itself Returns -1 if element is not found |
+| [Join](./join.md) | Join concatenates elements of the slice to create a single string. |
 | [GroupBy](./groupby.md) | GroupBy groups element from array by value returned by f |
 | [Intersperse](./intersperse.md) | Intersperse inserts el between each element of arr |
 | [Map](./map.md) | Map applies F to all elements in slice of T and returns slice of results |
