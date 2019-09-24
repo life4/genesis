@@ -2292,6 +2292,19 @@ func (s SliceBool) Each(f func(el bool)) {
 	}
 }
 
+// Equal returns true if slices are equal
+func (s SliceBool) Equal(other []bool) bool {
+	if len(s.data) != len(other) {
+		return false
+	}
+	for i, el := range other {
+		if s.data[i] != el {
+			return false
+		}
+	}
+	return true
+}
+
 // Filter returns slice of T for which F returned true
 func (s SliceBool) Filter(f func(el bool) bool) []bool {
 	result := make([]bool, 0, len(s.data))
@@ -5705,6 +5718,19 @@ func (s SliceByte) Each(f func(el byte)) {
 	for _, el := range s.data {
 		f(el)
 	}
+}
+
+// Equal returns true if slices are equal
+func (s SliceByte) Equal(other []byte) bool {
+	if len(s.data) != len(other) {
+		return false
+	}
+	for i, el := range other {
+		if s.data[i] != el {
+			return false
+		}
+	}
+	return true
 }
 
 // Filter returns slice of T for which F returned true
@@ -9170,6 +9196,19 @@ func (s SliceString) Each(f func(el string)) {
 	for _, el := range s.data {
 		f(el)
 	}
+}
+
+// Equal returns true if slices are equal
+func (s SliceString) Equal(other []string) bool {
+	if len(s.data) != len(other) {
+		return false
+	}
+	for i, el := range other {
+		if s.data[i] != el {
+			return false
+		}
+	}
+	return true
 }
 
 // Filter returns slice of T for which F returned true
@@ -12676,6 +12715,19 @@ func (s SliceFloat32) Each(f func(el float32)) {
 	}
 }
 
+// Equal returns true if slices are equal
+func (s SliceFloat32) Equal(other []float32) bool {
+	if len(s.data) != len(other) {
+		return false
+	}
+	for i, el := range other {
+		if s.data[i] != el {
+			return false
+		}
+	}
+	return true
+}
+
 // Filter returns slice of T for which F returned true
 func (s SliceFloat32) Filter(f func(el float32) bool) []float32 {
 	result := make([]float32, 0, len(s.data))
@@ -16178,6 +16230,19 @@ func (s SliceFloat64) Each(f func(el float64)) {
 	for _, el := range s.data {
 		f(el)
 	}
+}
+
+// Equal returns true if slices are equal
+func (s SliceFloat64) Equal(other []float64) bool {
+	if len(s.data) != len(other) {
+		return false
+	}
+	for i, el := range other {
+		if s.data[i] != el {
+			return false
+		}
+	}
+	return true
 }
 
 // Filter returns slice of T for which F returned true
@@ -19684,6 +19749,19 @@ func (s SliceInt) Each(f func(el int)) {
 	}
 }
 
+// Equal returns true if slices are equal
+func (s SliceInt) Equal(other []int) bool {
+	if len(s.data) != len(other) {
+		return false
+	}
+	for i, el := range other {
+		if s.data[i] != el {
+			return false
+		}
+	}
+	return true
+}
+
 // Filter returns slice of T for which F returned true
 func (s SliceInt) Filter(f func(el int) bool) []int {
 	result := make([]int, 0, len(s.data))
@@ -23186,6 +23264,19 @@ func (s SliceInt8) Each(f func(el int8)) {
 	for _, el := range s.data {
 		f(el)
 	}
+}
+
+// Equal returns true if slices are equal
+func (s SliceInt8) Equal(other []int8) bool {
+	if len(s.data) != len(other) {
+		return false
+	}
+	for i, el := range other {
+		if s.data[i] != el {
+			return false
+		}
+	}
+	return true
 }
 
 // Filter returns slice of T for which F returned true
@@ -26692,6 +26783,19 @@ func (s SliceInt16) Each(f func(el int16)) {
 	}
 }
 
+// Equal returns true if slices are equal
+func (s SliceInt16) Equal(other []int16) bool {
+	if len(s.data) != len(other) {
+		return false
+	}
+	for i, el := range other {
+		if s.data[i] != el {
+			return false
+		}
+	}
+	return true
+}
+
 // Filter returns slice of T for which F returned true
 func (s SliceInt16) Filter(f func(el int16) bool) []int16 {
 	result := make([]int16, 0, len(s.data))
@@ -30194,6 +30298,19 @@ func (s SliceInt32) Each(f func(el int32)) {
 	for _, el := range s.data {
 		f(el)
 	}
+}
+
+// Equal returns true if slices are equal
+func (s SliceInt32) Equal(other []int32) bool {
+	if len(s.data) != len(other) {
+		return false
+	}
+	for i, el := range other {
+		if s.data[i] != el {
+			return false
+		}
+	}
+	return true
 }
 
 // Filter returns slice of T for which F returned true
@@ -33700,6 +33817,19 @@ func (s SliceInt64) Each(f func(el int64)) {
 	}
 }
 
+// Equal returns true if slices are equal
+func (s SliceInt64) Equal(other []int64) bool {
+	if len(s.data) != len(other) {
+		return false
+	}
+	for i, el := range other {
+		if s.data[i] != el {
+			return false
+		}
+	}
+	return true
+}
+
 // Filter returns slice of T for which F returned true
 func (s SliceInt64) Filter(f func(el int64) bool) []int64 {
 	result := make([]int64, 0, len(s.data))
@@ -37202,6 +37332,19 @@ func (s SliceUint) Each(f func(el uint)) {
 	for _, el := range s.data {
 		f(el)
 	}
+}
+
+// Equal returns true if slices are equal
+func (s SliceUint) Equal(other []uint) bool {
+	if len(s.data) != len(other) {
+		return false
+	}
+	for i, el := range other {
+		if s.data[i] != el {
+			return false
+		}
+	}
+	return true
 }
 
 // Filter returns slice of T for which F returned true
@@ -40708,6 +40851,19 @@ func (s SliceUint8) Each(f func(el uint8)) {
 	}
 }
 
+// Equal returns true if slices are equal
+func (s SliceUint8) Equal(other []uint8) bool {
+	if len(s.data) != len(other) {
+		return false
+	}
+	for i, el := range other {
+		if s.data[i] != el {
+			return false
+		}
+	}
+	return true
+}
+
 // Filter returns slice of T for which F returned true
 func (s SliceUint8) Filter(f func(el uint8) bool) []uint8 {
 	result := make([]uint8, 0, len(s.data))
@@ -44210,6 +44366,19 @@ func (s SliceUint16) Each(f func(el uint16)) {
 	for _, el := range s.data {
 		f(el)
 	}
+}
+
+// Equal returns true if slices are equal
+func (s SliceUint16) Equal(other []uint16) bool {
+	if len(s.data) != len(other) {
+		return false
+	}
+	for i, el := range other {
+		if s.data[i] != el {
+			return false
+		}
+	}
+	return true
 }
 
 // Filter returns slice of T for which F returned true
@@ -47716,6 +47885,19 @@ func (s SliceUint32) Each(f func(el uint32)) {
 	}
 }
 
+// Equal returns true if slices are equal
+func (s SliceUint32) Equal(other []uint32) bool {
+	if len(s.data) != len(other) {
+		return false
+	}
+	for i, el := range other {
+		if s.data[i] != el {
+			return false
+		}
+	}
+	return true
+}
+
 // Filter returns slice of T for which F returned true
 func (s SliceUint32) Filter(f func(el uint32) bool) []uint32 {
 	result := make([]uint32, 0, len(s.data))
@@ -51220,6 +51402,19 @@ func (s SliceUint64) Each(f func(el uint64)) {
 	}
 }
 
+// Equal returns true if slices are equal
+func (s SliceUint64) Equal(other []uint64) bool {
+	if len(s.data) != len(other) {
+		return false
+	}
+	for i, el := range other {
+		if s.data[i] != el {
+			return false
+		}
+	}
+	return true
+}
+
 // Filter returns slice of T for which F returned true
 func (s SliceUint64) Filter(f func(el uint64) bool) []uint64 {
 	result := make([]uint64, 0, len(s.data))
@@ -54652,6 +54847,19 @@ func (s SliceInterface) Each(f func(el interface{})) {
 	for _, el := range s.data {
 		f(el)
 	}
+}
+
+// Equal returns true if slices are equal
+func (s SliceInterface) Equal(other []interface{}) bool {
+	if len(s.data) != len(other) {
+		return false
+	}
+	for i, el := range other {
+		if s.data[i] != el {
+			return false
+		}
+	}
+	return true
 }
 
 // Filter returns slice of T for which F returned true

@@ -46,6 +46,7 @@ type Slice struct {
 | [DropEvery](./dropevery.md) | DropEvery returns a slice of every nth element in the enumerable dropped, starting with the first element. |
 | [DropWhile](./dropwhile.md) | DropWhile drops elements from arr while f returns true |
 | [Each](./each.md) | Each calls f for every element from arr |
+| [Equal](./equal.md) | Equal returns true if slices are equal |
 | [Filter](./filter.md) | Filter returns slice of T for which F returned true |
 | [Find](./find.md) | Find returns the first element for which f returns true |
 | [FindIndex](./findindex.md) | FindIndex is like Find, but return element index instead of element itself Returns -1 if element is not found |

@@ -168,6 +168,19 @@ func (s Slice) Each(f func(el T)) {
 	}
 }
 
+// Equal returns true if slices are equal
+func (s Slice) Equal(other []T) bool {
+	if len(s.data) != len(other) {
+		return false
+	}
+	for i, el := range other {
+		if s.data[i] != el {
+			return false
+		}
+	}
+	return true
+}
+
 // Filter returns slice of T for which F returned true
 func (s Slice) Filter(f func(el T) bool) []T {
 	result := make([]T, 0, len(s.data))
