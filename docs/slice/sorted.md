@@ -2,7 +2,7 @@
 
 Sorted returns true if slice is sorted
 
-Generic types: .
+Generic types: T.
 
 ## Structs
 

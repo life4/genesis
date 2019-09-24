@@ -32,9 +32,7 @@ type Slice struct {
 | [Max](./max.md) | Max returns the maximal element from arr |
 | [Min](./min.md) | Min returns the minimal element from arr |
 | [Permutations](./permutations.md) | Permutations returns successive size-length permutations of elements from the slice. {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2} |
-| [permutations](./permutations.md) | permutations is a core implementation for Permutations |
 | [Product](./product.md) | Product returns cortesian product of elements {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4} |
-| [product](./product.md) | product is a core implementation for Product |
 | [Reduce](./reduce.md) | Reduce applies F to acc and every element in slice of T and returns acc |
 | [ReduceWhile](./reducewhile.md) | ReduceWhile is like Reduce, but stops when f returns error |
 | [Reverse](./reverse.md) | Reverse returns given arr in reversed order |

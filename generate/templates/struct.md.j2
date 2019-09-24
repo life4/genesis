@@ -9,7 +9,7 @@
 | Function | Description |
 | -------- | ----------- |
 {% for func in funcs -%}
-{% if func.struct == struct.name -%}
+{% if func.struct == struct.name and func.public -%}
   | [{{ func.name }}](./{{ func.name.lower() }}.md) | {{ func.clean_docs }} |
 {% endif %}
 {%- endfor %}

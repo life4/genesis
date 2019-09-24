@@ -1,6 +1,6 @@
-# Slices.product
+# Slices.Product
 
-Product returns cortesian product of elements {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4} func (s Slices) Product() chan []T { 	c := make(chan []T, 1) 	go s.product(c, []T{}, 0) 	return c } 
+Product returns cortesian product of elements {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 
 Generic types: T.
 
@@ -35,29 +35,26 @@ func (s Slices) Product() chan []T {
 	go s.product(c, []T{}, 0)
 	return c
 }
-
-func (s Slices) product(c chan []T, left []T, pos int) {
-	// iterate over the last array
-	if pos == len(s.data)-1 {
-		for _, el := range s.data[pos] {
-			result := make([]T, 0, len(left)+1)
-			result = append(result, left...)
-			result = append(result, el)
-			c <- result
-		}
-		return
-	}
-
-	for _, el := range s.data[pos] {
-		result := make([]T, 0, len(left)+1)
-		result = append(result, left...)
-		result = append(result, el)
-		s.product(c, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
-	}
-}
 ```
 
+## Tests
+
+```go
+func TestSlicesProduct(t *testing.T) {
+	f := func(given [][]T, expected [][]T) {
+		actual := make([][]T, 0)
+		i := 0
+		s := Slices{given}
+		for el := range s.Product() {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([][]T{{1, 2}, {3, 4}}, [][]T{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
+	f([][]T{{1, 2}, {3}, {4, 5}}, [][]T{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+}
+```

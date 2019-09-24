@@ -62,6 +62,9 @@ class Docs:
             subpath.write_text(self.render_struct(struct=struct))
 
             for func in self.code_file.functions:
-                if func.struct == struct.name:
-                    func_path = (subpath.parent / func.name.lower()).with_suffix('.md')
-                    func_path.write_text(self.render_func(func=func))
+                if not func.public:
+                    continue
+                if func.struct != struct.name:
+                    continue
+                func_path = (subpath.parent / func.name.lower()).with_suffix('.md')
+                func_path.write_text(self.render_func(func=func))

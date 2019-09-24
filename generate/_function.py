@@ -31,11 +31,15 @@ class Function:
 
     @property
     def generics(self) -> Set[str]:
-        result = set()
+        result = {'T'}
         for name in ('G', 'T'):
             if name in self.signature:
                 result.add(name)
         return result
+
+    @property
+    def public(self) -> bool:
+        return self.name[0].isupper()
 
     @property
     def source(self) -> str:

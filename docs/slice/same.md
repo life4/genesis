@@ -2,7 +2,7 @@
 
 Same returns true if all element in arr the same
 
-Generic types: .
+Generic types: T.
 
 ## Structs
 
