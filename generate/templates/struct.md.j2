@@ -6,6 +6,17 @@
 {{ struct.source }}
 ```
 
+## Structs
+
+| Struct | T type |
+| ------ | ------ |
+{% for t in types -%}
+  | {{ struct.name }}{{ t.title }} | {{ t.name }} |
+{% endfor %}
+
+
+## Functions
+
 | Function | Description |
 | -------- | ----------- |
 {% for func in funcs -%}

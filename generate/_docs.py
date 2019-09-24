@@ -27,10 +27,14 @@ class Docs:
 
     def render_struct(self, struct) -> str:
         template = env.get_template('struct.md.j2')
-        return template.render(
+        rendered = template.render(
             struct=struct,
             funcs=self.code_file.functions,
+            types=self.types,
         )
+        while '\n\n\n' in rendered:
+            rendered = rendered.replace('\n\n\n', '\n\n')
+        return rendered
 
     def render_func(self, func) -> str:
         test = None

@@ -1,5 +1,9 @@
 # Genesis
 
+```go
+import "github.com/life4/genesis"
+```
+
 | Struct | Description |
 | ------ | ----------- |
 | [Channel](./channel/) | Channel is a set of operations with channel |
