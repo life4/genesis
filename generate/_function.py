@@ -3,7 +3,7 @@ from typing import Dict, List, Set
 import attr
 import parse
 
-from ._types import Type
+from ._types import Type, replace_type
 
 
 _t = 'func ({pointer}{struct:w}) {name:w}{signature} {{\n{body}\n}}'
@@ -44,9 +44,8 @@ class Function:
             function_name += types['G'].title
         # substitute types instead of generics
         for generic, t in types.items():
-            signature = signature.replace(generic, t.name)
-            body = body.replace(generic, t.name)
-            body = body.replace(t.name + 'roup', 'Group')  # restore WaitGroup
+            body = replace_type(text=body, type_from=generic, type_to=t.name)
+            signature = replace_type(text=signature, type_from=generic, type_to=t.name)
 
         # insert modified values into template
         return TEMPLATE.format(

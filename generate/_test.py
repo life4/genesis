@@ -4,7 +4,7 @@ from typing import Dict, List, Set, Tuple
 import attr
 import parse
 
-from ._types import Type
+from ._types import Type, replace_type
 
 
 _t = 'func Test{func:w}(t *testing.T) {{\n{body}\n}}'
@@ -58,20 +58,15 @@ class Test:
         body = self.body
         for generic, t in types.items():
             test_name += t.title
-            body = body.replace(' ' + generic, ' ' + t.name)
-            body = body.replace(']' + generic, ']' + t.name)
-            body = body.replace(generic + '(', t.name + '(')
-            body = body.replace(generic + ',', t.name + ',')
-            body = body.replace(generic + ']', t.name + ']')
+            body = replace_type(text=body, type_from=generic, type_to=t.name)
 
             # add suffix to struct name
             if generic == 'T':
-                for struct in {'Channel', 'Sequence', self.struct}:
-                    body = body.replace(struct, struct + t.title)
-                body = body.replace(' Slice{', ' Slice' + t.title + '{')
+                for struct in {'Channel', 'Sequence', 'Slice', self.struct}:
+                    body = replace_type(text=body, type_from=struct, type_to=struct + t.title)
             # add suffix to func name
             if generic == 'G':
-                body = body.replace(self.name, self.name + t.title)
+                body = replace_type(text=body, type_from=self.name, type_to=self.name + t.title)
 
         return TEMPLATE.format(
             func=test_name,

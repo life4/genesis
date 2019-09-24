@@ -1,3 +1,4 @@
+import re
 
 
 class Type:
@@ -24,3 +25,10 @@ TYPES = (
     Type('uint'), Type('uint8'), Type('uint16'), Type('uint32'), Type('uint64'),
     Type('interface{}', 'Interface'),
 )
+
+
+def replace_type(text: str, type_from: str, type_to: str) -> str:
+    text = re.sub(r'(\W){}(\W)'.format(type_from), r'\1{}\2'.format(type_to), text)
+    text = re.sub(r'^{}(\W)'.format(type_from), r'{}\1'.format(type_to), text)
+    text = re.sub(r'(\W){}$'.format(type_from), r'\1{}'.format(type_to), text)
+    return text
