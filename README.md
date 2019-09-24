@@ -31,7 +31,7 @@ Find minimal value in a slice of ints:
 
 ```go
 s := []int{42, 7, 13}
-min = genesis.SliceInt{s}.Min()
+min := genesis.SliceInt{s}.Min()
 ```
 
 Double values in a slice of ints:
@@ -39,7 +39,7 @@ Double values in a slice of ints:
 ```go
 s := []int{4, 8, 15, 16, 23, 42}
 double := func(el int) int { return el * 2 }
-doubled = genesis.SliceInt{s}.Map(double)
+doubled := genesis.SliceInt{s}.MapInt(double)
 ```
 
 See [docs](./docs) to dive deeper.
