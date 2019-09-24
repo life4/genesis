@@ -1,6 +1,6 @@
 # Genesis
 
-Myssed generic stdlib for slices and channels.
+Missed golang generic stdlib for slices and channels.
 
 **Some functions:**
 

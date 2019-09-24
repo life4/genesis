@@ -61,6 +61,29 @@ func TestChannelAll(t *testing.T) {
 	f([]T{2, 4, 6, 8, 11, 12}, false)
 }
 
+func TestChannelEach(t *testing.T) {
+	f := func(given []T) {
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := make(chan T, len(given))
+		mapper := func(t T) { result <- t }
+		Channel{c}.Each(mapper)
+		close(result)
+		actual := Channel{result}.ToSlice()
+		assert.Equal(t, given, actual, "they should be equal")
+	}
+
+	f([]T{})
+	f([]T{1})
+	f([]T{1, 2, 3})
+	f([]T{1, 2, 3, 4, 5, 6, 7})
+}
+
 func TestChannelChunkEvery(t *testing.T) {
 	f := func(size int, given []T, expected [][]T) {
 		c := make(chan T, 1)
@@ -125,4 +148,24 @@ func TestChannelDrop(t *testing.T) {
 	f(0, []T{1, 2, 3}, []T{1, 2, 3})
 	f(3, []T{1, 2, 3, 4, 5, 6}, []T{4, 5, 6})
 	f(1, []T{1, 2, 3, 4, 5, 6}, []T{2, 3, 4, 5, 6})
+}
+
+func TestChannelFilter(t *testing.T) {
+	f := func(given []T, expected []T) {
+		even := func(t T) bool { return t%2 == 0 }
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := Channel{c}.Filter(even)
+		actual := Channel{result}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{})
+	f([]T{1}, []T{})
+	f([]T{2}, []T{2})
+	f([]T{1, 2, 3, 4}, []T{2, 4})
 }

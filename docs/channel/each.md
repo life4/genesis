@@ -40,3 +40,29 @@ func (c Channel) Each(f func(el T)) {
 }
 ```
 
+## Tests
+
+```go
+func TestChannelEach(t *testing.T) {
+	f := func(given []T) {
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := make(chan T, len(given))
+		mapper := func(t T) { result <- t }
+		Channel{c}.Each(mapper)
+		close(result)
+		actual := Channel{result}.ToSlice()
+		assert.Equal(t, given, actual, "they should be equal")
+	}
+
+	f([]T{})
+	f([]T{1})
+	f([]T{1, 2, 3})
+	f([]T{1, 2, 3, 4, 5, 6, 7})
+}
+```

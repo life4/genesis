@@ -321,6 +321,29 @@ func TestChannelAllInt(t *testing.T) {
 	f([]int{2, 4, 6, 8, 11, 12}, false)
 }
 
+func TestChannelEachInt(t *testing.T) {
+	f := func(given []int) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := make(chan int, len(given))
+		mapper := func(t int) { result <- t }
+		ChannelInt{c}.Each(mapper)
+		close(result)
+		actual := ChannelInt{result}.ToSlice()
+		assert.Equal(t, given, actual, "they should be equal")
+	}
+
+	f([]int{})
+	f([]int{1})
+	f([]int{1, 2, 3})
+	f([]int{1, 2, 3, 4, 5, 6, 7})
+}
+
 func TestChannelChunkEveryInt(t *testing.T) {
 	f := func(size int, given []int, expected [][]int) {
 		c := make(chan int, 1)
@@ -385,6 +408,26 @@ func TestChannelDropInt(t *testing.T) {
 	f(0, []int{1, 2, 3}, []int{1, 2, 3})
 	f(3, []int{1, 2, 3, 4, 5, 6}, []int{4, 5, 6})
 	f(1, []int{1, 2, 3, 4, 5, 6}, []int{2, 3, 4, 5, 6})
+}
+
+func TestChannelFilterInt(t *testing.T) {
+	f := func(given []int, expected []int) {
+		even := func(t int) bool { return t%2 == 0 }
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt{c}.Filter(even)
+		actual := ChannelInt{result}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{})
+	f([]int{2}, []int{2})
+	f([]int{1, 2, 3, 4}, []int{2, 4})
 }
 
 func TestSequenceExponentialInt(t *testing.T) {
@@ -881,6 +924,29 @@ func TestChannelAllInt8(t *testing.T) {
 	f([]int8{2, 4, 6, 8, 11, 12}, false)
 }
 
+func TestChannelEachInt8(t *testing.T) {
+	f := func(given []int8) {
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := make(chan int8, len(given))
+		mapper := func(t int8) { result <- t }
+		ChannelInt8{c}.Each(mapper)
+		close(result)
+		actual := ChannelInt8{result}.ToSlice()
+		assert.Equal(t, given, actual, "they should be equal")
+	}
+
+	f([]int8{})
+	f([]int8{1})
+	f([]int8{1, 2, 3})
+	f([]int8{1, 2, 3, 4, 5, 6, 7})
+}
+
 func TestChannelChunkEveryInt8(t *testing.T) {
 	f := func(size int, given []int8, expected [][]int8) {
 		c := make(chan int8, 1)
@@ -945,6 +1011,26 @@ func TestChannelDropInt8(t *testing.T) {
 	f(0, []int8{1, 2, 3}, []int8{1, 2, 3})
 	f(3, []int8{1, 2, 3, 4, 5, 6}, []int8{4, 5, 6})
 	f(1, []int8{1, 2, 3, 4, 5, 6}, []int8{2, 3, 4, 5, 6})
+}
+
+func TestChannelFilterInt8(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		even := func(t int8) bool { return t%2 == 0 }
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt8{c}.Filter(even)
+		actual := ChannelInt8{result}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{})
+	f([]int8{2}, []int8{2})
+	f([]int8{1, 2, 3, 4}, []int8{2, 4})
 }
 
 func TestSequenceExponentialInt8(t *testing.T) {
@@ -1441,6 +1527,29 @@ func TestChannelAllInt16(t *testing.T) {
 	f([]int16{2, 4, 6, 8, 11, 12}, false)
 }
 
+func TestChannelEachInt16(t *testing.T) {
+	f := func(given []int16) {
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := make(chan int16, len(given))
+		mapper := func(t int16) { result <- t }
+		ChannelInt16{c}.Each(mapper)
+		close(result)
+		actual := ChannelInt16{result}.ToSlice()
+		assert.Equal(t, given, actual, "they should be equal")
+	}
+
+	f([]int16{})
+	f([]int16{1})
+	f([]int16{1, 2, 3})
+	f([]int16{1, 2, 3, 4, 5, 6, 7})
+}
+
 func TestChannelChunkEveryInt16(t *testing.T) {
 	f := func(size int, given []int16, expected [][]int16) {
 		c := make(chan int16, 1)
@@ -1505,6 +1614,26 @@ func TestChannelDropInt16(t *testing.T) {
 	f(0, []int16{1, 2, 3}, []int16{1, 2, 3})
 	f(3, []int16{1, 2, 3, 4, 5, 6}, []int16{4, 5, 6})
 	f(1, []int16{1, 2, 3, 4, 5, 6}, []int16{2, 3, 4, 5, 6})
+}
+
+func TestChannelFilterInt16(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		even := func(t int16) bool { return t%2 == 0 }
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt16{c}.Filter(even)
+		actual := ChannelInt16{result}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{})
+	f([]int16{2}, []int16{2})
+	f([]int16{1, 2, 3, 4}, []int16{2, 4})
 }
 
 func TestSequenceExponentialInt16(t *testing.T) {
@@ -2001,6 +2130,29 @@ func TestChannelAllInt32(t *testing.T) {
 	f([]int32{2, 4, 6, 8, 11, 12}, false)
 }
 
+func TestChannelEachInt32(t *testing.T) {
+	f := func(given []int32) {
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := make(chan int32, len(given))
+		mapper := func(t int32) { result <- t }
+		ChannelInt32{c}.Each(mapper)
+		close(result)
+		actual := ChannelInt32{result}.ToSlice()
+		assert.Equal(t, given, actual, "they should be equal")
+	}
+
+	f([]int32{})
+	f([]int32{1})
+	f([]int32{1, 2, 3})
+	f([]int32{1, 2, 3, 4, 5, 6, 7})
+}
+
 func TestChannelChunkEveryInt32(t *testing.T) {
 	f := func(size int, given []int32, expected [][]int32) {
 		c := make(chan int32, 1)
@@ -2065,6 +2217,26 @@ func TestChannelDropInt32(t *testing.T) {
 	f(0, []int32{1, 2, 3}, []int32{1, 2, 3})
 	f(3, []int32{1, 2, 3, 4, 5, 6}, []int32{4, 5, 6})
 	f(1, []int32{1, 2, 3, 4, 5, 6}, []int32{2, 3, 4, 5, 6})
+}
+
+func TestChannelFilterInt32(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		even := func(t int32) bool { return t%2 == 0 }
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt32{c}.Filter(even)
+		actual := ChannelInt32{result}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{})
+	f([]int32{2}, []int32{2})
+	f([]int32{1, 2, 3, 4}, []int32{2, 4})
 }
 
 func TestSequenceExponentialInt32(t *testing.T) {
@@ -2561,6 +2733,29 @@ func TestChannelAllInt64(t *testing.T) {
 	f([]int64{2, 4, 6, 8, 11, 12}, false)
 }
 
+func TestChannelEachInt64(t *testing.T) {
+	f := func(given []int64) {
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := make(chan int64, len(given))
+		mapper := func(t int64) { result <- t }
+		ChannelInt64{c}.Each(mapper)
+		close(result)
+		actual := ChannelInt64{result}.ToSlice()
+		assert.Equal(t, given, actual, "they should be equal")
+	}
+
+	f([]int64{})
+	f([]int64{1})
+	f([]int64{1, 2, 3})
+	f([]int64{1, 2, 3, 4, 5, 6, 7})
+}
+
 func TestChannelChunkEveryInt64(t *testing.T) {
 	f := func(size int, given []int64, expected [][]int64) {
 		c := make(chan int64, 1)
@@ -2625,6 +2820,26 @@ func TestChannelDropInt64(t *testing.T) {
 	f(0, []int64{1, 2, 3}, []int64{1, 2, 3})
 	f(3, []int64{1, 2, 3, 4, 5, 6}, []int64{4, 5, 6})
 	f(1, []int64{1, 2, 3, 4, 5, 6}, []int64{2, 3, 4, 5, 6})
+}
+
+func TestChannelFilterInt64(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		even := func(t int64) bool { return t%2 == 0 }
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt64{c}.Filter(even)
+		actual := ChannelInt64{result}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{})
+	f([]int64{2}, []int64{2})
+	f([]int64{1, 2, 3, 4}, []int64{2, 4})
 }
 
 func TestSequenceExponentialInt64(t *testing.T) {

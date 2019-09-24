@@ -48,3 +48,26 @@ func (c Channel) Filter(f func(el T) bool) chan T {
 }
 ```
 
+## Tests
+
+```go
+func TestChannelFilter(t *testing.T) {
+	f := func(given []T, expected []T) {
+		even := func(t T) bool { return t%2 == 0 }
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := Channel{c}.Filter(even)
+		actual := Channel{result}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{})
+	f([]T{1}, []T{})
+	f([]T{2}, []T{2})
+	f([]T{1, 2, 3, 4}, []T{2, 4})
+}
+```
