@@ -71,5 +71,8 @@ def entrypoint(argv: List[str] = None) -> None:
     Path(args.tests).write_text(content)
 
     # generate docs
-    docs = Docs(file=merge(paths=paths_code, package=args.package))
+    docs = Docs(
+        code_file=merge(paths=paths_code, package=args.package),
+        test_file=merge(paths=paths_test, package=args.package),
+    )
     docs.render(path=Path(args.docs))

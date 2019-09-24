@@ -12,25 +12,45 @@ env = Environment(
 
 @attr.s()
 class Docs:
-    file = attr.ib(type=File)
+    code_file = attr.ib(type=File)
+    test_file = attr.ib(type=File)
 
     def render_root(self) -> str:
         template = env.get_template('root.md.j2')
         return template.render(
-            structs=self.file.structs,
+            structs=self.code_file.structs,
         )
 
     def render_struct(self, struct) -> str:
         template = env.get_template('struct.md.j2')
         return template.render(
             struct=struct,
-            funcs=self.file.functions,
+            funcs=self.code_file.functions,
+        )
+
+    def render_func(self, func) -> str:
+        test = None
+        for t in self.test_file.functions:
+            if t.name == func.name and t.struct == func.struct:
+                test = t
+                break
+
+        template = env.get_template('func.md.j2')
+        return template.render(
+            func=func,
+            test=test,
         )
 
     def render(self, path: Path) -> None:
         path.mkdir(parents=True, exist_ok=True)
         (path / 'README.md').write_text(self.render_root())
-        for struct in self.file.structs:
+
+        for struct in self.code_file.structs:
             subpath = path / struct.name.lower() / 'README.md'
             subpath.parent.mkdir(exist_ok=True)
             subpath.write_text(self.render_struct(struct=struct))
+
+            for func in self.code_file.functions:
+                if func.struct == struct.name:
+                    func_path = (subpath.parent / func.name.lower()).with_suffix('.md')
+                    func_path.write_text(self.render_func(func=func))
