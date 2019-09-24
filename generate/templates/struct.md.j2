@@ -10,6 +10,6 @@
 | -------- | ----------- |
 {% for func in funcs -%}
 {% if func.struct == struct.name -%}
-  | {{ func.name }} | {{ func.clean_docs }} |
+  | [{{ func.name }}](./{{ func.name.lower() }}.md) | {{ func.clean_docs }} |
 {% endif %}
 {%- endfor %}
