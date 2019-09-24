@@ -1,7 +1,7 @@
 # Genesis
 
 | Struct | Description |
-| --- | --- |
+| ------ | ----------- |
 {% for struct in structs -%}
-  | {{ struct.name }} | {{ struct.docs }} |
+  | [{{ struct.name }}](./{{ struct.name.lower() }}/) | {{ struct.docs }} |
 {% endfor %}

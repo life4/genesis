@@ -1,0 +1,15 @@
+# {{ struct.name }}
+
+{{ struct.docs }}
+
+```go
+{{ struct.source }}
+```
+
+| Function | Description |
+| -------- | ----------- |
+{% for func in funcs -%}
+{% if func.struct == struct.name -%}
+  | {{ func.name }} | TODO |
+{% endif %}
+{%- endfor %}

@@ -32,6 +32,14 @@ class Struct:
                 result.add(name)
         return result
 
+    @property
+    def source(self) -> str:
+        return TEMPLATE.format(
+            docs=self.docs,
+            name=self.name,
+            body=self.body,
+        )
+
     def render(self, types: Dict[str, Type]) -> str:
         struct_name = self.name
         body = self.body
