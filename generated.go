@@ -1974,6 +1974,9 @@ func (s SliceBool) ChunkByInterface(f func(el bool) interface{}) [][]bool {
 
 // ChunkEvery returns slice of slices containing count elements each
 func (s SliceBool) ChunkEvery(count int) [][]bool {
+	if count <= 0 {
+		count = 1
+	}
 	chunks := make([][]bool, 0)
 	chunk := make([]bool, 0, count)
 	for i, el := range s.Data {
@@ -5471,6 +5474,9 @@ func (s SliceByte) ChunkByInterface(f func(el byte) interface{}) [][]byte {
 
 // ChunkEvery returns slice of slices containing count elements each
 func (s SliceByte) ChunkEvery(count int) [][]byte {
+	if count <= 0 {
+		count = 1
+	}
 	chunks := make([][]byte, 0)
 	chunk := make([]byte, 0, count)
 	for i, el := range s.Data {
@@ -9027,6 +9033,9 @@ func (s SliceString) ChunkByInterface(f func(el string) interface{}) [][]string 
 
 // ChunkEvery returns slice of slices containing count elements each
 func (s SliceString) ChunkEvery(count int) [][]string {
+	if count <= 0 {
+		count = 1
+	}
 	chunks := make([][]string, 0)
 	chunk := make([]string, 0, count)
 	for i, el := range s.Data {
@@ -12622,6 +12631,9 @@ func (s SliceFloat32) ChunkByInterface(f func(el float32) interface{}) [][]float
 
 // ChunkEvery returns slice of slices containing count elements each
 func (s SliceFloat32) ChunkEvery(count int) [][]float32 {
+	if count <= 0 {
+		count = 1
+	}
 	chunks := make([][]float32, 0)
 	chunk := make([]float32, 0, count)
 	for i, el := range s.Data {
@@ -16208,6 +16220,9 @@ func (s SliceFloat64) ChunkByInterface(f func(el float64) interface{}) [][]float
 
 // ChunkEvery returns slice of slices containing count elements each
 func (s SliceFloat64) ChunkEvery(count int) [][]float64 {
+	if count <= 0 {
+		count = 1
+	}
 	chunks := make([][]float64, 0)
 	chunk := make([]float64, 0, count)
 	for i, el := range s.Data {
@@ -19794,6 +19809,9 @@ func (s SliceInt) ChunkByInterface(f func(el int) interface{}) [][]int {
 
 // ChunkEvery returns slice of slices containing count elements each
 func (s SliceInt) ChunkEvery(count int) [][]int {
+	if count <= 0 {
+		count = 1
+	}
 	chunks := make([][]int, 0)
 	chunk := make([]int, 0, count)
 	for i, el := range s.Data {
@@ -23389,6 +23407,9 @@ func (s SliceInt8) ChunkByInterface(f func(el int8) interface{}) [][]int8 {
 
 // ChunkEvery returns slice of slices containing count elements each
 func (s SliceInt8) ChunkEvery(count int) [][]int8 {
+	if count <= 0 {
+		count = 1
+	}
 	chunks := make([][]int8, 0)
 	chunk := make([]int8, 0, count)
 	for i, el := range s.Data {
@@ -26984,6 +27005,9 @@ func (s SliceInt16) ChunkByInterface(f func(el int16) interface{}) [][]int16 {
 
 // ChunkEvery returns slice of slices containing count elements each
 func (s SliceInt16) ChunkEvery(count int) [][]int16 {
+	if count <= 0 {
+		count = 1
+	}
 	chunks := make([][]int16, 0)
 	chunk := make([]int16, 0, count)
 	for i, el := range s.Data {
@@ -30579,6 +30603,9 @@ func (s SliceInt32) ChunkByInterface(f func(el int32) interface{}) [][]int32 {
 
 // ChunkEvery returns slice of slices containing count elements each
 func (s SliceInt32) ChunkEvery(count int) [][]int32 {
+	if count <= 0 {
+		count = 1
+	}
 	chunks := make([][]int32, 0)
 	chunk := make([]int32, 0, count)
 	for i, el := range s.Data {
@@ -34174,6 +34201,9 @@ func (s SliceInt64) ChunkByInterface(f func(el int64) interface{}) [][]int64 {
 
 // ChunkEvery returns slice of slices containing count elements each
 func (s SliceInt64) ChunkEvery(count int) [][]int64 {
+	if count <= 0 {
+		count = 1
+	}
 	chunks := make([][]int64, 0)
 	chunk := make([]int64, 0, count)
 	for i, el := range s.Data {
@@ -37769,6 +37799,9 @@ func (s SliceUint) ChunkByInterface(f func(el uint) interface{}) [][]uint {
 
 // ChunkEvery returns slice of slices containing count elements each
 func (s SliceUint) ChunkEvery(count int) [][]uint {
+	if count <= 0 {
+		count = 1
+	}
 	chunks := make([][]uint, 0)
 	chunk := make([]uint, 0, count)
 	for i, el := range s.Data {
@@ -41364,6 +41397,9 @@ func (s SliceUint8) ChunkByInterface(f func(el uint8) interface{}) [][]uint8 {
 
 // ChunkEvery returns slice of slices containing count elements each
 func (s SliceUint8) ChunkEvery(count int) [][]uint8 {
+	if count <= 0 {
+		count = 1
+	}
 	chunks := make([][]uint8, 0)
 	chunk := make([]uint8, 0, count)
 	for i, el := range s.Data {
@@ -44959,6 +44995,9 @@ func (s SliceUint16) ChunkByInterface(f func(el uint16) interface{}) [][]uint16 
 
 // ChunkEvery returns slice of slices containing count elements each
 func (s SliceUint16) ChunkEvery(count int) [][]uint16 {
+	if count <= 0 {
+		count = 1
+	}
 	chunks := make([][]uint16, 0)
 	chunk := make([]uint16, 0, count)
 	for i, el := range s.Data {
@@ -48554,6 +48593,9 @@ func (s SliceUint32) ChunkByInterface(f func(el uint32) interface{}) [][]uint32 
 
 // ChunkEvery returns slice of slices containing count elements each
 func (s SliceUint32) ChunkEvery(count int) [][]uint32 {
+	if count <= 0 {
+		count = 1
+	}
 	chunks := make([][]uint32, 0)
 	chunk := make([]uint32, 0, count)
 	for i, el := range s.Data {
@@ -52149,6 +52191,9 @@ func (s SliceUint64) ChunkByInterface(f func(el uint64) interface{}) [][]uint64 
 
 // ChunkEvery returns slice of slices containing count elements each
 func (s SliceUint64) ChunkEvery(count int) [][]uint64 {
+	if count <= 0 {
+		count = 1
+	}
 	chunks := make([][]uint64, 0)
 	chunk := make([]uint64, 0, count)
 	for i, el := range s.Data {
@@ -55674,6 +55719,9 @@ func (s SliceInterface) ChunkByInterface(f func(el interface{}) interface{}) [][
 
 // ChunkEvery returns slice of slices containing count elements each
 func (s SliceInterface) ChunkEvery(count int) [][]interface{} {
+	if count <= 0 {
+		count = 1
+	}
 	chunks := make([][]interface{}, 0)
 	chunk := make([]interface{}, 0, count)
 	for i, el := range s.Data {

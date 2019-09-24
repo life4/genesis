@@ -113,8 +113,38 @@ func TestSliceChunkEveryInt(t *testing.T) {
 		actual := SliceInt{given}.ChunkEvery(count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f(2, []int{1, 2, 3, 4}, [][]int{[]int{1, 2}, []int{3, 4}})
-	f(2, []int{1, 2, 3, 4, 5}, [][]int{[]int{1, 2}, []int{3, 4}, []int{5}})
+	f(2, []int{}, [][]int{})
+	f(2, []int{1}, [][]int{{1}})
+	f(-3, []int{1}, [][]int{{1}})
+	f(2, []int{1, 2, 3, 4}, [][]int{{1, 2}, {3, 4}})
+	f(2, []int{1, 2, 3, 4, 5}, [][]int{{1, 2}, {3, 4}, {5}})
+}
+
+func TestSliceContainsInt(t *testing.T) {
+	f := func(el int, given []int, expected bool) {
+		actual := SliceInt{given}.Contains(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []int{}, false)
+	f(1, []int{1}, true)
+	f(1, []int{2}, false)
+	f(1, []int{2, 3, 4, 5}, false)
+	f(1, []int{2, 3, 1, 4, 5}, true)
+	f(1, []int{2, 3, 1, 1, 4, 5}, true)
+}
+
+func TestSliceCountInt(t *testing.T) {
+	f := func(el int, given []int, expected int) {
+		actual := SliceInt{given}.Count(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []int{}, 0)
+	f(1, []int{1}, 1)
+	f(1, []int{2}, 0)
+	f(1, []int{2, 3, 4, 5}, 0)
+	f(1, []int{2, 3, 1, 4, 5}, 1)
+	f(1, []int{2, 3, 1, 1, 4, 5}, 2)
+	f(1, []int{1, 1, 1, 1, 1}, 5)
 }
 
 func TestSliceFilterInt(t *testing.T) {
@@ -729,8 +759,38 @@ func TestSliceChunkEveryInt8(t *testing.T) {
 		actual := SliceInt8{given}.ChunkEvery(count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f(2, []int8{1, 2, 3, 4}, [][]int8{[]int8{1, 2}, []int8{3, 4}})
-	f(2, []int8{1, 2, 3, 4, 5}, [][]int8{[]int8{1, 2}, []int8{3, 4}, []int8{5}})
+	f(2, []int8{}, [][]int8{})
+	f(2, []int8{1}, [][]int8{{1}})
+	f(-3, []int8{1}, [][]int8{{1}})
+	f(2, []int8{1, 2, 3, 4}, [][]int8{{1, 2}, {3, 4}})
+	f(2, []int8{1, 2, 3, 4, 5}, [][]int8{{1, 2}, {3, 4}, {5}})
+}
+
+func TestSliceContainsInt8(t *testing.T) {
+	f := func(el int8, given []int8, expected bool) {
+		actual := SliceInt8{given}.Contains(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []int8{}, false)
+	f(1, []int8{1}, true)
+	f(1, []int8{2}, false)
+	f(1, []int8{2, 3, 4, 5}, false)
+	f(1, []int8{2, 3, 1, 4, 5}, true)
+	f(1, []int8{2, 3, 1, 1, 4, 5}, true)
+}
+
+func TestSliceCountInt8(t *testing.T) {
+	f := func(el int8, given []int8, expected int) {
+		actual := SliceInt8{given}.Count(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []int8{}, 0)
+	f(1, []int8{1}, 1)
+	f(1, []int8{2}, 0)
+	f(1, []int8{2, 3, 4, 5}, 0)
+	f(1, []int8{2, 3, 1, 4, 5}, 1)
+	f(1, []int8{2, 3, 1, 1, 4, 5}, 2)
+	f(1, []int8{1, 1, 1, 1, 1}, 5)
 }
 
 func TestSliceFilterInt8(t *testing.T) {
@@ -1345,8 +1405,38 @@ func TestSliceChunkEveryInt16(t *testing.T) {
 		actual := SliceInt16{given}.ChunkEvery(count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f(2, []int16{1, 2, 3, 4}, [][]int16{[]int16{1, 2}, []int16{3, 4}})
-	f(2, []int16{1, 2, 3, 4, 5}, [][]int16{[]int16{1, 2}, []int16{3, 4}, []int16{5}})
+	f(2, []int16{}, [][]int16{})
+	f(2, []int16{1}, [][]int16{{1}})
+	f(-3, []int16{1}, [][]int16{{1}})
+	f(2, []int16{1, 2, 3, 4}, [][]int16{{1, 2}, {3, 4}})
+	f(2, []int16{1, 2, 3, 4, 5}, [][]int16{{1, 2}, {3, 4}, {5}})
+}
+
+func TestSliceContainsInt16(t *testing.T) {
+	f := func(el int16, given []int16, expected bool) {
+		actual := SliceInt16{given}.Contains(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []int16{}, false)
+	f(1, []int16{1}, true)
+	f(1, []int16{2}, false)
+	f(1, []int16{2, 3, 4, 5}, false)
+	f(1, []int16{2, 3, 1, 4, 5}, true)
+	f(1, []int16{2, 3, 1, 1, 4, 5}, true)
+}
+
+func TestSliceCountInt16(t *testing.T) {
+	f := func(el int16, given []int16, expected int) {
+		actual := SliceInt16{given}.Count(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []int16{}, 0)
+	f(1, []int16{1}, 1)
+	f(1, []int16{2}, 0)
+	f(1, []int16{2, 3, 4, 5}, 0)
+	f(1, []int16{2, 3, 1, 4, 5}, 1)
+	f(1, []int16{2, 3, 1, 1, 4, 5}, 2)
+	f(1, []int16{1, 1, 1, 1, 1}, 5)
 }
 
 func TestSliceFilterInt16(t *testing.T) {
@@ -1961,8 +2051,38 @@ func TestSliceChunkEveryInt32(t *testing.T) {
 		actual := SliceInt32{given}.ChunkEvery(count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f(2, []int32{1, 2, 3, 4}, [][]int32{[]int32{1, 2}, []int32{3, 4}})
-	f(2, []int32{1, 2, 3, 4, 5}, [][]int32{[]int32{1, 2}, []int32{3, 4}, []int32{5}})
+	f(2, []int32{}, [][]int32{})
+	f(2, []int32{1}, [][]int32{{1}})
+	f(-3, []int32{1}, [][]int32{{1}})
+	f(2, []int32{1, 2, 3, 4}, [][]int32{{1, 2}, {3, 4}})
+	f(2, []int32{1, 2, 3, 4, 5}, [][]int32{{1, 2}, {3, 4}, {5}})
+}
+
+func TestSliceContainsInt32(t *testing.T) {
+	f := func(el int32, given []int32, expected bool) {
+		actual := SliceInt32{given}.Contains(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []int32{}, false)
+	f(1, []int32{1}, true)
+	f(1, []int32{2}, false)
+	f(1, []int32{2, 3, 4, 5}, false)
+	f(1, []int32{2, 3, 1, 4, 5}, true)
+	f(1, []int32{2, 3, 1, 1, 4, 5}, true)
+}
+
+func TestSliceCountInt32(t *testing.T) {
+	f := func(el int32, given []int32, expected int) {
+		actual := SliceInt32{given}.Count(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []int32{}, 0)
+	f(1, []int32{1}, 1)
+	f(1, []int32{2}, 0)
+	f(1, []int32{2, 3, 4, 5}, 0)
+	f(1, []int32{2, 3, 1, 4, 5}, 1)
+	f(1, []int32{2, 3, 1, 1, 4, 5}, 2)
+	f(1, []int32{1, 1, 1, 1, 1}, 5)
 }
 
 func TestSliceFilterInt32(t *testing.T) {
@@ -2577,8 +2697,38 @@ func TestSliceChunkEveryInt64(t *testing.T) {
 		actual := SliceInt64{given}.ChunkEvery(count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f(2, []int64{1, 2, 3, 4}, [][]int64{[]int64{1, 2}, []int64{3, 4}})
-	f(2, []int64{1, 2, 3, 4, 5}, [][]int64{[]int64{1, 2}, []int64{3, 4}, []int64{5}})
+	f(2, []int64{}, [][]int64{})
+	f(2, []int64{1}, [][]int64{{1}})
+	f(-3, []int64{1}, [][]int64{{1}})
+	f(2, []int64{1, 2, 3, 4}, [][]int64{{1, 2}, {3, 4}})
+	f(2, []int64{1, 2, 3, 4, 5}, [][]int64{{1, 2}, {3, 4}, {5}})
+}
+
+func TestSliceContainsInt64(t *testing.T) {
+	f := func(el int64, given []int64, expected bool) {
+		actual := SliceInt64{given}.Contains(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []int64{}, false)
+	f(1, []int64{1}, true)
+	f(1, []int64{2}, false)
+	f(1, []int64{2, 3, 4, 5}, false)
+	f(1, []int64{2, 3, 1, 4, 5}, true)
+	f(1, []int64{2, 3, 1, 1, 4, 5}, true)
+}
+
+func TestSliceCountInt64(t *testing.T) {
+	f := func(el int64, given []int64, expected int) {
+		actual := SliceInt64{given}.Count(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []int64{}, 0)
+	f(1, []int64{1}, 1)
+	f(1, []int64{2}, 0)
+	f(1, []int64{2, 3, 4, 5}, 0)
+	f(1, []int64{2, 3, 1, 4, 5}, 1)
+	f(1, []int64{2, 3, 1, 1, 4, 5}, 2)
+	f(1, []int64{1, 1, 1, 1, 1}, 5)
 }
 
 func TestSliceFilterInt64(t *testing.T) {

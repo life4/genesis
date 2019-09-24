@@ -44,3 +44,20 @@ func (s Slice) Count(el T) int {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceCount(t *testing.T) {
+	f := func(el T, given []T, expected int) {
+		actual := Slice{given}.Count(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []T{}, 0)
+	f(1, []T{1}, 1)
+	f(1, []T{2}, 0)
+	f(1, []T{2, 3, 4, 5}, 0)
+	f(1, []T{2, 3, 1, 4, 5}, 1)
+	f(1, []T{2, 3, 1, 1, 4, 5}, 2)
+	f(1, []T{1, 1, 1, 1, 1}, 5)
+}
+```

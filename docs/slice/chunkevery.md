@@ -34,6 +34,9 @@ Generic types: T.
 ```go
 // ChunkEvery returns slice of slices containing count elements each
 func (s Slice) ChunkEvery(count int) [][]T {
+	if count <= 0 {
+		count = 1
+	}
 	chunks := make([][]T, 0)
 	chunk := make([]T, 0, count)
 	for i, el := range s.Data {
@@ -58,7 +61,10 @@ func TestSliceChunkEvery(t *testing.T) {
 		actual := Slice{given}.ChunkEvery(count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f(2, []T{1, 2, 3, 4}, [][]T{[]T{1, 2}, []T{3, 4}})
-	f(2, []T{1, 2, 3, 4, 5}, [][]T{[]T{1, 2}, []T{3, 4}, []T{5}})
+	f(2, []T{}, [][]T{})
+	f(2, []T{1}, [][]T{{1}})
+	f(-3, []T{1}, [][]T{{1}})
+	f(2, []T{1, 2, 3, 4}, [][]T{{1, 2}, {3, 4}})
+	f(2, []T{1, 2, 3, 4, 5}, [][]T{{1, 2}, {3, 4}, {5}})
 }
 ```

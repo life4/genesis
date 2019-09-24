@@ -60,6 +60,9 @@ func (s Slice) ChunkBy(f func(el T) G) [][]T {
 
 // ChunkEvery returns slice of slices containing count elements each
 func (s Slice) ChunkEvery(count int) [][]T {
+	if count <= 0 {
+		count = 1
+	}
 	chunks := make([][]T, 0)
 	chunk := make([]T, 0, count)
 	for i, el := range s.Data {

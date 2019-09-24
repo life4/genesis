@@ -43,3 +43,19 @@ func (s Slice) Contains(el T) bool {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceContains(t *testing.T) {
+	f := func(el T, given []T, expected bool) {
+		actual := Slice{given}.Contains(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []T{}, false)
+	f(1, []T{1}, true)
+	f(1, []T{2}, false)
+	f(1, []T{2, 3, 4, 5}, false)
+	f(1, []T{2, 3, 1, 4, 5}, true)
+	f(1, []T{2, 3, 1, 1, 4, 5}, true)
+}
+```

@@ -49,8 +49,38 @@ func TestSliceChunkEvery(t *testing.T) {
 		actual := Slice{given}.ChunkEvery(count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f(2, []T{1, 2, 3, 4}, [][]T{[]T{1, 2}, []T{3, 4}})
-	f(2, []T{1, 2, 3, 4, 5}, [][]T{[]T{1, 2}, []T{3, 4}, []T{5}})
+	f(2, []T{}, [][]T{})
+	f(2, []T{1}, [][]T{{1}})
+	f(-3, []T{1}, [][]T{{1}})
+	f(2, []T{1, 2, 3, 4}, [][]T{{1, 2}, {3, 4}})
+	f(2, []T{1, 2, 3, 4, 5}, [][]T{{1, 2}, {3, 4}, {5}})
+}
+
+func TestSliceContains(t *testing.T) {
+	f := func(el T, given []T, expected bool) {
+		actual := Slice{given}.Contains(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []T{}, false)
+	f(1, []T{1}, true)
+	f(1, []T{2}, false)
+	f(1, []T{2, 3, 4, 5}, false)
+	f(1, []T{2, 3, 1, 4, 5}, true)
+	f(1, []T{2, 3, 1, 1, 4, 5}, true)
+}
+
+func TestSliceCount(t *testing.T) {
+	f := func(el T, given []T, expected int) {
+		actual := Slice{given}.Count(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []T{}, 0)
+	f(1, []T{1}, 1)
+	f(1, []T{2}, 0)
+	f(1, []T{2, 3, 4, 5}, 0)
+	f(1, []T{2, 3, 1, 4, 5}, 1)
+	f(1, []T{2, 3, 1, 1, 4, 5}, 2)
+	f(1, []T{1, 1, 1, 1, 1}, 5)
 }
 
 func TestSliceFilter(t *testing.T) {
