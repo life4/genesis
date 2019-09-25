@@ -655,12 +655,23 @@ func (c ChannelBool) ScanInterface(acc interface{}, f func(el bool, acc interfac
 	return result
 }
 
-// Take takes first n elements from channel c.
-func (c ChannelBool) Take(n int) []bool {
-	result := make([]bool, 0, n)
-	for i := 0; i < n; i++ {
-		result = append(result, <-c.Data)
-	}
+// Take takes first count elements from the channel.
+func (c ChannelBool) Take(count int) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for el := range c.Data {
+			result <- el
+			i++
+			if i == count {
+				return
+			}
+		}
+	}()
 	return result
 }
 
@@ -2017,6 +2028,10 @@ func (s SliceBool) Count(el bool) int {
 func (s SliceBool) Cycle() chan bool {
 	c := make(chan bool, 1)
 	go func() {
+		defer close(c)
+		if len(s.Data) == 0 {
+			return
+		}
 		for {
 			for _, val := range s.Data {
 				c <- val
@@ -3377,6 +3392,7 @@ func (s SliceBool) ToChannel() chan bool {
 		for _, el := range s.Data {
 			c <- el
 		}
+		close(c)
 	}()
 	return c
 }
@@ -4166,12 +4182,23 @@ func (c ChannelByte) Sum() byte {
 	return sum
 }
 
-// Take takes first n elements from channel c.
-func (c ChannelByte) Take(n int) []byte {
-	result := make([]byte, 0, n)
-	for i := 0; i < n; i++ {
-		result = append(result, <-c.Data)
-	}
+// Take takes first count elements from the channel.
+func (c ChannelByte) Take(count int) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for el := range c.Data {
+			result <- el
+			i++
+			if i == count {
+				return
+			}
+		}
+	}()
 	return result
 }
 
@@ -5528,6 +5555,10 @@ func (s SliceByte) Count(el byte) int {
 func (s SliceByte) Cycle() chan byte {
 	c := make(chan byte, 1)
 	go func() {
+		defer close(c)
+		if len(s.Data) == 0 {
+			return
+		}
 		for {
 			for _, val := range s.Data {
 				c <- val
@@ -6947,6 +6978,7 @@ func (s SliceByte) ToChannel() chan byte {
 		for _, el := range s.Data {
 			c <- el
 		}
+		close(c)
 	}()
 	return c
 }
@@ -7736,12 +7768,23 @@ func (c ChannelString) Sum() string {
 	return sum
 }
 
-// Take takes first n elements from channel c.
-func (c ChannelString) Take(n int) []string {
-	result := make([]string, 0, n)
-	for i := 0; i < n; i++ {
-		result = append(result, <-c.Data)
-	}
+// Take takes first count elements from the channel.
+func (c ChannelString) Take(count int) chan string {
+	result := make(chan string, 1)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for el := range c.Data {
+			result <- el
+			i++
+			if i == count {
+				return
+			}
+		}
+	}()
 	return result
 }
 
@@ -9098,6 +9141,10 @@ func (s SliceString) Count(el string) int {
 func (s SliceString) Cycle() chan string {
 	c := make(chan string, 1)
 	go func() {
+		defer close(c)
+		if len(s.Data) == 0 {
+			return
+		}
 		for {
 			for _, val := range s.Data {
 				c <- val
@@ -10517,6 +10564,7 @@ func (s SliceString) ToChannel() chan string {
 		for _, el := range s.Data {
 			c <- el
 		}
+		close(c)
 	}()
 	return c
 }
@@ -11306,12 +11354,23 @@ func (c ChannelFloat32) Sum() float32 {
 	return sum
 }
 
-// Take takes first n elements from channel c.
-func (c ChannelFloat32) Take(n int) []float32 {
-	result := make([]float32, 0, n)
-	for i := 0; i < n; i++ {
-		result = append(result, <-c.Data)
-	}
+// Take takes first count elements from the channel.
+func (c ChannelFloat32) Take(count int) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for el := range c.Data {
+			result <- el
+			i++
+			if i == count {
+				return
+			}
+		}
+	}()
 	return result
 }
 
@@ -12707,6 +12766,10 @@ func (s SliceFloat32) Count(el float32) int {
 func (s SliceFloat32) Cycle() chan float32 {
 	c := make(chan float32, 1)
 	go func() {
+		defer close(c)
+		if len(s.Data) == 0 {
+			return
+		}
 		for {
 			for _, val := range s.Data {
 				c <- val
@@ -14117,6 +14180,7 @@ func (s SliceFloat32) ToChannel() chan float32 {
 		for _, el := range s.Data {
 			c <- el
 		}
+		close(c)
 	}()
 	return c
 }
@@ -14906,12 +14970,23 @@ func (c ChannelFloat64) Sum() float64 {
 	return sum
 }
 
-// Take takes first n elements from channel c.
-func (c ChannelFloat64) Take(n int) []float64 {
-	result := make([]float64, 0, n)
-	for i := 0; i < n; i++ {
-		result = append(result, <-c.Data)
-	}
+// Take takes first count elements from the channel.
+func (c ChannelFloat64) Take(count int) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for el := range c.Data {
+			result <- el
+			i++
+			if i == count {
+				return
+			}
+		}
+	}()
 	return result
 }
 
@@ -16307,6 +16382,10 @@ func (s SliceFloat64) Count(el float64) int {
 func (s SliceFloat64) Cycle() chan float64 {
 	c := make(chan float64, 1)
 	go func() {
+		defer close(c)
+		if len(s.Data) == 0 {
+			return
+		}
 		for {
 			for _, val := range s.Data {
 				c <- val
@@ -17717,6 +17796,7 @@ func (s SliceFloat64) ToChannel() chan float64 {
 		for _, el := range s.Data {
 			c <- el
 		}
+		close(c)
 	}()
 	return c
 }
@@ -18506,12 +18586,23 @@ func (c ChannelInt) Sum() int {
 	return sum
 }
 
-// Take takes first n elements from channel c.
-func (c ChannelInt) Take(n int) []int {
-	result := make([]int, 0, n)
-	for i := 0; i < n; i++ {
-		result = append(result, <-c.Data)
-	}
+// Take takes first count elements from the channel.
+func (c ChannelInt) Take(count int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for el := range c.Data {
+			result <- el
+			i++
+			if i == count {
+				return
+			}
+		}
+	}()
 	return result
 }
 
@@ -19907,6 +19998,10 @@ func (s SliceInt) Count(el int) int {
 func (s SliceInt) Cycle() chan int {
 	c := make(chan int, 1)
 	go func() {
+		defer close(c)
+		if len(s.Data) == 0 {
+			return
+		}
 		for {
 			for _, val := range s.Data {
 				c <- val
@@ -21326,6 +21421,7 @@ func (s SliceInt) ToChannel() chan int {
 		for _, el := range s.Data {
 			c <- el
 		}
+		close(c)
 	}()
 	return c
 }
@@ -22115,12 +22211,23 @@ func (c ChannelInt8) Sum() int8 {
 	return sum
 }
 
-// Take takes first n elements from channel c.
-func (c ChannelInt8) Take(n int) []int8 {
-	result := make([]int8, 0, n)
-	for i := 0; i < n; i++ {
-		result = append(result, <-c.Data)
-	}
+// Take takes first count elements from the channel.
+func (c ChannelInt8) Take(count int) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for el := range c.Data {
+			result <- el
+			i++
+			if i == count {
+				return
+			}
+		}
+	}()
 	return result
 }
 
@@ -23516,6 +23623,10 @@ func (s SliceInt8) Count(el int8) int {
 func (s SliceInt8) Cycle() chan int8 {
 	c := make(chan int8, 1)
 	go func() {
+		defer close(c)
+		if len(s.Data) == 0 {
+			return
+		}
 		for {
 			for _, val := range s.Data {
 				c <- val
@@ -24935,6 +25046,7 @@ func (s SliceInt8) ToChannel() chan int8 {
 		for _, el := range s.Data {
 			c <- el
 		}
+		close(c)
 	}()
 	return c
 }
@@ -25724,12 +25836,23 @@ func (c ChannelInt16) Sum() int16 {
 	return sum
 }
 
-// Take takes first n elements from channel c.
-func (c ChannelInt16) Take(n int) []int16 {
-	result := make([]int16, 0, n)
-	for i := 0; i < n; i++ {
-		result = append(result, <-c.Data)
-	}
+// Take takes first count elements from the channel.
+func (c ChannelInt16) Take(count int) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for el := range c.Data {
+			result <- el
+			i++
+			if i == count {
+				return
+			}
+		}
+	}()
 	return result
 }
 
@@ -27125,6 +27248,10 @@ func (s SliceInt16) Count(el int16) int {
 func (s SliceInt16) Cycle() chan int16 {
 	c := make(chan int16, 1)
 	go func() {
+		defer close(c)
+		if len(s.Data) == 0 {
+			return
+		}
 		for {
 			for _, val := range s.Data {
 				c <- val
@@ -28544,6 +28671,7 @@ func (s SliceInt16) ToChannel() chan int16 {
 		for _, el := range s.Data {
 			c <- el
 		}
+		close(c)
 	}()
 	return c
 }
@@ -29333,12 +29461,23 @@ func (c ChannelInt32) Sum() int32 {
 	return sum
 }
 
-// Take takes first n elements from channel c.
-func (c ChannelInt32) Take(n int) []int32 {
-	result := make([]int32, 0, n)
-	for i := 0; i < n; i++ {
-		result = append(result, <-c.Data)
-	}
+// Take takes first count elements from the channel.
+func (c ChannelInt32) Take(count int) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for el := range c.Data {
+			result <- el
+			i++
+			if i == count {
+				return
+			}
+		}
+	}()
 	return result
 }
 
@@ -30734,6 +30873,10 @@ func (s SliceInt32) Count(el int32) int {
 func (s SliceInt32) Cycle() chan int32 {
 	c := make(chan int32, 1)
 	go func() {
+		defer close(c)
+		if len(s.Data) == 0 {
+			return
+		}
 		for {
 			for _, val := range s.Data {
 				c <- val
@@ -32153,6 +32296,7 @@ func (s SliceInt32) ToChannel() chan int32 {
 		for _, el := range s.Data {
 			c <- el
 		}
+		close(c)
 	}()
 	return c
 }
@@ -32942,12 +33086,23 @@ func (c ChannelInt64) Sum() int64 {
 	return sum
 }
 
-// Take takes first n elements from channel c.
-func (c ChannelInt64) Take(n int) []int64 {
-	result := make([]int64, 0, n)
-	for i := 0; i < n; i++ {
-		result = append(result, <-c.Data)
-	}
+// Take takes first count elements from the channel.
+func (c ChannelInt64) Take(count int) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for el := range c.Data {
+			result <- el
+			i++
+			if i == count {
+				return
+			}
+		}
+	}()
 	return result
 }
 
@@ -34343,6 +34498,10 @@ func (s SliceInt64) Count(el int64) int {
 func (s SliceInt64) Cycle() chan int64 {
 	c := make(chan int64, 1)
 	go func() {
+		defer close(c)
+		if len(s.Data) == 0 {
+			return
+		}
 		for {
 			for _, val := range s.Data {
 				c <- val
@@ -35762,6 +35921,7 @@ func (s SliceInt64) ToChannel() chan int64 {
 		for _, el := range s.Data {
 			c <- el
 		}
+		close(c)
 	}()
 	return c
 }
@@ -36551,12 +36711,23 @@ func (c ChannelUint) Sum() uint {
 	return sum
 }
 
-// Take takes first n elements from channel c.
-func (c ChannelUint) Take(n int) []uint {
-	result := make([]uint, 0, n)
-	for i := 0; i < n; i++ {
-		result = append(result, <-c.Data)
-	}
+// Take takes first count elements from the channel.
+func (c ChannelUint) Take(count int) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for el := range c.Data {
+			result <- el
+			i++
+			if i == count {
+				return
+			}
+		}
+	}()
 	return result
 }
 
@@ -37952,6 +38123,10 @@ func (s SliceUint) Count(el uint) int {
 func (s SliceUint) Cycle() chan uint {
 	c := make(chan uint, 1)
 	go func() {
+		defer close(c)
+		if len(s.Data) == 0 {
+			return
+		}
 		for {
 			for _, val := range s.Data {
 				c <- val
@@ -39371,6 +39546,7 @@ func (s SliceUint) ToChannel() chan uint {
 		for _, el := range s.Data {
 			c <- el
 		}
+		close(c)
 	}()
 	return c
 }
@@ -40160,12 +40336,23 @@ func (c ChannelUint8) Sum() uint8 {
 	return sum
 }
 
-// Take takes first n elements from channel c.
-func (c ChannelUint8) Take(n int) []uint8 {
-	result := make([]uint8, 0, n)
-	for i := 0; i < n; i++ {
-		result = append(result, <-c.Data)
-	}
+// Take takes first count elements from the channel.
+func (c ChannelUint8) Take(count int) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for el := range c.Data {
+			result <- el
+			i++
+			if i == count {
+				return
+			}
+		}
+	}()
 	return result
 }
 
@@ -41561,6 +41748,10 @@ func (s SliceUint8) Count(el uint8) int {
 func (s SliceUint8) Cycle() chan uint8 {
 	c := make(chan uint8, 1)
 	go func() {
+		defer close(c)
+		if len(s.Data) == 0 {
+			return
+		}
 		for {
 			for _, val := range s.Data {
 				c <- val
@@ -42980,6 +43171,7 @@ func (s SliceUint8) ToChannel() chan uint8 {
 		for _, el := range s.Data {
 			c <- el
 		}
+		close(c)
 	}()
 	return c
 }
@@ -43769,12 +43961,23 @@ func (c ChannelUint16) Sum() uint16 {
 	return sum
 }
 
-// Take takes first n elements from channel c.
-func (c ChannelUint16) Take(n int) []uint16 {
-	result := make([]uint16, 0, n)
-	for i := 0; i < n; i++ {
-		result = append(result, <-c.Data)
-	}
+// Take takes first count elements from the channel.
+func (c ChannelUint16) Take(count int) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for el := range c.Data {
+			result <- el
+			i++
+			if i == count {
+				return
+			}
+		}
+	}()
 	return result
 }
 
@@ -45170,6 +45373,10 @@ func (s SliceUint16) Count(el uint16) int {
 func (s SliceUint16) Cycle() chan uint16 {
 	c := make(chan uint16, 1)
 	go func() {
+		defer close(c)
+		if len(s.Data) == 0 {
+			return
+		}
 		for {
 			for _, val := range s.Data {
 				c <- val
@@ -46589,6 +46796,7 @@ func (s SliceUint16) ToChannel() chan uint16 {
 		for _, el := range s.Data {
 			c <- el
 		}
+		close(c)
 	}()
 	return c
 }
@@ -47378,12 +47586,23 @@ func (c ChannelUint32) Sum() uint32 {
 	return sum
 }
 
-// Take takes first n elements from channel c.
-func (c ChannelUint32) Take(n int) []uint32 {
-	result := make([]uint32, 0, n)
-	for i := 0; i < n; i++ {
-		result = append(result, <-c.Data)
-	}
+// Take takes first count elements from the channel.
+func (c ChannelUint32) Take(count int) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for el := range c.Data {
+			result <- el
+			i++
+			if i == count {
+				return
+			}
+		}
+	}()
 	return result
 }
 
@@ -48779,6 +48998,10 @@ func (s SliceUint32) Count(el uint32) int {
 func (s SliceUint32) Cycle() chan uint32 {
 	c := make(chan uint32, 1)
 	go func() {
+		defer close(c)
+		if len(s.Data) == 0 {
+			return
+		}
 		for {
 			for _, val := range s.Data {
 				c <- val
@@ -50198,6 +50421,7 @@ func (s SliceUint32) ToChannel() chan uint32 {
 		for _, el := range s.Data {
 			c <- el
 		}
+		close(c)
 	}()
 	return c
 }
@@ -50987,12 +51211,23 @@ func (c ChannelUint64) Sum() uint64 {
 	return sum
 }
 
-// Take takes first n elements from channel c.
-func (c ChannelUint64) Take(n int) []uint64 {
-	result := make([]uint64, 0, n)
-	for i := 0; i < n; i++ {
-		result = append(result, <-c.Data)
-	}
+// Take takes first count elements from the channel.
+func (c ChannelUint64) Take(count int) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for el := range c.Data {
+			result <- el
+			i++
+			if i == count {
+				return
+			}
+		}
+	}()
 	return result
 }
 
@@ -52388,6 +52623,10 @@ func (s SliceUint64) Count(el uint64) int {
 func (s SliceUint64) Cycle() chan uint64 {
 	c := make(chan uint64, 1)
 	go func() {
+		defer close(c)
+		if len(s.Data) == 0 {
+			return
+		}
 		for {
 			for _, val := range s.Data {
 				c <- val
@@ -53807,6 +54046,7 @@ func (s SliceUint64) ToChannel() chan uint64 {
 		for _, el := range s.Data {
 			c <- el
 		}
+		close(c)
 	}()
 	return c
 }
@@ -54565,12 +54805,23 @@ func (c ChannelInterface) ScanInterface(acc interface{}, f func(el interface{}, 
 	return result
 }
 
-// Take takes first n elements from channel c.
-func (c ChannelInterface) Take(n int) []interface{} {
-	result := make([]interface{}, 0, n)
-	for i := 0; i < n; i++ {
-		result = append(result, <-c.Data)
-	}
+// Take takes first count elements from the channel.
+func (c ChannelInterface) Take(count int) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for el := range c.Data {
+			result <- el
+			i++
+			if i == count {
+				return
+			}
+		}
+	}()
 	return result
 }
 
@@ -55927,6 +56178,10 @@ func (s SliceInterface) Count(el interface{}) int {
 func (s SliceInterface) Cycle() chan interface{} {
 	c := make(chan interface{}, 1)
 	go func() {
+		defer close(c)
+		if len(s.Data) == 0 {
+			return
+		}
 		for {
 			for _, val := range s.Data {
 				c <- val
@@ -57287,6 +57542,7 @@ func (s SliceInterface) ToChannel() chan interface{} {
 		for _, el := range s.Data {
 			c <- el
 		}
+		close(c)
 	}()
 	return c
 }

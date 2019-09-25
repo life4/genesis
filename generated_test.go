@@ -147,6 +147,16 @@ func TestSliceCountInt(t *testing.T) {
 	f(1, []int{1, 1, 1, 1, 1}, 5)
 }
 
+func TestSliceCycleInt(t *testing.T) {
+	f := func(count int, given []int, expected []int) {
+		c := SliceInt{given}.Cycle()
+		seq := ChannelInt{c}.Take(count)
+		actual := ChannelInt{seq}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(5, []int{1, 2}, []int{1, 2, 1, 2, 1})
+}
+
 func TestSliceFilterInt(t *testing.T) {
 	f := func(given []int, expected []int) {
 		even := func(t int) bool { return (t % 2) == 0 }
@@ -470,11 +480,25 @@ func TestChannelFilterInt(t *testing.T) {
 	f([]int{1, 2, 3, 4}, []int{2, 4})
 }
 
+func TestChannelTakeInt(t *testing.T) {
+	s := SequenceInt{}
+	f := func(count int, given int, expected []int) {
+		seq := s.Repeat(given)
+		seq2 := ChannelInt{seq}.Take(count)
+		actual := ChannelInt{seq2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []int{})
+	f(1, 1, []int{1})
+	f(2, 1, []int{1, 1})
+}
+
 func TestSequenceExponentialInt(t *testing.T) {
 	s := SequenceInt{}
 	f := func(start int, factor int, count int, expected []int) {
 		seq := s.Exponential(start, factor)
-		actual := ChannelInt{seq}.Take(count)
+		seq2 := ChannelInt{seq}.Take(count)
+		actual := ChannelInt{seq2}.ToSlice()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(1, 1, 4, []int{1, 1, 1, 1})
@@ -498,21 +522,10 @@ func TestSequenceRepeatInt(t *testing.T) {
 	s := SequenceInt{}
 	f := func(count int, given int, expected []int) {
 		seq := s.Repeat(given)
-		actual := ChannelInt{seq}.Take(count)
+		seq2 := ChannelInt{seq}.Take(count)
+		actual := ChannelInt{seq2}.ToSlice()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f(2, 1, []int{1, 1})
-}
-
-func TestSequenceTakeInt(t *testing.T) {
-	s := SequenceInt{}
-	f := func(count int, given int, expected []int) {
-		seq := s.Repeat(given)
-		actual := ChannelInt{seq}.Take(count)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(0, 1, []int{})
-	f(1, 1, []int{1})
 	f(2, 1, []int{1, 1})
 }
 
@@ -791,6 +804,16 @@ func TestSliceCountInt8(t *testing.T) {
 	f(1, []int8{2, 3, 1, 4, 5}, 1)
 	f(1, []int8{2, 3, 1, 1, 4, 5}, 2)
 	f(1, []int8{1, 1, 1, 1, 1}, 5)
+}
+
+func TestSliceCycleInt8(t *testing.T) {
+	f := func(count int, given []int8, expected []int8) {
+		c := SliceInt8{given}.Cycle()
+		seq := ChannelInt8{c}.Take(count)
+		actual := ChannelInt8{seq}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(5, []int8{1, 2}, []int8{1, 2, 1, 2, 1})
 }
 
 func TestSliceFilterInt8(t *testing.T) {
@@ -1116,11 +1139,25 @@ func TestChannelFilterInt8(t *testing.T) {
 	f([]int8{1, 2, 3, 4}, []int8{2, 4})
 }
 
+func TestChannelTakeInt8(t *testing.T) {
+	s := SequenceInt8{}
+	f := func(count int, given int8, expected []int8) {
+		seq := s.Repeat(given)
+		seq2 := ChannelInt8{seq}.Take(count)
+		actual := ChannelInt8{seq2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []int8{})
+	f(1, 1, []int8{1})
+	f(2, 1, []int8{1, 1})
+}
+
 func TestSequenceExponentialInt8(t *testing.T) {
 	s := SequenceInt8{}
 	f := func(start int8, factor int8, count int, expected []int8) {
 		seq := s.Exponential(start, factor)
-		actual := ChannelInt8{seq}.Take(count)
+		seq2 := ChannelInt8{seq}.Take(count)
+		actual := ChannelInt8{seq2}.ToSlice()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(1, 1, 4, []int8{1, 1, 1, 1})
@@ -1144,21 +1181,10 @@ func TestSequenceRepeatInt8(t *testing.T) {
 	s := SequenceInt8{}
 	f := func(count int, given int8, expected []int8) {
 		seq := s.Repeat(given)
-		actual := ChannelInt8{seq}.Take(count)
+		seq2 := ChannelInt8{seq}.Take(count)
+		actual := ChannelInt8{seq2}.ToSlice()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f(2, 1, []int8{1, 1})
-}
-
-func TestSequenceTakeInt8(t *testing.T) {
-	s := SequenceInt8{}
-	f := func(count int, given int8, expected []int8) {
-		seq := s.Repeat(given)
-		actual := ChannelInt8{seq}.Take(count)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(0, 1, []int8{})
-	f(1, 1, []int8{1})
 	f(2, 1, []int8{1, 1})
 }
 
@@ -1437,6 +1463,16 @@ func TestSliceCountInt16(t *testing.T) {
 	f(1, []int16{2, 3, 1, 4, 5}, 1)
 	f(1, []int16{2, 3, 1, 1, 4, 5}, 2)
 	f(1, []int16{1, 1, 1, 1, 1}, 5)
+}
+
+func TestSliceCycleInt16(t *testing.T) {
+	f := func(count int, given []int16, expected []int16) {
+		c := SliceInt16{given}.Cycle()
+		seq := ChannelInt16{c}.Take(count)
+		actual := ChannelInt16{seq}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(5, []int16{1, 2}, []int16{1, 2, 1, 2, 1})
 }
 
 func TestSliceFilterInt16(t *testing.T) {
@@ -1762,11 +1798,25 @@ func TestChannelFilterInt16(t *testing.T) {
 	f([]int16{1, 2, 3, 4}, []int16{2, 4})
 }
 
+func TestChannelTakeInt16(t *testing.T) {
+	s := SequenceInt16{}
+	f := func(count int, given int16, expected []int16) {
+		seq := s.Repeat(given)
+		seq2 := ChannelInt16{seq}.Take(count)
+		actual := ChannelInt16{seq2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []int16{})
+	f(1, 1, []int16{1})
+	f(2, 1, []int16{1, 1})
+}
+
 func TestSequenceExponentialInt16(t *testing.T) {
 	s := SequenceInt16{}
 	f := func(start int16, factor int16, count int, expected []int16) {
 		seq := s.Exponential(start, factor)
-		actual := ChannelInt16{seq}.Take(count)
+		seq2 := ChannelInt16{seq}.Take(count)
+		actual := ChannelInt16{seq2}.ToSlice()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(1, 1, 4, []int16{1, 1, 1, 1})
@@ -1790,21 +1840,10 @@ func TestSequenceRepeatInt16(t *testing.T) {
 	s := SequenceInt16{}
 	f := func(count int, given int16, expected []int16) {
 		seq := s.Repeat(given)
-		actual := ChannelInt16{seq}.Take(count)
+		seq2 := ChannelInt16{seq}.Take(count)
+		actual := ChannelInt16{seq2}.ToSlice()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f(2, 1, []int16{1, 1})
-}
-
-func TestSequenceTakeInt16(t *testing.T) {
-	s := SequenceInt16{}
-	f := func(count int, given int16, expected []int16) {
-		seq := s.Repeat(given)
-		actual := ChannelInt16{seq}.Take(count)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(0, 1, []int16{})
-	f(1, 1, []int16{1})
 	f(2, 1, []int16{1, 1})
 }
 
@@ -2083,6 +2122,16 @@ func TestSliceCountInt32(t *testing.T) {
 	f(1, []int32{2, 3, 1, 4, 5}, 1)
 	f(1, []int32{2, 3, 1, 1, 4, 5}, 2)
 	f(1, []int32{1, 1, 1, 1, 1}, 5)
+}
+
+func TestSliceCycleInt32(t *testing.T) {
+	f := func(count int, given []int32, expected []int32) {
+		c := SliceInt32{given}.Cycle()
+		seq := ChannelInt32{c}.Take(count)
+		actual := ChannelInt32{seq}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(5, []int32{1, 2}, []int32{1, 2, 1, 2, 1})
 }
 
 func TestSliceFilterInt32(t *testing.T) {
@@ -2408,11 +2457,25 @@ func TestChannelFilterInt32(t *testing.T) {
 	f([]int32{1, 2, 3, 4}, []int32{2, 4})
 }
 
+func TestChannelTakeInt32(t *testing.T) {
+	s := SequenceInt32{}
+	f := func(count int, given int32, expected []int32) {
+		seq := s.Repeat(given)
+		seq2 := ChannelInt32{seq}.Take(count)
+		actual := ChannelInt32{seq2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []int32{})
+	f(1, 1, []int32{1})
+	f(2, 1, []int32{1, 1})
+}
+
 func TestSequenceExponentialInt32(t *testing.T) {
 	s := SequenceInt32{}
 	f := func(start int32, factor int32, count int, expected []int32) {
 		seq := s.Exponential(start, factor)
-		actual := ChannelInt32{seq}.Take(count)
+		seq2 := ChannelInt32{seq}.Take(count)
+		actual := ChannelInt32{seq2}.ToSlice()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(1, 1, 4, []int32{1, 1, 1, 1})
@@ -2436,21 +2499,10 @@ func TestSequenceRepeatInt32(t *testing.T) {
 	s := SequenceInt32{}
 	f := func(count int, given int32, expected []int32) {
 		seq := s.Repeat(given)
-		actual := ChannelInt32{seq}.Take(count)
+		seq2 := ChannelInt32{seq}.Take(count)
+		actual := ChannelInt32{seq2}.ToSlice()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f(2, 1, []int32{1, 1})
-}
-
-func TestSequenceTakeInt32(t *testing.T) {
-	s := SequenceInt32{}
-	f := func(count int, given int32, expected []int32) {
-		seq := s.Repeat(given)
-		actual := ChannelInt32{seq}.Take(count)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(0, 1, []int32{})
-	f(1, 1, []int32{1})
 	f(2, 1, []int32{1, 1})
 }
 
@@ -2729,6 +2781,16 @@ func TestSliceCountInt64(t *testing.T) {
 	f(1, []int64{2, 3, 1, 4, 5}, 1)
 	f(1, []int64{2, 3, 1, 1, 4, 5}, 2)
 	f(1, []int64{1, 1, 1, 1, 1}, 5)
+}
+
+func TestSliceCycleInt64(t *testing.T) {
+	f := func(count int, given []int64, expected []int64) {
+		c := SliceInt64{given}.Cycle()
+		seq := ChannelInt64{c}.Take(count)
+		actual := ChannelInt64{seq}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(5, []int64{1, 2}, []int64{1, 2, 1, 2, 1})
 }
 
 func TestSliceFilterInt64(t *testing.T) {
@@ -3054,11 +3116,25 @@ func TestChannelFilterInt64(t *testing.T) {
 	f([]int64{1, 2, 3, 4}, []int64{2, 4})
 }
 
+func TestChannelTakeInt64(t *testing.T) {
+	s := SequenceInt64{}
+	f := func(count int, given int64, expected []int64) {
+		seq := s.Repeat(given)
+		seq2 := ChannelInt64{seq}.Take(count)
+		actual := ChannelInt64{seq2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []int64{})
+	f(1, 1, []int64{1})
+	f(2, 1, []int64{1, 1})
+}
+
 func TestSequenceExponentialInt64(t *testing.T) {
 	s := SequenceInt64{}
 	f := func(start int64, factor int64, count int, expected []int64) {
 		seq := s.Exponential(start, factor)
-		actual := ChannelInt64{seq}.Take(count)
+		seq2 := ChannelInt64{seq}.Take(count)
+		actual := ChannelInt64{seq2}.ToSlice()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(1, 1, 4, []int64{1, 1, 1, 1})
@@ -3082,21 +3158,10 @@ func TestSequenceRepeatInt64(t *testing.T) {
 	s := SequenceInt64{}
 	f := func(count int, given int64, expected []int64) {
 		seq := s.Repeat(given)
-		actual := ChannelInt64{seq}.Take(count)
+		seq2 := ChannelInt64{seq}.Take(count)
+		actual := ChannelInt64{seq2}.ToSlice()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f(2, 1, []int64{1, 1})
-}
-
-func TestSequenceTakeInt64(t *testing.T) {
-	s := SequenceInt64{}
-	f := func(count int, given int64, expected []int64) {
-		seq := s.Repeat(given)
-		actual := ChannelInt64{seq}.Take(count)
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(0, 1, []int64{})
-	f(1, 1, []int64{1})
 	f(2, 1, []int64{1, 1})
 }
 

@@ -103,6 +103,10 @@ func (s Slice) Count(el T) int {
 func (s Slice) Cycle() chan T {
 	c := make(chan T, 1)
 	go func() {
+		defer close(c)
+		if len(s.Data) == 0 {
+			return
+		}
 		for {
 			for _, val := range s.Data {
 				c <- val
@@ -487,6 +491,7 @@ func (s Slice) ToChannel() chan T {
 		for _, el := range s.Data {
 			c <- el
 		}
+		close(c)
 	}()
 	return c
 }

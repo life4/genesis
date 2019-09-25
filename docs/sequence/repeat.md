@@ -51,7 +51,8 @@ func TestSequenceRepeat(t *testing.T) {
 	s := Sequence{}
 	f := func(count int, given T, expected []T) {
 		seq := s.Repeat(given)
-		actual := Channel{seq}.Take(count)
+		seq2 := Channel{seq}.Take(count)
+		actual := Channel{seq2}.ToSlice()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(2, 1, []T{1, 1})

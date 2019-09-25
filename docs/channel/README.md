@@ -47,6 +47,6 @@ type Channel struct {
 | [Reduce](./reduce.md) | Reduce applies f to acc and every element from channel and returns acc |
 | [Scan](./scan.md) | Scan is like Reduce, but returns slice of f results |
 | [Sum](./sum.md) | Sum returns sum of all elements from channel |
-| [Take](./take.md) | Take takes first n elements from channel c. |
+| [Take](./take.md) | Take takes first count elements from the channel. |
 | [Tee](./tee.md) | Tee returns 2 channels with elements from the input channel |
 | [ToSlice](./toslice.md) | ToSlice returns slice with all elements from channel. |

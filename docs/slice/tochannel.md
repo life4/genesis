@@ -39,6 +39,7 @@ func (s Slice) ToChannel() chan T {
 		for _, el := range s.Data {
 			c <- el
 		}
+		close(c)
 	}()
 	return c
 }

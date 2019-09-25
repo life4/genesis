@@ -49,7 +49,8 @@ func TestSequenceExponential(t *testing.T) {
 	s := Sequence{}
 	f := func(start T, factor T, count int, expected []T) {
 		seq := s.Exponential(start, factor)
-		actual := Channel{seq}.Take(count)
+		seq2 := Channel{seq}.Take(count)
+		actual := Channel{seq2}.ToSlice()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(1, 1, 4, []T{1, 1, 1, 1})

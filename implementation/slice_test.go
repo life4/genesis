@@ -83,6 +83,16 @@ func TestSliceCount(t *testing.T) {
 	f(1, []T{1, 1, 1, 1, 1}, 5)
 }
 
+func TestSliceCycle(t *testing.T) {
+	f := func(count int, given []T, expected []T) {
+		c := Slice{given}.Cycle()
+		seq := Channel{c}.Take(count)
+		actual := Channel{seq}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(5, []T{1, 2}, []T{1, 2, 1, 2, 1})
+}
+
 func TestSliceFilter(t *testing.T) {
 	f := func(given []T, expected []T) {
 		even := func(t T) bool { return (t % 2) == 0 }

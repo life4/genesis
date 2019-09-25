@@ -176,3 +176,16 @@ func TestChannelFilter(t *testing.T) {
 	f([]T{2}, []T{2})
 	f([]T{1, 2, 3, 4}, []T{2, 4})
 }
+
+func TestChannelTake(t *testing.T) {
+	s := Sequence{}
+	f := func(count int, given T, expected []T) {
+		seq := s.Repeat(given)
+		seq2 := Channel{seq}.Take(count)
+		actual := Channel{seq2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []T{})
+	f(1, 1, []T{1})
+	f(2, 1, []T{1, 1})
+}

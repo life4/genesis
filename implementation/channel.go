@@ -166,12 +166,23 @@ func (c Channel) Sum() T {
 	return sum
 }
 
-// Take takes first n elements from channel c.
-func (c Channel) Take(n int) []T {
-	result := make([]T, 0, n)
-	for i := 0; i < n; i++ {
-		result = append(result, <-c.Data)
-	}
+// Take takes first count elements from the channel.
+func (c Channel) Take(count int) chan T {
+	result := make(chan T, 1)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for el := range c.Data {
+			result <- el
+			i++
+			if i == count {
+				return
+			}
+		}
+	}()
 	return result
 }
 

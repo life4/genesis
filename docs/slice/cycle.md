@@ -36,6 +36,10 @@ Generic types: T.
 func (s Slice) Cycle() chan T {
 	c := make(chan T, 1)
 	go func() {
+		defer close(c)
+		if len(s.Data) == 0 {
+			return
+		}
 		for {
 			for _, val := range s.Data {
 				c <- val
@@ -46,3 +50,16 @@ func (s Slice) Cycle() chan T {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceCycle(t *testing.T) {
+	f := func(count int, given []T, expected []T) {
+		c := Slice{given}.Cycle()
+		seq := Channel{c}.Take(count)
+		actual := Channel{seq}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(5, []T{1, 2}, []T{1, 2, 1, 2, 1})
+}
+```
