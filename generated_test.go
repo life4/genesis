@@ -147,6 +147,19 @@ func TestSliceCountInt(t *testing.T) {
 	f(1, []int{1, 1, 1, 1, 1}, 5)
 }
 
+func TestSliceCountByInt(t *testing.T) {
+	f := func(given []int, expected int) {
+		even := func(t int) bool { return (t % 2) == 0 }
+		actual := SliceInt{given}.CountBy(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 0)
+	f([]int{2}, 1)
+	f([]int{1, 2, 3, 4, 5}, 2)
+	f([]int{1, 2, 3, 4, 5, 6}, 3)
+}
+
 func TestSliceCycleInt(t *testing.T) {
 	f := func(count int, given []int, expected []int) {
 		c := SliceInt{given}.Cycle()
@@ -895,6 +908,19 @@ func TestSliceCountInt8(t *testing.T) {
 	f(1, []int8{2, 3, 1, 4, 5}, 1)
 	f(1, []int8{2, 3, 1, 1, 4, 5}, 2)
 	f(1, []int8{1, 1, 1, 1, 1}, 5)
+}
+
+func TestSliceCountByInt8(t *testing.T) {
+	f := func(given []int8, expected int) {
+		even := func(t int8) bool { return (t % 2) == 0 }
+		actual := SliceInt8{given}.CountBy(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 0)
+	f([]int8{2}, 1)
+	f([]int8{1, 2, 3, 4, 5}, 2)
+	f([]int8{1, 2, 3, 4, 5, 6}, 3)
 }
 
 func TestSliceCycleInt8(t *testing.T) {
@@ -1647,6 +1673,19 @@ func TestSliceCountInt16(t *testing.T) {
 	f(1, []int16{1, 1, 1, 1, 1}, 5)
 }
 
+func TestSliceCountByInt16(t *testing.T) {
+	f := func(given []int16, expected int) {
+		even := func(t int16) bool { return (t % 2) == 0 }
+		actual := SliceInt16{given}.CountBy(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 0)
+	f([]int16{2}, 1)
+	f([]int16{1, 2, 3, 4, 5}, 2)
+	f([]int16{1, 2, 3, 4, 5, 6}, 3)
+}
+
 func TestSliceCycleInt16(t *testing.T) {
 	f := func(count int, given []int16, expected []int16) {
 		c := SliceInt16{given}.Cycle()
@@ -2397,6 +2436,19 @@ func TestSliceCountInt32(t *testing.T) {
 	f(1, []int32{1, 1, 1, 1, 1}, 5)
 }
 
+func TestSliceCountByInt32(t *testing.T) {
+	f := func(given []int32, expected int) {
+		even := func(t int32) bool { return (t % 2) == 0 }
+		actual := SliceInt32{given}.CountBy(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 0)
+	f([]int32{2}, 1)
+	f([]int32{1, 2, 3, 4, 5}, 2)
+	f([]int32{1, 2, 3, 4, 5, 6}, 3)
+}
+
 func TestSliceCycleInt32(t *testing.T) {
 	f := func(count int, given []int32, expected []int32) {
 		c := SliceInt32{given}.Cycle()
@@ -3145,6 +3197,19 @@ func TestSliceCountInt64(t *testing.T) {
 	f(1, []int64{2, 3, 1, 4, 5}, 1)
 	f(1, []int64{2, 3, 1, 1, 4, 5}, 2)
 	f(1, []int64{1, 1, 1, 1, 1}, 5)
+}
+
+func TestSliceCountByInt64(t *testing.T) {
+	f := func(given []int64, expected int) {
+		even := func(t int64) bool { return (t % 2) == 0 }
+		actual := SliceInt64{given}.CountBy(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 0)
+	f([]int64{2}, 1)
+	f([]int64{1, 2, 3, 4, 5}, 2)
+	f([]int64{1, 2, 3, 4, 5, 6}, 3)
 }
 
 func TestSliceCycleInt64(t *testing.T) {

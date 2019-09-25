@@ -44,3 +44,19 @@ func (s Slice) CountBy(f func(el T) bool) int {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceCountBy(t *testing.T) {
+	f := func(given []T, expected int) {
+		even := func(t T) bool { return (t % 2) == 0 }
+		actual := Slice{given}.CountBy(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, 0)
+	f([]T{1}, 0)
+	f([]T{2}, 1)
+	f([]T{1, 2, 3, 4, 5}, 2)
+	f([]T{1, 2, 3, 4, 5, 6}, 3)
+}
+```
