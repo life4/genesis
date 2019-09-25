@@ -3370,6 +3370,17 @@ func (s SliceBool) TakeWhile(f func(el bool) bool) []bool {
 	return result
 }
 
+// ToChannel returns channel with elements from the slice
+func (s SliceBool) ToChannel() chan bool {
+	c := make(chan bool, 1)
+	go func() {
+		for _, el := range s.Data {
+			c <- el
+		}
+	}()
+	return c
+}
+
 // Uniq returns arr with only first occurences of every element.
 func (s SliceBool) Uniq() []bool {
 	added := make(map[bool]struct{})
@@ -6929,6 +6940,17 @@ func (s SliceByte) TakeWhile(f func(el byte) bool) []byte {
 	return result
 }
 
+// ToChannel returns channel with elements from the slice
+func (s SliceByte) ToChannel() chan byte {
+	c := make(chan byte, 1)
+	go func() {
+		for _, el := range s.Data {
+			c <- el
+		}
+	}()
+	return c
+}
+
 // Uniq returns arr with only first occurences of every element.
 func (s SliceByte) Uniq() []byte {
 	added := make(map[byte]struct{})
@@ -10486,6 +10508,17 @@ func (s SliceString) TakeWhile(f func(el string) bool) []string {
 		result = append(result, el)
 	}
 	return result
+}
+
+// ToChannel returns channel with elements from the slice
+func (s SliceString) ToChannel() chan string {
+	c := make(chan string, 1)
+	go func() {
+		for _, el := range s.Data {
+			c <- el
+		}
+	}()
+	return c
 }
 
 // Uniq returns arr with only first occurences of every element.
@@ -14077,6 +14110,17 @@ func (s SliceFloat32) TakeWhile(f func(el float32) bool) []float32 {
 	return result
 }
 
+// ToChannel returns channel with elements from the slice
+func (s SliceFloat32) ToChannel() chan float32 {
+	c := make(chan float32, 1)
+	go func() {
+		for _, el := range s.Data {
+			c <- el
+		}
+	}()
+	return c
+}
+
 // Uniq returns arr with only first occurences of every element.
 func (s SliceFloat32) Uniq() []float32 {
 	added := make(map[float32]struct{})
@@ -17664,6 +17708,17 @@ func (s SliceFloat64) TakeWhile(f func(el float64) bool) []float64 {
 		result = append(result, el)
 	}
 	return result
+}
+
+// ToChannel returns channel with elements from the slice
+func (s SliceFloat64) ToChannel() chan float64 {
+	c := make(chan float64, 1)
+	go func() {
+		for _, el := range s.Data {
+			c <- el
+		}
+	}()
+	return c
 }
 
 // Uniq returns arr with only first occurences of every element.
@@ -21264,6 +21319,17 @@ func (s SliceInt) TakeWhile(f func(el int) bool) []int {
 	return result
 }
 
+// ToChannel returns channel with elements from the slice
+func (s SliceInt) ToChannel() chan int {
+	c := make(chan int, 1)
+	go func() {
+		for _, el := range s.Data {
+			c <- el
+		}
+	}()
+	return c
+}
+
 // Uniq returns arr with only first occurences of every element.
 func (s SliceInt) Uniq() []int {
 	added := make(map[int]struct{})
@@ -24860,6 +24926,17 @@ func (s SliceInt8) TakeWhile(f func(el int8) bool) []int8 {
 		result = append(result, el)
 	}
 	return result
+}
+
+// ToChannel returns channel with elements from the slice
+func (s SliceInt8) ToChannel() chan int8 {
+	c := make(chan int8, 1)
+	go func() {
+		for _, el := range s.Data {
+			c <- el
+		}
+	}()
+	return c
 }
 
 // Uniq returns arr with only first occurences of every element.
@@ -28460,6 +28537,17 @@ func (s SliceInt16) TakeWhile(f func(el int16) bool) []int16 {
 	return result
 }
 
+// ToChannel returns channel with elements from the slice
+func (s SliceInt16) ToChannel() chan int16 {
+	c := make(chan int16, 1)
+	go func() {
+		for _, el := range s.Data {
+			c <- el
+		}
+	}()
+	return c
+}
+
 // Uniq returns arr with only first occurences of every element.
 func (s SliceInt16) Uniq() []int16 {
 	added := make(map[int16]struct{})
@@ -32056,6 +32144,17 @@ func (s SliceInt32) TakeWhile(f func(el int32) bool) []int32 {
 		result = append(result, el)
 	}
 	return result
+}
+
+// ToChannel returns channel with elements from the slice
+func (s SliceInt32) ToChannel() chan int32 {
+	c := make(chan int32, 1)
+	go func() {
+		for _, el := range s.Data {
+			c <- el
+		}
+	}()
+	return c
 }
 
 // Uniq returns arr with only first occurences of every element.
@@ -35656,6 +35755,17 @@ func (s SliceInt64) TakeWhile(f func(el int64) bool) []int64 {
 	return result
 }
 
+// ToChannel returns channel with elements from the slice
+func (s SliceInt64) ToChannel() chan int64 {
+	c := make(chan int64, 1)
+	go func() {
+		for _, el := range s.Data {
+			c <- el
+		}
+	}()
+	return c
+}
+
 // Uniq returns arr with only first occurences of every element.
 func (s SliceInt64) Uniq() []int64 {
 	added := make(map[int64]struct{})
@@ -39252,6 +39362,17 @@ func (s SliceUint) TakeWhile(f func(el uint) bool) []uint {
 		result = append(result, el)
 	}
 	return result
+}
+
+// ToChannel returns channel with elements from the slice
+func (s SliceUint) ToChannel() chan uint {
+	c := make(chan uint, 1)
+	go func() {
+		for _, el := range s.Data {
+			c <- el
+		}
+	}()
+	return c
 }
 
 // Uniq returns arr with only first occurences of every element.
@@ -42852,6 +42973,17 @@ func (s SliceUint8) TakeWhile(f func(el uint8) bool) []uint8 {
 	return result
 }
 
+// ToChannel returns channel with elements from the slice
+func (s SliceUint8) ToChannel() chan uint8 {
+	c := make(chan uint8, 1)
+	go func() {
+		for _, el := range s.Data {
+			c <- el
+		}
+	}()
+	return c
+}
+
 // Uniq returns arr with only first occurences of every element.
 func (s SliceUint8) Uniq() []uint8 {
 	added := make(map[uint8]struct{})
@@ -46448,6 +46580,17 @@ func (s SliceUint16) TakeWhile(f func(el uint16) bool) []uint16 {
 		result = append(result, el)
 	}
 	return result
+}
+
+// ToChannel returns channel with elements from the slice
+func (s SliceUint16) ToChannel() chan uint16 {
+	c := make(chan uint16, 1)
+	go func() {
+		for _, el := range s.Data {
+			c <- el
+		}
+	}()
+	return c
 }
 
 // Uniq returns arr with only first occurences of every element.
@@ -50048,6 +50191,17 @@ func (s SliceUint32) TakeWhile(f func(el uint32) bool) []uint32 {
 	return result
 }
 
+// ToChannel returns channel with elements from the slice
+func (s SliceUint32) ToChannel() chan uint32 {
+	c := make(chan uint32, 1)
+	go func() {
+		for _, el := range s.Data {
+			c <- el
+		}
+	}()
+	return c
+}
+
 // Uniq returns arr with only first occurences of every element.
 func (s SliceUint32) Uniq() []uint32 {
 	added := make(map[uint32]struct{})
@@ -53646,6 +53800,17 @@ func (s SliceUint64) TakeWhile(f func(el uint64) bool) []uint64 {
 	return result
 }
 
+// ToChannel returns channel with elements from the slice
+func (s SliceUint64) ToChannel() chan uint64 {
+	c := make(chan uint64, 1)
+	go func() {
+		for _, el := range s.Data {
+			c <- el
+		}
+	}()
+	return c
+}
+
 // Uniq returns arr with only first occurences of every element.
 func (s SliceUint64) Uniq() []uint64 {
 	added := make(map[uint64]struct{})
@@ -57113,6 +57278,17 @@ func (s SliceInterface) TakeWhile(f func(el interface{}) bool) []interface{} {
 		result = append(result, el)
 	}
 	return result
+}
+
+// ToChannel returns channel with elements from the slice
+func (s SliceInterface) ToChannel() chan interface{} {
+	c := make(chan interface{}, 1)
+	go func() {
+		for _, el := range s.Data {
+			c <- el
+		}
+	}()
+	return c
 }
 
 // Uniq returns arr with only first occurences of every element.

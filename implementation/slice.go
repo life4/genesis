@@ -480,6 +480,17 @@ func (s Slice) TakeWhile(f func(el T) bool) []T {
 	return result
 }
 
+// ToChannel returns channel with elements from the slice
+func (s Slice) ToChannel() chan T {
+	c := make(chan T, 1)
+	go func() {
+		for _, el := range s.Data {
+			c <- el
+		}
+	}()
+	return c
+}
+
 // Uniq returns arr with only first occurences of every element.
 func (s Slice) Uniq() []T {
 	added := make(map[T]struct{})

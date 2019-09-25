@@ -70,6 +70,7 @@ type Slice struct {
 | [StartsWith](./startswith.md) | StartsWith returns true if slice starts with the given prefix slice. If prefix is empty, it returns true. |
 | [Sum](./sum.md) | Sum return sum of all elements from arr |
 | [TakeWhile](./takewhile.md) | TakeWhile takes elements from arr while f returns true |
+| [ToChannel](./tochannel.md) | ToChannel returns channel with elements from the slice |
 | [Uniq](./uniq.md) | Uniq returns arr with only first occurences of every element. |
 | [Window](./window.md) | Window makes sliding window for a given slice: ({1,2,3}, 2) -> (1,2), (2,3) |
 | [Without](./without.md) | Without returns the slice with filtered out element |
