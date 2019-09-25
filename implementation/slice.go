@@ -99,6 +99,17 @@ func (s Slice) Count(el T) int {
 	return count
 }
 
+// CountBy returns how many times f returns true.
+func (s Slice) CountBy(f func(el T) bool) int {
+	count := 0
+	for _, el := range s.Data {
+		if f(el) {
+			count++
+		}
+	}
+	return count
+}
+
 // Cycle is an infinite loop over slice
 func (s Slice) Cycle() chan T {
 	c := make(chan T, 1)
@@ -461,6 +472,9 @@ func (s Slice) Split(sep T) [][]T {
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func (s Slice) StartsWith(prefix []T) bool {
+	if len(prefix) > len(s.Data) {
+		return false
+	}
 	for i, el := range prefix {
 		if el != s.Data[i] {
 			return false

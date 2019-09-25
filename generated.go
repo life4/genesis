@@ -2024,6 +2024,17 @@ func (s SliceBool) Count(el bool) int {
 	return count
 }
 
+// CountBy returns how many times f returns true.
+func (s SliceBool) CountBy(f func(el bool) bool) int {
+	count := 0
+	for _, el := range s.Data {
+		if f(el) {
+			count++
+		}
+	}
+	return count
+}
+
 // Cycle is an infinite loop over slice
 func (s SliceBool) Cycle() chan bool {
 	c := make(chan bool, 1)
@@ -3416,6 +3427,9 @@ func (s SliceBool) Split(sep bool) [][]bool {
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func (s SliceBool) StartsWith(prefix []bool) bool {
+	if len(prefix) > len(s.Data) {
+		return false
+	}
 	for i, el := range prefix {
 		if el != s.Data[i] {
 			return false
@@ -5602,6 +5616,17 @@ func (s SliceByte) Count(el byte) int {
 	return count
 }
 
+// CountBy returns how many times f returns true.
+func (s SliceByte) CountBy(f func(el byte) bool) int {
+	count := 0
+	for _, el := range s.Data {
+		if f(el) {
+			count++
+		}
+	}
+	return count
+}
+
 // Cycle is an infinite loop over slice
 func (s SliceByte) Cycle() chan byte {
 	c := make(chan byte, 1)
@@ -7044,6 +7069,9 @@ func (s SliceByte) Split(sep byte) [][]byte {
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func (s SliceByte) StartsWith(prefix []byte) bool {
+	if len(prefix) > len(s.Data) {
+		return false
+	}
 	for i, el := range prefix {
 		if el != s.Data[i] {
 			return false
@@ -9239,6 +9267,17 @@ func (s SliceString) Count(el string) int {
 	return count
 }
 
+// CountBy returns how many times f returns true.
+func (s SliceString) CountBy(f func(el string) bool) int {
+	count := 0
+	for _, el := range s.Data {
+		if f(el) {
+			count++
+		}
+	}
+	return count
+}
+
 // Cycle is an infinite loop over slice
 func (s SliceString) Cycle() chan string {
 	c := make(chan string, 1)
@@ -10681,6 +10720,9 @@ func (s SliceString) Split(sep string) [][]string {
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func (s SliceString) StartsWith(prefix []string) bool {
+	if len(prefix) > len(s.Data) {
+		return false
+	}
 	for i, el := range prefix {
 		if el != s.Data[i] {
 			return false
@@ -12915,6 +12957,17 @@ func (s SliceFloat32) Count(el float32) int {
 	return count
 }
 
+// CountBy returns how many times f returns true.
+func (s SliceFloat32) CountBy(f func(el float32) bool) int {
+	count := 0
+	for _, el := range s.Data {
+		if f(el) {
+			count++
+		}
+	}
+	return count
+}
+
 // Cycle is an infinite loop over slice
 func (s SliceFloat32) Cycle() chan float32 {
 	c := make(chan float32, 1)
@@ -14348,6 +14401,9 @@ func (s SliceFloat32) Split(sep float32) [][]float32 {
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func (s SliceFloat32) StartsWith(prefix []float32) bool {
+	if len(prefix) > len(s.Data) {
+		return false
+	}
 	for i, el := range prefix {
 		if el != s.Data[i] {
 			return false
@@ -16582,6 +16638,17 @@ func (s SliceFloat64) Count(el float64) int {
 	return count
 }
 
+// CountBy returns how many times f returns true.
+func (s SliceFloat64) CountBy(f func(el float64) bool) int {
+	count := 0
+	for _, el := range s.Data {
+		if f(el) {
+			count++
+		}
+	}
+	return count
+}
+
 // Cycle is an infinite loop over slice
 func (s SliceFloat64) Cycle() chan float64 {
 	c := make(chan float64, 1)
@@ -18015,6 +18082,9 @@ func (s SliceFloat64) Split(sep float64) [][]float64 {
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func (s SliceFloat64) StartsWith(prefix []float64) bool {
+	if len(prefix) > len(s.Data) {
+		return false
+	}
 	for i, el := range prefix {
 		if el != s.Data[i] {
 			return false
@@ -20249,6 +20319,17 @@ func (s SliceInt) Count(el int) int {
 	return count
 }
 
+// CountBy returns how many times f returns true.
+func (s SliceInt) CountBy(f func(el int) bool) int {
+	count := 0
+	for _, el := range s.Data {
+		if f(el) {
+			count++
+		}
+	}
+	return count
+}
+
 // Cycle is an infinite loop over slice
 func (s SliceInt) Cycle() chan int {
 	c := make(chan int, 1)
@@ -21691,6 +21772,9 @@ func (s SliceInt) Split(sep int) [][]int {
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func (s SliceInt) StartsWith(prefix []int) bool {
+	if len(prefix) > len(s.Data) {
+		return false
+	}
 	for i, el := range prefix {
 		if el != s.Data[i] {
 			return false
@@ -23925,6 +24009,17 @@ func (s SliceInt8) Count(el int8) int {
 	return count
 }
 
+// CountBy returns how many times f returns true.
+func (s SliceInt8) CountBy(f func(el int8) bool) int {
+	count := 0
+	for _, el := range s.Data {
+		if f(el) {
+			count++
+		}
+	}
+	return count
+}
+
 // Cycle is an infinite loop over slice
 func (s SliceInt8) Cycle() chan int8 {
 	c := make(chan int8, 1)
@@ -25367,6 +25462,9 @@ func (s SliceInt8) Split(sep int8) [][]int8 {
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func (s SliceInt8) StartsWith(prefix []int8) bool {
+	if len(prefix) > len(s.Data) {
+		return false
+	}
 	for i, el := range prefix {
 		if el != s.Data[i] {
 			return false
@@ -27601,6 +27699,17 @@ func (s SliceInt16) Count(el int16) int {
 	return count
 }
 
+// CountBy returns how many times f returns true.
+func (s SliceInt16) CountBy(f func(el int16) bool) int {
+	count := 0
+	for _, el := range s.Data {
+		if f(el) {
+			count++
+		}
+	}
+	return count
+}
+
 // Cycle is an infinite loop over slice
 func (s SliceInt16) Cycle() chan int16 {
 	c := make(chan int16, 1)
@@ -29043,6 +29152,9 @@ func (s SliceInt16) Split(sep int16) [][]int16 {
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func (s SliceInt16) StartsWith(prefix []int16) bool {
+	if len(prefix) > len(s.Data) {
+		return false
+	}
 	for i, el := range prefix {
 		if el != s.Data[i] {
 			return false
@@ -31277,6 +31389,17 @@ func (s SliceInt32) Count(el int32) int {
 	return count
 }
 
+// CountBy returns how many times f returns true.
+func (s SliceInt32) CountBy(f func(el int32) bool) int {
+	count := 0
+	for _, el := range s.Data {
+		if f(el) {
+			count++
+		}
+	}
+	return count
+}
+
 // Cycle is an infinite loop over slice
 func (s SliceInt32) Cycle() chan int32 {
 	c := make(chan int32, 1)
@@ -32719,6 +32842,9 @@ func (s SliceInt32) Split(sep int32) [][]int32 {
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func (s SliceInt32) StartsWith(prefix []int32) bool {
+	if len(prefix) > len(s.Data) {
+		return false
+	}
 	for i, el := range prefix {
 		if el != s.Data[i] {
 			return false
@@ -34953,6 +35079,17 @@ func (s SliceInt64) Count(el int64) int {
 	return count
 }
 
+// CountBy returns how many times f returns true.
+func (s SliceInt64) CountBy(f func(el int64) bool) int {
+	count := 0
+	for _, el := range s.Data {
+		if f(el) {
+			count++
+		}
+	}
+	return count
+}
+
 // Cycle is an infinite loop over slice
 func (s SliceInt64) Cycle() chan int64 {
 	c := make(chan int64, 1)
@@ -36395,6 +36532,9 @@ func (s SliceInt64) Split(sep int64) [][]int64 {
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func (s SliceInt64) StartsWith(prefix []int64) bool {
+	if len(prefix) > len(s.Data) {
+		return false
+	}
 	for i, el := range prefix {
 		if el != s.Data[i] {
 			return false
@@ -38629,6 +38769,17 @@ func (s SliceUint) Count(el uint) int {
 	return count
 }
 
+// CountBy returns how many times f returns true.
+func (s SliceUint) CountBy(f func(el uint) bool) int {
+	count := 0
+	for _, el := range s.Data {
+		if f(el) {
+			count++
+		}
+	}
+	return count
+}
+
 // Cycle is an infinite loop over slice
 func (s SliceUint) Cycle() chan uint {
 	c := make(chan uint, 1)
@@ -40071,6 +40222,9 @@ func (s SliceUint) Split(sep uint) [][]uint {
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func (s SliceUint) StartsWith(prefix []uint) bool {
+	if len(prefix) > len(s.Data) {
+		return false
+	}
 	for i, el := range prefix {
 		if el != s.Data[i] {
 			return false
@@ -42305,6 +42459,17 @@ func (s SliceUint8) Count(el uint8) int {
 	return count
 }
 
+// CountBy returns how many times f returns true.
+func (s SliceUint8) CountBy(f func(el uint8) bool) int {
+	count := 0
+	for _, el := range s.Data {
+		if f(el) {
+			count++
+		}
+	}
+	return count
+}
+
 // Cycle is an infinite loop over slice
 func (s SliceUint8) Cycle() chan uint8 {
 	c := make(chan uint8, 1)
@@ -43747,6 +43912,9 @@ func (s SliceUint8) Split(sep uint8) [][]uint8 {
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func (s SliceUint8) StartsWith(prefix []uint8) bool {
+	if len(prefix) > len(s.Data) {
+		return false
+	}
 	for i, el := range prefix {
 		if el != s.Data[i] {
 			return false
@@ -45981,6 +46149,17 @@ func (s SliceUint16) Count(el uint16) int {
 	return count
 }
 
+// CountBy returns how many times f returns true.
+func (s SliceUint16) CountBy(f func(el uint16) bool) int {
+	count := 0
+	for _, el := range s.Data {
+		if f(el) {
+			count++
+		}
+	}
+	return count
+}
+
 // Cycle is an infinite loop over slice
 func (s SliceUint16) Cycle() chan uint16 {
 	c := make(chan uint16, 1)
@@ -47423,6 +47602,9 @@ func (s SliceUint16) Split(sep uint16) [][]uint16 {
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func (s SliceUint16) StartsWith(prefix []uint16) bool {
+	if len(prefix) > len(s.Data) {
+		return false
+	}
 	for i, el := range prefix {
 		if el != s.Data[i] {
 			return false
@@ -49657,6 +49839,17 @@ func (s SliceUint32) Count(el uint32) int {
 	return count
 }
 
+// CountBy returns how many times f returns true.
+func (s SliceUint32) CountBy(f func(el uint32) bool) int {
+	count := 0
+	for _, el := range s.Data {
+		if f(el) {
+			count++
+		}
+	}
+	return count
+}
+
 // Cycle is an infinite loop over slice
 func (s SliceUint32) Cycle() chan uint32 {
 	c := make(chan uint32, 1)
@@ -51099,6 +51292,9 @@ func (s SliceUint32) Split(sep uint32) [][]uint32 {
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func (s SliceUint32) StartsWith(prefix []uint32) bool {
+	if len(prefix) > len(s.Data) {
+		return false
+	}
 	for i, el := range prefix {
 		if el != s.Data[i] {
 			return false
@@ -53333,6 +53529,17 @@ func (s SliceUint64) Count(el uint64) int {
 	return count
 }
 
+// CountBy returns how many times f returns true.
+func (s SliceUint64) CountBy(f func(el uint64) bool) int {
+	count := 0
+	for _, el := range s.Data {
+		if f(el) {
+			count++
+		}
+	}
+	return count
+}
+
 // Cycle is an infinite loop over slice
 func (s SliceUint64) Cycle() chan uint64 {
 	c := make(chan uint64, 1)
@@ -54775,6 +54982,9 @@ func (s SliceUint64) Split(sep uint64) [][]uint64 {
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func (s SliceUint64) StartsWith(prefix []uint64) bool {
+	if len(prefix) > len(s.Data) {
+		return false
+	}
 	for i, el := range prefix {
 		if el != s.Data[i] {
 			return false
@@ -56939,6 +57149,17 @@ func (s SliceInterface) Count(el interface{}) int {
 	return count
 }
 
+// CountBy returns how many times f returns true.
+func (s SliceInterface) CountBy(f func(el interface{}) bool) int {
+	count := 0
+	for _, el := range s.Data {
+		if f(el) {
+			count++
+		}
+	}
+	return count
+}
+
 // Cycle is an infinite loop over slice
 func (s SliceInterface) Cycle() chan interface{} {
 	c := make(chan interface{}, 1)
@@ -58331,6 +58552,9 @@ func (s SliceInterface) Split(sep interface{}) [][]interface{} {
 // StartsWith returns true if slice starts with the given prefix slice.
 // If prefix is empty, it returns true.
 func (s SliceInterface) StartsWith(prefix []interface{}) bool {
+	if len(prefix) > len(s.Data) {
+		return false
+	}
 	for i, el := range prefix {
 		if el != s.Data[i] {
 			return false

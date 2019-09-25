@@ -40,6 +40,7 @@ type Slice struct {
 | [ChunkEvery](./chunkevery.md) | ChunkEvery returns slice of slices containing count elements each |
 | [Contains](./contains.md) | Contains returns true if el in arr. |
 | [Count](./count.md) | Count return count of el occurences in arr. |
+| [CountBy](./countby.md) | CountBy returns how many times f returns true. |
 | [Cycle](./cycle.md) | Cycle is an infinite loop over slice |
 | [Dedup](./dedup.md) | Dedup returns a given slice without consecutive duplicated elements |
 | [DedupBy](./dedupby.md) | DedupBy returns a given slice without consecutive elements For which f returns the same result |

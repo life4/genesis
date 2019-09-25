@@ -1,10 +1,10 @@
-# Slice.StartsWith
+# Slice.CountBy
 
 ```go
-func (s Slice) StartsWith(prefix []T) bool
+func (s Slice) CountBy(f func(el T) bool) int
 ```
 
-StartsWith returns true if slice starts with the given prefix slice. If prefix is empty, it returns true.
+CountBy returns how many times f returns true.
 
 Generic types: T.
 
@@ -32,18 +32,15 @@ Generic types: T.
 ## Source
 
 ```go
-// StartsWith returns true if slice starts with the given prefix slice.
-// If prefix is empty, it returns true.
-func (s Slice) StartsWith(prefix []T) bool {
-	if len(prefix) > len(s.Data) {
-		return false
-	}
-	for i, el := range prefix {
-		if el != s.Data[i] {
-			return false
+// CountBy returns how many times f returns true.
+func (s Slice) CountBy(f func(el T) bool) int {
+	count := 0
+	for _, el := range s.Data {
+		if f(el) {
+			count++
 		}
 	}
-	return true
+	return count
 }
 ```
 
