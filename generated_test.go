@@ -173,6 +173,81 @@ func TestSliceDedupInt(t *testing.T) {
 	f([]int{1, 2, 2, 3, 3, 3, 2, 1, 1}, []int{1, 2, 3, 2, 1})
 }
 
+func TestSliceDedupByIntInt(t *testing.T) {
+	f := func(given []int, expected []int) {
+		even := func(el int) int { return int(el % 2) }
+		actual := SliceInt{given}.DedupByInt(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{1})
+	f([]int{1, 1}, []int{1})
+	f([]int{1, 2}, []int{1, 2})
+	f([]int{1, 2, 3}, []int{1, 2, 3})
+	f([]int{1, 2, 2, 3}, []int{1, 2, 3})
+	f([]int{1, 2, 4, 3, 5, 7, 10}, []int{1, 2, 3, 10})
+}
+
+func TestSliceDedupByIntInt8(t *testing.T) {
+	f := func(given []int, expected []int) {
+		even := func(el int) int8 { return int8(el % 2) }
+		actual := SliceInt{given}.DedupByInt8(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{1})
+	f([]int{1, 1}, []int{1})
+	f([]int{1, 2}, []int{1, 2})
+	f([]int{1, 2, 3}, []int{1, 2, 3})
+	f([]int{1, 2, 2, 3}, []int{1, 2, 3})
+	f([]int{1, 2, 4, 3, 5, 7, 10}, []int{1, 2, 3, 10})
+}
+
+func TestSliceDedupByIntInt16(t *testing.T) {
+	f := func(given []int, expected []int) {
+		even := func(el int) int16 { return int16(el % 2) }
+		actual := SliceInt{given}.DedupByInt16(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{1})
+	f([]int{1, 1}, []int{1})
+	f([]int{1, 2}, []int{1, 2})
+	f([]int{1, 2, 3}, []int{1, 2, 3})
+	f([]int{1, 2, 2, 3}, []int{1, 2, 3})
+	f([]int{1, 2, 4, 3, 5, 7, 10}, []int{1, 2, 3, 10})
+}
+
+func TestSliceDedupByIntInt32(t *testing.T) {
+	f := func(given []int, expected []int) {
+		even := func(el int) int32 { return int32(el % 2) }
+		actual := SliceInt{given}.DedupByInt32(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{1})
+	f([]int{1, 1}, []int{1})
+	f([]int{1, 2}, []int{1, 2})
+	f([]int{1, 2, 3}, []int{1, 2, 3})
+	f([]int{1, 2, 2, 3}, []int{1, 2, 3})
+	f([]int{1, 2, 4, 3, 5, 7, 10}, []int{1, 2, 3, 10})
+}
+
+func TestSliceDedupByIntInt64(t *testing.T) {
+	f := func(given []int, expected []int) {
+		even := func(el int) int64 { return int64(el % 2) }
+		actual := SliceInt{given}.DedupByInt64(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{1})
+	f([]int{1, 1}, []int{1})
+	f([]int{1, 2}, []int{1, 2})
+	f([]int{1, 2, 3}, []int{1, 2, 3})
+	f([]int{1, 2, 2, 3}, []int{1, 2, 3})
+	f([]int{1, 2, 4, 3, 5, 7, 10}, []int{1, 2, 3, 10})
+}
+
 func TestSliceFilterInt(t *testing.T) {
 	f := func(given []int, expected []int) {
 		even := func(t int) bool { return (t % 2) == 0 }
@@ -846,6 +921,81 @@ func TestSliceDedupInt8(t *testing.T) {
 	f([]int8{1, 2, 3}, []int8{1, 2, 3})
 	f([]int8{1, 2, 2, 3}, []int8{1, 2, 3})
 	f([]int8{1, 2, 2, 3, 3, 3, 2, 1, 1}, []int8{1, 2, 3, 2, 1})
+}
+
+func TestSliceDedupByInt8Int(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		even := func(el int8) int { return int(el % 2) }
+		actual := SliceInt8{given}.DedupByInt(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{1})
+	f([]int8{1, 1}, []int8{1})
+	f([]int8{1, 2}, []int8{1, 2})
+	f([]int8{1, 2, 3}, []int8{1, 2, 3})
+	f([]int8{1, 2, 2, 3}, []int8{1, 2, 3})
+	f([]int8{1, 2, 4, 3, 5, 7, 10}, []int8{1, 2, 3, 10})
+}
+
+func TestSliceDedupByInt8Int8(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		even := func(el int8) int8 { return int8(el % 2) }
+		actual := SliceInt8{given}.DedupByInt8(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{1})
+	f([]int8{1, 1}, []int8{1})
+	f([]int8{1, 2}, []int8{1, 2})
+	f([]int8{1, 2, 3}, []int8{1, 2, 3})
+	f([]int8{1, 2, 2, 3}, []int8{1, 2, 3})
+	f([]int8{1, 2, 4, 3, 5, 7, 10}, []int8{1, 2, 3, 10})
+}
+
+func TestSliceDedupByInt8Int16(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		even := func(el int8) int16 { return int16(el % 2) }
+		actual := SliceInt8{given}.DedupByInt16(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{1})
+	f([]int8{1, 1}, []int8{1})
+	f([]int8{1, 2}, []int8{1, 2})
+	f([]int8{1, 2, 3}, []int8{1, 2, 3})
+	f([]int8{1, 2, 2, 3}, []int8{1, 2, 3})
+	f([]int8{1, 2, 4, 3, 5, 7, 10}, []int8{1, 2, 3, 10})
+}
+
+func TestSliceDedupByInt8Int32(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		even := func(el int8) int32 { return int32(el % 2) }
+		actual := SliceInt8{given}.DedupByInt32(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{1})
+	f([]int8{1, 1}, []int8{1})
+	f([]int8{1, 2}, []int8{1, 2})
+	f([]int8{1, 2, 3}, []int8{1, 2, 3})
+	f([]int8{1, 2, 2, 3}, []int8{1, 2, 3})
+	f([]int8{1, 2, 4, 3, 5, 7, 10}, []int8{1, 2, 3, 10})
+}
+
+func TestSliceDedupByInt8Int64(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		even := func(el int8) int64 { return int64(el % 2) }
+		actual := SliceInt8{given}.DedupByInt64(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{1})
+	f([]int8{1, 1}, []int8{1})
+	f([]int8{1, 2}, []int8{1, 2})
+	f([]int8{1, 2, 3}, []int8{1, 2, 3})
+	f([]int8{1, 2, 2, 3}, []int8{1, 2, 3})
+	f([]int8{1, 2, 4, 3, 5, 7, 10}, []int8{1, 2, 3, 10})
 }
 
 func TestSliceFilterInt8(t *testing.T) {
@@ -1523,6 +1673,81 @@ func TestSliceDedupInt16(t *testing.T) {
 	f([]int16{1, 2, 2, 3, 3, 3, 2, 1, 1}, []int16{1, 2, 3, 2, 1})
 }
 
+func TestSliceDedupByInt16Int(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		even := func(el int16) int { return int(el % 2) }
+		actual := SliceInt16{given}.DedupByInt(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{1})
+	f([]int16{1, 1}, []int16{1})
+	f([]int16{1, 2}, []int16{1, 2})
+	f([]int16{1, 2, 3}, []int16{1, 2, 3})
+	f([]int16{1, 2, 2, 3}, []int16{1, 2, 3})
+	f([]int16{1, 2, 4, 3, 5, 7, 10}, []int16{1, 2, 3, 10})
+}
+
+func TestSliceDedupByInt16Int8(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		even := func(el int16) int8 { return int8(el % 2) }
+		actual := SliceInt16{given}.DedupByInt8(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{1})
+	f([]int16{1, 1}, []int16{1})
+	f([]int16{1, 2}, []int16{1, 2})
+	f([]int16{1, 2, 3}, []int16{1, 2, 3})
+	f([]int16{1, 2, 2, 3}, []int16{1, 2, 3})
+	f([]int16{1, 2, 4, 3, 5, 7, 10}, []int16{1, 2, 3, 10})
+}
+
+func TestSliceDedupByInt16Int16(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		even := func(el int16) int16 { return int16(el % 2) }
+		actual := SliceInt16{given}.DedupByInt16(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{1})
+	f([]int16{1, 1}, []int16{1})
+	f([]int16{1, 2}, []int16{1, 2})
+	f([]int16{1, 2, 3}, []int16{1, 2, 3})
+	f([]int16{1, 2, 2, 3}, []int16{1, 2, 3})
+	f([]int16{1, 2, 4, 3, 5, 7, 10}, []int16{1, 2, 3, 10})
+}
+
+func TestSliceDedupByInt16Int32(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		even := func(el int16) int32 { return int32(el % 2) }
+		actual := SliceInt16{given}.DedupByInt32(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{1})
+	f([]int16{1, 1}, []int16{1})
+	f([]int16{1, 2}, []int16{1, 2})
+	f([]int16{1, 2, 3}, []int16{1, 2, 3})
+	f([]int16{1, 2, 2, 3}, []int16{1, 2, 3})
+	f([]int16{1, 2, 4, 3, 5, 7, 10}, []int16{1, 2, 3, 10})
+}
+
+func TestSliceDedupByInt16Int64(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		even := func(el int16) int64 { return int64(el % 2) }
+		actual := SliceInt16{given}.DedupByInt64(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{1})
+	f([]int16{1, 1}, []int16{1})
+	f([]int16{1, 2}, []int16{1, 2})
+	f([]int16{1, 2, 3}, []int16{1, 2, 3})
+	f([]int16{1, 2, 2, 3}, []int16{1, 2, 3})
+	f([]int16{1, 2, 4, 3, 5, 7, 10}, []int16{1, 2, 3, 10})
+}
+
 func TestSliceFilterInt16(t *testing.T) {
 	f := func(given []int16, expected []int16) {
 		even := func(t int16) bool { return (t % 2) == 0 }
@@ -2198,6 +2423,81 @@ func TestSliceDedupInt32(t *testing.T) {
 	f([]int32{1, 2, 2, 3, 3, 3, 2, 1, 1}, []int32{1, 2, 3, 2, 1})
 }
 
+func TestSliceDedupByInt32Int(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		even := func(el int32) int { return int(el % 2) }
+		actual := SliceInt32{given}.DedupByInt(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{1})
+	f([]int32{1, 1}, []int32{1})
+	f([]int32{1, 2}, []int32{1, 2})
+	f([]int32{1, 2, 3}, []int32{1, 2, 3})
+	f([]int32{1, 2, 2, 3}, []int32{1, 2, 3})
+	f([]int32{1, 2, 4, 3, 5, 7, 10}, []int32{1, 2, 3, 10})
+}
+
+func TestSliceDedupByInt32Int8(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		even := func(el int32) int8 { return int8(el % 2) }
+		actual := SliceInt32{given}.DedupByInt8(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{1})
+	f([]int32{1, 1}, []int32{1})
+	f([]int32{1, 2}, []int32{1, 2})
+	f([]int32{1, 2, 3}, []int32{1, 2, 3})
+	f([]int32{1, 2, 2, 3}, []int32{1, 2, 3})
+	f([]int32{1, 2, 4, 3, 5, 7, 10}, []int32{1, 2, 3, 10})
+}
+
+func TestSliceDedupByInt32Int16(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		even := func(el int32) int16 { return int16(el % 2) }
+		actual := SliceInt32{given}.DedupByInt16(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{1})
+	f([]int32{1, 1}, []int32{1})
+	f([]int32{1, 2}, []int32{1, 2})
+	f([]int32{1, 2, 3}, []int32{1, 2, 3})
+	f([]int32{1, 2, 2, 3}, []int32{1, 2, 3})
+	f([]int32{1, 2, 4, 3, 5, 7, 10}, []int32{1, 2, 3, 10})
+}
+
+func TestSliceDedupByInt32Int32(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		even := func(el int32) int32 { return int32(el % 2) }
+		actual := SliceInt32{given}.DedupByInt32(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{1})
+	f([]int32{1, 1}, []int32{1})
+	f([]int32{1, 2}, []int32{1, 2})
+	f([]int32{1, 2, 3}, []int32{1, 2, 3})
+	f([]int32{1, 2, 2, 3}, []int32{1, 2, 3})
+	f([]int32{1, 2, 4, 3, 5, 7, 10}, []int32{1, 2, 3, 10})
+}
+
+func TestSliceDedupByInt32Int64(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		even := func(el int32) int64 { return int64(el % 2) }
+		actual := SliceInt32{given}.DedupByInt64(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{1})
+	f([]int32{1, 1}, []int32{1})
+	f([]int32{1, 2}, []int32{1, 2})
+	f([]int32{1, 2, 3}, []int32{1, 2, 3})
+	f([]int32{1, 2, 2, 3}, []int32{1, 2, 3})
+	f([]int32{1, 2, 4, 3, 5, 7, 10}, []int32{1, 2, 3, 10})
+}
+
 func TestSliceFilterInt32(t *testing.T) {
 	f := func(given []int32, expected []int32) {
 		even := func(t int32) bool { return (t % 2) == 0 }
@@ -2871,6 +3171,81 @@ func TestSliceDedupInt64(t *testing.T) {
 	f([]int64{1, 2, 3}, []int64{1, 2, 3})
 	f([]int64{1, 2, 2, 3}, []int64{1, 2, 3})
 	f([]int64{1, 2, 2, 3, 3, 3, 2, 1, 1}, []int64{1, 2, 3, 2, 1})
+}
+
+func TestSliceDedupByInt64Int(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		even := func(el int64) int { return int(el % 2) }
+		actual := SliceInt64{given}.DedupByInt(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{1})
+	f([]int64{1, 1}, []int64{1})
+	f([]int64{1, 2}, []int64{1, 2})
+	f([]int64{1, 2, 3}, []int64{1, 2, 3})
+	f([]int64{1, 2, 2, 3}, []int64{1, 2, 3})
+	f([]int64{1, 2, 4, 3, 5, 7, 10}, []int64{1, 2, 3, 10})
+}
+
+func TestSliceDedupByInt64Int8(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		even := func(el int64) int8 { return int8(el % 2) }
+		actual := SliceInt64{given}.DedupByInt8(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{1})
+	f([]int64{1, 1}, []int64{1})
+	f([]int64{1, 2}, []int64{1, 2})
+	f([]int64{1, 2, 3}, []int64{1, 2, 3})
+	f([]int64{1, 2, 2, 3}, []int64{1, 2, 3})
+	f([]int64{1, 2, 4, 3, 5, 7, 10}, []int64{1, 2, 3, 10})
+}
+
+func TestSliceDedupByInt64Int16(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		even := func(el int64) int16 { return int16(el % 2) }
+		actual := SliceInt64{given}.DedupByInt16(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{1})
+	f([]int64{1, 1}, []int64{1})
+	f([]int64{1, 2}, []int64{1, 2})
+	f([]int64{1, 2, 3}, []int64{1, 2, 3})
+	f([]int64{1, 2, 2, 3}, []int64{1, 2, 3})
+	f([]int64{1, 2, 4, 3, 5, 7, 10}, []int64{1, 2, 3, 10})
+}
+
+func TestSliceDedupByInt64Int32(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		even := func(el int64) int32 { return int32(el % 2) }
+		actual := SliceInt64{given}.DedupByInt32(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{1})
+	f([]int64{1, 1}, []int64{1})
+	f([]int64{1, 2}, []int64{1, 2})
+	f([]int64{1, 2, 3}, []int64{1, 2, 3})
+	f([]int64{1, 2, 2, 3}, []int64{1, 2, 3})
+	f([]int64{1, 2, 4, 3, 5, 7, 10}, []int64{1, 2, 3, 10})
+}
+
+func TestSliceDedupByInt64Int64(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		even := func(el int64) int64 { return int64(el % 2) }
+		actual := SliceInt64{given}.DedupByInt64(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{1})
+	f([]int64{1, 1}, []int64{1})
+	f([]int64{1, 2}, []int64{1, 2})
+	f([]int64{1, 2, 3}, []int64{1, 2, 3})
+	f([]int64{1, 2, 2, 3}, []int64{1, 2, 3})
+	f([]int64{1, 2, 4, 3, 5, 7, 10}, []int64{1, 2, 3, 10})
 }
 
 func TestSliceFilterInt64(t *testing.T) {

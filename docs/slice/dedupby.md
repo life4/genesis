@@ -57,6 +57,9 @@ Generic types: G, T.
 // For which f returns the same result
 func (s Slice) DedupBy(f func(el T) G) []T {
 	result := make([]T, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -71,3 +74,21 @@ func (s Slice) DedupBy(f func(el T) G) []T {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceDedupBy(t *testing.T) {
+	f := func(given []T, expected []T) {
+		even := func(el T) G { return G(el % 2) }
+		actual := Slice{given}.DedupBy(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{})
+	f([]T{1}, []T{1})
+	f([]T{1, 1}, []T{1})
+	f([]T{1, 2}, []T{1, 2})
+	f([]T{1, 2, 3}, []T{1, 2, 3})
+	f([]T{1, 2, 2, 3}, []T{1, 2, 3})
+	f([]T{1, 2, 4, 3, 5, 7, 10}, []T{1, 2, 3, 10})
+}
+```

@@ -138,6 +138,9 @@ func (s Slice) Dedup() []T {
 // For which f returns the same result
 func (s Slice) DedupBy(f func(el T) G) []T {
 	result := make([]T, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])

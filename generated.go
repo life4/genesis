@@ -2063,6 +2063,9 @@ func (s SliceBool) Dedup() []bool {
 // For which f returns the same result
 func (s SliceBool) DedupByBool(f func(el bool) bool) []bool {
 	result := make([]bool, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -2080,6 +2083,9 @@ func (s SliceBool) DedupByBool(f func(el bool) bool) []bool {
 // For which f returns the same result
 func (s SliceBool) DedupByByte(f func(el bool) byte) []bool {
 	result := make([]bool, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -2097,6 +2103,9 @@ func (s SliceBool) DedupByByte(f func(el bool) byte) []bool {
 // For which f returns the same result
 func (s SliceBool) DedupByString(f func(el bool) string) []bool {
 	result := make([]bool, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -2114,6 +2123,9 @@ func (s SliceBool) DedupByString(f func(el bool) string) []bool {
 // For which f returns the same result
 func (s SliceBool) DedupByFloat32(f func(el bool) float32) []bool {
 	result := make([]bool, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -2131,6 +2143,9 @@ func (s SliceBool) DedupByFloat32(f func(el bool) float32) []bool {
 // For which f returns the same result
 func (s SliceBool) DedupByFloat64(f func(el bool) float64) []bool {
 	result := make([]bool, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -2148,6 +2163,9 @@ func (s SliceBool) DedupByFloat64(f func(el bool) float64) []bool {
 // For which f returns the same result
 func (s SliceBool) DedupByInt(f func(el bool) int) []bool {
 	result := make([]bool, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -2165,6 +2183,9 @@ func (s SliceBool) DedupByInt(f func(el bool) int) []bool {
 // For which f returns the same result
 func (s SliceBool) DedupByInt8(f func(el bool) int8) []bool {
 	result := make([]bool, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -2182,6 +2203,9 @@ func (s SliceBool) DedupByInt8(f func(el bool) int8) []bool {
 // For which f returns the same result
 func (s SliceBool) DedupByInt16(f func(el bool) int16) []bool {
 	result := make([]bool, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -2199,6 +2223,9 @@ func (s SliceBool) DedupByInt16(f func(el bool) int16) []bool {
 // For which f returns the same result
 func (s SliceBool) DedupByInt32(f func(el bool) int32) []bool {
 	result := make([]bool, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -2216,6 +2243,9 @@ func (s SliceBool) DedupByInt32(f func(el bool) int32) []bool {
 // For which f returns the same result
 func (s SliceBool) DedupByInt64(f func(el bool) int64) []bool {
 	result := make([]bool, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -2233,6 +2263,9 @@ func (s SliceBool) DedupByInt64(f func(el bool) int64) []bool {
 // For which f returns the same result
 func (s SliceBool) DedupByUint(f func(el bool) uint) []bool {
 	result := make([]bool, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -2250,6 +2283,9 @@ func (s SliceBool) DedupByUint(f func(el bool) uint) []bool {
 // For which f returns the same result
 func (s SliceBool) DedupByUint8(f func(el bool) uint8) []bool {
 	result := make([]bool, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -2267,6 +2303,9 @@ func (s SliceBool) DedupByUint8(f func(el bool) uint8) []bool {
 // For which f returns the same result
 func (s SliceBool) DedupByUint16(f func(el bool) uint16) []bool {
 	result := make([]bool, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -2284,6 +2323,9 @@ func (s SliceBool) DedupByUint16(f func(el bool) uint16) []bool {
 // For which f returns the same result
 func (s SliceBool) DedupByUint32(f func(el bool) uint32) []bool {
 	result := make([]bool, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -2301,6 +2343,9 @@ func (s SliceBool) DedupByUint32(f func(el bool) uint32) []bool {
 // For which f returns the same result
 func (s SliceBool) DedupByUint64(f func(el bool) uint64) []bool {
 	result := make([]bool, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -2318,6 +2363,9 @@ func (s SliceBool) DedupByUint64(f func(el bool) uint64) []bool {
 // For which f returns the same result
 func (s SliceBool) DedupByInterface(f func(el bool) interface{}) []bool {
 	result := make([]bool, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -5593,6 +5641,9 @@ func (s SliceByte) Dedup() []byte {
 // For which f returns the same result
 func (s SliceByte) DedupByBool(f func(el byte) bool) []byte {
 	result := make([]byte, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -5610,6 +5661,9 @@ func (s SliceByte) DedupByBool(f func(el byte) bool) []byte {
 // For which f returns the same result
 func (s SliceByte) DedupByByte(f func(el byte) byte) []byte {
 	result := make([]byte, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -5627,6 +5681,9 @@ func (s SliceByte) DedupByByte(f func(el byte) byte) []byte {
 // For which f returns the same result
 func (s SliceByte) DedupByString(f func(el byte) string) []byte {
 	result := make([]byte, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -5644,6 +5701,9 @@ func (s SliceByte) DedupByString(f func(el byte) string) []byte {
 // For which f returns the same result
 func (s SliceByte) DedupByFloat32(f func(el byte) float32) []byte {
 	result := make([]byte, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -5661,6 +5721,9 @@ func (s SliceByte) DedupByFloat32(f func(el byte) float32) []byte {
 // For which f returns the same result
 func (s SliceByte) DedupByFloat64(f func(el byte) float64) []byte {
 	result := make([]byte, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -5678,6 +5741,9 @@ func (s SliceByte) DedupByFloat64(f func(el byte) float64) []byte {
 // For which f returns the same result
 func (s SliceByte) DedupByInt(f func(el byte) int) []byte {
 	result := make([]byte, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -5695,6 +5761,9 @@ func (s SliceByte) DedupByInt(f func(el byte) int) []byte {
 // For which f returns the same result
 func (s SliceByte) DedupByInt8(f func(el byte) int8) []byte {
 	result := make([]byte, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -5712,6 +5781,9 @@ func (s SliceByte) DedupByInt8(f func(el byte) int8) []byte {
 // For which f returns the same result
 func (s SliceByte) DedupByInt16(f func(el byte) int16) []byte {
 	result := make([]byte, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -5729,6 +5801,9 @@ func (s SliceByte) DedupByInt16(f func(el byte) int16) []byte {
 // For which f returns the same result
 func (s SliceByte) DedupByInt32(f func(el byte) int32) []byte {
 	result := make([]byte, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -5746,6 +5821,9 @@ func (s SliceByte) DedupByInt32(f func(el byte) int32) []byte {
 // For which f returns the same result
 func (s SliceByte) DedupByInt64(f func(el byte) int64) []byte {
 	result := make([]byte, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -5763,6 +5841,9 @@ func (s SliceByte) DedupByInt64(f func(el byte) int64) []byte {
 // For which f returns the same result
 func (s SliceByte) DedupByUint(f func(el byte) uint) []byte {
 	result := make([]byte, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -5780,6 +5861,9 @@ func (s SliceByte) DedupByUint(f func(el byte) uint) []byte {
 // For which f returns the same result
 func (s SliceByte) DedupByUint8(f func(el byte) uint8) []byte {
 	result := make([]byte, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -5797,6 +5881,9 @@ func (s SliceByte) DedupByUint8(f func(el byte) uint8) []byte {
 // For which f returns the same result
 func (s SliceByte) DedupByUint16(f func(el byte) uint16) []byte {
 	result := make([]byte, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -5814,6 +5901,9 @@ func (s SliceByte) DedupByUint16(f func(el byte) uint16) []byte {
 // For which f returns the same result
 func (s SliceByte) DedupByUint32(f func(el byte) uint32) []byte {
 	result := make([]byte, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -5831,6 +5921,9 @@ func (s SliceByte) DedupByUint32(f func(el byte) uint32) []byte {
 // For which f returns the same result
 func (s SliceByte) DedupByUint64(f func(el byte) uint64) []byte {
 	result := make([]byte, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -5848,6 +5941,9 @@ func (s SliceByte) DedupByUint64(f func(el byte) uint64) []byte {
 // For which f returns the same result
 func (s SliceByte) DedupByInterface(f func(el byte) interface{}) []byte {
 	result := make([]byte, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -9182,6 +9278,9 @@ func (s SliceString) Dedup() []string {
 // For which f returns the same result
 func (s SliceString) DedupByBool(f func(el string) bool) []string {
 	result := make([]string, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -9199,6 +9298,9 @@ func (s SliceString) DedupByBool(f func(el string) bool) []string {
 // For which f returns the same result
 func (s SliceString) DedupByByte(f func(el string) byte) []string {
 	result := make([]string, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -9216,6 +9318,9 @@ func (s SliceString) DedupByByte(f func(el string) byte) []string {
 // For which f returns the same result
 func (s SliceString) DedupByString(f func(el string) string) []string {
 	result := make([]string, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -9233,6 +9338,9 @@ func (s SliceString) DedupByString(f func(el string) string) []string {
 // For which f returns the same result
 func (s SliceString) DedupByFloat32(f func(el string) float32) []string {
 	result := make([]string, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -9250,6 +9358,9 @@ func (s SliceString) DedupByFloat32(f func(el string) float32) []string {
 // For which f returns the same result
 func (s SliceString) DedupByFloat64(f func(el string) float64) []string {
 	result := make([]string, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -9267,6 +9378,9 @@ func (s SliceString) DedupByFloat64(f func(el string) float64) []string {
 // For which f returns the same result
 func (s SliceString) DedupByInt(f func(el string) int) []string {
 	result := make([]string, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -9284,6 +9398,9 @@ func (s SliceString) DedupByInt(f func(el string) int) []string {
 // For which f returns the same result
 func (s SliceString) DedupByInt8(f func(el string) int8) []string {
 	result := make([]string, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -9301,6 +9418,9 @@ func (s SliceString) DedupByInt8(f func(el string) int8) []string {
 // For which f returns the same result
 func (s SliceString) DedupByInt16(f func(el string) int16) []string {
 	result := make([]string, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -9318,6 +9438,9 @@ func (s SliceString) DedupByInt16(f func(el string) int16) []string {
 // For which f returns the same result
 func (s SliceString) DedupByInt32(f func(el string) int32) []string {
 	result := make([]string, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -9335,6 +9458,9 @@ func (s SliceString) DedupByInt32(f func(el string) int32) []string {
 // For which f returns the same result
 func (s SliceString) DedupByInt64(f func(el string) int64) []string {
 	result := make([]string, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -9352,6 +9478,9 @@ func (s SliceString) DedupByInt64(f func(el string) int64) []string {
 // For which f returns the same result
 func (s SliceString) DedupByUint(f func(el string) uint) []string {
 	result := make([]string, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -9369,6 +9498,9 @@ func (s SliceString) DedupByUint(f func(el string) uint) []string {
 // For which f returns the same result
 func (s SliceString) DedupByUint8(f func(el string) uint8) []string {
 	result := make([]string, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -9386,6 +9518,9 @@ func (s SliceString) DedupByUint8(f func(el string) uint8) []string {
 // For which f returns the same result
 func (s SliceString) DedupByUint16(f func(el string) uint16) []string {
 	result := make([]string, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -9403,6 +9538,9 @@ func (s SliceString) DedupByUint16(f func(el string) uint16) []string {
 // For which f returns the same result
 func (s SliceString) DedupByUint32(f func(el string) uint32) []string {
 	result := make([]string, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -9420,6 +9558,9 @@ func (s SliceString) DedupByUint32(f func(el string) uint32) []string {
 // For which f returns the same result
 func (s SliceString) DedupByUint64(f func(el string) uint64) []string {
 	result := make([]string, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -9437,6 +9578,9 @@ func (s SliceString) DedupByUint64(f func(el string) uint64) []string {
 // For which f returns the same result
 func (s SliceString) DedupByInterface(f func(el string) interface{}) []string {
 	result := make([]string, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -12810,6 +12954,9 @@ func (s SliceFloat32) Dedup() []float32 {
 // For which f returns the same result
 func (s SliceFloat32) DedupByBool(f func(el float32) bool) []float32 {
 	result := make([]float32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -12827,6 +12974,9 @@ func (s SliceFloat32) DedupByBool(f func(el float32) bool) []float32 {
 // For which f returns the same result
 func (s SliceFloat32) DedupByByte(f func(el float32) byte) []float32 {
 	result := make([]float32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -12844,6 +12994,9 @@ func (s SliceFloat32) DedupByByte(f func(el float32) byte) []float32 {
 // For which f returns the same result
 func (s SliceFloat32) DedupByString(f func(el float32) string) []float32 {
 	result := make([]float32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -12861,6 +13014,9 @@ func (s SliceFloat32) DedupByString(f func(el float32) string) []float32 {
 // For which f returns the same result
 func (s SliceFloat32) DedupByFloat32(f func(el float32) float32) []float32 {
 	result := make([]float32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -12878,6 +13034,9 @@ func (s SliceFloat32) DedupByFloat32(f func(el float32) float32) []float32 {
 // For which f returns the same result
 func (s SliceFloat32) DedupByFloat64(f func(el float32) float64) []float32 {
 	result := make([]float32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -12895,6 +13054,9 @@ func (s SliceFloat32) DedupByFloat64(f func(el float32) float64) []float32 {
 // For which f returns the same result
 func (s SliceFloat32) DedupByInt(f func(el float32) int) []float32 {
 	result := make([]float32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -12912,6 +13074,9 @@ func (s SliceFloat32) DedupByInt(f func(el float32) int) []float32 {
 // For which f returns the same result
 func (s SliceFloat32) DedupByInt8(f func(el float32) int8) []float32 {
 	result := make([]float32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -12929,6 +13094,9 @@ func (s SliceFloat32) DedupByInt8(f func(el float32) int8) []float32 {
 // For which f returns the same result
 func (s SliceFloat32) DedupByInt16(f func(el float32) int16) []float32 {
 	result := make([]float32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -12946,6 +13114,9 @@ func (s SliceFloat32) DedupByInt16(f func(el float32) int16) []float32 {
 // For which f returns the same result
 func (s SliceFloat32) DedupByInt32(f func(el float32) int32) []float32 {
 	result := make([]float32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -12963,6 +13134,9 @@ func (s SliceFloat32) DedupByInt32(f func(el float32) int32) []float32 {
 // For which f returns the same result
 func (s SliceFloat32) DedupByInt64(f func(el float32) int64) []float32 {
 	result := make([]float32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -12980,6 +13154,9 @@ func (s SliceFloat32) DedupByInt64(f func(el float32) int64) []float32 {
 // For which f returns the same result
 func (s SliceFloat32) DedupByUint(f func(el float32) uint) []float32 {
 	result := make([]float32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -12997,6 +13174,9 @@ func (s SliceFloat32) DedupByUint(f func(el float32) uint) []float32 {
 // For which f returns the same result
 func (s SliceFloat32) DedupByUint8(f func(el float32) uint8) []float32 {
 	result := make([]float32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -13014,6 +13194,9 @@ func (s SliceFloat32) DedupByUint8(f func(el float32) uint8) []float32 {
 // For which f returns the same result
 func (s SliceFloat32) DedupByUint16(f func(el float32) uint16) []float32 {
 	result := make([]float32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -13031,6 +13214,9 @@ func (s SliceFloat32) DedupByUint16(f func(el float32) uint16) []float32 {
 // For which f returns the same result
 func (s SliceFloat32) DedupByUint32(f func(el float32) uint32) []float32 {
 	result := make([]float32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -13048,6 +13234,9 @@ func (s SliceFloat32) DedupByUint32(f func(el float32) uint32) []float32 {
 // For which f returns the same result
 func (s SliceFloat32) DedupByUint64(f func(el float32) uint64) []float32 {
 	result := make([]float32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -13065,6 +13254,9 @@ func (s SliceFloat32) DedupByUint64(f func(el float32) uint64) []float32 {
 // For which f returns the same result
 func (s SliceFloat32) DedupByInterface(f func(el float32) interface{}) []float32 {
 	result := make([]float32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -16429,6 +16621,9 @@ func (s SliceFloat64) Dedup() []float64 {
 // For which f returns the same result
 func (s SliceFloat64) DedupByBool(f func(el float64) bool) []float64 {
 	result := make([]float64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -16446,6 +16641,9 @@ func (s SliceFloat64) DedupByBool(f func(el float64) bool) []float64 {
 // For which f returns the same result
 func (s SliceFloat64) DedupByByte(f func(el float64) byte) []float64 {
 	result := make([]float64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -16463,6 +16661,9 @@ func (s SliceFloat64) DedupByByte(f func(el float64) byte) []float64 {
 // For which f returns the same result
 func (s SliceFloat64) DedupByString(f func(el float64) string) []float64 {
 	result := make([]float64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -16480,6 +16681,9 @@ func (s SliceFloat64) DedupByString(f func(el float64) string) []float64 {
 // For which f returns the same result
 func (s SliceFloat64) DedupByFloat32(f func(el float64) float32) []float64 {
 	result := make([]float64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -16497,6 +16701,9 @@ func (s SliceFloat64) DedupByFloat32(f func(el float64) float32) []float64 {
 // For which f returns the same result
 func (s SliceFloat64) DedupByFloat64(f func(el float64) float64) []float64 {
 	result := make([]float64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -16514,6 +16721,9 @@ func (s SliceFloat64) DedupByFloat64(f func(el float64) float64) []float64 {
 // For which f returns the same result
 func (s SliceFloat64) DedupByInt(f func(el float64) int) []float64 {
 	result := make([]float64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -16531,6 +16741,9 @@ func (s SliceFloat64) DedupByInt(f func(el float64) int) []float64 {
 // For which f returns the same result
 func (s SliceFloat64) DedupByInt8(f func(el float64) int8) []float64 {
 	result := make([]float64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -16548,6 +16761,9 @@ func (s SliceFloat64) DedupByInt8(f func(el float64) int8) []float64 {
 // For which f returns the same result
 func (s SliceFloat64) DedupByInt16(f func(el float64) int16) []float64 {
 	result := make([]float64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -16565,6 +16781,9 @@ func (s SliceFloat64) DedupByInt16(f func(el float64) int16) []float64 {
 // For which f returns the same result
 func (s SliceFloat64) DedupByInt32(f func(el float64) int32) []float64 {
 	result := make([]float64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -16582,6 +16801,9 @@ func (s SliceFloat64) DedupByInt32(f func(el float64) int32) []float64 {
 // For which f returns the same result
 func (s SliceFloat64) DedupByInt64(f func(el float64) int64) []float64 {
 	result := make([]float64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -16599,6 +16821,9 @@ func (s SliceFloat64) DedupByInt64(f func(el float64) int64) []float64 {
 // For which f returns the same result
 func (s SliceFloat64) DedupByUint(f func(el float64) uint) []float64 {
 	result := make([]float64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -16616,6 +16841,9 @@ func (s SliceFloat64) DedupByUint(f func(el float64) uint) []float64 {
 // For which f returns the same result
 func (s SliceFloat64) DedupByUint8(f func(el float64) uint8) []float64 {
 	result := make([]float64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -16633,6 +16861,9 @@ func (s SliceFloat64) DedupByUint8(f func(el float64) uint8) []float64 {
 // For which f returns the same result
 func (s SliceFloat64) DedupByUint16(f func(el float64) uint16) []float64 {
 	result := make([]float64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -16650,6 +16881,9 @@ func (s SliceFloat64) DedupByUint16(f func(el float64) uint16) []float64 {
 // For which f returns the same result
 func (s SliceFloat64) DedupByUint32(f func(el float64) uint32) []float64 {
 	result := make([]float64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -16667,6 +16901,9 @@ func (s SliceFloat64) DedupByUint32(f func(el float64) uint32) []float64 {
 // For which f returns the same result
 func (s SliceFloat64) DedupByUint64(f func(el float64) uint64) []float64 {
 	result := make([]float64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -16684,6 +16921,9 @@ func (s SliceFloat64) DedupByUint64(f func(el float64) uint64) []float64 {
 // For which f returns the same result
 func (s SliceFloat64) DedupByInterface(f func(el float64) interface{}) []float64 {
 	result := make([]float64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -20048,6 +20288,9 @@ func (s SliceInt) Dedup() []int {
 // For which f returns the same result
 func (s SliceInt) DedupByBool(f func(el int) bool) []int {
 	result := make([]int, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -20065,6 +20308,9 @@ func (s SliceInt) DedupByBool(f func(el int) bool) []int {
 // For which f returns the same result
 func (s SliceInt) DedupByByte(f func(el int) byte) []int {
 	result := make([]int, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -20082,6 +20328,9 @@ func (s SliceInt) DedupByByte(f func(el int) byte) []int {
 // For which f returns the same result
 func (s SliceInt) DedupByString(f func(el int) string) []int {
 	result := make([]int, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -20099,6 +20348,9 @@ func (s SliceInt) DedupByString(f func(el int) string) []int {
 // For which f returns the same result
 func (s SliceInt) DedupByFloat32(f func(el int) float32) []int {
 	result := make([]int, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -20116,6 +20368,9 @@ func (s SliceInt) DedupByFloat32(f func(el int) float32) []int {
 // For which f returns the same result
 func (s SliceInt) DedupByFloat64(f func(el int) float64) []int {
 	result := make([]int, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -20133,6 +20388,9 @@ func (s SliceInt) DedupByFloat64(f func(el int) float64) []int {
 // For which f returns the same result
 func (s SliceInt) DedupByInt(f func(el int) int) []int {
 	result := make([]int, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -20150,6 +20408,9 @@ func (s SliceInt) DedupByInt(f func(el int) int) []int {
 // For which f returns the same result
 func (s SliceInt) DedupByInt8(f func(el int) int8) []int {
 	result := make([]int, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -20167,6 +20428,9 @@ func (s SliceInt) DedupByInt8(f func(el int) int8) []int {
 // For which f returns the same result
 func (s SliceInt) DedupByInt16(f func(el int) int16) []int {
 	result := make([]int, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -20184,6 +20448,9 @@ func (s SliceInt) DedupByInt16(f func(el int) int16) []int {
 // For which f returns the same result
 func (s SliceInt) DedupByInt32(f func(el int) int32) []int {
 	result := make([]int, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -20201,6 +20468,9 @@ func (s SliceInt) DedupByInt32(f func(el int) int32) []int {
 // For which f returns the same result
 func (s SliceInt) DedupByInt64(f func(el int) int64) []int {
 	result := make([]int, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -20218,6 +20488,9 @@ func (s SliceInt) DedupByInt64(f func(el int) int64) []int {
 // For which f returns the same result
 func (s SliceInt) DedupByUint(f func(el int) uint) []int {
 	result := make([]int, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -20235,6 +20508,9 @@ func (s SliceInt) DedupByUint(f func(el int) uint) []int {
 // For which f returns the same result
 func (s SliceInt) DedupByUint8(f func(el int) uint8) []int {
 	result := make([]int, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -20252,6 +20528,9 @@ func (s SliceInt) DedupByUint8(f func(el int) uint8) []int {
 // For which f returns the same result
 func (s SliceInt) DedupByUint16(f func(el int) uint16) []int {
 	result := make([]int, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -20269,6 +20548,9 @@ func (s SliceInt) DedupByUint16(f func(el int) uint16) []int {
 // For which f returns the same result
 func (s SliceInt) DedupByUint32(f func(el int) uint32) []int {
 	result := make([]int, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -20286,6 +20568,9 @@ func (s SliceInt) DedupByUint32(f func(el int) uint32) []int {
 // For which f returns the same result
 func (s SliceInt) DedupByUint64(f func(el int) uint64) []int {
 	result := make([]int, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -20303,6 +20588,9 @@ func (s SliceInt) DedupByUint64(f func(el int) uint64) []int {
 // For which f returns the same result
 func (s SliceInt) DedupByInterface(f func(el int) interface{}) []int {
 	result := make([]int, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -23676,6 +23964,9 @@ func (s SliceInt8) Dedup() []int8 {
 // For which f returns the same result
 func (s SliceInt8) DedupByBool(f func(el int8) bool) []int8 {
 	result := make([]int8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -23693,6 +23984,9 @@ func (s SliceInt8) DedupByBool(f func(el int8) bool) []int8 {
 // For which f returns the same result
 func (s SliceInt8) DedupByByte(f func(el int8) byte) []int8 {
 	result := make([]int8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -23710,6 +24004,9 @@ func (s SliceInt8) DedupByByte(f func(el int8) byte) []int8 {
 // For which f returns the same result
 func (s SliceInt8) DedupByString(f func(el int8) string) []int8 {
 	result := make([]int8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -23727,6 +24024,9 @@ func (s SliceInt8) DedupByString(f func(el int8) string) []int8 {
 // For which f returns the same result
 func (s SliceInt8) DedupByFloat32(f func(el int8) float32) []int8 {
 	result := make([]int8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -23744,6 +24044,9 @@ func (s SliceInt8) DedupByFloat32(f func(el int8) float32) []int8 {
 // For which f returns the same result
 func (s SliceInt8) DedupByFloat64(f func(el int8) float64) []int8 {
 	result := make([]int8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -23761,6 +24064,9 @@ func (s SliceInt8) DedupByFloat64(f func(el int8) float64) []int8 {
 // For which f returns the same result
 func (s SliceInt8) DedupByInt(f func(el int8) int) []int8 {
 	result := make([]int8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -23778,6 +24084,9 @@ func (s SliceInt8) DedupByInt(f func(el int8) int) []int8 {
 // For which f returns the same result
 func (s SliceInt8) DedupByInt8(f func(el int8) int8) []int8 {
 	result := make([]int8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -23795,6 +24104,9 @@ func (s SliceInt8) DedupByInt8(f func(el int8) int8) []int8 {
 // For which f returns the same result
 func (s SliceInt8) DedupByInt16(f func(el int8) int16) []int8 {
 	result := make([]int8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -23812,6 +24124,9 @@ func (s SliceInt8) DedupByInt16(f func(el int8) int16) []int8 {
 // For which f returns the same result
 func (s SliceInt8) DedupByInt32(f func(el int8) int32) []int8 {
 	result := make([]int8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -23829,6 +24144,9 @@ func (s SliceInt8) DedupByInt32(f func(el int8) int32) []int8 {
 // For which f returns the same result
 func (s SliceInt8) DedupByInt64(f func(el int8) int64) []int8 {
 	result := make([]int8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -23846,6 +24164,9 @@ func (s SliceInt8) DedupByInt64(f func(el int8) int64) []int8 {
 // For which f returns the same result
 func (s SliceInt8) DedupByUint(f func(el int8) uint) []int8 {
 	result := make([]int8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -23863,6 +24184,9 @@ func (s SliceInt8) DedupByUint(f func(el int8) uint) []int8 {
 // For which f returns the same result
 func (s SliceInt8) DedupByUint8(f func(el int8) uint8) []int8 {
 	result := make([]int8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -23880,6 +24204,9 @@ func (s SliceInt8) DedupByUint8(f func(el int8) uint8) []int8 {
 // For which f returns the same result
 func (s SliceInt8) DedupByUint16(f func(el int8) uint16) []int8 {
 	result := make([]int8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -23897,6 +24224,9 @@ func (s SliceInt8) DedupByUint16(f func(el int8) uint16) []int8 {
 // For which f returns the same result
 func (s SliceInt8) DedupByUint32(f func(el int8) uint32) []int8 {
 	result := make([]int8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -23914,6 +24244,9 @@ func (s SliceInt8) DedupByUint32(f func(el int8) uint32) []int8 {
 // For which f returns the same result
 func (s SliceInt8) DedupByUint64(f func(el int8) uint64) []int8 {
 	result := make([]int8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -23931,6 +24264,9 @@ func (s SliceInt8) DedupByUint64(f func(el int8) uint64) []int8 {
 // For which f returns the same result
 func (s SliceInt8) DedupByInterface(f func(el int8) interface{}) []int8 {
 	result := make([]int8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -27304,6 +27640,9 @@ func (s SliceInt16) Dedup() []int16 {
 // For which f returns the same result
 func (s SliceInt16) DedupByBool(f func(el int16) bool) []int16 {
 	result := make([]int16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -27321,6 +27660,9 @@ func (s SliceInt16) DedupByBool(f func(el int16) bool) []int16 {
 // For which f returns the same result
 func (s SliceInt16) DedupByByte(f func(el int16) byte) []int16 {
 	result := make([]int16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -27338,6 +27680,9 @@ func (s SliceInt16) DedupByByte(f func(el int16) byte) []int16 {
 // For which f returns the same result
 func (s SliceInt16) DedupByString(f func(el int16) string) []int16 {
 	result := make([]int16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -27355,6 +27700,9 @@ func (s SliceInt16) DedupByString(f func(el int16) string) []int16 {
 // For which f returns the same result
 func (s SliceInt16) DedupByFloat32(f func(el int16) float32) []int16 {
 	result := make([]int16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -27372,6 +27720,9 @@ func (s SliceInt16) DedupByFloat32(f func(el int16) float32) []int16 {
 // For which f returns the same result
 func (s SliceInt16) DedupByFloat64(f func(el int16) float64) []int16 {
 	result := make([]int16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -27389,6 +27740,9 @@ func (s SliceInt16) DedupByFloat64(f func(el int16) float64) []int16 {
 // For which f returns the same result
 func (s SliceInt16) DedupByInt(f func(el int16) int) []int16 {
 	result := make([]int16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -27406,6 +27760,9 @@ func (s SliceInt16) DedupByInt(f func(el int16) int) []int16 {
 // For which f returns the same result
 func (s SliceInt16) DedupByInt8(f func(el int16) int8) []int16 {
 	result := make([]int16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -27423,6 +27780,9 @@ func (s SliceInt16) DedupByInt8(f func(el int16) int8) []int16 {
 // For which f returns the same result
 func (s SliceInt16) DedupByInt16(f func(el int16) int16) []int16 {
 	result := make([]int16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -27440,6 +27800,9 @@ func (s SliceInt16) DedupByInt16(f func(el int16) int16) []int16 {
 // For which f returns the same result
 func (s SliceInt16) DedupByInt32(f func(el int16) int32) []int16 {
 	result := make([]int16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -27457,6 +27820,9 @@ func (s SliceInt16) DedupByInt32(f func(el int16) int32) []int16 {
 // For which f returns the same result
 func (s SliceInt16) DedupByInt64(f func(el int16) int64) []int16 {
 	result := make([]int16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -27474,6 +27840,9 @@ func (s SliceInt16) DedupByInt64(f func(el int16) int64) []int16 {
 // For which f returns the same result
 func (s SliceInt16) DedupByUint(f func(el int16) uint) []int16 {
 	result := make([]int16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -27491,6 +27860,9 @@ func (s SliceInt16) DedupByUint(f func(el int16) uint) []int16 {
 // For which f returns the same result
 func (s SliceInt16) DedupByUint8(f func(el int16) uint8) []int16 {
 	result := make([]int16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -27508,6 +27880,9 @@ func (s SliceInt16) DedupByUint8(f func(el int16) uint8) []int16 {
 // For which f returns the same result
 func (s SliceInt16) DedupByUint16(f func(el int16) uint16) []int16 {
 	result := make([]int16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -27525,6 +27900,9 @@ func (s SliceInt16) DedupByUint16(f func(el int16) uint16) []int16 {
 // For which f returns the same result
 func (s SliceInt16) DedupByUint32(f func(el int16) uint32) []int16 {
 	result := make([]int16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -27542,6 +27920,9 @@ func (s SliceInt16) DedupByUint32(f func(el int16) uint32) []int16 {
 // For which f returns the same result
 func (s SliceInt16) DedupByUint64(f func(el int16) uint64) []int16 {
 	result := make([]int16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -27559,6 +27940,9 @@ func (s SliceInt16) DedupByUint64(f func(el int16) uint64) []int16 {
 // For which f returns the same result
 func (s SliceInt16) DedupByInterface(f func(el int16) interface{}) []int16 {
 	result := make([]int16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -30932,6 +31316,9 @@ func (s SliceInt32) Dedup() []int32 {
 // For which f returns the same result
 func (s SliceInt32) DedupByBool(f func(el int32) bool) []int32 {
 	result := make([]int32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -30949,6 +31336,9 @@ func (s SliceInt32) DedupByBool(f func(el int32) bool) []int32 {
 // For which f returns the same result
 func (s SliceInt32) DedupByByte(f func(el int32) byte) []int32 {
 	result := make([]int32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -30966,6 +31356,9 @@ func (s SliceInt32) DedupByByte(f func(el int32) byte) []int32 {
 // For which f returns the same result
 func (s SliceInt32) DedupByString(f func(el int32) string) []int32 {
 	result := make([]int32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -30983,6 +31376,9 @@ func (s SliceInt32) DedupByString(f func(el int32) string) []int32 {
 // For which f returns the same result
 func (s SliceInt32) DedupByFloat32(f func(el int32) float32) []int32 {
 	result := make([]int32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -31000,6 +31396,9 @@ func (s SliceInt32) DedupByFloat32(f func(el int32) float32) []int32 {
 // For which f returns the same result
 func (s SliceInt32) DedupByFloat64(f func(el int32) float64) []int32 {
 	result := make([]int32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -31017,6 +31416,9 @@ func (s SliceInt32) DedupByFloat64(f func(el int32) float64) []int32 {
 // For which f returns the same result
 func (s SliceInt32) DedupByInt(f func(el int32) int) []int32 {
 	result := make([]int32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -31034,6 +31436,9 @@ func (s SliceInt32) DedupByInt(f func(el int32) int) []int32 {
 // For which f returns the same result
 func (s SliceInt32) DedupByInt8(f func(el int32) int8) []int32 {
 	result := make([]int32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -31051,6 +31456,9 @@ func (s SliceInt32) DedupByInt8(f func(el int32) int8) []int32 {
 // For which f returns the same result
 func (s SliceInt32) DedupByInt16(f func(el int32) int16) []int32 {
 	result := make([]int32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -31068,6 +31476,9 @@ func (s SliceInt32) DedupByInt16(f func(el int32) int16) []int32 {
 // For which f returns the same result
 func (s SliceInt32) DedupByInt32(f func(el int32) int32) []int32 {
 	result := make([]int32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -31085,6 +31496,9 @@ func (s SliceInt32) DedupByInt32(f func(el int32) int32) []int32 {
 // For which f returns the same result
 func (s SliceInt32) DedupByInt64(f func(el int32) int64) []int32 {
 	result := make([]int32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -31102,6 +31516,9 @@ func (s SliceInt32) DedupByInt64(f func(el int32) int64) []int32 {
 // For which f returns the same result
 func (s SliceInt32) DedupByUint(f func(el int32) uint) []int32 {
 	result := make([]int32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -31119,6 +31536,9 @@ func (s SliceInt32) DedupByUint(f func(el int32) uint) []int32 {
 // For which f returns the same result
 func (s SliceInt32) DedupByUint8(f func(el int32) uint8) []int32 {
 	result := make([]int32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -31136,6 +31556,9 @@ func (s SliceInt32) DedupByUint8(f func(el int32) uint8) []int32 {
 // For which f returns the same result
 func (s SliceInt32) DedupByUint16(f func(el int32) uint16) []int32 {
 	result := make([]int32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -31153,6 +31576,9 @@ func (s SliceInt32) DedupByUint16(f func(el int32) uint16) []int32 {
 // For which f returns the same result
 func (s SliceInt32) DedupByUint32(f func(el int32) uint32) []int32 {
 	result := make([]int32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -31170,6 +31596,9 @@ func (s SliceInt32) DedupByUint32(f func(el int32) uint32) []int32 {
 // For which f returns the same result
 func (s SliceInt32) DedupByUint64(f func(el int32) uint64) []int32 {
 	result := make([]int32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -31187,6 +31616,9 @@ func (s SliceInt32) DedupByUint64(f func(el int32) uint64) []int32 {
 // For which f returns the same result
 func (s SliceInt32) DedupByInterface(f func(el int32) interface{}) []int32 {
 	result := make([]int32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -34560,6 +34992,9 @@ func (s SliceInt64) Dedup() []int64 {
 // For which f returns the same result
 func (s SliceInt64) DedupByBool(f func(el int64) bool) []int64 {
 	result := make([]int64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -34577,6 +35012,9 @@ func (s SliceInt64) DedupByBool(f func(el int64) bool) []int64 {
 // For which f returns the same result
 func (s SliceInt64) DedupByByte(f func(el int64) byte) []int64 {
 	result := make([]int64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -34594,6 +35032,9 @@ func (s SliceInt64) DedupByByte(f func(el int64) byte) []int64 {
 // For which f returns the same result
 func (s SliceInt64) DedupByString(f func(el int64) string) []int64 {
 	result := make([]int64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -34611,6 +35052,9 @@ func (s SliceInt64) DedupByString(f func(el int64) string) []int64 {
 // For which f returns the same result
 func (s SliceInt64) DedupByFloat32(f func(el int64) float32) []int64 {
 	result := make([]int64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -34628,6 +35072,9 @@ func (s SliceInt64) DedupByFloat32(f func(el int64) float32) []int64 {
 // For which f returns the same result
 func (s SliceInt64) DedupByFloat64(f func(el int64) float64) []int64 {
 	result := make([]int64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -34645,6 +35092,9 @@ func (s SliceInt64) DedupByFloat64(f func(el int64) float64) []int64 {
 // For which f returns the same result
 func (s SliceInt64) DedupByInt(f func(el int64) int) []int64 {
 	result := make([]int64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -34662,6 +35112,9 @@ func (s SliceInt64) DedupByInt(f func(el int64) int) []int64 {
 // For which f returns the same result
 func (s SliceInt64) DedupByInt8(f func(el int64) int8) []int64 {
 	result := make([]int64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -34679,6 +35132,9 @@ func (s SliceInt64) DedupByInt8(f func(el int64) int8) []int64 {
 // For which f returns the same result
 func (s SliceInt64) DedupByInt16(f func(el int64) int16) []int64 {
 	result := make([]int64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -34696,6 +35152,9 @@ func (s SliceInt64) DedupByInt16(f func(el int64) int16) []int64 {
 // For which f returns the same result
 func (s SliceInt64) DedupByInt32(f func(el int64) int32) []int64 {
 	result := make([]int64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -34713,6 +35172,9 @@ func (s SliceInt64) DedupByInt32(f func(el int64) int32) []int64 {
 // For which f returns the same result
 func (s SliceInt64) DedupByInt64(f func(el int64) int64) []int64 {
 	result := make([]int64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -34730,6 +35192,9 @@ func (s SliceInt64) DedupByInt64(f func(el int64) int64) []int64 {
 // For which f returns the same result
 func (s SliceInt64) DedupByUint(f func(el int64) uint) []int64 {
 	result := make([]int64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -34747,6 +35212,9 @@ func (s SliceInt64) DedupByUint(f func(el int64) uint) []int64 {
 // For which f returns the same result
 func (s SliceInt64) DedupByUint8(f func(el int64) uint8) []int64 {
 	result := make([]int64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -34764,6 +35232,9 @@ func (s SliceInt64) DedupByUint8(f func(el int64) uint8) []int64 {
 // For which f returns the same result
 func (s SliceInt64) DedupByUint16(f func(el int64) uint16) []int64 {
 	result := make([]int64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -34781,6 +35252,9 @@ func (s SliceInt64) DedupByUint16(f func(el int64) uint16) []int64 {
 // For which f returns the same result
 func (s SliceInt64) DedupByUint32(f func(el int64) uint32) []int64 {
 	result := make([]int64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -34798,6 +35272,9 @@ func (s SliceInt64) DedupByUint32(f func(el int64) uint32) []int64 {
 // For which f returns the same result
 func (s SliceInt64) DedupByUint64(f func(el int64) uint64) []int64 {
 	result := make([]int64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -34815,6 +35292,9 @@ func (s SliceInt64) DedupByUint64(f func(el int64) uint64) []int64 {
 // For which f returns the same result
 func (s SliceInt64) DedupByInterface(f func(el int64) interface{}) []int64 {
 	result := make([]int64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -38188,6 +38668,9 @@ func (s SliceUint) Dedup() []uint {
 // For which f returns the same result
 func (s SliceUint) DedupByBool(f func(el uint) bool) []uint {
 	result := make([]uint, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -38205,6 +38688,9 @@ func (s SliceUint) DedupByBool(f func(el uint) bool) []uint {
 // For which f returns the same result
 func (s SliceUint) DedupByByte(f func(el uint) byte) []uint {
 	result := make([]uint, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -38222,6 +38708,9 @@ func (s SliceUint) DedupByByte(f func(el uint) byte) []uint {
 // For which f returns the same result
 func (s SliceUint) DedupByString(f func(el uint) string) []uint {
 	result := make([]uint, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -38239,6 +38728,9 @@ func (s SliceUint) DedupByString(f func(el uint) string) []uint {
 // For which f returns the same result
 func (s SliceUint) DedupByFloat32(f func(el uint) float32) []uint {
 	result := make([]uint, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -38256,6 +38748,9 @@ func (s SliceUint) DedupByFloat32(f func(el uint) float32) []uint {
 // For which f returns the same result
 func (s SliceUint) DedupByFloat64(f func(el uint) float64) []uint {
 	result := make([]uint, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -38273,6 +38768,9 @@ func (s SliceUint) DedupByFloat64(f func(el uint) float64) []uint {
 // For which f returns the same result
 func (s SliceUint) DedupByInt(f func(el uint) int) []uint {
 	result := make([]uint, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -38290,6 +38788,9 @@ func (s SliceUint) DedupByInt(f func(el uint) int) []uint {
 // For which f returns the same result
 func (s SliceUint) DedupByInt8(f func(el uint) int8) []uint {
 	result := make([]uint, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -38307,6 +38808,9 @@ func (s SliceUint) DedupByInt8(f func(el uint) int8) []uint {
 // For which f returns the same result
 func (s SliceUint) DedupByInt16(f func(el uint) int16) []uint {
 	result := make([]uint, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -38324,6 +38828,9 @@ func (s SliceUint) DedupByInt16(f func(el uint) int16) []uint {
 // For which f returns the same result
 func (s SliceUint) DedupByInt32(f func(el uint) int32) []uint {
 	result := make([]uint, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -38341,6 +38848,9 @@ func (s SliceUint) DedupByInt32(f func(el uint) int32) []uint {
 // For which f returns the same result
 func (s SliceUint) DedupByInt64(f func(el uint) int64) []uint {
 	result := make([]uint, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -38358,6 +38868,9 @@ func (s SliceUint) DedupByInt64(f func(el uint) int64) []uint {
 // For which f returns the same result
 func (s SliceUint) DedupByUint(f func(el uint) uint) []uint {
 	result := make([]uint, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -38375,6 +38888,9 @@ func (s SliceUint) DedupByUint(f func(el uint) uint) []uint {
 // For which f returns the same result
 func (s SliceUint) DedupByUint8(f func(el uint) uint8) []uint {
 	result := make([]uint, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -38392,6 +38908,9 @@ func (s SliceUint) DedupByUint8(f func(el uint) uint8) []uint {
 // For which f returns the same result
 func (s SliceUint) DedupByUint16(f func(el uint) uint16) []uint {
 	result := make([]uint, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -38409,6 +38928,9 @@ func (s SliceUint) DedupByUint16(f func(el uint) uint16) []uint {
 // For which f returns the same result
 func (s SliceUint) DedupByUint32(f func(el uint) uint32) []uint {
 	result := make([]uint, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -38426,6 +38948,9 @@ func (s SliceUint) DedupByUint32(f func(el uint) uint32) []uint {
 // For which f returns the same result
 func (s SliceUint) DedupByUint64(f func(el uint) uint64) []uint {
 	result := make([]uint, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -38443,6 +38968,9 @@ func (s SliceUint) DedupByUint64(f func(el uint) uint64) []uint {
 // For which f returns the same result
 func (s SliceUint) DedupByInterface(f func(el uint) interface{}) []uint {
 	result := make([]uint, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -41816,6 +42344,9 @@ func (s SliceUint8) Dedup() []uint8 {
 // For which f returns the same result
 func (s SliceUint8) DedupByBool(f func(el uint8) bool) []uint8 {
 	result := make([]uint8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -41833,6 +42364,9 @@ func (s SliceUint8) DedupByBool(f func(el uint8) bool) []uint8 {
 // For which f returns the same result
 func (s SliceUint8) DedupByByte(f func(el uint8) byte) []uint8 {
 	result := make([]uint8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -41850,6 +42384,9 @@ func (s SliceUint8) DedupByByte(f func(el uint8) byte) []uint8 {
 // For which f returns the same result
 func (s SliceUint8) DedupByString(f func(el uint8) string) []uint8 {
 	result := make([]uint8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -41867,6 +42404,9 @@ func (s SliceUint8) DedupByString(f func(el uint8) string) []uint8 {
 // For which f returns the same result
 func (s SliceUint8) DedupByFloat32(f func(el uint8) float32) []uint8 {
 	result := make([]uint8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -41884,6 +42424,9 @@ func (s SliceUint8) DedupByFloat32(f func(el uint8) float32) []uint8 {
 // For which f returns the same result
 func (s SliceUint8) DedupByFloat64(f func(el uint8) float64) []uint8 {
 	result := make([]uint8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -41901,6 +42444,9 @@ func (s SliceUint8) DedupByFloat64(f func(el uint8) float64) []uint8 {
 // For which f returns the same result
 func (s SliceUint8) DedupByInt(f func(el uint8) int) []uint8 {
 	result := make([]uint8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -41918,6 +42464,9 @@ func (s SliceUint8) DedupByInt(f func(el uint8) int) []uint8 {
 // For which f returns the same result
 func (s SliceUint8) DedupByInt8(f func(el uint8) int8) []uint8 {
 	result := make([]uint8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -41935,6 +42484,9 @@ func (s SliceUint8) DedupByInt8(f func(el uint8) int8) []uint8 {
 // For which f returns the same result
 func (s SliceUint8) DedupByInt16(f func(el uint8) int16) []uint8 {
 	result := make([]uint8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -41952,6 +42504,9 @@ func (s SliceUint8) DedupByInt16(f func(el uint8) int16) []uint8 {
 // For which f returns the same result
 func (s SliceUint8) DedupByInt32(f func(el uint8) int32) []uint8 {
 	result := make([]uint8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -41969,6 +42524,9 @@ func (s SliceUint8) DedupByInt32(f func(el uint8) int32) []uint8 {
 // For which f returns the same result
 func (s SliceUint8) DedupByInt64(f func(el uint8) int64) []uint8 {
 	result := make([]uint8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -41986,6 +42544,9 @@ func (s SliceUint8) DedupByInt64(f func(el uint8) int64) []uint8 {
 // For which f returns the same result
 func (s SliceUint8) DedupByUint(f func(el uint8) uint) []uint8 {
 	result := make([]uint8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -42003,6 +42564,9 @@ func (s SliceUint8) DedupByUint(f func(el uint8) uint) []uint8 {
 // For which f returns the same result
 func (s SliceUint8) DedupByUint8(f func(el uint8) uint8) []uint8 {
 	result := make([]uint8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -42020,6 +42584,9 @@ func (s SliceUint8) DedupByUint8(f func(el uint8) uint8) []uint8 {
 // For which f returns the same result
 func (s SliceUint8) DedupByUint16(f func(el uint8) uint16) []uint8 {
 	result := make([]uint8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -42037,6 +42604,9 @@ func (s SliceUint8) DedupByUint16(f func(el uint8) uint16) []uint8 {
 // For which f returns the same result
 func (s SliceUint8) DedupByUint32(f func(el uint8) uint32) []uint8 {
 	result := make([]uint8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -42054,6 +42624,9 @@ func (s SliceUint8) DedupByUint32(f func(el uint8) uint32) []uint8 {
 // For which f returns the same result
 func (s SliceUint8) DedupByUint64(f func(el uint8) uint64) []uint8 {
 	result := make([]uint8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -42071,6 +42644,9 @@ func (s SliceUint8) DedupByUint64(f func(el uint8) uint64) []uint8 {
 // For which f returns the same result
 func (s SliceUint8) DedupByInterface(f func(el uint8) interface{}) []uint8 {
 	result := make([]uint8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -45444,6 +46020,9 @@ func (s SliceUint16) Dedup() []uint16 {
 // For which f returns the same result
 func (s SliceUint16) DedupByBool(f func(el uint16) bool) []uint16 {
 	result := make([]uint16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -45461,6 +46040,9 @@ func (s SliceUint16) DedupByBool(f func(el uint16) bool) []uint16 {
 // For which f returns the same result
 func (s SliceUint16) DedupByByte(f func(el uint16) byte) []uint16 {
 	result := make([]uint16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -45478,6 +46060,9 @@ func (s SliceUint16) DedupByByte(f func(el uint16) byte) []uint16 {
 // For which f returns the same result
 func (s SliceUint16) DedupByString(f func(el uint16) string) []uint16 {
 	result := make([]uint16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -45495,6 +46080,9 @@ func (s SliceUint16) DedupByString(f func(el uint16) string) []uint16 {
 // For which f returns the same result
 func (s SliceUint16) DedupByFloat32(f func(el uint16) float32) []uint16 {
 	result := make([]uint16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -45512,6 +46100,9 @@ func (s SliceUint16) DedupByFloat32(f func(el uint16) float32) []uint16 {
 // For which f returns the same result
 func (s SliceUint16) DedupByFloat64(f func(el uint16) float64) []uint16 {
 	result := make([]uint16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -45529,6 +46120,9 @@ func (s SliceUint16) DedupByFloat64(f func(el uint16) float64) []uint16 {
 // For which f returns the same result
 func (s SliceUint16) DedupByInt(f func(el uint16) int) []uint16 {
 	result := make([]uint16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -45546,6 +46140,9 @@ func (s SliceUint16) DedupByInt(f func(el uint16) int) []uint16 {
 // For which f returns the same result
 func (s SliceUint16) DedupByInt8(f func(el uint16) int8) []uint16 {
 	result := make([]uint16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -45563,6 +46160,9 @@ func (s SliceUint16) DedupByInt8(f func(el uint16) int8) []uint16 {
 // For which f returns the same result
 func (s SliceUint16) DedupByInt16(f func(el uint16) int16) []uint16 {
 	result := make([]uint16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -45580,6 +46180,9 @@ func (s SliceUint16) DedupByInt16(f func(el uint16) int16) []uint16 {
 // For which f returns the same result
 func (s SliceUint16) DedupByInt32(f func(el uint16) int32) []uint16 {
 	result := make([]uint16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -45597,6 +46200,9 @@ func (s SliceUint16) DedupByInt32(f func(el uint16) int32) []uint16 {
 // For which f returns the same result
 func (s SliceUint16) DedupByInt64(f func(el uint16) int64) []uint16 {
 	result := make([]uint16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -45614,6 +46220,9 @@ func (s SliceUint16) DedupByInt64(f func(el uint16) int64) []uint16 {
 // For which f returns the same result
 func (s SliceUint16) DedupByUint(f func(el uint16) uint) []uint16 {
 	result := make([]uint16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -45631,6 +46240,9 @@ func (s SliceUint16) DedupByUint(f func(el uint16) uint) []uint16 {
 // For which f returns the same result
 func (s SliceUint16) DedupByUint8(f func(el uint16) uint8) []uint16 {
 	result := make([]uint16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -45648,6 +46260,9 @@ func (s SliceUint16) DedupByUint8(f func(el uint16) uint8) []uint16 {
 // For which f returns the same result
 func (s SliceUint16) DedupByUint16(f func(el uint16) uint16) []uint16 {
 	result := make([]uint16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -45665,6 +46280,9 @@ func (s SliceUint16) DedupByUint16(f func(el uint16) uint16) []uint16 {
 // For which f returns the same result
 func (s SliceUint16) DedupByUint32(f func(el uint16) uint32) []uint16 {
 	result := make([]uint16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -45682,6 +46300,9 @@ func (s SliceUint16) DedupByUint32(f func(el uint16) uint32) []uint16 {
 // For which f returns the same result
 func (s SliceUint16) DedupByUint64(f func(el uint16) uint64) []uint16 {
 	result := make([]uint16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -45699,6 +46320,9 @@ func (s SliceUint16) DedupByUint64(f func(el uint16) uint64) []uint16 {
 // For which f returns the same result
 func (s SliceUint16) DedupByInterface(f func(el uint16) interface{}) []uint16 {
 	result := make([]uint16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -49072,6 +49696,9 @@ func (s SliceUint32) Dedup() []uint32 {
 // For which f returns the same result
 func (s SliceUint32) DedupByBool(f func(el uint32) bool) []uint32 {
 	result := make([]uint32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -49089,6 +49716,9 @@ func (s SliceUint32) DedupByBool(f func(el uint32) bool) []uint32 {
 // For which f returns the same result
 func (s SliceUint32) DedupByByte(f func(el uint32) byte) []uint32 {
 	result := make([]uint32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -49106,6 +49736,9 @@ func (s SliceUint32) DedupByByte(f func(el uint32) byte) []uint32 {
 // For which f returns the same result
 func (s SliceUint32) DedupByString(f func(el uint32) string) []uint32 {
 	result := make([]uint32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -49123,6 +49756,9 @@ func (s SliceUint32) DedupByString(f func(el uint32) string) []uint32 {
 // For which f returns the same result
 func (s SliceUint32) DedupByFloat32(f func(el uint32) float32) []uint32 {
 	result := make([]uint32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -49140,6 +49776,9 @@ func (s SliceUint32) DedupByFloat32(f func(el uint32) float32) []uint32 {
 // For which f returns the same result
 func (s SliceUint32) DedupByFloat64(f func(el uint32) float64) []uint32 {
 	result := make([]uint32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -49157,6 +49796,9 @@ func (s SliceUint32) DedupByFloat64(f func(el uint32) float64) []uint32 {
 // For which f returns the same result
 func (s SliceUint32) DedupByInt(f func(el uint32) int) []uint32 {
 	result := make([]uint32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -49174,6 +49816,9 @@ func (s SliceUint32) DedupByInt(f func(el uint32) int) []uint32 {
 // For which f returns the same result
 func (s SliceUint32) DedupByInt8(f func(el uint32) int8) []uint32 {
 	result := make([]uint32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -49191,6 +49836,9 @@ func (s SliceUint32) DedupByInt8(f func(el uint32) int8) []uint32 {
 // For which f returns the same result
 func (s SliceUint32) DedupByInt16(f func(el uint32) int16) []uint32 {
 	result := make([]uint32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -49208,6 +49856,9 @@ func (s SliceUint32) DedupByInt16(f func(el uint32) int16) []uint32 {
 // For which f returns the same result
 func (s SliceUint32) DedupByInt32(f func(el uint32) int32) []uint32 {
 	result := make([]uint32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -49225,6 +49876,9 @@ func (s SliceUint32) DedupByInt32(f func(el uint32) int32) []uint32 {
 // For which f returns the same result
 func (s SliceUint32) DedupByInt64(f func(el uint32) int64) []uint32 {
 	result := make([]uint32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -49242,6 +49896,9 @@ func (s SliceUint32) DedupByInt64(f func(el uint32) int64) []uint32 {
 // For which f returns the same result
 func (s SliceUint32) DedupByUint(f func(el uint32) uint) []uint32 {
 	result := make([]uint32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -49259,6 +49916,9 @@ func (s SliceUint32) DedupByUint(f func(el uint32) uint) []uint32 {
 // For which f returns the same result
 func (s SliceUint32) DedupByUint8(f func(el uint32) uint8) []uint32 {
 	result := make([]uint32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -49276,6 +49936,9 @@ func (s SliceUint32) DedupByUint8(f func(el uint32) uint8) []uint32 {
 // For which f returns the same result
 func (s SliceUint32) DedupByUint16(f func(el uint32) uint16) []uint32 {
 	result := make([]uint32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -49293,6 +49956,9 @@ func (s SliceUint32) DedupByUint16(f func(el uint32) uint16) []uint32 {
 // For which f returns the same result
 func (s SliceUint32) DedupByUint32(f func(el uint32) uint32) []uint32 {
 	result := make([]uint32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -49310,6 +49976,9 @@ func (s SliceUint32) DedupByUint32(f func(el uint32) uint32) []uint32 {
 // For which f returns the same result
 func (s SliceUint32) DedupByUint64(f func(el uint32) uint64) []uint32 {
 	result := make([]uint32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -49327,6 +49996,9 @@ func (s SliceUint32) DedupByUint64(f func(el uint32) uint64) []uint32 {
 // For which f returns the same result
 func (s SliceUint32) DedupByInterface(f func(el uint32) interface{}) []uint32 {
 	result := make([]uint32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -52700,6 +53372,9 @@ func (s SliceUint64) Dedup() []uint64 {
 // For which f returns the same result
 func (s SliceUint64) DedupByBool(f func(el uint64) bool) []uint64 {
 	result := make([]uint64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -52717,6 +53392,9 @@ func (s SliceUint64) DedupByBool(f func(el uint64) bool) []uint64 {
 // For which f returns the same result
 func (s SliceUint64) DedupByByte(f func(el uint64) byte) []uint64 {
 	result := make([]uint64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -52734,6 +53412,9 @@ func (s SliceUint64) DedupByByte(f func(el uint64) byte) []uint64 {
 // For which f returns the same result
 func (s SliceUint64) DedupByString(f func(el uint64) string) []uint64 {
 	result := make([]uint64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -52751,6 +53432,9 @@ func (s SliceUint64) DedupByString(f func(el uint64) string) []uint64 {
 // For which f returns the same result
 func (s SliceUint64) DedupByFloat32(f func(el uint64) float32) []uint64 {
 	result := make([]uint64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -52768,6 +53452,9 @@ func (s SliceUint64) DedupByFloat32(f func(el uint64) float32) []uint64 {
 // For which f returns the same result
 func (s SliceUint64) DedupByFloat64(f func(el uint64) float64) []uint64 {
 	result := make([]uint64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -52785,6 +53472,9 @@ func (s SliceUint64) DedupByFloat64(f func(el uint64) float64) []uint64 {
 // For which f returns the same result
 func (s SliceUint64) DedupByInt(f func(el uint64) int) []uint64 {
 	result := make([]uint64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -52802,6 +53492,9 @@ func (s SliceUint64) DedupByInt(f func(el uint64) int) []uint64 {
 // For which f returns the same result
 func (s SliceUint64) DedupByInt8(f func(el uint64) int8) []uint64 {
 	result := make([]uint64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -52819,6 +53512,9 @@ func (s SliceUint64) DedupByInt8(f func(el uint64) int8) []uint64 {
 // For which f returns the same result
 func (s SliceUint64) DedupByInt16(f func(el uint64) int16) []uint64 {
 	result := make([]uint64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -52836,6 +53532,9 @@ func (s SliceUint64) DedupByInt16(f func(el uint64) int16) []uint64 {
 // For which f returns the same result
 func (s SliceUint64) DedupByInt32(f func(el uint64) int32) []uint64 {
 	result := make([]uint64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -52853,6 +53552,9 @@ func (s SliceUint64) DedupByInt32(f func(el uint64) int32) []uint64 {
 // For which f returns the same result
 func (s SliceUint64) DedupByInt64(f func(el uint64) int64) []uint64 {
 	result := make([]uint64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -52870,6 +53572,9 @@ func (s SliceUint64) DedupByInt64(f func(el uint64) int64) []uint64 {
 // For which f returns the same result
 func (s SliceUint64) DedupByUint(f func(el uint64) uint) []uint64 {
 	result := make([]uint64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -52887,6 +53592,9 @@ func (s SliceUint64) DedupByUint(f func(el uint64) uint) []uint64 {
 // For which f returns the same result
 func (s SliceUint64) DedupByUint8(f func(el uint64) uint8) []uint64 {
 	result := make([]uint64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -52904,6 +53612,9 @@ func (s SliceUint64) DedupByUint8(f func(el uint64) uint8) []uint64 {
 // For which f returns the same result
 func (s SliceUint64) DedupByUint16(f func(el uint64) uint16) []uint64 {
 	result := make([]uint64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -52921,6 +53632,9 @@ func (s SliceUint64) DedupByUint16(f func(el uint64) uint16) []uint64 {
 // For which f returns the same result
 func (s SliceUint64) DedupByUint32(f func(el uint64) uint32) []uint64 {
 	result := make([]uint64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -52938,6 +53652,9 @@ func (s SliceUint64) DedupByUint32(f func(el uint64) uint32) []uint64 {
 // For which f returns the same result
 func (s SliceUint64) DedupByUint64(f func(el uint64) uint64) []uint64 {
 	result := make([]uint64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -52955,6 +53672,9 @@ func (s SliceUint64) DedupByUint64(f func(el uint64) uint64) []uint64 {
 // For which f returns the same result
 func (s SliceUint64) DedupByInterface(f func(el uint64) interface{}) []uint64 {
 	result := make([]uint64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -56258,6 +56978,9 @@ func (s SliceInterface) Dedup() []interface{} {
 // For which f returns the same result
 func (s SliceInterface) DedupByBool(f func(el interface{}) bool) []interface{} {
 	result := make([]interface{}, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -56275,6 +56998,9 @@ func (s SliceInterface) DedupByBool(f func(el interface{}) bool) []interface{} {
 // For which f returns the same result
 func (s SliceInterface) DedupByByte(f func(el interface{}) byte) []interface{} {
 	result := make([]interface{}, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -56292,6 +57018,9 @@ func (s SliceInterface) DedupByByte(f func(el interface{}) byte) []interface{} {
 // For which f returns the same result
 func (s SliceInterface) DedupByString(f func(el interface{}) string) []interface{} {
 	result := make([]interface{}, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -56309,6 +57038,9 @@ func (s SliceInterface) DedupByString(f func(el interface{}) string) []interface
 // For which f returns the same result
 func (s SliceInterface) DedupByFloat32(f func(el interface{}) float32) []interface{} {
 	result := make([]interface{}, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -56326,6 +57058,9 @@ func (s SliceInterface) DedupByFloat32(f func(el interface{}) float32) []interfa
 // For which f returns the same result
 func (s SliceInterface) DedupByFloat64(f func(el interface{}) float64) []interface{} {
 	result := make([]interface{}, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -56343,6 +57078,9 @@ func (s SliceInterface) DedupByFloat64(f func(el interface{}) float64) []interfa
 // For which f returns the same result
 func (s SliceInterface) DedupByInt(f func(el interface{}) int) []interface{} {
 	result := make([]interface{}, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -56360,6 +57098,9 @@ func (s SliceInterface) DedupByInt(f func(el interface{}) int) []interface{} {
 // For which f returns the same result
 func (s SliceInterface) DedupByInt8(f func(el interface{}) int8) []interface{} {
 	result := make([]interface{}, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -56377,6 +57118,9 @@ func (s SliceInterface) DedupByInt8(f func(el interface{}) int8) []interface{} {
 // For which f returns the same result
 func (s SliceInterface) DedupByInt16(f func(el interface{}) int16) []interface{} {
 	result := make([]interface{}, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -56394,6 +57138,9 @@ func (s SliceInterface) DedupByInt16(f func(el interface{}) int16) []interface{}
 // For which f returns the same result
 func (s SliceInterface) DedupByInt32(f func(el interface{}) int32) []interface{} {
 	result := make([]interface{}, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -56411,6 +57158,9 @@ func (s SliceInterface) DedupByInt32(f func(el interface{}) int32) []interface{}
 // For which f returns the same result
 func (s SliceInterface) DedupByInt64(f func(el interface{}) int64) []interface{} {
 	result := make([]interface{}, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -56428,6 +57178,9 @@ func (s SliceInterface) DedupByInt64(f func(el interface{}) int64) []interface{}
 // For which f returns the same result
 func (s SliceInterface) DedupByUint(f func(el interface{}) uint) []interface{} {
 	result := make([]interface{}, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -56445,6 +57198,9 @@ func (s SliceInterface) DedupByUint(f func(el interface{}) uint) []interface{} {
 // For which f returns the same result
 func (s SliceInterface) DedupByUint8(f func(el interface{}) uint8) []interface{} {
 	result := make([]interface{}, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -56462,6 +57218,9 @@ func (s SliceInterface) DedupByUint8(f func(el interface{}) uint8) []interface{}
 // For which f returns the same result
 func (s SliceInterface) DedupByUint16(f func(el interface{}) uint16) []interface{} {
 	result := make([]interface{}, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -56479,6 +57238,9 @@ func (s SliceInterface) DedupByUint16(f func(el interface{}) uint16) []interface
 // For which f returns the same result
 func (s SliceInterface) DedupByUint32(f func(el interface{}) uint32) []interface{} {
 	result := make([]interface{}, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -56496,6 +57258,9 @@ func (s SliceInterface) DedupByUint32(f func(el interface{}) uint32) []interface
 // For which f returns the same result
 func (s SliceInterface) DedupByUint64(f func(el interface{}) uint64) []interface{} {
 	result := make([]interface{}, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])
@@ -56513,6 +57278,9 @@ func (s SliceInterface) DedupByUint64(f func(el interface{}) uint64) []interface
 // For which f returns the same result
 func (s SliceInterface) DedupByInterface(f func(el interface{}) interface{}) []interface{} {
 	result := make([]interface{}, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := f(s.Data[0])
 	result = append(result, s.Data[0])

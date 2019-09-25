@@ -109,6 +109,21 @@ func TestSliceDedup(t *testing.T) {
 	f([]T{1, 2, 2, 3, 3, 3, 2, 1, 1}, []T{1, 2, 3, 2, 1})
 }
 
+func TestSliceDedupBy(t *testing.T) {
+	f := func(given []T, expected []T) {
+		even := func(el T) G { return G(el % 2) }
+		actual := Slice{given}.DedupBy(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{})
+	f([]T{1}, []T{1})
+	f([]T{1, 1}, []T{1})
+	f([]T{1, 2}, []T{1, 2})
+	f([]T{1, 2, 3}, []T{1, 2, 3})
+	f([]T{1, 2, 2, 3}, []T{1, 2, 3})
+	f([]T{1, 2, 4, 3, 5, 7, 10}, []T{1, 2, 3, 10})
+}
+
 func TestSliceFilter(t *testing.T) {
 	f := func(given []T, expected []T) {
 		even := func(t T) bool { return (t % 2) == 0 }
