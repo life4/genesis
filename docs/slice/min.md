@@ -8,6 +8,15 @@ Min returns the minimal element from arr
 
 Generic types: T.
 
+## Examples
+
+```go
+s := []int{42, 7, 13}
+min := genesis.SliceInt{s}.Min()
+fmt.Println(min)
+// Output: 7
+```
+
 ## Structs
 
 | Struct | T type |

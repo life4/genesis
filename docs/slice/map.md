@@ -8,6 +8,16 @@ Map applies F to all elements in slice of T and returns slice of results
 
 Generic types: G, T.
 
+## Examples
+
+```go
+s := []int{4, 8, 15, 16, 23, 42}
+double := func(el int) int { return el * 2 }
+doubled := genesis.SliceInt{s}.MapInt(double)
+fmt.Println(doubled)
+// Output: [8 16 30 32 46 84]
+```
+
 ## Structs
 
 | Struct | T type |

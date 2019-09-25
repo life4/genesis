@@ -8,6 +8,14 @@ func ({{ func.pointer }}{{ func.struct }}) {{ func.name }}{{ func.signature }}
 
 Generic types: {{ ', '.join(sorted(func.generics)) }}.
 
+{% if example -%}
+## Examples
+
+```go
+{{ example.content }}
+```
+{%- endif %}
+
 ## Structs
 
 | Struct | T type |

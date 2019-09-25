@@ -8,6 +8,15 @@ Max returns the maximal element from arr
 
 Generic types: T.
 
+## Examples
+
+```go
+s := []int{7, 42, 13}
+max := genesis.SliceInt{s}.Max()
+fmt.Println(max)
+// Output: 42
+```
+
 ## Structs
 
 | Struct | T type |

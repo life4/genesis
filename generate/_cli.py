@@ -14,6 +14,7 @@ def get_parser() -> ArgumentParser:
     parser.add_argument('--output', default='generated.go')
     parser.add_argument('--tests', default='generated_test.go')
     parser.add_argument('--docs', default='docs')
+    parser.add_argument('--examples', default='genesis_test.go')
     parser.add_argument('--package', default='genesis')
     parser.add_argument('-t', dest='types', nargs='*', )
     return parser
@@ -26,10 +27,10 @@ def get_paths(input_path: Path) -> Iterator[Path]:
         yield from input_path.iterdir()
 
 
-def merge(paths, package: str) -> File:
+def merge(paths, package: str, example: bool = False) -> File:
     files = []
     for path in paths:
-        files.append(File.from_path(path))
+        files.append(File.from_path(path, example=example))
     file = File.merge(*files)
     file.package = package
     return file
@@ -78,6 +79,11 @@ def entrypoint(argv: List[str] = None) -> None:
     docs = Docs(
         code_file=merge(paths=paths_code, package=args.package),
         test_file=merge(paths=paths_test, package=args.package),
+        example_file=merge(
+            paths=[Path(args.examples)],
+            package=args.package,
+            example=True,
+        ),
         types=types,
     )
     docs.render(path=Path(args.docs))

@@ -17,6 +17,7 @@ env = Environment(
 class Docs:
     code_file = attr.ib(type=File)
     test_file = attr.ib(type=File)
+    example_file = attr.ib(type=File)
     types = attr.ib(type=Sequence[Type])
 
     def render_root(self) -> str:
@@ -43,10 +44,17 @@ class Docs:
                 test = t
                 break
 
+        example = None
+        for t in self.example_file.functions:
+            if t.name == func.name and t.struct == func.struct:
+                example = t
+                break
+
         template = env.get_template('func.md.j2')
         rendered = template.render(
             func=func,
             test=test,
+            example=example,
             types=self.types,
             structs=self.code_file.structs,
             is_excluded=is_excluded,
