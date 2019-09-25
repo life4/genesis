@@ -119,6 +119,9 @@ func (s Slice) Cycle() chan T {
 // Dedup returns a given slice without consecutive duplicated elements
 func (s Slice) Dedup() []T {
 	result := make([]T, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := s.Data[0]
 	result = append(result, prev)

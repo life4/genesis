@@ -35,6 +35,9 @@ Generic types: T.
 // Dedup returns a given slice without consecutive duplicated elements
 func (s Slice) Dedup() []T {
 	result := make([]T, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := s.Data[0]
 	result = append(result, prev)
@@ -48,3 +51,20 @@ func (s Slice) Dedup() []T {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceDedup(t *testing.T) {
+	f := func(given []T, expected []T) {
+		actual := Slice{given}.Dedup()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{})
+	f([]T{1}, []T{1})
+	f([]T{1, 1}, []T{1})
+	f([]T{1, 2}, []T{1, 2})
+	f([]T{1, 2, 3}, []T{1, 2, 3})
+	f([]T{1, 2, 2, 3}, []T{1, 2, 3})
+	f([]T{1, 2, 2, 3, 3, 3, 2, 1, 1}, []T{1, 2, 3, 2, 1})
+}
+```

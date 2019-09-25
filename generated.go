@@ -2044,6 +2044,9 @@ func (s SliceBool) Cycle() chan bool {
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceBool) Dedup() []bool {
 	result := make([]bool, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := s.Data[0]
 	result = append(result, prev)
@@ -5571,6 +5574,9 @@ func (s SliceByte) Cycle() chan byte {
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceByte) Dedup() []byte {
 	result := make([]byte, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := s.Data[0]
 	result = append(result, prev)
@@ -9157,6 +9163,9 @@ func (s SliceString) Cycle() chan string {
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceString) Dedup() []string {
 	result := make([]string, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := s.Data[0]
 	result = append(result, prev)
@@ -12782,6 +12791,9 @@ func (s SliceFloat32) Cycle() chan float32 {
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceFloat32) Dedup() []float32 {
 	result := make([]float32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := s.Data[0]
 	result = append(result, prev)
@@ -16398,6 +16410,9 @@ func (s SliceFloat64) Cycle() chan float64 {
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceFloat64) Dedup() []float64 {
 	result := make([]float64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := s.Data[0]
 	result = append(result, prev)
@@ -20014,6 +20029,9 @@ func (s SliceInt) Cycle() chan int {
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceInt) Dedup() []int {
 	result := make([]int, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := s.Data[0]
 	result = append(result, prev)
@@ -23639,6 +23657,9 @@ func (s SliceInt8) Cycle() chan int8 {
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceInt8) Dedup() []int8 {
 	result := make([]int8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := s.Data[0]
 	result = append(result, prev)
@@ -27264,6 +27285,9 @@ func (s SliceInt16) Cycle() chan int16 {
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceInt16) Dedup() []int16 {
 	result := make([]int16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := s.Data[0]
 	result = append(result, prev)
@@ -30889,6 +30913,9 @@ func (s SliceInt32) Cycle() chan int32 {
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceInt32) Dedup() []int32 {
 	result := make([]int32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := s.Data[0]
 	result = append(result, prev)
@@ -34514,6 +34541,9 @@ func (s SliceInt64) Cycle() chan int64 {
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceInt64) Dedup() []int64 {
 	result := make([]int64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := s.Data[0]
 	result = append(result, prev)
@@ -38139,6 +38169,9 @@ func (s SliceUint) Cycle() chan uint {
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceUint) Dedup() []uint {
 	result := make([]uint, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := s.Data[0]
 	result = append(result, prev)
@@ -41764,6 +41797,9 @@ func (s SliceUint8) Cycle() chan uint8 {
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceUint8) Dedup() []uint8 {
 	result := make([]uint8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := s.Data[0]
 	result = append(result, prev)
@@ -45389,6 +45425,9 @@ func (s SliceUint16) Cycle() chan uint16 {
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceUint16) Dedup() []uint16 {
 	result := make([]uint16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := s.Data[0]
 	result = append(result, prev)
@@ -49014,6 +49053,9 @@ func (s SliceUint32) Cycle() chan uint32 {
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceUint32) Dedup() []uint32 {
 	result := make([]uint32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := s.Data[0]
 	result = append(result, prev)
@@ -52639,6 +52681,9 @@ func (s SliceUint64) Cycle() chan uint64 {
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceUint64) Dedup() []uint64 {
 	result := make([]uint64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := s.Data[0]
 	result = append(result, prev)
@@ -56194,6 +56239,9 @@ func (s SliceInterface) Cycle() chan interface{} {
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceInterface) Dedup() []interface{} {
 	result := make([]interface{}, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
 
 	prev := s.Data[0]
 	result = append(result, prev)

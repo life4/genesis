@@ -90,7 +90,23 @@ func TestSliceCycle(t *testing.T) {
 		actual := Channel{seq}.ToSlice()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
+	f(5, []T{}, []T{})
+	f(5, []T{1}, []T{1, 1, 1, 1, 1})
 	f(5, []T{1, 2}, []T{1, 2, 1, 2, 1})
+}
+
+func TestSliceDedup(t *testing.T) {
+	f := func(given []T, expected []T) {
+		actual := Slice{given}.Dedup()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{})
+	f([]T{1}, []T{1})
+	f([]T{1, 1}, []T{1})
+	f([]T{1, 2}, []T{1, 2})
+	f([]T{1, 2, 3}, []T{1, 2, 3})
+	f([]T{1, 2, 2, 3}, []T{1, 2, 3})
+	f([]T{1, 2, 2, 3, 3, 3, 2, 1, 1}, []T{1, 2, 3, 2, 1})
 }
 
 func TestSliceFilter(t *testing.T) {

@@ -60,6 +60,8 @@ func TestSliceCycle(t *testing.T) {
 		actual := Channel{seq}.ToSlice()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
+	f(5, []T{}, []T{})
+	f(5, []T{1}, []T{1, 1, 1, 1, 1})
 	f(5, []T{1, 2}, []T{1, 2, 1, 2, 1})
 }
 ```
