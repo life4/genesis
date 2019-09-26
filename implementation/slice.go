@@ -32,6 +32,18 @@ func (s Slice) All(f func(el T) bool) bool {
 	return true
 }
 
+// Choice chooses a random element from the slice
+func (s Slice) Choice() T {
+	if len(s.Data) == 0 {
+		var tmp T
+		return tmp
+	}
+
+	rand.Seed(time.Now().UnixNano())
+	i := rand.Intn(len(s.Data))
+	return s.Data[i]
+}
+
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s Slice) ChunkBy(f func(el T) G) [][]T {
 	chunks := make([][]T, 0)
@@ -165,6 +177,39 @@ func (s Slice) DedupBy(f func(el T) G) []T {
 	return result
 }
 
+// Delete deletes the first occurence of the element from the slice
+func (s Slice) Delete(element T) []T {
+	result := make([]T, 0, len(s.Data)-1)
+	deleted := false
+	for _, el := range s.Data {
+		if !deleted && el == element {
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAt returns the slice without elements on given positions
+func (s Slice) DeleteAt(indices ...int) []T {
+	result := make([]T, 0, len(s.Data)-len(indices))
+
+	for i, el := range s.Data {
+		allowed := true
+		for _, j := range indices {
+			if i == j {
+				allowed = false
+				break
+			}
+		}
+		if allowed {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
 func (s Slice) DropEvery(nth int) []T {
@@ -264,6 +309,26 @@ func (s Slice) GroupBy(f func(el T) G) map[G][]T {
 	return result
 }
 
+// InsertAt returns the slice with element inserted at given index.
+func (s Slice) InsertAt(index int, element T) []T {
+	result := make([]T, 0, len(s.Data)+1)
+
+	// insert at the end
+	if index >= len(s.Data) || index == -1 {
+		result = append(result, s.Data...)
+		result = append(result, element)
+		return result
+	}
+
+	for i, el := range s.Data {
+		if i == index {
+			result = append(result, element)
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
 // Intersperse inserts el between each element of arr
 func (s Slice) Intersperse(el T) []T {
 	if len(s.Data) == 0 {
@@ -276,6 +341,15 @@ func (s Slice) Intersperse(el T) []T {
 		result = append(result, el, val)
 	}
 	return result
+}
+
+// Last returns the last element from the slice
+func (s Slice) Last() T {
+	if len(s.Data) == 0 {
+		var tmp T
+		return tmp
+	}
+	return s.Data[len(s.Data)-1]
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
@@ -396,6 +470,19 @@ func (s Slice) ReduceWhile(acc G, f func(el T, acc G) (G, error)) (G, error) {
 	return acc, nil
 }
 
+// ReplaceAt returns the slice with element replaced at given index.
+func (s Slice) ReplaceAt(index int, element T) []T {
+	result := make([]T, 0, len(s.Data)+1)
+	for i, el := range s.Data {
+		if i == index {
+			result = append(result, element)
+		} else {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
 // Reverse returns given arr in reversed order
 func (s Slice) Reverse() []T {
 	result := make([]T, 0, len(s.Data))
@@ -490,6 +577,37 @@ func (s Slice) Sum() T {
 		sum += el
 	}
 	return sum
+}
+
+// TakeEvery returns slice of every nth elements
+func (s Slice) TakeEvery(nth int) []T {
+	if nth == 0 {
+		return []T{}
+	}
+	result := make([]T, 0, len(s.Data))
+	for i, el := range s.Data {
+		if (i+1)%nth == 0 {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
+// TakeRandom returns slice of count random elements from the slice
+func (s Slice) TakeRandom(count int) []T {
+	if count > len(s.Data) {
+		count = len(s.Data)
+	}
+	if count <= 0 {
+		return []T{}
+	}
+
+	rand.Seed(time.Now().UnixNano())
+	swap := func(i, j int) {
+		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
+	}
+	rand.Shuffle(len(s.Data), swap)
+	return s.Data[:count]
 }
 
 // TakeWhile takes elements from arr while f returns true
