@@ -46,12 +46,11 @@ func TestSliceChunkBy(t *testing.T) {
 
 func TestSliceChunkEvery(t *testing.T) {
 	f := func(count int, given []T, expected [][]T) {
-		actual := Slice{given}.ChunkEvery(count)
+		actual, _ := Slice{given}.ChunkEvery(count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(2, []T{}, [][]T{})
 	f(2, []T{1}, [][]T{{1}})
-	f(-3, []T{1}, [][]T{{1}})
 	f(2, []T{1, 2, 3, 4}, [][]T{{1, 2}, {3, 4}})
 	f(2, []T{1, 2, 3, 4, 5}, [][]T{{1, 2}, {3, 4}, {5}})
 }
