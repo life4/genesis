@@ -470,19 +470,6 @@ func (s Slice) ReduceWhile(acc G, f func(el T, acc G) (G, error)) (G, error) {
 	return acc, nil
 }
 
-// ReplaceAt returns the slice with element replaced at given index.
-func (s Slice) ReplaceAt(index int, element T) []T {
-	result := make([]T, 0, len(s.Data)+1)
-	for i, el := range s.Data {
-		if i == index {
-			result = append(result, element)
-		} else {
-			result = append(result, el)
-		}
-	}
-	return result
-}
-
 // Reverse returns given arr in reversed order
 func (s Slice) Reverse() []T {
 	result := make([]T, 0, len(s.Data))

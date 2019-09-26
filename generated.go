@@ -3294,19 +3294,6 @@ func (s SliceBool) ReduceWhileInterface(acc interface{}, f func(el bool, acc int
 	return acc, nil
 }
 
-// ReplaceAt returns the slice with element replaced at given index.
-func (s SliceBool) ReplaceAt(index int, element bool) []bool {
-	result := make([]bool, 0, len(s.Data)+1)
-	for i, el := range s.Data {
-		if i == index {
-			result = append(result, element)
-		} else {
-			result = append(result, el)
-		}
-	}
-	return result
-}
-
 // Reverse returns given arr in reversed order
 func (s SliceBool) Reverse() []bool {
 	result := make([]bool, 0, len(s.Data))
@@ -7033,19 +7020,6 @@ func (s SliceByte) ReduceWhileInterface(acc interface{}, f func(el byte, acc int
 		}
 	}
 	return acc, nil
-}
-
-// ReplaceAt returns the slice with element replaced at given index.
-func (s SliceByte) ReplaceAt(index int, element byte) []byte {
-	result := make([]byte, 0, len(s.Data)+1)
-	for i, el := range s.Data {
-		if i == index {
-			result = append(result, element)
-		} else {
-			result = append(result, el)
-		}
-	}
-	return result
 }
 
 // Reverse returns given arr in reversed order
@@ -10802,19 +10776,6 @@ func (s SliceString) ReduceWhileInterface(acc interface{}, f func(el string, acc
 		}
 	}
 	return acc, nil
-}
-
-// ReplaceAt returns the slice with element replaced at given index.
-func (s SliceString) ReplaceAt(index int, element string) []string {
-	result := make([]string, 0, len(s.Data)+1)
-	for i, el := range s.Data {
-		if i == index {
-			result = append(result, element)
-		} else {
-			result = append(result, el)
-		}
-	}
-	return result
 }
 
 // Reverse returns given arr in reversed order
@@ -14603,19 +14564,6 @@ func (s SliceFloat32) ReduceWhileInterface(acc interface{}, f func(el float32, a
 	return acc, nil
 }
 
-// ReplaceAt returns the slice with element replaced at given index.
-func (s SliceFloat32) ReplaceAt(index int, element float32) []float32 {
-	result := make([]float32, 0, len(s.Data)+1)
-	for i, el := range s.Data {
-		if i == index {
-			result = append(result, element)
-		} else {
-			result = append(result, el)
-		}
-	}
-	return result
-}
-
 // Reverse returns given arr in reversed order
 func (s SliceFloat32) Reverse() []float32 {
 	result := make([]float32, 0, len(s.Data))
@@ -18400,19 +18348,6 @@ func (s SliceFloat64) ReduceWhileInterface(acc interface{}, f func(el float64, a
 		}
 	}
 	return acc, nil
-}
-
-// ReplaceAt returns the slice with element replaced at given index.
-func (s SliceFloat64) ReplaceAt(index int, element float64) []float64 {
-	result := make([]float64, 0, len(s.Data)+1)
-	for i, el := range s.Data {
-		if i == index {
-			result = append(result, element)
-		} else {
-			result = append(result, el)
-		}
-	}
-	return result
 }
 
 // Reverse returns given arr in reversed order
@@ -22210,19 +22145,6 @@ func (s SliceInt) ReduceWhileInterface(acc interface{}, f func(el int, acc inter
 	return acc, nil
 }
 
-// ReplaceAt returns the slice with element replaced at given index.
-func (s SliceInt) ReplaceAt(index int, element int) []int {
-	result := make([]int, 0, len(s.Data)+1)
-	for i, el := range s.Data {
-		if i == index {
-			result = append(result, element)
-		} else {
-			result = append(result, el)
-		}
-	}
-	return result
-}
-
 // Reverse returns given arr in reversed order
 func (s SliceInt) Reverse() []int {
 	result := make([]int, 0, len(s.Data))
@@ -26016,19 +25938,6 @@ func (s SliceInt8) ReduceWhileInterface(acc interface{}, f func(el int8, acc int
 		}
 	}
 	return acc, nil
-}
-
-// ReplaceAt returns the slice with element replaced at given index.
-func (s SliceInt8) ReplaceAt(index int, element int8) []int8 {
-	result := make([]int8, 0, len(s.Data)+1)
-	for i, el := range s.Data {
-		if i == index {
-			result = append(result, element)
-		} else {
-			result = append(result, el)
-		}
-	}
-	return result
 }
 
 // Reverse returns given arr in reversed order
@@ -29826,19 +29735,6 @@ func (s SliceInt16) ReduceWhileInterface(acc interface{}, f func(el int16, acc i
 	return acc, nil
 }
 
-// ReplaceAt returns the slice with element replaced at given index.
-func (s SliceInt16) ReplaceAt(index int, element int16) []int16 {
-	result := make([]int16, 0, len(s.Data)+1)
-	for i, el := range s.Data {
-		if i == index {
-			result = append(result, element)
-		} else {
-			result = append(result, el)
-		}
-	}
-	return result
-}
-
 // Reverse returns given arr in reversed order
 func (s SliceInt16) Reverse() []int16 {
 	result := make([]int16, 0, len(s.Data))
@@ -33632,19 +33528,6 @@ func (s SliceInt32) ReduceWhileInterface(acc interface{}, f func(el int32, acc i
 		}
 	}
 	return acc, nil
-}
-
-// ReplaceAt returns the slice with element replaced at given index.
-func (s SliceInt32) ReplaceAt(index int, element int32) []int32 {
-	result := make([]int32, 0, len(s.Data)+1)
-	for i, el := range s.Data {
-		if i == index {
-			result = append(result, element)
-		} else {
-			result = append(result, el)
-		}
-	}
-	return result
 }
 
 // Reverse returns given arr in reversed order
@@ -37442,19 +37325,6 @@ func (s SliceInt64) ReduceWhileInterface(acc interface{}, f func(el int64, acc i
 	return acc, nil
 }
 
-// ReplaceAt returns the slice with element replaced at given index.
-func (s SliceInt64) ReplaceAt(index int, element int64) []int64 {
-	result := make([]int64, 0, len(s.Data)+1)
-	for i, el := range s.Data {
-		if i == index {
-			result = append(result, element)
-		} else {
-			result = append(result, el)
-		}
-	}
-	return result
-}
-
 // Reverse returns given arr in reversed order
 func (s SliceInt64) Reverse() []int64 {
 	result := make([]int64, 0, len(s.Data))
@@ -41248,19 +41118,6 @@ func (s SliceUint) ReduceWhileInterface(acc interface{}, f func(el uint, acc int
 		}
 	}
 	return acc, nil
-}
-
-// ReplaceAt returns the slice with element replaced at given index.
-func (s SliceUint) ReplaceAt(index int, element uint) []uint {
-	result := make([]uint, 0, len(s.Data)+1)
-	for i, el := range s.Data {
-		if i == index {
-			result = append(result, element)
-		} else {
-			result = append(result, el)
-		}
-	}
-	return result
 }
 
 // Reverse returns given arr in reversed order
@@ -45058,19 +44915,6 @@ func (s SliceUint8) ReduceWhileInterface(acc interface{}, f func(el uint8, acc i
 	return acc, nil
 }
 
-// ReplaceAt returns the slice with element replaced at given index.
-func (s SliceUint8) ReplaceAt(index int, element uint8) []uint8 {
-	result := make([]uint8, 0, len(s.Data)+1)
-	for i, el := range s.Data {
-		if i == index {
-			result = append(result, element)
-		} else {
-			result = append(result, el)
-		}
-	}
-	return result
-}
-
 // Reverse returns given arr in reversed order
 func (s SliceUint8) Reverse() []uint8 {
 	result := make([]uint8, 0, len(s.Data))
@@ -48864,19 +48708,6 @@ func (s SliceUint16) ReduceWhileInterface(acc interface{}, f func(el uint16, acc
 		}
 	}
 	return acc, nil
-}
-
-// ReplaceAt returns the slice with element replaced at given index.
-func (s SliceUint16) ReplaceAt(index int, element uint16) []uint16 {
-	result := make([]uint16, 0, len(s.Data)+1)
-	for i, el := range s.Data {
-		if i == index {
-			result = append(result, element)
-		} else {
-			result = append(result, el)
-		}
-	}
-	return result
 }
 
 // Reverse returns given arr in reversed order
@@ -52674,19 +52505,6 @@ func (s SliceUint32) ReduceWhileInterface(acc interface{}, f func(el uint32, acc
 	return acc, nil
 }
 
-// ReplaceAt returns the slice with element replaced at given index.
-func (s SliceUint32) ReplaceAt(index int, element uint32) []uint32 {
-	result := make([]uint32, 0, len(s.Data)+1)
-	for i, el := range s.Data {
-		if i == index {
-			result = append(result, element)
-		} else {
-			result = append(result, el)
-		}
-	}
-	return result
-}
-
 // Reverse returns given arr in reversed order
 func (s SliceUint32) Reverse() []uint32 {
 	result := make([]uint32, 0, len(s.Data))
@@ -56482,19 +56300,6 @@ func (s SliceUint64) ReduceWhileInterface(acc interface{}, f func(el uint64, acc
 	return acc, nil
 }
 
-// ReplaceAt returns the slice with element replaced at given index.
-func (s SliceUint64) ReplaceAt(index int, element uint64) []uint64 {
-	result := make([]uint64, 0, len(s.Data)+1)
-	for i, el := range s.Data {
-		if i == index {
-			result = append(result, element)
-		} else {
-			result = append(result, el)
-		}
-	}
-	return result
-}
-
 // Reverse returns given arr in reversed order
 func (s SliceUint64) Reverse() []uint64 {
 	result := make([]uint64, 0, len(s.Data))
@@ -60187,19 +59992,6 @@ func (s SliceInterface) ReduceWhileInterface(acc interface{}, f func(el interfac
 		}
 	}
 	return acc, nil
-}
-
-// ReplaceAt returns the slice with element replaced at given index.
-func (s SliceInterface) ReplaceAt(index int, element interface{}) []interface{} {
-	result := make([]interface{}, 0, len(s.Data)+1)
-	for i, el := range s.Data {
-		if i == index {
-			result = append(result, element)
-		} else {
-			result = append(result, el)
-		}
-	}
-	return result
 }
 
 // Reverse returns given arr in reversed order

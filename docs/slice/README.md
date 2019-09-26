@@ -66,7 +66,6 @@ type Slice struct {
 | [Product](./product.md) | Product returns cortesian product of elements {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4} |
 | [Reduce](./reduce.md) | Reduce applies F to acc and every element in slice of T and returns acc |
 | [ReduceWhile](./reducewhile.md) | ReduceWhile is like Reduce, but stops when f returns error |
-| [ReplaceAt](./replaceat.md) | ReplaceAt returns the slice with element replaced at given index. |
 | [Reverse](./reverse.md) | Reverse returns given arr in reversed order |
 | [Same](./same.md) | Same returns true if all element in arr the same |
 | [Scan](./scan.md) | Scan is like Reduce, but returns slice of f results |
