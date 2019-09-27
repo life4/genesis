@@ -1,7 +1,7 @@
 # Slice.Find
 
 ```go
-func (s Slice) Find(def T, f func(el T) bool) T
+func (s Slice) Find(f func(el T) bool) (T, error)
 ```
 
 Find returns the first element for which f returns true
@@ -33,13 +33,14 @@ Generic types: T.
 
 ```go
 // Find returns the first element for which f returns true
-func (s Slice) Find(def T, f func(el T) bool) T {
+func (s Slice) Find(f func(el T) bool) (T, error) {
 	for _, el := range s.Data {
 		if f(el) {
-			return el
+			return el, nil
 		}
 	}
-	return def
+	var tmp T
+	return tmp, ErrNotFound
 }
 ```
 

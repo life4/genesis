@@ -1,7 +1,7 @@
 # Slice.TakeRandom
 
 ```go
-func (s Slice) TakeRandom(count int) []T
+func (s Slice) TakeRandom(count int) ([]T, error)
 ```
 
 TakeRandom returns slice of count random elements from the slice
@@ -33,12 +33,12 @@ Generic types: T.
 
 ```go
 // TakeRandom returns slice of count random elements from the slice
-func (s Slice) TakeRandom(count int) []T {
+func (s Slice) TakeRandom(count int) ([]T, error) {
 	if count > len(s.Data) {
-		count = len(s.Data)
+		return nil, ErrIndexOutOfRange
 	}
 	if count <= 0 {
-		return []T{}
+		return nil, ErrNonPositiveStep
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -46,7 +46,7 @@ func (s Slice) TakeRandom(count int) []T {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
 	rand.Shuffle(len(s.Data), swap)
-	return s.Data[:count]
+	return s.Data[:count], nil
 }
 ```
 

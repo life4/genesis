@@ -35,8 +35,7 @@ Generic types: T.
 // Intersperse inserts el between each element of arr
 func (s Slice) Intersperse(el T) []T {
 	if len(s.Data) == 0 {
-		tmp := make([]T, 0)
-		return tmp
+		return s.Data
 	}
 	result := make([]T, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])

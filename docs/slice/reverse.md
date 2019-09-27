@@ -34,6 +34,9 @@ Generic types: T.
 ```go
 // Reverse returns given arr in reversed order
 func (s Slice) Reverse() []T {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	result := make([]T, 0, len(s.Data))
 	for i := len(s.Data) - 1; i >= 0; i-- {
 		result = append(result, s.Data[i])

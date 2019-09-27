@@ -1,7 +1,7 @@
 # Slice.InsertAt
 
 ```go
-func (s Slice) InsertAt(index int, element T) []T
+func (s Slice) InsertAt(index int, element T) ([]T, error)
 ```
 
 InsertAt returns the slice with element inserted at given index.
@@ -33,14 +33,21 @@ Generic types: T.
 
 ```go
 // InsertAt returns the slice with element inserted at given index.
-func (s Slice) InsertAt(index int, element T) []T {
+func (s Slice) InsertAt(index int, element T) ([]T, error) {
 	result := make([]T, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index >= len(s.Data) || index == -1 {
+	if index == len(s.Data) || index == -1 {
 		result = append(result, s.Data...)
 		result = append(result, element)
-		return result
+		return result, nil
+	}
+
+	if index > len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
+	if index < 0 {
+		return s.Data, ErrNegativeIndex
 	}
 
 	for i, el := range s.Data {
@@ -49,7 +56,7 @@ func (s Slice) InsertAt(index int, element T) []T {
 		}
 		result = append(result, el)
 	}
-	return result
+	return result, nil
 }
 ```
 

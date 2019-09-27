@@ -1,7 +1,7 @@
 # Slice.Window
 
 ```go
-func (s Slice) Window(size int) [][]T
+func (s Slice) Window(size int) ([][]T, error)
 ```
 
 Window makes sliding window for a given slice: ({1,2,3}, 2) -> (1,2), (2,3)
@@ -34,13 +34,16 @@ Generic types: T.
 ```go
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
-func (s Slice) Window(size int) [][]T {
+func (s Slice) Window(size int) ([][]T, error) {
+	if size <= 0 {
+		return nil, ErrNonPositiveStep
+	}
 	result := make([][]T, 0, len(s.Data)/size)
 	for i := 0; i <= len(s.Data)-size; i++ {
 		chunk := s.Data[i : i+size]
 		result = append(result, chunk)
 	}
-	return result
+	return result, nil
 }
 ```
 

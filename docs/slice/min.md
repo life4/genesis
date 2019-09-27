@@ -1,7 +1,7 @@
 # Slice.Min
 
 ```go
-func (s Slice) Min() T
+func (s Slice) Min() (T, error)
 ```
 
 Min returns the minimal element from arr
@@ -12,7 +12,7 @@ Generic types: T.
 
 ```go
 s := []int{42, 7, 13}
-min := genesis.SliceInt{s}.Min()
+min, _ := genesis.SliceInt{s}.Min()
 fmt.Println(min)
 // Output: 7
 ```
@@ -40,14 +40,19 @@ fmt.Println(min)
 
 ```go
 // Min returns the minimal element from arr
-func (s Slice) Min() T {
+func (s Slice) Min() (T, error) {
+	if len(s.Data) == 0 {
+		var tmp T
+		return tmp, ErrEmptySlice
+	}
+
 	min := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 ```
 

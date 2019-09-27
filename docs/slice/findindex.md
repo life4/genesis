@@ -1,10 +1,10 @@
 # Slice.FindIndex
 
 ```go
-func (s Slice) FindIndex(f func(el T) bool) int
+func (s Slice) FindIndex(f func(el T) bool) (int, error)
 ```
 
-FindIndex is like Find, but return element index instead of element itself Returns -1 if element is not found
+FindIndex is like Find, but return element index instead of element itself
 
 Generic types: T.
 
@@ -33,14 +33,13 @@ Generic types: T.
 
 ```go
 // FindIndex is like Find, but return element index instead of element itself
-// Returns -1 if element is not found
-func (s Slice) FindIndex(f func(el T) bool) int {
+func (s Slice) FindIndex(f func(el T) bool) (int, error) {
 	for i, el := range s.Data {
 		if f(el) {
-			return i
+			return i, nil
 		}
 	}
-	return -1
+	return 0, ErrNotFound
 }
 ```
 

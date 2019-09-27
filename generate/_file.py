@@ -5,6 +5,7 @@ from typing import Iterable, List, Union, Set
 
 import attr
 
+from ._error import Error
 from ._exclude import is_excluded
 from ._function import Function
 from ._struct import Struct
@@ -21,6 +22,7 @@ class File:
     imports = attr.ib(type=Set[str])
     functions = attr.ib(type=List[Union[Function, Test]])
     structs = attr.ib(type=List[Struct])
+    errors = attr.ib(type=List[Error])
 
     @classmethod
     def from_text(cls, text: str, test: bool = False, example: bool = False) -> 'File':
@@ -36,6 +38,7 @@ class File:
             imports=cls._get_imports(text),
             functions=factory(text),
             structs=Struct.from_text(text),
+            errors=Error.from_text(text),
         )
 
     @classmethod
@@ -63,12 +66,16 @@ class File:
             imports=self.imports | other.imports,
             functions=self.functions + other.functions,
             structs=self.structs + other.structs,
+            errors=self.errors + other.errors,
         )
 
     def render(self, types: Iterable[Type]) -> str:
         result = 'package {package}'.format(package=self.package)
         if self.imports:
             result += '\n\nimport ({})'.format('\n'.join(sorted(self.imports)))
+
+        for error in self.errors:
+            result += '\n' + error.source
 
         for t in types:
             # render structs for type

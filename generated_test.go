@@ -110,12 +110,11 @@ func TestSliceChunkByIntInt64(t *testing.T) {
 
 func TestSliceChunkEveryInt(t *testing.T) {
 	f := func(count int, given []int, expected [][]int) {
-		actual := SliceInt{given}.ChunkEvery(count)
+		actual, _ := SliceInt{given}.ChunkEvery(count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(2, []int{}, [][]int{})
 	f(2, []int{1}, [][]int{{1}})
-	f(-3, []int{1}, [][]int{{1}})
 	f(2, []int{1, 2, 3, 4}, [][]int{{1, 2}, {3, 4}})
 	f(2, []int{1, 2, 3, 4, 5}, [][]int{{1, 2}, {3, 4}, {5}})
 }
@@ -873,12 +872,11 @@ func TestSliceChunkByInt8Int64(t *testing.T) {
 
 func TestSliceChunkEveryInt8(t *testing.T) {
 	f := func(count int, given []int8, expected [][]int8) {
-		actual := SliceInt8{given}.ChunkEvery(count)
+		actual, _ := SliceInt8{given}.ChunkEvery(count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(2, []int8{}, [][]int8{})
 	f(2, []int8{1}, [][]int8{{1}})
-	f(-3, []int8{1}, [][]int8{{1}})
 	f(2, []int8{1, 2, 3, 4}, [][]int8{{1, 2}, {3, 4}})
 	f(2, []int8{1, 2, 3, 4, 5}, [][]int8{{1, 2}, {3, 4}, {5}})
 }
@@ -1636,12 +1634,11 @@ func TestSliceChunkByInt16Int64(t *testing.T) {
 
 func TestSliceChunkEveryInt16(t *testing.T) {
 	f := func(count int, given []int16, expected [][]int16) {
-		actual := SliceInt16{given}.ChunkEvery(count)
+		actual, _ := SliceInt16{given}.ChunkEvery(count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(2, []int16{}, [][]int16{})
 	f(2, []int16{1}, [][]int16{{1}})
-	f(-3, []int16{1}, [][]int16{{1}})
 	f(2, []int16{1, 2, 3, 4}, [][]int16{{1, 2}, {3, 4}})
 	f(2, []int16{1, 2, 3, 4, 5}, [][]int16{{1, 2}, {3, 4}, {5}})
 }
@@ -2399,12 +2396,11 @@ func TestSliceChunkByInt32Int64(t *testing.T) {
 
 func TestSliceChunkEveryInt32(t *testing.T) {
 	f := func(count int, given []int32, expected [][]int32) {
-		actual := SliceInt32{given}.ChunkEvery(count)
+		actual, _ := SliceInt32{given}.ChunkEvery(count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(2, []int32{}, [][]int32{})
 	f(2, []int32{1}, [][]int32{{1}})
-	f(-3, []int32{1}, [][]int32{{1}})
 	f(2, []int32{1, 2, 3, 4}, [][]int32{{1, 2}, {3, 4}})
 	f(2, []int32{1, 2, 3, 4, 5}, [][]int32{{1, 2}, {3, 4}, {5}})
 }
@@ -3162,12 +3158,11 @@ func TestSliceChunkByInt64Int64(t *testing.T) {
 
 func TestSliceChunkEveryInt64(t *testing.T) {
 	f := func(count int, given []int64, expected [][]int64) {
-		actual := SliceInt64{given}.ChunkEvery(count)
+		actual, _ := SliceInt64{given}.ChunkEvery(count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(2, []int64{}, [][]int64{})
 	f(2, []int64{1}, [][]int64{{1}})
-	f(-3, []int64{1}, [][]int64{{1}})
 	f(2, []int64{1, 2, 3, 4}, [][]int64{{1, 2}, {3, 4}})
 	f(2, []int64{1, 2, 3, 4, 5}, [][]int64{{1, 2}, {3, 4}, {5}})
 }

@@ -32,6 +32,9 @@ Generic types: T.
 ```go
 // Sort returns sorted slice
 func (s Slice) Sort() []T {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	less := func(i int, j int) bool {
 		return s.Data[i] < s.Data[j]
 	}

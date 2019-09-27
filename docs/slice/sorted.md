@@ -32,6 +32,9 @@ Generic types: T.
 ```go
 // Sorted returns true if slice is sorted
 func (s Slice) Sorted() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 1; i < len(s.Data); i++ {
 		if s.Data[i-1] > s.Data[i] {
 			return false

@@ -1,7 +1,7 @@
 # Slice.Last
 
 ```go
-func (s Slice) Last() T
+func (s Slice) Last() (T, error)
 ```
 
 Last returns the last element from the slice
@@ -33,12 +33,12 @@ Generic types: T.
 
 ```go
 // Last returns the last element from the slice
-func (s Slice) Last() T {
+func (s Slice) Last() (T, error) {
 	if len(s.Data) == 0 {
 		var tmp T
-		return tmp
+		return tmp, ErrEmptySlice
 	}
-	return s.Data[len(s.Data)-1]
+	return s.Data[len(s.Data)-1], nil
 }
 ```
 

@@ -1,7 +1,7 @@
 # Slice.TakeEvery
 
 ```go
-func (s Slice) TakeEvery(nth int) []T
+func (s Slice) TakeEvery(nth int) ([]T, error)
 ```
 
 TakeEvery returns slice of every nth elements
@@ -33,9 +33,9 @@ Generic types: T.
 
 ```go
 // TakeEvery returns slice of every nth elements
-func (s Slice) TakeEvery(nth int) []T {
-	if nth == 0 {
-		return []T{}
+func (s Slice) TakeEvery(nth int) ([]T, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
 	}
 	result := make([]T, 0, len(s.Data))
 	for i, el := range s.Data {
@@ -43,7 +43,7 @@ func (s Slice) TakeEvery(nth int) []T {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 ```
 

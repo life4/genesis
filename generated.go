@@ -2,11 +2,27 @@ package genesis
 
 import (
 	"context"
+	"errors"
 	"math/rand"
 	"sort"
 	"strings"
 	"sync"
 	"time")
+
+var ErrNegativeIndex = errors.New("negative index passed")
+
+
+var ErrNotFound = errors.New("negative index passed")
+
+
+var ErrNonPositiveStep = errors.New("step must be positive")
+
+
+var ErrIndexOutOfRange = errors.New("index is bigger than slice size")
+
+
+var ErrEmptySlice = errors.New("slice is empty")
+
 
 // Channel is a set of operations with channel
 type ChannelBool struct {
@@ -1568,15 +1584,15 @@ func (s SliceBool) All(f func(el bool) bool) bool {
 }
 
 // Choice chooses a random element from the slice
-func (s SliceBool) Choice() bool {
+func (s SliceBool) Choice() (bool, error) {
 	if len(s.Data) == 0 {
 		var tmp bool
-		return tmp
+		return tmp, ErrEmptySlice
 	}
 
 	rand.Seed(time.Now().UnixNano())
 	i := rand.Intn(len(s.Data))
-	return s.Data[i]
+	return s.Data[i], nil
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
@@ -1996,11 +2012,11 @@ func (s SliceBool) ChunkByInterface(f func(el bool) interface{}) [][]bool {
 }
 
 // ChunkEvery returns slice of slices containing count elements each
-func (s SliceBool) ChunkEvery(count int) [][]bool {
-	if count <= 0 {
-		count = 1
-	}
+func (s SliceBool) ChunkEvery(count int) ([][]bool, error) {
 	chunks := make([][]bool, 0)
+	if count <= 0 {
+		return chunks, ErrNegativeIndex
+	}
 	chunk := make([]bool, 0, count)
 	for i, el := range s.Data {
 		chunk = append(chunk, el)
@@ -2012,7 +2028,7 @@ func (s SliceBool) ChunkEvery(count int) [][]bool {
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
 	}
-	return chunks
+	return chunks, nil
 }
 
 // Contains returns true if el in arr.
@@ -2066,11 +2082,11 @@ func (s SliceBool) Cycle() chan bool {
 
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceBool) Dedup() []bool {
-	result := make([]bool, 0, len(s.Data))
 	if len(s.Data) == 0 {
-		return result
+		return s.Data
 	}
 
+	result := make([]bool, 0, len(s.Data))
 	prev := s.Data[0]
 	result = append(result, prev)
 	for _, el := range s.Data[1:] {
@@ -2417,34 +2433,33 @@ func (s SliceBool) Delete(element bool) []bool {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceBool) DeleteAt(indices ...int) []bool {
-	result := make([]bool, 0, len(s.Data)-len(indices))
+func (s SliceBool) DeleteAt(index int) ([]bool, error) {
+	if index >= len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
 
+	result := make([]bool, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		allowed := true
-		for _, j := range indices {
-			if i == j {
-				allowed = false
-				break
-			}
-		}
-		if allowed {
+		if i != index {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceBool) DropEvery(nth int) []bool {
+func (s SliceBool) DropEvery(nth int) ([]bool, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
+	}
 	result := make([]bool, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropWhile drops elements from arr while f returns true
@@ -2491,24 +2506,24 @@ func (s SliceBool) Filter(f func(el bool) bool) []bool {
 }
 
 // Find returns the first element for which f returns true
-func (s SliceBool) Find(def bool, f func(el bool) bool) bool {
+func (s SliceBool) Find(f func(el bool) bool) (bool, error) {
 	for _, el := range s.Data {
 		if f(el) {
-			return el
+			return el, nil
 		}
 	}
-	return def
+	var tmp bool
+	return tmp, ErrNotFound
 }
 
 // FindIndex is like Find, but return element index instead of element itself
-// Returns -1 if element is not found
-func (s SliceBool) FindIndex(f func(el bool) bool) int {
+func (s SliceBool) FindIndex(f func(el bool) bool) (int, error) {
 	for i, el := range s.Data {
 		if f(el) {
-			return i
+			return i, nil
 		}
 	}
-	return -1
+	return 0, ErrNotFound
 }
 
 // GroupBy groups element from array by value returned by f
@@ -2736,14 +2751,21 @@ func (s SliceBool) GroupByInterface(f func(el bool) interface{}) map[interface{}
 }
 
 // InsertAt returns the slice with element inserted at given index.
-func (s SliceBool) InsertAt(index int, element bool) []bool {
+func (s SliceBool) InsertAt(index int, element bool) ([]bool, error) {
 	result := make([]bool, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index >= len(s.Data) || index == -1 {
+	if index == len(s.Data) || index == -1 {
 		result = append(result, s.Data...)
 		result = append(result, element)
-		return result
+		return result, nil
+	}
+
+	if index > len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
+	if index < 0 {
+		return s.Data, ErrNegativeIndex
 	}
 
 	for i, el := range s.Data {
@@ -2752,14 +2774,13 @@ func (s SliceBool) InsertAt(index int, element bool) []bool {
 		}
 		result = append(result, el)
 	}
-	return result
+	return result, nil
 }
 
 // Intersperse inserts el between each element of arr
 func (s SliceBool) Intersperse(el bool) []bool {
 	if len(s.Data) == 0 {
-		tmp := make([]bool, 0)
-		return tmp
+		return s.Data
 	}
 	result := make([]bool, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
@@ -2770,12 +2791,12 @@ func (s SliceBool) Intersperse(el bool) []bool {
 }
 
 // Last returns the last element from the slice
-func (s SliceBool) Last() bool {
+func (s SliceBool) Last() (bool, error) {
 	if len(s.Data) == 0 {
 		var tmp bool
-		return tmp
+		return tmp, ErrEmptySlice
 	}
-	return s.Data[len(s.Data)-1]
+	return s.Data[len(s.Data)-1], nil
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
@@ -3296,6 +3317,9 @@ func (s SliceBool) ReduceWhileInterface(acc interface{}, f func(el bool, acc int
 
 // Reverse returns given arr in reversed order
 func (s SliceBool) Reverse() []bool {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	result := make([]bool, 0, len(s.Data))
 	for i := len(s.Data) - 1; i >= 0; i-- {
 		result = append(result, s.Data[i])
@@ -3305,6 +3329,9 @@ func (s SliceBool) Reverse() []bool {
 
 // Same returns true if all element in arr the same
 func (s SliceBool) Same() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 0; i < len(s.Data)-1; i++ {
 		if s.Data[i] != s.Data[i+1] {
 			return false
@@ -3475,6 +3502,9 @@ func (s SliceBool) ScanInterface(acc interface{}, f func(el bool, acc interface{
 
 // Shuffle in random order arr elements
 func (s SliceBool) Shuffle() []bool {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	rand.Seed(time.Now().UnixNano())
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
@@ -3513,9 +3543,9 @@ func (s SliceBool) StartsWith(prefix []bool) bool {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceBool) TakeEvery(nth int) []bool {
-	if nth == 0 {
-		return []bool{}
+func (s SliceBool) TakeEvery(nth int) ([]bool, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
 	}
 	result := make([]bool, 0, len(s.Data))
 	for i, el := range s.Data {
@@ -3523,16 +3553,16 @@ func (s SliceBool) TakeEvery(nth int) []bool {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // TakeRandom returns slice of count random elements from the slice
-func (s SliceBool) TakeRandom(count int) []bool {
+func (s SliceBool) TakeRandom(count int) ([]bool, error) {
 	if count > len(s.Data) {
-		count = len(s.Data)
+		return nil, ErrIndexOutOfRange
 	}
 	if count <= 0 {
-		return []bool{}
+		return nil, ErrNonPositiveStep
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -3540,7 +3570,7 @@ func (s SliceBool) TakeRandom(count int) []bool {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
 	rand.Shuffle(len(s.Data), swap)
-	return s.Data[:count]
+	return s.Data[:count], nil
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -3569,6 +3599,9 @@ func (s SliceBool) ToChannel() chan bool {
 
 // Uniq returns arr with only first occurences of every element.
 func (s SliceBool) Uniq() []bool {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	added := make(map[bool]struct{})
 	nothing := struct{}{}
 	result := make([]bool, 0, len(s.Data))
@@ -3585,13 +3618,16 @@ func (s SliceBool) Uniq() []bool {
 
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
-func (s SliceBool) Window(size int) [][]bool {
+func (s SliceBool) Window(size int) ([][]bool, error) {
+	if size <= 0 {
+		return nil, ErrNonPositiveStep
+	}
 	result := make([][]bool, 0, len(s.Data)/size)
 	for i := 0; i <= len(s.Data)-size; i++ {
 		chunk := s.Data[i : i+size]
 		result = append(result, chunk)
 	}
-	return result
+	return result, nil
 }
 
 // Without returns the slice with filtered out element
@@ -5265,15 +5301,15 @@ func (s SliceByte) All(f func(el byte) bool) bool {
 }
 
 // Choice chooses a random element from the slice
-func (s SliceByte) Choice() byte {
+func (s SliceByte) Choice() (byte, error) {
 	if len(s.Data) == 0 {
 		var tmp byte
-		return tmp
+		return tmp, ErrEmptySlice
 	}
 
 	rand.Seed(time.Now().UnixNano())
 	i := rand.Intn(len(s.Data))
-	return s.Data[i]
+	return s.Data[i], nil
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
@@ -5693,11 +5729,11 @@ func (s SliceByte) ChunkByInterface(f func(el byte) interface{}) [][]byte {
 }
 
 // ChunkEvery returns slice of slices containing count elements each
-func (s SliceByte) ChunkEvery(count int) [][]byte {
-	if count <= 0 {
-		count = 1
-	}
+func (s SliceByte) ChunkEvery(count int) ([][]byte, error) {
 	chunks := make([][]byte, 0)
+	if count <= 0 {
+		return chunks, ErrNegativeIndex
+	}
 	chunk := make([]byte, 0, count)
 	for i, el := range s.Data {
 		chunk = append(chunk, el)
@@ -5709,7 +5745,7 @@ func (s SliceByte) ChunkEvery(count int) [][]byte {
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
 	}
-	return chunks
+	return chunks, nil
 }
 
 // Contains returns true if el in arr.
@@ -5763,11 +5799,11 @@ func (s SliceByte) Cycle() chan byte {
 
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceByte) Dedup() []byte {
-	result := make([]byte, 0, len(s.Data))
 	if len(s.Data) == 0 {
-		return result
+		return s.Data
 	}
 
+	result := make([]byte, 0, len(s.Data))
 	prev := s.Data[0]
 	result = append(result, prev)
 	for _, el := range s.Data[1:] {
@@ -6114,34 +6150,33 @@ func (s SliceByte) Delete(element byte) []byte {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceByte) DeleteAt(indices ...int) []byte {
-	result := make([]byte, 0, len(s.Data)-len(indices))
+func (s SliceByte) DeleteAt(index int) ([]byte, error) {
+	if index >= len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
 
+	result := make([]byte, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		allowed := true
-		for _, j := range indices {
-			if i == j {
-				allowed = false
-				break
-			}
-		}
-		if allowed {
+		if i != index {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceByte) DropEvery(nth int) []byte {
+func (s SliceByte) DropEvery(nth int) ([]byte, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
+	}
 	result := make([]byte, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropWhile drops elements from arr while f returns true
@@ -6188,24 +6223,24 @@ func (s SliceByte) Filter(f func(el byte) bool) []byte {
 }
 
 // Find returns the first element for which f returns true
-func (s SliceByte) Find(def byte, f func(el byte) bool) byte {
+func (s SliceByte) Find(f func(el byte) bool) (byte, error) {
 	for _, el := range s.Data {
 		if f(el) {
-			return el
+			return el, nil
 		}
 	}
-	return def
+	var tmp byte
+	return tmp, ErrNotFound
 }
 
 // FindIndex is like Find, but return element index instead of element itself
-// Returns -1 if element is not found
-func (s SliceByte) FindIndex(f func(el byte) bool) int {
+func (s SliceByte) FindIndex(f func(el byte) bool) (int, error) {
 	for i, el := range s.Data {
 		if f(el) {
-			return i
+			return i, nil
 		}
 	}
-	return -1
+	return 0, ErrNotFound
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -6442,14 +6477,21 @@ func (s SliceByte) GroupByInterface(f func(el byte) interface{}) map[interface{}
 }
 
 // InsertAt returns the slice with element inserted at given index.
-func (s SliceByte) InsertAt(index int, element byte) []byte {
+func (s SliceByte) InsertAt(index int, element byte) ([]byte, error) {
 	result := make([]byte, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index >= len(s.Data) || index == -1 {
+	if index == len(s.Data) || index == -1 {
 		result = append(result, s.Data...)
 		result = append(result, element)
-		return result
+		return result, nil
+	}
+
+	if index > len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
+	if index < 0 {
+		return s.Data, ErrNegativeIndex
 	}
 
 	for i, el := range s.Data {
@@ -6458,14 +6500,13 @@ func (s SliceByte) InsertAt(index int, element byte) []byte {
 		}
 		result = append(result, el)
 	}
-	return result
+	return result, nil
 }
 
 // Intersperse inserts el between each element of arr
 func (s SliceByte) Intersperse(el byte) []byte {
 	if len(s.Data) == 0 {
-		tmp := make([]byte, 0)
-		return tmp
+		return s.Data
 	}
 	result := make([]byte, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
@@ -6476,12 +6517,12 @@ func (s SliceByte) Intersperse(el byte) []byte {
 }
 
 // Last returns the last element from the slice
-func (s SliceByte) Last() byte {
+func (s SliceByte) Last() (byte, error) {
 	if len(s.Data) == 0 {
 		var tmp byte
-		return tmp
+		return tmp, ErrEmptySlice
 	}
-	return s.Data[len(s.Data)-1]
+	return s.Data[len(s.Data)-1], nil
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
@@ -6629,25 +6670,35 @@ func (s SliceByte) MapInterface(f func(el byte) interface{}) []interface{} {
 }
 
 // Max returns the maximal element from arr
-func (s SliceByte) Max() byte {
+func (s SliceByte) Max() (byte, error) {
+	if len(s.Data) == 0 {
+		var tmp byte
+		return tmp, ErrEmptySlice
+	}
+
 	max := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from arr
-func (s SliceByte) Min() byte {
+func (s SliceByte) Min() (byte, error) {
+	if len(s.Data) == 0 {
+		var tmp byte
+		return tmp, ErrEmptySlice
+	}
+
 	min := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Permutations returns successive size-length permutations of elements from the slice.
@@ -7024,6 +7075,9 @@ func (s SliceByte) ReduceWhileInterface(acc interface{}, f func(el byte, acc int
 
 // Reverse returns given arr in reversed order
 func (s SliceByte) Reverse() []byte {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	result := make([]byte, 0, len(s.Data))
 	for i := len(s.Data) - 1; i >= 0; i-- {
 		result = append(result, s.Data[i])
@@ -7033,6 +7087,9 @@ func (s SliceByte) Reverse() []byte {
 
 // Same returns true if all element in arr the same
 func (s SliceByte) Same() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 0; i < len(s.Data)-1; i++ {
 		if s.Data[i] != s.Data[i+1] {
 			return false
@@ -7203,6 +7260,9 @@ func (s SliceByte) ScanInterface(acc interface{}, f func(el byte, acc interface{
 
 // Shuffle in random order arr elements
 func (s SliceByte) Shuffle() []byte {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	rand.Seed(time.Now().UnixNano())
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
@@ -7213,6 +7273,9 @@ func (s SliceByte) Shuffle() []byte {
 
 // Sort returns sorted slice
 func (s SliceByte) Sort() []byte {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	less := func(i int, j int) bool {
 		return s.Data[i] < s.Data[j]
 	}
@@ -7222,6 +7285,9 @@ func (s SliceByte) Sort() []byte {
 
 // Sorted returns true if slice is sorted
 func (s SliceByte) Sorted() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 1; i < len(s.Data); i++ {
 		if s.Data[i-1] > s.Data[i] {
 			return false
@@ -7269,9 +7335,9 @@ func (s SliceByte) Sum() byte {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceByte) TakeEvery(nth int) []byte {
-	if nth == 0 {
-		return []byte{}
+func (s SliceByte) TakeEvery(nth int) ([]byte, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
 	}
 	result := make([]byte, 0, len(s.Data))
 	for i, el := range s.Data {
@@ -7279,16 +7345,16 @@ func (s SliceByte) TakeEvery(nth int) []byte {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // TakeRandom returns slice of count random elements from the slice
-func (s SliceByte) TakeRandom(count int) []byte {
+func (s SliceByte) TakeRandom(count int) ([]byte, error) {
 	if count > len(s.Data) {
-		count = len(s.Data)
+		return nil, ErrIndexOutOfRange
 	}
 	if count <= 0 {
-		return []byte{}
+		return nil, ErrNonPositiveStep
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -7296,7 +7362,7 @@ func (s SliceByte) TakeRandom(count int) []byte {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
 	rand.Shuffle(len(s.Data), swap)
-	return s.Data[:count]
+	return s.Data[:count], nil
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -7325,6 +7391,9 @@ func (s SliceByte) ToChannel() chan byte {
 
 // Uniq returns arr with only first occurences of every element.
 func (s SliceByte) Uniq() []byte {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	added := make(map[byte]struct{})
 	nothing := struct{}{}
 	result := make([]byte, 0, len(s.Data))
@@ -7341,13 +7410,16 @@ func (s SliceByte) Uniq() []byte {
 
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
-func (s SliceByte) Window(size int) [][]byte {
+func (s SliceByte) Window(size int) ([][]byte, error) {
+	if size <= 0 {
+		return nil, ErrNonPositiveStep
+	}
 	result := make([][]byte, 0, len(s.Data)/size)
 	for i := 0; i <= len(s.Data)-size; i++ {
 		chunk := s.Data[i : i+size]
 		result = append(result, chunk)
 	}
-	return result
+	return result, nil
 }
 
 // Without returns the slice with filtered out element
@@ -9021,15 +9093,15 @@ func (s SliceString) All(f func(el string) bool) bool {
 }
 
 // Choice chooses a random element from the slice
-func (s SliceString) Choice() string {
+func (s SliceString) Choice() (string, error) {
 	if len(s.Data) == 0 {
 		var tmp string
-		return tmp
+		return tmp, ErrEmptySlice
 	}
 
 	rand.Seed(time.Now().UnixNano())
 	i := rand.Intn(len(s.Data))
-	return s.Data[i]
+	return s.Data[i], nil
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
@@ -9449,11 +9521,11 @@ func (s SliceString) ChunkByInterface(f func(el string) interface{}) [][]string 
 }
 
 // ChunkEvery returns slice of slices containing count elements each
-func (s SliceString) ChunkEvery(count int) [][]string {
-	if count <= 0 {
-		count = 1
-	}
+func (s SliceString) ChunkEvery(count int) ([][]string, error) {
 	chunks := make([][]string, 0)
+	if count <= 0 {
+		return chunks, ErrNegativeIndex
+	}
 	chunk := make([]string, 0, count)
 	for i, el := range s.Data {
 		chunk = append(chunk, el)
@@ -9465,7 +9537,7 @@ func (s SliceString) ChunkEvery(count int) [][]string {
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
 	}
-	return chunks
+	return chunks, nil
 }
 
 // Contains returns true if el in arr.
@@ -9519,11 +9591,11 @@ func (s SliceString) Cycle() chan string {
 
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceString) Dedup() []string {
-	result := make([]string, 0, len(s.Data))
 	if len(s.Data) == 0 {
-		return result
+		return s.Data
 	}
 
+	result := make([]string, 0, len(s.Data))
 	prev := s.Data[0]
 	result = append(result, prev)
 	for _, el := range s.Data[1:] {
@@ -9870,34 +9942,33 @@ func (s SliceString) Delete(element string) []string {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceString) DeleteAt(indices ...int) []string {
-	result := make([]string, 0, len(s.Data)-len(indices))
+func (s SliceString) DeleteAt(index int) ([]string, error) {
+	if index >= len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
 
+	result := make([]string, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		allowed := true
-		for _, j := range indices {
-			if i == j {
-				allowed = false
-				break
-			}
-		}
-		if allowed {
+		if i != index {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceString) DropEvery(nth int) []string {
+func (s SliceString) DropEvery(nth int) ([]string, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
+	}
 	result := make([]string, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropWhile drops elements from arr while f returns true
@@ -9944,24 +10015,24 @@ func (s SliceString) Filter(f func(el string) bool) []string {
 }
 
 // Find returns the first element for which f returns true
-func (s SliceString) Find(def string, f func(el string) bool) string {
+func (s SliceString) Find(f func(el string) bool) (string, error) {
 	for _, el := range s.Data {
 		if f(el) {
-			return el
+			return el, nil
 		}
 	}
-	return def
+	var tmp string
+	return tmp, ErrNotFound
 }
 
 // FindIndex is like Find, but return element index instead of element itself
-// Returns -1 if element is not found
-func (s SliceString) FindIndex(f func(el string) bool) int {
+func (s SliceString) FindIndex(f func(el string) bool) (int, error) {
 	for i, el := range s.Data {
 		if f(el) {
-			return i
+			return i, nil
 		}
 	}
-	return -1
+	return 0, ErrNotFound
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -10198,14 +10269,21 @@ func (s SliceString) GroupByInterface(f func(el string) interface{}) map[interfa
 }
 
 // InsertAt returns the slice with element inserted at given index.
-func (s SliceString) InsertAt(index int, element string) []string {
+func (s SliceString) InsertAt(index int, element string) ([]string, error) {
 	result := make([]string, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index >= len(s.Data) || index == -1 {
+	if index == len(s.Data) || index == -1 {
 		result = append(result, s.Data...)
 		result = append(result, element)
-		return result
+		return result, nil
+	}
+
+	if index > len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
+	if index < 0 {
+		return s.Data, ErrNegativeIndex
 	}
 
 	for i, el := range s.Data {
@@ -10214,14 +10292,13 @@ func (s SliceString) InsertAt(index int, element string) []string {
 		}
 		result = append(result, el)
 	}
-	return result
+	return result, nil
 }
 
 // Intersperse inserts el between each element of arr
 func (s SliceString) Intersperse(el string) []string {
 	if len(s.Data) == 0 {
-		tmp := make([]string, 0)
-		return tmp
+		return s.Data
 	}
 	result := make([]string, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
@@ -10232,12 +10309,12 @@ func (s SliceString) Intersperse(el string) []string {
 }
 
 // Last returns the last element from the slice
-func (s SliceString) Last() string {
+func (s SliceString) Last() (string, error) {
 	if len(s.Data) == 0 {
 		var tmp string
-		return tmp
+		return tmp, ErrEmptySlice
 	}
-	return s.Data[len(s.Data)-1]
+	return s.Data[len(s.Data)-1], nil
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
@@ -10385,25 +10462,35 @@ func (s SliceString) MapInterface(f func(el string) interface{}) []interface{} {
 }
 
 // Max returns the maximal element from arr
-func (s SliceString) Max() string {
+func (s SliceString) Max() (string, error) {
+	if len(s.Data) == 0 {
+		var tmp string
+		return tmp, ErrEmptySlice
+	}
+
 	max := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from arr
-func (s SliceString) Min() string {
+func (s SliceString) Min() (string, error) {
+	if len(s.Data) == 0 {
+		var tmp string
+		return tmp, ErrEmptySlice
+	}
+
 	min := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Permutations returns successive size-length permutations of elements from the slice.
@@ -10780,6 +10867,9 @@ func (s SliceString) ReduceWhileInterface(acc interface{}, f func(el string, acc
 
 // Reverse returns given arr in reversed order
 func (s SliceString) Reverse() []string {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	result := make([]string, 0, len(s.Data))
 	for i := len(s.Data) - 1; i >= 0; i-- {
 		result = append(result, s.Data[i])
@@ -10789,6 +10879,9 @@ func (s SliceString) Reverse() []string {
 
 // Same returns true if all element in arr the same
 func (s SliceString) Same() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 0; i < len(s.Data)-1; i++ {
 		if s.Data[i] != s.Data[i+1] {
 			return false
@@ -10959,6 +11052,9 @@ func (s SliceString) ScanInterface(acc interface{}, f func(el string, acc interf
 
 // Shuffle in random order arr elements
 func (s SliceString) Shuffle() []string {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	rand.Seed(time.Now().UnixNano())
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
@@ -10969,6 +11065,9 @@ func (s SliceString) Shuffle() []string {
 
 // Sort returns sorted slice
 func (s SliceString) Sort() []string {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	less := func(i int, j int) bool {
 		return s.Data[i] < s.Data[j]
 	}
@@ -10978,6 +11077,9 @@ func (s SliceString) Sort() []string {
 
 // Sorted returns true if slice is sorted
 func (s SliceString) Sorted() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 1; i < len(s.Data); i++ {
 		if s.Data[i-1] > s.Data[i] {
 			return false
@@ -11025,9 +11127,9 @@ func (s SliceString) Sum() string {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceString) TakeEvery(nth int) []string {
-	if nth == 0 {
-		return []string{}
+func (s SliceString) TakeEvery(nth int) ([]string, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
 	}
 	result := make([]string, 0, len(s.Data))
 	for i, el := range s.Data {
@@ -11035,16 +11137,16 @@ func (s SliceString) TakeEvery(nth int) []string {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // TakeRandom returns slice of count random elements from the slice
-func (s SliceString) TakeRandom(count int) []string {
+func (s SliceString) TakeRandom(count int) ([]string, error) {
 	if count > len(s.Data) {
-		count = len(s.Data)
+		return nil, ErrIndexOutOfRange
 	}
 	if count <= 0 {
-		return []string{}
+		return nil, ErrNonPositiveStep
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -11052,7 +11154,7 @@ func (s SliceString) TakeRandom(count int) []string {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
 	rand.Shuffle(len(s.Data), swap)
-	return s.Data[:count]
+	return s.Data[:count], nil
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -11081,6 +11183,9 @@ func (s SliceString) ToChannel() chan string {
 
 // Uniq returns arr with only first occurences of every element.
 func (s SliceString) Uniq() []string {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	added := make(map[string]struct{})
 	nothing := struct{}{}
 	result := make([]string, 0, len(s.Data))
@@ -11097,13 +11202,16 @@ func (s SliceString) Uniq() []string {
 
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
-func (s SliceString) Window(size int) [][]string {
+func (s SliceString) Window(size int) ([][]string, error) {
+	if size <= 0 {
+		return nil, ErrNonPositiveStep
+	}
 	result := make([][]string, 0, len(s.Data)/size)
 	for i := 0; i <= len(s.Data)-size; i++ {
 		chunk := s.Data[i : i+size]
 		result = append(result, chunk)
 	}
-	return result
+	return result, nil
 }
 
 // Without returns the slice with filtered out element
@@ -12816,15 +12924,15 @@ func (s SliceFloat32) All(f func(el float32) bool) bool {
 }
 
 // Choice chooses a random element from the slice
-func (s SliceFloat32) Choice() float32 {
+func (s SliceFloat32) Choice() (float32, error) {
 	if len(s.Data) == 0 {
 		var tmp float32
-		return tmp
+		return tmp, ErrEmptySlice
 	}
 
 	rand.Seed(time.Now().UnixNano())
 	i := rand.Intn(len(s.Data))
-	return s.Data[i]
+	return s.Data[i], nil
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
@@ -13244,11 +13352,11 @@ func (s SliceFloat32) ChunkByInterface(f func(el float32) interface{}) [][]float
 }
 
 // ChunkEvery returns slice of slices containing count elements each
-func (s SliceFloat32) ChunkEvery(count int) [][]float32 {
-	if count <= 0 {
-		count = 1
-	}
+func (s SliceFloat32) ChunkEvery(count int) ([][]float32, error) {
 	chunks := make([][]float32, 0)
+	if count <= 0 {
+		return chunks, ErrNegativeIndex
+	}
 	chunk := make([]float32, 0, count)
 	for i, el := range s.Data {
 		chunk = append(chunk, el)
@@ -13260,7 +13368,7 @@ func (s SliceFloat32) ChunkEvery(count int) [][]float32 {
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
 	}
-	return chunks
+	return chunks, nil
 }
 
 // Contains returns true if el in arr.
@@ -13314,11 +13422,11 @@ func (s SliceFloat32) Cycle() chan float32 {
 
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceFloat32) Dedup() []float32 {
-	result := make([]float32, 0, len(s.Data))
 	if len(s.Data) == 0 {
-		return result
+		return s.Data
 	}
 
+	result := make([]float32, 0, len(s.Data))
 	prev := s.Data[0]
 	result = append(result, prev)
 	for _, el := range s.Data[1:] {
@@ -13665,34 +13773,33 @@ func (s SliceFloat32) Delete(element float32) []float32 {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceFloat32) DeleteAt(indices ...int) []float32 {
-	result := make([]float32, 0, len(s.Data)-len(indices))
+func (s SliceFloat32) DeleteAt(index int) ([]float32, error) {
+	if index >= len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
 
+	result := make([]float32, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		allowed := true
-		for _, j := range indices {
-			if i == j {
-				allowed = false
-				break
-			}
-		}
-		if allowed {
+		if i != index {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceFloat32) DropEvery(nth int) []float32 {
+func (s SliceFloat32) DropEvery(nth int) ([]float32, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
+	}
 	result := make([]float32, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropWhile drops elements from arr while f returns true
@@ -13739,24 +13846,24 @@ func (s SliceFloat32) Filter(f func(el float32) bool) []float32 {
 }
 
 // Find returns the first element for which f returns true
-func (s SliceFloat32) Find(def float32, f func(el float32) bool) float32 {
+func (s SliceFloat32) Find(f func(el float32) bool) (float32, error) {
 	for _, el := range s.Data {
 		if f(el) {
-			return el
+			return el, nil
 		}
 	}
-	return def
+	var tmp float32
+	return tmp, ErrNotFound
 }
 
 // FindIndex is like Find, but return element index instead of element itself
-// Returns -1 if element is not found
-func (s SliceFloat32) FindIndex(f func(el float32) bool) int {
+func (s SliceFloat32) FindIndex(f func(el float32) bool) (int, error) {
 	for i, el := range s.Data {
 		if f(el) {
-			return i
+			return i, nil
 		}
 	}
-	return -1
+	return 0, ErrNotFound
 }
 
 // GroupBy groups element from array by value returned by f
@@ -13984,14 +14091,21 @@ func (s SliceFloat32) GroupByInterface(f func(el float32) interface{}) map[inter
 }
 
 // InsertAt returns the slice with element inserted at given index.
-func (s SliceFloat32) InsertAt(index int, element float32) []float32 {
+func (s SliceFloat32) InsertAt(index int, element float32) ([]float32, error) {
 	result := make([]float32, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index >= len(s.Data) || index == -1 {
+	if index == len(s.Data) || index == -1 {
 		result = append(result, s.Data...)
 		result = append(result, element)
-		return result
+		return result, nil
+	}
+
+	if index > len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
+	if index < 0 {
+		return s.Data, ErrNegativeIndex
 	}
 
 	for i, el := range s.Data {
@@ -14000,14 +14114,13 @@ func (s SliceFloat32) InsertAt(index int, element float32) []float32 {
 		}
 		result = append(result, el)
 	}
-	return result
+	return result, nil
 }
 
 // Intersperse inserts el between each element of arr
 func (s SliceFloat32) Intersperse(el float32) []float32 {
 	if len(s.Data) == 0 {
-		tmp := make([]float32, 0)
-		return tmp
+		return s.Data
 	}
 	result := make([]float32, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
@@ -14018,12 +14131,12 @@ func (s SliceFloat32) Intersperse(el float32) []float32 {
 }
 
 // Last returns the last element from the slice
-func (s SliceFloat32) Last() float32 {
+func (s SliceFloat32) Last() (float32, error) {
 	if len(s.Data) == 0 {
 		var tmp float32
-		return tmp
+		return tmp, ErrEmptySlice
 	}
-	return s.Data[len(s.Data)-1]
+	return s.Data[len(s.Data)-1], nil
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
@@ -14171,25 +14284,35 @@ func (s SliceFloat32) MapInterface(f func(el float32) interface{}) []interface{}
 }
 
 // Max returns the maximal element from arr
-func (s SliceFloat32) Max() float32 {
+func (s SliceFloat32) Max() (float32, error) {
+	if len(s.Data) == 0 {
+		var tmp float32
+		return tmp, ErrEmptySlice
+	}
+
 	max := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from arr
-func (s SliceFloat32) Min() float32 {
+func (s SliceFloat32) Min() (float32, error) {
+	if len(s.Data) == 0 {
+		var tmp float32
+		return tmp, ErrEmptySlice
+	}
+
 	min := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Permutations returns successive size-length permutations of elements from the slice.
@@ -14566,6 +14689,9 @@ func (s SliceFloat32) ReduceWhileInterface(acc interface{}, f func(el float32, a
 
 // Reverse returns given arr in reversed order
 func (s SliceFloat32) Reverse() []float32 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	result := make([]float32, 0, len(s.Data))
 	for i := len(s.Data) - 1; i >= 0; i-- {
 		result = append(result, s.Data[i])
@@ -14575,6 +14701,9 @@ func (s SliceFloat32) Reverse() []float32 {
 
 // Same returns true if all element in arr the same
 func (s SliceFloat32) Same() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 0; i < len(s.Data)-1; i++ {
 		if s.Data[i] != s.Data[i+1] {
 			return false
@@ -14745,6 +14874,9 @@ func (s SliceFloat32) ScanInterface(acc interface{}, f func(el float32, acc inte
 
 // Shuffle in random order arr elements
 func (s SliceFloat32) Shuffle() []float32 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	rand.Seed(time.Now().UnixNano())
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
@@ -14755,6 +14887,9 @@ func (s SliceFloat32) Shuffle() []float32 {
 
 // Sort returns sorted slice
 func (s SliceFloat32) Sort() []float32 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	less := func(i int, j int) bool {
 		return s.Data[i] < s.Data[j]
 	}
@@ -14764,6 +14899,9 @@ func (s SliceFloat32) Sort() []float32 {
 
 // Sorted returns true if slice is sorted
 func (s SliceFloat32) Sorted() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 1; i < len(s.Data); i++ {
 		if s.Data[i-1] > s.Data[i] {
 			return false
@@ -14811,9 +14949,9 @@ func (s SliceFloat32) Sum() float32 {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceFloat32) TakeEvery(nth int) []float32 {
-	if nth == 0 {
-		return []float32{}
+func (s SliceFloat32) TakeEvery(nth int) ([]float32, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
 	}
 	result := make([]float32, 0, len(s.Data))
 	for i, el := range s.Data {
@@ -14821,16 +14959,16 @@ func (s SliceFloat32) TakeEvery(nth int) []float32 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // TakeRandom returns slice of count random elements from the slice
-func (s SliceFloat32) TakeRandom(count int) []float32 {
+func (s SliceFloat32) TakeRandom(count int) ([]float32, error) {
 	if count > len(s.Data) {
-		count = len(s.Data)
+		return nil, ErrIndexOutOfRange
 	}
 	if count <= 0 {
-		return []float32{}
+		return nil, ErrNonPositiveStep
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -14838,7 +14976,7 @@ func (s SliceFloat32) TakeRandom(count int) []float32 {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
 	rand.Shuffle(len(s.Data), swap)
-	return s.Data[:count]
+	return s.Data[:count], nil
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -14867,6 +15005,9 @@ func (s SliceFloat32) ToChannel() chan float32 {
 
 // Uniq returns arr with only first occurences of every element.
 func (s SliceFloat32) Uniq() []float32 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	added := make(map[float32]struct{})
 	nothing := struct{}{}
 	result := make([]float32, 0, len(s.Data))
@@ -14883,13 +15024,16 @@ func (s SliceFloat32) Uniq() []float32 {
 
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
-func (s SliceFloat32) Window(size int) [][]float32 {
+func (s SliceFloat32) Window(size int) ([][]float32, error) {
+	if size <= 0 {
+		return nil, ErrNonPositiveStep
+	}
 	result := make([][]float32, 0, len(s.Data)/size)
 	for i := 0; i <= len(s.Data)-size; i++ {
 		chunk := s.Data[i : i+size]
 		result = append(result, chunk)
 	}
-	return result
+	return result, nil
 }
 
 // Without returns the slice with filtered out element
@@ -16602,15 +16746,15 @@ func (s SliceFloat64) All(f func(el float64) bool) bool {
 }
 
 // Choice chooses a random element from the slice
-func (s SliceFloat64) Choice() float64 {
+func (s SliceFloat64) Choice() (float64, error) {
 	if len(s.Data) == 0 {
 		var tmp float64
-		return tmp
+		return tmp, ErrEmptySlice
 	}
 
 	rand.Seed(time.Now().UnixNano())
 	i := rand.Intn(len(s.Data))
-	return s.Data[i]
+	return s.Data[i], nil
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
@@ -17030,11 +17174,11 @@ func (s SliceFloat64) ChunkByInterface(f func(el float64) interface{}) [][]float
 }
 
 // ChunkEvery returns slice of slices containing count elements each
-func (s SliceFloat64) ChunkEvery(count int) [][]float64 {
-	if count <= 0 {
-		count = 1
-	}
+func (s SliceFloat64) ChunkEvery(count int) ([][]float64, error) {
 	chunks := make([][]float64, 0)
+	if count <= 0 {
+		return chunks, ErrNegativeIndex
+	}
 	chunk := make([]float64, 0, count)
 	for i, el := range s.Data {
 		chunk = append(chunk, el)
@@ -17046,7 +17190,7 @@ func (s SliceFloat64) ChunkEvery(count int) [][]float64 {
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
 	}
-	return chunks
+	return chunks, nil
 }
 
 // Contains returns true if el in arr.
@@ -17100,11 +17244,11 @@ func (s SliceFloat64) Cycle() chan float64 {
 
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceFloat64) Dedup() []float64 {
-	result := make([]float64, 0, len(s.Data))
 	if len(s.Data) == 0 {
-		return result
+		return s.Data
 	}
 
+	result := make([]float64, 0, len(s.Data))
 	prev := s.Data[0]
 	result = append(result, prev)
 	for _, el := range s.Data[1:] {
@@ -17451,34 +17595,33 @@ func (s SliceFloat64) Delete(element float64) []float64 {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceFloat64) DeleteAt(indices ...int) []float64 {
-	result := make([]float64, 0, len(s.Data)-len(indices))
+func (s SliceFloat64) DeleteAt(index int) ([]float64, error) {
+	if index >= len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
 
+	result := make([]float64, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		allowed := true
-		for _, j := range indices {
-			if i == j {
-				allowed = false
-				break
-			}
-		}
-		if allowed {
+		if i != index {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceFloat64) DropEvery(nth int) []float64 {
+func (s SliceFloat64) DropEvery(nth int) ([]float64, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
+	}
 	result := make([]float64, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropWhile drops elements from arr while f returns true
@@ -17525,24 +17668,24 @@ func (s SliceFloat64) Filter(f func(el float64) bool) []float64 {
 }
 
 // Find returns the first element for which f returns true
-func (s SliceFloat64) Find(def float64, f func(el float64) bool) float64 {
+func (s SliceFloat64) Find(f func(el float64) bool) (float64, error) {
 	for _, el := range s.Data {
 		if f(el) {
-			return el
+			return el, nil
 		}
 	}
-	return def
+	var tmp float64
+	return tmp, ErrNotFound
 }
 
 // FindIndex is like Find, but return element index instead of element itself
-// Returns -1 if element is not found
-func (s SliceFloat64) FindIndex(f func(el float64) bool) int {
+func (s SliceFloat64) FindIndex(f func(el float64) bool) (int, error) {
 	for i, el := range s.Data {
 		if f(el) {
-			return i
+			return i, nil
 		}
 	}
-	return -1
+	return 0, ErrNotFound
 }
 
 // GroupBy groups element from array by value returned by f
@@ -17770,14 +17913,21 @@ func (s SliceFloat64) GroupByInterface(f func(el float64) interface{}) map[inter
 }
 
 // InsertAt returns the slice with element inserted at given index.
-func (s SliceFloat64) InsertAt(index int, element float64) []float64 {
+func (s SliceFloat64) InsertAt(index int, element float64) ([]float64, error) {
 	result := make([]float64, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index >= len(s.Data) || index == -1 {
+	if index == len(s.Data) || index == -1 {
 		result = append(result, s.Data...)
 		result = append(result, element)
-		return result
+		return result, nil
+	}
+
+	if index > len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
+	if index < 0 {
+		return s.Data, ErrNegativeIndex
 	}
 
 	for i, el := range s.Data {
@@ -17786,14 +17936,13 @@ func (s SliceFloat64) InsertAt(index int, element float64) []float64 {
 		}
 		result = append(result, el)
 	}
-	return result
+	return result, nil
 }
 
 // Intersperse inserts el between each element of arr
 func (s SliceFloat64) Intersperse(el float64) []float64 {
 	if len(s.Data) == 0 {
-		tmp := make([]float64, 0)
-		return tmp
+		return s.Data
 	}
 	result := make([]float64, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
@@ -17804,12 +17953,12 @@ func (s SliceFloat64) Intersperse(el float64) []float64 {
 }
 
 // Last returns the last element from the slice
-func (s SliceFloat64) Last() float64 {
+func (s SliceFloat64) Last() (float64, error) {
 	if len(s.Data) == 0 {
 		var tmp float64
-		return tmp
+		return tmp, ErrEmptySlice
 	}
-	return s.Data[len(s.Data)-1]
+	return s.Data[len(s.Data)-1], nil
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
@@ -17957,25 +18106,35 @@ func (s SliceFloat64) MapInterface(f func(el float64) interface{}) []interface{}
 }
 
 // Max returns the maximal element from arr
-func (s SliceFloat64) Max() float64 {
+func (s SliceFloat64) Max() (float64, error) {
+	if len(s.Data) == 0 {
+		var tmp float64
+		return tmp, ErrEmptySlice
+	}
+
 	max := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from arr
-func (s SliceFloat64) Min() float64 {
+func (s SliceFloat64) Min() (float64, error) {
+	if len(s.Data) == 0 {
+		var tmp float64
+		return tmp, ErrEmptySlice
+	}
+
 	min := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Permutations returns successive size-length permutations of elements from the slice.
@@ -18352,6 +18511,9 @@ func (s SliceFloat64) ReduceWhileInterface(acc interface{}, f func(el float64, a
 
 // Reverse returns given arr in reversed order
 func (s SliceFloat64) Reverse() []float64 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	result := make([]float64, 0, len(s.Data))
 	for i := len(s.Data) - 1; i >= 0; i-- {
 		result = append(result, s.Data[i])
@@ -18361,6 +18523,9 @@ func (s SliceFloat64) Reverse() []float64 {
 
 // Same returns true if all element in arr the same
 func (s SliceFloat64) Same() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 0; i < len(s.Data)-1; i++ {
 		if s.Data[i] != s.Data[i+1] {
 			return false
@@ -18531,6 +18696,9 @@ func (s SliceFloat64) ScanInterface(acc interface{}, f func(el float64, acc inte
 
 // Shuffle in random order arr elements
 func (s SliceFloat64) Shuffle() []float64 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	rand.Seed(time.Now().UnixNano())
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
@@ -18541,6 +18709,9 @@ func (s SliceFloat64) Shuffle() []float64 {
 
 // Sort returns sorted slice
 func (s SliceFloat64) Sort() []float64 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	less := func(i int, j int) bool {
 		return s.Data[i] < s.Data[j]
 	}
@@ -18550,6 +18721,9 @@ func (s SliceFloat64) Sort() []float64 {
 
 // Sorted returns true if slice is sorted
 func (s SliceFloat64) Sorted() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 1; i < len(s.Data); i++ {
 		if s.Data[i-1] > s.Data[i] {
 			return false
@@ -18597,9 +18771,9 @@ func (s SliceFloat64) Sum() float64 {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceFloat64) TakeEvery(nth int) []float64 {
-	if nth == 0 {
-		return []float64{}
+func (s SliceFloat64) TakeEvery(nth int) ([]float64, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
 	}
 	result := make([]float64, 0, len(s.Data))
 	for i, el := range s.Data {
@@ -18607,16 +18781,16 @@ func (s SliceFloat64) TakeEvery(nth int) []float64 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // TakeRandom returns slice of count random elements from the slice
-func (s SliceFloat64) TakeRandom(count int) []float64 {
+func (s SliceFloat64) TakeRandom(count int) ([]float64, error) {
 	if count > len(s.Data) {
-		count = len(s.Data)
+		return nil, ErrIndexOutOfRange
 	}
 	if count <= 0 {
-		return []float64{}
+		return nil, ErrNonPositiveStep
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -18624,7 +18798,7 @@ func (s SliceFloat64) TakeRandom(count int) []float64 {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
 	rand.Shuffle(len(s.Data), swap)
-	return s.Data[:count]
+	return s.Data[:count], nil
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -18653,6 +18827,9 @@ func (s SliceFloat64) ToChannel() chan float64 {
 
 // Uniq returns arr with only first occurences of every element.
 func (s SliceFloat64) Uniq() []float64 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	added := make(map[float64]struct{})
 	nothing := struct{}{}
 	result := make([]float64, 0, len(s.Data))
@@ -18669,13 +18846,16 @@ func (s SliceFloat64) Uniq() []float64 {
 
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
-func (s SliceFloat64) Window(size int) [][]float64 {
+func (s SliceFloat64) Window(size int) ([][]float64, error) {
+	if size <= 0 {
+		return nil, ErrNonPositiveStep
+	}
 	result := make([][]float64, 0, len(s.Data)/size)
 	for i := 0; i <= len(s.Data)-size; i++ {
 		chunk := s.Data[i : i+size]
 		result = append(result, chunk)
 	}
-	return result
+	return result, nil
 }
 
 // Without returns the slice with filtered out element
@@ -20388,15 +20568,15 @@ func (s SliceInt) All(f func(el int) bool) bool {
 }
 
 // Choice chooses a random element from the slice
-func (s SliceInt) Choice() int {
+func (s SliceInt) Choice() (int, error) {
 	if len(s.Data) == 0 {
 		var tmp int
-		return tmp
+		return tmp, ErrEmptySlice
 	}
 
 	rand.Seed(time.Now().UnixNano())
 	i := rand.Intn(len(s.Data))
-	return s.Data[i]
+	return s.Data[i], nil
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
@@ -20816,11 +20996,11 @@ func (s SliceInt) ChunkByInterface(f func(el int) interface{}) [][]int {
 }
 
 // ChunkEvery returns slice of slices containing count elements each
-func (s SliceInt) ChunkEvery(count int) [][]int {
-	if count <= 0 {
-		count = 1
-	}
+func (s SliceInt) ChunkEvery(count int) ([][]int, error) {
 	chunks := make([][]int, 0)
+	if count <= 0 {
+		return chunks, ErrNegativeIndex
+	}
 	chunk := make([]int, 0, count)
 	for i, el := range s.Data {
 		chunk = append(chunk, el)
@@ -20832,7 +21012,7 @@ func (s SliceInt) ChunkEvery(count int) [][]int {
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
 	}
-	return chunks
+	return chunks, nil
 }
 
 // Contains returns true if el in arr.
@@ -20886,11 +21066,11 @@ func (s SliceInt) Cycle() chan int {
 
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceInt) Dedup() []int {
-	result := make([]int, 0, len(s.Data))
 	if len(s.Data) == 0 {
-		return result
+		return s.Data
 	}
 
+	result := make([]int, 0, len(s.Data))
 	prev := s.Data[0]
 	result = append(result, prev)
 	for _, el := range s.Data[1:] {
@@ -21237,34 +21417,33 @@ func (s SliceInt) Delete(element int) []int {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceInt) DeleteAt(indices ...int) []int {
-	result := make([]int, 0, len(s.Data)-len(indices))
+func (s SliceInt) DeleteAt(index int) ([]int, error) {
+	if index >= len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
 
+	result := make([]int, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		allowed := true
-		for _, j := range indices {
-			if i == j {
-				allowed = false
-				break
-			}
-		}
-		if allowed {
+		if i != index {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceInt) DropEvery(nth int) []int {
+func (s SliceInt) DropEvery(nth int) ([]int, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
+	}
 	result := make([]int, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropWhile drops elements from arr while f returns true
@@ -21311,24 +21490,24 @@ func (s SliceInt) Filter(f func(el int) bool) []int {
 }
 
 // Find returns the first element for which f returns true
-func (s SliceInt) Find(def int, f func(el int) bool) int {
+func (s SliceInt) Find(f func(el int) bool) (int, error) {
 	for _, el := range s.Data {
 		if f(el) {
-			return el
+			return el, nil
 		}
 	}
-	return def
+	var tmp int
+	return tmp, ErrNotFound
 }
 
 // FindIndex is like Find, but return element index instead of element itself
-// Returns -1 if element is not found
-func (s SliceInt) FindIndex(f func(el int) bool) int {
+func (s SliceInt) FindIndex(f func(el int) bool) (int, error) {
 	for i, el := range s.Data {
 		if f(el) {
-			return i
+			return i, nil
 		}
 	}
-	return -1
+	return 0, ErrNotFound
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -21565,14 +21744,21 @@ func (s SliceInt) GroupByInterface(f func(el int) interface{}) map[interface{}][
 }
 
 // InsertAt returns the slice with element inserted at given index.
-func (s SliceInt) InsertAt(index int, element int) []int {
+func (s SliceInt) InsertAt(index int, element int) ([]int, error) {
 	result := make([]int, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index >= len(s.Data) || index == -1 {
+	if index == len(s.Data) || index == -1 {
 		result = append(result, s.Data...)
 		result = append(result, element)
-		return result
+		return result, nil
+	}
+
+	if index > len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
+	if index < 0 {
+		return s.Data, ErrNegativeIndex
 	}
 
 	for i, el := range s.Data {
@@ -21581,14 +21767,13 @@ func (s SliceInt) InsertAt(index int, element int) []int {
 		}
 		result = append(result, el)
 	}
-	return result
+	return result, nil
 }
 
 // Intersperse inserts el between each element of arr
 func (s SliceInt) Intersperse(el int) []int {
 	if len(s.Data) == 0 {
-		tmp := make([]int, 0)
-		return tmp
+		return s.Data
 	}
 	result := make([]int, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
@@ -21599,12 +21784,12 @@ func (s SliceInt) Intersperse(el int) []int {
 }
 
 // Last returns the last element from the slice
-func (s SliceInt) Last() int {
+func (s SliceInt) Last() (int, error) {
 	if len(s.Data) == 0 {
 		var tmp int
-		return tmp
+		return tmp, ErrEmptySlice
 	}
-	return s.Data[len(s.Data)-1]
+	return s.Data[len(s.Data)-1], nil
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
@@ -21752,25 +21937,35 @@ func (s SliceInt) MapInterface(f func(el int) interface{}) []interface{} {
 }
 
 // Max returns the maximal element from arr
-func (s SliceInt) Max() int {
+func (s SliceInt) Max() (int, error) {
+	if len(s.Data) == 0 {
+		var tmp int
+		return tmp, ErrEmptySlice
+	}
+
 	max := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from arr
-func (s SliceInt) Min() int {
+func (s SliceInt) Min() (int, error) {
+	if len(s.Data) == 0 {
+		var tmp int
+		return tmp, ErrEmptySlice
+	}
+
 	min := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Permutations returns successive size-length permutations of elements from the slice.
@@ -22147,6 +22342,9 @@ func (s SliceInt) ReduceWhileInterface(acc interface{}, f func(el int, acc inter
 
 // Reverse returns given arr in reversed order
 func (s SliceInt) Reverse() []int {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	result := make([]int, 0, len(s.Data))
 	for i := len(s.Data) - 1; i >= 0; i-- {
 		result = append(result, s.Data[i])
@@ -22156,6 +22354,9 @@ func (s SliceInt) Reverse() []int {
 
 // Same returns true if all element in arr the same
 func (s SliceInt) Same() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 0; i < len(s.Data)-1; i++ {
 		if s.Data[i] != s.Data[i+1] {
 			return false
@@ -22326,6 +22527,9 @@ func (s SliceInt) ScanInterface(acc interface{}, f func(el int, acc interface{})
 
 // Shuffle in random order arr elements
 func (s SliceInt) Shuffle() []int {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	rand.Seed(time.Now().UnixNano())
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
@@ -22336,6 +22540,9 @@ func (s SliceInt) Shuffle() []int {
 
 // Sort returns sorted slice
 func (s SliceInt) Sort() []int {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	less := func(i int, j int) bool {
 		return s.Data[i] < s.Data[j]
 	}
@@ -22345,6 +22552,9 @@ func (s SliceInt) Sort() []int {
 
 // Sorted returns true if slice is sorted
 func (s SliceInt) Sorted() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 1; i < len(s.Data); i++ {
 		if s.Data[i-1] > s.Data[i] {
 			return false
@@ -22392,9 +22602,9 @@ func (s SliceInt) Sum() int {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceInt) TakeEvery(nth int) []int {
-	if nth == 0 {
-		return []int{}
+func (s SliceInt) TakeEvery(nth int) ([]int, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
 	}
 	result := make([]int, 0, len(s.Data))
 	for i, el := range s.Data {
@@ -22402,16 +22612,16 @@ func (s SliceInt) TakeEvery(nth int) []int {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // TakeRandom returns slice of count random elements from the slice
-func (s SliceInt) TakeRandom(count int) []int {
+func (s SliceInt) TakeRandom(count int) ([]int, error) {
 	if count > len(s.Data) {
-		count = len(s.Data)
+		return nil, ErrIndexOutOfRange
 	}
 	if count <= 0 {
-		return []int{}
+		return nil, ErrNonPositiveStep
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -22419,7 +22629,7 @@ func (s SliceInt) TakeRandom(count int) []int {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
 	rand.Shuffle(len(s.Data), swap)
-	return s.Data[:count]
+	return s.Data[:count], nil
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -22448,6 +22658,9 @@ func (s SliceInt) ToChannel() chan int {
 
 // Uniq returns arr with only first occurences of every element.
 func (s SliceInt) Uniq() []int {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	added := make(map[int]struct{})
 	nothing := struct{}{}
 	result := make([]int, 0, len(s.Data))
@@ -22464,13 +22677,16 @@ func (s SliceInt) Uniq() []int {
 
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
-func (s SliceInt) Window(size int) [][]int {
+func (s SliceInt) Window(size int) ([][]int, error) {
+	if size <= 0 {
+		return nil, ErrNonPositiveStep
+	}
 	result := make([][]int, 0, len(s.Data)/size)
 	for i := 0; i <= len(s.Data)-size; i++ {
 		chunk := s.Data[i : i+size]
 		result = append(result, chunk)
 	}
-	return result
+	return result, nil
 }
 
 // Without returns the slice with filtered out element
@@ -24183,15 +24399,15 @@ func (s SliceInt8) All(f func(el int8) bool) bool {
 }
 
 // Choice chooses a random element from the slice
-func (s SliceInt8) Choice() int8 {
+func (s SliceInt8) Choice() (int8, error) {
 	if len(s.Data) == 0 {
 		var tmp int8
-		return tmp
+		return tmp, ErrEmptySlice
 	}
 
 	rand.Seed(time.Now().UnixNano())
 	i := rand.Intn(len(s.Data))
-	return s.Data[i]
+	return s.Data[i], nil
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
@@ -24611,11 +24827,11 @@ func (s SliceInt8) ChunkByInterface(f func(el int8) interface{}) [][]int8 {
 }
 
 // ChunkEvery returns slice of slices containing count elements each
-func (s SliceInt8) ChunkEvery(count int) [][]int8 {
-	if count <= 0 {
-		count = 1
-	}
+func (s SliceInt8) ChunkEvery(count int) ([][]int8, error) {
 	chunks := make([][]int8, 0)
+	if count <= 0 {
+		return chunks, ErrNegativeIndex
+	}
 	chunk := make([]int8, 0, count)
 	for i, el := range s.Data {
 		chunk = append(chunk, el)
@@ -24627,7 +24843,7 @@ func (s SliceInt8) ChunkEvery(count int) [][]int8 {
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
 	}
-	return chunks
+	return chunks, nil
 }
 
 // Contains returns true if el in arr.
@@ -24681,11 +24897,11 @@ func (s SliceInt8) Cycle() chan int8 {
 
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceInt8) Dedup() []int8 {
-	result := make([]int8, 0, len(s.Data))
 	if len(s.Data) == 0 {
-		return result
+		return s.Data
 	}
 
+	result := make([]int8, 0, len(s.Data))
 	prev := s.Data[0]
 	result = append(result, prev)
 	for _, el := range s.Data[1:] {
@@ -25032,34 +25248,33 @@ func (s SliceInt8) Delete(element int8) []int8 {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceInt8) DeleteAt(indices ...int) []int8 {
-	result := make([]int8, 0, len(s.Data)-len(indices))
+func (s SliceInt8) DeleteAt(index int) ([]int8, error) {
+	if index >= len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
 
+	result := make([]int8, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		allowed := true
-		for _, j := range indices {
-			if i == j {
-				allowed = false
-				break
-			}
-		}
-		if allowed {
+		if i != index {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceInt8) DropEvery(nth int) []int8 {
+func (s SliceInt8) DropEvery(nth int) ([]int8, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
+	}
 	result := make([]int8, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropWhile drops elements from arr while f returns true
@@ -25106,24 +25321,24 @@ func (s SliceInt8) Filter(f func(el int8) bool) []int8 {
 }
 
 // Find returns the first element for which f returns true
-func (s SliceInt8) Find(def int8, f func(el int8) bool) int8 {
+func (s SliceInt8) Find(f func(el int8) bool) (int8, error) {
 	for _, el := range s.Data {
 		if f(el) {
-			return el
+			return el, nil
 		}
 	}
-	return def
+	var tmp int8
+	return tmp, ErrNotFound
 }
 
 // FindIndex is like Find, but return element index instead of element itself
-// Returns -1 if element is not found
-func (s SliceInt8) FindIndex(f func(el int8) bool) int {
+func (s SliceInt8) FindIndex(f func(el int8) bool) (int, error) {
 	for i, el := range s.Data {
 		if f(el) {
-			return i
+			return i, nil
 		}
 	}
-	return -1
+	return 0, ErrNotFound
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -25360,14 +25575,21 @@ func (s SliceInt8) GroupByInterface(f func(el int8) interface{}) map[interface{}
 }
 
 // InsertAt returns the slice with element inserted at given index.
-func (s SliceInt8) InsertAt(index int, element int8) []int8 {
+func (s SliceInt8) InsertAt(index int, element int8) ([]int8, error) {
 	result := make([]int8, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index >= len(s.Data) || index == -1 {
+	if index == len(s.Data) || index == -1 {
 		result = append(result, s.Data...)
 		result = append(result, element)
-		return result
+		return result, nil
+	}
+
+	if index > len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
+	if index < 0 {
+		return s.Data, ErrNegativeIndex
 	}
 
 	for i, el := range s.Data {
@@ -25376,14 +25598,13 @@ func (s SliceInt8) InsertAt(index int, element int8) []int8 {
 		}
 		result = append(result, el)
 	}
-	return result
+	return result, nil
 }
 
 // Intersperse inserts el between each element of arr
 func (s SliceInt8) Intersperse(el int8) []int8 {
 	if len(s.Data) == 0 {
-		tmp := make([]int8, 0)
-		return tmp
+		return s.Data
 	}
 	result := make([]int8, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
@@ -25394,12 +25615,12 @@ func (s SliceInt8) Intersperse(el int8) []int8 {
 }
 
 // Last returns the last element from the slice
-func (s SliceInt8) Last() int8 {
+func (s SliceInt8) Last() (int8, error) {
 	if len(s.Data) == 0 {
 		var tmp int8
-		return tmp
+		return tmp, ErrEmptySlice
 	}
-	return s.Data[len(s.Data)-1]
+	return s.Data[len(s.Data)-1], nil
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
@@ -25547,25 +25768,35 @@ func (s SliceInt8) MapInterface(f func(el int8) interface{}) []interface{} {
 }
 
 // Max returns the maximal element from arr
-func (s SliceInt8) Max() int8 {
+func (s SliceInt8) Max() (int8, error) {
+	if len(s.Data) == 0 {
+		var tmp int8
+		return tmp, ErrEmptySlice
+	}
+
 	max := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from arr
-func (s SliceInt8) Min() int8 {
+func (s SliceInt8) Min() (int8, error) {
+	if len(s.Data) == 0 {
+		var tmp int8
+		return tmp, ErrEmptySlice
+	}
+
 	min := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Permutations returns successive size-length permutations of elements from the slice.
@@ -25942,6 +26173,9 @@ func (s SliceInt8) ReduceWhileInterface(acc interface{}, f func(el int8, acc int
 
 // Reverse returns given arr in reversed order
 func (s SliceInt8) Reverse() []int8 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	result := make([]int8, 0, len(s.Data))
 	for i := len(s.Data) - 1; i >= 0; i-- {
 		result = append(result, s.Data[i])
@@ -25951,6 +26185,9 @@ func (s SliceInt8) Reverse() []int8 {
 
 // Same returns true if all element in arr the same
 func (s SliceInt8) Same() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 0; i < len(s.Data)-1; i++ {
 		if s.Data[i] != s.Data[i+1] {
 			return false
@@ -26121,6 +26358,9 @@ func (s SliceInt8) ScanInterface(acc interface{}, f func(el int8, acc interface{
 
 // Shuffle in random order arr elements
 func (s SliceInt8) Shuffle() []int8 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	rand.Seed(time.Now().UnixNano())
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
@@ -26131,6 +26371,9 @@ func (s SliceInt8) Shuffle() []int8 {
 
 // Sort returns sorted slice
 func (s SliceInt8) Sort() []int8 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	less := func(i int, j int) bool {
 		return s.Data[i] < s.Data[j]
 	}
@@ -26140,6 +26383,9 @@ func (s SliceInt8) Sort() []int8 {
 
 // Sorted returns true if slice is sorted
 func (s SliceInt8) Sorted() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 1; i < len(s.Data); i++ {
 		if s.Data[i-1] > s.Data[i] {
 			return false
@@ -26187,9 +26433,9 @@ func (s SliceInt8) Sum() int8 {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceInt8) TakeEvery(nth int) []int8 {
-	if nth == 0 {
-		return []int8{}
+func (s SliceInt8) TakeEvery(nth int) ([]int8, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
 	}
 	result := make([]int8, 0, len(s.Data))
 	for i, el := range s.Data {
@@ -26197,16 +26443,16 @@ func (s SliceInt8) TakeEvery(nth int) []int8 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // TakeRandom returns slice of count random elements from the slice
-func (s SliceInt8) TakeRandom(count int) []int8 {
+func (s SliceInt8) TakeRandom(count int) ([]int8, error) {
 	if count > len(s.Data) {
-		count = len(s.Data)
+		return nil, ErrIndexOutOfRange
 	}
 	if count <= 0 {
-		return []int8{}
+		return nil, ErrNonPositiveStep
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -26214,7 +26460,7 @@ func (s SliceInt8) TakeRandom(count int) []int8 {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
 	rand.Shuffle(len(s.Data), swap)
-	return s.Data[:count]
+	return s.Data[:count], nil
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -26243,6 +26489,9 @@ func (s SliceInt8) ToChannel() chan int8 {
 
 // Uniq returns arr with only first occurences of every element.
 func (s SliceInt8) Uniq() []int8 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	added := make(map[int8]struct{})
 	nothing := struct{}{}
 	result := make([]int8, 0, len(s.Data))
@@ -26259,13 +26508,16 @@ func (s SliceInt8) Uniq() []int8 {
 
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
-func (s SliceInt8) Window(size int) [][]int8 {
+func (s SliceInt8) Window(size int) ([][]int8, error) {
+	if size <= 0 {
+		return nil, ErrNonPositiveStep
+	}
 	result := make([][]int8, 0, len(s.Data)/size)
 	for i := 0; i <= len(s.Data)-size; i++ {
 		chunk := s.Data[i : i+size]
 		result = append(result, chunk)
 	}
-	return result
+	return result, nil
 }
 
 // Without returns the slice with filtered out element
@@ -27978,15 +28230,15 @@ func (s SliceInt16) All(f func(el int16) bool) bool {
 }
 
 // Choice chooses a random element from the slice
-func (s SliceInt16) Choice() int16 {
+func (s SliceInt16) Choice() (int16, error) {
 	if len(s.Data) == 0 {
 		var tmp int16
-		return tmp
+		return tmp, ErrEmptySlice
 	}
 
 	rand.Seed(time.Now().UnixNano())
 	i := rand.Intn(len(s.Data))
-	return s.Data[i]
+	return s.Data[i], nil
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
@@ -28406,11 +28658,11 @@ func (s SliceInt16) ChunkByInterface(f func(el int16) interface{}) [][]int16 {
 }
 
 // ChunkEvery returns slice of slices containing count elements each
-func (s SliceInt16) ChunkEvery(count int) [][]int16 {
-	if count <= 0 {
-		count = 1
-	}
+func (s SliceInt16) ChunkEvery(count int) ([][]int16, error) {
 	chunks := make([][]int16, 0)
+	if count <= 0 {
+		return chunks, ErrNegativeIndex
+	}
 	chunk := make([]int16, 0, count)
 	for i, el := range s.Data {
 		chunk = append(chunk, el)
@@ -28422,7 +28674,7 @@ func (s SliceInt16) ChunkEvery(count int) [][]int16 {
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
 	}
-	return chunks
+	return chunks, nil
 }
 
 // Contains returns true if el in arr.
@@ -28476,11 +28728,11 @@ func (s SliceInt16) Cycle() chan int16 {
 
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceInt16) Dedup() []int16 {
-	result := make([]int16, 0, len(s.Data))
 	if len(s.Data) == 0 {
-		return result
+		return s.Data
 	}
 
+	result := make([]int16, 0, len(s.Data))
 	prev := s.Data[0]
 	result = append(result, prev)
 	for _, el := range s.Data[1:] {
@@ -28827,34 +29079,33 @@ func (s SliceInt16) Delete(element int16) []int16 {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceInt16) DeleteAt(indices ...int) []int16 {
-	result := make([]int16, 0, len(s.Data)-len(indices))
+func (s SliceInt16) DeleteAt(index int) ([]int16, error) {
+	if index >= len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
 
+	result := make([]int16, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		allowed := true
-		for _, j := range indices {
-			if i == j {
-				allowed = false
-				break
-			}
-		}
-		if allowed {
+		if i != index {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceInt16) DropEvery(nth int) []int16 {
+func (s SliceInt16) DropEvery(nth int) ([]int16, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
+	}
 	result := make([]int16, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropWhile drops elements from arr while f returns true
@@ -28901,24 +29152,24 @@ func (s SliceInt16) Filter(f func(el int16) bool) []int16 {
 }
 
 // Find returns the first element for which f returns true
-func (s SliceInt16) Find(def int16, f func(el int16) bool) int16 {
+func (s SliceInt16) Find(f func(el int16) bool) (int16, error) {
 	for _, el := range s.Data {
 		if f(el) {
-			return el
+			return el, nil
 		}
 	}
-	return def
+	var tmp int16
+	return tmp, ErrNotFound
 }
 
 // FindIndex is like Find, but return element index instead of element itself
-// Returns -1 if element is not found
-func (s SliceInt16) FindIndex(f func(el int16) bool) int {
+func (s SliceInt16) FindIndex(f func(el int16) bool) (int, error) {
 	for i, el := range s.Data {
 		if f(el) {
-			return i
+			return i, nil
 		}
 	}
-	return -1
+	return 0, ErrNotFound
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -29155,14 +29406,21 @@ func (s SliceInt16) GroupByInterface(f func(el int16) interface{}) map[interface
 }
 
 // InsertAt returns the slice with element inserted at given index.
-func (s SliceInt16) InsertAt(index int, element int16) []int16 {
+func (s SliceInt16) InsertAt(index int, element int16) ([]int16, error) {
 	result := make([]int16, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index >= len(s.Data) || index == -1 {
+	if index == len(s.Data) || index == -1 {
 		result = append(result, s.Data...)
 		result = append(result, element)
-		return result
+		return result, nil
+	}
+
+	if index > len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
+	if index < 0 {
+		return s.Data, ErrNegativeIndex
 	}
 
 	for i, el := range s.Data {
@@ -29171,14 +29429,13 @@ func (s SliceInt16) InsertAt(index int, element int16) []int16 {
 		}
 		result = append(result, el)
 	}
-	return result
+	return result, nil
 }
 
 // Intersperse inserts el between each element of arr
 func (s SliceInt16) Intersperse(el int16) []int16 {
 	if len(s.Data) == 0 {
-		tmp := make([]int16, 0)
-		return tmp
+		return s.Data
 	}
 	result := make([]int16, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
@@ -29189,12 +29446,12 @@ func (s SliceInt16) Intersperse(el int16) []int16 {
 }
 
 // Last returns the last element from the slice
-func (s SliceInt16) Last() int16 {
+func (s SliceInt16) Last() (int16, error) {
 	if len(s.Data) == 0 {
 		var tmp int16
-		return tmp
+		return tmp, ErrEmptySlice
 	}
-	return s.Data[len(s.Data)-1]
+	return s.Data[len(s.Data)-1], nil
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
@@ -29342,25 +29599,35 @@ func (s SliceInt16) MapInterface(f func(el int16) interface{}) []interface{} {
 }
 
 // Max returns the maximal element from arr
-func (s SliceInt16) Max() int16 {
+func (s SliceInt16) Max() (int16, error) {
+	if len(s.Data) == 0 {
+		var tmp int16
+		return tmp, ErrEmptySlice
+	}
+
 	max := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from arr
-func (s SliceInt16) Min() int16 {
+func (s SliceInt16) Min() (int16, error) {
+	if len(s.Data) == 0 {
+		var tmp int16
+		return tmp, ErrEmptySlice
+	}
+
 	min := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Permutations returns successive size-length permutations of elements from the slice.
@@ -29737,6 +30004,9 @@ func (s SliceInt16) ReduceWhileInterface(acc interface{}, f func(el int16, acc i
 
 // Reverse returns given arr in reversed order
 func (s SliceInt16) Reverse() []int16 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	result := make([]int16, 0, len(s.Data))
 	for i := len(s.Data) - 1; i >= 0; i-- {
 		result = append(result, s.Data[i])
@@ -29746,6 +30016,9 @@ func (s SliceInt16) Reverse() []int16 {
 
 // Same returns true if all element in arr the same
 func (s SliceInt16) Same() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 0; i < len(s.Data)-1; i++ {
 		if s.Data[i] != s.Data[i+1] {
 			return false
@@ -29916,6 +30189,9 @@ func (s SliceInt16) ScanInterface(acc interface{}, f func(el int16, acc interfac
 
 // Shuffle in random order arr elements
 func (s SliceInt16) Shuffle() []int16 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	rand.Seed(time.Now().UnixNano())
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
@@ -29926,6 +30202,9 @@ func (s SliceInt16) Shuffle() []int16 {
 
 // Sort returns sorted slice
 func (s SliceInt16) Sort() []int16 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	less := func(i int, j int) bool {
 		return s.Data[i] < s.Data[j]
 	}
@@ -29935,6 +30214,9 @@ func (s SliceInt16) Sort() []int16 {
 
 // Sorted returns true if slice is sorted
 func (s SliceInt16) Sorted() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 1; i < len(s.Data); i++ {
 		if s.Data[i-1] > s.Data[i] {
 			return false
@@ -29982,9 +30264,9 @@ func (s SliceInt16) Sum() int16 {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceInt16) TakeEvery(nth int) []int16 {
-	if nth == 0 {
-		return []int16{}
+func (s SliceInt16) TakeEvery(nth int) ([]int16, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
 	}
 	result := make([]int16, 0, len(s.Data))
 	for i, el := range s.Data {
@@ -29992,16 +30274,16 @@ func (s SliceInt16) TakeEvery(nth int) []int16 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // TakeRandom returns slice of count random elements from the slice
-func (s SliceInt16) TakeRandom(count int) []int16 {
+func (s SliceInt16) TakeRandom(count int) ([]int16, error) {
 	if count > len(s.Data) {
-		count = len(s.Data)
+		return nil, ErrIndexOutOfRange
 	}
 	if count <= 0 {
-		return []int16{}
+		return nil, ErrNonPositiveStep
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -30009,7 +30291,7 @@ func (s SliceInt16) TakeRandom(count int) []int16 {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
 	rand.Shuffle(len(s.Data), swap)
-	return s.Data[:count]
+	return s.Data[:count], nil
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -30038,6 +30320,9 @@ func (s SliceInt16) ToChannel() chan int16 {
 
 // Uniq returns arr with only first occurences of every element.
 func (s SliceInt16) Uniq() []int16 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	added := make(map[int16]struct{})
 	nothing := struct{}{}
 	result := make([]int16, 0, len(s.Data))
@@ -30054,13 +30339,16 @@ func (s SliceInt16) Uniq() []int16 {
 
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
-func (s SliceInt16) Window(size int) [][]int16 {
+func (s SliceInt16) Window(size int) ([][]int16, error) {
+	if size <= 0 {
+		return nil, ErrNonPositiveStep
+	}
 	result := make([][]int16, 0, len(s.Data)/size)
 	for i := 0; i <= len(s.Data)-size; i++ {
 		chunk := s.Data[i : i+size]
 		result = append(result, chunk)
 	}
-	return result
+	return result, nil
 }
 
 // Without returns the slice with filtered out element
@@ -31773,15 +32061,15 @@ func (s SliceInt32) All(f func(el int32) bool) bool {
 }
 
 // Choice chooses a random element from the slice
-func (s SliceInt32) Choice() int32 {
+func (s SliceInt32) Choice() (int32, error) {
 	if len(s.Data) == 0 {
 		var tmp int32
-		return tmp
+		return tmp, ErrEmptySlice
 	}
 
 	rand.Seed(time.Now().UnixNano())
 	i := rand.Intn(len(s.Data))
-	return s.Data[i]
+	return s.Data[i], nil
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
@@ -32201,11 +32489,11 @@ func (s SliceInt32) ChunkByInterface(f func(el int32) interface{}) [][]int32 {
 }
 
 // ChunkEvery returns slice of slices containing count elements each
-func (s SliceInt32) ChunkEvery(count int) [][]int32 {
-	if count <= 0 {
-		count = 1
-	}
+func (s SliceInt32) ChunkEvery(count int) ([][]int32, error) {
 	chunks := make([][]int32, 0)
+	if count <= 0 {
+		return chunks, ErrNegativeIndex
+	}
 	chunk := make([]int32, 0, count)
 	for i, el := range s.Data {
 		chunk = append(chunk, el)
@@ -32217,7 +32505,7 @@ func (s SliceInt32) ChunkEvery(count int) [][]int32 {
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
 	}
-	return chunks
+	return chunks, nil
 }
 
 // Contains returns true if el in arr.
@@ -32271,11 +32559,11 @@ func (s SliceInt32) Cycle() chan int32 {
 
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceInt32) Dedup() []int32 {
-	result := make([]int32, 0, len(s.Data))
 	if len(s.Data) == 0 {
-		return result
+		return s.Data
 	}
 
+	result := make([]int32, 0, len(s.Data))
 	prev := s.Data[0]
 	result = append(result, prev)
 	for _, el := range s.Data[1:] {
@@ -32622,34 +32910,33 @@ func (s SliceInt32) Delete(element int32) []int32 {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceInt32) DeleteAt(indices ...int) []int32 {
-	result := make([]int32, 0, len(s.Data)-len(indices))
+func (s SliceInt32) DeleteAt(index int) ([]int32, error) {
+	if index >= len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
 
+	result := make([]int32, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		allowed := true
-		for _, j := range indices {
-			if i == j {
-				allowed = false
-				break
-			}
-		}
-		if allowed {
+		if i != index {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceInt32) DropEvery(nth int) []int32 {
+func (s SliceInt32) DropEvery(nth int) ([]int32, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
+	}
 	result := make([]int32, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropWhile drops elements from arr while f returns true
@@ -32696,24 +32983,24 @@ func (s SliceInt32) Filter(f func(el int32) bool) []int32 {
 }
 
 // Find returns the first element for which f returns true
-func (s SliceInt32) Find(def int32, f func(el int32) bool) int32 {
+func (s SliceInt32) Find(f func(el int32) bool) (int32, error) {
 	for _, el := range s.Data {
 		if f(el) {
-			return el
+			return el, nil
 		}
 	}
-	return def
+	var tmp int32
+	return tmp, ErrNotFound
 }
 
 // FindIndex is like Find, but return element index instead of element itself
-// Returns -1 if element is not found
-func (s SliceInt32) FindIndex(f func(el int32) bool) int {
+func (s SliceInt32) FindIndex(f func(el int32) bool) (int, error) {
 	for i, el := range s.Data {
 		if f(el) {
-			return i
+			return i, nil
 		}
 	}
-	return -1
+	return 0, ErrNotFound
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -32950,14 +33237,21 @@ func (s SliceInt32) GroupByInterface(f func(el int32) interface{}) map[interface
 }
 
 // InsertAt returns the slice with element inserted at given index.
-func (s SliceInt32) InsertAt(index int, element int32) []int32 {
+func (s SliceInt32) InsertAt(index int, element int32) ([]int32, error) {
 	result := make([]int32, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index >= len(s.Data) || index == -1 {
+	if index == len(s.Data) || index == -1 {
 		result = append(result, s.Data...)
 		result = append(result, element)
-		return result
+		return result, nil
+	}
+
+	if index > len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
+	if index < 0 {
+		return s.Data, ErrNegativeIndex
 	}
 
 	for i, el := range s.Data {
@@ -32966,14 +33260,13 @@ func (s SliceInt32) InsertAt(index int, element int32) []int32 {
 		}
 		result = append(result, el)
 	}
-	return result
+	return result, nil
 }
 
 // Intersperse inserts el between each element of arr
 func (s SliceInt32) Intersperse(el int32) []int32 {
 	if len(s.Data) == 0 {
-		tmp := make([]int32, 0)
-		return tmp
+		return s.Data
 	}
 	result := make([]int32, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
@@ -32984,12 +33277,12 @@ func (s SliceInt32) Intersperse(el int32) []int32 {
 }
 
 // Last returns the last element from the slice
-func (s SliceInt32) Last() int32 {
+func (s SliceInt32) Last() (int32, error) {
 	if len(s.Data) == 0 {
 		var tmp int32
-		return tmp
+		return tmp, ErrEmptySlice
 	}
-	return s.Data[len(s.Data)-1]
+	return s.Data[len(s.Data)-1], nil
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
@@ -33137,25 +33430,35 @@ func (s SliceInt32) MapInterface(f func(el int32) interface{}) []interface{} {
 }
 
 // Max returns the maximal element from arr
-func (s SliceInt32) Max() int32 {
+func (s SliceInt32) Max() (int32, error) {
+	if len(s.Data) == 0 {
+		var tmp int32
+		return tmp, ErrEmptySlice
+	}
+
 	max := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from arr
-func (s SliceInt32) Min() int32 {
+func (s SliceInt32) Min() (int32, error) {
+	if len(s.Data) == 0 {
+		var tmp int32
+		return tmp, ErrEmptySlice
+	}
+
 	min := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Permutations returns successive size-length permutations of elements from the slice.
@@ -33532,6 +33835,9 @@ func (s SliceInt32) ReduceWhileInterface(acc interface{}, f func(el int32, acc i
 
 // Reverse returns given arr in reversed order
 func (s SliceInt32) Reverse() []int32 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	result := make([]int32, 0, len(s.Data))
 	for i := len(s.Data) - 1; i >= 0; i-- {
 		result = append(result, s.Data[i])
@@ -33541,6 +33847,9 @@ func (s SliceInt32) Reverse() []int32 {
 
 // Same returns true if all element in arr the same
 func (s SliceInt32) Same() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 0; i < len(s.Data)-1; i++ {
 		if s.Data[i] != s.Data[i+1] {
 			return false
@@ -33711,6 +34020,9 @@ func (s SliceInt32) ScanInterface(acc interface{}, f func(el int32, acc interfac
 
 // Shuffle in random order arr elements
 func (s SliceInt32) Shuffle() []int32 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	rand.Seed(time.Now().UnixNano())
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
@@ -33721,6 +34033,9 @@ func (s SliceInt32) Shuffle() []int32 {
 
 // Sort returns sorted slice
 func (s SliceInt32) Sort() []int32 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	less := func(i int, j int) bool {
 		return s.Data[i] < s.Data[j]
 	}
@@ -33730,6 +34045,9 @@ func (s SliceInt32) Sort() []int32 {
 
 // Sorted returns true if slice is sorted
 func (s SliceInt32) Sorted() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 1; i < len(s.Data); i++ {
 		if s.Data[i-1] > s.Data[i] {
 			return false
@@ -33777,9 +34095,9 @@ func (s SliceInt32) Sum() int32 {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceInt32) TakeEvery(nth int) []int32 {
-	if nth == 0 {
-		return []int32{}
+func (s SliceInt32) TakeEvery(nth int) ([]int32, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
 	}
 	result := make([]int32, 0, len(s.Data))
 	for i, el := range s.Data {
@@ -33787,16 +34105,16 @@ func (s SliceInt32) TakeEvery(nth int) []int32 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // TakeRandom returns slice of count random elements from the slice
-func (s SliceInt32) TakeRandom(count int) []int32 {
+func (s SliceInt32) TakeRandom(count int) ([]int32, error) {
 	if count > len(s.Data) {
-		count = len(s.Data)
+		return nil, ErrIndexOutOfRange
 	}
 	if count <= 0 {
-		return []int32{}
+		return nil, ErrNonPositiveStep
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -33804,7 +34122,7 @@ func (s SliceInt32) TakeRandom(count int) []int32 {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
 	rand.Shuffle(len(s.Data), swap)
-	return s.Data[:count]
+	return s.Data[:count], nil
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -33833,6 +34151,9 @@ func (s SliceInt32) ToChannel() chan int32 {
 
 // Uniq returns arr with only first occurences of every element.
 func (s SliceInt32) Uniq() []int32 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	added := make(map[int32]struct{})
 	nothing := struct{}{}
 	result := make([]int32, 0, len(s.Data))
@@ -33849,13 +34170,16 @@ func (s SliceInt32) Uniq() []int32 {
 
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
-func (s SliceInt32) Window(size int) [][]int32 {
+func (s SliceInt32) Window(size int) ([][]int32, error) {
+	if size <= 0 {
+		return nil, ErrNonPositiveStep
+	}
 	result := make([][]int32, 0, len(s.Data)/size)
 	for i := 0; i <= len(s.Data)-size; i++ {
 		chunk := s.Data[i : i+size]
 		result = append(result, chunk)
 	}
-	return result
+	return result, nil
 }
 
 // Without returns the slice with filtered out element
@@ -35568,15 +35892,15 @@ func (s SliceInt64) All(f func(el int64) bool) bool {
 }
 
 // Choice chooses a random element from the slice
-func (s SliceInt64) Choice() int64 {
+func (s SliceInt64) Choice() (int64, error) {
 	if len(s.Data) == 0 {
 		var tmp int64
-		return tmp
+		return tmp, ErrEmptySlice
 	}
 
 	rand.Seed(time.Now().UnixNano())
 	i := rand.Intn(len(s.Data))
-	return s.Data[i]
+	return s.Data[i], nil
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
@@ -35996,11 +36320,11 @@ func (s SliceInt64) ChunkByInterface(f func(el int64) interface{}) [][]int64 {
 }
 
 // ChunkEvery returns slice of slices containing count elements each
-func (s SliceInt64) ChunkEvery(count int) [][]int64 {
-	if count <= 0 {
-		count = 1
-	}
+func (s SliceInt64) ChunkEvery(count int) ([][]int64, error) {
 	chunks := make([][]int64, 0)
+	if count <= 0 {
+		return chunks, ErrNegativeIndex
+	}
 	chunk := make([]int64, 0, count)
 	for i, el := range s.Data {
 		chunk = append(chunk, el)
@@ -36012,7 +36336,7 @@ func (s SliceInt64) ChunkEvery(count int) [][]int64 {
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
 	}
-	return chunks
+	return chunks, nil
 }
 
 // Contains returns true if el in arr.
@@ -36066,11 +36390,11 @@ func (s SliceInt64) Cycle() chan int64 {
 
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceInt64) Dedup() []int64 {
-	result := make([]int64, 0, len(s.Data))
 	if len(s.Data) == 0 {
-		return result
+		return s.Data
 	}
 
+	result := make([]int64, 0, len(s.Data))
 	prev := s.Data[0]
 	result = append(result, prev)
 	for _, el := range s.Data[1:] {
@@ -36417,34 +36741,33 @@ func (s SliceInt64) Delete(element int64) []int64 {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceInt64) DeleteAt(indices ...int) []int64 {
-	result := make([]int64, 0, len(s.Data)-len(indices))
+func (s SliceInt64) DeleteAt(index int) ([]int64, error) {
+	if index >= len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
 
+	result := make([]int64, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		allowed := true
-		for _, j := range indices {
-			if i == j {
-				allowed = false
-				break
-			}
-		}
-		if allowed {
+		if i != index {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceInt64) DropEvery(nth int) []int64 {
+func (s SliceInt64) DropEvery(nth int) ([]int64, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
+	}
 	result := make([]int64, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropWhile drops elements from arr while f returns true
@@ -36491,24 +36814,24 @@ func (s SliceInt64) Filter(f func(el int64) bool) []int64 {
 }
 
 // Find returns the first element for which f returns true
-func (s SliceInt64) Find(def int64, f func(el int64) bool) int64 {
+func (s SliceInt64) Find(f func(el int64) bool) (int64, error) {
 	for _, el := range s.Data {
 		if f(el) {
-			return el
+			return el, nil
 		}
 	}
-	return def
+	var tmp int64
+	return tmp, ErrNotFound
 }
 
 // FindIndex is like Find, but return element index instead of element itself
-// Returns -1 if element is not found
-func (s SliceInt64) FindIndex(f func(el int64) bool) int {
+func (s SliceInt64) FindIndex(f func(el int64) bool) (int, error) {
 	for i, el := range s.Data {
 		if f(el) {
-			return i
+			return i, nil
 		}
 	}
-	return -1
+	return 0, ErrNotFound
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -36745,14 +37068,21 @@ func (s SliceInt64) GroupByInterface(f func(el int64) interface{}) map[interface
 }
 
 // InsertAt returns the slice with element inserted at given index.
-func (s SliceInt64) InsertAt(index int, element int64) []int64 {
+func (s SliceInt64) InsertAt(index int, element int64) ([]int64, error) {
 	result := make([]int64, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index >= len(s.Data) || index == -1 {
+	if index == len(s.Data) || index == -1 {
 		result = append(result, s.Data...)
 		result = append(result, element)
-		return result
+		return result, nil
+	}
+
+	if index > len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
+	if index < 0 {
+		return s.Data, ErrNegativeIndex
 	}
 
 	for i, el := range s.Data {
@@ -36761,14 +37091,13 @@ func (s SliceInt64) InsertAt(index int, element int64) []int64 {
 		}
 		result = append(result, el)
 	}
-	return result
+	return result, nil
 }
 
 // Intersperse inserts el between each element of arr
 func (s SliceInt64) Intersperse(el int64) []int64 {
 	if len(s.Data) == 0 {
-		tmp := make([]int64, 0)
-		return tmp
+		return s.Data
 	}
 	result := make([]int64, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
@@ -36779,12 +37108,12 @@ func (s SliceInt64) Intersperse(el int64) []int64 {
 }
 
 // Last returns the last element from the slice
-func (s SliceInt64) Last() int64 {
+func (s SliceInt64) Last() (int64, error) {
 	if len(s.Data) == 0 {
 		var tmp int64
-		return tmp
+		return tmp, ErrEmptySlice
 	}
-	return s.Data[len(s.Data)-1]
+	return s.Data[len(s.Data)-1], nil
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
@@ -36932,25 +37261,35 @@ func (s SliceInt64) MapInterface(f func(el int64) interface{}) []interface{} {
 }
 
 // Max returns the maximal element from arr
-func (s SliceInt64) Max() int64 {
+func (s SliceInt64) Max() (int64, error) {
+	if len(s.Data) == 0 {
+		var tmp int64
+		return tmp, ErrEmptySlice
+	}
+
 	max := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from arr
-func (s SliceInt64) Min() int64 {
+func (s SliceInt64) Min() (int64, error) {
+	if len(s.Data) == 0 {
+		var tmp int64
+		return tmp, ErrEmptySlice
+	}
+
 	min := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Permutations returns successive size-length permutations of elements from the slice.
@@ -37327,6 +37666,9 @@ func (s SliceInt64) ReduceWhileInterface(acc interface{}, f func(el int64, acc i
 
 // Reverse returns given arr in reversed order
 func (s SliceInt64) Reverse() []int64 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	result := make([]int64, 0, len(s.Data))
 	for i := len(s.Data) - 1; i >= 0; i-- {
 		result = append(result, s.Data[i])
@@ -37336,6 +37678,9 @@ func (s SliceInt64) Reverse() []int64 {
 
 // Same returns true if all element in arr the same
 func (s SliceInt64) Same() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 0; i < len(s.Data)-1; i++ {
 		if s.Data[i] != s.Data[i+1] {
 			return false
@@ -37506,6 +37851,9 @@ func (s SliceInt64) ScanInterface(acc interface{}, f func(el int64, acc interfac
 
 // Shuffle in random order arr elements
 func (s SliceInt64) Shuffle() []int64 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	rand.Seed(time.Now().UnixNano())
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
@@ -37516,6 +37864,9 @@ func (s SliceInt64) Shuffle() []int64 {
 
 // Sort returns sorted slice
 func (s SliceInt64) Sort() []int64 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	less := func(i int, j int) bool {
 		return s.Data[i] < s.Data[j]
 	}
@@ -37525,6 +37876,9 @@ func (s SliceInt64) Sort() []int64 {
 
 // Sorted returns true if slice is sorted
 func (s SliceInt64) Sorted() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 1; i < len(s.Data); i++ {
 		if s.Data[i-1] > s.Data[i] {
 			return false
@@ -37572,9 +37926,9 @@ func (s SliceInt64) Sum() int64 {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceInt64) TakeEvery(nth int) []int64 {
-	if nth == 0 {
-		return []int64{}
+func (s SliceInt64) TakeEvery(nth int) ([]int64, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
 	}
 	result := make([]int64, 0, len(s.Data))
 	for i, el := range s.Data {
@@ -37582,16 +37936,16 @@ func (s SliceInt64) TakeEvery(nth int) []int64 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // TakeRandom returns slice of count random elements from the slice
-func (s SliceInt64) TakeRandom(count int) []int64 {
+func (s SliceInt64) TakeRandom(count int) ([]int64, error) {
 	if count > len(s.Data) {
-		count = len(s.Data)
+		return nil, ErrIndexOutOfRange
 	}
 	if count <= 0 {
-		return []int64{}
+		return nil, ErrNonPositiveStep
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -37599,7 +37953,7 @@ func (s SliceInt64) TakeRandom(count int) []int64 {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
 	rand.Shuffle(len(s.Data), swap)
-	return s.Data[:count]
+	return s.Data[:count], nil
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -37628,6 +37982,9 @@ func (s SliceInt64) ToChannel() chan int64 {
 
 // Uniq returns arr with only first occurences of every element.
 func (s SliceInt64) Uniq() []int64 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	added := make(map[int64]struct{})
 	nothing := struct{}{}
 	result := make([]int64, 0, len(s.Data))
@@ -37644,13 +38001,16 @@ func (s SliceInt64) Uniq() []int64 {
 
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
-func (s SliceInt64) Window(size int) [][]int64 {
+func (s SliceInt64) Window(size int) ([][]int64, error) {
+	if size <= 0 {
+		return nil, ErrNonPositiveStep
+	}
 	result := make([][]int64, 0, len(s.Data)/size)
 	for i := 0; i <= len(s.Data)-size; i++ {
 		chunk := s.Data[i : i+size]
 		result = append(result, chunk)
 	}
-	return result
+	return result, nil
 }
 
 // Without returns the slice with filtered out element
@@ -39363,15 +39723,15 @@ func (s SliceUint) All(f func(el uint) bool) bool {
 }
 
 // Choice chooses a random element from the slice
-func (s SliceUint) Choice() uint {
+func (s SliceUint) Choice() (uint, error) {
 	if len(s.Data) == 0 {
 		var tmp uint
-		return tmp
+		return tmp, ErrEmptySlice
 	}
 
 	rand.Seed(time.Now().UnixNano())
 	i := rand.Intn(len(s.Data))
-	return s.Data[i]
+	return s.Data[i], nil
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
@@ -39791,11 +40151,11 @@ func (s SliceUint) ChunkByInterface(f func(el uint) interface{}) [][]uint {
 }
 
 // ChunkEvery returns slice of slices containing count elements each
-func (s SliceUint) ChunkEvery(count int) [][]uint {
-	if count <= 0 {
-		count = 1
-	}
+func (s SliceUint) ChunkEvery(count int) ([][]uint, error) {
 	chunks := make([][]uint, 0)
+	if count <= 0 {
+		return chunks, ErrNegativeIndex
+	}
 	chunk := make([]uint, 0, count)
 	for i, el := range s.Data {
 		chunk = append(chunk, el)
@@ -39807,7 +40167,7 @@ func (s SliceUint) ChunkEvery(count int) [][]uint {
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
 	}
-	return chunks
+	return chunks, nil
 }
 
 // Contains returns true if el in arr.
@@ -39861,11 +40221,11 @@ func (s SliceUint) Cycle() chan uint {
 
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceUint) Dedup() []uint {
-	result := make([]uint, 0, len(s.Data))
 	if len(s.Data) == 0 {
-		return result
+		return s.Data
 	}
 
+	result := make([]uint, 0, len(s.Data))
 	prev := s.Data[0]
 	result = append(result, prev)
 	for _, el := range s.Data[1:] {
@@ -40212,34 +40572,33 @@ func (s SliceUint) Delete(element uint) []uint {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceUint) DeleteAt(indices ...int) []uint {
-	result := make([]uint, 0, len(s.Data)-len(indices))
+func (s SliceUint) DeleteAt(index int) ([]uint, error) {
+	if index >= len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
 
+	result := make([]uint, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		allowed := true
-		for _, j := range indices {
-			if i == j {
-				allowed = false
-				break
-			}
-		}
-		if allowed {
+		if i != index {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceUint) DropEvery(nth int) []uint {
+func (s SliceUint) DropEvery(nth int) ([]uint, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
+	}
 	result := make([]uint, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropWhile drops elements from arr while f returns true
@@ -40286,24 +40645,24 @@ func (s SliceUint) Filter(f func(el uint) bool) []uint {
 }
 
 // Find returns the first element for which f returns true
-func (s SliceUint) Find(def uint, f func(el uint) bool) uint {
+func (s SliceUint) Find(f func(el uint) bool) (uint, error) {
 	for _, el := range s.Data {
 		if f(el) {
-			return el
+			return el, nil
 		}
 	}
-	return def
+	var tmp uint
+	return tmp, ErrNotFound
 }
 
 // FindIndex is like Find, but return element index instead of element itself
-// Returns -1 if element is not found
-func (s SliceUint) FindIndex(f func(el uint) bool) int {
+func (s SliceUint) FindIndex(f func(el uint) bool) (int, error) {
 	for i, el := range s.Data {
 		if f(el) {
-			return i
+			return i, nil
 		}
 	}
-	return -1
+	return 0, ErrNotFound
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -40540,14 +40899,21 @@ func (s SliceUint) GroupByInterface(f func(el uint) interface{}) map[interface{}
 }
 
 // InsertAt returns the slice with element inserted at given index.
-func (s SliceUint) InsertAt(index int, element uint) []uint {
+func (s SliceUint) InsertAt(index int, element uint) ([]uint, error) {
 	result := make([]uint, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index >= len(s.Data) || index == -1 {
+	if index == len(s.Data) || index == -1 {
 		result = append(result, s.Data...)
 		result = append(result, element)
-		return result
+		return result, nil
+	}
+
+	if index > len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
+	if index < 0 {
+		return s.Data, ErrNegativeIndex
 	}
 
 	for i, el := range s.Data {
@@ -40556,14 +40922,13 @@ func (s SliceUint) InsertAt(index int, element uint) []uint {
 		}
 		result = append(result, el)
 	}
-	return result
+	return result, nil
 }
 
 // Intersperse inserts el between each element of arr
 func (s SliceUint) Intersperse(el uint) []uint {
 	if len(s.Data) == 0 {
-		tmp := make([]uint, 0)
-		return tmp
+		return s.Data
 	}
 	result := make([]uint, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
@@ -40574,12 +40939,12 @@ func (s SliceUint) Intersperse(el uint) []uint {
 }
 
 // Last returns the last element from the slice
-func (s SliceUint) Last() uint {
+func (s SliceUint) Last() (uint, error) {
 	if len(s.Data) == 0 {
 		var tmp uint
-		return tmp
+		return tmp, ErrEmptySlice
 	}
-	return s.Data[len(s.Data)-1]
+	return s.Data[len(s.Data)-1], nil
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
@@ -40727,25 +41092,35 @@ func (s SliceUint) MapInterface(f func(el uint) interface{}) []interface{} {
 }
 
 // Max returns the maximal element from arr
-func (s SliceUint) Max() uint {
+func (s SliceUint) Max() (uint, error) {
+	if len(s.Data) == 0 {
+		var tmp uint
+		return tmp, ErrEmptySlice
+	}
+
 	max := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from arr
-func (s SliceUint) Min() uint {
+func (s SliceUint) Min() (uint, error) {
+	if len(s.Data) == 0 {
+		var tmp uint
+		return tmp, ErrEmptySlice
+	}
+
 	min := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Permutations returns successive size-length permutations of elements from the slice.
@@ -41122,6 +41497,9 @@ func (s SliceUint) ReduceWhileInterface(acc interface{}, f func(el uint, acc int
 
 // Reverse returns given arr in reversed order
 func (s SliceUint) Reverse() []uint {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	result := make([]uint, 0, len(s.Data))
 	for i := len(s.Data) - 1; i >= 0; i-- {
 		result = append(result, s.Data[i])
@@ -41131,6 +41509,9 @@ func (s SliceUint) Reverse() []uint {
 
 // Same returns true if all element in arr the same
 func (s SliceUint) Same() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 0; i < len(s.Data)-1; i++ {
 		if s.Data[i] != s.Data[i+1] {
 			return false
@@ -41301,6 +41682,9 @@ func (s SliceUint) ScanInterface(acc interface{}, f func(el uint, acc interface{
 
 // Shuffle in random order arr elements
 func (s SliceUint) Shuffle() []uint {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	rand.Seed(time.Now().UnixNano())
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
@@ -41311,6 +41695,9 @@ func (s SliceUint) Shuffle() []uint {
 
 // Sort returns sorted slice
 func (s SliceUint) Sort() []uint {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	less := func(i int, j int) bool {
 		return s.Data[i] < s.Data[j]
 	}
@@ -41320,6 +41707,9 @@ func (s SliceUint) Sort() []uint {
 
 // Sorted returns true if slice is sorted
 func (s SliceUint) Sorted() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 1; i < len(s.Data); i++ {
 		if s.Data[i-1] > s.Data[i] {
 			return false
@@ -41367,9 +41757,9 @@ func (s SliceUint) Sum() uint {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceUint) TakeEvery(nth int) []uint {
-	if nth == 0 {
-		return []uint{}
+func (s SliceUint) TakeEvery(nth int) ([]uint, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
 	}
 	result := make([]uint, 0, len(s.Data))
 	for i, el := range s.Data {
@@ -41377,16 +41767,16 @@ func (s SliceUint) TakeEvery(nth int) []uint {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // TakeRandom returns slice of count random elements from the slice
-func (s SliceUint) TakeRandom(count int) []uint {
+func (s SliceUint) TakeRandom(count int) ([]uint, error) {
 	if count > len(s.Data) {
-		count = len(s.Data)
+		return nil, ErrIndexOutOfRange
 	}
 	if count <= 0 {
-		return []uint{}
+		return nil, ErrNonPositiveStep
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -41394,7 +41784,7 @@ func (s SliceUint) TakeRandom(count int) []uint {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
 	rand.Shuffle(len(s.Data), swap)
-	return s.Data[:count]
+	return s.Data[:count], nil
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -41423,6 +41813,9 @@ func (s SliceUint) ToChannel() chan uint {
 
 // Uniq returns arr with only first occurences of every element.
 func (s SliceUint) Uniq() []uint {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	added := make(map[uint]struct{})
 	nothing := struct{}{}
 	result := make([]uint, 0, len(s.Data))
@@ -41439,13 +41832,16 @@ func (s SliceUint) Uniq() []uint {
 
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
-func (s SliceUint) Window(size int) [][]uint {
+func (s SliceUint) Window(size int) ([][]uint, error) {
+	if size <= 0 {
+		return nil, ErrNonPositiveStep
+	}
 	result := make([][]uint, 0, len(s.Data)/size)
 	for i := 0; i <= len(s.Data)-size; i++ {
 		chunk := s.Data[i : i+size]
 		result = append(result, chunk)
 	}
-	return result
+	return result, nil
 }
 
 // Without returns the slice with filtered out element
@@ -43158,15 +43554,15 @@ func (s SliceUint8) All(f func(el uint8) bool) bool {
 }
 
 // Choice chooses a random element from the slice
-func (s SliceUint8) Choice() uint8 {
+func (s SliceUint8) Choice() (uint8, error) {
 	if len(s.Data) == 0 {
 		var tmp uint8
-		return tmp
+		return tmp, ErrEmptySlice
 	}
 
 	rand.Seed(time.Now().UnixNano())
 	i := rand.Intn(len(s.Data))
-	return s.Data[i]
+	return s.Data[i], nil
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
@@ -43586,11 +43982,11 @@ func (s SliceUint8) ChunkByInterface(f func(el uint8) interface{}) [][]uint8 {
 }
 
 // ChunkEvery returns slice of slices containing count elements each
-func (s SliceUint8) ChunkEvery(count int) [][]uint8 {
-	if count <= 0 {
-		count = 1
-	}
+func (s SliceUint8) ChunkEvery(count int) ([][]uint8, error) {
 	chunks := make([][]uint8, 0)
+	if count <= 0 {
+		return chunks, ErrNegativeIndex
+	}
 	chunk := make([]uint8, 0, count)
 	for i, el := range s.Data {
 		chunk = append(chunk, el)
@@ -43602,7 +43998,7 @@ func (s SliceUint8) ChunkEvery(count int) [][]uint8 {
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
 	}
-	return chunks
+	return chunks, nil
 }
 
 // Contains returns true if el in arr.
@@ -43656,11 +44052,11 @@ func (s SliceUint8) Cycle() chan uint8 {
 
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceUint8) Dedup() []uint8 {
-	result := make([]uint8, 0, len(s.Data))
 	if len(s.Data) == 0 {
-		return result
+		return s.Data
 	}
 
+	result := make([]uint8, 0, len(s.Data))
 	prev := s.Data[0]
 	result = append(result, prev)
 	for _, el := range s.Data[1:] {
@@ -44007,34 +44403,33 @@ func (s SliceUint8) Delete(element uint8) []uint8 {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceUint8) DeleteAt(indices ...int) []uint8 {
-	result := make([]uint8, 0, len(s.Data)-len(indices))
+func (s SliceUint8) DeleteAt(index int) ([]uint8, error) {
+	if index >= len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
 
+	result := make([]uint8, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		allowed := true
-		for _, j := range indices {
-			if i == j {
-				allowed = false
-				break
-			}
-		}
-		if allowed {
+		if i != index {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceUint8) DropEvery(nth int) []uint8 {
+func (s SliceUint8) DropEvery(nth int) ([]uint8, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
+	}
 	result := make([]uint8, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropWhile drops elements from arr while f returns true
@@ -44081,24 +44476,24 @@ func (s SliceUint8) Filter(f func(el uint8) bool) []uint8 {
 }
 
 // Find returns the first element for which f returns true
-func (s SliceUint8) Find(def uint8, f func(el uint8) bool) uint8 {
+func (s SliceUint8) Find(f func(el uint8) bool) (uint8, error) {
 	for _, el := range s.Data {
 		if f(el) {
-			return el
+			return el, nil
 		}
 	}
-	return def
+	var tmp uint8
+	return tmp, ErrNotFound
 }
 
 // FindIndex is like Find, but return element index instead of element itself
-// Returns -1 if element is not found
-func (s SliceUint8) FindIndex(f func(el uint8) bool) int {
+func (s SliceUint8) FindIndex(f func(el uint8) bool) (int, error) {
 	for i, el := range s.Data {
 		if f(el) {
-			return i
+			return i, nil
 		}
 	}
-	return -1
+	return 0, ErrNotFound
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -44335,14 +44730,21 @@ func (s SliceUint8) GroupByInterface(f func(el uint8) interface{}) map[interface
 }
 
 // InsertAt returns the slice with element inserted at given index.
-func (s SliceUint8) InsertAt(index int, element uint8) []uint8 {
+func (s SliceUint8) InsertAt(index int, element uint8) ([]uint8, error) {
 	result := make([]uint8, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index >= len(s.Data) || index == -1 {
+	if index == len(s.Data) || index == -1 {
 		result = append(result, s.Data...)
 		result = append(result, element)
-		return result
+		return result, nil
+	}
+
+	if index > len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
+	if index < 0 {
+		return s.Data, ErrNegativeIndex
 	}
 
 	for i, el := range s.Data {
@@ -44351,14 +44753,13 @@ func (s SliceUint8) InsertAt(index int, element uint8) []uint8 {
 		}
 		result = append(result, el)
 	}
-	return result
+	return result, nil
 }
 
 // Intersperse inserts el between each element of arr
 func (s SliceUint8) Intersperse(el uint8) []uint8 {
 	if len(s.Data) == 0 {
-		tmp := make([]uint8, 0)
-		return tmp
+		return s.Data
 	}
 	result := make([]uint8, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
@@ -44369,12 +44770,12 @@ func (s SliceUint8) Intersperse(el uint8) []uint8 {
 }
 
 // Last returns the last element from the slice
-func (s SliceUint8) Last() uint8 {
+func (s SliceUint8) Last() (uint8, error) {
 	if len(s.Data) == 0 {
 		var tmp uint8
-		return tmp
+		return tmp, ErrEmptySlice
 	}
-	return s.Data[len(s.Data)-1]
+	return s.Data[len(s.Data)-1], nil
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
@@ -44522,25 +44923,35 @@ func (s SliceUint8) MapInterface(f func(el uint8) interface{}) []interface{} {
 }
 
 // Max returns the maximal element from arr
-func (s SliceUint8) Max() uint8 {
+func (s SliceUint8) Max() (uint8, error) {
+	if len(s.Data) == 0 {
+		var tmp uint8
+		return tmp, ErrEmptySlice
+	}
+
 	max := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from arr
-func (s SliceUint8) Min() uint8 {
+func (s SliceUint8) Min() (uint8, error) {
+	if len(s.Data) == 0 {
+		var tmp uint8
+		return tmp, ErrEmptySlice
+	}
+
 	min := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Permutations returns successive size-length permutations of elements from the slice.
@@ -44917,6 +45328,9 @@ func (s SliceUint8) ReduceWhileInterface(acc interface{}, f func(el uint8, acc i
 
 // Reverse returns given arr in reversed order
 func (s SliceUint8) Reverse() []uint8 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	result := make([]uint8, 0, len(s.Data))
 	for i := len(s.Data) - 1; i >= 0; i-- {
 		result = append(result, s.Data[i])
@@ -44926,6 +45340,9 @@ func (s SliceUint8) Reverse() []uint8 {
 
 // Same returns true if all element in arr the same
 func (s SliceUint8) Same() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 0; i < len(s.Data)-1; i++ {
 		if s.Data[i] != s.Data[i+1] {
 			return false
@@ -45096,6 +45513,9 @@ func (s SliceUint8) ScanInterface(acc interface{}, f func(el uint8, acc interfac
 
 // Shuffle in random order arr elements
 func (s SliceUint8) Shuffle() []uint8 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	rand.Seed(time.Now().UnixNano())
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
@@ -45106,6 +45526,9 @@ func (s SliceUint8) Shuffle() []uint8 {
 
 // Sort returns sorted slice
 func (s SliceUint8) Sort() []uint8 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	less := func(i int, j int) bool {
 		return s.Data[i] < s.Data[j]
 	}
@@ -45115,6 +45538,9 @@ func (s SliceUint8) Sort() []uint8 {
 
 // Sorted returns true if slice is sorted
 func (s SliceUint8) Sorted() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 1; i < len(s.Data); i++ {
 		if s.Data[i-1] > s.Data[i] {
 			return false
@@ -45162,9 +45588,9 @@ func (s SliceUint8) Sum() uint8 {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceUint8) TakeEvery(nth int) []uint8 {
-	if nth == 0 {
-		return []uint8{}
+func (s SliceUint8) TakeEvery(nth int) ([]uint8, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
 	}
 	result := make([]uint8, 0, len(s.Data))
 	for i, el := range s.Data {
@@ -45172,16 +45598,16 @@ func (s SliceUint8) TakeEvery(nth int) []uint8 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // TakeRandom returns slice of count random elements from the slice
-func (s SliceUint8) TakeRandom(count int) []uint8 {
+func (s SliceUint8) TakeRandom(count int) ([]uint8, error) {
 	if count > len(s.Data) {
-		count = len(s.Data)
+		return nil, ErrIndexOutOfRange
 	}
 	if count <= 0 {
-		return []uint8{}
+		return nil, ErrNonPositiveStep
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -45189,7 +45615,7 @@ func (s SliceUint8) TakeRandom(count int) []uint8 {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
 	rand.Shuffle(len(s.Data), swap)
-	return s.Data[:count]
+	return s.Data[:count], nil
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -45218,6 +45644,9 @@ func (s SliceUint8) ToChannel() chan uint8 {
 
 // Uniq returns arr with only first occurences of every element.
 func (s SliceUint8) Uniq() []uint8 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	added := make(map[uint8]struct{})
 	nothing := struct{}{}
 	result := make([]uint8, 0, len(s.Data))
@@ -45234,13 +45663,16 @@ func (s SliceUint8) Uniq() []uint8 {
 
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
-func (s SliceUint8) Window(size int) [][]uint8 {
+func (s SliceUint8) Window(size int) ([][]uint8, error) {
+	if size <= 0 {
+		return nil, ErrNonPositiveStep
+	}
 	result := make([][]uint8, 0, len(s.Data)/size)
 	for i := 0; i <= len(s.Data)-size; i++ {
 		chunk := s.Data[i : i+size]
 		result = append(result, chunk)
 	}
-	return result
+	return result, nil
 }
 
 // Without returns the slice with filtered out element
@@ -46953,15 +47385,15 @@ func (s SliceUint16) All(f func(el uint16) bool) bool {
 }
 
 // Choice chooses a random element from the slice
-func (s SliceUint16) Choice() uint16 {
+func (s SliceUint16) Choice() (uint16, error) {
 	if len(s.Data) == 0 {
 		var tmp uint16
-		return tmp
+		return tmp, ErrEmptySlice
 	}
 
 	rand.Seed(time.Now().UnixNano())
 	i := rand.Intn(len(s.Data))
-	return s.Data[i]
+	return s.Data[i], nil
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
@@ -47381,11 +47813,11 @@ func (s SliceUint16) ChunkByInterface(f func(el uint16) interface{}) [][]uint16 
 }
 
 // ChunkEvery returns slice of slices containing count elements each
-func (s SliceUint16) ChunkEvery(count int) [][]uint16 {
-	if count <= 0 {
-		count = 1
-	}
+func (s SliceUint16) ChunkEvery(count int) ([][]uint16, error) {
 	chunks := make([][]uint16, 0)
+	if count <= 0 {
+		return chunks, ErrNegativeIndex
+	}
 	chunk := make([]uint16, 0, count)
 	for i, el := range s.Data {
 		chunk = append(chunk, el)
@@ -47397,7 +47829,7 @@ func (s SliceUint16) ChunkEvery(count int) [][]uint16 {
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
 	}
-	return chunks
+	return chunks, nil
 }
 
 // Contains returns true if el in arr.
@@ -47451,11 +47883,11 @@ func (s SliceUint16) Cycle() chan uint16 {
 
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceUint16) Dedup() []uint16 {
-	result := make([]uint16, 0, len(s.Data))
 	if len(s.Data) == 0 {
-		return result
+		return s.Data
 	}
 
+	result := make([]uint16, 0, len(s.Data))
 	prev := s.Data[0]
 	result = append(result, prev)
 	for _, el := range s.Data[1:] {
@@ -47802,34 +48234,33 @@ func (s SliceUint16) Delete(element uint16) []uint16 {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceUint16) DeleteAt(indices ...int) []uint16 {
-	result := make([]uint16, 0, len(s.Data)-len(indices))
+func (s SliceUint16) DeleteAt(index int) ([]uint16, error) {
+	if index >= len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
 
+	result := make([]uint16, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		allowed := true
-		for _, j := range indices {
-			if i == j {
-				allowed = false
-				break
-			}
-		}
-		if allowed {
+		if i != index {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceUint16) DropEvery(nth int) []uint16 {
+func (s SliceUint16) DropEvery(nth int) ([]uint16, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
+	}
 	result := make([]uint16, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropWhile drops elements from arr while f returns true
@@ -47876,24 +48307,24 @@ func (s SliceUint16) Filter(f func(el uint16) bool) []uint16 {
 }
 
 // Find returns the first element for which f returns true
-func (s SliceUint16) Find(def uint16, f func(el uint16) bool) uint16 {
+func (s SliceUint16) Find(f func(el uint16) bool) (uint16, error) {
 	for _, el := range s.Data {
 		if f(el) {
-			return el
+			return el, nil
 		}
 	}
-	return def
+	var tmp uint16
+	return tmp, ErrNotFound
 }
 
 // FindIndex is like Find, but return element index instead of element itself
-// Returns -1 if element is not found
-func (s SliceUint16) FindIndex(f func(el uint16) bool) int {
+func (s SliceUint16) FindIndex(f func(el uint16) bool) (int, error) {
 	for i, el := range s.Data {
 		if f(el) {
-			return i
+			return i, nil
 		}
 	}
-	return -1
+	return 0, ErrNotFound
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -48130,14 +48561,21 @@ func (s SliceUint16) GroupByInterface(f func(el uint16) interface{}) map[interfa
 }
 
 // InsertAt returns the slice with element inserted at given index.
-func (s SliceUint16) InsertAt(index int, element uint16) []uint16 {
+func (s SliceUint16) InsertAt(index int, element uint16) ([]uint16, error) {
 	result := make([]uint16, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index >= len(s.Data) || index == -1 {
+	if index == len(s.Data) || index == -1 {
 		result = append(result, s.Data...)
 		result = append(result, element)
-		return result
+		return result, nil
+	}
+
+	if index > len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
+	if index < 0 {
+		return s.Data, ErrNegativeIndex
 	}
 
 	for i, el := range s.Data {
@@ -48146,14 +48584,13 @@ func (s SliceUint16) InsertAt(index int, element uint16) []uint16 {
 		}
 		result = append(result, el)
 	}
-	return result
+	return result, nil
 }
 
 // Intersperse inserts el between each element of arr
 func (s SliceUint16) Intersperse(el uint16) []uint16 {
 	if len(s.Data) == 0 {
-		tmp := make([]uint16, 0)
-		return tmp
+		return s.Data
 	}
 	result := make([]uint16, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
@@ -48164,12 +48601,12 @@ func (s SliceUint16) Intersperse(el uint16) []uint16 {
 }
 
 // Last returns the last element from the slice
-func (s SliceUint16) Last() uint16 {
+func (s SliceUint16) Last() (uint16, error) {
 	if len(s.Data) == 0 {
 		var tmp uint16
-		return tmp
+		return tmp, ErrEmptySlice
 	}
-	return s.Data[len(s.Data)-1]
+	return s.Data[len(s.Data)-1], nil
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
@@ -48317,25 +48754,35 @@ func (s SliceUint16) MapInterface(f func(el uint16) interface{}) []interface{} {
 }
 
 // Max returns the maximal element from arr
-func (s SliceUint16) Max() uint16 {
+func (s SliceUint16) Max() (uint16, error) {
+	if len(s.Data) == 0 {
+		var tmp uint16
+		return tmp, ErrEmptySlice
+	}
+
 	max := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from arr
-func (s SliceUint16) Min() uint16 {
+func (s SliceUint16) Min() (uint16, error) {
+	if len(s.Data) == 0 {
+		var tmp uint16
+		return tmp, ErrEmptySlice
+	}
+
 	min := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Permutations returns successive size-length permutations of elements from the slice.
@@ -48712,6 +49159,9 @@ func (s SliceUint16) ReduceWhileInterface(acc interface{}, f func(el uint16, acc
 
 // Reverse returns given arr in reversed order
 func (s SliceUint16) Reverse() []uint16 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	result := make([]uint16, 0, len(s.Data))
 	for i := len(s.Data) - 1; i >= 0; i-- {
 		result = append(result, s.Data[i])
@@ -48721,6 +49171,9 @@ func (s SliceUint16) Reverse() []uint16 {
 
 // Same returns true if all element in arr the same
 func (s SliceUint16) Same() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 0; i < len(s.Data)-1; i++ {
 		if s.Data[i] != s.Data[i+1] {
 			return false
@@ -48891,6 +49344,9 @@ func (s SliceUint16) ScanInterface(acc interface{}, f func(el uint16, acc interf
 
 // Shuffle in random order arr elements
 func (s SliceUint16) Shuffle() []uint16 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	rand.Seed(time.Now().UnixNano())
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
@@ -48901,6 +49357,9 @@ func (s SliceUint16) Shuffle() []uint16 {
 
 // Sort returns sorted slice
 func (s SliceUint16) Sort() []uint16 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	less := func(i int, j int) bool {
 		return s.Data[i] < s.Data[j]
 	}
@@ -48910,6 +49369,9 @@ func (s SliceUint16) Sort() []uint16 {
 
 // Sorted returns true if slice is sorted
 func (s SliceUint16) Sorted() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 1; i < len(s.Data); i++ {
 		if s.Data[i-1] > s.Data[i] {
 			return false
@@ -48957,9 +49419,9 @@ func (s SliceUint16) Sum() uint16 {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceUint16) TakeEvery(nth int) []uint16 {
-	if nth == 0 {
-		return []uint16{}
+func (s SliceUint16) TakeEvery(nth int) ([]uint16, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
 	}
 	result := make([]uint16, 0, len(s.Data))
 	for i, el := range s.Data {
@@ -48967,16 +49429,16 @@ func (s SliceUint16) TakeEvery(nth int) []uint16 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // TakeRandom returns slice of count random elements from the slice
-func (s SliceUint16) TakeRandom(count int) []uint16 {
+func (s SliceUint16) TakeRandom(count int) ([]uint16, error) {
 	if count > len(s.Data) {
-		count = len(s.Data)
+		return nil, ErrIndexOutOfRange
 	}
 	if count <= 0 {
-		return []uint16{}
+		return nil, ErrNonPositiveStep
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -48984,7 +49446,7 @@ func (s SliceUint16) TakeRandom(count int) []uint16 {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
 	rand.Shuffle(len(s.Data), swap)
-	return s.Data[:count]
+	return s.Data[:count], nil
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -49013,6 +49475,9 @@ func (s SliceUint16) ToChannel() chan uint16 {
 
 // Uniq returns arr with only first occurences of every element.
 func (s SliceUint16) Uniq() []uint16 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	added := make(map[uint16]struct{})
 	nothing := struct{}{}
 	result := make([]uint16, 0, len(s.Data))
@@ -49029,13 +49494,16 @@ func (s SliceUint16) Uniq() []uint16 {
 
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
-func (s SliceUint16) Window(size int) [][]uint16 {
+func (s SliceUint16) Window(size int) ([][]uint16, error) {
+	if size <= 0 {
+		return nil, ErrNonPositiveStep
+	}
 	result := make([][]uint16, 0, len(s.Data)/size)
 	for i := 0; i <= len(s.Data)-size; i++ {
 		chunk := s.Data[i : i+size]
 		result = append(result, chunk)
 	}
-	return result
+	return result, nil
 }
 
 // Without returns the slice with filtered out element
@@ -50748,15 +51216,15 @@ func (s SliceUint32) All(f func(el uint32) bool) bool {
 }
 
 // Choice chooses a random element from the slice
-func (s SliceUint32) Choice() uint32 {
+func (s SliceUint32) Choice() (uint32, error) {
 	if len(s.Data) == 0 {
 		var tmp uint32
-		return tmp
+		return tmp, ErrEmptySlice
 	}
 
 	rand.Seed(time.Now().UnixNano())
 	i := rand.Intn(len(s.Data))
-	return s.Data[i]
+	return s.Data[i], nil
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
@@ -51176,11 +51644,11 @@ func (s SliceUint32) ChunkByInterface(f func(el uint32) interface{}) [][]uint32 
 }
 
 // ChunkEvery returns slice of slices containing count elements each
-func (s SliceUint32) ChunkEvery(count int) [][]uint32 {
-	if count <= 0 {
-		count = 1
-	}
+func (s SliceUint32) ChunkEvery(count int) ([][]uint32, error) {
 	chunks := make([][]uint32, 0)
+	if count <= 0 {
+		return chunks, ErrNegativeIndex
+	}
 	chunk := make([]uint32, 0, count)
 	for i, el := range s.Data {
 		chunk = append(chunk, el)
@@ -51192,7 +51660,7 @@ func (s SliceUint32) ChunkEvery(count int) [][]uint32 {
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
 	}
-	return chunks
+	return chunks, nil
 }
 
 // Contains returns true if el in arr.
@@ -51246,11 +51714,11 @@ func (s SliceUint32) Cycle() chan uint32 {
 
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceUint32) Dedup() []uint32 {
-	result := make([]uint32, 0, len(s.Data))
 	if len(s.Data) == 0 {
-		return result
+		return s.Data
 	}
 
+	result := make([]uint32, 0, len(s.Data))
 	prev := s.Data[0]
 	result = append(result, prev)
 	for _, el := range s.Data[1:] {
@@ -51597,34 +52065,33 @@ func (s SliceUint32) Delete(element uint32) []uint32 {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceUint32) DeleteAt(indices ...int) []uint32 {
-	result := make([]uint32, 0, len(s.Data)-len(indices))
+func (s SliceUint32) DeleteAt(index int) ([]uint32, error) {
+	if index >= len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
 
+	result := make([]uint32, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		allowed := true
-		for _, j := range indices {
-			if i == j {
-				allowed = false
-				break
-			}
-		}
-		if allowed {
+		if i != index {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceUint32) DropEvery(nth int) []uint32 {
+func (s SliceUint32) DropEvery(nth int) ([]uint32, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
+	}
 	result := make([]uint32, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropWhile drops elements from arr while f returns true
@@ -51671,24 +52138,24 @@ func (s SliceUint32) Filter(f func(el uint32) bool) []uint32 {
 }
 
 // Find returns the first element for which f returns true
-func (s SliceUint32) Find(def uint32, f func(el uint32) bool) uint32 {
+func (s SliceUint32) Find(f func(el uint32) bool) (uint32, error) {
 	for _, el := range s.Data {
 		if f(el) {
-			return el
+			return el, nil
 		}
 	}
-	return def
+	var tmp uint32
+	return tmp, ErrNotFound
 }
 
 // FindIndex is like Find, but return element index instead of element itself
-// Returns -1 if element is not found
-func (s SliceUint32) FindIndex(f func(el uint32) bool) int {
+func (s SliceUint32) FindIndex(f func(el uint32) bool) (int, error) {
 	for i, el := range s.Data {
 		if f(el) {
-			return i
+			return i, nil
 		}
 	}
-	return -1
+	return 0, ErrNotFound
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -51925,14 +52392,21 @@ func (s SliceUint32) GroupByInterface(f func(el uint32) interface{}) map[interfa
 }
 
 // InsertAt returns the slice with element inserted at given index.
-func (s SliceUint32) InsertAt(index int, element uint32) []uint32 {
+func (s SliceUint32) InsertAt(index int, element uint32) ([]uint32, error) {
 	result := make([]uint32, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index >= len(s.Data) || index == -1 {
+	if index == len(s.Data) || index == -1 {
 		result = append(result, s.Data...)
 		result = append(result, element)
-		return result
+		return result, nil
+	}
+
+	if index > len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
+	if index < 0 {
+		return s.Data, ErrNegativeIndex
 	}
 
 	for i, el := range s.Data {
@@ -51941,14 +52415,13 @@ func (s SliceUint32) InsertAt(index int, element uint32) []uint32 {
 		}
 		result = append(result, el)
 	}
-	return result
+	return result, nil
 }
 
 // Intersperse inserts el between each element of arr
 func (s SliceUint32) Intersperse(el uint32) []uint32 {
 	if len(s.Data) == 0 {
-		tmp := make([]uint32, 0)
-		return tmp
+		return s.Data
 	}
 	result := make([]uint32, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
@@ -51959,12 +52432,12 @@ func (s SliceUint32) Intersperse(el uint32) []uint32 {
 }
 
 // Last returns the last element from the slice
-func (s SliceUint32) Last() uint32 {
+func (s SliceUint32) Last() (uint32, error) {
 	if len(s.Data) == 0 {
 		var tmp uint32
-		return tmp
+		return tmp, ErrEmptySlice
 	}
-	return s.Data[len(s.Data)-1]
+	return s.Data[len(s.Data)-1], nil
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
@@ -52112,25 +52585,35 @@ func (s SliceUint32) MapInterface(f func(el uint32) interface{}) []interface{} {
 }
 
 // Max returns the maximal element from arr
-func (s SliceUint32) Max() uint32 {
+func (s SliceUint32) Max() (uint32, error) {
+	if len(s.Data) == 0 {
+		var tmp uint32
+		return tmp, ErrEmptySlice
+	}
+
 	max := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from arr
-func (s SliceUint32) Min() uint32 {
+func (s SliceUint32) Min() (uint32, error) {
+	if len(s.Data) == 0 {
+		var tmp uint32
+		return tmp, ErrEmptySlice
+	}
+
 	min := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Permutations returns successive size-length permutations of elements from the slice.
@@ -52507,6 +52990,9 @@ func (s SliceUint32) ReduceWhileInterface(acc interface{}, f func(el uint32, acc
 
 // Reverse returns given arr in reversed order
 func (s SliceUint32) Reverse() []uint32 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	result := make([]uint32, 0, len(s.Data))
 	for i := len(s.Data) - 1; i >= 0; i-- {
 		result = append(result, s.Data[i])
@@ -52516,6 +53002,9 @@ func (s SliceUint32) Reverse() []uint32 {
 
 // Same returns true if all element in arr the same
 func (s SliceUint32) Same() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 0; i < len(s.Data)-1; i++ {
 		if s.Data[i] != s.Data[i+1] {
 			return false
@@ -52686,6 +53175,9 @@ func (s SliceUint32) ScanInterface(acc interface{}, f func(el uint32, acc interf
 
 // Shuffle in random order arr elements
 func (s SliceUint32) Shuffle() []uint32 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	rand.Seed(time.Now().UnixNano())
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
@@ -52696,6 +53188,9 @@ func (s SliceUint32) Shuffle() []uint32 {
 
 // Sort returns sorted slice
 func (s SliceUint32) Sort() []uint32 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	less := func(i int, j int) bool {
 		return s.Data[i] < s.Data[j]
 	}
@@ -52705,6 +53200,9 @@ func (s SliceUint32) Sort() []uint32 {
 
 // Sorted returns true if slice is sorted
 func (s SliceUint32) Sorted() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 1; i < len(s.Data); i++ {
 		if s.Data[i-1] > s.Data[i] {
 			return false
@@ -52752,9 +53250,9 @@ func (s SliceUint32) Sum() uint32 {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceUint32) TakeEvery(nth int) []uint32 {
-	if nth == 0 {
-		return []uint32{}
+func (s SliceUint32) TakeEvery(nth int) ([]uint32, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
 	}
 	result := make([]uint32, 0, len(s.Data))
 	for i, el := range s.Data {
@@ -52762,16 +53260,16 @@ func (s SliceUint32) TakeEvery(nth int) []uint32 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // TakeRandom returns slice of count random elements from the slice
-func (s SliceUint32) TakeRandom(count int) []uint32 {
+func (s SliceUint32) TakeRandom(count int) ([]uint32, error) {
 	if count > len(s.Data) {
-		count = len(s.Data)
+		return nil, ErrIndexOutOfRange
 	}
 	if count <= 0 {
-		return []uint32{}
+		return nil, ErrNonPositiveStep
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -52779,7 +53277,7 @@ func (s SliceUint32) TakeRandom(count int) []uint32 {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
 	rand.Shuffle(len(s.Data), swap)
-	return s.Data[:count]
+	return s.Data[:count], nil
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -52808,6 +53306,9 @@ func (s SliceUint32) ToChannel() chan uint32 {
 
 // Uniq returns arr with only first occurences of every element.
 func (s SliceUint32) Uniq() []uint32 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	added := make(map[uint32]struct{})
 	nothing := struct{}{}
 	result := make([]uint32, 0, len(s.Data))
@@ -52824,13 +53325,16 @@ func (s SliceUint32) Uniq() []uint32 {
 
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
-func (s SliceUint32) Window(size int) [][]uint32 {
+func (s SliceUint32) Window(size int) ([][]uint32, error) {
+	if size <= 0 {
+		return nil, ErrNonPositiveStep
+	}
 	result := make([][]uint32, 0, len(s.Data)/size)
 	for i := 0; i <= len(s.Data)-size; i++ {
 		chunk := s.Data[i : i+size]
 		result = append(result, chunk)
 	}
-	return result
+	return result, nil
 }
 
 // Without returns the slice with filtered out element
@@ -54543,15 +55047,15 @@ func (s SliceUint64) All(f func(el uint64) bool) bool {
 }
 
 // Choice chooses a random element from the slice
-func (s SliceUint64) Choice() uint64 {
+func (s SliceUint64) Choice() (uint64, error) {
 	if len(s.Data) == 0 {
 		var tmp uint64
-		return tmp
+		return tmp, ErrEmptySlice
 	}
 
 	rand.Seed(time.Now().UnixNano())
 	i := rand.Intn(len(s.Data))
-	return s.Data[i]
+	return s.Data[i], nil
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
@@ -54971,11 +55475,11 @@ func (s SliceUint64) ChunkByInterface(f func(el uint64) interface{}) [][]uint64 
 }
 
 // ChunkEvery returns slice of slices containing count elements each
-func (s SliceUint64) ChunkEvery(count int) [][]uint64 {
-	if count <= 0 {
-		count = 1
-	}
+func (s SliceUint64) ChunkEvery(count int) ([][]uint64, error) {
 	chunks := make([][]uint64, 0)
+	if count <= 0 {
+		return chunks, ErrNegativeIndex
+	}
 	chunk := make([]uint64, 0, count)
 	for i, el := range s.Data {
 		chunk = append(chunk, el)
@@ -54987,7 +55491,7 @@ func (s SliceUint64) ChunkEvery(count int) [][]uint64 {
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
 	}
-	return chunks
+	return chunks, nil
 }
 
 // Contains returns true if el in arr.
@@ -55041,11 +55545,11 @@ func (s SliceUint64) Cycle() chan uint64 {
 
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceUint64) Dedup() []uint64 {
-	result := make([]uint64, 0, len(s.Data))
 	if len(s.Data) == 0 {
-		return result
+		return s.Data
 	}
 
+	result := make([]uint64, 0, len(s.Data))
 	prev := s.Data[0]
 	result = append(result, prev)
 	for _, el := range s.Data[1:] {
@@ -55392,34 +55896,33 @@ func (s SliceUint64) Delete(element uint64) []uint64 {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceUint64) DeleteAt(indices ...int) []uint64 {
-	result := make([]uint64, 0, len(s.Data)-len(indices))
+func (s SliceUint64) DeleteAt(index int) ([]uint64, error) {
+	if index >= len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
 
+	result := make([]uint64, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		allowed := true
-		for _, j := range indices {
-			if i == j {
-				allowed = false
-				break
-			}
-		}
-		if allowed {
+		if i != index {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceUint64) DropEvery(nth int) []uint64 {
+func (s SliceUint64) DropEvery(nth int) ([]uint64, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
+	}
 	result := make([]uint64, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropWhile drops elements from arr while f returns true
@@ -55466,24 +55969,24 @@ func (s SliceUint64) Filter(f func(el uint64) bool) []uint64 {
 }
 
 // Find returns the first element for which f returns true
-func (s SliceUint64) Find(def uint64, f func(el uint64) bool) uint64 {
+func (s SliceUint64) Find(f func(el uint64) bool) (uint64, error) {
 	for _, el := range s.Data {
 		if f(el) {
-			return el
+			return el, nil
 		}
 	}
-	return def
+	var tmp uint64
+	return tmp, ErrNotFound
 }
 
 // FindIndex is like Find, but return element index instead of element itself
-// Returns -1 if element is not found
-func (s SliceUint64) FindIndex(f func(el uint64) bool) int {
+func (s SliceUint64) FindIndex(f func(el uint64) bool) (int, error) {
 	for i, el := range s.Data {
 		if f(el) {
-			return i
+			return i, nil
 		}
 	}
-	return -1
+	return 0, ErrNotFound
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -55720,14 +56223,21 @@ func (s SliceUint64) GroupByInterface(f func(el uint64) interface{}) map[interfa
 }
 
 // InsertAt returns the slice with element inserted at given index.
-func (s SliceUint64) InsertAt(index int, element uint64) []uint64 {
+func (s SliceUint64) InsertAt(index int, element uint64) ([]uint64, error) {
 	result := make([]uint64, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index >= len(s.Data) || index == -1 {
+	if index == len(s.Data) || index == -1 {
 		result = append(result, s.Data...)
 		result = append(result, element)
-		return result
+		return result, nil
+	}
+
+	if index > len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
+	if index < 0 {
+		return s.Data, ErrNegativeIndex
 	}
 
 	for i, el := range s.Data {
@@ -55736,14 +56246,13 @@ func (s SliceUint64) InsertAt(index int, element uint64) []uint64 {
 		}
 		result = append(result, el)
 	}
-	return result
+	return result, nil
 }
 
 // Intersperse inserts el between each element of arr
 func (s SliceUint64) Intersperse(el uint64) []uint64 {
 	if len(s.Data) == 0 {
-		tmp := make([]uint64, 0)
-		return tmp
+		return s.Data
 	}
 	result := make([]uint64, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
@@ -55754,12 +56263,12 @@ func (s SliceUint64) Intersperse(el uint64) []uint64 {
 }
 
 // Last returns the last element from the slice
-func (s SliceUint64) Last() uint64 {
+func (s SliceUint64) Last() (uint64, error) {
 	if len(s.Data) == 0 {
 		var tmp uint64
-		return tmp
+		return tmp, ErrEmptySlice
 	}
-	return s.Data[len(s.Data)-1]
+	return s.Data[len(s.Data)-1], nil
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
@@ -55907,25 +56416,35 @@ func (s SliceUint64) MapInterface(f func(el uint64) interface{}) []interface{} {
 }
 
 // Max returns the maximal element from arr
-func (s SliceUint64) Max() uint64 {
+func (s SliceUint64) Max() (uint64, error) {
+	if len(s.Data) == 0 {
+		var tmp uint64
+		return tmp, ErrEmptySlice
+	}
+
 	max := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from arr
-func (s SliceUint64) Min() uint64 {
+func (s SliceUint64) Min() (uint64, error) {
+	if len(s.Data) == 0 {
+		var tmp uint64
+		return tmp, ErrEmptySlice
+	}
+
 	min := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Permutations returns successive size-length permutations of elements from the slice.
@@ -56302,6 +56821,9 @@ func (s SliceUint64) ReduceWhileInterface(acc interface{}, f func(el uint64, acc
 
 // Reverse returns given arr in reversed order
 func (s SliceUint64) Reverse() []uint64 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	result := make([]uint64, 0, len(s.Data))
 	for i := len(s.Data) - 1; i >= 0; i-- {
 		result = append(result, s.Data[i])
@@ -56311,6 +56833,9 @@ func (s SliceUint64) Reverse() []uint64 {
 
 // Same returns true if all element in arr the same
 func (s SliceUint64) Same() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 0; i < len(s.Data)-1; i++ {
 		if s.Data[i] != s.Data[i+1] {
 			return false
@@ -56481,6 +57006,9 @@ func (s SliceUint64) ScanInterface(acc interface{}, f func(el uint64, acc interf
 
 // Shuffle in random order arr elements
 func (s SliceUint64) Shuffle() []uint64 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	rand.Seed(time.Now().UnixNano())
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
@@ -56491,6 +57019,9 @@ func (s SliceUint64) Shuffle() []uint64 {
 
 // Sort returns sorted slice
 func (s SliceUint64) Sort() []uint64 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	less := func(i int, j int) bool {
 		return s.Data[i] < s.Data[j]
 	}
@@ -56500,6 +57031,9 @@ func (s SliceUint64) Sort() []uint64 {
 
 // Sorted returns true if slice is sorted
 func (s SliceUint64) Sorted() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 1; i < len(s.Data); i++ {
 		if s.Data[i-1] > s.Data[i] {
 			return false
@@ -56547,9 +57081,9 @@ func (s SliceUint64) Sum() uint64 {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceUint64) TakeEvery(nth int) []uint64 {
-	if nth == 0 {
-		return []uint64{}
+func (s SliceUint64) TakeEvery(nth int) ([]uint64, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
 	}
 	result := make([]uint64, 0, len(s.Data))
 	for i, el := range s.Data {
@@ -56557,16 +57091,16 @@ func (s SliceUint64) TakeEvery(nth int) []uint64 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // TakeRandom returns slice of count random elements from the slice
-func (s SliceUint64) TakeRandom(count int) []uint64 {
+func (s SliceUint64) TakeRandom(count int) ([]uint64, error) {
 	if count > len(s.Data) {
-		count = len(s.Data)
+		return nil, ErrIndexOutOfRange
 	}
 	if count <= 0 {
-		return []uint64{}
+		return nil, ErrNonPositiveStep
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -56574,7 +57108,7 @@ func (s SliceUint64) TakeRandom(count int) []uint64 {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
 	rand.Shuffle(len(s.Data), swap)
-	return s.Data[:count]
+	return s.Data[:count], nil
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -56603,6 +57137,9 @@ func (s SliceUint64) ToChannel() chan uint64 {
 
 // Uniq returns arr with only first occurences of every element.
 func (s SliceUint64) Uniq() []uint64 {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	added := make(map[uint64]struct{})
 	nothing := struct{}{}
 	result := make([]uint64, 0, len(s.Data))
@@ -56619,13 +57156,16 @@ func (s SliceUint64) Uniq() []uint64 {
 
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
-func (s SliceUint64) Window(size int) [][]uint64 {
+func (s SliceUint64) Window(size int) ([][]uint64, error) {
+	if size <= 0 {
+		return nil, ErrNonPositiveStep
+	}
 	result := make([][]uint64, 0, len(s.Data)/size)
 	for i := 0; i <= len(s.Data)-size; i++ {
 		chunk := s.Data[i : i+size]
 		result = append(result, chunk)
 	}
-	return result
+	return result, nil
 }
 
 // Without returns the slice with filtered out element
@@ -58268,15 +58808,15 @@ func (s SliceInterface) All(f func(el interface{}) bool) bool {
 }
 
 // Choice chooses a random element from the slice
-func (s SliceInterface) Choice() interface{} {
+func (s SliceInterface) Choice() (interface{}, error) {
 	if len(s.Data) == 0 {
 		var tmp interface{}
-		return tmp
+		return tmp, ErrEmptySlice
 	}
 
 	rand.Seed(time.Now().UnixNano())
 	i := rand.Intn(len(s.Data))
-	return s.Data[i]
+	return s.Data[i], nil
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
@@ -58696,11 +59236,11 @@ func (s SliceInterface) ChunkByInterface(f func(el interface{}) interface{}) [][
 }
 
 // ChunkEvery returns slice of slices containing count elements each
-func (s SliceInterface) ChunkEvery(count int) [][]interface{} {
-	if count <= 0 {
-		count = 1
-	}
+func (s SliceInterface) ChunkEvery(count int) ([][]interface{}, error) {
 	chunks := make([][]interface{}, 0)
+	if count <= 0 {
+		return chunks, ErrNegativeIndex
+	}
 	chunk := make([]interface{}, 0, count)
 	for i, el := range s.Data {
 		chunk = append(chunk, el)
@@ -58712,7 +59252,7 @@ func (s SliceInterface) ChunkEvery(count int) [][]interface{} {
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
 	}
-	return chunks
+	return chunks, nil
 }
 
 // Contains returns true if el in arr.
@@ -58766,11 +59306,11 @@ func (s SliceInterface) Cycle() chan interface{} {
 
 // Dedup returns a given slice without consecutive duplicated elements
 func (s SliceInterface) Dedup() []interface{} {
-	result := make([]interface{}, 0, len(s.Data))
 	if len(s.Data) == 0 {
-		return result
+		return s.Data
 	}
 
+	result := make([]interface{}, 0, len(s.Data))
 	prev := s.Data[0]
 	result = append(result, prev)
 	for _, el := range s.Data[1:] {
@@ -59117,34 +59657,33 @@ func (s SliceInterface) Delete(element interface{}) []interface{} {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceInterface) DeleteAt(indices ...int) []interface{} {
-	result := make([]interface{}, 0, len(s.Data)-len(indices))
+func (s SliceInterface) DeleteAt(index int) ([]interface{}, error) {
+	if index >= len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
 
+	result := make([]interface{}, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		allowed := true
-		for _, j := range indices {
-			if i == j {
-				allowed = false
-				break
-			}
-		}
-		if allowed {
+		if i != index {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceInterface) DropEvery(nth int) []interface{} {
+func (s SliceInterface) DropEvery(nth int) ([]interface{}, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
+	}
 	result := make([]interface{}, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // DropWhile drops elements from arr while f returns true
@@ -59191,24 +59730,24 @@ func (s SliceInterface) Filter(f func(el interface{}) bool) []interface{} {
 }
 
 // Find returns the first element for which f returns true
-func (s SliceInterface) Find(def interface{}, f func(el interface{}) bool) interface{} {
+func (s SliceInterface) Find(f func(el interface{}) bool) (interface{}, error) {
 	for _, el := range s.Data {
 		if f(el) {
-			return el
+			return el, nil
 		}
 	}
-	return def
+	var tmp interface{}
+	return tmp, ErrNotFound
 }
 
 // FindIndex is like Find, but return element index instead of element itself
-// Returns -1 if element is not found
-func (s SliceInterface) FindIndex(f func(el interface{}) bool) int {
+func (s SliceInterface) FindIndex(f func(el interface{}) bool) (int, error) {
 	for i, el := range s.Data {
 		if f(el) {
-			return i
+			return i, nil
 		}
 	}
-	return -1
+	return 0, ErrNotFound
 }
 
 // GroupBy groups element from array by value returned by f
@@ -59436,14 +59975,21 @@ func (s SliceInterface) GroupByInterface(f func(el interface{}) interface{}) map
 }
 
 // InsertAt returns the slice with element inserted at given index.
-func (s SliceInterface) InsertAt(index int, element interface{}) []interface{} {
+func (s SliceInterface) InsertAt(index int, element interface{}) ([]interface{}, error) {
 	result := make([]interface{}, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index >= len(s.Data) || index == -1 {
+	if index == len(s.Data) || index == -1 {
 		result = append(result, s.Data...)
 		result = append(result, element)
-		return result
+		return result, nil
+	}
+
+	if index > len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
+	if index < 0 {
+		return s.Data, ErrNegativeIndex
 	}
 
 	for i, el := range s.Data {
@@ -59452,14 +59998,13 @@ func (s SliceInterface) InsertAt(index int, element interface{}) []interface{} {
 		}
 		result = append(result, el)
 	}
-	return result
+	return result, nil
 }
 
 // Intersperse inserts el between each element of arr
 func (s SliceInterface) Intersperse(el interface{}) []interface{} {
 	if len(s.Data) == 0 {
-		tmp := make([]interface{}, 0)
-		return tmp
+		return s.Data
 	}
 	result := make([]interface{}, 0, len(s.Data)*2-1)
 	result = append(result, s.Data[0])
@@ -59470,12 +60015,12 @@ func (s SliceInterface) Intersperse(el interface{}) []interface{} {
 }
 
 // Last returns the last element from the slice
-func (s SliceInterface) Last() interface{} {
+func (s SliceInterface) Last() (interface{}, error) {
 	if len(s.Data) == 0 {
 		var tmp interface{}
-		return tmp
+		return tmp, ErrEmptySlice
 	}
-	return s.Data[len(s.Data)-1]
+	return s.Data[len(s.Data)-1], nil
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
@@ -59996,6 +60541,9 @@ func (s SliceInterface) ReduceWhileInterface(acc interface{}, f func(el interfac
 
 // Reverse returns given arr in reversed order
 func (s SliceInterface) Reverse() []interface{} {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	result := make([]interface{}, 0, len(s.Data))
 	for i := len(s.Data) - 1; i >= 0; i-- {
 		result = append(result, s.Data[i])
@@ -60005,6 +60553,9 @@ func (s SliceInterface) Reverse() []interface{} {
 
 // Same returns true if all element in arr the same
 func (s SliceInterface) Same() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
 	for i := 0; i < len(s.Data)-1; i++ {
 		if s.Data[i] != s.Data[i+1] {
 			return false
@@ -60175,6 +60726,9 @@ func (s SliceInterface) ScanInterface(acc interface{}, f func(el interface{}, ac
 
 // Shuffle in random order arr elements
 func (s SliceInterface) Shuffle() []interface{} {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	rand.Seed(time.Now().UnixNano())
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
@@ -60213,9 +60767,9 @@ func (s SliceInterface) StartsWith(prefix []interface{}) bool {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceInterface) TakeEvery(nth int) []interface{} {
-	if nth == 0 {
-		return []interface{}{}
+func (s SliceInterface) TakeEvery(nth int) ([]interface{}, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
 	}
 	result := make([]interface{}, 0, len(s.Data))
 	for i, el := range s.Data {
@@ -60223,16 +60777,16 @@ func (s SliceInterface) TakeEvery(nth int) []interface{} {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // TakeRandom returns slice of count random elements from the slice
-func (s SliceInterface) TakeRandom(count int) []interface{} {
+func (s SliceInterface) TakeRandom(count int) ([]interface{}, error) {
 	if count > len(s.Data) {
-		count = len(s.Data)
+		return nil, ErrIndexOutOfRange
 	}
 	if count <= 0 {
-		return []interface{}{}
+		return nil, ErrNonPositiveStep
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -60240,7 +60794,7 @@ func (s SliceInterface) TakeRandom(count int) []interface{} {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
 	rand.Shuffle(len(s.Data), swap)
-	return s.Data[:count]
+	return s.Data[:count], nil
 }
 
 // TakeWhile takes elements from arr while f returns true
@@ -60269,6 +60823,9 @@ func (s SliceInterface) ToChannel() chan interface{} {
 
 // Uniq returns arr with only first occurences of every element.
 func (s SliceInterface) Uniq() []interface{} {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	added := make(map[interface{}]struct{})
 	nothing := struct{}{}
 	result := make([]interface{}, 0, len(s.Data))
@@ -60285,13 +60842,16 @@ func (s SliceInterface) Uniq() []interface{} {
 
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
-func (s SliceInterface) Window(size int) [][]interface{} {
+func (s SliceInterface) Window(size int) ([][]interface{}, error) {
+	if size <= 0 {
+		return nil, ErrNonPositiveStep
+	}
 	result := make([][]interface{}, 0, len(s.Data)/size)
 	for i := 0; i <= len(s.Data)-size; i++ {
 		chunk := s.Data[i : i+size]
 		result = append(result, chunk)
 	}
-	return result
+	return result, nil
 }
 
 // Without returns the slice with filtered out element

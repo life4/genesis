@@ -34,6 +34,9 @@ Generic types: T.
 ```go
 // Uniq returns arr with only first occurences of every element.
 func (s Slice) Uniq() []T {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	added := make(map[T]struct{})
 	nothing := struct{}{}
 	result := make([]T, 0, len(s.Data))

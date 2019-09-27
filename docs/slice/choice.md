@@ -1,7 +1,7 @@
 # Slice.Choice
 
 ```go
-func (s Slice) Choice() T
+func (s Slice) Choice() (T, error)
 ```
 
 Choice chooses a random element from the slice
@@ -33,15 +33,15 @@ Generic types: T.
 
 ```go
 // Choice chooses a random element from the slice
-func (s Slice) Choice() T {
+func (s Slice) Choice() (T, error) {
 	if len(s.Data) == 0 {
 		var tmp T
-		return tmp
+		return tmp, ErrEmptySlice
 	}
 
 	rand.Seed(time.Now().UnixNano())
 	i := rand.Intn(len(s.Data))
-	return s.Data[i]
+	return s.Data[i], nil
 }
 ```
 

@@ -1,6 +1,8 @@
 package implementation
 
-import "errors"
+import (
+	"errors"
+)
 
 // ErrNegativeIndex is an error for passed index <0
 var ErrNegativeIndex = errors.New("negative index passed")

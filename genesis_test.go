@@ -8,14 +8,14 @@ import (
 
 func ExampleSliceMin() {
 	s := []int{42, 7, 13}
-	min := genesis.SliceInt{s}.Min()
+	min, _ := genesis.SliceInt{s}.Min()
 	fmt.Println(min)
 	// Output: 7
 }
 
 func ExampleSliceMax() {
 	s := []int{7, 42, 13}
-	max := genesis.SliceInt{s}.Max()
+	max, _ := genesis.SliceInt{s}.Max()
 	fmt.Println(max)
 	// Output: 42
 }

@@ -34,11 +34,11 @@ Generic types: T.
 ```go
 // Dedup returns a given slice without consecutive duplicated elements
 func (s Slice) Dedup() []T {
-	result := make([]T, 0, len(s.Data))
 	if len(s.Data) == 0 {
-		return result
+		return s.Data
 	}
 
+	result := make([]T, 0, len(s.Data))
 	prev := s.Data[0]
 	result = append(result, prev)
 	for _, el := range s.Data[1:] {

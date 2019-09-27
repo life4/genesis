@@ -1,7 +1,7 @@
 # Slice.DropEvery
 
 ```go
-func (s Slice) DropEvery(nth int) []T
+func (s Slice) DropEvery(nth int) ([]T, error)
 ```
 
 DropEvery returns a slice of every nth element in the enumerable dropped, starting with the first element.
@@ -34,14 +34,17 @@ Generic types: T.
 ```go
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s Slice) DropEvery(nth int) []T {
+func (s Slice) DropEvery(nth int) ([]T, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveStep
+	}
 	result := make([]T, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
 		if (i+1)%nth != 0 {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 ```
 

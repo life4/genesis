@@ -1,7 +1,7 @@
 # Slice.DeleteAt
 
 ```go
-func (s Slice) DeleteAt(indices ...int) []T
+func (s Slice) DeleteAt(index int) ([]T, error)
 ```
 
 DeleteAt returns the slice without elements on given positions
@@ -33,22 +33,18 @@ Generic types: T.
 
 ```go
 // DeleteAt returns the slice without elements on given positions
-func (s Slice) DeleteAt(indices ...int) []T {
-	result := make([]T, 0, len(s.Data)-len(indices))
+func (s Slice) DeleteAt(index int) ([]T, error) {
+	if index >= len(s.Data) {
+		return s.Data, ErrIndexOutOfRange
+	}
 
+	result := make([]T, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		allowed := true
-		for _, j := range indices {
-			if i == j {
-				allowed = false
-				break
-			}
-		}
-		if allowed {
+		if i != index {
 			result = append(result, el)
 		}
 	}
-	return result
+	return result, nil
 }
 ```
 

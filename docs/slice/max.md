@@ -1,7 +1,7 @@
 # Slice.Max
 
 ```go
-func (s Slice) Max() T
+func (s Slice) Max() (T, error)
 ```
 
 Max returns the maximal element from arr
@@ -12,7 +12,7 @@ Generic types: T.
 
 ```go
 s := []int{7, 42, 13}
-max := genesis.SliceInt{s}.Max()
+max, _ := genesis.SliceInt{s}.Max()
 fmt.Println(max)
 // Output: 42
 ```
@@ -40,14 +40,19 @@ fmt.Println(max)
 
 ```go
 // Max returns the maximal element from arr
-func (s Slice) Max() T {
+func (s Slice) Max() (T, error) {
+	if len(s.Data) == 0 {
+		var tmp T
+		return tmp, ErrEmptySlice
+	}
+
 	max := s.Data[0]
 	for _, el := range s.Data[1:] {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 ```
 

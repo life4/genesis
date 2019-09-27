@@ -1,7 +1,7 @@
 # Slice.ChunkEvery
 
 ```go
-func (s Slice) ChunkEvery(count int) [][]T
+func (s Slice) ChunkEvery(count int) ([][]T, error)
 ```
 
 ChunkEvery returns slice of slices containing count elements each
@@ -33,11 +33,11 @@ Generic types: T.
 
 ```go
 // ChunkEvery returns slice of slices containing count elements each
-func (s Slice) ChunkEvery(count int) [][]T {
-	if count <= 0 {
-		count = 1
-	}
+func (s Slice) ChunkEvery(count int) ([][]T, error) {
 	chunks := make([][]T, 0)
+	if count <= 0 {
+		return chunks, ErrNegativeIndex
+	}
 	chunk := make([]T, 0, count)
 	for i, el := range s.Data {
 		chunk = append(chunk, el)
@@ -49,7 +49,7 @@ func (s Slice) ChunkEvery(count int) [][]T {
 	if len(chunk) > 0 {
 		chunks = append(chunks, chunk)
 	}
-	return chunks
+	return chunks, nil
 }
 ```
 
@@ -58,12 +58,11 @@ func (s Slice) ChunkEvery(count int) [][]T {
 ```go
 func TestSliceChunkEvery(t *testing.T) {
 	f := func(count int, given []T, expected [][]T) {
-		actual := Slice{given}.ChunkEvery(count)
+		actual, _ := Slice{given}.ChunkEvery(count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(2, []T{}, [][]T{})
 	f(2, []T{1}, [][]T{{1}})
-	f(-3, []T{1}, [][]T{{1}})
 	f(2, []T{1, 2, 3, 4}, [][]T{{1, 2}, {3, 4}})
 	f(2, []T{1, 2, 3, 4, 5}, [][]T{{1, 2}, {3, 4}, {5}})
 }

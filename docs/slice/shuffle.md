@@ -34,6 +34,9 @@ Generic types: T.
 ```go
 // Shuffle in random order arr elements
 func (s Slice) Shuffle() []T {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
 	rand.Seed(time.Now().UnixNano())
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
