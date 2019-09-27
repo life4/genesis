@@ -24,6 +24,7 @@ class Docs:
         template = env.get_template('root.md.j2')
         return template.render(
             structs=self.code_file.structs,
+            errors=self.code_file.errors,
         )
 
     def render_struct(self, struct) -> str:
