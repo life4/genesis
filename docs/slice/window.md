@@ -36,7 +36,7 @@ Generic types: T.
 // ({1,2,3}, 2) -> (1,2), (2,3)
 func (s Slice) Window(size int) ([][]T, error) {
 	if size <= 0 {
-		return nil, ErrNonPositiveStep
+		return nil, ErrNonPositiveValue
 	}
 	result := make([][]T, 0, len(s.Data)/size)
 	for i := 0; i <= len(s.Data)-size; i++ {

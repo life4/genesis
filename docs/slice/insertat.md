@@ -44,10 +44,10 @@ func (s Slice) InsertAt(index int, element T) ([]T, error) {
 	}
 
 	if index > len(s.Data) {
-		return s.Data, ErrIndexOutOfRange
+		return s.Data, ErrOutOfRange
 	}
 	if index < 0 {
-		return s.Data, ErrNegativeIndex
+		return s.Data, ErrNegativeValue
 	}
 
 	for i, el := range s.Data {

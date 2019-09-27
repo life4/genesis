@@ -36,7 +36,7 @@ Generic types: T.
 func (s Slice) Last() (T, error) {
 	if len(s.Data) == 0 {
 		var tmp T
-		return tmp, ErrEmptySlice
+		return tmp, ErrEmpty
 	}
 	return s.Data[len(s.Data)-1], nil
 }

@@ -43,7 +43,7 @@ fmt.Println(max)
 func (s Slice) Max() (T, error) {
 	if len(s.Data) == 0 {
 		var tmp T
-		return tmp, ErrEmptySlice
+		return tmp, ErrEmpty
 	}
 
 	max := s.Data[0]

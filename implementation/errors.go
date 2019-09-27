@@ -4,17 +4,17 @@ import (
 	"errors"
 )
 
-// ErrNegativeIndex is an error for passed index <0
-var ErrNegativeIndex = errors.New("negative index passed")
-
 // ErrNotFound is an error for case when given element is not found
-var ErrNotFound = errors.New("negative index passed")
+var ErrNotFound = errors.New("given element is not found")
 
-// ErrNonPositiveStep is an error for passed step <=0
-var ErrNonPositiveStep = errors.New("step must be positive")
+// ErrNegativeValue is an error for passed index <0
+var ErrNegativeValue = errors.New("negative value passed")
 
-// ErrIndexOutOfRange is an error that for index bigger than slice size
-var ErrIndexOutOfRange = errors.New("index is bigger than slice size")
+// ErrNonPositiveValue is an error for passed step <=0
+var ErrNonPositiveValue = errors.New("value must be positive")
 
-// ErrEmptySlice is an error for empty slice when it's expected to have elements
-var ErrEmptySlice = errors.New("slice is empty")
+// ErrOutOfRange is an error that for index bigger than slice size
+var ErrOutOfRange = errors.New("index is bigger than container size")
+
+// ErrEmpty is an error for empty slice when it's expected to have elements
+var ErrEmpty = errors.New("container is empty")

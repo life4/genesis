@@ -35,7 +35,7 @@ Generic types: T.
 // TakeEvery returns slice of every nth elements
 func (s Slice) TakeEvery(nth int) ([]T, error) {
 	if nth <= 0 {
-		return s.Data, ErrNonPositiveStep
+		return s.Data, ErrNonPositiveValue
 	}
 	result := make([]T, 0, len(s.Data))
 	for i, el := range s.Data {

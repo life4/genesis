@@ -36,7 +36,7 @@ Generic types: T.
 // starting with the first element.
 func (s Slice) DropEvery(nth int) ([]T, error) {
 	if nth <= 0 {
-		return s.Data, ErrNonPositiveStep
+		return s.Data, ErrNonPositiveValue
 	}
 	result := make([]T, 0, len(s.Data)/nth)
 	for i, el := range s.Data {

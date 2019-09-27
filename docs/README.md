@@ -19,8 +19,8 @@ import "github.com/life4/genesis"
 
 | Error | Message |
 | ------ | ----------- |
-| ErrNegativeIndex | negative index passed |
-| ErrNotFound | negative index passed |
-| ErrNonPositiveStep | step must be positive |
-| ErrIndexOutOfRange | index is bigger than slice size |
-| ErrEmptySlice | slice is empty |
+| ErrNotFound | given element is not found |
+| ErrNegativeValue | negative value passed |
+| ErrNonPositiveValue | value must be positive |
+| ErrOutOfRange | index is bigger than container size |
+| ErrEmpty | container is empty |

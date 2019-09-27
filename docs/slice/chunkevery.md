@@ -36,7 +36,7 @@ Generic types: T.
 func (s Slice) ChunkEvery(count int) ([][]T, error) {
 	chunks := make([][]T, 0)
 	if count <= 0 {
-		return chunks, ErrNegativeIndex
+		return chunks, ErrNegativeValue
 	}
 	chunk := make([]T, 0, count)
 	for i, el := range s.Data {

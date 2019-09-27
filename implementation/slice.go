@@ -36,7 +36,7 @@ func (s Slice) All(f func(el T) bool) bool {
 func (s Slice) Choice() (T, error) {
 	if len(s.Data) == 0 {
 		var tmp T
-		return tmp, ErrEmptySlice
+		return tmp, ErrEmpty
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -74,7 +74,7 @@ func (s Slice) ChunkBy(f func(el T) G) [][]T {
 func (s Slice) ChunkEvery(count int) ([][]T, error) {
 	chunks := make([][]T, 0)
 	if count <= 0 {
-		return chunks, ErrNegativeIndex
+		return chunks, ErrNegativeValue
 	}
 	chunk := make([]T, 0, count)
 	for i, el := range s.Data {
@@ -194,7 +194,7 @@ func (s Slice) Delete(element T) []T {
 // DeleteAt returns the slice without elements on given positions
 func (s Slice) DeleteAt(index int) ([]T, error) {
 	if index >= len(s.Data) {
-		return s.Data, ErrIndexOutOfRange
+		return s.Data, ErrOutOfRange
 	}
 
 	result := make([]T, 0, len(s.Data)-1)
@@ -210,7 +210,7 @@ func (s Slice) DeleteAt(index int) ([]T, error) {
 // starting with the first element.
 func (s Slice) DropEvery(nth int) ([]T, error) {
 	if nth <= 0 {
-		return s.Data, ErrNonPositiveStep
+		return s.Data, ErrNonPositiveValue
 	}
 	result := make([]T, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
@@ -320,10 +320,10 @@ func (s Slice) InsertAt(index int, element T) ([]T, error) {
 	}
 
 	if index > len(s.Data) {
-		return s.Data, ErrIndexOutOfRange
+		return s.Data, ErrOutOfRange
 	}
 	if index < 0 {
-		return s.Data, ErrNegativeIndex
+		return s.Data, ErrNegativeValue
 	}
 
 	for i, el := range s.Data {
@@ -352,7 +352,7 @@ func (s Slice) Intersperse(el T) []T {
 func (s Slice) Last() (T, error) {
 	if len(s.Data) == 0 {
 		var tmp T
-		return tmp, ErrEmptySlice
+		return tmp, ErrEmpty
 	}
 	return s.Data[len(s.Data)-1], nil
 }
@@ -370,7 +370,7 @@ func (s Slice) Map(f func(el T) G) []G {
 func (s Slice) Max() (T, error) {
 	if len(s.Data) == 0 {
 		var tmp T
-		return tmp, ErrEmptySlice
+		return tmp, ErrEmpty
 	}
 
 	max := s.Data[0]
@@ -386,7 +386,7 @@ func (s Slice) Max() (T, error) {
 func (s Slice) Min() (T, error) {
 	if len(s.Data) == 0 {
 		var tmp T
-		return tmp, ErrEmptySlice
+		return tmp, ErrEmpty
 	}
 
 	min := s.Data[0]
@@ -599,7 +599,7 @@ func (s Slice) Sum() T {
 // TakeEvery returns slice of every nth elements
 func (s Slice) TakeEvery(nth int) ([]T, error) {
 	if nth <= 0 {
-		return s.Data, ErrNonPositiveStep
+		return s.Data, ErrNonPositiveValue
 	}
 	result := make([]T, 0, len(s.Data))
 	for i, el := range s.Data {
@@ -613,10 +613,10 @@ func (s Slice) TakeEvery(nth int) ([]T, error) {
 // TakeRandom returns slice of count random elements from the slice
 func (s Slice) TakeRandom(count int) ([]T, error) {
 	if count > len(s.Data) {
-		return nil, ErrIndexOutOfRange
+		return nil, ErrOutOfRange
 	}
 	if count <= 0 {
-		return nil, ErrNonPositiveStep
+		return nil, ErrNonPositiveValue
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -674,7 +674,7 @@ func (s Slice) Uniq() []T {
 // ({1,2,3}, 2) -> (1,2), (2,3)
 func (s Slice) Window(size int) ([][]T, error) {
 	if size <= 0 {
-		return nil, ErrNonPositiveStep
+		return nil, ErrNonPositiveValue
 	}
 	result := make([][]T, 0, len(s.Data)/size)
 	for i := 0; i <= len(s.Data)-size; i++ {

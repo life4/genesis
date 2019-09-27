@@ -36,7 +36,7 @@ Generic types: T.
 func (s Slice) Choice() (T, error) {
 	if len(s.Data) == 0 {
 		var tmp T
-		return tmp, ErrEmptySlice
+		return tmp, ErrEmpty
 	}
 
 	rand.Seed(time.Now().UnixNano())

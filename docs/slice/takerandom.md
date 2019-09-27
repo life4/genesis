@@ -35,10 +35,10 @@ Generic types: T.
 // TakeRandom returns slice of count random elements from the slice
 func (s Slice) TakeRandom(count int) ([]T, error) {
 	if count > len(s.Data) {
-		return nil, ErrIndexOutOfRange
+		return nil, ErrOutOfRange
 	}
 	if count <= 0 {
-		return nil, ErrNonPositiveStep
+		return nil, ErrNonPositiveValue
 	}
 
 	rand.Seed(time.Now().UnixNano())

@@ -35,7 +35,7 @@ Generic types: T.
 // DeleteAt returns the slice without elements on given positions
 func (s Slice) DeleteAt(index int) ([]T, error) {
 	if index >= len(s.Data) {
-		return s.Data, ErrIndexOutOfRange
+		return s.Data, ErrOutOfRange
 	}
 
 	result := make([]T, 0, len(s.Data)-1)

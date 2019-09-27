@@ -43,7 +43,7 @@ fmt.Println(min)
 func (s Slice) Min() (T, error) {
 	if len(s.Data) == 0 {
 		var tmp T
-		return tmp, ErrEmptySlice
+		return tmp, ErrEmpty
 	}
 
 	min := s.Data[0]
