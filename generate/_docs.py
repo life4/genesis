@@ -51,13 +51,21 @@ class Docs:
                 example = t
                 break
 
+        errors = []
+        for error in self.code_file.errors:
+            if error.name in func.body:
+                errors.append(error)
+
         template = env.get_template('func.md.j2')
         rendered = template.render(
             func=func,
-            test=test,
+
+            errors=errors,
             example=example,
-            types=self.types,
             structs=self.code_file.structs,
+            test=test,
+            types=self.types,
+
             is_excluded=is_excluded,
             sorted=sorted,
         )

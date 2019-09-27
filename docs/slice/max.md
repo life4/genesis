@@ -36,6 +36,12 @@ fmt.Println(max)
 | SliceUint32 | uint32 |
 | SliceUint64 | uint64 |
 
+## Errors
+
+| Error | Message |
+| -------- | ------ |
+| ErrEmpty | container is empty |
+
 ## Source
 
 ```go

@@ -29,6 +29,13 @@ Generic types: T.
 | SliceUint64 | uint64 |
 | SliceInterface | interface{} |
 
+## Errors
+
+| Error | Message |
+| -------- | ------ |
+| ErrNonPositiveValue | value must be positive |
+| ErrOutOfRange | index is bigger than container size |
+
 ## Source
 
 ```go

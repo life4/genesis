@@ -29,6 +29,12 @@ Generic types: T.
 | SliceUint64 | uint64 |
 | SliceInterface | interface{} |
 
+## Errors
+
+| Error | Message |
+| -------- | ------ |
+| ErrNotFound | given element is not found |
+
 ## Source
 
 ```go
