@@ -6,12 +6,12 @@ import (
 
 // Channel is a set of operations with channel
 type Channel struct {
-	data chan T
+	Data chan T
 }
 
 // Any returns true if f returns true for any element in channel
 func (c Channel) Any(f func(el T) bool) bool {
-	for el := range c.data {
+	for el := range c.Data {
 		if f(el) {
 			return true
 		}
@@ -21,7 +21,7 @@ func (c Channel) Any(f func(el T) bool) bool {
 
 // All returns true if f returns true for all elements in channel
 func (c Channel) All(f func(el T) bool) bool {
-	for el := range c.data {
+	for el := range c.Data {
 		if !f(el) {
 			return false
 		}
@@ -35,7 +35,7 @@ func (c Channel) ChunkEvery(count int) chan []T {
 	go func() {
 		chunk := make([]T, 0, count)
 		i := 0
-		for el := range c.data {
+		for el := range c.Data {
 			chunk = append(chunk, el)
 			i++
 			if i%count == 0 {
@@ -55,7 +55,7 @@ func (c Channel) ChunkEvery(count int) chan []T {
 // Count return count of el occurences in channel.
 func (c Channel) Count(el T) int {
 	count := 0
-	for val := range c.data {
+	for val := range c.Data {
 		if val == el {
 			count++
 		}
@@ -69,7 +69,7 @@ func (c Channel) Drop(n int) chan T {
 	result := make(chan T, 1)
 	go func() {
 		i := 0
-		for el := range c.data {
+		for el := range c.Data {
 			if i >= n {
 				result <- el
 			}
@@ -82,7 +82,7 @@ func (c Channel) Drop(n int) chan T {
 
 // Each calls f for every element in the channel
 func (c Channel) Each(f func(el T)) {
-	for el := range c.data {
+	for el := range c.Data {
 		f(el)
 	}
 }
@@ -92,7 +92,7 @@ func (c Channel) Each(f func(el T)) {
 func (c Channel) Filter(f func(el T) bool) chan T {
 	result := make(chan T, 1)
 	go func() {
-		for el := range c.data {
+		for el := range c.Data {
 			if f(el) {
 				result <- el
 			}
@@ -106,7 +106,7 @@ func (c Channel) Filter(f func(el T) bool) chan T {
 func (c Channel) Map(f func(el T) G) chan G {
 	result := make(chan G, 1)
 	go func() {
-		for el := range c.data {
+		for el := range c.Data {
 			result <- f(el)
 		}
 		close(result)
@@ -116,8 +116,8 @@ func (c Channel) Map(f func(el T) G) chan G {
 
 // Max returns the maximal element from channel
 func (c Channel) Max() T {
-	max := <-c.data
-	for el := range c.data {
+	max := <-c.Data
+	for el := range c.Data {
 		if el > max {
 			max = el
 		}
@@ -127,8 +127,8 @@ func (c Channel) Max() T {
 
 // Min returns the minimal element from channel
 func (c Channel) Min() T {
-	min := <-c.data
-	for el := range c.data {
+	min := <-c.Data
+	for el := range c.Data {
 		if el < min {
 			min = el
 		}
@@ -138,7 +138,7 @@ func (c Channel) Min() T {
 
 // Reduce applies f to acc and every element from channel and returns acc
 func (c Channel) Reduce(acc G, f func(el T, acc G) G) G {
-	for el := range c.data {
+	for el := range c.Data {
 		acc = f(el, acc)
 	}
 	return acc
@@ -148,7 +148,7 @@ func (c Channel) Reduce(acc G, f func(el T, acc G) G) G {
 func (c Channel) Scan(acc G, f func(el T, acc G) G) chan G {
 	result := make(chan G, 1)
 	go func() {
-		for el := range c.data {
+		for el := range c.Data {
 			acc = f(el, acc)
 			result <- acc
 		}
@@ -160,18 +160,29 @@ func (c Channel) Scan(acc G, f func(el T, acc G) G) chan G {
 // Sum returns sum of all elements from channel
 func (c Channel) Sum() T {
 	var sum T
-	for el := range c.data {
+	for el := range c.Data {
 		sum += el
 	}
 	return sum
 }
 
-// Take takes first n elements from channel c.
-func (c Channel) Take(n int) []T {
-	result := make([]T, 0, n)
-	for i := 0; i < n; i++ {
-		result = append(result, <-c.data)
-	}
+// Take takes first count elements from the channel.
+func (c Channel) Take(count int) chan T {
+	result := make(chan T, 1)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for el := range c.Data {
+			result <- el
+			i++
+			if i == count {
+				return
+			}
+		}
+	}()
 	return result
 }
 
@@ -182,7 +193,7 @@ func (c Channel) Tee(count int) []chan T {
 		channels = append(channels, make(chan T, 1))
 	}
 	go func() {
-		for el := range c.data {
+		for el := range c.Data {
 			wg := sync.WaitGroup{}
 			putInto := func(ch chan T) {
 				wg.Add(1)
@@ -204,7 +215,7 @@ func (c Channel) Tee(count int) []chan T {
 // ToSlice returns slice with all elements from channel.
 func (c Channel) ToSlice() []T {
 	result := make([]T, 0)
-	for val := range c.data {
+	for val := range c.Data {
 		result = append(result, val)
 	}
 	return result

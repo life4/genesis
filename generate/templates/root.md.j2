@@ -1,0 +1,21 @@
+# Genesis
+
+```go
+import "github.com/life4/genesis"
+```
+
+## Structs
+
+| Struct | Description |
+| ------ | ----------- |
+{% for struct in structs -%}
+  | [{{ struct.name }}](./{{ struct.name.lower() }}/) | {{ struct.docs }} |
+{% endfor %}
+
+## Errors
+
+| Error | Message |
+| ------ | ----------- |
+{% for error in errors -%}
+  | {{ error.name }} | {{ error.message }} |
+{% endfor %}

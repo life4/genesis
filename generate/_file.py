@@ -1,14 +1,16 @@
 import re
+from functools import partial
 from pathlib import Path
 from typing import Iterable, List, Union, Set
 
 import attr
 
+from ._error import Error
 from ._exclude import is_excluded
 from ._function import Function
 from ._struct import Struct
 from ._test import Test
-from ._types import Type, TYPES
+from ._types import Type
 
 
 REX_PACKAGE = re.compile(r'package (\w+)')
@@ -20,21 +22,29 @@ class File:
     imports = attr.ib(type=Set[str])
     functions = attr.ib(type=List[Union[Function, Test]])
     structs = attr.ib(type=List[Struct])
+    errors = attr.ib(type=List[Error])
 
     @classmethod
-    def from_text(cls, text: str, test: bool = False) -> 'File':
-        factory = Test if test else Function
+    def from_text(cls, text: str, test: bool = False, example: bool = False) -> 'File':
+        if example:
+            factory = partial(Test.from_text, example=True)
+        elif test:
+            factory = Test.from_text
+        else:
+            factory = Function.from_text
+
         return cls(
             package=REX_PACKAGE.search(text).groups()[0],
             imports=cls._get_imports(text),
-            functions=factory.from_text(text),
+            functions=factory(text),
             structs=Struct.from_text(text),
+            errors=Error.from_text(text),
         )
 
     @classmethod
-    def from_path(cls, path: Path) -> 'File':
-        is_test = path.stem.endswith('_test')
-        return cls.from_text(path.read_text(), test=is_test)
+    def from_path(cls, path: Path, example: bool = False) -> 'File':
+        test = path.stem.endswith('_test')
+        return cls.from_text(path.read_text(), test=test, example=example)
 
     @staticmethod
     def _get_imports(text: str) -> Set[str]:
@@ -56,14 +66,16 @@ class File:
             imports=self.imports | other.imports,
             functions=self.functions + other.functions,
             structs=self.structs + other.structs,
+            errors=self.errors + other.errors,
         )
 
-    def render(self, types: Iterable[Type] = None) -> str:
-        if types is None:
-            types = TYPES
+    def render(self, types: Iterable[Type]) -> str:
         result = 'package {package}'.format(package=self.package)
         if self.imports:
             result += '\n\nimport ({})'.format('\n'.join(sorted(self.imports)))
+
+        for error in self.errors:
+            result += '\n' + error.source
 
         for t in types:
             # render structs for type

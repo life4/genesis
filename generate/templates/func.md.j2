@@ -1,0 +1,67 @@
+# {{ func.struct }}.{{ func.name }}
+
+```go
+func ({{ func.pointer }}{{ func.struct }}) {{ func.name }}{{ func.signature }}
+```
+
+{{ func.clean_docs }}
+
+Generic types: {{ ', '.join(sorted(func.generics)) }}.
+
+{% if example -%}
+## Examples
+
+```go
+{{ example.content }}
+```
+{%- endif %}
+
+## Structs
+
+| Struct | T type |
+| ------ | ------ |
+{% for struct in structs -%}
+{% if func.struct == struct.name -%}
+{% for t in types -%}
+{% if not is_excluded(func=func, t=t) -%}
+  | {{ struct.name }}{{ t.title }} | {{ t.name }} |
+{% endif %}
+{%- endfor %}
+{%- endif %}
+{%- endfor %}
+
+{% if 'G' in func.generics -%}
+## Functions
+
+| Function | G type |
+| -------- | ------ |
+{% for t in types -%}
+{% if not is_excluded(func=func, t=t, g=t) -%}
+  | {{ func.name }}{{ t.title }} | {{ t.name }} |
+{% endif %}
+{%- endfor %}
+{%- endif %}
+
+{% if errors -%}
+## Errors
+
+| Error | Message |
+| -------- | ------ |
+{% for error in errors -%}
+  | {{ error.name }} | {{ error.message }} |
+{% endfor %}
+{%- endif %}
+
+## Source
+
+```go
+{{ func.source }}
+```
+
+{% if test -%}
+## Tests
+
+```go
+{{ test.source }}
+```
+{%- endif %}
