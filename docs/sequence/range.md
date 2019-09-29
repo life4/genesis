@@ -1,7 +1,7 @@
 # Sequence.Range
 
 ```go
-func (s Sequence) Range(start T, end T, step T) chan T
+func (Sequence) Range(start T, end T, step T) chan T
 ```
 
 Range generates elements from start to end with given step
@@ -29,7 +29,7 @@ Generic types: T.
 
 ```go
 // Range generates elements from start to end with given step
-func (s Sequence) Range(start T, end T, step T) chan T {
+func (Sequence) Range(start T, end T, step T) chan T {
 	c := make(chan T, 1)
 	pos := start <= end
 	go func() {

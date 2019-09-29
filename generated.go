@@ -42,7 +42,12 @@ type AsyncSliceBool struct {
 
 // Sequence is a set of operations to generate sequences
 type SequenceBool struct {
-	Data chan bool
+	// empty
+}
+
+// Pair is a set of functions for 2 values that you can pass into reduce-like funcs
+type PairBool struct {
+	// empty
 }
 
 // Slices is a set of operations to work with slice of slices
@@ -3614,7 +3619,7 @@ func (s AsyncSliceBool) Reduce(f func(left bool, right bool) bool) bool {
 }
 
 // Iterate returns an infinite list of repeated applications of f to val
-func (s SequenceBool) Iterate(val bool, f func(val bool) bool) chan bool {
+func (SequenceBool) Iterate(val bool, f func(val bool) bool) chan bool {
 	c := make(chan bool, 1)
 	go func() {
 		for {
@@ -3626,7 +3631,7 @@ func (s SequenceBool) Iterate(val bool, f func(val bool) bool) chan bool {
 }
 
 // Repeat returns channel that produces val infinite times
-func (s SequenceBool) Repeat(val bool) chan bool {
+func (SequenceBool) Repeat(val bool) chan bool {
 	c := make(chan bool, 1)
 	go func() {
 		for {
@@ -3637,7 +3642,7 @@ func (s SequenceBool) Repeat(val bool) chan bool {
 }
 
 // Replicate returns channel that produces val n times
-func (s SequenceBool) Replicate(val bool, n int) chan bool {
+func (SequenceBool) Replicate(val bool, n int) chan bool {
 	c := make(chan bool, 1)
 	go func() {
 		for i := 0; i < n; i++ {
@@ -3728,7 +3733,12 @@ type AsyncSliceByte struct {
 
 // Sequence is a set of operations to generate sequences
 type SequenceByte struct {
-	Data chan byte
+	// empty
+}
+
+// Pair is a set of functions for 2 values that you can pass into reduce-like funcs
+type PairByte struct {
+	// empty
 }
 
 // Slices is a set of operations to work with slice of slices
@@ -6181,25 +6191,31 @@ func (c ChannelByte) MapInterface(f func(el byte) interface{}) chan interface{} 
 }
 
 // Max returns the maximal element from channel
-func (c ChannelByte) Max() byte {
-	max := <-c.Data
+func (c ChannelByte) Max() (byte, error) {
+	max, ok := <-c.Data
+	if !ok {
+		return max, ErrEmpty
+	}
 	for el := range c.Data {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from channel
-func (c ChannelByte) Min() byte {
-	min := <-c.Data
+func (c ChannelByte) Min() (byte, error) {
+	min, ok := <-c.Data
+	if !ok {
+		return min, ErrEmpty
+	}
 	for el := range c.Data {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
@@ -7406,7 +7422,7 @@ func (s AsyncSliceByte) Reduce(f func(left byte, right byte) byte) byte {
 }
 
 // Iterate returns an infinite list of repeated applications of f to val
-func (s SequenceByte) Iterate(val byte, f func(val byte) byte) chan byte {
+func (SequenceByte) Iterate(val byte, f func(val byte) byte) chan byte {
 	c := make(chan byte, 1)
 	go func() {
 		for {
@@ -7418,7 +7434,7 @@ func (s SequenceByte) Iterate(val byte, f func(val byte) byte) chan byte {
 }
 
 // Repeat returns channel that produces val infinite times
-func (s SequenceByte) Repeat(val byte) chan byte {
+func (SequenceByte) Repeat(val byte) chan byte {
 	c := make(chan byte, 1)
 	go func() {
 		for {
@@ -7429,7 +7445,7 @@ func (s SequenceByte) Repeat(val byte) chan byte {
 }
 
 // Replicate returns channel that produces val n times
-func (s SequenceByte) Replicate(val byte, n int) chan byte {
+func (SequenceByte) Replicate(val byte, n int) chan byte {
 	c := make(chan byte, 1)
 	go func() {
 		for i := 0; i < n; i++ {
@@ -7437,6 +7453,22 @@ func (s SequenceByte) Replicate(val byte, n int) chan byte {
 		}
 	}()
 	return c
+}
+
+// Min returns minimal value
+func (PairByte) Min(a byte, b byte) byte {
+	if a <= b {
+		return a
+	}
+	return b
+}
+
+// Max returns maximal value
+func (PairByte) Max(a byte, b byte) byte {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 // Concat concatenates given slices into a single slice.
@@ -7520,7 +7552,12 @@ type AsyncSliceString struct {
 
 // Sequence is a set of operations to generate sequences
 type SequenceString struct {
-	Data chan string
+	// empty
+}
+
+// Pair is a set of functions for 2 values that you can pass into reduce-like funcs
+type PairString struct {
+	// empty
 }
 
 // Slices is a set of operations to work with slice of slices
@@ -9973,25 +10010,31 @@ func (c ChannelString) MapInterface(f func(el string) interface{}) chan interfac
 }
 
 // Max returns the maximal element from channel
-func (c ChannelString) Max() string {
-	max := <-c.Data
+func (c ChannelString) Max() (string, error) {
+	max, ok := <-c.Data
+	if !ok {
+		return max, ErrEmpty
+	}
 	for el := range c.Data {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from channel
-func (c ChannelString) Min() string {
-	min := <-c.Data
+func (c ChannelString) Min() (string, error) {
+	min, ok := <-c.Data
+	if !ok {
+		return min, ErrEmpty
+	}
 	for el := range c.Data {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
@@ -11198,7 +11241,7 @@ func (s AsyncSliceString) Reduce(f func(left string, right string) string) strin
 }
 
 // Iterate returns an infinite list of repeated applications of f to val
-func (s SequenceString) Iterate(val string, f func(val string) string) chan string {
+func (SequenceString) Iterate(val string, f func(val string) string) chan string {
 	c := make(chan string, 1)
 	go func() {
 		for {
@@ -11210,7 +11253,7 @@ func (s SequenceString) Iterate(val string, f func(val string) string) chan stri
 }
 
 // Repeat returns channel that produces val infinite times
-func (s SequenceString) Repeat(val string) chan string {
+func (SequenceString) Repeat(val string) chan string {
 	c := make(chan string, 1)
 	go func() {
 		for {
@@ -11221,7 +11264,7 @@ func (s SequenceString) Repeat(val string) chan string {
 }
 
 // Replicate returns channel that produces val n times
-func (s SequenceString) Replicate(val string, n int) chan string {
+func (SequenceString) Replicate(val string, n int) chan string {
 	c := make(chan string, 1)
 	go func() {
 		for i := 0; i < n; i++ {
@@ -11229,6 +11272,22 @@ func (s SequenceString) Replicate(val string, n int) chan string {
 		}
 	}()
 	return c
+}
+
+// Min returns minimal value
+func (PairString) Min(a string, b string) string {
+	if a <= b {
+		return a
+	}
+	return b
+}
+
+// Max returns maximal value
+func (PairString) Max(a string, b string) string {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 // Concat concatenates given slices into a single slice.
@@ -11312,7 +11371,12 @@ type AsyncSliceFloat32 struct {
 
 // Sequence is a set of operations to generate sequences
 type SequenceFloat32 struct {
-	Data chan float32
+	// empty
+}
+
+// Pair is a set of functions for 2 values that you can pass into reduce-like funcs
+type PairFloat32 struct {
+	// empty
 }
 
 // Slices is a set of operations to work with slice of slices
@@ -13756,25 +13820,31 @@ func (c ChannelFloat32) MapInterface(f func(el float32) interface{}) chan interf
 }
 
 // Max returns the maximal element from channel
-func (c ChannelFloat32) Max() float32 {
-	max := <-c.Data
+func (c ChannelFloat32) Max() (float32, error) {
+	max, ok := <-c.Data
+	if !ok {
+		return max, ErrEmpty
+	}
 	for el := range c.Data {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from channel
-func (c ChannelFloat32) Min() float32 {
-	min := <-c.Data
+func (c ChannelFloat32) Min() (float32, error) {
+	min, ok := <-c.Data
+	if !ok {
+		return min, ErrEmpty
+	}
 	for el := range c.Data {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
@@ -14981,7 +15051,7 @@ func (s AsyncSliceFloat32) Reduce(f func(left float32, right float32) float32) f
 }
 
 // Count is like Range, but infinite
-func (s SequenceFloat32) Count(start float32, step float32) chan float32 {
+func (SequenceFloat32) Count(start float32, step float32) chan float32 {
 	c := make(chan float32, 1)
 	go func() {
 		for {
@@ -14994,7 +15064,7 @@ func (s SequenceFloat32) Count(start float32, step float32) chan float32 {
 
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
-func (s SequenceFloat32) Exponential(start float32, factor float32) chan float32 {
+func (SequenceFloat32) Exponential(start float32, factor float32) chan float32 {
 	c := make(chan float32, 1)
 	go func() {
 		for {
@@ -15006,7 +15076,7 @@ func (s SequenceFloat32) Exponential(start float32, factor float32) chan float32
 }
 
 // Iterate returns an infinite list of repeated applications of f to val
-func (s SequenceFloat32) Iterate(val float32, f func(val float32) float32) chan float32 {
+func (SequenceFloat32) Iterate(val float32, f func(val float32) float32) chan float32 {
 	c := make(chan float32, 1)
 	go func() {
 		for {
@@ -15018,7 +15088,7 @@ func (s SequenceFloat32) Iterate(val float32, f func(val float32) float32) chan 
 }
 
 // Range generates elements from start to end with given step
-func (s SequenceFloat32) Range(start float32, end float32, step float32) chan float32 {
+func (SequenceFloat32) Range(start float32, end float32, step float32) chan float32 {
 	c := make(chan float32, 1)
 	pos := start <= end
 	go func() {
@@ -15032,7 +15102,7 @@ func (s SequenceFloat32) Range(start float32, end float32, step float32) chan fl
 }
 
 // Repeat returns channel that produces val infinite times
-func (s SequenceFloat32) Repeat(val float32) chan float32 {
+func (SequenceFloat32) Repeat(val float32) chan float32 {
 	c := make(chan float32, 1)
 	go func() {
 		for {
@@ -15043,7 +15113,7 @@ func (s SequenceFloat32) Repeat(val float32) chan float32 {
 }
 
 // Replicate returns channel that produces val n times
-func (s SequenceFloat32) Replicate(val float32, n int) chan float32 {
+func (SequenceFloat32) Replicate(val float32, n int) chan float32 {
 	c := make(chan float32, 1)
 	go func() {
 		for i := 0; i < n; i++ {
@@ -15051,6 +15121,22 @@ func (s SequenceFloat32) Replicate(val float32, n int) chan float32 {
 		}
 	}()
 	return c
+}
+
+// Min returns minimal value
+func (PairFloat32) Min(a float32, b float32) float32 {
+	if a <= b {
+		return a
+	}
+	return b
+}
+
+// Max returns maximal value
+func (PairFloat32) Max(a float32, b float32) float32 {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 // Concat concatenates given slices into a single slice.
@@ -15134,7 +15220,12 @@ type AsyncSliceFloat64 struct {
 
 // Sequence is a set of operations to generate sequences
 type SequenceFloat64 struct {
-	Data chan float64
+	// empty
+}
+
+// Pair is a set of functions for 2 values that you can pass into reduce-like funcs
+type PairFloat64 struct {
+	// empty
 }
 
 // Slices is a set of operations to work with slice of slices
@@ -17578,25 +17669,31 @@ func (c ChannelFloat64) MapInterface(f func(el float64) interface{}) chan interf
 }
 
 // Max returns the maximal element from channel
-func (c ChannelFloat64) Max() float64 {
-	max := <-c.Data
+func (c ChannelFloat64) Max() (float64, error) {
+	max, ok := <-c.Data
+	if !ok {
+		return max, ErrEmpty
+	}
 	for el := range c.Data {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from channel
-func (c ChannelFloat64) Min() float64 {
-	min := <-c.Data
+func (c ChannelFloat64) Min() (float64, error) {
+	min, ok := <-c.Data
+	if !ok {
+		return min, ErrEmpty
+	}
 	for el := range c.Data {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
@@ -18803,7 +18900,7 @@ func (s AsyncSliceFloat64) Reduce(f func(left float64, right float64) float64) f
 }
 
 // Count is like Range, but infinite
-func (s SequenceFloat64) Count(start float64, step float64) chan float64 {
+func (SequenceFloat64) Count(start float64, step float64) chan float64 {
 	c := make(chan float64, 1)
 	go func() {
 		for {
@@ -18816,7 +18913,7 @@ func (s SequenceFloat64) Count(start float64, step float64) chan float64 {
 
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
-func (s SequenceFloat64) Exponential(start float64, factor float64) chan float64 {
+func (SequenceFloat64) Exponential(start float64, factor float64) chan float64 {
 	c := make(chan float64, 1)
 	go func() {
 		for {
@@ -18828,7 +18925,7 @@ func (s SequenceFloat64) Exponential(start float64, factor float64) chan float64
 }
 
 // Iterate returns an infinite list of repeated applications of f to val
-func (s SequenceFloat64) Iterate(val float64, f func(val float64) float64) chan float64 {
+func (SequenceFloat64) Iterate(val float64, f func(val float64) float64) chan float64 {
 	c := make(chan float64, 1)
 	go func() {
 		for {
@@ -18840,7 +18937,7 @@ func (s SequenceFloat64) Iterate(val float64, f func(val float64) float64) chan 
 }
 
 // Range generates elements from start to end with given step
-func (s SequenceFloat64) Range(start float64, end float64, step float64) chan float64 {
+func (SequenceFloat64) Range(start float64, end float64, step float64) chan float64 {
 	c := make(chan float64, 1)
 	pos := start <= end
 	go func() {
@@ -18854,7 +18951,7 @@ func (s SequenceFloat64) Range(start float64, end float64, step float64) chan fl
 }
 
 // Repeat returns channel that produces val infinite times
-func (s SequenceFloat64) Repeat(val float64) chan float64 {
+func (SequenceFloat64) Repeat(val float64) chan float64 {
 	c := make(chan float64, 1)
 	go func() {
 		for {
@@ -18865,7 +18962,7 @@ func (s SequenceFloat64) Repeat(val float64) chan float64 {
 }
 
 // Replicate returns channel that produces val n times
-func (s SequenceFloat64) Replicate(val float64, n int) chan float64 {
+func (SequenceFloat64) Replicate(val float64, n int) chan float64 {
 	c := make(chan float64, 1)
 	go func() {
 		for i := 0; i < n; i++ {
@@ -18873,6 +18970,22 @@ func (s SequenceFloat64) Replicate(val float64, n int) chan float64 {
 		}
 	}()
 	return c
+}
+
+// Min returns minimal value
+func (PairFloat64) Min(a float64, b float64) float64 {
+	if a <= b {
+		return a
+	}
+	return b
+}
+
+// Max returns maximal value
+func (PairFloat64) Max(a float64, b float64) float64 {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 // Concat concatenates given slices into a single slice.
@@ -18956,7 +19069,12 @@ type AsyncSliceInt struct {
 
 // Sequence is a set of operations to generate sequences
 type SequenceInt struct {
-	Data chan int
+	// empty
+}
+
+// Pair is a set of functions for 2 values that you can pass into reduce-like funcs
+type PairInt struct {
+	// empty
 }
 
 // Slices is a set of operations to work with slice of slices
@@ -21409,25 +21527,31 @@ func (c ChannelInt) MapInterface(f func(el int) interface{}) chan interface{} {
 }
 
 // Max returns the maximal element from channel
-func (c ChannelInt) Max() int {
-	max := <-c.Data
+func (c ChannelInt) Max() (int, error) {
+	max, ok := <-c.Data
+	if !ok {
+		return max, ErrEmpty
+	}
 	for el := range c.Data {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from channel
-func (c ChannelInt) Min() int {
-	min := <-c.Data
+func (c ChannelInt) Min() (int, error) {
+	min, ok := <-c.Data
+	if !ok {
+		return min, ErrEmpty
+	}
 	for el := range c.Data {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
@@ -22634,7 +22758,7 @@ func (s AsyncSliceInt) Reduce(f func(left int, right int) int) int {
 }
 
 // Count is like Range, but infinite
-func (s SequenceInt) Count(start int, step int) chan int {
+func (SequenceInt) Count(start int, step int) chan int {
 	c := make(chan int, 1)
 	go func() {
 		for {
@@ -22647,7 +22771,7 @@ func (s SequenceInt) Count(start int, step int) chan int {
 
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
-func (s SequenceInt) Exponential(start int, factor int) chan int {
+func (SequenceInt) Exponential(start int, factor int) chan int {
 	c := make(chan int, 1)
 	go func() {
 		for {
@@ -22659,7 +22783,7 @@ func (s SequenceInt) Exponential(start int, factor int) chan int {
 }
 
 // Iterate returns an infinite list of repeated applications of f to val
-func (s SequenceInt) Iterate(val int, f func(val int) int) chan int {
+func (SequenceInt) Iterate(val int, f func(val int) int) chan int {
 	c := make(chan int, 1)
 	go func() {
 		for {
@@ -22671,7 +22795,7 @@ func (s SequenceInt) Iterate(val int, f func(val int) int) chan int {
 }
 
 // Range generates elements from start to end with given step
-func (s SequenceInt) Range(start int, end int, step int) chan int {
+func (SequenceInt) Range(start int, end int, step int) chan int {
 	c := make(chan int, 1)
 	pos := start <= end
 	go func() {
@@ -22685,7 +22809,7 @@ func (s SequenceInt) Range(start int, end int, step int) chan int {
 }
 
 // Repeat returns channel that produces val infinite times
-func (s SequenceInt) Repeat(val int) chan int {
+func (SequenceInt) Repeat(val int) chan int {
 	c := make(chan int, 1)
 	go func() {
 		for {
@@ -22696,7 +22820,7 @@ func (s SequenceInt) Repeat(val int) chan int {
 }
 
 // Replicate returns channel that produces val n times
-func (s SequenceInt) Replicate(val int, n int) chan int {
+func (SequenceInt) Replicate(val int, n int) chan int {
 	c := make(chan int, 1)
 	go func() {
 		for i := 0; i < n; i++ {
@@ -22704,6 +22828,22 @@ func (s SequenceInt) Replicate(val int, n int) chan int {
 		}
 	}()
 	return c
+}
+
+// Min returns minimal value
+func (PairInt) Min(a int, b int) int {
+	if a <= b {
+		return a
+	}
+	return b
+}
+
+// Max returns maximal value
+func (PairInt) Max(a int, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 // Concat concatenates given slices into a single slice.
@@ -22787,7 +22927,12 @@ type AsyncSliceInt8 struct {
 
 // Sequence is a set of operations to generate sequences
 type SequenceInt8 struct {
-	Data chan int8
+	// empty
+}
+
+// Pair is a set of functions for 2 values that you can pass into reduce-like funcs
+type PairInt8 struct {
+	// empty
 }
 
 // Slices is a set of operations to work with slice of slices
@@ -25240,25 +25385,31 @@ func (c ChannelInt8) MapInterface(f func(el int8) interface{}) chan interface{} 
 }
 
 // Max returns the maximal element from channel
-func (c ChannelInt8) Max() int8 {
-	max := <-c.Data
+func (c ChannelInt8) Max() (int8, error) {
+	max, ok := <-c.Data
+	if !ok {
+		return max, ErrEmpty
+	}
 	for el := range c.Data {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from channel
-func (c ChannelInt8) Min() int8 {
-	min := <-c.Data
+func (c ChannelInt8) Min() (int8, error) {
+	min, ok := <-c.Data
+	if !ok {
+		return min, ErrEmpty
+	}
 	for el := range c.Data {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
@@ -26465,7 +26616,7 @@ func (s AsyncSliceInt8) Reduce(f func(left int8, right int8) int8) int8 {
 }
 
 // Count is like Range, but infinite
-func (s SequenceInt8) Count(start int8, step int8) chan int8 {
+func (SequenceInt8) Count(start int8, step int8) chan int8 {
 	c := make(chan int8, 1)
 	go func() {
 		for {
@@ -26478,7 +26629,7 @@ func (s SequenceInt8) Count(start int8, step int8) chan int8 {
 
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
-func (s SequenceInt8) Exponential(start int8, factor int8) chan int8 {
+func (SequenceInt8) Exponential(start int8, factor int8) chan int8 {
 	c := make(chan int8, 1)
 	go func() {
 		for {
@@ -26490,7 +26641,7 @@ func (s SequenceInt8) Exponential(start int8, factor int8) chan int8 {
 }
 
 // Iterate returns an infinite list of repeated applications of f to val
-func (s SequenceInt8) Iterate(val int8, f func(val int8) int8) chan int8 {
+func (SequenceInt8) Iterate(val int8, f func(val int8) int8) chan int8 {
 	c := make(chan int8, 1)
 	go func() {
 		for {
@@ -26502,7 +26653,7 @@ func (s SequenceInt8) Iterate(val int8, f func(val int8) int8) chan int8 {
 }
 
 // Range generates elements from start to end with given step
-func (s SequenceInt8) Range(start int8, end int8, step int8) chan int8 {
+func (SequenceInt8) Range(start int8, end int8, step int8) chan int8 {
 	c := make(chan int8, 1)
 	pos := start <= end
 	go func() {
@@ -26516,7 +26667,7 @@ func (s SequenceInt8) Range(start int8, end int8, step int8) chan int8 {
 }
 
 // Repeat returns channel that produces val infinite times
-func (s SequenceInt8) Repeat(val int8) chan int8 {
+func (SequenceInt8) Repeat(val int8) chan int8 {
 	c := make(chan int8, 1)
 	go func() {
 		for {
@@ -26527,7 +26678,7 @@ func (s SequenceInt8) Repeat(val int8) chan int8 {
 }
 
 // Replicate returns channel that produces val n times
-func (s SequenceInt8) Replicate(val int8, n int) chan int8 {
+func (SequenceInt8) Replicate(val int8, n int) chan int8 {
 	c := make(chan int8, 1)
 	go func() {
 		for i := 0; i < n; i++ {
@@ -26535,6 +26686,22 @@ func (s SequenceInt8) Replicate(val int8, n int) chan int8 {
 		}
 	}()
 	return c
+}
+
+// Min returns minimal value
+func (PairInt8) Min(a int8, b int8) int8 {
+	if a <= b {
+		return a
+	}
+	return b
+}
+
+// Max returns maximal value
+func (PairInt8) Max(a int8, b int8) int8 {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 // Concat concatenates given slices into a single slice.
@@ -26618,7 +26785,12 @@ type AsyncSliceInt16 struct {
 
 // Sequence is a set of operations to generate sequences
 type SequenceInt16 struct {
-	Data chan int16
+	// empty
+}
+
+// Pair is a set of functions for 2 values that you can pass into reduce-like funcs
+type PairInt16 struct {
+	// empty
 }
 
 // Slices is a set of operations to work with slice of slices
@@ -29071,25 +29243,31 @@ func (c ChannelInt16) MapInterface(f func(el int16) interface{}) chan interface{
 }
 
 // Max returns the maximal element from channel
-func (c ChannelInt16) Max() int16 {
-	max := <-c.Data
+func (c ChannelInt16) Max() (int16, error) {
+	max, ok := <-c.Data
+	if !ok {
+		return max, ErrEmpty
+	}
 	for el := range c.Data {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from channel
-func (c ChannelInt16) Min() int16 {
-	min := <-c.Data
+func (c ChannelInt16) Min() (int16, error) {
+	min, ok := <-c.Data
+	if !ok {
+		return min, ErrEmpty
+	}
 	for el := range c.Data {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
@@ -30296,7 +30474,7 @@ func (s AsyncSliceInt16) Reduce(f func(left int16, right int16) int16) int16 {
 }
 
 // Count is like Range, but infinite
-func (s SequenceInt16) Count(start int16, step int16) chan int16 {
+func (SequenceInt16) Count(start int16, step int16) chan int16 {
 	c := make(chan int16, 1)
 	go func() {
 		for {
@@ -30309,7 +30487,7 @@ func (s SequenceInt16) Count(start int16, step int16) chan int16 {
 
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
-func (s SequenceInt16) Exponential(start int16, factor int16) chan int16 {
+func (SequenceInt16) Exponential(start int16, factor int16) chan int16 {
 	c := make(chan int16, 1)
 	go func() {
 		for {
@@ -30321,7 +30499,7 @@ func (s SequenceInt16) Exponential(start int16, factor int16) chan int16 {
 }
 
 // Iterate returns an infinite list of repeated applications of f to val
-func (s SequenceInt16) Iterate(val int16, f func(val int16) int16) chan int16 {
+func (SequenceInt16) Iterate(val int16, f func(val int16) int16) chan int16 {
 	c := make(chan int16, 1)
 	go func() {
 		for {
@@ -30333,7 +30511,7 @@ func (s SequenceInt16) Iterate(val int16, f func(val int16) int16) chan int16 {
 }
 
 // Range generates elements from start to end with given step
-func (s SequenceInt16) Range(start int16, end int16, step int16) chan int16 {
+func (SequenceInt16) Range(start int16, end int16, step int16) chan int16 {
 	c := make(chan int16, 1)
 	pos := start <= end
 	go func() {
@@ -30347,7 +30525,7 @@ func (s SequenceInt16) Range(start int16, end int16, step int16) chan int16 {
 }
 
 // Repeat returns channel that produces val infinite times
-func (s SequenceInt16) Repeat(val int16) chan int16 {
+func (SequenceInt16) Repeat(val int16) chan int16 {
 	c := make(chan int16, 1)
 	go func() {
 		for {
@@ -30358,7 +30536,7 @@ func (s SequenceInt16) Repeat(val int16) chan int16 {
 }
 
 // Replicate returns channel that produces val n times
-func (s SequenceInt16) Replicate(val int16, n int) chan int16 {
+func (SequenceInt16) Replicate(val int16, n int) chan int16 {
 	c := make(chan int16, 1)
 	go func() {
 		for i := 0; i < n; i++ {
@@ -30366,6 +30544,22 @@ func (s SequenceInt16) Replicate(val int16, n int) chan int16 {
 		}
 	}()
 	return c
+}
+
+// Min returns minimal value
+func (PairInt16) Min(a int16, b int16) int16 {
+	if a <= b {
+		return a
+	}
+	return b
+}
+
+// Max returns maximal value
+func (PairInt16) Max(a int16, b int16) int16 {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 // Concat concatenates given slices into a single slice.
@@ -30449,7 +30643,12 @@ type AsyncSliceInt32 struct {
 
 // Sequence is a set of operations to generate sequences
 type SequenceInt32 struct {
-	Data chan int32
+	// empty
+}
+
+// Pair is a set of functions for 2 values that you can pass into reduce-like funcs
+type PairInt32 struct {
+	// empty
 }
 
 // Slices is a set of operations to work with slice of slices
@@ -32902,25 +33101,31 @@ func (c ChannelInt32) MapInterface(f func(el int32) interface{}) chan interface{
 }
 
 // Max returns the maximal element from channel
-func (c ChannelInt32) Max() int32 {
-	max := <-c.Data
+func (c ChannelInt32) Max() (int32, error) {
+	max, ok := <-c.Data
+	if !ok {
+		return max, ErrEmpty
+	}
 	for el := range c.Data {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from channel
-func (c ChannelInt32) Min() int32 {
-	min := <-c.Data
+func (c ChannelInt32) Min() (int32, error) {
+	min, ok := <-c.Data
+	if !ok {
+		return min, ErrEmpty
+	}
 	for el := range c.Data {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
@@ -34127,7 +34332,7 @@ func (s AsyncSliceInt32) Reduce(f func(left int32, right int32) int32) int32 {
 }
 
 // Count is like Range, but infinite
-func (s SequenceInt32) Count(start int32, step int32) chan int32 {
+func (SequenceInt32) Count(start int32, step int32) chan int32 {
 	c := make(chan int32, 1)
 	go func() {
 		for {
@@ -34140,7 +34345,7 @@ func (s SequenceInt32) Count(start int32, step int32) chan int32 {
 
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
-func (s SequenceInt32) Exponential(start int32, factor int32) chan int32 {
+func (SequenceInt32) Exponential(start int32, factor int32) chan int32 {
 	c := make(chan int32, 1)
 	go func() {
 		for {
@@ -34152,7 +34357,7 @@ func (s SequenceInt32) Exponential(start int32, factor int32) chan int32 {
 }
 
 // Iterate returns an infinite list of repeated applications of f to val
-func (s SequenceInt32) Iterate(val int32, f func(val int32) int32) chan int32 {
+func (SequenceInt32) Iterate(val int32, f func(val int32) int32) chan int32 {
 	c := make(chan int32, 1)
 	go func() {
 		for {
@@ -34164,7 +34369,7 @@ func (s SequenceInt32) Iterate(val int32, f func(val int32) int32) chan int32 {
 }
 
 // Range generates elements from start to end with given step
-func (s SequenceInt32) Range(start int32, end int32, step int32) chan int32 {
+func (SequenceInt32) Range(start int32, end int32, step int32) chan int32 {
 	c := make(chan int32, 1)
 	pos := start <= end
 	go func() {
@@ -34178,7 +34383,7 @@ func (s SequenceInt32) Range(start int32, end int32, step int32) chan int32 {
 }
 
 // Repeat returns channel that produces val infinite times
-func (s SequenceInt32) Repeat(val int32) chan int32 {
+func (SequenceInt32) Repeat(val int32) chan int32 {
 	c := make(chan int32, 1)
 	go func() {
 		for {
@@ -34189,7 +34394,7 @@ func (s SequenceInt32) Repeat(val int32) chan int32 {
 }
 
 // Replicate returns channel that produces val n times
-func (s SequenceInt32) Replicate(val int32, n int) chan int32 {
+func (SequenceInt32) Replicate(val int32, n int) chan int32 {
 	c := make(chan int32, 1)
 	go func() {
 		for i := 0; i < n; i++ {
@@ -34197,6 +34402,22 @@ func (s SequenceInt32) Replicate(val int32, n int) chan int32 {
 		}
 	}()
 	return c
+}
+
+// Min returns minimal value
+func (PairInt32) Min(a int32, b int32) int32 {
+	if a <= b {
+		return a
+	}
+	return b
+}
+
+// Max returns maximal value
+func (PairInt32) Max(a int32, b int32) int32 {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 // Concat concatenates given slices into a single slice.
@@ -34280,7 +34501,12 @@ type AsyncSliceInt64 struct {
 
 // Sequence is a set of operations to generate sequences
 type SequenceInt64 struct {
-	Data chan int64
+	// empty
+}
+
+// Pair is a set of functions for 2 values that you can pass into reduce-like funcs
+type PairInt64 struct {
+	// empty
 }
 
 // Slices is a set of operations to work with slice of slices
@@ -36733,25 +36959,31 @@ func (c ChannelInt64) MapInterface(f func(el int64) interface{}) chan interface{
 }
 
 // Max returns the maximal element from channel
-func (c ChannelInt64) Max() int64 {
-	max := <-c.Data
+func (c ChannelInt64) Max() (int64, error) {
+	max, ok := <-c.Data
+	if !ok {
+		return max, ErrEmpty
+	}
 	for el := range c.Data {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from channel
-func (c ChannelInt64) Min() int64 {
-	min := <-c.Data
+func (c ChannelInt64) Min() (int64, error) {
+	min, ok := <-c.Data
+	if !ok {
+		return min, ErrEmpty
+	}
 	for el := range c.Data {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
@@ -37958,7 +38190,7 @@ func (s AsyncSliceInt64) Reduce(f func(left int64, right int64) int64) int64 {
 }
 
 // Count is like Range, but infinite
-func (s SequenceInt64) Count(start int64, step int64) chan int64 {
+func (SequenceInt64) Count(start int64, step int64) chan int64 {
 	c := make(chan int64, 1)
 	go func() {
 		for {
@@ -37971,7 +38203,7 @@ func (s SequenceInt64) Count(start int64, step int64) chan int64 {
 
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
-func (s SequenceInt64) Exponential(start int64, factor int64) chan int64 {
+func (SequenceInt64) Exponential(start int64, factor int64) chan int64 {
 	c := make(chan int64, 1)
 	go func() {
 		for {
@@ -37983,7 +38215,7 @@ func (s SequenceInt64) Exponential(start int64, factor int64) chan int64 {
 }
 
 // Iterate returns an infinite list of repeated applications of f to val
-func (s SequenceInt64) Iterate(val int64, f func(val int64) int64) chan int64 {
+func (SequenceInt64) Iterate(val int64, f func(val int64) int64) chan int64 {
 	c := make(chan int64, 1)
 	go func() {
 		for {
@@ -37995,7 +38227,7 @@ func (s SequenceInt64) Iterate(val int64, f func(val int64) int64) chan int64 {
 }
 
 // Range generates elements from start to end with given step
-func (s SequenceInt64) Range(start int64, end int64, step int64) chan int64 {
+func (SequenceInt64) Range(start int64, end int64, step int64) chan int64 {
 	c := make(chan int64, 1)
 	pos := start <= end
 	go func() {
@@ -38009,7 +38241,7 @@ func (s SequenceInt64) Range(start int64, end int64, step int64) chan int64 {
 }
 
 // Repeat returns channel that produces val infinite times
-func (s SequenceInt64) Repeat(val int64) chan int64 {
+func (SequenceInt64) Repeat(val int64) chan int64 {
 	c := make(chan int64, 1)
 	go func() {
 		for {
@@ -38020,7 +38252,7 @@ func (s SequenceInt64) Repeat(val int64) chan int64 {
 }
 
 // Replicate returns channel that produces val n times
-func (s SequenceInt64) Replicate(val int64, n int) chan int64 {
+func (SequenceInt64) Replicate(val int64, n int) chan int64 {
 	c := make(chan int64, 1)
 	go func() {
 		for i := 0; i < n; i++ {
@@ -38028,6 +38260,22 @@ func (s SequenceInt64) Replicate(val int64, n int) chan int64 {
 		}
 	}()
 	return c
+}
+
+// Min returns minimal value
+func (PairInt64) Min(a int64, b int64) int64 {
+	if a <= b {
+		return a
+	}
+	return b
+}
+
+// Max returns maximal value
+func (PairInt64) Max(a int64, b int64) int64 {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 // Concat concatenates given slices into a single slice.
@@ -38111,7 +38359,12 @@ type AsyncSliceUint struct {
 
 // Sequence is a set of operations to generate sequences
 type SequenceUint struct {
-	Data chan uint
+	// empty
+}
+
+// Pair is a set of functions for 2 values that you can pass into reduce-like funcs
+type PairUint struct {
+	// empty
 }
 
 // Slices is a set of operations to work with slice of slices
@@ -40564,25 +40817,31 @@ func (c ChannelUint) MapInterface(f func(el uint) interface{}) chan interface{} 
 }
 
 // Max returns the maximal element from channel
-func (c ChannelUint) Max() uint {
-	max := <-c.Data
+func (c ChannelUint) Max() (uint, error) {
+	max, ok := <-c.Data
+	if !ok {
+		return max, ErrEmpty
+	}
 	for el := range c.Data {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from channel
-func (c ChannelUint) Min() uint {
-	min := <-c.Data
+func (c ChannelUint) Min() (uint, error) {
+	min, ok := <-c.Data
+	if !ok {
+		return min, ErrEmpty
+	}
 	for el := range c.Data {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
@@ -41789,7 +42048,7 @@ func (s AsyncSliceUint) Reduce(f func(left uint, right uint) uint) uint {
 }
 
 // Count is like Range, but infinite
-func (s SequenceUint) Count(start uint, step uint) chan uint {
+func (SequenceUint) Count(start uint, step uint) chan uint {
 	c := make(chan uint, 1)
 	go func() {
 		for {
@@ -41802,7 +42061,7 @@ func (s SequenceUint) Count(start uint, step uint) chan uint {
 
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
-func (s SequenceUint) Exponential(start uint, factor uint) chan uint {
+func (SequenceUint) Exponential(start uint, factor uint) chan uint {
 	c := make(chan uint, 1)
 	go func() {
 		for {
@@ -41814,7 +42073,7 @@ func (s SequenceUint) Exponential(start uint, factor uint) chan uint {
 }
 
 // Iterate returns an infinite list of repeated applications of f to val
-func (s SequenceUint) Iterate(val uint, f func(val uint) uint) chan uint {
+func (SequenceUint) Iterate(val uint, f func(val uint) uint) chan uint {
 	c := make(chan uint, 1)
 	go func() {
 		for {
@@ -41826,7 +42085,7 @@ func (s SequenceUint) Iterate(val uint, f func(val uint) uint) chan uint {
 }
 
 // Range generates elements from start to end with given step
-func (s SequenceUint) Range(start uint, end uint, step uint) chan uint {
+func (SequenceUint) Range(start uint, end uint, step uint) chan uint {
 	c := make(chan uint, 1)
 	pos := start <= end
 	go func() {
@@ -41840,7 +42099,7 @@ func (s SequenceUint) Range(start uint, end uint, step uint) chan uint {
 }
 
 // Repeat returns channel that produces val infinite times
-func (s SequenceUint) Repeat(val uint) chan uint {
+func (SequenceUint) Repeat(val uint) chan uint {
 	c := make(chan uint, 1)
 	go func() {
 		for {
@@ -41851,7 +42110,7 @@ func (s SequenceUint) Repeat(val uint) chan uint {
 }
 
 // Replicate returns channel that produces val n times
-func (s SequenceUint) Replicate(val uint, n int) chan uint {
+func (SequenceUint) Replicate(val uint, n int) chan uint {
 	c := make(chan uint, 1)
 	go func() {
 		for i := 0; i < n; i++ {
@@ -41859,6 +42118,22 @@ func (s SequenceUint) Replicate(val uint, n int) chan uint {
 		}
 	}()
 	return c
+}
+
+// Min returns minimal value
+func (PairUint) Min(a uint, b uint) uint {
+	if a <= b {
+		return a
+	}
+	return b
+}
+
+// Max returns maximal value
+func (PairUint) Max(a uint, b uint) uint {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 // Concat concatenates given slices into a single slice.
@@ -41942,7 +42217,12 @@ type AsyncSliceUint8 struct {
 
 // Sequence is a set of operations to generate sequences
 type SequenceUint8 struct {
-	Data chan uint8
+	// empty
+}
+
+// Pair is a set of functions for 2 values that you can pass into reduce-like funcs
+type PairUint8 struct {
+	// empty
 }
 
 // Slices is a set of operations to work with slice of slices
@@ -44395,25 +44675,31 @@ func (c ChannelUint8) MapInterface(f func(el uint8) interface{}) chan interface{
 }
 
 // Max returns the maximal element from channel
-func (c ChannelUint8) Max() uint8 {
-	max := <-c.Data
+func (c ChannelUint8) Max() (uint8, error) {
+	max, ok := <-c.Data
+	if !ok {
+		return max, ErrEmpty
+	}
 	for el := range c.Data {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from channel
-func (c ChannelUint8) Min() uint8 {
-	min := <-c.Data
+func (c ChannelUint8) Min() (uint8, error) {
+	min, ok := <-c.Data
+	if !ok {
+		return min, ErrEmpty
+	}
 	for el := range c.Data {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
@@ -45620,7 +45906,7 @@ func (s AsyncSliceUint8) Reduce(f func(left uint8, right uint8) uint8) uint8 {
 }
 
 // Count is like Range, but infinite
-func (s SequenceUint8) Count(start uint8, step uint8) chan uint8 {
+func (SequenceUint8) Count(start uint8, step uint8) chan uint8 {
 	c := make(chan uint8, 1)
 	go func() {
 		for {
@@ -45633,7 +45919,7 @@ func (s SequenceUint8) Count(start uint8, step uint8) chan uint8 {
 
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
-func (s SequenceUint8) Exponential(start uint8, factor uint8) chan uint8 {
+func (SequenceUint8) Exponential(start uint8, factor uint8) chan uint8 {
 	c := make(chan uint8, 1)
 	go func() {
 		for {
@@ -45645,7 +45931,7 @@ func (s SequenceUint8) Exponential(start uint8, factor uint8) chan uint8 {
 }
 
 // Iterate returns an infinite list of repeated applications of f to val
-func (s SequenceUint8) Iterate(val uint8, f func(val uint8) uint8) chan uint8 {
+func (SequenceUint8) Iterate(val uint8, f func(val uint8) uint8) chan uint8 {
 	c := make(chan uint8, 1)
 	go func() {
 		for {
@@ -45657,7 +45943,7 @@ func (s SequenceUint8) Iterate(val uint8, f func(val uint8) uint8) chan uint8 {
 }
 
 // Range generates elements from start to end with given step
-func (s SequenceUint8) Range(start uint8, end uint8, step uint8) chan uint8 {
+func (SequenceUint8) Range(start uint8, end uint8, step uint8) chan uint8 {
 	c := make(chan uint8, 1)
 	pos := start <= end
 	go func() {
@@ -45671,7 +45957,7 @@ func (s SequenceUint8) Range(start uint8, end uint8, step uint8) chan uint8 {
 }
 
 // Repeat returns channel that produces val infinite times
-func (s SequenceUint8) Repeat(val uint8) chan uint8 {
+func (SequenceUint8) Repeat(val uint8) chan uint8 {
 	c := make(chan uint8, 1)
 	go func() {
 		for {
@@ -45682,7 +45968,7 @@ func (s SequenceUint8) Repeat(val uint8) chan uint8 {
 }
 
 // Replicate returns channel that produces val n times
-func (s SequenceUint8) Replicate(val uint8, n int) chan uint8 {
+func (SequenceUint8) Replicate(val uint8, n int) chan uint8 {
 	c := make(chan uint8, 1)
 	go func() {
 		for i := 0; i < n; i++ {
@@ -45690,6 +45976,22 @@ func (s SequenceUint8) Replicate(val uint8, n int) chan uint8 {
 		}
 	}()
 	return c
+}
+
+// Min returns minimal value
+func (PairUint8) Min(a uint8, b uint8) uint8 {
+	if a <= b {
+		return a
+	}
+	return b
+}
+
+// Max returns maximal value
+func (PairUint8) Max(a uint8, b uint8) uint8 {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 // Concat concatenates given slices into a single slice.
@@ -45773,7 +46075,12 @@ type AsyncSliceUint16 struct {
 
 // Sequence is a set of operations to generate sequences
 type SequenceUint16 struct {
-	Data chan uint16
+	// empty
+}
+
+// Pair is a set of functions for 2 values that you can pass into reduce-like funcs
+type PairUint16 struct {
+	// empty
 }
 
 // Slices is a set of operations to work with slice of slices
@@ -48226,25 +48533,31 @@ func (c ChannelUint16) MapInterface(f func(el uint16) interface{}) chan interfac
 }
 
 // Max returns the maximal element from channel
-func (c ChannelUint16) Max() uint16 {
-	max := <-c.Data
+func (c ChannelUint16) Max() (uint16, error) {
+	max, ok := <-c.Data
+	if !ok {
+		return max, ErrEmpty
+	}
 	for el := range c.Data {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from channel
-func (c ChannelUint16) Min() uint16 {
-	min := <-c.Data
+func (c ChannelUint16) Min() (uint16, error) {
+	min, ok := <-c.Data
+	if !ok {
+		return min, ErrEmpty
+	}
 	for el := range c.Data {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
@@ -49451,7 +49764,7 @@ func (s AsyncSliceUint16) Reduce(f func(left uint16, right uint16) uint16) uint1
 }
 
 // Count is like Range, but infinite
-func (s SequenceUint16) Count(start uint16, step uint16) chan uint16 {
+func (SequenceUint16) Count(start uint16, step uint16) chan uint16 {
 	c := make(chan uint16, 1)
 	go func() {
 		for {
@@ -49464,7 +49777,7 @@ func (s SequenceUint16) Count(start uint16, step uint16) chan uint16 {
 
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
-func (s SequenceUint16) Exponential(start uint16, factor uint16) chan uint16 {
+func (SequenceUint16) Exponential(start uint16, factor uint16) chan uint16 {
 	c := make(chan uint16, 1)
 	go func() {
 		for {
@@ -49476,7 +49789,7 @@ func (s SequenceUint16) Exponential(start uint16, factor uint16) chan uint16 {
 }
 
 // Iterate returns an infinite list of repeated applications of f to val
-func (s SequenceUint16) Iterate(val uint16, f func(val uint16) uint16) chan uint16 {
+func (SequenceUint16) Iterate(val uint16, f func(val uint16) uint16) chan uint16 {
 	c := make(chan uint16, 1)
 	go func() {
 		for {
@@ -49488,7 +49801,7 @@ func (s SequenceUint16) Iterate(val uint16, f func(val uint16) uint16) chan uint
 }
 
 // Range generates elements from start to end with given step
-func (s SequenceUint16) Range(start uint16, end uint16, step uint16) chan uint16 {
+func (SequenceUint16) Range(start uint16, end uint16, step uint16) chan uint16 {
 	c := make(chan uint16, 1)
 	pos := start <= end
 	go func() {
@@ -49502,7 +49815,7 @@ func (s SequenceUint16) Range(start uint16, end uint16, step uint16) chan uint16
 }
 
 // Repeat returns channel that produces val infinite times
-func (s SequenceUint16) Repeat(val uint16) chan uint16 {
+func (SequenceUint16) Repeat(val uint16) chan uint16 {
 	c := make(chan uint16, 1)
 	go func() {
 		for {
@@ -49513,7 +49826,7 @@ func (s SequenceUint16) Repeat(val uint16) chan uint16 {
 }
 
 // Replicate returns channel that produces val n times
-func (s SequenceUint16) Replicate(val uint16, n int) chan uint16 {
+func (SequenceUint16) Replicate(val uint16, n int) chan uint16 {
 	c := make(chan uint16, 1)
 	go func() {
 		for i := 0; i < n; i++ {
@@ -49521,6 +49834,22 @@ func (s SequenceUint16) Replicate(val uint16, n int) chan uint16 {
 		}
 	}()
 	return c
+}
+
+// Min returns minimal value
+func (PairUint16) Min(a uint16, b uint16) uint16 {
+	if a <= b {
+		return a
+	}
+	return b
+}
+
+// Max returns maximal value
+func (PairUint16) Max(a uint16, b uint16) uint16 {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 // Concat concatenates given slices into a single slice.
@@ -49604,7 +49933,12 @@ type AsyncSliceUint32 struct {
 
 // Sequence is a set of operations to generate sequences
 type SequenceUint32 struct {
-	Data chan uint32
+	// empty
+}
+
+// Pair is a set of functions for 2 values that you can pass into reduce-like funcs
+type PairUint32 struct {
+	// empty
 }
 
 // Slices is a set of operations to work with slice of slices
@@ -52057,25 +52391,31 @@ func (c ChannelUint32) MapInterface(f func(el uint32) interface{}) chan interfac
 }
 
 // Max returns the maximal element from channel
-func (c ChannelUint32) Max() uint32 {
-	max := <-c.Data
+func (c ChannelUint32) Max() (uint32, error) {
+	max, ok := <-c.Data
+	if !ok {
+		return max, ErrEmpty
+	}
 	for el := range c.Data {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from channel
-func (c ChannelUint32) Min() uint32 {
-	min := <-c.Data
+func (c ChannelUint32) Min() (uint32, error) {
+	min, ok := <-c.Data
+	if !ok {
+		return min, ErrEmpty
+	}
 	for el := range c.Data {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
@@ -53282,7 +53622,7 @@ func (s AsyncSliceUint32) Reduce(f func(left uint32, right uint32) uint32) uint3
 }
 
 // Count is like Range, but infinite
-func (s SequenceUint32) Count(start uint32, step uint32) chan uint32 {
+func (SequenceUint32) Count(start uint32, step uint32) chan uint32 {
 	c := make(chan uint32, 1)
 	go func() {
 		for {
@@ -53295,7 +53635,7 @@ func (s SequenceUint32) Count(start uint32, step uint32) chan uint32 {
 
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
-func (s SequenceUint32) Exponential(start uint32, factor uint32) chan uint32 {
+func (SequenceUint32) Exponential(start uint32, factor uint32) chan uint32 {
 	c := make(chan uint32, 1)
 	go func() {
 		for {
@@ -53307,7 +53647,7 @@ func (s SequenceUint32) Exponential(start uint32, factor uint32) chan uint32 {
 }
 
 // Iterate returns an infinite list of repeated applications of f to val
-func (s SequenceUint32) Iterate(val uint32, f func(val uint32) uint32) chan uint32 {
+func (SequenceUint32) Iterate(val uint32, f func(val uint32) uint32) chan uint32 {
 	c := make(chan uint32, 1)
 	go func() {
 		for {
@@ -53319,7 +53659,7 @@ func (s SequenceUint32) Iterate(val uint32, f func(val uint32) uint32) chan uint
 }
 
 // Range generates elements from start to end with given step
-func (s SequenceUint32) Range(start uint32, end uint32, step uint32) chan uint32 {
+func (SequenceUint32) Range(start uint32, end uint32, step uint32) chan uint32 {
 	c := make(chan uint32, 1)
 	pos := start <= end
 	go func() {
@@ -53333,7 +53673,7 @@ func (s SequenceUint32) Range(start uint32, end uint32, step uint32) chan uint32
 }
 
 // Repeat returns channel that produces val infinite times
-func (s SequenceUint32) Repeat(val uint32) chan uint32 {
+func (SequenceUint32) Repeat(val uint32) chan uint32 {
 	c := make(chan uint32, 1)
 	go func() {
 		for {
@@ -53344,7 +53684,7 @@ func (s SequenceUint32) Repeat(val uint32) chan uint32 {
 }
 
 // Replicate returns channel that produces val n times
-func (s SequenceUint32) Replicate(val uint32, n int) chan uint32 {
+func (SequenceUint32) Replicate(val uint32, n int) chan uint32 {
 	c := make(chan uint32, 1)
 	go func() {
 		for i := 0; i < n; i++ {
@@ -53352,6 +53692,22 @@ func (s SequenceUint32) Replicate(val uint32, n int) chan uint32 {
 		}
 	}()
 	return c
+}
+
+// Min returns minimal value
+func (PairUint32) Min(a uint32, b uint32) uint32 {
+	if a <= b {
+		return a
+	}
+	return b
+}
+
+// Max returns maximal value
+func (PairUint32) Max(a uint32, b uint32) uint32 {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 // Concat concatenates given slices into a single slice.
@@ -53435,7 +53791,12 @@ type AsyncSliceUint64 struct {
 
 // Sequence is a set of operations to generate sequences
 type SequenceUint64 struct {
-	Data chan uint64
+	// empty
+}
+
+// Pair is a set of functions for 2 values that you can pass into reduce-like funcs
+type PairUint64 struct {
+	// empty
 }
 
 // Slices is a set of operations to work with slice of slices
@@ -55888,25 +56249,31 @@ func (c ChannelUint64) MapInterface(f func(el uint64) interface{}) chan interfac
 }
 
 // Max returns the maximal element from channel
-func (c ChannelUint64) Max() uint64 {
-	max := <-c.Data
+func (c ChannelUint64) Max() (uint64, error) {
+	max, ok := <-c.Data
+	if !ok {
+		return max, ErrEmpty
+	}
 	for el := range c.Data {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from channel
-func (c ChannelUint64) Min() uint64 {
-	min := <-c.Data
+func (c ChannelUint64) Min() (uint64, error) {
+	min, ok := <-c.Data
+	if !ok {
+		return min, ErrEmpty
+	}
 	for el := range c.Data {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
@@ -57113,7 +57480,7 @@ func (s AsyncSliceUint64) Reduce(f func(left uint64, right uint64) uint64) uint6
 }
 
 // Count is like Range, but infinite
-func (s SequenceUint64) Count(start uint64, step uint64) chan uint64 {
+func (SequenceUint64) Count(start uint64, step uint64) chan uint64 {
 	c := make(chan uint64, 1)
 	go func() {
 		for {
@@ -57126,7 +57493,7 @@ func (s SequenceUint64) Count(start uint64, step uint64) chan uint64 {
 
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
-func (s SequenceUint64) Exponential(start uint64, factor uint64) chan uint64 {
+func (SequenceUint64) Exponential(start uint64, factor uint64) chan uint64 {
 	c := make(chan uint64, 1)
 	go func() {
 		for {
@@ -57138,7 +57505,7 @@ func (s SequenceUint64) Exponential(start uint64, factor uint64) chan uint64 {
 }
 
 // Iterate returns an infinite list of repeated applications of f to val
-func (s SequenceUint64) Iterate(val uint64, f func(val uint64) uint64) chan uint64 {
+func (SequenceUint64) Iterate(val uint64, f func(val uint64) uint64) chan uint64 {
 	c := make(chan uint64, 1)
 	go func() {
 		for {
@@ -57150,7 +57517,7 @@ func (s SequenceUint64) Iterate(val uint64, f func(val uint64) uint64) chan uint
 }
 
 // Range generates elements from start to end with given step
-func (s SequenceUint64) Range(start uint64, end uint64, step uint64) chan uint64 {
+func (SequenceUint64) Range(start uint64, end uint64, step uint64) chan uint64 {
 	c := make(chan uint64, 1)
 	pos := start <= end
 	go func() {
@@ -57164,7 +57531,7 @@ func (s SequenceUint64) Range(start uint64, end uint64, step uint64) chan uint64
 }
 
 // Repeat returns channel that produces val infinite times
-func (s SequenceUint64) Repeat(val uint64) chan uint64 {
+func (SequenceUint64) Repeat(val uint64) chan uint64 {
 	c := make(chan uint64, 1)
 	go func() {
 		for {
@@ -57175,7 +57542,7 @@ func (s SequenceUint64) Repeat(val uint64) chan uint64 {
 }
 
 // Replicate returns channel that produces val n times
-func (s SequenceUint64) Replicate(val uint64, n int) chan uint64 {
+func (SequenceUint64) Replicate(val uint64, n int) chan uint64 {
 	c := make(chan uint64, 1)
 	go func() {
 		for i := 0; i < n; i++ {
@@ -57183,6 +57550,22 @@ func (s SequenceUint64) Replicate(val uint64, n int) chan uint64 {
 		}
 	}()
 	return c
+}
+
+// Min returns minimal value
+func (PairUint64) Min(a uint64, b uint64) uint64 {
+	if a <= b {
+		return a
+	}
+	return b
+}
+
+// Max returns maximal value
+func (PairUint64) Max(a uint64, b uint64) uint64 {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 // Concat concatenates given slices into a single slice.
@@ -57266,7 +57649,12 @@ type AsyncSliceInterface struct {
 
 // Sequence is a set of operations to generate sequences
 type SequenceInterface struct {
-	Data chan interface{}
+	// empty
+}
+
+// Pair is a set of functions for 2 values that you can pass into reduce-like funcs
+type PairInterface struct {
+	// empty
 }
 
 // Slices is a set of operations to work with slice of slices
@@ -60838,7 +61226,7 @@ func (s AsyncSliceInterface) Reduce(f func(left interface{}, right interface{}) 
 }
 
 // Iterate returns an infinite list of repeated applications of f to val
-func (s SequenceInterface) Iterate(val interface{}, f func(val interface{}) interface{}) chan interface{} {
+func (SequenceInterface) Iterate(val interface{}, f func(val interface{}) interface{}) chan interface{} {
 	c := make(chan interface{}, 1)
 	go func() {
 		for {
@@ -60850,7 +61238,7 @@ func (s SequenceInterface) Iterate(val interface{}, f func(val interface{}) inte
 }
 
 // Repeat returns channel that produces val infinite times
-func (s SequenceInterface) Repeat(val interface{}) chan interface{} {
+func (SequenceInterface) Repeat(val interface{}) chan interface{} {
 	c := make(chan interface{}, 1)
 	go func() {
 		for {
@@ -60861,7 +61249,7 @@ func (s SequenceInterface) Repeat(val interface{}) chan interface{} {
 }
 
 // Replicate returns channel that produces val n times
-func (s SequenceInterface) Replicate(val interface{}, n int) chan interface{} {
+func (SequenceInterface) Replicate(val interface{}, n int) chan interface{} {
 	c := make(chan interface{}, 1)
 	go func() {
 		for i := 0; i < n; i++ {

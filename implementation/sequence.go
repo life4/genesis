@@ -2,11 +2,11 @@ package implementation
 
 // Sequence is a set of operations to generate sequences
 type Sequence struct {
-	Data chan T
+	// empty
 }
 
 // Count is like Range, but infinite
-func (s Sequence) Count(start T, step T) chan T {
+func (Sequence) Count(start T, step T) chan T {
 	c := make(chan T, 1)
 	go func() {
 		for {
@@ -19,7 +19,7 @@ func (s Sequence) Count(start T, step T) chan T {
 
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
-func (s Sequence) Exponential(start T, factor T) chan T {
+func (Sequence) Exponential(start T, factor T) chan T {
 	c := make(chan T, 1)
 	go func() {
 		for {
@@ -31,7 +31,7 @@ func (s Sequence) Exponential(start T, factor T) chan T {
 }
 
 // Iterate returns an infinite list of repeated applications of f to val
-func (s Sequence) Iterate(val T, f func(val T) T) chan T {
+func (Sequence) Iterate(val T, f func(val T) T) chan T {
 	c := make(chan T, 1)
 	go func() {
 		for {
@@ -43,7 +43,7 @@ func (s Sequence) Iterate(val T, f func(val T) T) chan T {
 }
 
 // Range generates elements from start to end with given step
-func (s Sequence) Range(start T, end T, step T) chan T {
+func (Sequence) Range(start T, end T, step T) chan T {
 	c := make(chan T, 1)
 	pos := start <= end
 	go func() {
@@ -57,7 +57,7 @@ func (s Sequence) Range(start T, end T, step T) chan T {
 }
 
 // Repeat returns channel that produces val infinite times
-func (s Sequence) Repeat(val T) chan T {
+func (Sequence) Repeat(val T) chan T {
 	c := make(chan T, 1)
 	go func() {
 		for {
@@ -68,7 +68,7 @@ func (s Sequence) Repeat(val T) chan T {
 }
 
 // Replicate returns channel that produces val n times
-func (s Sequence) Replicate(val T, n int) chan T {
+func (Sequence) Replicate(val T, n int) chan T {
 	c := make(chan T, 1)
 	go func() {
 		for i := 0; i < n; i++ {

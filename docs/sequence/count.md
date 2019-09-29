@@ -1,7 +1,7 @@
 # Sequence.Count
 
 ```go
-func (s Sequence) Count(start T, step T) chan T
+func (Sequence) Count(start T, step T) chan T
 ```
 
 Count is like Range, but infinite
@@ -29,7 +29,7 @@ Generic types: T.
 
 ```go
 // Count is like Range, but infinite
-func (s Sequence) Count(start T, step T) chan T {
+func (Sequence) Count(start T, step T) chan T {
 	c := make(chan T, 1)
 	go func() {
 		for {

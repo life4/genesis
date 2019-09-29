@@ -1,7 +1,7 @@
 # Sequence.Repeat
 
 ```go
-func (s Sequence) Repeat(val T) chan T
+func (Sequence) Repeat(val T) chan T
 ```
 
 Repeat returns channel that produces val infinite times
@@ -33,7 +33,7 @@ Generic types: T.
 
 ```go
 // Repeat returns channel that produces val infinite times
-func (s Sequence) Repeat(val T) chan T {
+func (Sequence) Repeat(val T) chan T {
 	c := make(chan T, 1)
 	go func() {
 		for {

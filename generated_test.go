@@ -323,6 +323,189 @@ func TestChannelFilterInt(t *testing.T) {
 	f([]int{1, 2, 3, 4}, []int{2, 4})
 }
 
+func TestChannelMapIntInt(t *testing.T) {
+	f := func(given []int, expected []int) {
+		double := func(el int) int { return int(el * 2) }
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt{c}.MapInt(double)
+
+		// convert chan int to chan int
+		c2 := make(chan int, 1)
+		go func() {
+			for el := range result {
+				c2 <- int(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{2})
+	f([]int{1, 2, 3}, []int{2, 4, 6})
+}
+
+func TestChannelMapIntInt8(t *testing.T) {
+	f := func(given []int, expected []int) {
+		double := func(el int) int8 { return int8(el * 2) }
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt{c}.MapInt8(double)
+
+		// convert chan int to chan int8
+		c2 := make(chan int, 1)
+		go func() {
+			for el := range result {
+				c2 <- int(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{2})
+	f([]int{1, 2, 3}, []int{2, 4, 6})
+}
+
+func TestChannelMapIntInt16(t *testing.T) {
+	f := func(given []int, expected []int) {
+		double := func(el int) int16 { return int16(el * 2) }
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt{c}.MapInt16(double)
+
+		// convert chan int to chan int16
+		c2 := make(chan int, 1)
+		go func() {
+			for el := range result {
+				c2 <- int(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{2})
+	f([]int{1, 2, 3}, []int{2, 4, 6})
+}
+
+func TestChannelMapIntInt32(t *testing.T) {
+	f := func(given []int, expected []int) {
+		double := func(el int) int32 { return int32(el * 2) }
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt{c}.MapInt32(double)
+
+		// convert chan int to chan int32
+		c2 := make(chan int, 1)
+		go func() {
+			for el := range result {
+				c2 <- int(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{2})
+	f([]int{1, 2, 3}, []int{2, 4, 6})
+}
+
+func TestChannelMapIntInt64(t *testing.T) {
+	f := func(given []int, expected []int) {
+		double := func(el int) int64 { return int64(el * 2) }
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt{c}.MapInt64(double)
+
+		// convert chan int to chan int64
+		c2 := make(chan int, 1)
+		go func() {
+			for el := range result {
+				c2 <- int(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{2})
+	f([]int{1, 2, 3}, []int{2, 4, 6})
+}
+
+func TestChannelMaxInt(t *testing.T) {
+	f := func(given []int, expected int, expectedErr error) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual, actualErr := ChannelInt{c}.Max()
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, actualErr, "they should be equal")
+	}
+	f([]int{}, 0, ErrEmpty)
+	f([]int{1, 4, 2}, 4, nil)
+	f([]int{1, 2, 4}, 4, nil)
+	f([]int{4, 2, 1}, 4, nil)
+}
+
+func TestChannelMinInt(t *testing.T) {
+	f := func(given []int, expected int, expectedErr error) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual, actualErr := ChannelInt{c}.Min()
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, actualErr, "they should be equal")
+	}
+	f([]int{}, 0, ErrEmpty)
+	f([]int{4, 1, 2}, 1, nil)
+	f([]int{1, 2, 4}, 1, nil)
+	f([]int{4, 2, 1}, 1, nil)
+}
+
 func TestChannelTakeInt(t *testing.T) {
 	s := SequenceInt{}
 	f := func(count int, given int, expected []int) {
@@ -1108,6 +1291,189 @@ func TestChannelFilterInt8(t *testing.T) {
 	f([]int8{1}, []int8{})
 	f([]int8{2}, []int8{2})
 	f([]int8{1, 2, 3, 4}, []int8{2, 4})
+}
+
+func TestChannelMapInt8Int(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		double := func(el int8) int { return int(el * 2) }
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt8{c}.MapInt(double)
+
+		// convert chan int8 to chan int
+		c2 := make(chan int8, 1)
+		go func() {
+			for el := range result {
+				c2 <- int8(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt8{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{2})
+	f([]int8{1, 2, 3}, []int8{2, 4, 6})
+}
+
+func TestChannelMapInt8Int8(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		double := func(el int8) int8 { return int8(el * 2) }
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt8{c}.MapInt8(double)
+
+		// convert chan int8 to chan int8
+		c2 := make(chan int8, 1)
+		go func() {
+			for el := range result {
+				c2 <- int8(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt8{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{2})
+	f([]int8{1, 2, 3}, []int8{2, 4, 6})
+}
+
+func TestChannelMapInt8Int16(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		double := func(el int8) int16 { return int16(el * 2) }
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt8{c}.MapInt16(double)
+
+		// convert chan int8 to chan int16
+		c2 := make(chan int8, 1)
+		go func() {
+			for el := range result {
+				c2 <- int8(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt8{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{2})
+	f([]int8{1, 2, 3}, []int8{2, 4, 6})
+}
+
+func TestChannelMapInt8Int32(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		double := func(el int8) int32 { return int32(el * 2) }
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt8{c}.MapInt32(double)
+
+		// convert chan int8 to chan int32
+		c2 := make(chan int8, 1)
+		go func() {
+			for el := range result {
+				c2 <- int8(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt8{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{2})
+	f([]int8{1, 2, 3}, []int8{2, 4, 6})
+}
+
+func TestChannelMapInt8Int64(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		double := func(el int8) int64 { return int64(el * 2) }
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt8{c}.MapInt64(double)
+
+		// convert chan int8 to chan int64
+		c2 := make(chan int8, 1)
+		go func() {
+			for el := range result {
+				c2 <- int8(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt8{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{2})
+	f([]int8{1, 2, 3}, []int8{2, 4, 6})
+}
+
+func TestChannelMaxInt8(t *testing.T) {
+	f := func(given []int8, expected int8, expectedErr error) {
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual, actualErr := ChannelInt8{c}.Max()
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, actualErr, "they should be equal")
+	}
+	f([]int8{}, 0, ErrEmpty)
+	f([]int8{1, 4, 2}, 4, nil)
+	f([]int8{1, 2, 4}, 4, nil)
+	f([]int8{4, 2, 1}, 4, nil)
+}
+
+func TestChannelMinInt8(t *testing.T) {
+	f := func(given []int8, expected int8, expectedErr error) {
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual, actualErr := ChannelInt8{c}.Min()
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, actualErr, "they should be equal")
+	}
+	f([]int8{}, 0, ErrEmpty)
+	f([]int8{4, 1, 2}, 1, nil)
+	f([]int8{1, 2, 4}, 1, nil)
+	f([]int8{4, 2, 1}, 1, nil)
 }
 
 func TestChannelTakeInt8(t *testing.T) {
@@ -1897,6 +2263,189 @@ func TestChannelFilterInt16(t *testing.T) {
 	f([]int16{1, 2, 3, 4}, []int16{2, 4})
 }
 
+func TestChannelMapInt16Int(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		double := func(el int16) int { return int(el * 2) }
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt16{c}.MapInt(double)
+
+		// convert chan int16 to chan int
+		c2 := make(chan int16, 1)
+		go func() {
+			for el := range result {
+				c2 <- int16(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt16{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{2})
+	f([]int16{1, 2, 3}, []int16{2, 4, 6})
+}
+
+func TestChannelMapInt16Int8(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		double := func(el int16) int8 { return int8(el * 2) }
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt16{c}.MapInt8(double)
+
+		// convert chan int16 to chan int8
+		c2 := make(chan int16, 1)
+		go func() {
+			for el := range result {
+				c2 <- int16(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt16{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{2})
+	f([]int16{1, 2, 3}, []int16{2, 4, 6})
+}
+
+func TestChannelMapInt16Int16(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		double := func(el int16) int16 { return int16(el * 2) }
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt16{c}.MapInt16(double)
+
+		// convert chan int16 to chan int16
+		c2 := make(chan int16, 1)
+		go func() {
+			for el := range result {
+				c2 <- int16(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt16{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{2})
+	f([]int16{1, 2, 3}, []int16{2, 4, 6})
+}
+
+func TestChannelMapInt16Int32(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		double := func(el int16) int32 { return int32(el * 2) }
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt16{c}.MapInt32(double)
+
+		// convert chan int16 to chan int32
+		c2 := make(chan int16, 1)
+		go func() {
+			for el := range result {
+				c2 <- int16(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt16{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{2})
+	f([]int16{1, 2, 3}, []int16{2, 4, 6})
+}
+
+func TestChannelMapInt16Int64(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		double := func(el int16) int64 { return int64(el * 2) }
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt16{c}.MapInt64(double)
+
+		// convert chan int16 to chan int64
+		c2 := make(chan int16, 1)
+		go func() {
+			for el := range result {
+				c2 <- int16(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt16{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{2})
+	f([]int16{1, 2, 3}, []int16{2, 4, 6})
+}
+
+func TestChannelMaxInt16(t *testing.T) {
+	f := func(given []int16, expected int16, expectedErr error) {
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual, actualErr := ChannelInt16{c}.Max()
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, actualErr, "they should be equal")
+	}
+	f([]int16{}, 0, ErrEmpty)
+	f([]int16{1, 4, 2}, 4, nil)
+	f([]int16{1, 2, 4}, 4, nil)
+	f([]int16{4, 2, 1}, 4, nil)
+}
+
+func TestChannelMinInt16(t *testing.T) {
+	f := func(given []int16, expected int16, expectedErr error) {
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual, actualErr := ChannelInt16{c}.Min()
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, actualErr, "they should be equal")
+	}
+	f([]int16{}, 0, ErrEmpty)
+	f([]int16{4, 1, 2}, 1, nil)
+	f([]int16{1, 2, 4}, 1, nil)
+	f([]int16{4, 2, 1}, 1, nil)
+}
+
 func TestChannelTakeInt16(t *testing.T) {
 	s := SequenceInt16{}
 	f := func(count int, given int16, expected []int16) {
@@ -2684,6 +3233,189 @@ func TestChannelFilterInt32(t *testing.T) {
 	f([]int32{1, 2, 3, 4}, []int32{2, 4})
 }
 
+func TestChannelMapInt32Int(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		double := func(el int32) int { return int(el * 2) }
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt32{c}.MapInt(double)
+
+		// convert chan int32 to chan int
+		c2 := make(chan int32, 1)
+		go func() {
+			for el := range result {
+				c2 <- int32(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt32{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{2})
+	f([]int32{1, 2, 3}, []int32{2, 4, 6})
+}
+
+func TestChannelMapInt32Int8(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		double := func(el int32) int8 { return int8(el * 2) }
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt32{c}.MapInt8(double)
+
+		// convert chan int32 to chan int8
+		c2 := make(chan int32, 1)
+		go func() {
+			for el := range result {
+				c2 <- int32(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt32{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{2})
+	f([]int32{1, 2, 3}, []int32{2, 4, 6})
+}
+
+func TestChannelMapInt32Int16(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		double := func(el int32) int16 { return int16(el * 2) }
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt32{c}.MapInt16(double)
+
+		// convert chan int32 to chan int16
+		c2 := make(chan int32, 1)
+		go func() {
+			for el := range result {
+				c2 <- int32(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt32{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{2})
+	f([]int32{1, 2, 3}, []int32{2, 4, 6})
+}
+
+func TestChannelMapInt32Int32(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		double := func(el int32) int32 { return int32(el * 2) }
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt32{c}.MapInt32(double)
+
+		// convert chan int32 to chan int32
+		c2 := make(chan int32, 1)
+		go func() {
+			for el := range result {
+				c2 <- int32(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt32{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{2})
+	f([]int32{1, 2, 3}, []int32{2, 4, 6})
+}
+
+func TestChannelMapInt32Int64(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		double := func(el int32) int64 { return int64(el * 2) }
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt32{c}.MapInt64(double)
+
+		// convert chan int32 to chan int64
+		c2 := make(chan int32, 1)
+		go func() {
+			for el := range result {
+				c2 <- int32(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt32{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{2})
+	f([]int32{1, 2, 3}, []int32{2, 4, 6})
+}
+
+func TestChannelMaxInt32(t *testing.T) {
+	f := func(given []int32, expected int32, expectedErr error) {
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual, actualErr := ChannelInt32{c}.Max()
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, actualErr, "they should be equal")
+	}
+	f([]int32{}, 0, ErrEmpty)
+	f([]int32{1, 4, 2}, 4, nil)
+	f([]int32{1, 2, 4}, 4, nil)
+	f([]int32{4, 2, 1}, 4, nil)
+}
+
+func TestChannelMinInt32(t *testing.T) {
+	f := func(given []int32, expected int32, expectedErr error) {
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual, actualErr := ChannelInt32{c}.Min()
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, actualErr, "they should be equal")
+	}
+	f([]int32{}, 0, ErrEmpty)
+	f([]int32{4, 1, 2}, 1, nil)
+	f([]int32{1, 2, 4}, 1, nil)
+	f([]int32{4, 2, 1}, 1, nil)
+}
+
 func TestChannelTakeInt32(t *testing.T) {
 	s := SequenceInt32{}
 	f := func(count int, given int32, expected []int32) {
@@ -3469,6 +4201,189 @@ func TestChannelFilterInt64(t *testing.T) {
 	f([]int64{1}, []int64{})
 	f([]int64{2}, []int64{2})
 	f([]int64{1, 2, 3, 4}, []int64{2, 4})
+}
+
+func TestChannelMapInt64Int(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		double := func(el int64) int { return int(el * 2) }
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt64{c}.MapInt(double)
+
+		// convert chan int64 to chan int
+		c2 := make(chan int64, 1)
+		go func() {
+			for el := range result {
+				c2 <- int64(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt64{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{2})
+	f([]int64{1, 2, 3}, []int64{2, 4, 6})
+}
+
+func TestChannelMapInt64Int8(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		double := func(el int64) int8 { return int8(el * 2) }
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt64{c}.MapInt8(double)
+
+		// convert chan int64 to chan int8
+		c2 := make(chan int64, 1)
+		go func() {
+			for el := range result {
+				c2 <- int64(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt64{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{2})
+	f([]int64{1, 2, 3}, []int64{2, 4, 6})
+}
+
+func TestChannelMapInt64Int16(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		double := func(el int64) int16 { return int16(el * 2) }
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt64{c}.MapInt16(double)
+
+		// convert chan int64 to chan int16
+		c2 := make(chan int64, 1)
+		go func() {
+			for el := range result {
+				c2 <- int64(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt64{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{2})
+	f([]int64{1, 2, 3}, []int64{2, 4, 6})
+}
+
+func TestChannelMapInt64Int32(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		double := func(el int64) int32 { return int32(el * 2) }
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt64{c}.MapInt32(double)
+
+		// convert chan int64 to chan int32
+		c2 := make(chan int64, 1)
+		go func() {
+			for el := range result {
+				c2 <- int64(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt64{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{2})
+	f([]int64{1, 2, 3}, []int64{2, 4, 6})
+}
+
+func TestChannelMapInt64Int64(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		double := func(el int64) int64 { return int64(el * 2) }
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt64{c}.MapInt64(double)
+
+		// convert chan int64 to chan int64
+		c2 := make(chan int64, 1)
+		go func() {
+			for el := range result {
+				c2 <- int64(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt64{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{2})
+	f([]int64{1, 2, 3}, []int64{2, 4, 6})
+}
+
+func TestChannelMaxInt64(t *testing.T) {
+	f := func(given []int64, expected int64, expectedErr error) {
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual, actualErr := ChannelInt64{c}.Max()
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, actualErr, "they should be equal")
+	}
+	f([]int64{}, 0, ErrEmpty)
+	f([]int64{1, 4, 2}, 4, nil)
+	f([]int64{1, 2, 4}, 4, nil)
+	f([]int64{4, 2, 1}, 4, nil)
+}
+
+func TestChannelMinInt64(t *testing.T) {
+	f := func(given []int64, expected int64, expectedErr error) {
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual, actualErr := ChannelInt64{c}.Min()
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, actualErr, "they should be equal")
+	}
+	f([]int64{}, 0, ErrEmpty)
+	f([]int64{4, 1, 2}, 1, nil)
+	f([]int64{1, 2, 4}, 1, nil)
+	f([]int64{4, 2, 1}, 1, nil)
 }
 
 func TestChannelTakeInt64(t *testing.T) {

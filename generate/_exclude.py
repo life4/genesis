@@ -26,7 +26,11 @@ EXCLUDED = {
         'Min': ('bool', 'interface{}'),
         'Sum': ('bool', 'interface{}'),
     },
-}
+    'Pair': {
+        'Max': ('bool', 'interface{}'),
+        'Min': ('bool', 'interface{}'),
+    },
+}  # type: dict
 
 
 def is_excluded(func, t: Type, g: Type = None) -> bool:

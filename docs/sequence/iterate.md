@@ -1,7 +1,7 @@
 # Sequence.Iterate
 
 ```go
-func (s Sequence) Iterate(val T, f func(val T) T) chan T
+func (Sequence) Iterate(val T, f func(val T) T) chan T
 ```
 
 Iterate returns an infinite list of repeated applications of f to val
@@ -33,7 +33,7 @@ Generic types: T.
 
 ```go
 // Iterate returns an infinite list of repeated applications of f to val
-func (s Sequence) Iterate(val T, f func(val T) T) chan T {
+func (Sequence) Iterate(val T, f func(val T) T) chan T {
 	c := make(chan T, 1)
 	go func() {
 		for {

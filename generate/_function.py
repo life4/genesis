@@ -26,6 +26,11 @@ class Function:
         for match in parser.findall(text):
             start = match.spans['pointer'][0] - 7
             docs = text[:start].rsplit('\n\n', maxsplit=1)[-1]
+
+            if match.named['pointer'].isupper():
+                match.named['struct'] = match.named['pointer'] + match.named['struct']
+                match.named['pointer'] = ''
+
             functions.append(cls(docs=docs, **match.named))
         return functions
 

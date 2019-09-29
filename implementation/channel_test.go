@@ -177,6 +177,73 @@ func TestChannelFilter(t *testing.T) {
 	f([]T{1, 2, 3, 4}, []T{2, 4})
 }
 
+func TestChannelMap(t *testing.T) {
+	f := func(given []T, expected []T) {
+		double := func(el T) G { return G(el * 2) }
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := Channel{c}.Map(double)
+
+		// convert chan T to chan G
+		c2 := make(chan T, 1)
+		go func() {
+			for el := range result {
+				c2 <- T(el)
+			}
+			close(c2)
+		}()
+
+		actual := Channel{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{})
+	f([]T{1}, []T{2})
+	f([]T{1, 2, 3}, []T{2, 4, 6})
+}
+
+func TestChannelMax(t *testing.T) {
+	f := func(given []T, expected T, expectedErr error) {
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual, actualErr := Channel{c}.Max()
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, actualErr, "they should be equal")
+	}
+	f([]T{}, 0, ErrEmpty)
+	f([]T{1, 4, 2}, 4, nil)
+	f([]T{1, 2, 4}, 4, nil)
+	f([]T{4, 2, 1}, 4, nil)
+}
+
+func TestChannelMin(t *testing.T) {
+	f := func(given []T, expected T, expectedErr error) {
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual, actualErr := Channel{c}.Min()
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, actualErr, "they should be equal")
+	}
+	f([]T{}, 0, ErrEmpty)
+	f([]T{4, 1, 2}, 1, nil)
+	f([]T{1, 2, 4}, 1, nil)
+	f([]T{4, 2, 1}, 1, nil)
+}
+
 func TestChannelTake(t *testing.T) {
 	s := Sequence{}
 	f := func(count int, given T, expected []T) {

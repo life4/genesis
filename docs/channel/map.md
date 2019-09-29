@@ -66,3 +66,35 @@ func (c Channel) Map(f func(el T) G) chan G {
 }
 ```
 
+## Tests
+
+```go
+func TestChannelMap(t *testing.T) {
+	f := func(given []T, expected []T) {
+		double := func(el T) G { return G(el * 2) }
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := Channel{c}.Map(double)
+
+		// convert chan T to chan G
+		c2 := make(chan T, 1)
+		go func() {
+			for el := range result {
+				c2 <- T(el)
+			}
+			close(c2)
+		}()
+
+		actual := Channel{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{})
+	f([]T{1}, []T{2})
+	f([]T{1, 2, 3}, []T{2, 4, 6})
+}
+```

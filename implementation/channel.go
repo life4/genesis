@@ -115,25 +115,31 @@ func (c Channel) Map(f func(el T) G) chan G {
 }
 
 // Max returns the maximal element from channel
-func (c Channel) Max() T {
-	max := <-c.Data
+func (c Channel) Max() (T, error) {
+	max, ok := <-c.Data
+	if !ok {
+		return max, ErrEmpty
+	}
 	for el := range c.Data {
 		if el > max {
 			max = el
 		}
 	}
-	return max
+	return max, nil
 }
 
 // Min returns the minimal element from channel
-func (c Channel) Min() T {
-	min := <-c.Data
+func (c Channel) Min() (T, error) {
+	min, ok := <-c.Data
+	if !ok {
+		return min, ErrEmpty
+	}
 	for el := range c.Data {
 		if el < min {
 			min = el
 		}
 	}
-	return min
+	return min, nil
 }
 
 // Reduce applies f to acc and every element from channel and returns acc

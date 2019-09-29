@@ -1,7 +1,7 @@
 # Sequence.Exponential
 
 ```go
-func (s Sequence) Exponential(start T, factor T) chan T
+func (Sequence) Exponential(start T, factor T) chan T
 ```
 
 Exponential generates elements from start with multiplication of value on factor on every step
@@ -30,7 +30,7 @@ Generic types: T.
 ```go
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
-func (s Sequence) Exponential(start T, factor T) chan T {
+func (Sequence) Exponential(start T, factor T) chan T {
 	c := make(chan T, 1)
 	go func() {
 		for {
