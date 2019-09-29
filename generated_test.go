@@ -506,6 +506,269 @@ func TestChannelMinInt(t *testing.T) {
 	f([]int{4, 2, 1}, 1, nil)
 }
 
+func TestChannelReduceIntInt(t *testing.T) {
+	f := func(given []int, expected int) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int, acc int) int { return int(el) + acc }
+		actual := ChannelInt{c}.ReduceInt(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 1)
+	f([]int{1, 2}, 3)
+	f([]int{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceIntInt8(t *testing.T) {
+	f := func(given []int, expected int8) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int, acc int8) int8 { return int8(el) + acc }
+		actual := ChannelInt{c}.ReduceInt8(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 1)
+	f([]int{1, 2}, 3)
+	f([]int{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceIntInt16(t *testing.T) {
+	f := func(given []int, expected int16) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int, acc int16) int16 { return int16(el) + acc }
+		actual := ChannelInt{c}.ReduceInt16(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 1)
+	f([]int{1, 2}, 3)
+	f([]int{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceIntInt32(t *testing.T) {
+	f := func(given []int, expected int32) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int, acc int32) int32 { return int32(el) + acc }
+		actual := ChannelInt{c}.ReduceInt32(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 1)
+	f([]int{1, 2}, 3)
+	f([]int{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceIntInt64(t *testing.T) {
+	f := func(given []int, expected int64) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int, acc int64) int64 { return int64(el) + acc }
+		actual := ChannelInt{c}.ReduceInt64(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 1)
+	f([]int{1, 2}, 3)
+	f([]int{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelScanIntInt(t *testing.T) {
+	f := func(given []int, expected []int) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int, acc int) int { return int(el) + acc }
+		result := ChannelInt{c}.ScanInt(0, sum)
+
+		// convert chan int to chan int
+		c2 := make(chan int, 1)
+		go func() {
+			for el := range result {
+				c2 <- int(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{1})
+	f([]int{1, 2}, []int{1, 3})
+	f([]int{1, 2, 3, 4, 5}, []int{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanIntInt8(t *testing.T) {
+	f := func(given []int, expected []int) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int, acc int8) int8 { return int8(el) + acc }
+		result := ChannelInt{c}.ScanInt8(0, sum)
+
+		// convert chan int to chan int8
+		c2 := make(chan int, 1)
+		go func() {
+			for el := range result {
+				c2 <- int(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{1})
+	f([]int{1, 2}, []int{1, 3})
+	f([]int{1, 2, 3, 4, 5}, []int{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanIntInt16(t *testing.T) {
+	f := func(given []int, expected []int) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int, acc int16) int16 { return int16(el) + acc }
+		result := ChannelInt{c}.ScanInt16(0, sum)
+
+		// convert chan int to chan int16
+		c2 := make(chan int, 1)
+		go func() {
+			for el := range result {
+				c2 <- int(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{1})
+	f([]int{1, 2}, []int{1, 3})
+	f([]int{1, 2, 3, 4, 5}, []int{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanIntInt32(t *testing.T) {
+	f := func(given []int, expected []int) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int, acc int32) int32 { return int32(el) + acc }
+		result := ChannelInt{c}.ScanInt32(0, sum)
+
+		// convert chan int to chan int32
+		c2 := make(chan int, 1)
+		go func() {
+			for el := range result {
+				c2 <- int(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{1})
+	f([]int{1, 2}, []int{1, 3})
+	f([]int{1, 2, 3, 4, 5}, []int{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanIntInt64(t *testing.T) {
+	f := func(given []int, expected []int) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int, acc int64) int64 { return int64(el) + acc }
+		result := ChannelInt{c}.ScanInt64(0, sum)
+
+		// convert chan int to chan int64
+		c2 := make(chan int, 1)
+		go func() {
+			for el := range result {
+				c2 <- int(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{1})
+	f([]int{1, 2}, []int{1, 3})
+	f([]int{1, 2, 3, 4, 5}, []int{1, 3, 6, 10, 15})
+}
+
+func TestChannelSumInt(t *testing.T) {
+	f := func(given []int, expected int) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := ChannelInt{c}.Sum()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 1)
+	f([]int{1, 2}, 3)
+	f([]int{1, 2, 3, 4, 5}, 15)
+}
+
 func TestChannelTakeInt(t *testing.T) {
 	s := SequenceInt{}
 	f := func(count int, given int, expected []int) {
@@ -517,6 +780,38 @@ func TestChannelTakeInt(t *testing.T) {
 	f(0, 1, []int{})
 	f(1, 1, []int{1})
 	f(2, 1, []int{1, 1})
+}
+
+func TestChannelTeeInt(t *testing.T) {
+	f := func(count int, given []int) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		channels := ChannelInt{c}.Tee(count)
+		for _, ch := range channels {
+			go func(ch chan int) {
+				actual := ChannelInt{ch}.ToSlice()
+				assert.Equal(t, given, actual, "they should be equal")
+			}(ch)
+		}
+	}
+	f(1, []int{})
+	f(1, []int{1})
+	f(1, []int{1, 2})
+	f(1, []int{1, 2, 3})
+	f(1, []int{1, 2, 3, 1, 2})
+
+	f(2, []int{})
+	f(2, []int{1})
+	f(2, []int{1, 2})
+	f(2, []int{1, 2, 3})
+	f(2, []int{1, 2, 3, 1, 2})
+
+	f(10, []int{1, 2, 3, 1, 2})
 }
 
 func TestSequenceCountInt(t *testing.T) {
@@ -1476,6 +1771,269 @@ func TestChannelMinInt8(t *testing.T) {
 	f([]int8{4, 2, 1}, 1, nil)
 }
 
+func TestChannelReduceInt8Int(t *testing.T) {
+	f := func(given []int8, expected int) {
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int8, acc int) int { return int(el) + acc }
+		actual := ChannelInt8{c}.ReduceInt(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 1)
+	f([]int8{1, 2}, 3)
+	f([]int8{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceInt8Int8(t *testing.T) {
+	f := func(given []int8, expected int8) {
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int8, acc int8) int8 { return int8(el) + acc }
+		actual := ChannelInt8{c}.ReduceInt8(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 1)
+	f([]int8{1, 2}, 3)
+	f([]int8{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceInt8Int16(t *testing.T) {
+	f := func(given []int8, expected int16) {
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int8, acc int16) int16 { return int16(el) + acc }
+		actual := ChannelInt8{c}.ReduceInt16(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 1)
+	f([]int8{1, 2}, 3)
+	f([]int8{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceInt8Int32(t *testing.T) {
+	f := func(given []int8, expected int32) {
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int8, acc int32) int32 { return int32(el) + acc }
+		actual := ChannelInt8{c}.ReduceInt32(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 1)
+	f([]int8{1, 2}, 3)
+	f([]int8{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceInt8Int64(t *testing.T) {
+	f := func(given []int8, expected int64) {
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int8, acc int64) int64 { return int64(el) + acc }
+		actual := ChannelInt8{c}.ReduceInt64(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 1)
+	f([]int8{1, 2}, 3)
+	f([]int8{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelScanInt8Int(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int8, acc int) int { return int(el) + acc }
+		result := ChannelInt8{c}.ScanInt(0, sum)
+
+		// convert chan int8 to chan int
+		c2 := make(chan int8, 1)
+		go func() {
+			for el := range result {
+				c2 <- int8(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt8{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{1})
+	f([]int8{1, 2}, []int8{1, 3})
+	f([]int8{1, 2, 3, 4, 5}, []int8{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanInt8Int8(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int8, acc int8) int8 { return int8(el) + acc }
+		result := ChannelInt8{c}.ScanInt8(0, sum)
+
+		// convert chan int8 to chan int8
+		c2 := make(chan int8, 1)
+		go func() {
+			for el := range result {
+				c2 <- int8(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt8{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{1})
+	f([]int8{1, 2}, []int8{1, 3})
+	f([]int8{1, 2, 3, 4, 5}, []int8{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanInt8Int16(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int8, acc int16) int16 { return int16(el) + acc }
+		result := ChannelInt8{c}.ScanInt16(0, sum)
+
+		// convert chan int8 to chan int16
+		c2 := make(chan int8, 1)
+		go func() {
+			for el := range result {
+				c2 <- int8(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt8{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{1})
+	f([]int8{1, 2}, []int8{1, 3})
+	f([]int8{1, 2, 3, 4, 5}, []int8{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanInt8Int32(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int8, acc int32) int32 { return int32(el) + acc }
+		result := ChannelInt8{c}.ScanInt32(0, sum)
+
+		// convert chan int8 to chan int32
+		c2 := make(chan int8, 1)
+		go func() {
+			for el := range result {
+				c2 <- int8(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt8{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{1})
+	f([]int8{1, 2}, []int8{1, 3})
+	f([]int8{1, 2, 3, 4, 5}, []int8{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanInt8Int64(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int8, acc int64) int64 { return int64(el) + acc }
+		result := ChannelInt8{c}.ScanInt64(0, sum)
+
+		// convert chan int8 to chan int64
+		c2 := make(chan int8, 1)
+		go func() {
+			for el := range result {
+				c2 <- int8(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt8{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{1})
+	f([]int8{1, 2}, []int8{1, 3})
+	f([]int8{1, 2, 3, 4, 5}, []int8{1, 3, 6, 10, 15})
+}
+
+func TestChannelSumInt8(t *testing.T) {
+	f := func(given []int8, expected int8) {
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := ChannelInt8{c}.Sum()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 1)
+	f([]int8{1, 2}, 3)
+	f([]int8{1, 2, 3, 4, 5}, 15)
+}
+
 func TestChannelTakeInt8(t *testing.T) {
 	s := SequenceInt8{}
 	f := func(count int, given int8, expected []int8) {
@@ -1487,6 +2045,38 @@ func TestChannelTakeInt8(t *testing.T) {
 	f(0, 1, []int8{})
 	f(1, 1, []int8{1})
 	f(2, 1, []int8{1, 1})
+}
+
+func TestChannelTeeInt8(t *testing.T) {
+	f := func(count int, given []int8) {
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		channels := ChannelInt8{c}.Tee(count)
+		for _, ch := range channels {
+			go func(ch chan int8) {
+				actual := ChannelInt8{ch}.ToSlice()
+				assert.Equal(t, given, actual, "they should be equal")
+			}(ch)
+		}
+	}
+	f(1, []int8{})
+	f(1, []int8{1})
+	f(1, []int8{1, 2})
+	f(1, []int8{1, 2, 3})
+	f(1, []int8{1, 2, 3, 1, 2})
+
+	f(2, []int8{})
+	f(2, []int8{1})
+	f(2, []int8{1, 2})
+	f(2, []int8{1, 2, 3})
+	f(2, []int8{1, 2, 3, 1, 2})
+
+	f(10, []int8{1, 2, 3, 1, 2})
 }
 
 func TestSequenceCountInt8(t *testing.T) {
@@ -2446,6 +3036,269 @@ func TestChannelMinInt16(t *testing.T) {
 	f([]int16{4, 2, 1}, 1, nil)
 }
 
+func TestChannelReduceInt16Int(t *testing.T) {
+	f := func(given []int16, expected int) {
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int16, acc int) int { return int(el) + acc }
+		actual := ChannelInt16{c}.ReduceInt(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 1)
+	f([]int16{1, 2}, 3)
+	f([]int16{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceInt16Int8(t *testing.T) {
+	f := func(given []int16, expected int8) {
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int16, acc int8) int8 { return int8(el) + acc }
+		actual := ChannelInt16{c}.ReduceInt8(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 1)
+	f([]int16{1, 2}, 3)
+	f([]int16{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceInt16Int16(t *testing.T) {
+	f := func(given []int16, expected int16) {
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int16, acc int16) int16 { return int16(el) + acc }
+		actual := ChannelInt16{c}.ReduceInt16(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 1)
+	f([]int16{1, 2}, 3)
+	f([]int16{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceInt16Int32(t *testing.T) {
+	f := func(given []int16, expected int32) {
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int16, acc int32) int32 { return int32(el) + acc }
+		actual := ChannelInt16{c}.ReduceInt32(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 1)
+	f([]int16{1, 2}, 3)
+	f([]int16{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceInt16Int64(t *testing.T) {
+	f := func(given []int16, expected int64) {
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int16, acc int64) int64 { return int64(el) + acc }
+		actual := ChannelInt16{c}.ReduceInt64(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 1)
+	f([]int16{1, 2}, 3)
+	f([]int16{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelScanInt16Int(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int16, acc int) int { return int(el) + acc }
+		result := ChannelInt16{c}.ScanInt(0, sum)
+
+		// convert chan int16 to chan int
+		c2 := make(chan int16, 1)
+		go func() {
+			for el := range result {
+				c2 <- int16(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt16{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{1})
+	f([]int16{1, 2}, []int16{1, 3})
+	f([]int16{1, 2, 3, 4, 5}, []int16{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanInt16Int8(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int16, acc int8) int8 { return int8(el) + acc }
+		result := ChannelInt16{c}.ScanInt8(0, sum)
+
+		// convert chan int16 to chan int8
+		c2 := make(chan int16, 1)
+		go func() {
+			for el := range result {
+				c2 <- int16(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt16{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{1})
+	f([]int16{1, 2}, []int16{1, 3})
+	f([]int16{1, 2, 3, 4, 5}, []int16{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanInt16Int16(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int16, acc int16) int16 { return int16(el) + acc }
+		result := ChannelInt16{c}.ScanInt16(0, sum)
+
+		// convert chan int16 to chan int16
+		c2 := make(chan int16, 1)
+		go func() {
+			for el := range result {
+				c2 <- int16(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt16{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{1})
+	f([]int16{1, 2}, []int16{1, 3})
+	f([]int16{1, 2, 3, 4, 5}, []int16{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanInt16Int32(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int16, acc int32) int32 { return int32(el) + acc }
+		result := ChannelInt16{c}.ScanInt32(0, sum)
+
+		// convert chan int16 to chan int32
+		c2 := make(chan int16, 1)
+		go func() {
+			for el := range result {
+				c2 <- int16(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt16{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{1})
+	f([]int16{1, 2}, []int16{1, 3})
+	f([]int16{1, 2, 3, 4, 5}, []int16{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanInt16Int64(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int16, acc int64) int64 { return int64(el) + acc }
+		result := ChannelInt16{c}.ScanInt64(0, sum)
+
+		// convert chan int16 to chan int64
+		c2 := make(chan int16, 1)
+		go func() {
+			for el := range result {
+				c2 <- int16(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt16{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{1})
+	f([]int16{1, 2}, []int16{1, 3})
+	f([]int16{1, 2, 3, 4, 5}, []int16{1, 3, 6, 10, 15})
+}
+
+func TestChannelSumInt16(t *testing.T) {
+	f := func(given []int16, expected int16) {
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := ChannelInt16{c}.Sum()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 1)
+	f([]int16{1, 2}, 3)
+	f([]int16{1, 2, 3, 4, 5}, 15)
+}
+
 func TestChannelTakeInt16(t *testing.T) {
 	s := SequenceInt16{}
 	f := func(count int, given int16, expected []int16) {
@@ -2457,6 +3310,38 @@ func TestChannelTakeInt16(t *testing.T) {
 	f(0, 1, []int16{})
 	f(1, 1, []int16{1})
 	f(2, 1, []int16{1, 1})
+}
+
+func TestChannelTeeInt16(t *testing.T) {
+	f := func(count int, given []int16) {
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		channels := ChannelInt16{c}.Tee(count)
+		for _, ch := range channels {
+			go func(ch chan int16) {
+				actual := ChannelInt16{ch}.ToSlice()
+				assert.Equal(t, given, actual, "they should be equal")
+			}(ch)
+		}
+	}
+	f(1, []int16{})
+	f(1, []int16{1})
+	f(1, []int16{1, 2})
+	f(1, []int16{1, 2, 3})
+	f(1, []int16{1, 2, 3, 1, 2})
+
+	f(2, []int16{})
+	f(2, []int16{1})
+	f(2, []int16{1, 2})
+	f(2, []int16{1, 2, 3})
+	f(2, []int16{1, 2, 3, 1, 2})
+
+	f(10, []int16{1, 2, 3, 1, 2})
 }
 
 func TestSequenceCountInt16(t *testing.T) {
@@ -3416,6 +4301,269 @@ func TestChannelMinInt32(t *testing.T) {
 	f([]int32{4, 2, 1}, 1, nil)
 }
 
+func TestChannelReduceInt32Int(t *testing.T) {
+	f := func(given []int32, expected int) {
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int32, acc int) int { return int(el) + acc }
+		actual := ChannelInt32{c}.ReduceInt(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 1)
+	f([]int32{1, 2}, 3)
+	f([]int32{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceInt32Int8(t *testing.T) {
+	f := func(given []int32, expected int8) {
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int32, acc int8) int8 { return int8(el) + acc }
+		actual := ChannelInt32{c}.ReduceInt8(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 1)
+	f([]int32{1, 2}, 3)
+	f([]int32{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceInt32Int16(t *testing.T) {
+	f := func(given []int32, expected int16) {
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int32, acc int16) int16 { return int16(el) + acc }
+		actual := ChannelInt32{c}.ReduceInt16(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 1)
+	f([]int32{1, 2}, 3)
+	f([]int32{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceInt32Int32(t *testing.T) {
+	f := func(given []int32, expected int32) {
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int32, acc int32) int32 { return int32(el) + acc }
+		actual := ChannelInt32{c}.ReduceInt32(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 1)
+	f([]int32{1, 2}, 3)
+	f([]int32{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceInt32Int64(t *testing.T) {
+	f := func(given []int32, expected int64) {
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int32, acc int64) int64 { return int64(el) + acc }
+		actual := ChannelInt32{c}.ReduceInt64(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 1)
+	f([]int32{1, 2}, 3)
+	f([]int32{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelScanInt32Int(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int32, acc int) int { return int(el) + acc }
+		result := ChannelInt32{c}.ScanInt(0, sum)
+
+		// convert chan int32 to chan int
+		c2 := make(chan int32, 1)
+		go func() {
+			for el := range result {
+				c2 <- int32(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt32{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{1})
+	f([]int32{1, 2}, []int32{1, 3})
+	f([]int32{1, 2, 3, 4, 5}, []int32{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanInt32Int8(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int32, acc int8) int8 { return int8(el) + acc }
+		result := ChannelInt32{c}.ScanInt8(0, sum)
+
+		// convert chan int32 to chan int8
+		c2 := make(chan int32, 1)
+		go func() {
+			for el := range result {
+				c2 <- int32(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt32{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{1})
+	f([]int32{1, 2}, []int32{1, 3})
+	f([]int32{1, 2, 3, 4, 5}, []int32{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanInt32Int16(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int32, acc int16) int16 { return int16(el) + acc }
+		result := ChannelInt32{c}.ScanInt16(0, sum)
+
+		// convert chan int32 to chan int16
+		c2 := make(chan int32, 1)
+		go func() {
+			for el := range result {
+				c2 <- int32(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt32{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{1})
+	f([]int32{1, 2}, []int32{1, 3})
+	f([]int32{1, 2, 3, 4, 5}, []int32{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanInt32Int32(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int32, acc int32) int32 { return int32(el) + acc }
+		result := ChannelInt32{c}.ScanInt32(0, sum)
+
+		// convert chan int32 to chan int32
+		c2 := make(chan int32, 1)
+		go func() {
+			for el := range result {
+				c2 <- int32(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt32{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{1})
+	f([]int32{1, 2}, []int32{1, 3})
+	f([]int32{1, 2, 3, 4, 5}, []int32{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanInt32Int64(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int32, acc int64) int64 { return int64(el) + acc }
+		result := ChannelInt32{c}.ScanInt64(0, sum)
+
+		// convert chan int32 to chan int64
+		c2 := make(chan int32, 1)
+		go func() {
+			for el := range result {
+				c2 <- int32(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt32{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{1})
+	f([]int32{1, 2}, []int32{1, 3})
+	f([]int32{1, 2, 3, 4, 5}, []int32{1, 3, 6, 10, 15})
+}
+
+func TestChannelSumInt32(t *testing.T) {
+	f := func(given []int32, expected int32) {
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := ChannelInt32{c}.Sum()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 1)
+	f([]int32{1, 2}, 3)
+	f([]int32{1, 2, 3, 4, 5}, 15)
+}
+
 func TestChannelTakeInt32(t *testing.T) {
 	s := SequenceInt32{}
 	f := func(count int, given int32, expected []int32) {
@@ -3427,6 +4575,38 @@ func TestChannelTakeInt32(t *testing.T) {
 	f(0, 1, []int32{})
 	f(1, 1, []int32{1})
 	f(2, 1, []int32{1, 1})
+}
+
+func TestChannelTeeInt32(t *testing.T) {
+	f := func(count int, given []int32) {
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		channels := ChannelInt32{c}.Tee(count)
+		for _, ch := range channels {
+			go func(ch chan int32) {
+				actual := ChannelInt32{ch}.ToSlice()
+				assert.Equal(t, given, actual, "they should be equal")
+			}(ch)
+		}
+	}
+	f(1, []int32{})
+	f(1, []int32{1})
+	f(1, []int32{1, 2})
+	f(1, []int32{1, 2, 3})
+	f(1, []int32{1, 2, 3, 1, 2})
+
+	f(2, []int32{})
+	f(2, []int32{1})
+	f(2, []int32{1, 2})
+	f(2, []int32{1, 2, 3})
+	f(2, []int32{1, 2, 3, 1, 2})
+
+	f(10, []int32{1, 2, 3, 1, 2})
 }
 
 func TestSequenceCountInt32(t *testing.T) {
@@ -4386,6 +5566,269 @@ func TestChannelMinInt64(t *testing.T) {
 	f([]int64{4, 2, 1}, 1, nil)
 }
 
+func TestChannelReduceInt64Int(t *testing.T) {
+	f := func(given []int64, expected int) {
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int64, acc int) int { return int(el) + acc }
+		actual := ChannelInt64{c}.ReduceInt(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 1)
+	f([]int64{1, 2}, 3)
+	f([]int64{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceInt64Int8(t *testing.T) {
+	f := func(given []int64, expected int8) {
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int64, acc int8) int8 { return int8(el) + acc }
+		actual := ChannelInt64{c}.ReduceInt8(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 1)
+	f([]int64{1, 2}, 3)
+	f([]int64{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceInt64Int16(t *testing.T) {
+	f := func(given []int64, expected int16) {
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int64, acc int16) int16 { return int16(el) + acc }
+		actual := ChannelInt64{c}.ReduceInt16(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 1)
+	f([]int64{1, 2}, 3)
+	f([]int64{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceInt64Int32(t *testing.T) {
+	f := func(given []int64, expected int32) {
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int64, acc int32) int32 { return int32(el) + acc }
+		actual := ChannelInt64{c}.ReduceInt32(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 1)
+	f([]int64{1, 2}, 3)
+	f([]int64{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceInt64Int64(t *testing.T) {
+	f := func(given []int64, expected int64) {
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int64, acc int64) int64 { return int64(el) + acc }
+		actual := ChannelInt64{c}.ReduceInt64(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 1)
+	f([]int64{1, 2}, 3)
+	f([]int64{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelScanInt64Int(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int64, acc int) int { return int(el) + acc }
+		result := ChannelInt64{c}.ScanInt(0, sum)
+
+		// convert chan int64 to chan int
+		c2 := make(chan int64, 1)
+		go func() {
+			for el := range result {
+				c2 <- int64(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt64{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{1})
+	f([]int64{1, 2}, []int64{1, 3})
+	f([]int64{1, 2, 3, 4, 5}, []int64{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanInt64Int8(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int64, acc int8) int8 { return int8(el) + acc }
+		result := ChannelInt64{c}.ScanInt8(0, sum)
+
+		// convert chan int64 to chan int8
+		c2 := make(chan int64, 1)
+		go func() {
+			for el := range result {
+				c2 <- int64(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt64{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{1})
+	f([]int64{1, 2}, []int64{1, 3})
+	f([]int64{1, 2, 3, 4, 5}, []int64{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanInt64Int16(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int64, acc int16) int16 { return int16(el) + acc }
+		result := ChannelInt64{c}.ScanInt16(0, sum)
+
+		// convert chan int64 to chan int16
+		c2 := make(chan int64, 1)
+		go func() {
+			for el := range result {
+				c2 <- int64(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt64{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{1})
+	f([]int64{1, 2}, []int64{1, 3})
+	f([]int64{1, 2, 3, 4, 5}, []int64{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanInt64Int32(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int64, acc int32) int32 { return int32(el) + acc }
+		result := ChannelInt64{c}.ScanInt32(0, sum)
+
+		// convert chan int64 to chan int32
+		c2 := make(chan int64, 1)
+		go func() {
+			for el := range result {
+				c2 <- int64(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt64{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{1})
+	f([]int64{1, 2}, []int64{1, 3})
+	f([]int64{1, 2, 3, 4, 5}, []int64{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanInt64Int64(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int64, acc int64) int64 { return int64(el) + acc }
+		result := ChannelInt64{c}.ScanInt64(0, sum)
+
+		// convert chan int64 to chan int64
+		c2 := make(chan int64, 1)
+		go func() {
+			for el := range result {
+				c2 <- int64(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt64{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{1})
+	f([]int64{1, 2}, []int64{1, 3})
+	f([]int64{1, 2, 3, 4, 5}, []int64{1, 3, 6, 10, 15})
+}
+
+func TestChannelSumInt64(t *testing.T) {
+	f := func(given []int64, expected int64) {
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := ChannelInt64{c}.Sum()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 1)
+	f([]int64{1, 2}, 3)
+	f([]int64{1, 2, 3, 4, 5}, 15)
+}
+
 func TestChannelTakeInt64(t *testing.T) {
 	s := SequenceInt64{}
 	f := func(count int, given int64, expected []int64) {
@@ -4397,6 +5840,38 @@ func TestChannelTakeInt64(t *testing.T) {
 	f(0, 1, []int64{})
 	f(1, 1, []int64{1})
 	f(2, 1, []int64{1, 1})
+}
+
+func TestChannelTeeInt64(t *testing.T) {
+	f := func(count int, given []int64) {
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		channels := ChannelInt64{c}.Tee(count)
+		for _, ch := range channels {
+			go func(ch chan int64) {
+				actual := ChannelInt64{ch}.ToSlice()
+				assert.Equal(t, given, actual, "they should be equal")
+			}(ch)
+		}
+	}
+	f(1, []int64{})
+	f(1, []int64{1})
+	f(1, []int64{1, 2})
+	f(1, []int64{1, 2, 3})
+	f(1, []int64{1, 2, 3, 1, 2})
+
+	f(2, []int64{})
+	f(2, []int64{1})
+	f(2, []int64{1, 2})
+	f(2, []int64{1, 2, 3})
+	f(2, []int64{1, 2, 3, 1, 2})
+
+	f(10, []int64{1, 2, 3, 1, 2})
 }
 
 func TestSequenceCountInt64(t *testing.T) {

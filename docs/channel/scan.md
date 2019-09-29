@@ -67,3 +67,36 @@ func (c Channel) Scan(acc G, f func(el T, acc G) G) chan G {
 }
 ```
 
+## Tests
+
+```go
+func TestChannelScan(t *testing.T) {
+	f := func(given []T, expected []T) {
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el T, acc G) G { return G(el) + acc }
+		result := Channel{c}.Scan(0, sum)
+
+		// convert chan T to chan G
+		c2 := make(chan T, 1)
+		go func() {
+			for el := range result {
+				c2 <- T(el)
+			}
+			close(c2)
+		}()
+
+		actual := Channel{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{})
+	f([]T{1}, []T{1})
+	f([]T{1, 2}, []T{1, 3})
+	f([]T{1, 2, 3, 4, 5}, []T{1, 3, 6, 10, 15})
+}
+```

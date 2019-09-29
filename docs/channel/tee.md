@@ -42,10 +42,10 @@ func (c Channel) Tee(count int) []chan T {
 		for el := range c.Data {
 			wg := sync.WaitGroup{}
 			putInto := func(ch chan T) {
-				wg.Add(1)
 				defer wg.Done()
 				ch <- el
 			}
+			wg.Add(count)
 			for _, ch := range channels {
 				putInto(ch)
 			}
@@ -59,3 +59,38 @@ func (c Channel) Tee(count int) []chan T {
 }
 ```
 
+## Tests
+
+```go
+func TestChannelTee(t *testing.T) {
+	f := func(count int, given []T) {
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		channels := Channel{c}.Tee(count)
+		for _, ch := range channels {
+			go func(ch chan T) {
+				actual := Channel{ch}.ToSlice()
+				assert.Equal(t, given, actual, "they should be equal")
+			}(ch)
+		}
+	}
+	f(1, []T{})
+	f(1, []T{1})
+	f(1, []T{1, 2})
+	f(1, []T{1, 2, 3})
+	f(1, []T{1, 2, 3, 1, 2})
+
+	f(2, []T{})
+	f(2, []T{1})
+	f(2, []T{1, 2})
+	f(2, []T{1, 2, 3})
+	f(2, []T{1, 2, 3, 1, 2})
+
+	f(10, []T{1, 2, 3, 1, 2})
+}
+```

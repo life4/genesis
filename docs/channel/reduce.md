@@ -62,3 +62,25 @@ func (c Channel) Reduce(acc G, f func(el T, acc G) G) G {
 }
 ```
 
+## Tests
+
+```go
+func TestChannelReduce(t *testing.T) {
+	f := func(given []T, expected G) {
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el T, acc G) G { return G(el) + acc }
+		actual := Channel{c}.Reduce(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, 0)
+	f([]T{1}, 1)
+	f([]T{1, 2}, 3)
+	f([]T{1, 2, 3, 4, 5}, 15)
+}
+```

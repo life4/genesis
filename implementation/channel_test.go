@@ -244,6 +244,73 @@ func TestChannelMin(t *testing.T) {
 	f([]T{4, 2, 1}, 1, nil)
 }
 
+func TestChannelReduce(t *testing.T) {
+	f := func(given []T, expected G) {
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el T, acc G) G { return G(el) + acc }
+		actual := Channel{c}.Reduce(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, 0)
+	f([]T{1}, 1)
+	f([]T{1, 2}, 3)
+	f([]T{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelScan(t *testing.T) {
+	f := func(given []T, expected []T) {
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el T, acc G) G { return G(el) + acc }
+		result := Channel{c}.Scan(0, sum)
+
+		// convert chan T to chan G
+		c2 := make(chan T, 1)
+		go func() {
+			for el := range result {
+				c2 <- T(el)
+			}
+			close(c2)
+		}()
+
+		actual := Channel{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{})
+	f([]T{1}, []T{1})
+	f([]T{1, 2}, []T{1, 3})
+	f([]T{1, 2, 3, 4, 5}, []T{1, 3, 6, 10, 15})
+}
+
+func TestChannelSum(t *testing.T) {
+	f := func(given []T, expected T) {
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := Channel{c}.Sum()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, 0)
+	f([]T{1}, 1)
+	f([]T{1, 2}, 3)
+	f([]T{1, 2, 3, 4, 5}, 15)
+}
+
 func TestChannelTake(t *testing.T) {
 	s := Sequence{}
 	f := func(count int, given T, expected []T) {
@@ -255,4 +322,36 @@ func TestChannelTake(t *testing.T) {
 	f(0, 1, []T{})
 	f(1, 1, []T{1})
 	f(2, 1, []T{1, 1})
+}
+
+func TestChannelTee(t *testing.T) {
+	f := func(count int, given []T) {
+		c := make(chan T, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		channels := Channel{c}.Tee(count)
+		for _, ch := range channels {
+			go func(ch chan T) {
+				actual := Channel{ch}.ToSlice()
+				assert.Equal(t, given, actual, "they should be equal")
+			}(ch)
+		}
+	}
+	f(1, []T{})
+	f(1, []T{1})
+	f(1, []T{1, 2})
+	f(1, []T{1, 2, 3})
+	f(1, []T{1, 2, 3, 1, 2})
+
+	f(2, []T{})
+	f(2, []T{1})
+	f(2, []T{1, 2})
+	f(2, []T{1, 2, 3})
+	f(2, []T{1, 2, 3, 1, 2})
+
+	f(10, []T{1, 2, 3, 1, 2})
 }

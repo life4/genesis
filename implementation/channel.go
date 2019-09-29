@@ -202,10 +202,10 @@ func (c Channel) Tee(count int) []chan T {
 		for el := range c.Data {
 			wg := sync.WaitGroup{}
 			putInto := func(ch chan T) {
-				wg.Add(1)
 				defer wg.Done()
 				ch <- el
 			}
+			wg.Add(count)
 			for _, ch := range channels {
 				putInto(ch)
 			}

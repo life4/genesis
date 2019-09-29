@@ -2790,10 +2790,10 @@ func (c ChannelBool) Tee(count int) []chan bool {
 		for el := range c.Data {
 			wg := sync.WaitGroup{}
 			putInto := func(ch chan bool) {
-				wg.Add(1)
 				defer wg.Done()
 				ch <- el
 			}
+			wg.Add(count)
 			for _, ch := range channels {
 				putInto(ch)
 			}
@@ -6593,10 +6593,10 @@ func (c ChannelByte) Tee(count int) []chan byte {
 		for el := range c.Data {
 			wg := sync.WaitGroup{}
 			putInto := func(ch chan byte) {
-				wg.Add(1)
 				defer wg.Done()
 				ch <- el
 			}
+			wg.Add(count)
 			for _, ch := range channels {
 				putInto(ch)
 			}
@@ -10412,10 +10412,10 @@ func (c ChannelString) Tee(count int) []chan string {
 		for el := range c.Data {
 			wg := sync.WaitGroup{}
 			putInto := func(ch chan string) {
-				wg.Add(1)
 				defer wg.Done()
 				ch <- el
 			}
+			wg.Add(count)
 			for _, ch := range channels {
 				putInto(ch)
 			}
@@ -14222,10 +14222,10 @@ func (c ChannelFloat32) Tee(count int) []chan float32 {
 		for el := range c.Data {
 			wg := sync.WaitGroup{}
 			putInto := func(ch chan float32) {
-				wg.Add(1)
 				defer wg.Done()
 				ch <- el
 			}
+			wg.Add(count)
 			for _, ch := range channels {
 				putInto(ch)
 			}
@@ -18071,10 +18071,10 @@ func (c ChannelFloat64) Tee(count int) []chan float64 {
 		for el := range c.Data {
 			wg := sync.WaitGroup{}
 			putInto := func(ch chan float64) {
-				wg.Add(1)
 				defer wg.Done()
 				ch <- el
 			}
+			wg.Add(count)
 			for _, ch := range channels {
 				putInto(ch)
 			}
@@ -21929,10 +21929,10 @@ func (c ChannelInt) Tee(count int) []chan int {
 		for el := range c.Data {
 			wg := sync.WaitGroup{}
 			putInto := func(ch chan int) {
-				wg.Add(1)
 				defer wg.Done()
 				ch <- el
 			}
+			wg.Add(count)
 			for _, ch := range channels {
 				putInto(ch)
 			}
@@ -25787,10 +25787,10 @@ func (c ChannelInt8) Tee(count int) []chan int8 {
 		for el := range c.Data {
 			wg := sync.WaitGroup{}
 			putInto := func(ch chan int8) {
-				wg.Add(1)
 				defer wg.Done()
 				ch <- el
 			}
+			wg.Add(count)
 			for _, ch := range channels {
 				putInto(ch)
 			}
@@ -29645,10 +29645,10 @@ func (c ChannelInt16) Tee(count int) []chan int16 {
 		for el := range c.Data {
 			wg := sync.WaitGroup{}
 			putInto := func(ch chan int16) {
-				wg.Add(1)
 				defer wg.Done()
 				ch <- el
 			}
+			wg.Add(count)
 			for _, ch := range channels {
 				putInto(ch)
 			}
@@ -33503,10 +33503,10 @@ func (c ChannelInt32) Tee(count int) []chan int32 {
 		for el := range c.Data {
 			wg := sync.WaitGroup{}
 			putInto := func(ch chan int32) {
-				wg.Add(1)
 				defer wg.Done()
 				ch <- el
 			}
+			wg.Add(count)
 			for _, ch := range channels {
 				putInto(ch)
 			}
@@ -37361,10 +37361,10 @@ func (c ChannelInt64) Tee(count int) []chan int64 {
 		for el := range c.Data {
 			wg := sync.WaitGroup{}
 			putInto := func(ch chan int64) {
-				wg.Add(1)
 				defer wg.Done()
 				ch <- el
 			}
+			wg.Add(count)
 			for _, ch := range channels {
 				putInto(ch)
 			}
@@ -41219,10 +41219,10 @@ func (c ChannelUint) Tee(count int) []chan uint {
 		for el := range c.Data {
 			wg := sync.WaitGroup{}
 			putInto := func(ch chan uint) {
-				wg.Add(1)
 				defer wg.Done()
 				ch <- el
 			}
+			wg.Add(count)
 			for _, ch := range channels {
 				putInto(ch)
 			}
@@ -45077,10 +45077,10 @@ func (c ChannelUint8) Tee(count int) []chan uint8 {
 		for el := range c.Data {
 			wg := sync.WaitGroup{}
 			putInto := func(ch chan uint8) {
-				wg.Add(1)
 				defer wg.Done()
 				ch <- el
 			}
+			wg.Add(count)
 			for _, ch := range channels {
 				putInto(ch)
 			}
@@ -48935,10 +48935,10 @@ func (c ChannelUint16) Tee(count int) []chan uint16 {
 		for el := range c.Data {
 			wg := sync.WaitGroup{}
 			putInto := func(ch chan uint16) {
-				wg.Add(1)
 				defer wg.Done()
 				ch <- el
 			}
+			wg.Add(count)
 			for _, ch := range channels {
 				putInto(ch)
 			}
@@ -52793,10 +52793,10 @@ func (c ChannelUint32) Tee(count int) []chan uint32 {
 		for el := range c.Data {
 			wg := sync.WaitGroup{}
 			putInto := func(ch chan uint32) {
-				wg.Add(1)
 				defer wg.Done()
 				ch <- el
 			}
+			wg.Add(count)
 			for _, ch := range channels {
 				putInto(ch)
 			}
@@ -56651,10 +56651,10 @@ func (c ChannelUint64) Tee(count int) []chan uint64 {
 		for el := range c.Data {
 			wg := sync.WaitGroup{}
 			putInto := func(ch chan uint64) {
-				wg.Add(1)
 				defer wg.Done()
 				ch <- el
 			}
+			wg.Add(count)
 			for _, ch := range channels {
 				putInto(ch)
 			}
@@ -60397,10 +60397,10 @@ func (c ChannelInterface) Tee(count int) []chan interface{} {
 		for el := range c.Data {
 			wg := sync.WaitGroup{}
 			putInto := func(ch chan interface{}) {
-				wg.Add(1)
 				defer wg.Done()
 				ch <- el
 			}
+			wg.Add(count)
 			for _, ch := range channels {
 				putInto(ch)
 			}
