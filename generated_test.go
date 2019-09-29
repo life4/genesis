@@ -60,7 +60,7 @@ func TestAsyncSliceEachInt(t *testing.T) {
 func TestAsyncSliceFilterInt(t *testing.T) {
 	f := func(given []int, expected []int) {
 		filter := func(t int) bool { return t > 10 }
-		s := AsyncSliceInt{data: given, workers: 2}
+		s := AsyncSliceInt{Data: given, Workers: 2}
 		actual := s.Filter(filter)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -340,7 +340,8 @@ func TestSequenceCountInt(t *testing.T) {
 	s := SequenceInt{}
 	f := func(start int, step int, count int, expected []int) {
 		seq := s.Count(start, step)
-		actual := ChannelInt{seq}.Take(count)
+		seq2 := ChannelInt{seq}.Take(count)
+		actual := ChannelInt{seq2}.ToSlice()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(1, 2, 4, []int{1, 3, 5, 7})
@@ -846,7 +847,7 @@ func TestAsyncSliceEachInt8(t *testing.T) {
 func TestAsyncSliceFilterInt8(t *testing.T) {
 	f := func(given []int8, expected []int8) {
 		filter := func(t int8) bool { return t > 10 }
-		s := AsyncSliceInt8{data: given, workers: 2}
+		s := AsyncSliceInt8{Data: given, Workers: 2}
 		actual := s.Filter(filter)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -1126,7 +1127,8 @@ func TestSequenceCountInt8(t *testing.T) {
 	s := SequenceInt8{}
 	f := func(start int8, step int8, count int, expected []int8) {
 		seq := s.Count(start, step)
-		actual := ChannelInt8{seq}.Take(count)
+		seq2 := ChannelInt8{seq}.Take(count)
+		actual := ChannelInt8{seq2}.ToSlice()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(1, 2, 4, []int8{1, 3, 5, 7})
@@ -1632,7 +1634,7 @@ func TestAsyncSliceEachInt16(t *testing.T) {
 func TestAsyncSliceFilterInt16(t *testing.T) {
 	f := func(given []int16, expected []int16) {
 		filter := func(t int16) bool { return t > 10 }
-		s := AsyncSliceInt16{data: given, workers: 2}
+		s := AsyncSliceInt16{Data: given, Workers: 2}
 		actual := s.Filter(filter)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -1912,7 +1914,8 @@ func TestSequenceCountInt16(t *testing.T) {
 	s := SequenceInt16{}
 	f := func(start int16, step int16, count int, expected []int16) {
 		seq := s.Count(start, step)
-		actual := ChannelInt16{seq}.Take(count)
+		seq2 := ChannelInt16{seq}.Take(count)
+		actual := ChannelInt16{seq2}.ToSlice()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(1, 2, 4, []int16{1, 3, 5, 7})
@@ -2418,7 +2421,7 @@ func TestAsyncSliceEachInt32(t *testing.T) {
 func TestAsyncSliceFilterInt32(t *testing.T) {
 	f := func(given []int32, expected []int32) {
 		filter := func(t int32) bool { return t > 10 }
-		s := AsyncSliceInt32{data: given, workers: 2}
+		s := AsyncSliceInt32{Data: given, Workers: 2}
 		actual := s.Filter(filter)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -2698,7 +2701,8 @@ func TestSequenceCountInt32(t *testing.T) {
 	s := SequenceInt32{}
 	f := func(start int32, step int32, count int, expected []int32) {
 		seq := s.Count(start, step)
-		actual := ChannelInt32{seq}.Take(count)
+		seq2 := ChannelInt32{seq}.Take(count)
+		actual := ChannelInt32{seq2}.ToSlice()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(1, 2, 4, []int32{1, 3, 5, 7})
@@ -3204,7 +3208,7 @@ func TestAsyncSliceEachInt64(t *testing.T) {
 func TestAsyncSliceFilterInt64(t *testing.T) {
 	f := func(given []int64, expected []int64) {
 		filter := func(t int64) bool { return t > 10 }
-		s := AsyncSliceInt64{data: given, workers: 2}
+		s := AsyncSliceInt64{Data: given, Workers: 2}
 		actual := s.Filter(filter)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
@@ -3484,7 +3488,8 @@ func TestSequenceCountInt64(t *testing.T) {
 	s := SequenceInt64{}
 	f := func(start int64, step int64, count int, expected []int64) {
 		seq := s.Count(start, step)
-		actual := ChannelInt64{seq}.Take(count)
+		seq2 := ChannelInt64{seq}.Take(count)
+		actual := ChannelInt64{seq2}.ToSlice()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(1, 2, 4, []int64{1, 3, 5, 7})

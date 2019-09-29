@@ -83,7 +83,7 @@ func (s AsyncSlice) Filter(f func(el T) bool) []T {
 func TestAsyncSliceFilter(t *testing.T) {
 	f := func(given []T, expected []T) {
 		filter := func(t T) bool { return t > 10 }
-		s := AsyncSlice{data: given, workers: 2}
+		s := AsyncSlice{Data: given, Workers: 2}
 		actual := s.Filter(filter)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}

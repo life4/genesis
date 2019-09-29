@@ -48,7 +48,8 @@ func TestSequenceCount(t *testing.T) {
 	s := Sequence{}
 	f := func(start T, step T, count int, expected []T) {
 		seq := s.Count(start, step)
-		actual := Channel{seq}.Take(count)
+		seq2 := Channel{seq}.Take(count)
+		actual := Channel{seq2}.ToSlice()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(1, 2, 4, []T{1, 3, 5, 7})
