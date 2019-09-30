@@ -46,10 +46,12 @@ type Slice struct {
 | [Dedup](./dedup.md) | Dedup returns a given slice without consecutive duplicated elements |
 | [DedupBy](./dedupby.md) | DedupBy returns a given slice without consecutive elements For which f returns the same result |
 | [Delete](./delete.md) | Delete deletes the first occurence of the element from the slice |
+| [DeleteAll](./deleteall.md) | DeleteAll deletes all occurences of the element from the slice |
 | [DeleteAt](./deleteat.md) | DeleteAt returns the slice without elements on given positions |
 | [DropEvery](./dropevery.md) | DropEvery returns a slice of every nth element in the enumerable dropped, starting with the first element. |
 | [DropWhile](./dropwhile.md) | DropWhile drops elements from arr while f returns true |
 | [Each](./each.md) | Each calls f for every element from arr |
+| [EndsWith](./endswith.md) | EndsWith returns true if slice ends with the given suffix slice. If suffix is empty, it returns true. |
 | [Equal](./equal.md) | Equal returns true if slices are equal |
 | [Filter](./filter.md) | Filter returns slice of T for which F returned true |
 | [Find](./find.md) | Find returns the first element for which f returns true |

@@ -2437,10 +2437,32 @@ func (s SliceBool) DedupByInterface(f func(el bool) interface{}) []bool {
 
 // Delete deletes the first occurence of the element from the slice
 func (s SliceBool) Delete(element bool) []bool {
-	result := make([]bool, 0, len(s.Data)-1)
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]bool, 0, len(s.Data))
 	deleted := false
 	for _, el := range s.Data {
 		if !deleted && el == element {
+			deleted = true
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAll deletes all occurences of the element from the slice
+func (s SliceBool) DeleteAll(element bool) []bool {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]bool, 0, len(s.Data))
+	for _, el := range s.Data {
+		if el == element {
 			continue
 		}
 		result = append(result, el)
@@ -2450,14 +2472,27 @@ func (s SliceBool) Delete(element bool) []bool {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceBool) DeleteAt(index int) ([]bool, error) {
-	if index >= len(s.Data) {
-		return s.Data, ErrOutOfRange
+func (s SliceBool) DeleteAt(indices ...int) ([]bool, error) {
+	if len(indices) == 0 || len(s.Data) == 0 {
+		return s.Data, nil
+	}
+
+	for _, index := range indices {
+		if index >= len(s.Data) {
+			return s.Data, ErrOutOfRange
+		}
 	}
 
 	result := make([]bool, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		if i != index {
+		add := true
+		for _, index := range indices {
+			if i == index {
+				add = false
+				break
+			}
+		}
+		if add {
 			result = append(result, el)
 		}
 	}
@@ -2496,6 +2531,20 @@ func (s SliceBool) Each(f func(el bool)) {
 	for _, el := range s.Data {
 		f(el)
 	}
+}
+
+// EndsWith returns true if slice ends with the given suffix slice.
+// If suffix is empty, it returns true.
+func (s SliceBool) EndsWith(suffix []bool) bool {
+	if len(suffix) > len(s.Data) {
+		return false
+	}
+	for i, el := range suffix {
+		if el != s.Data[len(s.Data)-i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Equal returns true if slices are equal
@@ -6193,10 +6242,32 @@ func (s SliceByte) DedupByInterface(f func(el byte) interface{}) []byte {
 
 // Delete deletes the first occurence of the element from the slice
 func (s SliceByte) Delete(element byte) []byte {
-	result := make([]byte, 0, len(s.Data)-1)
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]byte, 0, len(s.Data))
 	deleted := false
 	for _, el := range s.Data {
 		if !deleted && el == element {
+			deleted = true
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAll deletes all occurences of the element from the slice
+func (s SliceByte) DeleteAll(element byte) []byte {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]byte, 0, len(s.Data))
+	for _, el := range s.Data {
+		if el == element {
 			continue
 		}
 		result = append(result, el)
@@ -6206,14 +6277,27 @@ func (s SliceByte) Delete(element byte) []byte {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceByte) DeleteAt(index int) ([]byte, error) {
-	if index >= len(s.Data) {
-		return s.Data, ErrOutOfRange
+func (s SliceByte) DeleteAt(indices ...int) ([]byte, error) {
+	if len(indices) == 0 || len(s.Data) == 0 {
+		return s.Data, nil
+	}
+
+	for _, index := range indices {
+		if index >= len(s.Data) {
+			return s.Data, ErrOutOfRange
+		}
 	}
 
 	result := make([]byte, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		if i != index {
+		add := true
+		for _, index := range indices {
+			if i == index {
+				add = false
+				break
+			}
+		}
+		if add {
 			result = append(result, el)
 		}
 	}
@@ -6252,6 +6336,20 @@ func (s SliceByte) Each(f func(el byte)) {
 	for _, el := range s.Data {
 		f(el)
 	}
+}
+
+// EndsWith returns true if slice ends with the given suffix slice.
+// If suffix is empty, it returns true.
+func (s SliceByte) EndsWith(suffix []byte) bool {
+	if len(suffix) > len(s.Data) {
+		return false
+	}
+	for i, el := range suffix {
+		if el != s.Data[len(s.Data)-i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Equal returns true if slices are equal
@@ -10024,10 +10122,32 @@ func (s SliceString) DedupByInterface(f func(el string) interface{}) []string {
 
 // Delete deletes the first occurence of the element from the slice
 func (s SliceString) Delete(element string) []string {
-	result := make([]string, 0, len(s.Data)-1)
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]string, 0, len(s.Data))
 	deleted := false
 	for _, el := range s.Data {
 		if !deleted && el == element {
+			deleted = true
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAll deletes all occurences of the element from the slice
+func (s SliceString) DeleteAll(element string) []string {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		if el == element {
 			continue
 		}
 		result = append(result, el)
@@ -10037,14 +10157,27 @@ func (s SliceString) Delete(element string) []string {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceString) DeleteAt(index int) ([]string, error) {
-	if index >= len(s.Data) {
-		return s.Data, ErrOutOfRange
+func (s SliceString) DeleteAt(indices ...int) ([]string, error) {
+	if len(indices) == 0 || len(s.Data) == 0 {
+		return s.Data, nil
+	}
+
+	for _, index := range indices {
+		if index >= len(s.Data) {
+			return s.Data, ErrOutOfRange
+		}
 	}
 
 	result := make([]string, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		if i != index {
+		add := true
+		for _, index := range indices {
+			if i == index {
+				add = false
+				break
+			}
+		}
+		if add {
 			result = append(result, el)
 		}
 	}
@@ -10083,6 +10216,20 @@ func (s SliceString) Each(f func(el string)) {
 	for _, el := range s.Data {
 		f(el)
 	}
+}
+
+// EndsWith returns true if slice ends with the given suffix slice.
+// If suffix is empty, it returns true.
+func (s SliceString) EndsWith(suffix []string) bool {
+	if len(suffix) > len(s.Data) {
+		return false
+	}
+	for i, el := range suffix {
+		if el != s.Data[len(s.Data)-i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Equal returns true if slices are equal
@@ -13904,10 +14051,32 @@ func (s SliceFloat32) DedupByInterface(f func(el float32) interface{}) []float32
 
 // Delete deletes the first occurence of the element from the slice
 func (s SliceFloat32) Delete(element float32) []float32 {
-	result := make([]float32, 0, len(s.Data)-1)
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]float32, 0, len(s.Data))
 	deleted := false
 	for _, el := range s.Data {
 		if !deleted && el == element {
+			deleted = true
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAll deletes all occurences of the element from the slice
+func (s SliceFloat32) DeleteAll(element float32) []float32 {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]float32, 0, len(s.Data))
+	for _, el := range s.Data {
+		if el == element {
 			continue
 		}
 		result = append(result, el)
@@ -13917,14 +14086,27 @@ func (s SliceFloat32) Delete(element float32) []float32 {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceFloat32) DeleteAt(index int) ([]float32, error) {
-	if index >= len(s.Data) {
-		return s.Data, ErrOutOfRange
+func (s SliceFloat32) DeleteAt(indices ...int) ([]float32, error) {
+	if len(indices) == 0 || len(s.Data) == 0 {
+		return s.Data, nil
+	}
+
+	for _, index := range indices {
+		if index >= len(s.Data) {
+			return s.Data, ErrOutOfRange
+		}
 	}
 
 	result := make([]float32, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		if i != index {
+		add := true
+		for _, index := range indices {
+			if i == index {
+				add = false
+				break
+			}
+		}
+		if add {
 			result = append(result, el)
 		}
 	}
@@ -13963,6 +14145,20 @@ func (s SliceFloat32) Each(f func(el float32)) {
 	for _, el := range s.Data {
 		f(el)
 	}
+}
+
+// EndsWith returns true if slice ends with the given suffix slice.
+// If suffix is empty, it returns true.
+func (s SliceFloat32) EndsWith(suffix []float32) bool {
+	if len(suffix) > len(s.Data) {
+		return false
+	}
+	for i, el := range suffix {
+		if el != s.Data[len(s.Data)-i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Equal returns true if slices are equal
@@ -17775,10 +17971,32 @@ func (s SliceFloat64) DedupByInterface(f func(el float64) interface{}) []float64
 
 // Delete deletes the first occurence of the element from the slice
 func (s SliceFloat64) Delete(element float64) []float64 {
-	result := make([]float64, 0, len(s.Data)-1)
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]float64, 0, len(s.Data))
 	deleted := false
 	for _, el := range s.Data {
 		if !deleted && el == element {
+			deleted = true
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAll deletes all occurences of the element from the slice
+func (s SliceFloat64) DeleteAll(element float64) []float64 {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]float64, 0, len(s.Data))
+	for _, el := range s.Data {
+		if el == element {
 			continue
 		}
 		result = append(result, el)
@@ -17788,14 +18006,27 @@ func (s SliceFloat64) Delete(element float64) []float64 {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceFloat64) DeleteAt(index int) ([]float64, error) {
-	if index >= len(s.Data) {
-		return s.Data, ErrOutOfRange
+func (s SliceFloat64) DeleteAt(indices ...int) ([]float64, error) {
+	if len(indices) == 0 || len(s.Data) == 0 {
+		return s.Data, nil
+	}
+
+	for _, index := range indices {
+		if index >= len(s.Data) {
+			return s.Data, ErrOutOfRange
+		}
 	}
 
 	result := make([]float64, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		if i != index {
+		add := true
+		for _, index := range indices {
+			if i == index {
+				add = false
+				break
+			}
+		}
+		if add {
 			result = append(result, el)
 		}
 	}
@@ -17834,6 +18065,20 @@ func (s SliceFloat64) Each(f func(el float64)) {
 	for _, el := range s.Data {
 		f(el)
 	}
+}
+
+// EndsWith returns true if slice ends with the given suffix slice.
+// If suffix is empty, it returns true.
+func (s SliceFloat64) EndsWith(suffix []float64) bool {
+	if len(suffix) > len(s.Data) {
+		return false
+	}
+	for i, el := range suffix {
+		if el != s.Data[len(s.Data)-i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Equal returns true if slices are equal
@@ -21646,10 +21891,32 @@ func (s SliceInt) DedupByInterface(f func(el int) interface{}) []int {
 
 // Delete deletes the first occurence of the element from the slice
 func (s SliceInt) Delete(element int) []int {
-	result := make([]int, 0, len(s.Data)-1)
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]int, 0, len(s.Data))
 	deleted := false
 	for _, el := range s.Data {
 		if !deleted && el == element {
+			deleted = true
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAll deletes all occurences of the element from the slice
+func (s SliceInt) DeleteAll(element int) []int {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]int, 0, len(s.Data))
+	for _, el := range s.Data {
+		if el == element {
 			continue
 		}
 		result = append(result, el)
@@ -21659,14 +21926,27 @@ func (s SliceInt) Delete(element int) []int {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceInt) DeleteAt(index int) ([]int, error) {
-	if index >= len(s.Data) {
-		return s.Data, ErrOutOfRange
+func (s SliceInt) DeleteAt(indices ...int) ([]int, error) {
+	if len(indices) == 0 || len(s.Data) == 0 {
+		return s.Data, nil
+	}
+
+	for _, index := range indices {
+		if index >= len(s.Data) {
+			return s.Data, ErrOutOfRange
+		}
 	}
 
 	result := make([]int, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		if i != index {
+		add := true
+		for _, index := range indices {
+			if i == index {
+				add = false
+				break
+			}
+		}
+		if add {
 			result = append(result, el)
 		}
 	}
@@ -21705,6 +21985,20 @@ func (s SliceInt) Each(f func(el int)) {
 	for _, el := range s.Data {
 		f(el)
 	}
+}
+
+// EndsWith returns true if slice ends with the given suffix slice.
+// If suffix is empty, it returns true.
+func (s SliceInt) EndsWith(suffix []int) bool {
+	if len(suffix) > len(s.Data) {
+		return false
+	}
+	for i, el := range suffix {
+		if el != s.Data[len(s.Data)-i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Equal returns true if slices are equal
@@ -25526,10 +25820,32 @@ func (s SliceInt8) DedupByInterface(f func(el int8) interface{}) []int8 {
 
 // Delete deletes the first occurence of the element from the slice
 func (s SliceInt8) Delete(element int8) []int8 {
-	result := make([]int8, 0, len(s.Data)-1)
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]int8, 0, len(s.Data))
 	deleted := false
 	for _, el := range s.Data {
 		if !deleted && el == element {
+			deleted = true
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAll deletes all occurences of the element from the slice
+func (s SliceInt8) DeleteAll(element int8) []int8 {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]int8, 0, len(s.Data))
+	for _, el := range s.Data {
+		if el == element {
 			continue
 		}
 		result = append(result, el)
@@ -25539,14 +25855,27 @@ func (s SliceInt8) Delete(element int8) []int8 {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceInt8) DeleteAt(index int) ([]int8, error) {
-	if index >= len(s.Data) {
-		return s.Data, ErrOutOfRange
+func (s SliceInt8) DeleteAt(indices ...int) ([]int8, error) {
+	if len(indices) == 0 || len(s.Data) == 0 {
+		return s.Data, nil
+	}
+
+	for _, index := range indices {
+		if index >= len(s.Data) {
+			return s.Data, ErrOutOfRange
+		}
 	}
 
 	result := make([]int8, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		if i != index {
+		add := true
+		for _, index := range indices {
+			if i == index {
+				add = false
+				break
+			}
+		}
+		if add {
 			result = append(result, el)
 		}
 	}
@@ -25585,6 +25914,20 @@ func (s SliceInt8) Each(f func(el int8)) {
 	for _, el := range s.Data {
 		f(el)
 	}
+}
+
+// EndsWith returns true if slice ends with the given suffix slice.
+// If suffix is empty, it returns true.
+func (s SliceInt8) EndsWith(suffix []int8) bool {
+	if len(suffix) > len(s.Data) {
+		return false
+	}
+	for i, el := range suffix {
+		if el != s.Data[len(s.Data)-i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Equal returns true if slices are equal
@@ -29406,10 +29749,32 @@ func (s SliceInt16) DedupByInterface(f func(el int16) interface{}) []int16 {
 
 // Delete deletes the first occurence of the element from the slice
 func (s SliceInt16) Delete(element int16) []int16 {
-	result := make([]int16, 0, len(s.Data)-1)
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]int16, 0, len(s.Data))
 	deleted := false
 	for _, el := range s.Data {
 		if !deleted && el == element {
+			deleted = true
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAll deletes all occurences of the element from the slice
+func (s SliceInt16) DeleteAll(element int16) []int16 {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]int16, 0, len(s.Data))
+	for _, el := range s.Data {
+		if el == element {
 			continue
 		}
 		result = append(result, el)
@@ -29419,14 +29784,27 @@ func (s SliceInt16) Delete(element int16) []int16 {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceInt16) DeleteAt(index int) ([]int16, error) {
-	if index >= len(s.Data) {
-		return s.Data, ErrOutOfRange
+func (s SliceInt16) DeleteAt(indices ...int) ([]int16, error) {
+	if len(indices) == 0 || len(s.Data) == 0 {
+		return s.Data, nil
+	}
+
+	for _, index := range indices {
+		if index >= len(s.Data) {
+			return s.Data, ErrOutOfRange
+		}
 	}
 
 	result := make([]int16, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		if i != index {
+		add := true
+		for _, index := range indices {
+			if i == index {
+				add = false
+				break
+			}
+		}
+		if add {
 			result = append(result, el)
 		}
 	}
@@ -29465,6 +29843,20 @@ func (s SliceInt16) Each(f func(el int16)) {
 	for _, el := range s.Data {
 		f(el)
 	}
+}
+
+// EndsWith returns true if slice ends with the given suffix slice.
+// If suffix is empty, it returns true.
+func (s SliceInt16) EndsWith(suffix []int16) bool {
+	if len(suffix) > len(s.Data) {
+		return false
+	}
+	for i, el := range suffix {
+		if el != s.Data[len(s.Data)-i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Equal returns true if slices are equal
@@ -33286,10 +33678,32 @@ func (s SliceInt32) DedupByInterface(f func(el int32) interface{}) []int32 {
 
 // Delete deletes the first occurence of the element from the slice
 func (s SliceInt32) Delete(element int32) []int32 {
-	result := make([]int32, 0, len(s.Data)-1)
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]int32, 0, len(s.Data))
 	deleted := false
 	for _, el := range s.Data {
 		if !deleted && el == element {
+			deleted = true
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAll deletes all occurences of the element from the slice
+func (s SliceInt32) DeleteAll(element int32) []int32 {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]int32, 0, len(s.Data))
+	for _, el := range s.Data {
+		if el == element {
 			continue
 		}
 		result = append(result, el)
@@ -33299,14 +33713,27 @@ func (s SliceInt32) Delete(element int32) []int32 {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceInt32) DeleteAt(index int) ([]int32, error) {
-	if index >= len(s.Data) {
-		return s.Data, ErrOutOfRange
+func (s SliceInt32) DeleteAt(indices ...int) ([]int32, error) {
+	if len(indices) == 0 || len(s.Data) == 0 {
+		return s.Data, nil
+	}
+
+	for _, index := range indices {
+		if index >= len(s.Data) {
+			return s.Data, ErrOutOfRange
+		}
 	}
 
 	result := make([]int32, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		if i != index {
+		add := true
+		for _, index := range indices {
+			if i == index {
+				add = false
+				break
+			}
+		}
+		if add {
 			result = append(result, el)
 		}
 	}
@@ -33345,6 +33772,20 @@ func (s SliceInt32) Each(f func(el int32)) {
 	for _, el := range s.Data {
 		f(el)
 	}
+}
+
+// EndsWith returns true if slice ends with the given suffix slice.
+// If suffix is empty, it returns true.
+func (s SliceInt32) EndsWith(suffix []int32) bool {
+	if len(suffix) > len(s.Data) {
+		return false
+	}
+	for i, el := range suffix {
+		if el != s.Data[len(s.Data)-i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Equal returns true if slices are equal
@@ -37166,10 +37607,32 @@ func (s SliceInt64) DedupByInterface(f func(el int64) interface{}) []int64 {
 
 // Delete deletes the first occurence of the element from the slice
 func (s SliceInt64) Delete(element int64) []int64 {
-	result := make([]int64, 0, len(s.Data)-1)
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]int64, 0, len(s.Data))
 	deleted := false
 	for _, el := range s.Data {
 		if !deleted && el == element {
+			deleted = true
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAll deletes all occurences of the element from the slice
+func (s SliceInt64) DeleteAll(element int64) []int64 {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]int64, 0, len(s.Data))
+	for _, el := range s.Data {
+		if el == element {
 			continue
 		}
 		result = append(result, el)
@@ -37179,14 +37642,27 @@ func (s SliceInt64) Delete(element int64) []int64 {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceInt64) DeleteAt(index int) ([]int64, error) {
-	if index >= len(s.Data) {
-		return s.Data, ErrOutOfRange
+func (s SliceInt64) DeleteAt(indices ...int) ([]int64, error) {
+	if len(indices) == 0 || len(s.Data) == 0 {
+		return s.Data, nil
+	}
+
+	for _, index := range indices {
+		if index >= len(s.Data) {
+			return s.Data, ErrOutOfRange
+		}
 	}
 
 	result := make([]int64, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		if i != index {
+		add := true
+		for _, index := range indices {
+			if i == index {
+				add = false
+				break
+			}
+		}
+		if add {
 			result = append(result, el)
 		}
 	}
@@ -37225,6 +37701,20 @@ func (s SliceInt64) Each(f func(el int64)) {
 	for _, el := range s.Data {
 		f(el)
 	}
+}
+
+// EndsWith returns true if slice ends with the given suffix slice.
+// If suffix is empty, it returns true.
+func (s SliceInt64) EndsWith(suffix []int64) bool {
+	if len(suffix) > len(s.Data) {
+		return false
+	}
+	for i, el := range suffix {
+		if el != s.Data[len(s.Data)-i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Equal returns true if slices are equal
@@ -41046,10 +41536,32 @@ func (s SliceUint) DedupByInterface(f func(el uint) interface{}) []uint {
 
 // Delete deletes the first occurence of the element from the slice
 func (s SliceUint) Delete(element uint) []uint {
-	result := make([]uint, 0, len(s.Data)-1)
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]uint, 0, len(s.Data))
 	deleted := false
 	for _, el := range s.Data {
 		if !deleted && el == element {
+			deleted = true
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAll deletes all occurences of the element from the slice
+func (s SliceUint) DeleteAll(element uint) []uint {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]uint, 0, len(s.Data))
+	for _, el := range s.Data {
+		if el == element {
 			continue
 		}
 		result = append(result, el)
@@ -41059,14 +41571,27 @@ func (s SliceUint) Delete(element uint) []uint {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceUint) DeleteAt(index int) ([]uint, error) {
-	if index >= len(s.Data) {
-		return s.Data, ErrOutOfRange
+func (s SliceUint) DeleteAt(indices ...int) ([]uint, error) {
+	if len(indices) == 0 || len(s.Data) == 0 {
+		return s.Data, nil
+	}
+
+	for _, index := range indices {
+		if index >= len(s.Data) {
+			return s.Data, ErrOutOfRange
+		}
 	}
 
 	result := make([]uint, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		if i != index {
+		add := true
+		for _, index := range indices {
+			if i == index {
+				add = false
+				break
+			}
+		}
+		if add {
 			result = append(result, el)
 		}
 	}
@@ -41105,6 +41630,20 @@ func (s SliceUint) Each(f func(el uint)) {
 	for _, el := range s.Data {
 		f(el)
 	}
+}
+
+// EndsWith returns true if slice ends with the given suffix slice.
+// If suffix is empty, it returns true.
+func (s SliceUint) EndsWith(suffix []uint) bool {
+	if len(suffix) > len(s.Data) {
+		return false
+	}
+	for i, el := range suffix {
+		if el != s.Data[len(s.Data)-i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Equal returns true if slices are equal
@@ -44926,10 +45465,32 @@ func (s SliceUint8) DedupByInterface(f func(el uint8) interface{}) []uint8 {
 
 // Delete deletes the first occurence of the element from the slice
 func (s SliceUint8) Delete(element uint8) []uint8 {
-	result := make([]uint8, 0, len(s.Data)-1)
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]uint8, 0, len(s.Data))
 	deleted := false
 	for _, el := range s.Data {
 		if !deleted && el == element {
+			deleted = true
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAll deletes all occurences of the element from the slice
+func (s SliceUint8) DeleteAll(element uint8) []uint8 {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]uint8, 0, len(s.Data))
+	for _, el := range s.Data {
+		if el == element {
 			continue
 		}
 		result = append(result, el)
@@ -44939,14 +45500,27 @@ func (s SliceUint8) Delete(element uint8) []uint8 {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceUint8) DeleteAt(index int) ([]uint8, error) {
-	if index >= len(s.Data) {
-		return s.Data, ErrOutOfRange
+func (s SliceUint8) DeleteAt(indices ...int) ([]uint8, error) {
+	if len(indices) == 0 || len(s.Data) == 0 {
+		return s.Data, nil
+	}
+
+	for _, index := range indices {
+		if index >= len(s.Data) {
+			return s.Data, ErrOutOfRange
+		}
 	}
 
 	result := make([]uint8, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		if i != index {
+		add := true
+		for _, index := range indices {
+			if i == index {
+				add = false
+				break
+			}
+		}
+		if add {
 			result = append(result, el)
 		}
 	}
@@ -44985,6 +45559,20 @@ func (s SliceUint8) Each(f func(el uint8)) {
 	for _, el := range s.Data {
 		f(el)
 	}
+}
+
+// EndsWith returns true if slice ends with the given suffix slice.
+// If suffix is empty, it returns true.
+func (s SliceUint8) EndsWith(suffix []uint8) bool {
+	if len(suffix) > len(s.Data) {
+		return false
+	}
+	for i, el := range suffix {
+		if el != s.Data[len(s.Data)-i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Equal returns true if slices are equal
@@ -48806,10 +49394,32 @@ func (s SliceUint16) DedupByInterface(f func(el uint16) interface{}) []uint16 {
 
 // Delete deletes the first occurence of the element from the slice
 func (s SliceUint16) Delete(element uint16) []uint16 {
-	result := make([]uint16, 0, len(s.Data)-1)
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]uint16, 0, len(s.Data))
 	deleted := false
 	for _, el := range s.Data {
 		if !deleted && el == element {
+			deleted = true
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAll deletes all occurences of the element from the slice
+func (s SliceUint16) DeleteAll(element uint16) []uint16 {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]uint16, 0, len(s.Data))
+	for _, el := range s.Data {
+		if el == element {
 			continue
 		}
 		result = append(result, el)
@@ -48819,14 +49429,27 @@ func (s SliceUint16) Delete(element uint16) []uint16 {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceUint16) DeleteAt(index int) ([]uint16, error) {
-	if index >= len(s.Data) {
-		return s.Data, ErrOutOfRange
+func (s SliceUint16) DeleteAt(indices ...int) ([]uint16, error) {
+	if len(indices) == 0 || len(s.Data) == 0 {
+		return s.Data, nil
+	}
+
+	for _, index := range indices {
+		if index >= len(s.Data) {
+			return s.Data, ErrOutOfRange
+		}
 	}
 
 	result := make([]uint16, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		if i != index {
+		add := true
+		for _, index := range indices {
+			if i == index {
+				add = false
+				break
+			}
+		}
+		if add {
 			result = append(result, el)
 		}
 	}
@@ -48865,6 +49488,20 @@ func (s SliceUint16) Each(f func(el uint16)) {
 	for _, el := range s.Data {
 		f(el)
 	}
+}
+
+// EndsWith returns true if slice ends with the given suffix slice.
+// If suffix is empty, it returns true.
+func (s SliceUint16) EndsWith(suffix []uint16) bool {
+	if len(suffix) > len(s.Data) {
+		return false
+	}
+	for i, el := range suffix {
+		if el != s.Data[len(s.Data)-i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Equal returns true if slices are equal
@@ -52686,10 +53323,32 @@ func (s SliceUint32) DedupByInterface(f func(el uint32) interface{}) []uint32 {
 
 // Delete deletes the first occurence of the element from the slice
 func (s SliceUint32) Delete(element uint32) []uint32 {
-	result := make([]uint32, 0, len(s.Data)-1)
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]uint32, 0, len(s.Data))
 	deleted := false
 	for _, el := range s.Data {
 		if !deleted && el == element {
+			deleted = true
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAll deletes all occurences of the element from the slice
+func (s SliceUint32) DeleteAll(element uint32) []uint32 {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]uint32, 0, len(s.Data))
+	for _, el := range s.Data {
+		if el == element {
 			continue
 		}
 		result = append(result, el)
@@ -52699,14 +53358,27 @@ func (s SliceUint32) Delete(element uint32) []uint32 {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceUint32) DeleteAt(index int) ([]uint32, error) {
-	if index >= len(s.Data) {
-		return s.Data, ErrOutOfRange
+func (s SliceUint32) DeleteAt(indices ...int) ([]uint32, error) {
+	if len(indices) == 0 || len(s.Data) == 0 {
+		return s.Data, nil
+	}
+
+	for _, index := range indices {
+		if index >= len(s.Data) {
+			return s.Data, ErrOutOfRange
+		}
 	}
 
 	result := make([]uint32, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		if i != index {
+		add := true
+		for _, index := range indices {
+			if i == index {
+				add = false
+				break
+			}
+		}
+		if add {
 			result = append(result, el)
 		}
 	}
@@ -52745,6 +53417,20 @@ func (s SliceUint32) Each(f func(el uint32)) {
 	for _, el := range s.Data {
 		f(el)
 	}
+}
+
+// EndsWith returns true if slice ends with the given suffix slice.
+// If suffix is empty, it returns true.
+func (s SliceUint32) EndsWith(suffix []uint32) bool {
+	if len(suffix) > len(s.Data) {
+		return false
+	}
+	for i, el := range suffix {
+		if el != s.Data[len(s.Data)-i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Equal returns true if slices are equal
@@ -56566,10 +57252,32 @@ func (s SliceUint64) DedupByInterface(f func(el uint64) interface{}) []uint64 {
 
 // Delete deletes the first occurence of the element from the slice
 func (s SliceUint64) Delete(element uint64) []uint64 {
-	result := make([]uint64, 0, len(s.Data)-1)
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]uint64, 0, len(s.Data))
 	deleted := false
 	for _, el := range s.Data {
 		if !deleted && el == element {
+			deleted = true
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAll deletes all occurences of the element from the slice
+func (s SliceUint64) DeleteAll(element uint64) []uint64 {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]uint64, 0, len(s.Data))
+	for _, el := range s.Data {
+		if el == element {
 			continue
 		}
 		result = append(result, el)
@@ -56579,14 +57287,27 @@ func (s SliceUint64) Delete(element uint64) []uint64 {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceUint64) DeleteAt(index int) ([]uint64, error) {
-	if index >= len(s.Data) {
-		return s.Data, ErrOutOfRange
+func (s SliceUint64) DeleteAt(indices ...int) ([]uint64, error) {
+	if len(indices) == 0 || len(s.Data) == 0 {
+		return s.Data, nil
+	}
+
+	for _, index := range indices {
+		if index >= len(s.Data) {
+			return s.Data, ErrOutOfRange
+		}
 	}
 
 	result := make([]uint64, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		if i != index {
+		add := true
+		for _, index := range indices {
+			if i == index {
+				add = false
+				break
+			}
+		}
+		if add {
 			result = append(result, el)
 		}
 	}
@@ -56625,6 +57346,20 @@ func (s SliceUint64) Each(f func(el uint64)) {
 	for _, el := range s.Data {
 		f(el)
 	}
+}
+
+// EndsWith returns true if slice ends with the given suffix slice.
+// If suffix is empty, it returns true.
+func (s SliceUint64) EndsWith(suffix []uint64) bool {
+	if len(suffix) > len(s.Data) {
+		return false
+	}
+	for i, el := range suffix {
+		if el != s.Data[len(s.Data)-i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Equal returns true if slices are equal
@@ -60344,10 +61079,32 @@ func (s SliceInterface) DedupByInterface(f func(el interface{}) interface{}) []i
 
 // Delete deletes the first occurence of the element from the slice
 func (s SliceInterface) Delete(element interface{}) []interface{} {
-	result := make([]interface{}, 0, len(s.Data)-1)
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]interface{}, 0, len(s.Data))
 	deleted := false
 	for _, el := range s.Data {
 		if !deleted && el == element {
+			deleted = true
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAll deletes all occurences of the element from the slice
+func (s SliceInterface) DeleteAll(element interface{}) []interface{} {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]interface{}, 0, len(s.Data))
+	for _, el := range s.Data {
+		if el == element {
 			continue
 		}
 		result = append(result, el)
@@ -60357,14 +61114,27 @@ func (s SliceInterface) Delete(element interface{}) []interface{} {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s SliceInterface) DeleteAt(index int) ([]interface{}, error) {
-	if index >= len(s.Data) {
-		return s.Data, ErrOutOfRange
+func (s SliceInterface) DeleteAt(indices ...int) ([]interface{}, error) {
+	if len(indices) == 0 || len(s.Data) == 0 {
+		return s.Data, nil
+	}
+
+	for _, index := range indices {
+		if index >= len(s.Data) {
+			return s.Data, ErrOutOfRange
+		}
 	}
 
 	result := make([]interface{}, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		if i != index {
+		add := true
+		for _, index := range indices {
+			if i == index {
+				add = false
+				break
+			}
+		}
+		if add {
 			result = append(result, el)
 		}
 	}
@@ -60403,6 +61173,20 @@ func (s SliceInterface) Each(f func(el interface{})) {
 	for _, el := range s.Data {
 		f(el)
 	}
+}
+
+// EndsWith returns true if slice ends with the given suffix slice.
+// If suffix is empty, it returns true.
+func (s SliceInterface) EndsWith(suffix []interface{}) bool {
+	if len(suffix) > len(s.Data) {
+		return false
+	}
+	for i, el := range suffix {
+		if el != s.Data[len(s.Data)-i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Equal returns true if slices are equal

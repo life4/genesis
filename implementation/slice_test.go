@@ -136,6 +136,65 @@ func TestSliceDedupBy(t *testing.T) {
 	f([]T{1, 2, 4, 3, 5, 7, 10}, []T{1, 2, 3, 10})
 }
 
+func TestSliceDelete(t *testing.T) {
+	f := func(given []T, el T, expected []T) {
+		actual := Slice{given}.Delete(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, 1, []T{})
+	f([]T{1}, 1, []T{})
+	f([]T{2}, 1, []T{2})
+	f([]T{1, 2}, 1, []T{2})
+	f([]T{1, 2, 3}, 2, []T{1, 3})
+	f([]T{1, 2, 2, 3, 2}, 2, []T{1, 2, 3, 2})
+}
+
+func TestSliceDeleteAll(t *testing.T) {
+	f := func(given []T, el T, expected []T) {
+		actual := Slice{given}.DeleteAll(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, 1, []T{})
+	f([]T{1}, 1, []T{})
+	f([]T{2}, 1, []T{2})
+	f([]T{1, 2}, 1, []T{2})
+	f([]T{1, 2, 3}, 2, []T{1, 3})
+	f([]T{1, 2, 2, 3, 2}, 2, []T{1, 3})
+}
+
+func TestSliceDeleteAt(t *testing.T) {
+	f := func(given []T, indices []int, expected []T) {
+		actual, _ := Slice{given}.DeleteAt(indices...)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []int{}, []T{})
+	f([]T{1}, []int{0}, []T{})
+	f([]T{1, 2}, []int{0}, []T{2})
+
+	f([]T{1, 2, 3}, []int{0}, []T{2, 3})
+	f([]T{1, 2, 3}, []int{1}, []T{1, 3})
+	f([]T{1, 2, 3}, []int{2}, []T{1, 2})
+
+	f([]T{1, 2, 3}, []int{0, 1}, []T{3})
+	f([]T{1, 2, 3}, []int{0, 2}, []T{2})
+	f([]T{1, 2, 3}, []int{1, 2}, []T{1})
+}
+
+func TestSliceDropEvery(t *testing.T) {
+	f := func(given []T, nth int, expected []T) {
+		actual, _ := Slice{given}.DropEvery(nth)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, 1, []T{})
+	f([]T{1, 2, 3}, 1, []T{})
+
+	f([]T{1, 2, 3, 4}, 2, []T{1, 3})
+	f([]T{1, 2, 3, 4, 5}, 2, []T{1, 3, 5})
+
+	f([]T{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2, []T{1, 3, 5, 7, 9})
+	f([]T{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, []T{1, 2, 4, 5, 7, 8, 10})
+}
+
 func TestSliceFilter(t *testing.T) {
 	f := func(given []T, expected []T) {
 		even := func(t T) bool { return (t % 2) == 0 }

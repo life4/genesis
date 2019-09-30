@@ -1,10 +1,10 @@
-# Slice.Delete
+# Slice.DeleteAll
 
 ```go
-func (s Slice) Delete(element T) []T
+func (s Slice) DeleteAll(element T) []T
 ```
 
-Delete deletes the first occurence of the element from the slice
+DeleteAll deletes all occurences of the element from the slice
 
 Generic types: T.
 
@@ -32,17 +32,15 @@ Generic types: T.
 ## Source
 
 ```go
-// Delete deletes the first occurence of the element from the slice
-func (s Slice) Delete(element T) []T {
+// DeleteAll deletes all occurences of the element from the slice
+func (s Slice) DeleteAll(element T) []T {
 	if len(s.Data) == 0 {
 		return s.Data
 	}
 
 	result := make([]T, 0, len(s.Data))
-	deleted := false
 	for _, el := range s.Data {
-		if !deleted && el == element {
-			deleted = true
+		if el == element {
 			continue
 		}
 		result = append(result, el)
@@ -55,9 +53,9 @@ func (s Slice) Delete(element T) []T {
 ## Tests
 
 ```go
-func TestSliceDelete(t *testing.T) {
+func TestSliceDeleteAll(t *testing.T) {
 	f := func(given []T, el T, expected []T) {
-		actual := Slice{given}.Delete(el)
+		actual := Slice{given}.DeleteAll(el)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]T{}, 1, []T{})
@@ -65,6 +63,6 @@ func TestSliceDelete(t *testing.T) {
 	f([]T{2}, 1, []T{2})
 	f([]T{1, 2}, 1, []T{2})
 	f([]T{1, 2, 3}, 2, []T{1, 3})
-	f([]T{1, 2, 2, 3, 2}, 2, []T{1, 2, 3, 2})
+	f([]T{1, 2, 2, 3, 2}, 2, []T{1, 3})
 }
 ```

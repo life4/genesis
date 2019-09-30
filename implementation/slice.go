@@ -179,10 +179,32 @@ func (s Slice) DedupBy(f func(el T) G) []T {
 
 // Delete deletes the first occurence of the element from the slice
 func (s Slice) Delete(element T) []T {
-	result := make([]T, 0, len(s.Data)-1)
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]T, 0, len(s.Data))
 	deleted := false
 	for _, el := range s.Data {
 		if !deleted && el == element {
+			deleted = true
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAll deletes all occurences of the element from the slice
+func (s Slice) DeleteAll(element T) []T {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]T, 0, len(s.Data))
+	for _, el := range s.Data {
+		if el == element {
 			continue
 		}
 		result = append(result, el)
@@ -192,14 +214,27 @@ func (s Slice) Delete(element T) []T {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func (s Slice) DeleteAt(index int) ([]T, error) {
-	if index >= len(s.Data) {
-		return s.Data, ErrOutOfRange
+func (s Slice) DeleteAt(indices ...int) ([]T, error) {
+	if len(indices) == 0 || len(s.Data) == 0 {
+		return s.Data, nil
+	}
+
+	for _, index := range indices {
+		if index >= len(s.Data) {
+			return s.Data, ErrOutOfRange
+		}
 	}
 
 	result := make([]T, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		if i != index {
+		add := true
+		for _, index := range indices {
+			if i == index {
+				add = false
+				break
+			}
+		}
+		if add {
 			result = append(result, el)
 		}
 	}
@@ -238,6 +273,20 @@ func (s Slice) Each(f func(el T)) {
 	for _, el := range s.Data {
 		f(el)
 	}
+}
+
+// EndsWith returns true if slice ends with the given suffix slice.
+// If suffix is empty, it returns true.
+func (s Slice) EndsWith(suffix []T) bool {
+	if len(suffix) > len(s.Data) {
+		return false
+	}
+	for i, el := range suffix {
+		if el != s.Data[len(s.Data)-i] {
+			return false
+		}
+	}
+	return true
 }
 
 // Equal returns true if slices are equal

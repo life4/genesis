@@ -54,3 +54,21 @@ func (s Slice) DropEvery(nth int) ([]T, error) {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceDropEvery(t *testing.T) {
+	f := func(given []T, nth int, expected []T) {
+		actual, _ := Slice{given}.DropEvery(nth)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, 1, []T{})
+	f([]T{1, 2, 3}, 1, []T{})
+
+	f([]T{1, 2, 3, 4}, 2, []T{1, 3})
+	f([]T{1, 2, 3, 4, 5}, 2, []T{1, 3, 5})
+
+	f([]T{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2, []T{1, 3, 5, 7, 9})
+	f([]T{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, []T{1, 2, 4, 5, 7, 8, 10})
+}
+```

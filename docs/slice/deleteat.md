@@ -1,7 +1,7 @@
 # Slice.DeleteAt
 
 ```go
-func (s Slice) DeleteAt(index int) ([]T, error)
+func (s Slice) DeleteAt(indices ...int) ([]T, error)
 ```
 
 DeleteAt returns the slice without elements on given positions
@@ -39,14 +39,27 @@ Generic types: T.
 
 ```go
 // DeleteAt returns the slice without elements on given positions
-func (s Slice) DeleteAt(index int) ([]T, error) {
-	if index >= len(s.Data) {
-		return s.Data, ErrOutOfRange
+func (s Slice) DeleteAt(indices ...int) ([]T, error) {
+	if len(indices) == 0 || len(s.Data) == 0 {
+		return s.Data, nil
+	}
+
+	for _, index := range indices {
+		if index >= len(s.Data) {
+			return s.Data, ErrOutOfRange
+		}
 	}
 
 	result := make([]T, 0, len(s.Data)-1)
 	for i, el := range s.Data {
-		if i != index {
+		add := true
+		for _, index := range indices {
+			if i == index {
+				add = false
+				break
+			}
+		}
+		if add {
 			result = append(result, el)
 		}
 	}
@@ -54,3 +67,24 @@ func (s Slice) DeleteAt(index int) ([]T, error) {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceDeleteAt(t *testing.T) {
+	f := func(given []T, indices []int, expected []T) {
+		actual, _ := Slice{given}.DeleteAt(indices...)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []int{}, []T{})
+	f([]T{1}, []int{0}, []T{})
+	f([]T{1, 2}, []int{0}, []T{2})
+
+	f([]T{1, 2, 3}, []int{0}, []T{2, 3})
+	f([]T{1, 2, 3}, []int{1}, []T{1, 3})
+	f([]T{1, 2, 3}, []int{2}, []T{1, 2})
+
+	f([]T{1, 2, 3}, []int{0, 1}, []T{3})
+	f([]T{1, 2, 3}, []int{0, 2}, []T{2})
+	f([]T{1, 2, 3}, []int{1, 2}, []T{1})
+}
+```
