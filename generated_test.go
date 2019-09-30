@@ -1146,6 +1146,20 @@ func TestSequenceRepeatInt(t *testing.T) {
 	f(2, 1, []int{1, 1})
 }
 
+func TestSequenceReplicateInt(t *testing.T) {
+	f := func(count int, given int, expected []int) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt{ctx: ctx}
+		seq := s.Replicate(given, count)
+		actual := ChannelInt{seq}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []int{})
+	f(1, 1, []int{1})
+	f(5, 1, []int{1, 1, 1, 1, 1})
+}
+
 func TestAsyncSliceAnyInt(t *testing.T) {
 	f := func(check func(t int) bool, given []int, expected bool) {
 		s := AsyncSliceInt{Data: given, Workers: 2}
@@ -2433,6 +2447,20 @@ func TestSequenceRepeatInt8(t *testing.T) {
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(2, 1, []int8{1, 1})
+}
+
+func TestSequenceReplicateInt8(t *testing.T) {
+	f := func(count int, given int8, expected []int8) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt8{ctx: ctx}
+		seq := s.Replicate(given, count)
+		actual := ChannelInt8{seq}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []int8{})
+	f(1, 1, []int8{1})
+	f(5, 1, []int8{1, 1, 1, 1, 1})
 }
 
 func TestAsyncSliceAnyInt8(t *testing.T) {
@@ -3724,6 +3752,20 @@ func TestSequenceRepeatInt16(t *testing.T) {
 	f(2, 1, []int16{1, 1})
 }
 
+func TestSequenceReplicateInt16(t *testing.T) {
+	f := func(count int, given int16, expected []int16) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt16{ctx: ctx}
+		seq := s.Replicate(given, count)
+		actual := ChannelInt16{seq}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []int16{})
+	f(1, 1, []int16{1})
+	f(5, 1, []int16{1, 1, 1, 1, 1})
+}
+
 func TestAsyncSliceAnyInt16(t *testing.T) {
 	f := func(check func(t int16) bool, given []int16, expected bool) {
 		s := AsyncSliceInt16{Data: given, Workers: 2}
@@ -5013,6 +5055,20 @@ func TestSequenceRepeatInt32(t *testing.T) {
 	f(2, 1, []int32{1, 1})
 }
 
+func TestSequenceReplicateInt32(t *testing.T) {
+	f := func(count int, given int32, expected []int32) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt32{ctx: ctx}
+		seq := s.Replicate(given, count)
+		actual := ChannelInt32{seq}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []int32{})
+	f(1, 1, []int32{1})
+	f(5, 1, []int32{1, 1, 1, 1, 1})
+}
+
 func TestAsyncSliceAnyInt32(t *testing.T) {
 	f := func(check func(t int32) bool, given []int32, expected bool) {
 		s := AsyncSliceInt32{Data: given, Workers: 2}
@@ -6300,6 +6356,20 @@ func TestSequenceRepeatInt64(t *testing.T) {
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(2, 1, []int64{1, 1})
+}
+
+func TestSequenceReplicateInt64(t *testing.T) {
+	f := func(count int, given int64, expected []int64) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt64{ctx: ctx}
+		seq := s.Replicate(given, count)
+		actual := ChannelInt64{seq}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []int64{})
+	f(1, 1, []int64{1})
+	f(5, 1, []int64{1, 1, 1, 1, 1})
 }
 
 func TestAsyncSliceAnyInt64(t *testing.T) {

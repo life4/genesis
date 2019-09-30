@@ -75,3 +75,17 @@ func TestSequenceRepeat(t *testing.T) {
 	}
 	f(2, 1, []T{1, 1})
 }
+
+func TestSequenceReplicate(t *testing.T) {
+	f := func(count int, given T, expected []T) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := Sequence{ctx: ctx}
+		seq := s.Replicate(given, count)
+		actual := Channel{seq}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []T{})
+	f(1, 1, []T{1})
+	f(5, 1, []T{1, 1, 1, 1, 1})
+}
