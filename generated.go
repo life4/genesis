@@ -2505,13 +2505,16 @@ func (s SliceBool) DeleteAt(indices ...int) ([]bool, error) {
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceBool) DropEvery(nth int) ([]bool, error) {
+func (s SliceBool) DropEvery(nth int, from int) ([]bool, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]bool, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
-		if (i+1)%nth != 0 {
+		if (i+from)%nth != 0 {
 			result = append(result, el)
 		}
 	}
@@ -3612,13 +3615,16 @@ func (s SliceBool) StartsWith(prefix []bool) bool {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceBool) TakeEvery(nth int) ([]bool, error) {
+func (s SliceBool) TakeEvery(nth int, from int) ([]bool, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]bool, 0, len(s.Data))
 	for i, el := range s.Data {
-		if (i+1)%nth == 0 {
+		if (i+from)%nth == 0 {
 			result = append(result, el)
 		}
 	}
@@ -6313,13 +6319,16 @@ func (s SliceByte) DeleteAt(indices ...int) ([]byte, error) {
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceByte) DropEvery(nth int) ([]byte, error) {
+func (s SliceByte) DropEvery(nth int, from int) ([]byte, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]byte, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
-		if (i+1)%nth != 0 {
+		if (i+from)%nth != 0 {
 			result = append(result, el)
 		}
 	}
@@ -7495,13 +7504,16 @@ func (s SliceByte) Sum() byte {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceByte) TakeEvery(nth int) ([]byte, error) {
+func (s SliceByte) TakeEvery(nth int, from int) ([]byte, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]byte, 0, len(s.Data))
 	for i, el := range s.Data {
-		if (i+1)%nth == 0 {
+		if (i+from)%nth == 0 {
 			result = append(result, el)
 		}
 	}
@@ -10196,13 +10208,16 @@ func (s SliceString) DeleteAt(indices ...int) ([]string, error) {
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceString) DropEvery(nth int) ([]string, error) {
+func (s SliceString) DropEvery(nth int, from int) ([]string, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]string, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
-		if (i+1)%nth != 0 {
+		if (i+from)%nth != 0 {
 			result = append(result, el)
 		}
 	}
@@ -11378,13 +11393,16 @@ func (s SliceString) Sum() string {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceString) TakeEvery(nth int) ([]string, error) {
+func (s SliceString) TakeEvery(nth int, from int) ([]string, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]string, 0, len(s.Data))
 	for i, el := range s.Data {
-		if (i+1)%nth == 0 {
+		if (i+from)%nth == 0 {
 			result = append(result, el)
 		}
 	}
@@ -14128,13 +14146,16 @@ func (s SliceFloat32) DeleteAt(indices ...int) ([]float32, error) {
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceFloat32) DropEvery(nth int) ([]float32, error) {
+func (s SliceFloat32) DropEvery(nth int, from int) ([]float32, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]float32, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
-		if (i+1)%nth != 0 {
+		if (i+from)%nth != 0 {
 			result = append(result, el)
 		}
 	}
@@ -15301,13 +15322,16 @@ func (s SliceFloat32) Sum() float32 {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceFloat32) TakeEvery(nth int) ([]float32, error) {
+func (s SliceFloat32) TakeEvery(nth int, from int) ([]float32, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]float32, 0, len(s.Data))
 	for i, el := range s.Data {
-		if (i+1)%nth == 0 {
+		if (i+from)%nth == 0 {
 			result = append(result, el)
 		}
 	}
@@ -18051,13 +18075,16 @@ func (s SliceFloat64) DeleteAt(indices ...int) ([]float64, error) {
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceFloat64) DropEvery(nth int) ([]float64, error) {
+func (s SliceFloat64) DropEvery(nth int, from int) ([]float64, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]float64, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
-		if (i+1)%nth != 0 {
+		if (i+from)%nth != 0 {
 			result = append(result, el)
 		}
 	}
@@ -19224,13 +19251,16 @@ func (s SliceFloat64) Sum() float64 {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceFloat64) TakeEvery(nth int) ([]float64, error) {
+func (s SliceFloat64) TakeEvery(nth int, from int) ([]float64, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]float64, 0, len(s.Data))
 	for i, el := range s.Data {
-		if (i+1)%nth == 0 {
+		if (i+from)%nth == 0 {
 			result = append(result, el)
 		}
 	}
@@ -21974,13 +22004,16 @@ func (s SliceInt) DeleteAt(indices ...int) ([]int, error) {
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceInt) DropEvery(nth int) ([]int, error) {
+func (s SliceInt) DropEvery(nth int, from int) ([]int, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]int, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
-		if (i+1)%nth != 0 {
+		if (i+from)%nth != 0 {
 			result = append(result, el)
 		}
 	}
@@ -23156,13 +23189,16 @@ func (s SliceInt) Sum() int {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceInt) TakeEvery(nth int) ([]int, error) {
+func (s SliceInt) TakeEvery(nth int, from int) ([]int, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]int, 0, len(s.Data))
 	for i, el := range s.Data {
-		if (i+1)%nth == 0 {
+		if (i+from)%nth == 0 {
 			result = append(result, el)
 		}
 	}
@@ -25906,13 +25942,16 @@ func (s SliceInt8) DeleteAt(indices ...int) ([]int8, error) {
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceInt8) DropEvery(nth int) ([]int8, error) {
+func (s SliceInt8) DropEvery(nth int, from int) ([]int8, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]int8, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
-		if (i+1)%nth != 0 {
+		if (i+from)%nth != 0 {
 			result = append(result, el)
 		}
 	}
@@ -27088,13 +27127,16 @@ func (s SliceInt8) Sum() int8 {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceInt8) TakeEvery(nth int) ([]int8, error) {
+func (s SliceInt8) TakeEvery(nth int, from int) ([]int8, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]int8, 0, len(s.Data))
 	for i, el := range s.Data {
-		if (i+1)%nth == 0 {
+		if (i+from)%nth == 0 {
 			result = append(result, el)
 		}
 	}
@@ -29838,13 +29880,16 @@ func (s SliceInt16) DeleteAt(indices ...int) ([]int16, error) {
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceInt16) DropEvery(nth int) ([]int16, error) {
+func (s SliceInt16) DropEvery(nth int, from int) ([]int16, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]int16, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
-		if (i+1)%nth != 0 {
+		if (i+from)%nth != 0 {
 			result = append(result, el)
 		}
 	}
@@ -31020,13 +31065,16 @@ func (s SliceInt16) Sum() int16 {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceInt16) TakeEvery(nth int) ([]int16, error) {
+func (s SliceInt16) TakeEvery(nth int, from int) ([]int16, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]int16, 0, len(s.Data))
 	for i, el := range s.Data {
-		if (i+1)%nth == 0 {
+		if (i+from)%nth == 0 {
 			result = append(result, el)
 		}
 	}
@@ -33770,13 +33818,16 @@ func (s SliceInt32) DeleteAt(indices ...int) ([]int32, error) {
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceInt32) DropEvery(nth int) ([]int32, error) {
+func (s SliceInt32) DropEvery(nth int, from int) ([]int32, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]int32, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
-		if (i+1)%nth != 0 {
+		if (i+from)%nth != 0 {
 			result = append(result, el)
 		}
 	}
@@ -34952,13 +35003,16 @@ func (s SliceInt32) Sum() int32 {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceInt32) TakeEvery(nth int) ([]int32, error) {
+func (s SliceInt32) TakeEvery(nth int, from int) ([]int32, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]int32, 0, len(s.Data))
 	for i, el := range s.Data {
-		if (i+1)%nth == 0 {
+		if (i+from)%nth == 0 {
 			result = append(result, el)
 		}
 	}
@@ -37702,13 +37756,16 @@ func (s SliceInt64) DeleteAt(indices ...int) ([]int64, error) {
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceInt64) DropEvery(nth int) ([]int64, error) {
+func (s SliceInt64) DropEvery(nth int, from int) ([]int64, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]int64, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
-		if (i+1)%nth != 0 {
+		if (i+from)%nth != 0 {
 			result = append(result, el)
 		}
 	}
@@ -38884,13 +38941,16 @@ func (s SliceInt64) Sum() int64 {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceInt64) TakeEvery(nth int) ([]int64, error) {
+func (s SliceInt64) TakeEvery(nth int, from int) ([]int64, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]int64, 0, len(s.Data))
 	for i, el := range s.Data {
-		if (i+1)%nth == 0 {
+		if (i+from)%nth == 0 {
 			result = append(result, el)
 		}
 	}
@@ -41634,13 +41694,16 @@ func (s SliceUint) DeleteAt(indices ...int) ([]uint, error) {
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceUint) DropEvery(nth int) ([]uint, error) {
+func (s SliceUint) DropEvery(nth int, from int) ([]uint, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]uint, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
-		if (i+1)%nth != 0 {
+		if (i+from)%nth != 0 {
 			result = append(result, el)
 		}
 	}
@@ -42816,13 +42879,16 @@ func (s SliceUint) Sum() uint {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceUint) TakeEvery(nth int) ([]uint, error) {
+func (s SliceUint) TakeEvery(nth int, from int) ([]uint, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]uint, 0, len(s.Data))
 	for i, el := range s.Data {
-		if (i+1)%nth == 0 {
+		if (i+from)%nth == 0 {
 			result = append(result, el)
 		}
 	}
@@ -45566,13 +45632,16 @@ func (s SliceUint8) DeleteAt(indices ...int) ([]uint8, error) {
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceUint8) DropEvery(nth int) ([]uint8, error) {
+func (s SliceUint8) DropEvery(nth int, from int) ([]uint8, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]uint8, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
-		if (i+1)%nth != 0 {
+		if (i+from)%nth != 0 {
 			result = append(result, el)
 		}
 	}
@@ -46748,13 +46817,16 @@ func (s SliceUint8) Sum() uint8 {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceUint8) TakeEvery(nth int) ([]uint8, error) {
+func (s SliceUint8) TakeEvery(nth int, from int) ([]uint8, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]uint8, 0, len(s.Data))
 	for i, el := range s.Data {
-		if (i+1)%nth == 0 {
+		if (i+from)%nth == 0 {
 			result = append(result, el)
 		}
 	}
@@ -49498,13 +49570,16 @@ func (s SliceUint16) DeleteAt(indices ...int) ([]uint16, error) {
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceUint16) DropEvery(nth int) ([]uint16, error) {
+func (s SliceUint16) DropEvery(nth int, from int) ([]uint16, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]uint16, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
-		if (i+1)%nth != 0 {
+		if (i+from)%nth != 0 {
 			result = append(result, el)
 		}
 	}
@@ -50680,13 +50755,16 @@ func (s SliceUint16) Sum() uint16 {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceUint16) TakeEvery(nth int) ([]uint16, error) {
+func (s SliceUint16) TakeEvery(nth int, from int) ([]uint16, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]uint16, 0, len(s.Data))
 	for i, el := range s.Data {
-		if (i+1)%nth == 0 {
+		if (i+from)%nth == 0 {
 			result = append(result, el)
 		}
 	}
@@ -53430,13 +53508,16 @@ func (s SliceUint32) DeleteAt(indices ...int) ([]uint32, error) {
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceUint32) DropEvery(nth int) ([]uint32, error) {
+func (s SliceUint32) DropEvery(nth int, from int) ([]uint32, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]uint32, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
-		if (i+1)%nth != 0 {
+		if (i+from)%nth != 0 {
 			result = append(result, el)
 		}
 	}
@@ -54612,13 +54693,16 @@ func (s SliceUint32) Sum() uint32 {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceUint32) TakeEvery(nth int) ([]uint32, error) {
+func (s SliceUint32) TakeEvery(nth int, from int) ([]uint32, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]uint32, 0, len(s.Data))
 	for i, el := range s.Data {
-		if (i+1)%nth == 0 {
+		if (i+from)%nth == 0 {
 			result = append(result, el)
 		}
 	}
@@ -57362,13 +57446,16 @@ func (s SliceUint64) DeleteAt(indices ...int) ([]uint64, error) {
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceUint64) DropEvery(nth int) ([]uint64, error) {
+func (s SliceUint64) DropEvery(nth int, from int) ([]uint64, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]uint64, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
-		if (i+1)%nth != 0 {
+		if (i+from)%nth != 0 {
 			result = append(result, el)
 		}
 	}
@@ -58544,13 +58631,16 @@ func (s SliceUint64) Sum() uint64 {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceUint64) TakeEvery(nth int) ([]uint64, error) {
+func (s SliceUint64) TakeEvery(nth int, from int) ([]uint64, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]uint64, 0, len(s.Data))
 	for i, el := range s.Data {
-		if (i+1)%nth == 0 {
+		if (i+from)%nth == 0 {
 			result = append(result, el)
 		}
 	}
@@ -61192,13 +61282,16 @@ func (s SliceInterface) DeleteAt(indices ...int) ([]interface{}, error) {
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s SliceInterface) DropEvery(nth int) ([]interface{}, error) {
+func (s SliceInterface) DropEvery(nth int, from int) ([]interface{}, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]interface{}, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
-		if (i+1)%nth != 0 {
+		if (i+from)%nth != 0 {
 			result = append(result, el)
 		}
 	}
@@ -62299,13 +62392,16 @@ func (s SliceInterface) StartsWith(prefix []interface{}) bool {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s SliceInterface) TakeEvery(nth int) ([]interface{}, error) {
+func (s SliceInterface) TakeEvery(nth int, from int) ([]interface{}, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]interface{}, 0, len(s.Data))
 	for i, el := range s.Data {
-		if (i+1)%nth == 0 {
+		if (i+from)%nth == 0 {
 			result = append(result, el)
 		}
 	}

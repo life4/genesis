@@ -306,18 +306,21 @@ func TestSliceDeleteAtInt(t *testing.T) {
 }
 
 func TestSliceDropEveryInt(t *testing.T) {
-	f := func(given []int, nth int, expected []int) {
-		actual, _ := SliceInt{given}.DropEvery(nth)
+	f := func(given []int, nth int, from int, expected []int) {
+		actual, _ := SliceInt{given}.DropEvery(nth, from)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f([]int{}, 1, []int{})
-	f([]int{1, 2, 3}, 1, []int{})
+	f([]int{}, 1, 1, []int{})
+	f([]int{1, 2, 3}, 1, 1, []int{})
 
-	f([]int{1, 2, 3, 4}, 2, []int{1, 3})
-	f([]int{1, 2, 3, 4, 5}, 2, []int{1, 3, 5})
+	f([]int{1, 2, 3, 4}, 2, 1, []int{1, 3})
+	f([]int{1, 2, 3, 4, 5}, 2, 1, []int{1, 3, 5})
 
-	f([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2, []int{1, 3, 5, 7, 9})
-	f([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, []int{1, 2, 4, 5, 7, 8, 10})
+	f([]int{1, 2, 3, 4}, 2, 0, []int{2, 4})
+	f([]int{1, 2, 3, 4, 5}, 2, 0, []int{2, 4})
+
+	f([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2, 1, []int{1, 3, 5, 7, 9})
+	f([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, 1, []int{1, 2, 4, 5, 7, 8, 10})
 }
 
 func TestSliceDropWhileInt(t *testing.T) {
@@ -1703,18 +1706,21 @@ func TestSliceDeleteAtInt8(t *testing.T) {
 }
 
 func TestSliceDropEveryInt8(t *testing.T) {
-	f := func(given []int8, nth int, expected []int8) {
-		actual, _ := SliceInt8{given}.DropEvery(nth)
+	f := func(given []int8, nth int, from int, expected []int8) {
+		actual, _ := SliceInt8{given}.DropEvery(nth, from)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f([]int8{}, 1, []int8{})
-	f([]int8{1, 2, 3}, 1, []int8{})
+	f([]int8{}, 1, 1, []int8{})
+	f([]int8{1, 2, 3}, 1, 1, []int8{})
 
-	f([]int8{1, 2, 3, 4}, 2, []int8{1, 3})
-	f([]int8{1, 2, 3, 4, 5}, 2, []int8{1, 3, 5})
+	f([]int8{1, 2, 3, 4}, 2, 1, []int8{1, 3})
+	f([]int8{1, 2, 3, 4, 5}, 2, 1, []int8{1, 3, 5})
 
-	f([]int8{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2, []int8{1, 3, 5, 7, 9})
-	f([]int8{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, []int8{1, 2, 4, 5, 7, 8, 10})
+	f([]int8{1, 2, 3, 4}, 2, 0, []int8{2, 4})
+	f([]int8{1, 2, 3, 4, 5}, 2, 0, []int8{2, 4})
+
+	f([]int8{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2, 1, []int8{1, 3, 5, 7, 9})
+	f([]int8{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, 1, []int8{1, 2, 4, 5, 7, 8, 10})
 }
 
 func TestSliceDropWhileInt8(t *testing.T) {
@@ -3100,18 +3106,21 @@ func TestSliceDeleteAtInt16(t *testing.T) {
 }
 
 func TestSliceDropEveryInt16(t *testing.T) {
-	f := func(given []int16, nth int, expected []int16) {
-		actual, _ := SliceInt16{given}.DropEvery(nth)
+	f := func(given []int16, nth int, from int, expected []int16) {
+		actual, _ := SliceInt16{given}.DropEvery(nth, from)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f([]int16{}, 1, []int16{})
-	f([]int16{1, 2, 3}, 1, []int16{})
+	f([]int16{}, 1, 1, []int16{})
+	f([]int16{1, 2, 3}, 1, 1, []int16{})
 
-	f([]int16{1, 2, 3, 4}, 2, []int16{1, 3})
-	f([]int16{1, 2, 3, 4, 5}, 2, []int16{1, 3, 5})
+	f([]int16{1, 2, 3, 4}, 2, 1, []int16{1, 3})
+	f([]int16{1, 2, 3, 4, 5}, 2, 1, []int16{1, 3, 5})
 
-	f([]int16{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2, []int16{1, 3, 5, 7, 9})
-	f([]int16{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, []int16{1, 2, 4, 5, 7, 8, 10})
+	f([]int16{1, 2, 3, 4}, 2, 0, []int16{2, 4})
+	f([]int16{1, 2, 3, 4, 5}, 2, 0, []int16{2, 4})
+
+	f([]int16{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2, 1, []int16{1, 3, 5, 7, 9})
+	f([]int16{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, 1, []int16{1, 2, 4, 5, 7, 8, 10})
 }
 
 func TestSliceDropWhileInt16(t *testing.T) {
@@ -4497,18 +4506,21 @@ func TestSliceDeleteAtInt32(t *testing.T) {
 }
 
 func TestSliceDropEveryInt32(t *testing.T) {
-	f := func(given []int32, nth int, expected []int32) {
-		actual, _ := SliceInt32{given}.DropEvery(nth)
+	f := func(given []int32, nth int, from int, expected []int32) {
+		actual, _ := SliceInt32{given}.DropEvery(nth, from)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f([]int32{}, 1, []int32{})
-	f([]int32{1, 2, 3}, 1, []int32{})
+	f([]int32{}, 1, 1, []int32{})
+	f([]int32{1, 2, 3}, 1, 1, []int32{})
 
-	f([]int32{1, 2, 3, 4}, 2, []int32{1, 3})
-	f([]int32{1, 2, 3, 4, 5}, 2, []int32{1, 3, 5})
+	f([]int32{1, 2, 3, 4}, 2, 1, []int32{1, 3})
+	f([]int32{1, 2, 3, 4, 5}, 2, 1, []int32{1, 3, 5})
 
-	f([]int32{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2, []int32{1, 3, 5, 7, 9})
-	f([]int32{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, []int32{1, 2, 4, 5, 7, 8, 10})
+	f([]int32{1, 2, 3, 4}, 2, 0, []int32{2, 4})
+	f([]int32{1, 2, 3, 4, 5}, 2, 0, []int32{2, 4})
+
+	f([]int32{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2, 1, []int32{1, 3, 5, 7, 9})
+	f([]int32{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, 1, []int32{1, 2, 4, 5, 7, 8, 10})
 }
 
 func TestSliceDropWhileInt32(t *testing.T) {
@@ -5894,18 +5906,21 @@ func TestSliceDeleteAtInt64(t *testing.T) {
 }
 
 func TestSliceDropEveryInt64(t *testing.T) {
-	f := func(given []int64, nth int, expected []int64) {
-		actual, _ := SliceInt64{given}.DropEvery(nth)
+	f := func(given []int64, nth int, from int, expected []int64) {
+		actual, _ := SliceInt64{given}.DropEvery(nth, from)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f([]int64{}, 1, []int64{})
-	f([]int64{1, 2, 3}, 1, []int64{})
+	f([]int64{}, 1, 1, []int64{})
+	f([]int64{1, 2, 3}, 1, 1, []int64{})
 
-	f([]int64{1, 2, 3, 4}, 2, []int64{1, 3})
-	f([]int64{1, 2, 3, 4, 5}, 2, []int64{1, 3, 5})
+	f([]int64{1, 2, 3, 4}, 2, 1, []int64{1, 3})
+	f([]int64{1, 2, 3, 4, 5}, 2, 1, []int64{1, 3, 5})
 
-	f([]int64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2, []int64{1, 3, 5, 7, 9})
-	f([]int64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, []int64{1, 2, 4, 5, 7, 8, 10})
+	f([]int64{1, 2, 3, 4}, 2, 0, []int64{2, 4})
+	f([]int64{1, 2, 3, 4, 5}, 2, 0, []int64{2, 4})
+
+	f([]int64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2, 1, []int64{1, 3, 5, 7, 9})
+	f([]int64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, 1, []int64{1, 2, 4, 5, 7, 8, 10})
 }
 
 func TestSliceDropWhileInt64(t *testing.T) {

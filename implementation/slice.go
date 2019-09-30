@@ -247,13 +247,16 @@ func (s Slice) DeleteAt(indices ...int) ([]T, error) {
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s Slice) DropEvery(nth int) ([]T, error) {
+func (s Slice) DropEvery(nth int, from int) ([]T, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]T, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
-		if (i+1)%nth != 0 {
+		if (i+from)%nth != 0 {
 			result = append(result, el)
 		}
 	}
@@ -649,13 +652,16 @@ func (s Slice) Sum() T {
 }
 
 // TakeEvery returns slice of every nth elements
-func (s Slice) TakeEvery(nth int) ([]T, error) {
+func (s Slice) TakeEvery(nth int, from int) ([]T, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]T, 0, len(s.Data))
 	for i, el := range s.Data {
-		if (i+1)%nth == 0 {
+		if (i+from)%nth == 0 {
 			result = append(result, el)
 		}
 	}

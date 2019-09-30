@@ -1,7 +1,7 @@
 # Slice.DropEvery
 
 ```go
-func (s Slice) DropEvery(nth int) ([]T, error)
+func (s Slice) DropEvery(nth int, from int) ([]T, error)
 ```
 
 DropEvery returns a slice of every nth element in the enumerable dropped, starting with the first element.
@@ -33,6 +33,7 @@ Generic types: T.
 
 | Error | Message |
 | -------- | ------ |
+| ErrNegativeValue | negative value passed |
 | ErrNonPositiveValue | value must be positive |
 
 ## Source
@@ -40,13 +41,16 @@ Generic types: T.
 ```go
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func (s Slice) DropEvery(nth int) ([]T, error) {
+func (s Slice) DropEvery(nth int, from int) ([]T, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]T, 0, len(s.Data)/nth)
 	for i, el := range s.Data {
-		if (i+1)%nth != 0 {
+		if (i+from)%nth != 0 {
 			result = append(result, el)
 		}
 	}
@@ -58,17 +62,20 @@ func (s Slice) DropEvery(nth int) ([]T, error) {
 
 ```go
 func TestSliceDropEvery(t *testing.T) {
-	f := func(given []T, nth int, expected []T) {
-		actual, _ := Slice{given}.DropEvery(nth)
+	f := func(given []T, nth int, from int, expected []T) {
+		actual, _ := Slice{given}.DropEvery(nth, from)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
-	f([]T{}, 1, []T{})
-	f([]T{1, 2, 3}, 1, []T{})
+	f([]T{}, 1, 1, []T{})
+	f([]T{1, 2, 3}, 1, 1, []T{})
 
-	f([]T{1, 2, 3, 4}, 2, []T{1, 3})
-	f([]T{1, 2, 3, 4, 5}, 2, []T{1, 3, 5})
+	f([]T{1, 2, 3, 4}, 2, 1, []T{1, 3})
+	f([]T{1, 2, 3, 4, 5}, 2, 1, []T{1, 3, 5})
 
-	f([]T{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2, []T{1, 3, 5, 7, 9})
-	f([]T{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, []T{1, 2, 4, 5, 7, 8, 10})
+	f([]T{1, 2, 3, 4}, 2, 0, []T{2, 4})
+	f([]T{1, 2, 3, 4, 5}, 2, 0, []T{2, 4})
+
+	f([]T{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2, 1, []T{1, 3, 5, 7, 9})
+	f([]T{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, 1, []T{1, 2, 4, 5, 7, 8, 10})
 }
 ```

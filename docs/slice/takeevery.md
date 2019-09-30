@@ -1,7 +1,7 @@
 # Slice.TakeEvery
 
 ```go
-func (s Slice) TakeEvery(nth int) ([]T, error)
+func (s Slice) TakeEvery(nth int, from int) ([]T, error)
 ```
 
 TakeEvery returns slice of every nth elements
@@ -33,19 +33,23 @@ Generic types: T.
 
 | Error | Message |
 | -------- | ------ |
+| ErrNegativeValue | negative value passed |
 | ErrNonPositiveValue | value must be positive |
 
 ## Source
 
 ```go
 // TakeEvery returns slice of every nth elements
-func (s Slice) TakeEvery(nth int) ([]T, error) {
+func (s Slice) TakeEvery(nth int, from int) ([]T, error) {
 	if nth <= 0 {
 		return s.Data, ErrNonPositiveValue
 	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
 	result := make([]T, 0, len(s.Data))
 	for i, el := range s.Data {
-		if (i+1)%nth == 0 {
+		if (i+from)%nth == 0 {
 			result = append(result, el)
 		}
 	}
