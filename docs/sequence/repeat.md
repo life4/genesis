@@ -1,7 +1,7 @@
 # Sequence.Repeat
 
 ```go
-func (Sequence) Repeat(val T) chan T
+func (s Sequence) Repeat(val T) chan T
 ```
 
 Repeat returns channel that produces val infinite times
@@ -33,11 +33,17 @@ Generic types: T.
 
 ```go
 // Repeat returns channel that produces val infinite times
-func (Sequence) Repeat(val T) chan T {
+func (s Sequence) Repeat(val T) chan T {
 	c := make(chan T, 1)
 	go func() {
+		defer close(c)
 		for {
-			c <- val
+			select {
+			case <-s.ctx.Done():
+				return
+			case c <- val:
+				continue
+			}
 		}
 	}()
 	return c
@@ -48,11 +54,13 @@ func (Sequence) Repeat(val T) chan T {
 
 ```go
 func TestSequenceRepeat(t *testing.T) {
-	s := Sequence{}
 	f := func(count int, given T, expected []T) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := Sequence{ctx: ctx}
 		seq := s.Repeat(given)
 		seq2 := Channel{seq}.Take(count)
 		actual := Channel{seq2}.ToSlice()
+		cancel()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(2, 1, []T{1, 1})

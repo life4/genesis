@@ -1,7 +1,7 @@
 # Sequence.Exponential
 
 ```go
-func (Sequence) Exponential(start T, factor T) chan T
+func (s Sequence) Exponential(start T, factor T) chan T
 ```
 
 Exponential generates elements from start with multiplication of value on factor on every step
@@ -30,12 +30,17 @@ Generic types: T.
 ```go
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
-func (Sequence) Exponential(start T, factor T) chan T {
+func (s Sequence) Exponential(start T, factor T) chan T {
 	c := make(chan T, 1)
 	go func() {
+		defer close(c)
 		for {
-			c <- start
-			start *= factor
+			select {
+			case <-s.ctx.Done():
+				return
+			case c <- start:
+				start *= factor
+			}
 		}
 	}()
 	return c
@@ -46,11 +51,13 @@ func (Sequence) Exponential(start T, factor T) chan T {
 
 ```go
 func TestSequenceExponential(t *testing.T) {
-	s := Sequence{}
 	f := func(start T, factor T, count int, expected []T) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := Sequence{ctx: ctx}
 		seq := s.Exponential(start, factor)
 		seq2 := Channel{seq}.Take(count)
 		actual := Channel{seq2}.ToSlice()
+		cancel()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(1, 1, 4, []T{1, 1, 1, 1})

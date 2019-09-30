@@ -57,11 +57,13 @@ func (c Channel) Take(count int) chan T {
 
 ```go
 func TestChannelTake(t *testing.T) {
-	s := Sequence{}
 	f := func(count int, given T, expected []T) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := Sequence{ctx: ctx}
 		seq := s.Repeat(given)
 		seq2 := Channel{seq}.Take(count)
 		actual := Channel{seq2}.ToSlice()
+		cancel()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(0, 1, []T{})

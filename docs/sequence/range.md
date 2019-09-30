@@ -1,7 +1,7 @@
 # Sequence.Range
 
 ```go
-func (Sequence) Range(start T, end T, step T) chan T
+func (s Sequence) Range(start T, end T, step T) chan T
 ```
 
 Range generates elements from start to end with given step
@@ -29,7 +29,7 @@ Generic types: T.
 
 ```go
 // Range generates elements from start to end with given step
-func (Sequence) Range(start T, end T, step T) chan T {
+func (s Sequence) Range(start T, end T, step T) chan T {
 	c := make(chan T, 1)
 	pos := start <= end
 	go func() {
@@ -47,10 +47,12 @@ func (Sequence) Range(start T, end T, step T) chan T {
 
 ```go
 func TestSequenceRange(t *testing.T) {
-	s := Sequence{}
 	f := func(start T, stop T, step T, expected []T) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := Sequence{ctx: ctx}
 		seq := s.Range(start, stop, step)
 		actual := Channel{seq}.ToSlice()
+		cancel()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(1, 4, 1, []T{1, 2, 3})

@@ -1,7 +1,7 @@
 # Sequence.Count
 
 ```go
-func (Sequence) Count(start T, step T) chan T
+func (s Sequence) Count(start T, step T) chan T
 ```
 
 Count is like Range, but infinite
@@ -29,12 +29,17 @@ Generic types: T.
 
 ```go
 // Count is like Range, but infinite
-func (Sequence) Count(start T, step T) chan T {
+func (s Sequence) Count(start T, step T) chan T {
 	c := make(chan T, 1)
 	go func() {
+		defer close(c)
 		for {
-			c <- start
-			start += step
+			select {
+			case <-s.ctx.Done():
+				return
+			case c <- start:
+				start += step
+			}
 		}
 	}()
 	return c
@@ -45,11 +50,13 @@ func (Sequence) Count(start T, step T) chan T {
 
 ```go
 func TestSequenceCount(t *testing.T) {
-	s := Sequence{}
 	f := func(start T, step T, count int, expected []T) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := Sequence{ctx: ctx}
 		seq := s.Count(start, step)
 		seq2 := Channel{seq}.Take(count)
 		actual := Channel{seq2}.ToSlice()
+		cancel()
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(1, 2, 4, []T{1, 3, 5, 7})

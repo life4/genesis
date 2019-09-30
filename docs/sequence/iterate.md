@@ -1,7 +1,7 @@
 # Sequence.Iterate
 
 ```go
-func (Sequence) Iterate(val T, f func(val T) T) chan T
+func (s Sequence) Iterate(val T, f func(val T) T) chan T
 ```
 
 Iterate returns an infinite list of repeated applications of f to val
@@ -33,15 +33,37 @@ Generic types: T.
 
 ```go
 // Iterate returns an infinite list of repeated applications of f to val
-func (Sequence) Iterate(val T, f func(val T) T) chan T {
+func (s Sequence) Iterate(val T, f func(val T) T) chan T {
 	c := make(chan T, 1)
 	go func() {
+		defer close(c)
 		for {
-			c <- val
-			val = f(val)
+			select {
+			case <-s.ctx.Done():
+				return
+			case c <- val:
+				val = f(val)
+			}
 		}
 	}()
 	return c
 }
 ```
 
+## Tests
+
+```go
+func TestSequenceIterate(t *testing.T) {
+	f := func(start T, count int, expected []T) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := Sequence{ctx: ctx}
+		double := func(val T) T { return val * 2 }
+		seq := s.Iterate(start, double)
+		seq2 := Channel{seq}.Take(count)
+		actual := Channel{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, []T{1, 2, 4, 8})
+}
+```

@@ -1,7 +1,7 @@
 # Sequence.Replicate
 
 ```go
-func (Sequence) Replicate(val T, n int) chan T
+func (s Sequence) Replicate(val T, n int) chan T
 ```
 
 Replicate returns channel that produces val n times
@@ -33,12 +33,13 @@ Generic types: T.
 
 ```go
 // Replicate returns channel that produces val n times
-func (Sequence) Replicate(val T, n int) chan T {
+func (s Sequence) Replicate(val T, n int) chan T {
 	c := make(chan T, 1)
 	go func() {
 		for i := 0; i < n; i++ {
 			c <- val
 		}
+		close(c)
 	}()
 	return c
 }
