@@ -195,6 +195,41 @@ func TestSliceDropEvery(t *testing.T) {
 	f([]T{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, []T{1, 2, 4, 5, 7, 8, 10})
 }
 
+func TestSliceDropWhile(t *testing.T) {
+	f := func(given []T, expected []T) {
+		even := func(el T) bool { return el%2 == 0 }
+		actual := Slice{given}.DropWhile(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{})
+	f([]T{2}, []T{})
+	f([]T{1}, []T{1})
+	f([]T{2, 1}, []T{1})
+	f([]T{2, 1, 2}, []T{1, 2})
+	f([]T{1, 2}, []T{1, 2})
+	f([]T{2, 4, 6, 1, 8}, []T{1, 8})
+}
+
+func TestSliceEndsWith(t *testing.T) {
+	f := func(given []T, suffix []T, expected bool) {
+		actual := Slice{given}.EndsWith(suffix)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{}, true)
+	f([]T{1}, []T{1}, true)
+	f([]T{1}, []T{2}, false)
+	f([]T{2, 3}, []T{1, 2, 3}, false)
+
+	f([]T{1, 2, 3}, []T{3}, true)
+	f([]T{1, 2, 3}, []T{2, 3}, true)
+	f([]T{1, 2, 3}, []T{1, 2, 3}, true)
+
+	f([]T{1, 2, 3}, []T{1}, false)
+	f([]T{1, 2, 3}, []T{2}, false)
+	f([]T{1, 2, 3}, []T{1, 2}, false)
+	f([]T{1, 2, 3}, []T{3, 2}, false)
+}
+
 func TestSliceFilter(t *testing.T) {
 	f := func(given []T, expected []T) {
 		even := func(t T) bool { return (t % 2) == 0 }

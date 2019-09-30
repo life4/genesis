@@ -2519,15 +2519,13 @@ func (s SliceBool) DropEvery(nth int) ([]bool, error) {
 }
 
 // DropWhile drops elements from arr while f returns true
-func (s SliceBool) DropWhile(f func(arr bool) bool) []bool {
-	result := make([]bool, 0, len(s.Data))
-	for _, el := range s.Data {
+func (s SliceBool) DropWhile(f func(el bool) bool) []bool {
+	for i, el := range s.Data {
 		if !f(el) {
-			return result
+			return s.Data[i:]
 		}
-		result = append(result, el)
 	}
-	return result
+	return []bool{}
 }
 
 // Each calls f for every element from arr
@@ -2543,8 +2541,9 @@ func (s SliceBool) EndsWith(suffix []bool) bool {
 	if len(suffix) > len(s.Data) {
 		return false
 	}
+	start := len(s.Data) - len(suffix)
 	for i, el := range suffix {
-		if el != s.Data[len(s.Data)-i] {
+		if el != s.Data[start+i] {
 			return false
 		}
 	}
@@ -6328,15 +6327,13 @@ func (s SliceByte) DropEvery(nth int) ([]byte, error) {
 }
 
 // DropWhile drops elements from arr while f returns true
-func (s SliceByte) DropWhile(f func(arr byte) bool) []byte {
-	result := make([]byte, 0, len(s.Data))
-	for _, el := range s.Data {
+func (s SliceByte) DropWhile(f func(el byte) bool) []byte {
+	for i, el := range s.Data {
 		if !f(el) {
-			return result
+			return s.Data[i:]
 		}
-		result = append(result, el)
 	}
-	return result
+	return []byte{}
 }
 
 // Each calls f for every element from arr
@@ -6352,8 +6349,9 @@ func (s SliceByte) EndsWith(suffix []byte) bool {
 	if len(suffix) > len(s.Data) {
 		return false
 	}
+	start := len(s.Data) - len(suffix)
 	for i, el := range suffix {
-		if el != s.Data[len(s.Data)-i] {
+		if el != s.Data[start+i] {
 			return false
 		}
 	}
@@ -10212,15 +10210,13 @@ func (s SliceString) DropEvery(nth int) ([]string, error) {
 }
 
 // DropWhile drops elements from arr while f returns true
-func (s SliceString) DropWhile(f func(arr string) bool) []string {
-	result := make([]string, 0, len(s.Data))
-	for _, el := range s.Data {
+func (s SliceString) DropWhile(f func(el string) bool) []string {
+	for i, el := range s.Data {
 		if !f(el) {
-			return result
+			return s.Data[i:]
 		}
-		result = append(result, el)
 	}
-	return result
+	return []string{}
 }
 
 // Each calls f for every element from arr
@@ -10236,8 +10232,9 @@ func (s SliceString) EndsWith(suffix []string) bool {
 	if len(suffix) > len(s.Data) {
 		return false
 	}
+	start := len(s.Data) - len(suffix)
 	for i, el := range suffix {
-		if el != s.Data[len(s.Data)-i] {
+		if el != s.Data[start+i] {
 			return false
 		}
 	}
@@ -14145,15 +14142,13 @@ func (s SliceFloat32) DropEvery(nth int) ([]float32, error) {
 }
 
 // DropWhile drops elements from arr while f returns true
-func (s SliceFloat32) DropWhile(f func(arr float32) bool) []float32 {
-	result := make([]float32, 0, len(s.Data))
-	for _, el := range s.Data {
+func (s SliceFloat32) DropWhile(f func(el float32) bool) []float32 {
+	for i, el := range s.Data {
 		if !f(el) {
-			return result
+			return s.Data[i:]
 		}
-		result = append(result, el)
 	}
-	return result
+	return []float32{}
 }
 
 // Each calls f for every element from arr
@@ -14169,8 +14164,9 @@ func (s SliceFloat32) EndsWith(suffix []float32) bool {
 	if len(suffix) > len(s.Data) {
 		return false
 	}
+	start := len(s.Data) - len(suffix)
 	for i, el := range suffix {
-		if el != s.Data[len(s.Data)-i] {
+		if el != s.Data[start+i] {
 			return false
 		}
 	}
@@ -18069,15 +18065,13 @@ func (s SliceFloat64) DropEvery(nth int) ([]float64, error) {
 }
 
 // DropWhile drops elements from arr while f returns true
-func (s SliceFloat64) DropWhile(f func(arr float64) bool) []float64 {
-	result := make([]float64, 0, len(s.Data))
-	for _, el := range s.Data {
+func (s SliceFloat64) DropWhile(f func(el float64) bool) []float64 {
+	for i, el := range s.Data {
 		if !f(el) {
-			return result
+			return s.Data[i:]
 		}
-		result = append(result, el)
 	}
-	return result
+	return []float64{}
 }
 
 // Each calls f for every element from arr
@@ -18093,8 +18087,9 @@ func (s SliceFloat64) EndsWith(suffix []float64) bool {
 	if len(suffix) > len(s.Data) {
 		return false
 	}
+	start := len(s.Data) - len(suffix)
 	for i, el := range suffix {
-		if el != s.Data[len(s.Data)-i] {
+		if el != s.Data[start+i] {
 			return false
 		}
 	}
@@ -21993,15 +21988,13 @@ func (s SliceInt) DropEvery(nth int) ([]int, error) {
 }
 
 // DropWhile drops elements from arr while f returns true
-func (s SliceInt) DropWhile(f func(arr int) bool) []int {
-	result := make([]int, 0, len(s.Data))
-	for _, el := range s.Data {
+func (s SliceInt) DropWhile(f func(el int) bool) []int {
+	for i, el := range s.Data {
 		if !f(el) {
-			return result
+			return s.Data[i:]
 		}
-		result = append(result, el)
 	}
-	return result
+	return []int{}
 }
 
 // Each calls f for every element from arr
@@ -22017,8 +22010,9 @@ func (s SliceInt) EndsWith(suffix []int) bool {
 	if len(suffix) > len(s.Data) {
 		return false
 	}
+	start := len(s.Data) - len(suffix)
 	for i, el := range suffix {
-		if el != s.Data[len(s.Data)-i] {
+		if el != s.Data[start+i] {
 			return false
 		}
 	}
@@ -25926,15 +25920,13 @@ func (s SliceInt8) DropEvery(nth int) ([]int8, error) {
 }
 
 // DropWhile drops elements from arr while f returns true
-func (s SliceInt8) DropWhile(f func(arr int8) bool) []int8 {
-	result := make([]int8, 0, len(s.Data))
-	for _, el := range s.Data {
+func (s SliceInt8) DropWhile(f func(el int8) bool) []int8 {
+	for i, el := range s.Data {
 		if !f(el) {
-			return result
+			return s.Data[i:]
 		}
-		result = append(result, el)
 	}
-	return result
+	return []int8{}
 }
 
 // Each calls f for every element from arr
@@ -25950,8 +25942,9 @@ func (s SliceInt8) EndsWith(suffix []int8) bool {
 	if len(suffix) > len(s.Data) {
 		return false
 	}
+	start := len(s.Data) - len(suffix)
 	for i, el := range suffix {
-		if el != s.Data[len(s.Data)-i] {
+		if el != s.Data[start+i] {
 			return false
 		}
 	}
@@ -29859,15 +29852,13 @@ func (s SliceInt16) DropEvery(nth int) ([]int16, error) {
 }
 
 // DropWhile drops elements from arr while f returns true
-func (s SliceInt16) DropWhile(f func(arr int16) bool) []int16 {
-	result := make([]int16, 0, len(s.Data))
-	for _, el := range s.Data {
+func (s SliceInt16) DropWhile(f func(el int16) bool) []int16 {
+	for i, el := range s.Data {
 		if !f(el) {
-			return result
+			return s.Data[i:]
 		}
-		result = append(result, el)
 	}
-	return result
+	return []int16{}
 }
 
 // Each calls f for every element from arr
@@ -29883,8 +29874,9 @@ func (s SliceInt16) EndsWith(suffix []int16) bool {
 	if len(suffix) > len(s.Data) {
 		return false
 	}
+	start := len(s.Data) - len(suffix)
 	for i, el := range suffix {
-		if el != s.Data[len(s.Data)-i] {
+		if el != s.Data[start+i] {
 			return false
 		}
 	}
@@ -33792,15 +33784,13 @@ func (s SliceInt32) DropEvery(nth int) ([]int32, error) {
 }
 
 // DropWhile drops elements from arr while f returns true
-func (s SliceInt32) DropWhile(f func(arr int32) bool) []int32 {
-	result := make([]int32, 0, len(s.Data))
-	for _, el := range s.Data {
+func (s SliceInt32) DropWhile(f func(el int32) bool) []int32 {
+	for i, el := range s.Data {
 		if !f(el) {
-			return result
+			return s.Data[i:]
 		}
-		result = append(result, el)
 	}
-	return result
+	return []int32{}
 }
 
 // Each calls f for every element from arr
@@ -33816,8 +33806,9 @@ func (s SliceInt32) EndsWith(suffix []int32) bool {
 	if len(suffix) > len(s.Data) {
 		return false
 	}
+	start := len(s.Data) - len(suffix)
 	for i, el := range suffix {
-		if el != s.Data[len(s.Data)-i] {
+		if el != s.Data[start+i] {
 			return false
 		}
 	}
@@ -37725,15 +37716,13 @@ func (s SliceInt64) DropEvery(nth int) ([]int64, error) {
 }
 
 // DropWhile drops elements from arr while f returns true
-func (s SliceInt64) DropWhile(f func(arr int64) bool) []int64 {
-	result := make([]int64, 0, len(s.Data))
-	for _, el := range s.Data {
+func (s SliceInt64) DropWhile(f func(el int64) bool) []int64 {
+	for i, el := range s.Data {
 		if !f(el) {
-			return result
+			return s.Data[i:]
 		}
-		result = append(result, el)
 	}
-	return result
+	return []int64{}
 }
 
 // Each calls f for every element from arr
@@ -37749,8 +37738,9 @@ func (s SliceInt64) EndsWith(suffix []int64) bool {
 	if len(suffix) > len(s.Data) {
 		return false
 	}
+	start := len(s.Data) - len(suffix)
 	for i, el := range suffix {
-		if el != s.Data[len(s.Data)-i] {
+		if el != s.Data[start+i] {
 			return false
 		}
 	}
@@ -41658,15 +41648,13 @@ func (s SliceUint) DropEvery(nth int) ([]uint, error) {
 }
 
 // DropWhile drops elements from arr while f returns true
-func (s SliceUint) DropWhile(f func(arr uint) bool) []uint {
-	result := make([]uint, 0, len(s.Data))
-	for _, el := range s.Data {
+func (s SliceUint) DropWhile(f func(el uint) bool) []uint {
+	for i, el := range s.Data {
 		if !f(el) {
-			return result
+			return s.Data[i:]
 		}
-		result = append(result, el)
 	}
-	return result
+	return []uint{}
 }
 
 // Each calls f for every element from arr
@@ -41682,8 +41670,9 @@ func (s SliceUint) EndsWith(suffix []uint) bool {
 	if len(suffix) > len(s.Data) {
 		return false
 	}
+	start := len(s.Data) - len(suffix)
 	for i, el := range suffix {
-		if el != s.Data[len(s.Data)-i] {
+		if el != s.Data[start+i] {
 			return false
 		}
 	}
@@ -45591,15 +45580,13 @@ func (s SliceUint8) DropEvery(nth int) ([]uint8, error) {
 }
 
 // DropWhile drops elements from arr while f returns true
-func (s SliceUint8) DropWhile(f func(arr uint8) bool) []uint8 {
-	result := make([]uint8, 0, len(s.Data))
-	for _, el := range s.Data {
+func (s SliceUint8) DropWhile(f func(el uint8) bool) []uint8 {
+	for i, el := range s.Data {
 		if !f(el) {
-			return result
+			return s.Data[i:]
 		}
-		result = append(result, el)
 	}
-	return result
+	return []uint8{}
 }
 
 // Each calls f for every element from arr
@@ -45615,8 +45602,9 @@ func (s SliceUint8) EndsWith(suffix []uint8) bool {
 	if len(suffix) > len(s.Data) {
 		return false
 	}
+	start := len(s.Data) - len(suffix)
 	for i, el := range suffix {
-		if el != s.Data[len(s.Data)-i] {
+		if el != s.Data[start+i] {
 			return false
 		}
 	}
@@ -49524,15 +49512,13 @@ func (s SliceUint16) DropEvery(nth int) ([]uint16, error) {
 }
 
 // DropWhile drops elements from arr while f returns true
-func (s SliceUint16) DropWhile(f func(arr uint16) bool) []uint16 {
-	result := make([]uint16, 0, len(s.Data))
-	for _, el := range s.Data {
+func (s SliceUint16) DropWhile(f func(el uint16) bool) []uint16 {
+	for i, el := range s.Data {
 		if !f(el) {
-			return result
+			return s.Data[i:]
 		}
-		result = append(result, el)
 	}
-	return result
+	return []uint16{}
 }
 
 // Each calls f for every element from arr
@@ -49548,8 +49534,9 @@ func (s SliceUint16) EndsWith(suffix []uint16) bool {
 	if len(suffix) > len(s.Data) {
 		return false
 	}
+	start := len(s.Data) - len(suffix)
 	for i, el := range suffix {
-		if el != s.Data[len(s.Data)-i] {
+		if el != s.Data[start+i] {
 			return false
 		}
 	}
@@ -53457,15 +53444,13 @@ func (s SliceUint32) DropEvery(nth int) ([]uint32, error) {
 }
 
 // DropWhile drops elements from arr while f returns true
-func (s SliceUint32) DropWhile(f func(arr uint32) bool) []uint32 {
-	result := make([]uint32, 0, len(s.Data))
-	for _, el := range s.Data {
+func (s SliceUint32) DropWhile(f func(el uint32) bool) []uint32 {
+	for i, el := range s.Data {
 		if !f(el) {
-			return result
+			return s.Data[i:]
 		}
-		result = append(result, el)
 	}
-	return result
+	return []uint32{}
 }
 
 // Each calls f for every element from arr
@@ -53481,8 +53466,9 @@ func (s SliceUint32) EndsWith(suffix []uint32) bool {
 	if len(suffix) > len(s.Data) {
 		return false
 	}
+	start := len(s.Data) - len(suffix)
 	for i, el := range suffix {
-		if el != s.Data[len(s.Data)-i] {
+		if el != s.Data[start+i] {
 			return false
 		}
 	}
@@ -57390,15 +57376,13 @@ func (s SliceUint64) DropEvery(nth int) ([]uint64, error) {
 }
 
 // DropWhile drops elements from arr while f returns true
-func (s SliceUint64) DropWhile(f func(arr uint64) bool) []uint64 {
-	result := make([]uint64, 0, len(s.Data))
-	for _, el := range s.Data {
+func (s SliceUint64) DropWhile(f func(el uint64) bool) []uint64 {
+	for i, el := range s.Data {
 		if !f(el) {
-			return result
+			return s.Data[i:]
 		}
-		result = append(result, el)
 	}
-	return result
+	return []uint64{}
 }
 
 // Each calls f for every element from arr
@@ -57414,8 +57398,9 @@ func (s SliceUint64) EndsWith(suffix []uint64) bool {
 	if len(suffix) > len(s.Data) {
 		return false
 	}
+	start := len(s.Data) - len(suffix)
 	for i, el := range suffix {
-		if el != s.Data[len(s.Data)-i] {
+		if el != s.Data[start+i] {
 			return false
 		}
 	}
@@ -61221,15 +61206,13 @@ func (s SliceInterface) DropEvery(nth int) ([]interface{}, error) {
 }
 
 // DropWhile drops elements from arr while f returns true
-func (s SliceInterface) DropWhile(f func(arr interface{}) bool) []interface{} {
-	result := make([]interface{}, 0, len(s.Data))
-	for _, el := range s.Data {
+func (s SliceInterface) DropWhile(f func(el interface{}) bool) []interface{} {
+	for i, el := range s.Data {
 		if !f(el) {
-			return result
+			return s.Data[i:]
 		}
-		result = append(result, el)
 	}
-	return result
+	return []interface{}{}
 }
 
 // Each calls f for every element from arr
@@ -61245,8 +61228,9 @@ func (s SliceInterface) EndsWith(suffix []interface{}) bool {
 	if len(suffix) > len(s.Data) {
 		return false
 	}
+	start := len(s.Data) - len(suffix)
 	for i, el := range suffix {
-		if el != s.Data[len(s.Data)-i] {
+		if el != s.Data[start+i] {
 			return false
 		}
 	}

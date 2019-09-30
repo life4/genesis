@@ -261,15 +261,13 @@ func (s Slice) DropEvery(nth int) ([]T, error) {
 }
 
 // DropWhile drops elements from arr while f returns true
-func (s Slice) DropWhile(f func(arr T) bool) []T {
-	result := make([]T, 0, len(s.Data))
-	for _, el := range s.Data {
+func (s Slice) DropWhile(f func(el T) bool) []T {
+	for i, el := range s.Data {
 		if !f(el) {
-			return result
+			return s.Data[i:]
 		}
-		result = append(result, el)
 	}
-	return result
+	return []T{}
 }
 
 // Each calls f for every element from arr
@@ -285,8 +283,9 @@ func (s Slice) EndsWith(suffix []T) bool {
 	if len(suffix) > len(s.Data) {
 		return false
 	}
+	start := len(s.Data) - len(suffix)
 	for i, el := range suffix {
-		if el != s.Data[len(s.Data)-i] {
+		if el != s.Data[start+i] {
 			return false
 		}
 	}

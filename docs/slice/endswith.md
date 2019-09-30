@@ -38,8 +38,9 @@ func (s Slice) EndsWith(suffix []T) bool {
 	if len(suffix) > len(s.Data) {
 		return false
 	}
+	start := len(s.Data) - len(suffix)
 	for i, el := range suffix {
-		if el != s.Data[len(s.Data)-i] {
+		if el != s.Data[start+i] {
 			return false
 		}
 	}
@@ -47,3 +48,26 @@ func (s Slice) EndsWith(suffix []T) bool {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceEndsWith(t *testing.T) {
+	f := func(given []T, suffix []T, expected bool) {
+		actual := Slice{given}.EndsWith(suffix)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{}, true)
+	f([]T{1}, []T{1}, true)
+	f([]T{1}, []T{2}, false)
+	f([]T{2, 3}, []T{1, 2, 3}, false)
+
+	f([]T{1, 2, 3}, []T{3}, true)
+	f([]T{1, 2, 3}, []T{2, 3}, true)
+	f([]T{1, 2, 3}, []T{1, 2, 3}, true)
+
+	f([]T{1, 2, 3}, []T{1}, false)
+	f([]T{1, 2, 3}, []T{2}, false)
+	f([]T{1, 2, 3}, []T{1, 2}, false)
+	f([]T{1, 2, 3}, []T{3, 2}, false)
+}
+```

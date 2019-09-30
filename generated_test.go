@@ -320,6 +320,41 @@ func TestSliceDropEveryInt(t *testing.T) {
 	f([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, []int{1, 2, 4, 5, 7, 8, 10})
 }
 
+func TestSliceDropWhileInt(t *testing.T) {
+	f := func(given []int, expected []int) {
+		even := func(el int) bool { return el%2 == 0 }
+		actual := SliceInt{given}.DropWhile(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{2}, []int{})
+	f([]int{1}, []int{1})
+	f([]int{2, 1}, []int{1})
+	f([]int{2, 1, 2}, []int{1, 2})
+	f([]int{1, 2}, []int{1, 2})
+	f([]int{2, 4, 6, 1, 8}, []int{1, 8})
+}
+
+func TestSliceEndsWithInt(t *testing.T) {
+	f := func(given []int, suffix []int, expected bool) {
+		actual := SliceInt{given}.EndsWith(suffix)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{}, true)
+	f([]int{1}, []int{1}, true)
+	f([]int{1}, []int{2}, false)
+	f([]int{2, 3}, []int{1, 2, 3}, false)
+
+	f([]int{1, 2, 3}, []int{3}, true)
+	f([]int{1, 2, 3}, []int{2, 3}, true)
+	f([]int{1, 2, 3}, []int{1, 2, 3}, true)
+
+	f([]int{1, 2, 3}, []int{1}, false)
+	f([]int{1, 2, 3}, []int{2}, false)
+	f([]int{1, 2, 3}, []int{1, 2}, false)
+	f([]int{1, 2, 3}, []int{3, 2}, false)
+}
+
 func TestSliceFilterInt(t *testing.T) {
 	f := func(given []int, expected []int) {
 		even := func(t int) bool { return (t % 2) == 0 }
@@ -1680,6 +1715,41 @@ func TestSliceDropEveryInt8(t *testing.T) {
 
 	f([]int8{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2, []int8{1, 3, 5, 7, 9})
 	f([]int8{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, []int8{1, 2, 4, 5, 7, 8, 10})
+}
+
+func TestSliceDropWhileInt8(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		even := func(el int8) bool { return el%2 == 0 }
+		actual := SliceInt8{given}.DropWhile(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{2}, []int8{})
+	f([]int8{1}, []int8{1})
+	f([]int8{2, 1}, []int8{1})
+	f([]int8{2, 1, 2}, []int8{1, 2})
+	f([]int8{1, 2}, []int8{1, 2})
+	f([]int8{2, 4, 6, 1, 8}, []int8{1, 8})
+}
+
+func TestSliceEndsWithInt8(t *testing.T) {
+	f := func(given []int8, suffix []int8, expected bool) {
+		actual := SliceInt8{given}.EndsWith(suffix)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{}, true)
+	f([]int8{1}, []int8{1}, true)
+	f([]int8{1}, []int8{2}, false)
+	f([]int8{2, 3}, []int8{1, 2, 3}, false)
+
+	f([]int8{1, 2, 3}, []int8{3}, true)
+	f([]int8{1, 2, 3}, []int8{2, 3}, true)
+	f([]int8{1, 2, 3}, []int8{1, 2, 3}, true)
+
+	f([]int8{1, 2, 3}, []int8{1}, false)
+	f([]int8{1, 2, 3}, []int8{2}, false)
+	f([]int8{1, 2, 3}, []int8{1, 2}, false)
+	f([]int8{1, 2, 3}, []int8{3, 2}, false)
 }
 
 func TestSliceFilterInt8(t *testing.T) {
@@ -3044,6 +3114,41 @@ func TestSliceDropEveryInt16(t *testing.T) {
 	f([]int16{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, []int16{1, 2, 4, 5, 7, 8, 10})
 }
 
+func TestSliceDropWhileInt16(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		even := func(el int16) bool { return el%2 == 0 }
+		actual := SliceInt16{given}.DropWhile(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{2}, []int16{})
+	f([]int16{1}, []int16{1})
+	f([]int16{2, 1}, []int16{1})
+	f([]int16{2, 1, 2}, []int16{1, 2})
+	f([]int16{1, 2}, []int16{1, 2})
+	f([]int16{2, 4, 6, 1, 8}, []int16{1, 8})
+}
+
+func TestSliceEndsWithInt16(t *testing.T) {
+	f := func(given []int16, suffix []int16, expected bool) {
+		actual := SliceInt16{given}.EndsWith(suffix)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{}, true)
+	f([]int16{1}, []int16{1}, true)
+	f([]int16{1}, []int16{2}, false)
+	f([]int16{2, 3}, []int16{1, 2, 3}, false)
+
+	f([]int16{1, 2, 3}, []int16{3}, true)
+	f([]int16{1, 2, 3}, []int16{2, 3}, true)
+	f([]int16{1, 2, 3}, []int16{1, 2, 3}, true)
+
+	f([]int16{1, 2, 3}, []int16{1}, false)
+	f([]int16{1, 2, 3}, []int16{2}, false)
+	f([]int16{1, 2, 3}, []int16{1, 2}, false)
+	f([]int16{1, 2, 3}, []int16{3, 2}, false)
+}
+
 func TestSliceFilterInt16(t *testing.T) {
 	f := func(given []int16, expected []int16) {
 		even := func(t int16) bool { return (t % 2) == 0 }
@@ -4406,6 +4511,41 @@ func TestSliceDropEveryInt32(t *testing.T) {
 	f([]int32{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, []int32{1, 2, 4, 5, 7, 8, 10})
 }
 
+func TestSliceDropWhileInt32(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		even := func(el int32) bool { return el%2 == 0 }
+		actual := SliceInt32{given}.DropWhile(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{2}, []int32{})
+	f([]int32{1}, []int32{1})
+	f([]int32{2, 1}, []int32{1})
+	f([]int32{2, 1, 2}, []int32{1, 2})
+	f([]int32{1, 2}, []int32{1, 2})
+	f([]int32{2, 4, 6, 1, 8}, []int32{1, 8})
+}
+
+func TestSliceEndsWithInt32(t *testing.T) {
+	f := func(given []int32, suffix []int32, expected bool) {
+		actual := SliceInt32{given}.EndsWith(suffix)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{}, true)
+	f([]int32{1}, []int32{1}, true)
+	f([]int32{1}, []int32{2}, false)
+	f([]int32{2, 3}, []int32{1, 2, 3}, false)
+
+	f([]int32{1, 2, 3}, []int32{3}, true)
+	f([]int32{1, 2, 3}, []int32{2, 3}, true)
+	f([]int32{1, 2, 3}, []int32{1, 2, 3}, true)
+
+	f([]int32{1, 2, 3}, []int32{1}, false)
+	f([]int32{1, 2, 3}, []int32{2}, false)
+	f([]int32{1, 2, 3}, []int32{1, 2}, false)
+	f([]int32{1, 2, 3}, []int32{3, 2}, false)
+}
+
 func TestSliceFilterInt32(t *testing.T) {
 	f := func(given []int32, expected []int32) {
 		even := func(t int32) bool { return (t % 2) == 0 }
@@ -5766,6 +5906,41 @@ func TestSliceDropEveryInt64(t *testing.T) {
 
 	f([]int64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2, []int64{1, 3, 5, 7, 9})
 	f([]int64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, []int64{1, 2, 4, 5, 7, 8, 10})
+}
+
+func TestSliceDropWhileInt64(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		even := func(el int64) bool { return el%2 == 0 }
+		actual := SliceInt64{given}.DropWhile(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{2}, []int64{})
+	f([]int64{1}, []int64{1})
+	f([]int64{2, 1}, []int64{1})
+	f([]int64{2, 1, 2}, []int64{1, 2})
+	f([]int64{1, 2}, []int64{1, 2})
+	f([]int64{2, 4, 6, 1, 8}, []int64{1, 8})
+}
+
+func TestSliceEndsWithInt64(t *testing.T) {
+	f := func(given []int64, suffix []int64, expected bool) {
+		actual := SliceInt64{given}.EndsWith(suffix)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{}, true)
+	f([]int64{1}, []int64{1}, true)
+	f([]int64{1}, []int64{2}, false)
+	f([]int64{2, 3}, []int64{1, 2, 3}, false)
+
+	f([]int64{1, 2, 3}, []int64{3}, true)
+	f([]int64{1, 2, 3}, []int64{2, 3}, true)
+	f([]int64{1, 2, 3}, []int64{1, 2, 3}, true)
+
+	f([]int64{1, 2, 3}, []int64{1}, false)
+	f([]int64{1, 2, 3}, []int64{2}, false)
+	f([]int64{1, 2, 3}, []int64{1, 2}, false)
+	f([]int64{1, 2, 3}, []int64{3, 2}, false)
 }
 
 func TestSliceFilterInt64(t *testing.T) {
