@@ -1600,14 +1600,18 @@ func (s SliceBool) All(f func(el bool) bool) bool {
 	return true
 }
 
-// Choice chooses a random element from the slice
-func (s SliceBool) Choice() (bool, error) {
+// Choice chooses a random element from the slice.
+// If seed is zero, UNIX timestamp will be used.
+func (s SliceBool) Choice(seed int64) (bool, error) {
 	if len(s.Data) == 0 {
 		var tmp bool
 		return tmp, ErrEmpty
 	}
 
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	i := rand.Intn(len(s.Data))
 	return s.Data[i], nil
 }
@@ -5405,14 +5409,18 @@ func (s SliceByte) All(f func(el byte) bool) bool {
 	return true
 }
 
-// Choice chooses a random element from the slice
-func (s SliceByte) Choice() (byte, error) {
+// Choice chooses a random element from the slice.
+// If seed is zero, UNIX timestamp will be used.
+func (s SliceByte) Choice(seed int64) (byte, error) {
 	if len(s.Data) == 0 {
 		var tmp byte
 		return tmp, ErrEmpty
 	}
 
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	i := rand.Intn(len(s.Data))
 	return s.Data[i], nil
 }
@@ -9285,14 +9293,18 @@ func (s SliceString) All(f func(el string) bool) bool {
 	return true
 }
 
-// Choice chooses a random element from the slice
-func (s SliceString) Choice() (string, error) {
+// Choice chooses a random element from the slice.
+// If seed is zero, UNIX timestamp will be used.
+func (s SliceString) Choice(seed int64) (string, error) {
 	if len(s.Data) == 0 {
 		var tmp string
 		return tmp, ErrEmpty
 	}
 
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	i := rand.Intn(len(s.Data))
 	return s.Data[i], nil
 }
@@ -13214,14 +13226,18 @@ func (s SliceFloat32) All(f func(el float32) bool) bool {
 	return true
 }
 
-// Choice chooses a random element from the slice
-func (s SliceFloat32) Choice() (float32, error) {
+// Choice chooses a random element from the slice.
+// If seed is zero, UNIX timestamp will be used.
+func (s SliceFloat32) Choice(seed int64) (float32, error) {
 	if len(s.Data) == 0 {
 		var tmp float32
 		return tmp, ErrEmpty
 	}
 
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	i := rand.Intn(len(s.Data))
 	return s.Data[i], nil
 }
@@ -17134,14 +17150,18 @@ func (s SliceFloat64) All(f func(el float64) bool) bool {
 	return true
 }
 
-// Choice chooses a random element from the slice
-func (s SliceFloat64) Choice() (float64, error) {
+// Choice chooses a random element from the slice.
+// If seed is zero, UNIX timestamp will be used.
+func (s SliceFloat64) Choice(seed int64) (float64, error) {
 	if len(s.Data) == 0 {
 		var tmp float64
 		return tmp, ErrEmpty
 	}
 
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	i := rand.Intn(len(s.Data))
 	return s.Data[i], nil
 }
@@ -21054,14 +21074,18 @@ func (s SliceInt) All(f func(el int) bool) bool {
 	return true
 }
 
-// Choice chooses a random element from the slice
-func (s SliceInt) Choice() (int, error) {
+// Choice chooses a random element from the slice.
+// If seed is zero, UNIX timestamp will be used.
+func (s SliceInt) Choice(seed int64) (int, error) {
 	if len(s.Data) == 0 {
 		var tmp int
 		return tmp, ErrEmpty
 	}
 
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	i := rand.Intn(len(s.Data))
 	return s.Data[i], nil
 }
@@ -24983,14 +25007,18 @@ func (s SliceInt8) All(f func(el int8) bool) bool {
 	return true
 }
 
-// Choice chooses a random element from the slice
-func (s SliceInt8) Choice() (int8, error) {
+// Choice chooses a random element from the slice.
+// If seed is zero, UNIX timestamp will be used.
+func (s SliceInt8) Choice(seed int64) (int8, error) {
 	if len(s.Data) == 0 {
 		var tmp int8
 		return tmp, ErrEmpty
 	}
 
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	i := rand.Intn(len(s.Data))
 	return s.Data[i], nil
 }
@@ -28912,14 +28940,18 @@ func (s SliceInt16) All(f func(el int16) bool) bool {
 	return true
 }
 
-// Choice chooses a random element from the slice
-func (s SliceInt16) Choice() (int16, error) {
+// Choice chooses a random element from the slice.
+// If seed is zero, UNIX timestamp will be used.
+func (s SliceInt16) Choice(seed int64) (int16, error) {
 	if len(s.Data) == 0 {
 		var tmp int16
 		return tmp, ErrEmpty
 	}
 
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	i := rand.Intn(len(s.Data))
 	return s.Data[i], nil
 }
@@ -32841,14 +32873,18 @@ func (s SliceInt32) All(f func(el int32) bool) bool {
 	return true
 }
 
-// Choice chooses a random element from the slice
-func (s SliceInt32) Choice() (int32, error) {
+// Choice chooses a random element from the slice.
+// If seed is zero, UNIX timestamp will be used.
+func (s SliceInt32) Choice(seed int64) (int32, error) {
 	if len(s.Data) == 0 {
 		var tmp int32
 		return tmp, ErrEmpty
 	}
 
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	i := rand.Intn(len(s.Data))
 	return s.Data[i], nil
 }
@@ -36770,14 +36806,18 @@ func (s SliceInt64) All(f func(el int64) bool) bool {
 	return true
 }
 
-// Choice chooses a random element from the slice
-func (s SliceInt64) Choice() (int64, error) {
+// Choice chooses a random element from the slice.
+// If seed is zero, UNIX timestamp will be used.
+func (s SliceInt64) Choice(seed int64) (int64, error) {
 	if len(s.Data) == 0 {
 		var tmp int64
 		return tmp, ErrEmpty
 	}
 
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	i := rand.Intn(len(s.Data))
 	return s.Data[i], nil
 }
@@ -40699,14 +40739,18 @@ func (s SliceUint) All(f func(el uint) bool) bool {
 	return true
 }
 
-// Choice chooses a random element from the slice
-func (s SliceUint) Choice() (uint, error) {
+// Choice chooses a random element from the slice.
+// If seed is zero, UNIX timestamp will be used.
+func (s SliceUint) Choice(seed int64) (uint, error) {
 	if len(s.Data) == 0 {
 		var tmp uint
 		return tmp, ErrEmpty
 	}
 
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	i := rand.Intn(len(s.Data))
 	return s.Data[i], nil
 }
@@ -44628,14 +44672,18 @@ func (s SliceUint8) All(f func(el uint8) bool) bool {
 	return true
 }
 
-// Choice chooses a random element from the slice
-func (s SliceUint8) Choice() (uint8, error) {
+// Choice chooses a random element from the slice.
+// If seed is zero, UNIX timestamp will be used.
+func (s SliceUint8) Choice(seed int64) (uint8, error) {
 	if len(s.Data) == 0 {
 		var tmp uint8
 		return tmp, ErrEmpty
 	}
 
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	i := rand.Intn(len(s.Data))
 	return s.Data[i], nil
 }
@@ -48557,14 +48605,18 @@ func (s SliceUint16) All(f func(el uint16) bool) bool {
 	return true
 }
 
-// Choice chooses a random element from the slice
-func (s SliceUint16) Choice() (uint16, error) {
+// Choice chooses a random element from the slice.
+// If seed is zero, UNIX timestamp will be used.
+func (s SliceUint16) Choice(seed int64) (uint16, error) {
 	if len(s.Data) == 0 {
 		var tmp uint16
 		return tmp, ErrEmpty
 	}
 
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	i := rand.Intn(len(s.Data))
 	return s.Data[i], nil
 }
@@ -52486,14 +52538,18 @@ func (s SliceUint32) All(f func(el uint32) bool) bool {
 	return true
 }
 
-// Choice chooses a random element from the slice
-func (s SliceUint32) Choice() (uint32, error) {
+// Choice chooses a random element from the slice.
+// If seed is zero, UNIX timestamp will be used.
+func (s SliceUint32) Choice(seed int64) (uint32, error) {
 	if len(s.Data) == 0 {
 		var tmp uint32
 		return tmp, ErrEmpty
 	}
 
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	i := rand.Intn(len(s.Data))
 	return s.Data[i], nil
 }
@@ -56415,14 +56471,18 @@ func (s SliceUint64) All(f func(el uint64) bool) bool {
 	return true
 }
 
-// Choice chooses a random element from the slice
-func (s SliceUint64) Choice() (uint64, error) {
+// Choice chooses a random element from the slice.
+// If seed is zero, UNIX timestamp will be used.
+func (s SliceUint64) Choice(seed int64) (uint64, error) {
 	if len(s.Data) == 0 {
 		var tmp uint64
 		return tmp, ErrEmpty
 	}
 
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	i := rand.Intn(len(s.Data))
 	return s.Data[i], nil
 }
@@ -60242,14 +60302,18 @@ func (s SliceInterface) All(f func(el interface{}) bool) bool {
 	return true
 }
 
-// Choice chooses a random element from the slice
-func (s SliceInterface) Choice() (interface{}, error) {
+// Choice chooses a random element from the slice.
+// If seed is zero, UNIX timestamp will be used.
+func (s SliceInterface) Choice(seed int64) (interface{}, error) {
 	if len(s.Data) == 0 {
 		var tmp interface{}
 		return tmp, ErrEmpty
 	}
 
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	i := rand.Intn(len(s.Data))
 	return s.Data[i], nil
 }

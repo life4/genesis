@@ -36,7 +36,7 @@ type Slice struct {
 | -------- | ----------- |
 | [Any](./any.md) | Any returns true if f returns true for any element in arr |
 | [All](./all.md) | All returns true if f returns true for all elements in arr |
-| [Choice](./choice.md) | Choice chooses a random element from the slice |
+| [Choice](./choice.md) | Choice chooses a random element from the slice. If seed is zero, UNIX timestamp will be used. |
 | [ChunkBy](./chunkby.md) | ChunkBy splits arr on every element for which f returns a new value. |
 | [ChunkEvery](./chunkevery.md) | ChunkEvery returns slice of slices containing count elements each |
 | [Contains](./contains.md) | Contains returns true if el in arr. |

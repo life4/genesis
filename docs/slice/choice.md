@@ -1,10 +1,10 @@
 # Slice.Choice
 
 ```go
-func (s Slice) Choice() (T, error)
+func (s Slice) Choice(seed int64) (T, error)
 ```
 
-Choice chooses a random element from the slice
+Choice chooses a random element from the slice. If seed is zero, UNIX timestamp will be used.
 
 Generic types: T.
 
@@ -38,14 +38,18 @@ Generic types: T.
 ## Source
 
 ```go
-// Choice chooses a random element from the slice
-func (s Slice) Choice() (T, error) {
+// Choice chooses a random element from the slice.
+// If seed is zero, UNIX timestamp will be used.
+func (s Slice) Choice(seed int64) (T, error) {
 	if len(s.Data) == 0 {
 		var tmp T
 		return tmp, ErrEmpty
 	}
 
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	i := rand.Intn(len(s.Data))
 	return s.Data[i], nil
 }
