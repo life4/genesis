@@ -745,6 +745,151 @@ func TestSliceProductInt(t *testing.T) {
 	})
 }
 
+func TestSliceReduceIntInt(t *testing.T) {
+	f := func(given []int, expected int) {
+		sum := func(el int, acc int) int { return int(el) + acc }
+		actual := SliceInt{given}.ReduceInt(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 1)
+	f([]int{1, 2}, 3)
+	f([]int{1, 2, 3}, 6)
+}
+
+func TestSliceReduceIntInt8(t *testing.T) {
+	f := func(given []int, expected int8) {
+		sum := func(el int, acc int8) int8 { return int8(el) + acc }
+		actual := SliceInt{given}.ReduceInt8(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 1)
+	f([]int{1, 2}, 3)
+	f([]int{1, 2, 3}, 6)
+}
+
+func TestSliceReduceIntInt16(t *testing.T) {
+	f := func(given []int, expected int16) {
+		sum := func(el int, acc int16) int16 { return int16(el) + acc }
+		actual := SliceInt{given}.ReduceInt16(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 1)
+	f([]int{1, 2}, 3)
+	f([]int{1, 2, 3}, 6)
+}
+
+func TestSliceReduceIntInt32(t *testing.T) {
+	f := func(given []int, expected int32) {
+		sum := func(el int, acc int32) int32 { return int32(el) + acc }
+		actual := SliceInt{given}.ReduceInt32(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 1)
+	f([]int{1, 2}, 3)
+	f([]int{1, 2, 3}, 6)
+}
+
+func TestSliceReduceIntInt64(t *testing.T) {
+	f := func(given []int, expected int64) {
+		sum := func(el int, acc int64) int64 { return int64(el) + acc }
+		actual := SliceInt{given}.ReduceInt64(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 1)
+	f([]int{1, 2}, 3)
+	f([]int{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileIntInt(t *testing.T) {
+	f := func(given []int, expected int) {
+		sum := func(el int, acc int) (int, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int(el) + acc, nil
+		}
+		actual, _ := SliceInt{given}.ReduceWhileInt(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 1)
+	f([]int{1, 2}, 3)
+	f([]int{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileIntInt8(t *testing.T) {
+	f := func(given []int, expected int8) {
+		sum := func(el int, acc int8) (int8, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int8(el) + acc, nil
+		}
+		actual, _ := SliceInt{given}.ReduceWhileInt8(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 1)
+	f([]int{1, 2}, 3)
+	f([]int{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileIntInt16(t *testing.T) {
+	f := func(given []int, expected int16) {
+		sum := func(el int, acc int16) (int16, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int16(el) + acc, nil
+		}
+		actual, _ := SliceInt{given}.ReduceWhileInt16(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 1)
+	f([]int{1, 2}, 3)
+	f([]int{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileIntInt32(t *testing.T) {
+	f := func(given []int, expected int32) {
+		sum := func(el int, acc int32) (int32, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int32(el) + acc, nil
+		}
+		actual, _ := SliceInt{given}.ReduceWhileInt32(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 1)
+	f([]int{1, 2}, 3)
+	f([]int{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileIntInt64(t *testing.T) {
+	f := func(given []int, expected int64) {
+		sum := func(el int, acc int64) (int64, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int64(el) + acc, nil
+		}
+		actual, _ := SliceInt{given}.ReduceWhileInt64(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 1)
+	f([]int{1, 2}, 3)
+	f([]int{1, 2, 3}, 6)
+}
+
 func TestChannelToSliceInt(t *testing.T) {
 	f := func(given []int) {
 		c := make(chan int, 1)
@@ -2295,6 +2440,151 @@ func TestSliceProductInt8(t *testing.T) {
 		{1, 1, 1}, {1, 1, 2}, {1, 2, 1}, {1, 2, 2},
 		{2, 1, 1}, {2, 1, 2}, {2, 2, 1}, {2, 2, 2},
 	})
+}
+
+func TestSliceReduceInt8Int(t *testing.T) {
+	f := func(given []int8, expected int) {
+		sum := func(el int8, acc int) int { return int(el) + acc }
+		actual := SliceInt8{given}.ReduceInt(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 1)
+	f([]int8{1, 2}, 3)
+	f([]int8{1, 2, 3}, 6)
+}
+
+func TestSliceReduceInt8Int8(t *testing.T) {
+	f := func(given []int8, expected int8) {
+		sum := func(el int8, acc int8) int8 { return int8(el) + acc }
+		actual := SliceInt8{given}.ReduceInt8(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 1)
+	f([]int8{1, 2}, 3)
+	f([]int8{1, 2, 3}, 6)
+}
+
+func TestSliceReduceInt8Int16(t *testing.T) {
+	f := func(given []int8, expected int16) {
+		sum := func(el int8, acc int16) int16 { return int16(el) + acc }
+		actual := SliceInt8{given}.ReduceInt16(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 1)
+	f([]int8{1, 2}, 3)
+	f([]int8{1, 2, 3}, 6)
+}
+
+func TestSliceReduceInt8Int32(t *testing.T) {
+	f := func(given []int8, expected int32) {
+		sum := func(el int8, acc int32) int32 { return int32(el) + acc }
+		actual := SliceInt8{given}.ReduceInt32(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 1)
+	f([]int8{1, 2}, 3)
+	f([]int8{1, 2, 3}, 6)
+}
+
+func TestSliceReduceInt8Int64(t *testing.T) {
+	f := func(given []int8, expected int64) {
+		sum := func(el int8, acc int64) int64 { return int64(el) + acc }
+		actual := SliceInt8{given}.ReduceInt64(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 1)
+	f([]int8{1, 2}, 3)
+	f([]int8{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt8Int(t *testing.T) {
+	f := func(given []int8, expected int) {
+		sum := func(el int8, acc int) (int, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int(el) + acc, nil
+		}
+		actual, _ := SliceInt8{given}.ReduceWhileInt(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 1)
+	f([]int8{1, 2}, 3)
+	f([]int8{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt8Int8(t *testing.T) {
+	f := func(given []int8, expected int8) {
+		sum := func(el int8, acc int8) (int8, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int8(el) + acc, nil
+		}
+		actual, _ := SliceInt8{given}.ReduceWhileInt8(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 1)
+	f([]int8{1, 2}, 3)
+	f([]int8{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt8Int16(t *testing.T) {
+	f := func(given []int8, expected int16) {
+		sum := func(el int8, acc int16) (int16, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int16(el) + acc, nil
+		}
+		actual, _ := SliceInt8{given}.ReduceWhileInt16(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 1)
+	f([]int8{1, 2}, 3)
+	f([]int8{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt8Int32(t *testing.T) {
+	f := func(given []int8, expected int32) {
+		sum := func(el int8, acc int32) (int32, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int32(el) + acc, nil
+		}
+		actual, _ := SliceInt8{given}.ReduceWhileInt32(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 1)
+	f([]int8{1, 2}, 3)
+	f([]int8{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt8Int64(t *testing.T) {
+	f := func(given []int8, expected int64) {
+		sum := func(el int8, acc int64) (int64, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int64(el) + acc, nil
+		}
+		actual, _ := SliceInt8{given}.ReduceWhileInt64(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 1)
+	f([]int8{1, 2}, 3)
+	f([]int8{1, 2, 3}, 6)
 }
 
 func TestChannelToSliceInt8(t *testing.T) {
@@ -3849,6 +4139,151 @@ func TestSliceProductInt16(t *testing.T) {
 	})
 }
 
+func TestSliceReduceInt16Int(t *testing.T) {
+	f := func(given []int16, expected int) {
+		sum := func(el int16, acc int) int { return int(el) + acc }
+		actual := SliceInt16{given}.ReduceInt(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 1)
+	f([]int16{1, 2}, 3)
+	f([]int16{1, 2, 3}, 6)
+}
+
+func TestSliceReduceInt16Int8(t *testing.T) {
+	f := func(given []int16, expected int8) {
+		sum := func(el int16, acc int8) int8 { return int8(el) + acc }
+		actual := SliceInt16{given}.ReduceInt8(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 1)
+	f([]int16{1, 2}, 3)
+	f([]int16{1, 2, 3}, 6)
+}
+
+func TestSliceReduceInt16Int16(t *testing.T) {
+	f := func(given []int16, expected int16) {
+		sum := func(el int16, acc int16) int16 { return int16(el) + acc }
+		actual := SliceInt16{given}.ReduceInt16(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 1)
+	f([]int16{1, 2}, 3)
+	f([]int16{1, 2, 3}, 6)
+}
+
+func TestSliceReduceInt16Int32(t *testing.T) {
+	f := func(given []int16, expected int32) {
+		sum := func(el int16, acc int32) int32 { return int32(el) + acc }
+		actual := SliceInt16{given}.ReduceInt32(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 1)
+	f([]int16{1, 2}, 3)
+	f([]int16{1, 2, 3}, 6)
+}
+
+func TestSliceReduceInt16Int64(t *testing.T) {
+	f := func(given []int16, expected int64) {
+		sum := func(el int16, acc int64) int64 { return int64(el) + acc }
+		actual := SliceInt16{given}.ReduceInt64(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 1)
+	f([]int16{1, 2}, 3)
+	f([]int16{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt16Int(t *testing.T) {
+	f := func(given []int16, expected int) {
+		sum := func(el int16, acc int) (int, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int(el) + acc, nil
+		}
+		actual, _ := SliceInt16{given}.ReduceWhileInt(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 1)
+	f([]int16{1, 2}, 3)
+	f([]int16{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt16Int8(t *testing.T) {
+	f := func(given []int16, expected int8) {
+		sum := func(el int16, acc int8) (int8, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int8(el) + acc, nil
+		}
+		actual, _ := SliceInt16{given}.ReduceWhileInt8(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 1)
+	f([]int16{1, 2}, 3)
+	f([]int16{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt16Int16(t *testing.T) {
+	f := func(given []int16, expected int16) {
+		sum := func(el int16, acc int16) (int16, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int16(el) + acc, nil
+		}
+		actual, _ := SliceInt16{given}.ReduceWhileInt16(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 1)
+	f([]int16{1, 2}, 3)
+	f([]int16{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt16Int32(t *testing.T) {
+	f := func(given []int16, expected int32) {
+		sum := func(el int16, acc int32) (int32, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int32(el) + acc, nil
+		}
+		actual, _ := SliceInt16{given}.ReduceWhileInt32(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 1)
+	f([]int16{1, 2}, 3)
+	f([]int16{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt16Int64(t *testing.T) {
+	f := func(given []int16, expected int64) {
+		sum := func(el int16, acc int64) (int64, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int64(el) + acc, nil
+		}
+		actual, _ := SliceInt16{given}.ReduceWhileInt64(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 1)
+	f([]int16{1, 2}, 3)
+	f([]int16{1, 2, 3}, 6)
+}
+
 func TestChannelToSliceInt16(t *testing.T) {
 	f := func(given []int16) {
 		c := make(chan int16, 1)
@@ -5401,6 +5836,151 @@ func TestSliceProductInt32(t *testing.T) {
 	})
 }
 
+func TestSliceReduceInt32Int(t *testing.T) {
+	f := func(given []int32, expected int) {
+		sum := func(el int32, acc int) int { return int(el) + acc }
+		actual := SliceInt32{given}.ReduceInt(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 1)
+	f([]int32{1, 2}, 3)
+	f([]int32{1, 2, 3}, 6)
+}
+
+func TestSliceReduceInt32Int8(t *testing.T) {
+	f := func(given []int32, expected int8) {
+		sum := func(el int32, acc int8) int8 { return int8(el) + acc }
+		actual := SliceInt32{given}.ReduceInt8(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 1)
+	f([]int32{1, 2}, 3)
+	f([]int32{1, 2, 3}, 6)
+}
+
+func TestSliceReduceInt32Int16(t *testing.T) {
+	f := func(given []int32, expected int16) {
+		sum := func(el int32, acc int16) int16 { return int16(el) + acc }
+		actual := SliceInt32{given}.ReduceInt16(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 1)
+	f([]int32{1, 2}, 3)
+	f([]int32{1, 2, 3}, 6)
+}
+
+func TestSliceReduceInt32Int32(t *testing.T) {
+	f := func(given []int32, expected int32) {
+		sum := func(el int32, acc int32) int32 { return int32(el) + acc }
+		actual := SliceInt32{given}.ReduceInt32(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 1)
+	f([]int32{1, 2}, 3)
+	f([]int32{1, 2, 3}, 6)
+}
+
+func TestSliceReduceInt32Int64(t *testing.T) {
+	f := func(given []int32, expected int64) {
+		sum := func(el int32, acc int64) int64 { return int64(el) + acc }
+		actual := SliceInt32{given}.ReduceInt64(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 1)
+	f([]int32{1, 2}, 3)
+	f([]int32{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt32Int(t *testing.T) {
+	f := func(given []int32, expected int) {
+		sum := func(el int32, acc int) (int, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int(el) + acc, nil
+		}
+		actual, _ := SliceInt32{given}.ReduceWhileInt(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 1)
+	f([]int32{1, 2}, 3)
+	f([]int32{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt32Int8(t *testing.T) {
+	f := func(given []int32, expected int8) {
+		sum := func(el int32, acc int8) (int8, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int8(el) + acc, nil
+		}
+		actual, _ := SliceInt32{given}.ReduceWhileInt8(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 1)
+	f([]int32{1, 2}, 3)
+	f([]int32{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt32Int16(t *testing.T) {
+	f := func(given []int32, expected int16) {
+		sum := func(el int32, acc int16) (int16, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int16(el) + acc, nil
+		}
+		actual, _ := SliceInt32{given}.ReduceWhileInt16(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 1)
+	f([]int32{1, 2}, 3)
+	f([]int32{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt32Int32(t *testing.T) {
+	f := func(given []int32, expected int32) {
+		sum := func(el int32, acc int32) (int32, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int32(el) + acc, nil
+		}
+		actual, _ := SliceInt32{given}.ReduceWhileInt32(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 1)
+	f([]int32{1, 2}, 3)
+	f([]int32{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt32Int64(t *testing.T) {
+	f := func(given []int32, expected int64) {
+		sum := func(el int32, acc int64) (int64, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int64(el) + acc, nil
+		}
+		actual, _ := SliceInt32{given}.ReduceWhileInt64(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 1)
+	f([]int32{1, 2}, 3)
+	f([]int32{1, 2, 3}, 6)
+}
+
 func TestChannelToSliceInt32(t *testing.T) {
 	f := func(given []int32) {
 		c := make(chan int32, 1)
@@ -6951,6 +7531,151 @@ func TestSliceProductInt64(t *testing.T) {
 		{1, 1, 1}, {1, 1, 2}, {1, 2, 1}, {1, 2, 2},
 		{2, 1, 1}, {2, 1, 2}, {2, 2, 1}, {2, 2, 2},
 	})
+}
+
+func TestSliceReduceInt64Int(t *testing.T) {
+	f := func(given []int64, expected int) {
+		sum := func(el int64, acc int) int { return int(el) + acc }
+		actual := SliceInt64{given}.ReduceInt(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 1)
+	f([]int64{1, 2}, 3)
+	f([]int64{1, 2, 3}, 6)
+}
+
+func TestSliceReduceInt64Int8(t *testing.T) {
+	f := func(given []int64, expected int8) {
+		sum := func(el int64, acc int8) int8 { return int8(el) + acc }
+		actual := SliceInt64{given}.ReduceInt8(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 1)
+	f([]int64{1, 2}, 3)
+	f([]int64{1, 2, 3}, 6)
+}
+
+func TestSliceReduceInt64Int16(t *testing.T) {
+	f := func(given []int64, expected int16) {
+		sum := func(el int64, acc int16) int16 { return int16(el) + acc }
+		actual := SliceInt64{given}.ReduceInt16(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 1)
+	f([]int64{1, 2}, 3)
+	f([]int64{1, 2, 3}, 6)
+}
+
+func TestSliceReduceInt64Int32(t *testing.T) {
+	f := func(given []int64, expected int32) {
+		sum := func(el int64, acc int32) int32 { return int32(el) + acc }
+		actual := SliceInt64{given}.ReduceInt32(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 1)
+	f([]int64{1, 2}, 3)
+	f([]int64{1, 2, 3}, 6)
+}
+
+func TestSliceReduceInt64Int64(t *testing.T) {
+	f := func(given []int64, expected int64) {
+		sum := func(el int64, acc int64) int64 { return int64(el) + acc }
+		actual := SliceInt64{given}.ReduceInt64(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 1)
+	f([]int64{1, 2}, 3)
+	f([]int64{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt64Int(t *testing.T) {
+	f := func(given []int64, expected int) {
+		sum := func(el int64, acc int) (int, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int(el) + acc, nil
+		}
+		actual, _ := SliceInt64{given}.ReduceWhileInt(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 1)
+	f([]int64{1, 2}, 3)
+	f([]int64{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt64Int8(t *testing.T) {
+	f := func(given []int64, expected int8) {
+		sum := func(el int64, acc int8) (int8, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int8(el) + acc, nil
+		}
+		actual, _ := SliceInt64{given}.ReduceWhileInt8(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 1)
+	f([]int64{1, 2}, 3)
+	f([]int64{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt64Int16(t *testing.T) {
+	f := func(given []int64, expected int16) {
+		sum := func(el int64, acc int16) (int16, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int16(el) + acc, nil
+		}
+		actual, _ := SliceInt64{given}.ReduceWhileInt16(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 1)
+	f([]int64{1, 2}, 3)
+	f([]int64{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt64Int32(t *testing.T) {
+	f := func(given []int64, expected int32) {
+		sum := func(el int64, acc int32) (int32, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int32(el) + acc, nil
+		}
+		actual, _ := SliceInt64{given}.ReduceWhileInt32(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 1)
+	f([]int64{1, 2}, 3)
+	f([]int64{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt64Int64(t *testing.T) {
+	f := func(given []int64, expected int64) {
+		sum := func(el int64, acc int64) (int64, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return int64(el) + acc, nil
+		}
+		actual, _ := SliceInt64{given}.ReduceWhileInt64(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 1)
+	f([]int64{1, 2}, 3)
+	f([]int64{1, 2, 3}, 6)
 }
 
 func TestChannelToSliceInt64(t *testing.T) {

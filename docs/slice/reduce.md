@@ -62,3 +62,18 @@ func (s Slice) Reduce(acc G, f func(el T, acc G) G) G {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceReduce(t *testing.T) {
+	f := func(given []T, expected G) {
+		sum := func(el T, acc G) G { return G(el) + acc }
+		actual := Slice{given}.Reduce(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, 0)
+	f([]T{1}, 1)
+	f([]T{1, 2}, 3)
+	f([]T{1, 2, 3}, 6)
+}
+```

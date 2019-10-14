@@ -448,3 +448,32 @@ func TestSliceProduct(t *testing.T) {
 		{2, 1, 1}, {2, 1, 2}, {2, 2, 1}, {2, 2, 2},
 	})
 }
+
+func TestSliceReduce(t *testing.T) {
+	f := func(given []T, expected G) {
+		sum := func(el T, acc G) G { return G(el) + acc }
+		actual := Slice{given}.Reduce(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, 0)
+	f([]T{1}, 1)
+	f([]T{1, 2}, 3)
+	f([]T{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhile(t *testing.T) {
+	f := func(given []T, expected G) {
+		sum := func(el T, acc G) (G, error) {
+			if el == 0 {
+				return 0, ErrEmpty
+			}
+			return G(el) + acc, nil
+		}
+		actual, _ := Slice{given}.ReduceWhile(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, 0)
+	f([]T{1}, 1)
+	f([]T{1, 2}, 3)
+	f([]T{1, 2, 3}, 6)
+}
