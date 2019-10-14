@@ -55,8 +55,9 @@ Generic types: G, T.
 ```go
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s Slice) ReduceWhile(acc G, f func(el T, acc G) (G, error)) (G, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -72,7 +73,7 @@ func TestSliceReduceWhile(t *testing.T) {
 	f := func(given []T, expected G) {
 		sum := func(el T, acc G) (G, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return G(el) + acc, nil
 		}
@@ -83,5 +84,6 @@ func TestSliceReduceWhile(t *testing.T) {
 	f([]T{1}, 1)
 	f([]T{1, 2}, 3)
 	f([]T{1, 2, 3}, 6)
+	f([]T{1, 2, 0, 3}, 3)
 }
 ```

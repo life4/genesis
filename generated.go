@@ -1691,8 +1691,9 @@ func (s SliceBool) ReduceInterface(acc interface{}, f func(el bool, acc interfac
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceBool) ReduceWhileBool(acc bool, f func(el bool, acc bool) (bool, error)) (bool, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -1702,8 +1703,9 @@ func (s SliceBool) ReduceWhileBool(acc bool, f func(el bool, acc bool) (bool, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceBool) ReduceWhileByte(acc byte, f func(el bool, acc byte) (byte, error)) (byte, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -1713,8 +1715,9 @@ func (s SliceBool) ReduceWhileByte(acc byte, f func(el bool, acc byte) (byte, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceBool) ReduceWhileString(acc string, f func(el bool, acc string) (string, error)) (string, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -1724,8 +1727,9 @@ func (s SliceBool) ReduceWhileString(acc string, f func(el bool, acc string) (st
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceBool) ReduceWhileFloat32(acc float32, f func(el bool, acc float32) (float32, error)) (float32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -1735,8 +1739,9 @@ func (s SliceBool) ReduceWhileFloat32(acc float32, f func(el bool, acc float32) 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceBool) ReduceWhileFloat64(acc float64, f func(el bool, acc float64) (float64, error)) (float64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -1746,8 +1751,9 @@ func (s SliceBool) ReduceWhileFloat64(acc float64, f func(el bool, acc float64) 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceBool) ReduceWhileInt(acc int, f func(el bool, acc int) (int, error)) (int, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -1757,8 +1763,9 @@ func (s SliceBool) ReduceWhileInt(acc int, f func(el bool, acc int) (int, error)
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceBool) ReduceWhileInt8(acc int8, f func(el bool, acc int8) (int8, error)) (int8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -1768,8 +1775,9 @@ func (s SliceBool) ReduceWhileInt8(acc int8, f func(el bool, acc int8) (int8, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceBool) ReduceWhileInt16(acc int16, f func(el bool, acc int16) (int16, error)) (int16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -1779,8 +1787,9 @@ func (s SliceBool) ReduceWhileInt16(acc int16, f func(el bool, acc int16) (int16
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceBool) ReduceWhileInt32(acc int32, f func(el bool, acc int32) (int32, error)) (int32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -1790,8 +1799,9 @@ func (s SliceBool) ReduceWhileInt32(acc int32, f func(el bool, acc int32) (int32
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceBool) ReduceWhileInt64(acc int64, f func(el bool, acc int64) (int64, error)) (int64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -1801,8 +1811,9 @@ func (s SliceBool) ReduceWhileInt64(acc int64, f func(el bool, acc int64) (int64
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceBool) ReduceWhileUint(acc uint, f func(el bool, acc uint) (uint, error)) (uint, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -1812,8 +1823,9 @@ func (s SliceBool) ReduceWhileUint(acc uint, f func(el bool, acc uint) (uint, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceBool) ReduceWhileUint8(acc uint8, f func(el bool, acc uint8) (uint8, error)) (uint8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -1823,8 +1835,9 @@ func (s SliceBool) ReduceWhileUint8(acc uint8, f func(el bool, acc uint8) (uint8
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceBool) ReduceWhileUint16(acc uint16, f func(el bool, acc uint16) (uint16, error)) (uint16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -1834,8 +1847,9 @@ func (s SliceBool) ReduceWhileUint16(acc uint16, f func(el bool, acc uint16) (ui
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceBool) ReduceWhileUint32(acc uint32, f func(el bool, acc uint32) (uint32, error)) (uint32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -1845,8 +1859,9 @@ func (s SliceBool) ReduceWhileUint32(acc uint32, f func(el bool, acc uint32) (ui
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceBool) ReduceWhileUint64(acc uint64, f func(el bool, acc uint64) (uint64, error)) (uint64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -1856,8 +1871,9 @@ func (s SliceBool) ReduceWhileUint64(acc uint64, f func(el bool, acc uint64) (ui
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceBool) ReduceWhileInterface(acc interface{}, f func(el bool, acc interface{}) (interface{}, error)) (interface{}, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -5495,8 +5511,9 @@ func (s SliceByte) ReduceInterface(acc interface{}, f func(el byte, acc interfac
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceByte) ReduceWhileBool(acc bool, f func(el byte, acc bool) (bool, error)) (bool, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -5506,8 +5523,9 @@ func (s SliceByte) ReduceWhileBool(acc bool, f func(el byte, acc bool) (bool, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceByte) ReduceWhileByte(acc byte, f func(el byte, acc byte) (byte, error)) (byte, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -5517,8 +5535,9 @@ func (s SliceByte) ReduceWhileByte(acc byte, f func(el byte, acc byte) (byte, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceByte) ReduceWhileString(acc string, f func(el byte, acc string) (string, error)) (string, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -5528,8 +5547,9 @@ func (s SliceByte) ReduceWhileString(acc string, f func(el byte, acc string) (st
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceByte) ReduceWhileFloat32(acc float32, f func(el byte, acc float32) (float32, error)) (float32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -5539,8 +5559,9 @@ func (s SliceByte) ReduceWhileFloat32(acc float32, f func(el byte, acc float32) 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceByte) ReduceWhileFloat64(acc float64, f func(el byte, acc float64) (float64, error)) (float64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -5550,8 +5571,9 @@ func (s SliceByte) ReduceWhileFloat64(acc float64, f func(el byte, acc float64) 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceByte) ReduceWhileInt(acc int, f func(el byte, acc int) (int, error)) (int, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -5561,8 +5583,9 @@ func (s SliceByte) ReduceWhileInt(acc int, f func(el byte, acc int) (int, error)
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceByte) ReduceWhileInt8(acc int8, f func(el byte, acc int8) (int8, error)) (int8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -5572,8 +5595,9 @@ func (s SliceByte) ReduceWhileInt8(acc int8, f func(el byte, acc int8) (int8, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceByte) ReduceWhileInt16(acc int16, f func(el byte, acc int16) (int16, error)) (int16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -5583,8 +5607,9 @@ func (s SliceByte) ReduceWhileInt16(acc int16, f func(el byte, acc int16) (int16
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceByte) ReduceWhileInt32(acc int32, f func(el byte, acc int32) (int32, error)) (int32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -5594,8 +5619,9 @@ func (s SliceByte) ReduceWhileInt32(acc int32, f func(el byte, acc int32) (int32
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceByte) ReduceWhileInt64(acc int64, f func(el byte, acc int64) (int64, error)) (int64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -5605,8 +5631,9 @@ func (s SliceByte) ReduceWhileInt64(acc int64, f func(el byte, acc int64) (int64
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceByte) ReduceWhileUint(acc uint, f func(el byte, acc uint) (uint, error)) (uint, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -5616,8 +5643,9 @@ func (s SliceByte) ReduceWhileUint(acc uint, f func(el byte, acc uint) (uint, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceByte) ReduceWhileUint8(acc uint8, f func(el byte, acc uint8) (uint8, error)) (uint8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -5627,8 +5655,9 @@ func (s SliceByte) ReduceWhileUint8(acc uint8, f func(el byte, acc uint8) (uint8
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceByte) ReduceWhileUint16(acc uint16, f func(el byte, acc uint16) (uint16, error)) (uint16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -5638,8 +5667,9 @@ func (s SliceByte) ReduceWhileUint16(acc uint16, f func(el byte, acc uint16) (ui
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceByte) ReduceWhileUint32(acc uint32, f func(el byte, acc uint32) (uint32, error)) (uint32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -5649,8 +5679,9 @@ func (s SliceByte) ReduceWhileUint32(acc uint32, f func(el byte, acc uint32) (ui
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceByte) ReduceWhileUint64(acc uint64, f func(el byte, acc uint64) (uint64, error)) (uint64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -5660,8 +5691,9 @@ func (s SliceByte) ReduceWhileUint64(acc uint64, f func(el byte, acc uint64) (ui
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceByte) ReduceWhileInterface(acc interface{}, f func(el byte, acc interface{}) (interface{}, error)) (interface{}, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -9386,8 +9418,9 @@ func (s SliceString) ReduceInterface(acc interface{}, f func(el string, acc inte
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceString) ReduceWhileBool(acc bool, f func(el string, acc bool) (bool, error)) (bool, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -9397,8 +9430,9 @@ func (s SliceString) ReduceWhileBool(acc bool, f func(el string, acc bool) (bool
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceString) ReduceWhileByte(acc byte, f func(el string, acc byte) (byte, error)) (byte, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -9408,8 +9442,9 @@ func (s SliceString) ReduceWhileByte(acc byte, f func(el string, acc byte) (byte
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceString) ReduceWhileString(acc string, f func(el string, acc string) (string, error)) (string, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -9419,8 +9454,9 @@ func (s SliceString) ReduceWhileString(acc string, f func(el string, acc string)
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceString) ReduceWhileFloat32(acc float32, f func(el string, acc float32) (float32, error)) (float32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -9430,8 +9466,9 @@ func (s SliceString) ReduceWhileFloat32(acc float32, f func(el string, acc float
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceString) ReduceWhileFloat64(acc float64, f func(el string, acc float64) (float64, error)) (float64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -9441,8 +9478,9 @@ func (s SliceString) ReduceWhileFloat64(acc float64, f func(el string, acc float
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceString) ReduceWhileInt(acc int, f func(el string, acc int) (int, error)) (int, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -9452,8 +9490,9 @@ func (s SliceString) ReduceWhileInt(acc int, f func(el string, acc int) (int, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceString) ReduceWhileInt8(acc int8, f func(el string, acc int8) (int8, error)) (int8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -9463,8 +9502,9 @@ func (s SliceString) ReduceWhileInt8(acc int8, f func(el string, acc int8) (int8
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceString) ReduceWhileInt16(acc int16, f func(el string, acc int16) (int16, error)) (int16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -9474,8 +9514,9 @@ func (s SliceString) ReduceWhileInt16(acc int16, f func(el string, acc int16) (i
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceString) ReduceWhileInt32(acc int32, f func(el string, acc int32) (int32, error)) (int32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -9485,8 +9526,9 @@ func (s SliceString) ReduceWhileInt32(acc int32, f func(el string, acc int32) (i
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceString) ReduceWhileInt64(acc int64, f func(el string, acc int64) (int64, error)) (int64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -9496,8 +9538,9 @@ func (s SliceString) ReduceWhileInt64(acc int64, f func(el string, acc int64) (i
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceString) ReduceWhileUint(acc uint, f func(el string, acc uint) (uint, error)) (uint, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -9507,8 +9550,9 @@ func (s SliceString) ReduceWhileUint(acc uint, f func(el string, acc uint) (uint
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceString) ReduceWhileUint8(acc uint8, f func(el string, acc uint8) (uint8, error)) (uint8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -9518,8 +9562,9 @@ func (s SliceString) ReduceWhileUint8(acc uint8, f func(el string, acc uint8) (u
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceString) ReduceWhileUint16(acc uint16, f func(el string, acc uint16) (uint16, error)) (uint16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -9529,8 +9574,9 @@ func (s SliceString) ReduceWhileUint16(acc uint16, f func(el string, acc uint16)
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceString) ReduceWhileUint32(acc uint32, f func(el string, acc uint32) (uint32, error)) (uint32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -9540,8 +9586,9 @@ func (s SliceString) ReduceWhileUint32(acc uint32, f func(el string, acc uint32)
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceString) ReduceWhileUint64(acc uint64, f func(el string, acc uint64) (uint64, error)) (uint64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -9551,8 +9598,9 @@ func (s SliceString) ReduceWhileUint64(acc uint64, f func(el string, acc uint64)
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceString) ReduceWhileInterface(acc interface{}, f func(el string, acc interface{}) (interface{}, error)) (interface{}, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -13268,8 +13316,9 @@ func (s SliceFloat32) ReduceInterface(acc interface{}, f func(el float32, acc in
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat32) ReduceWhileBool(acc bool, f func(el float32, acc bool) (bool, error)) (bool, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -13279,8 +13328,9 @@ func (s SliceFloat32) ReduceWhileBool(acc bool, f func(el float32, acc bool) (bo
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat32) ReduceWhileByte(acc byte, f func(el float32, acc byte) (byte, error)) (byte, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -13290,8 +13340,9 @@ func (s SliceFloat32) ReduceWhileByte(acc byte, f func(el float32, acc byte) (by
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat32) ReduceWhileString(acc string, f func(el float32, acc string) (string, error)) (string, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -13301,8 +13352,9 @@ func (s SliceFloat32) ReduceWhileString(acc string, f func(el float32, acc strin
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat32) ReduceWhileFloat32(acc float32, f func(el float32, acc float32) (float32, error)) (float32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -13312,8 +13364,9 @@ func (s SliceFloat32) ReduceWhileFloat32(acc float32, f func(el float32, acc flo
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat32) ReduceWhileFloat64(acc float64, f func(el float32, acc float64) (float64, error)) (float64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -13323,8 +13376,9 @@ func (s SliceFloat32) ReduceWhileFloat64(acc float64, f func(el float32, acc flo
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat32) ReduceWhileInt(acc int, f func(el float32, acc int) (int, error)) (int, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -13334,8 +13388,9 @@ func (s SliceFloat32) ReduceWhileInt(acc int, f func(el float32, acc int) (int, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat32) ReduceWhileInt8(acc int8, f func(el float32, acc int8) (int8, error)) (int8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -13345,8 +13400,9 @@ func (s SliceFloat32) ReduceWhileInt8(acc int8, f func(el float32, acc int8) (in
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat32) ReduceWhileInt16(acc int16, f func(el float32, acc int16) (int16, error)) (int16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -13356,8 +13412,9 @@ func (s SliceFloat32) ReduceWhileInt16(acc int16, f func(el float32, acc int16) 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat32) ReduceWhileInt32(acc int32, f func(el float32, acc int32) (int32, error)) (int32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -13367,8 +13424,9 @@ func (s SliceFloat32) ReduceWhileInt32(acc int32, f func(el float32, acc int32) 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat32) ReduceWhileInt64(acc int64, f func(el float32, acc int64) (int64, error)) (int64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -13378,8 +13436,9 @@ func (s SliceFloat32) ReduceWhileInt64(acc int64, f func(el float32, acc int64) 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat32) ReduceWhileUint(acc uint, f func(el float32, acc uint) (uint, error)) (uint, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -13389,8 +13448,9 @@ func (s SliceFloat32) ReduceWhileUint(acc uint, f func(el float32, acc uint) (ui
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat32) ReduceWhileUint8(acc uint8, f func(el float32, acc uint8) (uint8, error)) (uint8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -13400,8 +13460,9 @@ func (s SliceFloat32) ReduceWhileUint8(acc uint8, f func(el float32, acc uint8) 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat32) ReduceWhileUint16(acc uint16, f func(el float32, acc uint16) (uint16, error)) (uint16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -13411,8 +13472,9 @@ func (s SliceFloat32) ReduceWhileUint16(acc uint16, f func(el float32, acc uint1
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat32) ReduceWhileUint32(acc uint32, f func(el float32, acc uint32) (uint32, error)) (uint32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -13422,8 +13484,9 @@ func (s SliceFloat32) ReduceWhileUint32(acc uint32, f func(el float32, acc uint3
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat32) ReduceWhileUint64(acc uint64, f func(el float32, acc uint64) (uint64, error)) (uint64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -13433,8 +13496,9 @@ func (s SliceFloat32) ReduceWhileUint64(acc uint64, f func(el float32, acc uint6
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat32) ReduceWhileInterface(acc interface{}, f func(el float32, acc interface{}) (interface{}, error)) (interface{}, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -17199,8 +17263,9 @@ func (s SliceFloat64) ReduceInterface(acc interface{}, f func(el float64, acc in
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat64) ReduceWhileBool(acc bool, f func(el float64, acc bool) (bool, error)) (bool, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -17210,8 +17275,9 @@ func (s SliceFloat64) ReduceWhileBool(acc bool, f func(el float64, acc bool) (bo
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat64) ReduceWhileByte(acc byte, f func(el float64, acc byte) (byte, error)) (byte, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -17221,8 +17287,9 @@ func (s SliceFloat64) ReduceWhileByte(acc byte, f func(el float64, acc byte) (by
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat64) ReduceWhileString(acc string, f func(el float64, acc string) (string, error)) (string, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -17232,8 +17299,9 @@ func (s SliceFloat64) ReduceWhileString(acc string, f func(el float64, acc strin
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat64) ReduceWhileFloat32(acc float32, f func(el float64, acc float32) (float32, error)) (float32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -17243,8 +17311,9 @@ func (s SliceFloat64) ReduceWhileFloat32(acc float32, f func(el float64, acc flo
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat64) ReduceWhileFloat64(acc float64, f func(el float64, acc float64) (float64, error)) (float64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -17254,8 +17323,9 @@ func (s SliceFloat64) ReduceWhileFloat64(acc float64, f func(el float64, acc flo
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat64) ReduceWhileInt(acc int, f func(el float64, acc int) (int, error)) (int, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -17265,8 +17335,9 @@ func (s SliceFloat64) ReduceWhileInt(acc int, f func(el float64, acc int) (int, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat64) ReduceWhileInt8(acc int8, f func(el float64, acc int8) (int8, error)) (int8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -17276,8 +17347,9 @@ func (s SliceFloat64) ReduceWhileInt8(acc int8, f func(el float64, acc int8) (in
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat64) ReduceWhileInt16(acc int16, f func(el float64, acc int16) (int16, error)) (int16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -17287,8 +17359,9 @@ func (s SliceFloat64) ReduceWhileInt16(acc int16, f func(el float64, acc int16) 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat64) ReduceWhileInt32(acc int32, f func(el float64, acc int32) (int32, error)) (int32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -17298,8 +17371,9 @@ func (s SliceFloat64) ReduceWhileInt32(acc int32, f func(el float64, acc int32) 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat64) ReduceWhileInt64(acc int64, f func(el float64, acc int64) (int64, error)) (int64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -17309,8 +17383,9 @@ func (s SliceFloat64) ReduceWhileInt64(acc int64, f func(el float64, acc int64) 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat64) ReduceWhileUint(acc uint, f func(el float64, acc uint) (uint, error)) (uint, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -17320,8 +17395,9 @@ func (s SliceFloat64) ReduceWhileUint(acc uint, f func(el float64, acc uint) (ui
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat64) ReduceWhileUint8(acc uint8, f func(el float64, acc uint8) (uint8, error)) (uint8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -17331,8 +17407,9 @@ func (s SliceFloat64) ReduceWhileUint8(acc uint8, f func(el float64, acc uint8) 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat64) ReduceWhileUint16(acc uint16, f func(el float64, acc uint16) (uint16, error)) (uint16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -17342,8 +17419,9 @@ func (s SliceFloat64) ReduceWhileUint16(acc uint16, f func(el float64, acc uint1
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat64) ReduceWhileUint32(acc uint32, f func(el float64, acc uint32) (uint32, error)) (uint32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -17353,8 +17431,9 @@ func (s SliceFloat64) ReduceWhileUint32(acc uint32, f func(el float64, acc uint3
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat64) ReduceWhileUint64(acc uint64, f func(el float64, acc uint64) (uint64, error)) (uint64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -17364,8 +17443,9 @@ func (s SliceFloat64) ReduceWhileUint64(acc uint64, f func(el float64, acc uint6
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat64) ReduceWhileInterface(acc interface{}, f func(el float64, acc interface{}) (interface{}, error)) (interface{}, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -21139,8 +21219,9 @@ func (s SliceInt) ReduceInterface(acc interface{}, f func(el int, acc interface{
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt) ReduceWhileBool(acc bool, f func(el int, acc bool) (bool, error)) (bool, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -21150,8 +21231,9 @@ func (s SliceInt) ReduceWhileBool(acc bool, f func(el int, acc bool) (bool, erro
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt) ReduceWhileByte(acc byte, f func(el int, acc byte) (byte, error)) (byte, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -21161,8 +21243,9 @@ func (s SliceInt) ReduceWhileByte(acc byte, f func(el int, acc byte) (byte, erro
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt) ReduceWhileString(acc string, f func(el int, acc string) (string, error)) (string, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -21172,8 +21255,9 @@ func (s SliceInt) ReduceWhileString(acc string, f func(el int, acc string) (stri
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt) ReduceWhileFloat32(acc float32, f func(el int, acc float32) (float32, error)) (float32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -21183,8 +21267,9 @@ func (s SliceInt) ReduceWhileFloat32(acc float32, f func(el int, acc float32) (f
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt) ReduceWhileFloat64(acc float64, f func(el int, acc float64) (float64, error)) (float64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -21194,8 +21279,9 @@ func (s SliceInt) ReduceWhileFloat64(acc float64, f func(el int, acc float64) (f
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt) ReduceWhileInt(acc int, f func(el int, acc int) (int, error)) (int, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -21205,8 +21291,9 @@ func (s SliceInt) ReduceWhileInt(acc int, f func(el int, acc int) (int, error)) 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt) ReduceWhileInt8(acc int8, f func(el int, acc int8) (int8, error)) (int8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -21216,8 +21303,9 @@ func (s SliceInt) ReduceWhileInt8(acc int8, f func(el int, acc int8) (int8, erro
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt) ReduceWhileInt16(acc int16, f func(el int, acc int16) (int16, error)) (int16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -21227,8 +21315,9 @@ func (s SliceInt) ReduceWhileInt16(acc int16, f func(el int, acc int16) (int16, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt) ReduceWhileInt32(acc int32, f func(el int, acc int32) (int32, error)) (int32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -21238,8 +21327,9 @@ func (s SliceInt) ReduceWhileInt32(acc int32, f func(el int, acc int32) (int32, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt) ReduceWhileInt64(acc int64, f func(el int, acc int64) (int64, error)) (int64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -21249,8 +21339,9 @@ func (s SliceInt) ReduceWhileInt64(acc int64, f func(el int, acc int64) (int64, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt) ReduceWhileUint(acc uint, f func(el int, acc uint) (uint, error)) (uint, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -21260,8 +21351,9 @@ func (s SliceInt) ReduceWhileUint(acc uint, f func(el int, acc uint) (uint, erro
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt) ReduceWhileUint8(acc uint8, f func(el int, acc uint8) (uint8, error)) (uint8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -21271,8 +21363,9 @@ func (s SliceInt) ReduceWhileUint8(acc uint8, f func(el int, acc uint8) (uint8, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt) ReduceWhileUint16(acc uint16, f func(el int, acc uint16) (uint16, error)) (uint16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -21282,8 +21375,9 @@ func (s SliceInt) ReduceWhileUint16(acc uint16, f func(el int, acc uint16) (uint
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt) ReduceWhileUint32(acc uint32, f func(el int, acc uint32) (uint32, error)) (uint32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -21293,8 +21387,9 @@ func (s SliceInt) ReduceWhileUint32(acc uint32, f func(el int, acc uint32) (uint
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt) ReduceWhileUint64(acc uint64, f func(el int, acc uint64) (uint64, error)) (uint64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -21304,8 +21399,9 @@ func (s SliceInt) ReduceWhileUint64(acc uint64, f func(el int, acc uint64) (uint
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt) ReduceWhileInterface(acc interface{}, f func(el int, acc interface{}) (interface{}, error)) (interface{}, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -25079,8 +25175,9 @@ func (s SliceInt8) ReduceInterface(acc interface{}, f func(el int8, acc interfac
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt8) ReduceWhileBool(acc bool, f func(el int8, acc bool) (bool, error)) (bool, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -25090,8 +25187,9 @@ func (s SliceInt8) ReduceWhileBool(acc bool, f func(el int8, acc bool) (bool, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt8) ReduceWhileByte(acc byte, f func(el int8, acc byte) (byte, error)) (byte, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -25101,8 +25199,9 @@ func (s SliceInt8) ReduceWhileByte(acc byte, f func(el int8, acc byte) (byte, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt8) ReduceWhileString(acc string, f func(el int8, acc string) (string, error)) (string, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -25112,8 +25211,9 @@ func (s SliceInt8) ReduceWhileString(acc string, f func(el int8, acc string) (st
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt8) ReduceWhileFloat32(acc float32, f func(el int8, acc float32) (float32, error)) (float32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -25123,8 +25223,9 @@ func (s SliceInt8) ReduceWhileFloat32(acc float32, f func(el int8, acc float32) 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt8) ReduceWhileFloat64(acc float64, f func(el int8, acc float64) (float64, error)) (float64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -25134,8 +25235,9 @@ func (s SliceInt8) ReduceWhileFloat64(acc float64, f func(el int8, acc float64) 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt8) ReduceWhileInt(acc int, f func(el int8, acc int) (int, error)) (int, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -25145,8 +25247,9 @@ func (s SliceInt8) ReduceWhileInt(acc int, f func(el int8, acc int) (int, error)
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt8) ReduceWhileInt8(acc int8, f func(el int8, acc int8) (int8, error)) (int8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -25156,8 +25259,9 @@ func (s SliceInt8) ReduceWhileInt8(acc int8, f func(el int8, acc int8) (int8, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt8) ReduceWhileInt16(acc int16, f func(el int8, acc int16) (int16, error)) (int16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -25167,8 +25271,9 @@ func (s SliceInt8) ReduceWhileInt16(acc int16, f func(el int8, acc int16) (int16
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt8) ReduceWhileInt32(acc int32, f func(el int8, acc int32) (int32, error)) (int32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -25178,8 +25283,9 @@ func (s SliceInt8) ReduceWhileInt32(acc int32, f func(el int8, acc int32) (int32
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt8) ReduceWhileInt64(acc int64, f func(el int8, acc int64) (int64, error)) (int64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -25189,8 +25295,9 @@ func (s SliceInt8) ReduceWhileInt64(acc int64, f func(el int8, acc int64) (int64
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt8) ReduceWhileUint(acc uint, f func(el int8, acc uint) (uint, error)) (uint, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -25200,8 +25307,9 @@ func (s SliceInt8) ReduceWhileUint(acc uint, f func(el int8, acc uint) (uint, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt8) ReduceWhileUint8(acc uint8, f func(el int8, acc uint8) (uint8, error)) (uint8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -25211,8 +25319,9 @@ func (s SliceInt8) ReduceWhileUint8(acc uint8, f func(el int8, acc uint8) (uint8
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt8) ReduceWhileUint16(acc uint16, f func(el int8, acc uint16) (uint16, error)) (uint16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -25222,8 +25331,9 @@ func (s SliceInt8) ReduceWhileUint16(acc uint16, f func(el int8, acc uint16) (ui
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt8) ReduceWhileUint32(acc uint32, f func(el int8, acc uint32) (uint32, error)) (uint32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -25233,8 +25343,9 @@ func (s SliceInt8) ReduceWhileUint32(acc uint32, f func(el int8, acc uint32) (ui
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt8) ReduceWhileUint64(acc uint64, f func(el int8, acc uint64) (uint64, error)) (uint64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -25244,8 +25355,9 @@ func (s SliceInt8) ReduceWhileUint64(acc uint64, f func(el int8, acc uint64) (ui
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt8) ReduceWhileInterface(acc interface{}, f func(el int8, acc interface{}) (interface{}, error)) (interface{}, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -29019,8 +29131,9 @@ func (s SliceInt16) ReduceInterface(acc interface{}, f func(el int16, acc interf
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt16) ReduceWhileBool(acc bool, f func(el int16, acc bool) (bool, error)) (bool, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -29030,8 +29143,9 @@ func (s SliceInt16) ReduceWhileBool(acc bool, f func(el int16, acc bool) (bool, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt16) ReduceWhileByte(acc byte, f func(el int16, acc byte) (byte, error)) (byte, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -29041,8 +29155,9 @@ func (s SliceInt16) ReduceWhileByte(acc byte, f func(el int16, acc byte) (byte, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt16) ReduceWhileString(acc string, f func(el int16, acc string) (string, error)) (string, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -29052,8 +29167,9 @@ func (s SliceInt16) ReduceWhileString(acc string, f func(el int16, acc string) (
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt16) ReduceWhileFloat32(acc float32, f func(el int16, acc float32) (float32, error)) (float32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -29063,8 +29179,9 @@ func (s SliceInt16) ReduceWhileFloat32(acc float32, f func(el int16, acc float32
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt16) ReduceWhileFloat64(acc float64, f func(el int16, acc float64) (float64, error)) (float64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -29074,8 +29191,9 @@ func (s SliceInt16) ReduceWhileFloat64(acc float64, f func(el int16, acc float64
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt16) ReduceWhileInt(acc int, f func(el int16, acc int) (int, error)) (int, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -29085,8 +29203,9 @@ func (s SliceInt16) ReduceWhileInt(acc int, f func(el int16, acc int) (int, erro
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt16) ReduceWhileInt8(acc int8, f func(el int16, acc int8) (int8, error)) (int8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -29096,8 +29215,9 @@ func (s SliceInt16) ReduceWhileInt8(acc int8, f func(el int16, acc int8) (int8, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt16) ReduceWhileInt16(acc int16, f func(el int16, acc int16) (int16, error)) (int16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -29107,8 +29227,9 @@ func (s SliceInt16) ReduceWhileInt16(acc int16, f func(el int16, acc int16) (int
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt16) ReduceWhileInt32(acc int32, f func(el int16, acc int32) (int32, error)) (int32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -29118,8 +29239,9 @@ func (s SliceInt16) ReduceWhileInt32(acc int32, f func(el int16, acc int32) (int
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt16) ReduceWhileInt64(acc int64, f func(el int16, acc int64) (int64, error)) (int64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -29129,8 +29251,9 @@ func (s SliceInt16) ReduceWhileInt64(acc int64, f func(el int16, acc int64) (int
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt16) ReduceWhileUint(acc uint, f func(el int16, acc uint) (uint, error)) (uint, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -29140,8 +29263,9 @@ func (s SliceInt16) ReduceWhileUint(acc uint, f func(el int16, acc uint) (uint, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt16) ReduceWhileUint8(acc uint8, f func(el int16, acc uint8) (uint8, error)) (uint8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -29151,8 +29275,9 @@ func (s SliceInt16) ReduceWhileUint8(acc uint8, f func(el int16, acc uint8) (uin
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt16) ReduceWhileUint16(acc uint16, f func(el int16, acc uint16) (uint16, error)) (uint16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -29162,8 +29287,9 @@ func (s SliceInt16) ReduceWhileUint16(acc uint16, f func(el int16, acc uint16) (
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt16) ReduceWhileUint32(acc uint32, f func(el int16, acc uint32) (uint32, error)) (uint32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -29173,8 +29299,9 @@ func (s SliceInt16) ReduceWhileUint32(acc uint32, f func(el int16, acc uint32) (
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt16) ReduceWhileUint64(acc uint64, f func(el int16, acc uint64) (uint64, error)) (uint64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -29184,8 +29311,9 @@ func (s SliceInt16) ReduceWhileUint64(acc uint64, f func(el int16, acc uint64) (
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt16) ReduceWhileInterface(acc interface{}, f func(el int16, acc interface{}) (interface{}, error)) (interface{}, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -32959,8 +33087,9 @@ func (s SliceInt32) ReduceInterface(acc interface{}, f func(el int32, acc interf
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt32) ReduceWhileBool(acc bool, f func(el int32, acc bool) (bool, error)) (bool, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -32970,8 +33099,9 @@ func (s SliceInt32) ReduceWhileBool(acc bool, f func(el int32, acc bool) (bool, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt32) ReduceWhileByte(acc byte, f func(el int32, acc byte) (byte, error)) (byte, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -32981,8 +33111,9 @@ func (s SliceInt32) ReduceWhileByte(acc byte, f func(el int32, acc byte) (byte, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt32) ReduceWhileString(acc string, f func(el int32, acc string) (string, error)) (string, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -32992,8 +33123,9 @@ func (s SliceInt32) ReduceWhileString(acc string, f func(el int32, acc string) (
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt32) ReduceWhileFloat32(acc float32, f func(el int32, acc float32) (float32, error)) (float32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -33003,8 +33135,9 @@ func (s SliceInt32) ReduceWhileFloat32(acc float32, f func(el int32, acc float32
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt32) ReduceWhileFloat64(acc float64, f func(el int32, acc float64) (float64, error)) (float64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -33014,8 +33147,9 @@ func (s SliceInt32) ReduceWhileFloat64(acc float64, f func(el int32, acc float64
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt32) ReduceWhileInt(acc int, f func(el int32, acc int) (int, error)) (int, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -33025,8 +33159,9 @@ func (s SliceInt32) ReduceWhileInt(acc int, f func(el int32, acc int) (int, erro
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt32) ReduceWhileInt8(acc int8, f func(el int32, acc int8) (int8, error)) (int8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -33036,8 +33171,9 @@ func (s SliceInt32) ReduceWhileInt8(acc int8, f func(el int32, acc int8) (int8, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt32) ReduceWhileInt16(acc int16, f func(el int32, acc int16) (int16, error)) (int16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -33047,8 +33183,9 @@ func (s SliceInt32) ReduceWhileInt16(acc int16, f func(el int32, acc int16) (int
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt32) ReduceWhileInt32(acc int32, f func(el int32, acc int32) (int32, error)) (int32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -33058,8 +33195,9 @@ func (s SliceInt32) ReduceWhileInt32(acc int32, f func(el int32, acc int32) (int
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt32) ReduceWhileInt64(acc int64, f func(el int32, acc int64) (int64, error)) (int64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -33069,8 +33207,9 @@ func (s SliceInt32) ReduceWhileInt64(acc int64, f func(el int32, acc int64) (int
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt32) ReduceWhileUint(acc uint, f func(el int32, acc uint) (uint, error)) (uint, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -33080,8 +33219,9 @@ func (s SliceInt32) ReduceWhileUint(acc uint, f func(el int32, acc uint) (uint, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt32) ReduceWhileUint8(acc uint8, f func(el int32, acc uint8) (uint8, error)) (uint8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -33091,8 +33231,9 @@ func (s SliceInt32) ReduceWhileUint8(acc uint8, f func(el int32, acc uint8) (uin
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt32) ReduceWhileUint16(acc uint16, f func(el int32, acc uint16) (uint16, error)) (uint16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -33102,8 +33243,9 @@ func (s SliceInt32) ReduceWhileUint16(acc uint16, f func(el int32, acc uint16) (
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt32) ReduceWhileUint32(acc uint32, f func(el int32, acc uint32) (uint32, error)) (uint32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -33113,8 +33255,9 @@ func (s SliceInt32) ReduceWhileUint32(acc uint32, f func(el int32, acc uint32) (
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt32) ReduceWhileUint64(acc uint64, f func(el int32, acc uint64) (uint64, error)) (uint64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -33124,8 +33267,9 @@ func (s SliceInt32) ReduceWhileUint64(acc uint64, f func(el int32, acc uint64) (
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt32) ReduceWhileInterface(acc interface{}, f func(el int32, acc interface{}) (interface{}, error)) (interface{}, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -36899,8 +37043,9 @@ func (s SliceInt64) ReduceInterface(acc interface{}, f func(el int64, acc interf
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt64) ReduceWhileBool(acc bool, f func(el int64, acc bool) (bool, error)) (bool, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -36910,8 +37055,9 @@ func (s SliceInt64) ReduceWhileBool(acc bool, f func(el int64, acc bool) (bool, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt64) ReduceWhileByte(acc byte, f func(el int64, acc byte) (byte, error)) (byte, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -36921,8 +37067,9 @@ func (s SliceInt64) ReduceWhileByte(acc byte, f func(el int64, acc byte) (byte, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt64) ReduceWhileString(acc string, f func(el int64, acc string) (string, error)) (string, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -36932,8 +37079,9 @@ func (s SliceInt64) ReduceWhileString(acc string, f func(el int64, acc string) (
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt64) ReduceWhileFloat32(acc float32, f func(el int64, acc float32) (float32, error)) (float32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -36943,8 +37091,9 @@ func (s SliceInt64) ReduceWhileFloat32(acc float32, f func(el int64, acc float32
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt64) ReduceWhileFloat64(acc float64, f func(el int64, acc float64) (float64, error)) (float64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -36954,8 +37103,9 @@ func (s SliceInt64) ReduceWhileFloat64(acc float64, f func(el int64, acc float64
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt64) ReduceWhileInt(acc int, f func(el int64, acc int) (int, error)) (int, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -36965,8 +37115,9 @@ func (s SliceInt64) ReduceWhileInt(acc int, f func(el int64, acc int) (int, erro
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt64) ReduceWhileInt8(acc int8, f func(el int64, acc int8) (int8, error)) (int8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -36976,8 +37127,9 @@ func (s SliceInt64) ReduceWhileInt8(acc int8, f func(el int64, acc int8) (int8, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt64) ReduceWhileInt16(acc int16, f func(el int64, acc int16) (int16, error)) (int16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -36987,8 +37139,9 @@ func (s SliceInt64) ReduceWhileInt16(acc int16, f func(el int64, acc int16) (int
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt64) ReduceWhileInt32(acc int32, f func(el int64, acc int32) (int32, error)) (int32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -36998,8 +37151,9 @@ func (s SliceInt64) ReduceWhileInt32(acc int32, f func(el int64, acc int32) (int
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt64) ReduceWhileInt64(acc int64, f func(el int64, acc int64) (int64, error)) (int64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -37009,8 +37163,9 @@ func (s SliceInt64) ReduceWhileInt64(acc int64, f func(el int64, acc int64) (int
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt64) ReduceWhileUint(acc uint, f func(el int64, acc uint) (uint, error)) (uint, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -37020,8 +37175,9 @@ func (s SliceInt64) ReduceWhileUint(acc uint, f func(el int64, acc uint) (uint, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt64) ReduceWhileUint8(acc uint8, f func(el int64, acc uint8) (uint8, error)) (uint8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -37031,8 +37187,9 @@ func (s SliceInt64) ReduceWhileUint8(acc uint8, f func(el int64, acc uint8) (uin
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt64) ReduceWhileUint16(acc uint16, f func(el int64, acc uint16) (uint16, error)) (uint16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -37042,8 +37199,9 @@ func (s SliceInt64) ReduceWhileUint16(acc uint16, f func(el int64, acc uint16) (
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt64) ReduceWhileUint32(acc uint32, f func(el int64, acc uint32) (uint32, error)) (uint32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -37053,8 +37211,9 @@ func (s SliceInt64) ReduceWhileUint32(acc uint32, f func(el int64, acc uint32) (
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt64) ReduceWhileUint64(acc uint64, f func(el int64, acc uint64) (uint64, error)) (uint64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -37064,8 +37223,9 @@ func (s SliceInt64) ReduceWhileUint64(acc uint64, f func(el int64, acc uint64) (
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt64) ReduceWhileInterface(acc interface{}, f func(el int64, acc interface{}) (interface{}, error)) (interface{}, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -40839,8 +40999,9 @@ func (s SliceUint) ReduceInterface(acc interface{}, f func(el uint, acc interfac
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint) ReduceWhileBool(acc bool, f func(el uint, acc bool) (bool, error)) (bool, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -40850,8 +41011,9 @@ func (s SliceUint) ReduceWhileBool(acc bool, f func(el uint, acc bool) (bool, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint) ReduceWhileByte(acc byte, f func(el uint, acc byte) (byte, error)) (byte, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -40861,8 +41023,9 @@ func (s SliceUint) ReduceWhileByte(acc byte, f func(el uint, acc byte) (byte, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint) ReduceWhileString(acc string, f func(el uint, acc string) (string, error)) (string, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -40872,8 +41035,9 @@ func (s SliceUint) ReduceWhileString(acc string, f func(el uint, acc string) (st
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint) ReduceWhileFloat32(acc float32, f func(el uint, acc float32) (float32, error)) (float32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -40883,8 +41047,9 @@ func (s SliceUint) ReduceWhileFloat32(acc float32, f func(el uint, acc float32) 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint) ReduceWhileFloat64(acc float64, f func(el uint, acc float64) (float64, error)) (float64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -40894,8 +41059,9 @@ func (s SliceUint) ReduceWhileFloat64(acc float64, f func(el uint, acc float64) 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint) ReduceWhileInt(acc int, f func(el uint, acc int) (int, error)) (int, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -40905,8 +41071,9 @@ func (s SliceUint) ReduceWhileInt(acc int, f func(el uint, acc int) (int, error)
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint) ReduceWhileInt8(acc int8, f func(el uint, acc int8) (int8, error)) (int8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -40916,8 +41083,9 @@ func (s SliceUint) ReduceWhileInt8(acc int8, f func(el uint, acc int8) (int8, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint) ReduceWhileInt16(acc int16, f func(el uint, acc int16) (int16, error)) (int16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -40927,8 +41095,9 @@ func (s SliceUint) ReduceWhileInt16(acc int16, f func(el uint, acc int16) (int16
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint) ReduceWhileInt32(acc int32, f func(el uint, acc int32) (int32, error)) (int32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -40938,8 +41107,9 @@ func (s SliceUint) ReduceWhileInt32(acc int32, f func(el uint, acc int32) (int32
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint) ReduceWhileInt64(acc int64, f func(el uint, acc int64) (int64, error)) (int64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -40949,8 +41119,9 @@ func (s SliceUint) ReduceWhileInt64(acc int64, f func(el uint, acc int64) (int64
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint) ReduceWhileUint(acc uint, f func(el uint, acc uint) (uint, error)) (uint, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -40960,8 +41131,9 @@ func (s SliceUint) ReduceWhileUint(acc uint, f func(el uint, acc uint) (uint, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint) ReduceWhileUint8(acc uint8, f func(el uint, acc uint8) (uint8, error)) (uint8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -40971,8 +41143,9 @@ func (s SliceUint) ReduceWhileUint8(acc uint8, f func(el uint, acc uint8) (uint8
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint) ReduceWhileUint16(acc uint16, f func(el uint, acc uint16) (uint16, error)) (uint16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -40982,8 +41155,9 @@ func (s SliceUint) ReduceWhileUint16(acc uint16, f func(el uint, acc uint16) (ui
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint) ReduceWhileUint32(acc uint32, f func(el uint, acc uint32) (uint32, error)) (uint32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -40993,8 +41167,9 @@ func (s SliceUint) ReduceWhileUint32(acc uint32, f func(el uint, acc uint32) (ui
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint) ReduceWhileUint64(acc uint64, f func(el uint, acc uint64) (uint64, error)) (uint64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -41004,8 +41179,9 @@ func (s SliceUint) ReduceWhileUint64(acc uint64, f func(el uint, acc uint64) (ui
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint) ReduceWhileInterface(acc interface{}, f func(el uint, acc interface{}) (interface{}, error)) (interface{}, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -44779,8 +44955,9 @@ func (s SliceUint8) ReduceInterface(acc interface{}, f func(el uint8, acc interf
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint8) ReduceWhileBool(acc bool, f func(el uint8, acc bool) (bool, error)) (bool, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -44790,8 +44967,9 @@ func (s SliceUint8) ReduceWhileBool(acc bool, f func(el uint8, acc bool) (bool, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint8) ReduceWhileByte(acc byte, f func(el uint8, acc byte) (byte, error)) (byte, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -44801,8 +44979,9 @@ func (s SliceUint8) ReduceWhileByte(acc byte, f func(el uint8, acc byte) (byte, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint8) ReduceWhileString(acc string, f func(el uint8, acc string) (string, error)) (string, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -44812,8 +44991,9 @@ func (s SliceUint8) ReduceWhileString(acc string, f func(el uint8, acc string) (
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint8) ReduceWhileFloat32(acc float32, f func(el uint8, acc float32) (float32, error)) (float32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -44823,8 +45003,9 @@ func (s SliceUint8) ReduceWhileFloat32(acc float32, f func(el uint8, acc float32
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint8) ReduceWhileFloat64(acc float64, f func(el uint8, acc float64) (float64, error)) (float64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -44834,8 +45015,9 @@ func (s SliceUint8) ReduceWhileFloat64(acc float64, f func(el uint8, acc float64
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint8) ReduceWhileInt(acc int, f func(el uint8, acc int) (int, error)) (int, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -44845,8 +45027,9 @@ func (s SliceUint8) ReduceWhileInt(acc int, f func(el uint8, acc int) (int, erro
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint8) ReduceWhileInt8(acc int8, f func(el uint8, acc int8) (int8, error)) (int8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -44856,8 +45039,9 @@ func (s SliceUint8) ReduceWhileInt8(acc int8, f func(el uint8, acc int8) (int8, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint8) ReduceWhileInt16(acc int16, f func(el uint8, acc int16) (int16, error)) (int16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -44867,8 +45051,9 @@ func (s SliceUint8) ReduceWhileInt16(acc int16, f func(el uint8, acc int16) (int
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint8) ReduceWhileInt32(acc int32, f func(el uint8, acc int32) (int32, error)) (int32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -44878,8 +45063,9 @@ func (s SliceUint8) ReduceWhileInt32(acc int32, f func(el uint8, acc int32) (int
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint8) ReduceWhileInt64(acc int64, f func(el uint8, acc int64) (int64, error)) (int64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -44889,8 +45075,9 @@ func (s SliceUint8) ReduceWhileInt64(acc int64, f func(el uint8, acc int64) (int
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint8) ReduceWhileUint(acc uint, f func(el uint8, acc uint) (uint, error)) (uint, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -44900,8 +45087,9 @@ func (s SliceUint8) ReduceWhileUint(acc uint, f func(el uint8, acc uint) (uint, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint8) ReduceWhileUint8(acc uint8, f func(el uint8, acc uint8) (uint8, error)) (uint8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -44911,8 +45099,9 @@ func (s SliceUint8) ReduceWhileUint8(acc uint8, f func(el uint8, acc uint8) (uin
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint8) ReduceWhileUint16(acc uint16, f func(el uint8, acc uint16) (uint16, error)) (uint16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -44922,8 +45111,9 @@ func (s SliceUint8) ReduceWhileUint16(acc uint16, f func(el uint8, acc uint16) (
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint8) ReduceWhileUint32(acc uint32, f func(el uint8, acc uint32) (uint32, error)) (uint32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -44933,8 +45123,9 @@ func (s SliceUint8) ReduceWhileUint32(acc uint32, f func(el uint8, acc uint32) (
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint8) ReduceWhileUint64(acc uint64, f func(el uint8, acc uint64) (uint64, error)) (uint64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -44944,8 +45135,9 @@ func (s SliceUint8) ReduceWhileUint64(acc uint64, f func(el uint8, acc uint64) (
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint8) ReduceWhileInterface(acc interface{}, f func(el uint8, acc interface{}) (interface{}, error)) (interface{}, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -48719,8 +48911,9 @@ func (s SliceUint16) ReduceInterface(acc interface{}, f func(el uint16, acc inte
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint16) ReduceWhileBool(acc bool, f func(el uint16, acc bool) (bool, error)) (bool, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -48730,8 +48923,9 @@ func (s SliceUint16) ReduceWhileBool(acc bool, f func(el uint16, acc bool) (bool
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint16) ReduceWhileByte(acc byte, f func(el uint16, acc byte) (byte, error)) (byte, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -48741,8 +48935,9 @@ func (s SliceUint16) ReduceWhileByte(acc byte, f func(el uint16, acc byte) (byte
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint16) ReduceWhileString(acc string, f func(el uint16, acc string) (string, error)) (string, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -48752,8 +48947,9 @@ func (s SliceUint16) ReduceWhileString(acc string, f func(el uint16, acc string)
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint16) ReduceWhileFloat32(acc float32, f func(el uint16, acc float32) (float32, error)) (float32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -48763,8 +48959,9 @@ func (s SliceUint16) ReduceWhileFloat32(acc float32, f func(el uint16, acc float
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint16) ReduceWhileFloat64(acc float64, f func(el uint16, acc float64) (float64, error)) (float64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -48774,8 +48971,9 @@ func (s SliceUint16) ReduceWhileFloat64(acc float64, f func(el uint16, acc float
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint16) ReduceWhileInt(acc int, f func(el uint16, acc int) (int, error)) (int, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -48785,8 +48983,9 @@ func (s SliceUint16) ReduceWhileInt(acc int, f func(el uint16, acc int) (int, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint16) ReduceWhileInt8(acc int8, f func(el uint16, acc int8) (int8, error)) (int8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -48796,8 +48995,9 @@ func (s SliceUint16) ReduceWhileInt8(acc int8, f func(el uint16, acc int8) (int8
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint16) ReduceWhileInt16(acc int16, f func(el uint16, acc int16) (int16, error)) (int16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -48807,8 +49007,9 @@ func (s SliceUint16) ReduceWhileInt16(acc int16, f func(el uint16, acc int16) (i
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint16) ReduceWhileInt32(acc int32, f func(el uint16, acc int32) (int32, error)) (int32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -48818,8 +49019,9 @@ func (s SliceUint16) ReduceWhileInt32(acc int32, f func(el uint16, acc int32) (i
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint16) ReduceWhileInt64(acc int64, f func(el uint16, acc int64) (int64, error)) (int64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -48829,8 +49031,9 @@ func (s SliceUint16) ReduceWhileInt64(acc int64, f func(el uint16, acc int64) (i
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint16) ReduceWhileUint(acc uint, f func(el uint16, acc uint) (uint, error)) (uint, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -48840,8 +49043,9 @@ func (s SliceUint16) ReduceWhileUint(acc uint, f func(el uint16, acc uint) (uint
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint16) ReduceWhileUint8(acc uint8, f func(el uint16, acc uint8) (uint8, error)) (uint8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -48851,8 +49055,9 @@ func (s SliceUint16) ReduceWhileUint8(acc uint8, f func(el uint16, acc uint8) (u
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint16) ReduceWhileUint16(acc uint16, f func(el uint16, acc uint16) (uint16, error)) (uint16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -48862,8 +49067,9 @@ func (s SliceUint16) ReduceWhileUint16(acc uint16, f func(el uint16, acc uint16)
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint16) ReduceWhileUint32(acc uint32, f func(el uint16, acc uint32) (uint32, error)) (uint32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -48873,8 +49079,9 @@ func (s SliceUint16) ReduceWhileUint32(acc uint32, f func(el uint16, acc uint32)
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint16) ReduceWhileUint64(acc uint64, f func(el uint16, acc uint64) (uint64, error)) (uint64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -48884,8 +49091,9 @@ func (s SliceUint16) ReduceWhileUint64(acc uint64, f func(el uint16, acc uint64)
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint16) ReduceWhileInterface(acc interface{}, f func(el uint16, acc interface{}) (interface{}, error)) (interface{}, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -52659,8 +52867,9 @@ func (s SliceUint32) ReduceInterface(acc interface{}, f func(el uint32, acc inte
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint32) ReduceWhileBool(acc bool, f func(el uint32, acc bool) (bool, error)) (bool, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -52670,8 +52879,9 @@ func (s SliceUint32) ReduceWhileBool(acc bool, f func(el uint32, acc bool) (bool
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint32) ReduceWhileByte(acc byte, f func(el uint32, acc byte) (byte, error)) (byte, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -52681,8 +52891,9 @@ func (s SliceUint32) ReduceWhileByte(acc byte, f func(el uint32, acc byte) (byte
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint32) ReduceWhileString(acc string, f func(el uint32, acc string) (string, error)) (string, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -52692,8 +52903,9 @@ func (s SliceUint32) ReduceWhileString(acc string, f func(el uint32, acc string)
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint32) ReduceWhileFloat32(acc float32, f func(el uint32, acc float32) (float32, error)) (float32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -52703,8 +52915,9 @@ func (s SliceUint32) ReduceWhileFloat32(acc float32, f func(el uint32, acc float
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint32) ReduceWhileFloat64(acc float64, f func(el uint32, acc float64) (float64, error)) (float64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -52714,8 +52927,9 @@ func (s SliceUint32) ReduceWhileFloat64(acc float64, f func(el uint32, acc float
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint32) ReduceWhileInt(acc int, f func(el uint32, acc int) (int, error)) (int, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -52725,8 +52939,9 @@ func (s SliceUint32) ReduceWhileInt(acc int, f func(el uint32, acc int) (int, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint32) ReduceWhileInt8(acc int8, f func(el uint32, acc int8) (int8, error)) (int8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -52736,8 +52951,9 @@ func (s SliceUint32) ReduceWhileInt8(acc int8, f func(el uint32, acc int8) (int8
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint32) ReduceWhileInt16(acc int16, f func(el uint32, acc int16) (int16, error)) (int16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -52747,8 +52963,9 @@ func (s SliceUint32) ReduceWhileInt16(acc int16, f func(el uint32, acc int16) (i
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint32) ReduceWhileInt32(acc int32, f func(el uint32, acc int32) (int32, error)) (int32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -52758,8 +52975,9 @@ func (s SliceUint32) ReduceWhileInt32(acc int32, f func(el uint32, acc int32) (i
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint32) ReduceWhileInt64(acc int64, f func(el uint32, acc int64) (int64, error)) (int64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -52769,8 +52987,9 @@ func (s SliceUint32) ReduceWhileInt64(acc int64, f func(el uint32, acc int64) (i
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint32) ReduceWhileUint(acc uint, f func(el uint32, acc uint) (uint, error)) (uint, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -52780,8 +52999,9 @@ func (s SliceUint32) ReduceWhileUint(acc uint, f func(el uint32, acc uint) (uint
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint32) ReduceWhileUint8(acc uint8, f func(el uint32, acc uint8) (uint8, error)) (uint8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -52791,8 +53011,9 @@ func (s SliceUint32) ReduceWhileUint8(acc uint8, f func(el uint32, acc uint8) (u
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint32) ReduceWhileUint16(acc uint16, f func(el uint32, acc uint16) (uint16, error)) (uint16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -52802,8 +53023,9 @@ func (s SliceUint32) ReduceWhileUint16(acc uint16, f func(el uint32, acc uint16)
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint32) ReduceWhileUint32(acc uint32, f func(el uint32, acc uint32) (uint32, error)) (uint32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -52813,8 +53035,9 @@ func (s SliceUint32) ReduceWhileUint32(acc uint32, f func(el uint32, acc uint32)
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint32) ReduceWhileUint64(acc uint64, f func(el uint32, acc uint64) (uint64, error)) (uint64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -52824,8 +53047,9 @@ func (s SliceUint32) ReduceWhileUint64(acc uint64, f func(el uint32, acc uint64)
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint32) ReduceWhileInterface(acc interface{}, f func(el uint32, acc interface{}) (interface{}, error)) (interface{}, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -56599,8 +56823,9 @@ func (s SliceUint64) ReduceInterface(acc interface{}, f func(el uint64, acc inte
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint64) ReduceWhileBool(acc bool, f func(el uint64, acc bool) (bool, error)) (bool, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -56610,8 +56835,9 @@ func (s SliceUint64) ReduceWhileBool(acc bool, f func(el uint64, acc bool) (bool
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint64) ReduceWhileByte(acc byte, f func(el uint64, acc byte) (byte, error)) (byte, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -56621,8 +56847,9 @@ func (s SliceUint64) ReduceWhileByte(acc byte, f func(el uint64, acc byte) (byte
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint64) ReduceWhileString(acc string, f func(el uint64, acc string) (string, error)) (string, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -56632,8 +56859,9 @@ func (s SliceUint64) ReduceWhileString(acc string, f func(el uint64, acc string)
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint64) ReduceWhileFloat32(acc float32, f func(el uint64, acc float32) (float32, error)) (float32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -56643,8 +56871,9 @@ func (s SliceUint64) ReduceWhileFloat32(acc float32, f func(el uint64, acc float
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint64) ReduceWhileFloat64(acc float64, f func(el uint64, acc float64) (float64, error)) (float64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -56654,8 +56883,9 @@ func (s SliceUint64) ReduceWhileFloat64(acc float64, f func(el uint64, acc float
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint64) ReduceWhileInt(acc int, f func(el uint64, acc int) (int, error)) (int, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -56665,8 +56895,9 @@ func (s SliceUint64) ReduceWhileInt(acc int, f func(el uint64, acc int) (int, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint64) ReduceWhileInt8(acc int8, f func(el uint64, acc int8) (int8, error)) (int8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -56676,8 +56907,9 @@ func (s SliceUint64) ReduceWhileInt8(acc int8, f func(el uint64, acc int8) (int8
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint64) ReduceWhileInt16(acc int16, f func(el uint64, acc int16) (int16, error)) (int16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -56687,8 +56919,9 @@ func (s SliceUint64) ReduceWhileInt16(acc int16, f func(el uint64, acc int16) (i
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint64) ReduceWhileInt32(acc int32, f func(el uint64, acc int32) (int32, error)) (int32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -56698,8 +56931,9 @@ func (s SliceUint64) ReduceWhileInt32(acc int32, f func(el uint64, acc int32) (i
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint64) ReduceWhileInt64(acc int64, f func(el uint64, acc int64) (int64, error)) (int64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -56709,8 +56943,9 @@ func (s SliceUint64) ReduceWhileInt64(acc int64, f func(el uint64, acc int64) (i
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint64) ReduceWhileUint(acc uint, f func(el uint64, acc uint) (uint, error)) (uint, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -56720,8 +56955,9 @@ func (s SliceUint64) ReduceWhileUint(acc uint, f func(el uint64, acc uint) (uint
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint64) ReduceWhileUint8(acc uint8, f func(el uint64, acc uint8) (uint8, error)) (uint8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -56731,8 +56967,9 @@ func (s SliceUint64) ReduceWhileUint8(acc uint8, f func(el uint64, acc uint8) (u
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint64) ReduceWhileUint16(acc uint16, f func(el uint64, acc uint16) (uint16, error)) (uint16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -56742,8 +56979,9 @@ func (s SliceUint64) ReduceWhileUint16(acc uint16, f func(el uint64, acc uint16)
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint64) ReduceWhileUint32(acc uint32, f func(el uint64, acc uint32) (uint32, error)) (uint32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -56753,8 +56991,9 @@ func (s SliceUint64) ReduceWhileUint32(acc uint32, f func(el uint64, acc uint32)
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint64) ReduceWhileUint64(acc uint64, f func(el uint64, acc uint64) (uint64, error)) (uint64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -56764,8 +57003,9 @@ func (s SliceUint64) ReduceWhileUint64(acc uint64, f func(el uint64, acc uint64)
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint64) ReduceWhileInterface(acc interface{}, f func(el uint64, acc interface{}) (interface{}, error)) (interface{}, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -60498,8 +60738,9 @@ func (s SliceInterface) ReduceInterface(acc interface{}, f func(el interface{}, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInterface) ReduceWhileBool(acc bool, f func(el interface{}, acc bool) (bool, error)) (bool, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -60509,8 +60750,9 @@ func (s SliceInterface) ReduceWhileBool(acc bool, f func(el interface{}, acc boo
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInterface) ReduceWhileByte(acc byte, f func(el interface{}, acc byte) (byte, error)) (byte, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -60520,8 +60762,9 @@ func (s SliceInterface) ReduceWhileByte(acc byte, f func(el interface{}, acc byt
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInterface) ReduceWhileString(acc string, f func(el interface{}, acc string) (string, error)) (string, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -60531,8 +60774,9 @@ func (s SliceInterface) ReduceWhileString(acc string, f func(el interface{}, acc
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInterface) ReduceWhileFloat32(acc float32, f func(el interface{}, acc float32) (float32, error)) (float32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -60542,8 +60786,9 @@ func (s SliceInterface) ReduceWhileFloat32(acc float32, f func(el interface{}, a
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInterface) ReduceWhileFloat64(acc float64, f func(el interface{}, acc float64) (float64, error)) (float64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -60553,8 +60798,9 @@ func (s SliceInterface) ReduceWhileFloat64(acc float64, f func(el interface{}, a
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInterface) ReduceWhileInt(acc int, f func(el interface{}, acc int) (int, error)) (int, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -60564,8 +60810,9 @@ func (s SliceInterface) ReduceWhileInt(acc int, f func(el interface{}, acc int) 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInterface) ReduceWhileInt8(acc int8, f func(el interface{}, acc int8) (int8, error)) (int8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -60575,8 +60822,9 @@ func (s SliceInterface) ReduceWhileInt8(acc int8, f func(el interface{}, acc int
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInterface) ReduceWhileInt16(acc int16, f func(el interface{}, acc int16) (int16, error)) (int16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -60586,8 +60834,9 @@ func (s SliceInterface) ReduceWhileInt16(acc int16, f func(el interface{}, acc i
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInterface) ReduceWhileInt32(acc int32, f func(el interface{}, acc int32) (int32, error)) (int32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -60597,8 +60846,9 @@ func (s SliceInterface) ReduceWhileInt32(acc int32, f func(el interface{}, acc i
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInterface) ReduceWhileInt64(acc int64, f func(el interface{}, acc int64) (int64, error)) (int64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -60608,8 +60858,9 @@ func (s SliceInterface) ReduceWhileInt64(acc int64, f func(el interface{}, acc i
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInterface) ReduceWhileUint(acc uint, f func(el interface{}, acc uint) (uint, error)) (uint, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -60619,8 +60870,9 @@ func (s SliceInterface) ReduceWhileUint(acc uint, f func(el interface{}, acc uin
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInterface) ReduceWhileUint8(acc uint8, f func(el interface{}, acc uint8) (uint8, error)) (uint8, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -60630,8 +60882,9 @@ func (s SliceInterface) ReduceWhileUint8(acc uint8, f func(el interface{}, acc u
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInterface) ReduceWhileUint16(acc uint16, f func(el interface{}, acc uint16) (uint16, error)) (uint16, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -60641,8 +60894,9 @@ func (s SliceInterface) ReduceWhileUint16(acc uint16, f func(el interface{}, acc
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInterface) ReduceWhileUint32(acc uint32, f func(el interface{}, acc uint32) (uint32, error)) (uint32, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -60652,8 +60906,9 @@ func (s SliceInterface) ReduceWhileUint32(acc uint32, f func(el interface{}, acc
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInterface) ReduceWhileUint64(acc uint64, f func(el interface{}, acc uint64) (uint64, error)) (uint64, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
@@ -60663,8 +60918,9 @@ func (s SliceInterface) ReduceWhileUint64(acc uint64, f func(el interface{}, acc
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInterface) ReduceWhileInterface(acc interface{}, f func(el interface{}, acc interface{}) (interface{}, error)) (interface{}, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}

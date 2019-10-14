@@ -809,7 +809,7 @@ func TestSliceReduceWhileIntInt(t *testing.T) {
 	f := func(given []int, expected int) {
 		sum := func(el int, acc int) (int, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int(el) + acc, nil
 		}
@@ -820,13 +820,14 @@ func TestSliceReduceWhileIntInt(t *testing.T) {
 	f([]int{1}, 1)
 	f([]int{1, 2}, 3)
 	f([]int{1, 2, 3}, 6)
+	f([]int{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileIntInt8(t *testing.T) {
 	f := func(given []int, expected int8) {
 		sum := func(el int, acc int8) (int8, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int8(el) + acc, nil
 		}
@@ -837,13 +838,14 @@ func TestSliceReduceWhileIntInt8(t *testing.T) {
 	f([]int{1}, 1)
 	f([]int{1, 2}, 3)
 	f([]int{1, 2, 3}, 6)
+	f([]int{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileIntInt16(t *testing.T) {
 	f := func(given []int, expected int16) {
 		sum := func(el int, acc int16) (int16, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int16(el) + acc, nil
 		}
@@ -854,13 +856,14 @@ func TestSliceReduceWhileIntInt16(t *testing.T) {
 	f([]int{1}, 1)
 	f([]int{1, 2}, 3)
 	f([]int{1, 2, 3}, 6)
+	f([]int{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileIntInt32(t *testing.T) {
 	f := func(given []int, expected int32) {
 		sum := func(el int, acc int32) (int32, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int32(el) + acc, nil
 		}
@@ -871,13 +874,14 @@ func TestSliceReduceWhileIntInt32(t *testing.T) {
 	f([]int{1}, 1)
 	f([]int{1, 2}, 3)
 	f([]int{1, 2, 3}, 6)
+	f([]int{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileIntInt64(t *testing.T) {
 	f := func(given []int, expected int64) {
 		sum := func(el int, acc int64) (int64, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int64(el) + acc, nil
 		}
@@ -888,6 +892,7 @@ func TestSliceReduceWhileIntInt64(t *testing.T) {
 	f([]int{1}, 1)
 	f([]int{1, 2}, 3)
 	f([]int{1, 2, 3}, 6)
+	f([]int{1, 2, 0, 3}, 3)
 }
 
 func TestChannelToSliceInt(t *testing.T) {
@@ -2506,7 +2511,7 @@ func TestSliceReduceWhileInt8Int(t *testing.T) {
 	f := func(given []int8, expected int) {
 		sum := func(el int8, acc int) (int, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int(el) + acc, nil
 		}
@@ -2517,13 +2522,14 @@ func TestSliceReduceWhileInt8Int(t *testing.T) {
 	f([]int8{1}, 1)
 	f([]int8{1, 2}, 3)
 	f([]int8{1, 2, 3}, 6)
+	f([]int8{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileInt8Int8(t *testing.T) {
 	f := func(given []int8, expected int8) {
 		sum := func(el int8, acc int8) (int8, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int8(el) + acc, nil
 		}
@@ -2534,13 +2540,14 @@ func TestSliceReduceWhileInt8Int8(t *testing.T) {
 	f([]int8{1}, 1)
 	f([]int8{1, 2}, 3)
 	f([]int8{1, 2, 3}, 6)
+	f([]int8{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileInt8Int16(t *testing.T) {
 	f := func(given []int8, expected int16) {
 		sum := func(el int8, acc int16) (int16, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int16(el) + acc, nil
 		}
@@ -2551,13 +2558,14 @@ func TestSliceReduceWhileInt8Int16(t *testing.T) {
 	f([]int8{1}, 1)
 	f([]int8{1, 2}, 3)
 	f([]int8{1, 2, 3}, 6)
+	f([]int8{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileInt8Int32(t *testing.T) {
 	f := func(given []int8, expected int32) {
 		sum := func(el int8, acc int32) (int32, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int32(el) + acc, nil
 		}
@@ -2568,13 +2576,14 @@ func TestSliceReduceWhileInt8Int32(t *testing.T) {
 	f([]int8{1}, 1)
 	f([]int8{1, 2}, 3)
 	f([]int8{1, 2, 3}, 6)
+	f([]int8{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileInt8Int64(t *testing.T) {
 	f := func(given []int8, expected int64) {
 		sum := func(el int8, acc int64) (int64, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int64(el) + acc, nil
 		}
@@ -2585,6 +2594,7 @@ func TestSliceReduceWhileInt8Int64(t *testing.T) {
 	f([]int8{1}, 1)
 	f([]int8{1, 2}, 3)
 	f([]int8{1, 2, 3}, 6)
+	f([]int8{1, 2, 0, 3}, 3)
 }
 
 func TestChannelToSliceInt8(t *testing.T) {
@@ -4203,7 +4213,7 @@ func TestSliceReduceWhileInt16Int(t *testing.T) {
 	f := func(given []int16, expected int) {
 		sum := func(el int16, acc int) (int, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int(el) + acc, nil
 		}
@@ -4214,13 +4224,14 @@ func TestSliceReduceWhileInt16Int(t *testing.T) {
 	f([]int16{1}, 1)
 	f([]int16{1, 2}, 3)
 	f([]int16{1, 2, 3}, 6)
+	f([]int16{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileInt16Int8(t *testing.T) {
 	f := func(given []int16, expected int8) {
 		sum := func(el int16, acc int8) (int8, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int8(el) + acc, nil
 		}
@@ -4231,13 +4242,14 @@ func TestSliceReduceWhileInt16Int8(t *testing.T) {
 	f([]int16{1}, 1)
 	f([]int16{1, 2}, 3)
 	f([]int16{1, 2, 3}, 6)
+	f([]int16{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileInt16Int16(t *testing.T) {
 	f := func(given []int16, expected int16) {
 		sum := func(el int16, acc int16) (int16, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int16(el) + acc, nil
 		}
@@ -4248,13 +4260,14 @@ func TestSliceReduceWhileInt16Int16(t *testing.T) {
 	f([]int16{1}, 1)
 	f([]int16{1, 2}, 3)
 	f([]int16{1, 2, 3}, 6)
+	f([]int16{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileInt16Int32(t *testing.T) {
 	f := func(given []int16, expected int32) {
 		sum := func(el int16, acc int32) (int32, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int32(el) + acc, nil
 		}
@@ -4265,13 +4278,14 @@ func TestSliceReduceWhileInt16Int32(t *testing.T) {
 	f([]int16{1}, 1)
 	f([]int16{1, 2}, 3)
 	f([]int16{1, 2, 3}, 6)
+	f([]int16{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileInt16Int64(t *testing.T) {
 	f := func(given []int16, expected int64) {
 		sum := func(el int16, acc int64) (int64, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int64(el) + acc, nil
 		}
@@ -4282,6 +4296,7 @@ func TestSliceReduceWhileInt16Int64(t *testing.T) {
 	f([]int16{1}, 1)
 	f([]int16{1, 2}, 3)
 	f([]int16{1, 2, 3}, 6)
+	f([]int16{1, 2, 0, 3}, 3)
 }
 
 func TestChannelToSliceInt16(t *testing.T) {
@@ -5900,7 +5915,7 @@ func TestSliceReduceWhileInt32Int(t *testing.T) {
 	f := func(given []int32, expected int) {
 		sum := func(el int32, acc int) (int, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int(el) + acc, nil
 		}
@@ -5911,13 +5926,14 @@ func TestSliceReduceWhileInt32Int(t *testing.T) {
 	f([]int32{1}, 1)
 	f([]int32{1, 2}, 3)
 	f([]int32{1, 2, 3}, 6)
+	f([]int32{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileInt32Int8(t *testing.T) {
 	f := func(given []int32, expected int8) {
 		sum := func(el int32, acc int8) (int8, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int8(el) + acc, nil
 		}
@@ -5928,13 +5944,14 @@ func TestSliceReduceWhileInt32Int8(t *testing.T) {
 	f([]int32{1}, 1)
 	f([]int32{1, 2}, 3)
 	f([]int32{1, 2, 3}, 6)
+	f([]int32{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileInt32Int16(t *testing.T) {
 	f := func(given []int32, expected int16) {
 		sum := func(el int32, acc int16) (int16, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int16(el) + acc, nil
 		}
@@ -5945,13 +5962,14 @@ func TestSliceReduceWhileInt32Int16(t *testing.T) {
 	f([]int32{1}, 1)
 	f([]int32{1, 2}, 3)
 	f([]int32{1, 2, 3}, 6)
+	f([]int32{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileInt32Int32(t *testing.T) {
 	f := func(given []int32, expected int32) {
 		sum := func(el int32, acc int32) (int32, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int32(el) + acc, nil
 		}
@@ -5962,13 +5980,14 @@ func TestSliceReduceWhileInt32Int32(t *testing.T) {
 	f([]int32{1}, 1)
 	f([]int32{1, 2}, 3)
 	f([]int32{1, 2, 3}, 6)
+	f([]int32{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileInt32Int64(t *testing.T) {
 	f := func(given []int32, expected int64) {
 		sum := func(el int32, acc int64) (int64, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int64(el) + acc, nil
 		}
@@ -5979,6 +5998,7 @@ func TestSliceReduceWhileInt32Int64(t *testing.T) {
 	f([]int32{1}, 1)
 	f([]int32{1, 2}, 3)
 	f([]int32{1, 2, 3}, 6)
+	f([]int32{1, 2, 0, 3}, 3)
 }
 
 func TestChannelToSliceInt32(t *testing.T) {
@@ -7597,7 +7617,7 @@ func TestSliceReduceWhileInt64Int(t *testing.T) {
 	f := func(given []int64, expected int) {
 		sum := func(el int64, acc int) (int, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int(el) + acc, nil
 		}
@@ -7608,13 +7628,14 @@ func TestSliceReduceWhileInt64Int(t *testing.T) {
 	f([]int64{1}, 1)
 	f([]int64{1, 2}, 3)
 	f([]int64{1, 2, 3}, 6)
+	f([]int64{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileInt64Int8(t *testing.T) {
 	f := func(given []int64, expected int8) {
 		sum := func(el int64, acc int8) (int8, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int8(el) + acc, nil
 		}
@@ -7625,13 +7646,14 @@ func TestSliceReduceWhileInt64Int8(t *testing.T) {
 	f([]int64{1}, 1)
 	f([]int64{1, 2}, 3)
 	f([]int64{1, 2, 3}, 6)
+	f([]int64{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileInt64Int16(t *testing.T) {
 	f := func(given []int64, expected int16) {
 		sum := func(el int64, acc int16) (int16, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int16(el) + acc, nil
 		}
@@ -7642,13 +7664,14 @@ func TestSliceReduceWhileInt64Int16(t *testing.T) {
 	f([]int64{1}, 1)
 	f([]int64{1, 2}, 3)
 	f([]int64{1, 2, 3}, 6)
+	f([]int64{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileInt64Int32(t *testing.T) {
 	f := func(given []int64, expected int32) {
 		sum := func(el int64, acc int32) (int32, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int32(el) + acc, nil
 		}
@@ -7659,13 +7682,14 @@ func TestSliceReduceWhileInt64Int32(t *testing.T) {
 	f([]int64{1}, 1)
 	f([]int64{1, 2}, 3)
 	f([]int64{1, 2, 3}, 6)
+	f([]int64{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileInt64Int64(t *testing.T) {
 	f := func(given []int64, expected int64) {
 		sum := func(el int64, acc int64) (int64, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return int64(el) + acc, nil
 		}
@@ -7676,6 +7700,7 @@ func TestSliceReduceWhileInt64Int64(t *testing.T) {
 	f([]int64{1}, 1)
 	f([]int64{1, 2}, 3)
 	f([]int64{1, 2, 3}, 6)
+	f([]int64{1, 2, 0, 3}, 3)
 }
 
 func TestChannelToSliceInt64(t *testing.T) {

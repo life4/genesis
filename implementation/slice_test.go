@@ -465,7 +465,7 @@ func TestSliceReduceWhile(t *testing.T) {
 	f := func(given []T, expected G) {
 		sum := func(el T, acc G) (G, error) {
 			if el == 0 {
-				return 0, ErrEmpty
+				return acc, ErrEmpty
 			}
 			return G(el) + acc, nil
 		}
@@ -476,4 +476,5 @@ func TestSliceReduceWhile(t *testing.T) {
 	f([]T{1}, 1)
 	f([]T{1, 2}, 3)
 	f([]T{1, 2, 3}, 6)
+	f([]T{1, 2, 0, 3}, 3)
 }

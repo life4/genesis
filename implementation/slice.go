@@ -534,8 +534,9 @@ func (s Slice) Reduce(acc G, f func(el T, acc G) G) G {
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s Slice) ReduceWhile(acc G, f func(el T, acc G) (G, error)) (G, error) {
+	var err error
 	for _, el := range s.Data {
-		acc, err := f(el, acc)
+		acc, err = f(el, acc)
 		if err != nil {
 			return acc, err
 		}
