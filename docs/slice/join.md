@@ -32,9 +32,28 @@ Generic types: T.
 func (s Slice) Join(sep string) string {
 	strs := make([]string, 0, len(s.Data))
 	for _, el := range s.Data {
-		strs = append(strs, string(el))
+		strs = append(strs, fmt.Sprintf("%v", el))
 	}
 	return strings.Join(strs, sep)
 }
 ```
 
+## Tests
+
+```go
+func TestSliceJoin(t *testing.T) {
+	f := func(given []T, sep string, expected string) {
+		actual := Slice{given}.Join(sep)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, "", "")
+	f([]T{}, "|", "")
+
+	f([]T{1}, "", "1")
+	f([]T{1}, "|", "1")
+
+	f([]T{1, 2, 3}, "", "123")
+	f([]T{1, 2, 3}, "|", "1|2|3")
+	f([]T{1, 2, 3}, "<T>", "1<T>2<T>3")
+}
+```

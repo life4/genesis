@@ -1,6 +1,7 @@
 package implementation
 
 import (
+	"fmt"
 	"math/rand"
 	"sort"
 	"strings"
@@ -344,7 +345,7 @@ func (s Slice) FindIndex(f func(el T) bool) (int, error) {
 func (s Slice) Join(sep string) string {
 	strs := make([]string, 0, len(s.Data))
 	for _, el := range s.Data {
-		strs = append(strs, string(el))
+		strs = append(strs, fmt.Sprintf("%v", el))
 	}
 	return strings.Join(strs, sep)
 }

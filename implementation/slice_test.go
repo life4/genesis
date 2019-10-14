@@ -233,6 +233,28 @@ func TestSliceEndsWith(t *testing.T) {
 	f([]T{1, 2, 3}, []T{3, 2}, false)
 }
 
+func TestSliceEqual(t *testing.T) {
+	f := func(left []T, right []T, expected bool) {
+		actual := Slice{left}.Equal(right)
+		assert.Equal(t, expected, actual, "they should be equal")
+
+		actual = Slice{right}.Equal(left)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{}, true)
+	f([]T{1}, []T{1}, true)
+	f([]T{1}, []T{2}, false)
+	f([]T{1, 2, 3, 3}, []T{1, 2, 3, 3}, true)
+	f([]T{1, 2, 3, 3}, []T{1, 2, 2, 3}, false)
+	f([]T{1, 2, 3, 3}, []T{1, 2, 4, 3}, false)
+
+	// different len
+	f([]T{1, 2, 3}, []T{1, 2}, false)
+	f([]T{1, 2}, []T{1, 2, 3}, false)
+	f([]T{}, []T{1, 2, 3}, false)
+	f([]T{1, 2, 3}, []T{}, false)
+}
+
 func TestSliceFilter(t *testing.T) {
 	f := func(given []T, expected []T) {
 		even := func(t T) bool { return (t % 2) == 0 }
@@ -243,6 +265,55 @@ func TestSliceFilter(t *testing.T) {
 	f([]T{1, 2, 3, 4}, []T{2, 4})
 	f([]T{1, 3}, []T{})
 	f([]T{2, 4}, []T{2, 4})
+}
+
+func TestSliceFind(t *testing.T) {
+	f := func(given []T, expectedEl T, expectedErr error) {
+		even := func(t T) bool { return (t % 2) == 0 }
+		el, err := Slice{given}.Find(even)
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]T{}, 0, ErrNotFound)
+	f([]T{1}, 0, ErrNotFound)
+	f([]T{1}, 0, ErrNotFound)
+	f([]T{2}, 2, nil)
+	f([]T{1, 2}, 2, nil)
+	f([]T{1, 2, 3}, 2, nil)
+	f([]T{1, 3, 5}, 0, ErrNotFound)
+}
+
+func TestSliceFindIndex(t *testing.T) {
+	f := func(given []T, expectedInd int, expectedErr error) {
+		even := func(t T) bool { return (t % 2) == 0 }
+		index, err := Slice{given}.FindIndex(even)
+		assert.Equal(t, expectedInd, index, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]T{}, 0, ErrNotFound)
+	f([]T{1}, 0, ErrNotFound)
+	f([]T{1}, 0, ErrNotFound)
+	f([]T{2}, 0, nil)
+	f([]T{1, 2}, 1, nil)
+	f([]T{1, 2, 3}, 1, nil)
+	f([]T{1, 3, 5, 7, 9, 2}, 5, nil)
+	f([]T{1, 3, 5}, 0, ErrNotFound)
+}
+
+func TestSliceJoin(t *testing.T) {
+	f := func(given []T, sep string, expected string) {
+		actual := Slice{given}.Join(sep)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, "", "")
+	f([]T{}, "|", "")
+
+	f([]T{1}, "", "1")
+	f([]T{1}, "|", "1")
+
+	f([]T{1, 2, 3}, "", "123")
+	f([]T{1, 2, 3}, "|", "1|2|3")
+	f([]T{1, 2, 3}, "<T>", "1<T>2<T>3")
 }
 
 func TestSliceGroupBy(t *testing.T) {

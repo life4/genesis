@@ -46,3 +46,28 @@ func (s Slice) Equal(other []T) bool {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceEqual(t *testing.T) {
+	f := func(left []T, right []T, expected bool) {
+		actual := Slice{left}.Equal(right)
+		assert.Equal(t, expected, actual, "they should be equal")
+
+		actual = Slice{right}.Equal(left)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{}, true)
+	f([]T{1}, []T{1}, true)
+	f([]T{1}, []T{2}, false)
+	f([]T{1, 2, 3, 3}, []T{1, 2, 3, 3}, true)
+	f([]T{1, 2, 3, 3}, []T{1, 2, 2, 3}, false)
+	f([]T{1, 2, 3, 3}, []T{1, 2, 4, 3}, false)
+
+	// different len
+	f([]T{1, 2, 3}, []T{1, 2}, false)
+	f([]T{1, 2}, []T{1, 2, 3}, false)
+	f([]T{}, []T{1, 2, 3}, false)
+	f([]T{1, 2, 3}, []T{}, false)
+}
+```

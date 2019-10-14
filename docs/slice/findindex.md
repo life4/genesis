@@ -49,3 +49,23 @@ func (s Slice) FindIndex(f func(el T) bool) (int, error) {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceFindIndex(t *testing.T) {
+	f := func(given []T, expectedInd int, expectedErr error) {
+		even := func(t T) bool { return (t % 2) == 0 }
+		index, err := Slice{given}.FindIndex(even)
+		assert.Equal(t, expectedInd, index, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]T{}, 0, ErrNotFound)
+	f([]T{1}, 0, ErrNotFound)
+	f([]T{1}, 0, ErrNotFound)
+	f([]T{2}, 0, nil)
+	f([]T{1, 2}, 1, nil)
+	f([]T{1, 2, 3}, 1, nil)
+	f([]T{1, 3, 5, 7, 9, 2}, 5, nil)
+	f([]T{1, 3, 5}, 0, ErrNotFound)
+}
+```

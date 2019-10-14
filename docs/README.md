@@ -8,11 +8,11 @@ import "github.com/life4/genesis"
 
 | Struct | Description |
 | ------ | ----------- |
+| [Slice](./slice/) | Slice is a set of operations to work with slice |
 | [Channel](./channel/) | Channel is a set of operations with channel |
-| [AsyncSlice](./asyncslice/) | AsyncSlice is a set of operations to work with slice asynchronously |
 | [Sequence](./sequence/) | Sequence is a set of operations to generate sequences |
 | [Pair](./pair/) | Pair is a set of functions for 2 values that you can pass into reduce-like funcs |
-| [Slice](./slice/) | Slice is a set of operations to work with slice |
+| [AsyncSlice](./asyncslice/) | AsyncSlice is a set of operations to work with slice asynchronously |
 | [Slices](./slices/) | Slices is a set of operations to work with slice of slices |
 
 

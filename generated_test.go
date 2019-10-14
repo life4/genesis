@@ -23,6 +23,89 @@ func TestSlicesProductInt(t *testing.T) {
 	f([][]int{{1, 2}, {3}, {4, 5}}, [][]int{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
 }
 
+func TestSequenceCountInt(t *testing.T) {
+	f := func(start int, step int, count int, expected []int) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt{ctx: ctx}
+		seq := s.Count(start, step)
+		seq2 := ChannelInt{seq}.Take(count)
+		actual := ChannelInt{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 2, 4, []int{1, 3, 5, 7})
+}
+
+func TestSequenceExponentialInt(t *testing.T) {
+	f := func(start int, factor int, count int, expected []int) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt{ctx: ctx}
+		seq := s.Exponential(start, factor)
+		seq2 := ChannelInt{seq}.Take(count)
+		actual := ChannelInt{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 1, 4, []int{1, 1, 1, 1})
+	f(1, 2, 4, []int{1, 2, 4, 8})
+}
+
+func TestSequenceIterateInt(t *testing.T) {
+	f := func(start int, count int, expected []int) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt{ctx: ctx}
+		double := func(val int) int { return val * 2 }
+		seq := s.Iterate(start, double)
+		seq2 := ChannelInt{seq}.Take(count)
+		actual := ChannelInt{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, []int{1, 2, 4, 8})
+}
+
+func TestSequenceRangeInt(t *testing.T) {
+	f := func(start int, stop int, step int, expected []int) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt{ctx: ctx}
+		seq := s.Range(start, stop, step)
+		actual := ChannelInt{seq}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, 1, []int{1, 2, 3})
+	f(3, 0, -1, []int{3, 2, 1})
+	f(1, 1, 1, []int{})
+	f(1, 2, 1, []int{1})
+}
+
+func TestSequenceRepeatInt(t *testing.T) {
+	f := func(count int, given int, expected []int) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt{ctx: ctx}
+		seq := s.Repeat(given)
+		seq2 := ChannelInt{seq}.Take(count)
+		actual := ChannelInt{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, 1, []int{1, 1})
+}
+
+func TestSequenceReplicateInt(t *testing.T) {
+	f := func(count int, given int, expected []int) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt{ctx: ctx}
+		seq := s.Replicate(given, count)
+		actual := ChannelInt{seq}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []int{})
+	f(1, 1, []int{1})
+	f(5, 1, []int{1, 1, 1, 1, 1})
+}
+
 func TestSliceAnyInt(t *testing.T) {
 	f := func(given []int, expected bool) {
 		even := func(t int) bool { return (t % 2) == 0 }
@@ -358,6 +441,28 @@ func TestSliceEndsWithInt(t *testing.T) {
 	f([]int{1, 2, 3}, []int{3, 2}, false)
 }
 
+func TestSliceEqualInt(t *testing.T) {
+	f := func(left []int, right []int, expected bool) {
+		actual := SliceInt{left}.Equal(right)
+		assert.Equal(t, expected, actual, "they should be equal")
+
+		actual = SliceInt{right}.Equal(left)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{}, true)
+	f([]int{1}, []int{1}, true)
+	f([]int{1}, []int{2}, false)
+	f([]int{1, 2, 3, 3}, []int{1, 2, 3, 3}, true)
+	f([]int{1, 2, 3, 3}, []int{1, 2, 2, 3}, false)
+	f([]int{1, 2, 3, 3}, []int{1, 2, 4, 3}, false)
+
+	// different len
+	f([]int{1, 2, 3}, []int{1, 2}, false)
+	f([]int{1, 2}, []int{1, 2, 3}, false)
+	f([]int{}, []int{1, 2, 3}, false)
+	f([]int{1, 2, 3}, []int{}, false)
+}
+
 func TestSliceFilterInt(t *testing.T) {
 	f := func(given []int, expected []int) {
 		even := func(t int) bool { return (t % 2) == 0 }
@@ -368,6 +473,55 @@ func TestSliceFilterInt(t *testing.T) {
 	f([]int{1, 2, 3, 4}, []int{2, 4})
 	f([]int{1, 3}, []int{})
 	f([]int{2, 4}, []int{2, 4})
+}
+
+func TestSliceFindInt(t *testing.T) {
+	f := func(given []int, expectedEl int, expectedErr error) {
+		even := func(t int) bool { return (t % 2) == 0 }
+		el, err := SliceInt{given}.Find(even)
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int{}, 0, ErrNotFound)
+	f([]int{1}, 0, ErrNotFound)
+	f([]int{1}, 0, ErrNotFound)
+	f([]int{2}, 2, nil)
+	f([]int{1, 2}, 2, nil)
+	f([]int{1, 2, 3}, 2, nil)
+	f([]int{1, 3, 5}, 0, ErrNotFound)
+}
+
+func TestSliceFindIndexInt(t *testing.T) {
+	f := func(given []int, expectedInd int, expectedErr error) {
+		even := func(t int) bool { return (t % 2) == 0 }
+		index, err := SliceInt{given}.FindIndex(even)
+		assert.Equal(t, expectedInd, index, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int{}, 0, ErrNotFound)
+	f([]int{1}, 0, ErrNotFound)
+	f([]int{1}, 0, ErrNotFound)
+	f([]int{2}, 0, nil)
+	f([]int{1, 2}, 1, nil)
+	f([]int{1, 2, 3}, 1, nil)
+	f([]int{1, 3, 5, 7, 9, 2}, 5, nil)
+	f([]int{1, 3, 5}, 0, ErrNotFound)
+}
+
+func TestSliceJoinInt(t *testing.T) {
+	f := func(given []int, sep string, expected string) {
+		actual := SliceInt{given}.Join(sep)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, "", "")
+	f([]int{}, "|", "")
+
+	f([]int{1}, "", "1")
+	f([]int{1}, "|", "1")
+
+	f([]int{1, 2, 3}, "", "123")
+	f([]int{1, 2, 3}, "|", "1|2|3")
+	f([]int{1, 2, 3}, "<int>", "1<int>2<int>3")
 }
 
 func TestSliceGroupByIntInt(t *testing.T) {
@@ -1174,89 +1328,6 @@ func TestChannelTeeInt(t *testing.T) {
 	f(10, []int{1, 2, 3, 1, 2})
 }
 
-func TestSequenceCountInt(t *testing.T) {
-	f := func(start int, step int, count int, expected []int) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt{ctx: ctx}
-		seq := s.Count(start, step)
-		seq2 := ChannelInt{seq}.Take(count)
-		actual := ChannelInt{seq2}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 2, 4, []int{1, 3, 5, 7})
-}
-
-func TestSequenceExponentialInt(t *testing.T) {
-	f := func(start int, factor int, count int, expected []int) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt{ctx: ctx}
-		seq := s.Exponential(start, factor)
-		seq2 := ChannelInt{seq}.Take(count)
-		actual := ChannelInt{seq2}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 1, 4, []int{1, 1, 1, 1})
-	f(1, 2, 4, []int{1, 2, 4, 8})
-}
-
-func TestSequenceIterateInt(t *testing.T) {
-	f := func(start int, count int, expected []int) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt{ctx: ctx}
-		double := func(val int) int { return val * 2 }
-		seq := s.Iterate(start, double)
-		seq2 := ChannelInt{seq}.Take(count)
-		actual := ChannelInt{seq2}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 4, []int{1, 2, 4, 8})
-}
-
-func TestSequenceRangeInt(t *testing.T) {
-	f := func(start int, stop int, step int, expected []int) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt{ctx: ctx}
-		seq := s.Range(start, stop, step)
-		actual := ChannelInt{seq}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 4, 1, []int{1, 2, 3})
-	f(3, 0, -1, []int{3, 2, 1})
-	f(1, 1, 1, []int{})
-	f(1, 2, 1, []int{1})
-}
-
-func TestSequenceRepeatInt(t *testing.T) {
-	f := func(count int, given int, expected []int) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt{ctx: ctx}
-		seq := s.Repeat(given)
-		seq2 := ChannelInt{seq}.Take(count)
-		actual := ChannelInt{seq2}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(2, 1, []int{1, 1})
-}
-
-func TestSequenceReplicateInt(t *testing.T) {
-	f := func(count int, given int, expected []int) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt{ctx: ctx}
-		seq := s.Replicate(given, count)
-		actual := ChannelInt{seq}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(0, 1, []int{})
-	f(1, 1, []int{1})
-	f(5, 1, []int{1, 1, 1, 1, 1})
-}
-
 func TestAsyncSliceAnyInt(t *testing.T) {
 	f := func(check func(t int) bool, given []int, expected bool) {
 		s := AsyncSliceInt{Data: given, Workers: 2}
@@ -1421,6 +1492,89 @@ func TestSlicesProductInt8(t *testing.T) {
 	}
 	f([][]int8{{1, 2}, {3, 4}}, [][]int8{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
 	f([][]int8{{1, 2}, {3}, {4, 5}}, [][]int8{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+}
+
+func TestSequenceCountInt8(t *testing.T) {
+	f := func(start int8, step int8, count int, expected []int8) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt8{ctx: ctx}
+		seq := s.Count(start, step)
+		seq2 := ChannelInt8{seq}.Take(count)
+		actual := ChannelInt8{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 2, 4, []int8{1, 3, 5, 7})
+}
+
+func TestSequenceExponentialInt8(t *testing.T) {
+	f := func(start int8, factor int8, count int, expected []int8) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt8{ctx: ctx}
+		seq := s.Exponential(start, factor)
+		seq2 := ChannelInt8{seq}.Take(count)
+		actual := ChannelInt8{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 1, 4, []int8{1, 1, 1, 1})
+	f(1, 2, 4, []int8{1, 2, 4, 8})
+}
+
+func TestSequenceIterateInt8(t *testing.T) {
+	f := func(start int8, count int, expected []int8) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt8{ctx: ctx}
+		double := func(val int8) int8 { return val * 2 }
+		seq := s.Iterate(start, double)
+		seq2 := ChannelInt8{seq}.Take(count)
+		actual := ChannelInt8{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, []int8{1, 2, 4, 8})
+}
+
+func TestSequenceRangeInt8(t *testing.T) {
+	f := func(start int8, stop int8, step int8, expected []int8) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt8{ctx: ctx}
+		seq := s.Range(start, stop, step)
+		actual := ChannelInt8{seq}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, 1, []int8{1, 2, 3})
+	f(3, 0, -1, []int8{3, 2, 1})
+	f(1, 1, 1, []int8{})
+	f(1, 2, 1, []int8{1})
+}
+
+func TestSequenceRepeatInt8(t *testing.T) {
+	f := func(count int, given int8, expected []int8) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt8{ctx: ctx}
+		seq := s.Repeat(given)
+		seq2 := ChannelInt8{seq}.Take(count)
+		actual := ChannelInt8{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, 1, []int8{1, 1})
+}
+
+func TestSequenceReplicateInt8(t *testing.T) {
+	f := func(count int, given int8, expected []int8) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt8{ctx: ctx}
+		seq := s.Replicate(given, count)
+		actual := ChannelInt8{seq}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []int8{})
+	f(1, 1, []int8{1})
+	f(5, 1, []int8{1, 1, 1, 1, 1})
 }
 
 func TestSliceAnyInt8(t *testing.T) {
@@ -1758,6 +1912,28 @@ func TestSliceEndsWithInt8(t *testing.T) {
 	f([]int8{1, 2, 3}, []int8{3, 2}, false)
 }
 
+func TestSliceEqualInt8(t *testing.T) {
+	f := func(left []int8, right []int8, expected bool) {
+		actual := SliceInt8{left}.Equal(right)
+		assert.Equal(t, expected, actual, "they should be equal")
+
+		actual = SliceInt8{right}.Equal(left)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{}, true)
+	f([]int8{1}, []int8{1}, true)
+	f([]int8{1}, []int8{2}, false)
+	f([]int8{1, 2, 3, 3}, []int8{1, 2, 3, 3}, true)
+	f([]int8{1, 2, 3, 3}, []int8{1, 2, 2, 3}, false)
+	f([]int8{1, 2, 3, 3}, []int8{1, 2, 4, 3}, false)
+
+	// different len
+	f([]int8{1, 2, 3}, []int8{1, 2}, false)
+	f([]int8{1, 2}, []int8{1, 2, 3}, false)
+	f([]int8{}, []int8{1, 2, 3}, false)
+	f([]int8{1, 2, 3}, []int8{}, false)
+}
+
 func TestSliceFilterInt8(t *testing.T) {
 	f := func(given []int8, expected []int8) {
 		even := func(t int8) bool { return (t % 2) == 0 }
@@ -1768,6 +1944,55 @@ func TestSliceFilterInt8(t *testing.T) {
 	f([]int8{1, 2, 3, 4}, []int8{2, 4})
 	f([]int8{1, 3}, []int8{})
 	f([]int8{2, 4}, []int8{2, 4})
+}
+
+func TestSliceFindInt8(t *testing.T) {
+	f := func(given []int8, expectedEl int8, expectedErr error) {
+		even := func(t int8) bool { return (t % 2) == 0 }
+		el, err := SliceInt8{given}.Find(even)
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int8{}, 0, ErrNotFound)
+	f([]int8{1}, 0, ErrNotFound)
+	f([]int8{1}, 0, ErrNotFound)
+	f([]int8{2}, 2, nil)
+	f([]int8{1, 2}, 2, nil)
+	f([]int8{1, 2, 3}, 2, nil)
+	f([]int8{1, 3, 5}, 0, ErrNotFound)
+}
+
+func TestSliceFindIndexInt8(t *testing.T) {
+	f := func(given []int8, expectedInd int, expectedErr error) {
+		even := func(t int8) bool { return (t % 2) == 0 }
+		index, err := SliceInt8{given}.FindIndex(even)
+		assert.Equal(t, expectedInd, index, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int8{}, 0, ErrNotFound)
+	f([]int8{1}, 0, ErrNotFound)
+	f([]int8{1}, 0, ErrNotFound)
+	f([]int8{2}, 0, nil)
+	f([]int8{1, 2}, 1, nil)
+	f([]int8{1, 2, 3}, 1, nil)
+	f([]int8{1, 3, 5, 7, 9, 2}, 5, nil)
+	f([]int8{1, 3, 5}, 0, ErrNotFound)
+}
+
+func TestSliceJoinInt8(t *testing.T) {
+	f := func(given []int8, sep string, expected string) {
+		actual := SliceInt8{given}.Join(sep)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, "", "")
+	f([]int8{}, "|", "")
+
+	f([]int8{1}, "", "1")
+	f([]int8{1}, "|", "1")
+
+	f([]int8{1, 2, 3}, "", "123")
+	f([]int8{1, 2, 3}, "|", "1|2|3")
+	f([]int8{1, 2, 3}, "<int8>", "1<int8>2<int8>3")
 }
 
 func TestSliceGroupByInt8Int(t *testing.T) {
@@ -2574,89 +2799,6 @@ func TestChannelTeeInt8(t *testing.T) {
 	f(10, []int8{1, 2, 3, 1, 2})
 }
 
-func TestSequenceCountInt8(t *testing.T) {
-	f := func(start int8, step int8, count int, expected []int8) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt8{ctx: ctx}
-		seq := s.Count(start, step)
-		seq2 := ChannelInt8{seq}.Take(count)
-		actual := ChannelInt8{seq2}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 2, 4, []int8{1, 3, 5, 7})
-}
-
-func TestSequenceExponentialInt8(t *testing.T) {
-	f := func(start int8, factor int8, count int, expected []int8) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt8{ctx: ctx}
-		seq := s.Exponential(start, factor)
-		seq2 := ChannelInt8{seq}.Take(count)
-		actual := ChannelInt8{seq2}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 1, 4, []int8{1, 1, 1, 1})
-	f(1, 2, 4, []int8{1, 2, 4, 8})
-}
-
-func TestSequenceIterateInt8(t *testing.T) {
-	f := func(start int8, count int, expected []int8) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt8{ctx: ctx}
-		double := func(val int8) int8 { return val * 2 }
-		seq := s.Iterate(start, double)
-		seq2 := ChannelInt8{seq}.Take(count)
-		actual := ChannelInt8{seq2}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 4, []int8{1, 2, 4, 8})
-}
-
-func TestSequenceRangeInt8(t *testing.T) {
-	f := func(start int8, stop int8, step int8, expected []int8) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt8{ctx: ctx}
-		seq := s.Range(start, stop, step)
-		actual := ChannelInt8{seq}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 4, 1, []int8{1, 2, 3})
-	f(3, 0, -1, []int8{3, 2, 1})
-	f(1, 1, 1, []int8{})
-	f(1, 2, 1, []int8{1})
-}
-
-func TestSequenceRepeatInt8(t *testing.T) {
-	f := func(count int, given int8, expected []int8) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt8{ctx: ctx}
-		seq := s.Repeat(given)
-		seq2 := ChannelInt8{seq}.Take(count)
-		actual := ChannelInt8{seq2}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(2, 1, []int8{1, 1})
-}
-
-func TestSequenceReplicateInt8(t *testing.T) {
-	f := func(count int, given int8, expected []int8) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt8{ctx: ctx}
-		seq := s.Replicate(given, count)
-		actual := ChannelInt8{seq}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(0, 1, []int8{})
-	f(1, 1, []int8{1})
-	f(5, 1, []int8{1, 1, 1, 1, 1})
-}
-
 func TestAsyncSliceAnyInt8(t *testing.T) {
 	f := func(check func(t int8) bool, given []int8, expected bool) {
 		s := AsyncSliceInt8{Data: given, Workers: 2}
@@ -2821,6 +2963,89 @@ func TestSlicesProductInt16(t *testing.T) {
 	}
 	f([][]int16{{1, 2}, {3, 4}}, [][]int16{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
 	f([][]int16{{1, 2}, {3}, {4, 5}}, [][]int16{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+}
+
+func TestSequenceCountInt16(t *testing.T) {
+	f := func(start int16, step int16, count int, expected []int16) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt16{ctx: ctx}
+		seq := s.Count(start, step)
+		seq2 := ChannelInt16{seq}.Take(count)
+		actual := ChannelInt16{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 2, 4, []int16{1, 3, 5, 7})
+}
+
+func TestSequenceExponentialInt16(t *testing.T) {
+	f := func(start int16, factor int16, count int, expected []int16) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt16{ctx: ctx}
+		seq := s.Exponential(start, factor)
+		seq2 := ChannelInt16{seq}.Take(count)
+		actual := ChannelInt16{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 1, 4, []int16{1, 1, 1, 1})
+	f(1, 2, 4, []int16{1, 2, 4, 8})
+}
+
+func TestSequenceIterateInt16(t *testing.T) {
+	f := func(start int16, count int, expected []int16) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt16{ctx: ctx}
+		double := func(val int16) int16 { return val * 2 }
+		seq := s.Iterate(start, double)
+		seq2 := ChannelInt16{seq}.Take(count)
+		actual := ChannelInt16{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, []int16{1, 2, 4, 8})
+}
+
+func TestSequenceRangeInt16(t *testing.T) {
+	f := func(start int16, stop int16, step int16, expected []int16) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt16{ctx: ctx}
+		seq := s.Range(start, stop, step)
+		actual := ChannelInt16{seq}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, 1, []int16{1, 2, 3})
+	f(3, 0, -1, []int16{3, 2, 1})
+	f(1, 1, 1, []int16{})
+	f(1, 2, 1, []int16{1})
+}
+
+func TestSequenceRepeatInt16(t *testing.T) {
+	f := func(count int, given int16, expected []int16) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt16{ctx: ctx}
+		seq := s.Repeat(given)
+		seq2 := ChannelInt16{seq}.Take(count)
+		actual := ChannelInt16{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, 1, []int16{1, 1})
+}
+
+func TestSequenceReplicateInt16(t *testing.T) {
+	f := func(count int, given int16, expected []int16) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt16{ctx: ctx}
+		seq := s.Replicate(given, count)
+		actual := ChannelInt16{seq}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []int16{})
+	f(1, 1, []int16{1})
+	f(5, 1, []int16{1, 1, 1, 1, 1})
 }
 
 func TestSliceAnyInt16(t *testing.T) {
@@ -3158,6 +3383,28 @@ func TestSliceEndsWithInt16(t *testing.T) {
 	f([]int16{1, 2, 3}, []int16{3, 2}, false)
 }
 
+func TestSliceEqualInt16(t *testing.T) {
+	f := func(left []int16, right []int16, expected bool) {
+		actual := SliceInt16{left}.Equal(right)
+		assert.Equal(t, expected, actual, "they should be equal")
+
+		actual = SliceInt16{right}.Equal(left)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{}, true)
+	f([]int16{1}, []int16{1}, true)
+	f([]int16{1}, []int16{2}, false)
+	f([]int16{1, 2, 3, 3}, []int16{1, 2, 3, 3}, true)
+	f([]int16{1, 2, 3, 3}, []int16{1, 2, 2, 3}, false)
+	f([]int16{1, 2, 3, 3}, []int16{1, 2, 4, 3}, false)
+
+	// different len
+	f([]int16{1, 2, 3}, []int16{1, 2}, false)
+	f([]int16{1, 2}, []int16{1, 2, 3}, false)
+	f([]int16{}, []int16{1, 2, 3}, false)
+	f([]int16{1, 2, 3}, []int16{}, false)
+}
+
 func TestSliceFilterInt16(t *testing.T) {
 	f := func(given []int16, expected []int16) {
 		even := func(t int16) bool { return (t % 2) == 0 }
@@ -3168,6 +3415,55 @@ func TestSliceFilterInt16(t *testing.T) {
 	f([]int16{1, 2, 3, 4}, []int16{2, 4})
 	f([]int16{1, 3}, []int16{})
 	f([]int16{2, 4}, []int16{2, 4})
+}
+
+func TestSliceFindInt16(t *testing.T) {
+	f := func(given []int16, expectedEl int16, expectedErr error) {
+		even := func(t int16) bool { return (t % 2) == 0 }
+		el, err := SliceInt16{given}.Find(even)
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int16{}, 0, ErrNotFound)
+	f([]int16{1}, 0, ErrNotFound)
+	f([]int16{1}, 0, ErrNotFound)
+	f([]int16{2}, 2, nil)
+	f([]int16{1, 2}, 2, nil)
+	f([]int16{1, 2, 3}, 2, nil)
+	f([]int16{1, 3, 5}, 0, ErrNotFound)
+}
+
+func TestSliceFindIndexInt16(t *testing.T) {
+	f := func(given []int16, expectedInd int, expectedErr error) {
+		even := func(t int16) bool { return (t % 2) == 0 }
+		index, err := SliceInt16{given}.FindIndex(even)
+		assert.Equal(t, expectedInd, index, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int16{}, 0, ErrNotFound)
+	f([]int16{1}, 0, ErrNotFound)
+	f([]int16{1}, 0, ErrNotFound)
+	f([]int16{2}, 0, nil)
+	f([]int16{1, 2}, 1, nil)
+	f([]int16{1, 2, 3}, 1, nil)
+	f([]int16{1, 3, 5, 7, 9, 2}, 5, nil)
+	f([]int16{1, 3, 5}, 0, ErrNotFound)
+}
+
+func TestSliceJoinInt16(t *testing.T) {
+	f := func(given []int16, sep string, expected string) {
+		actual := SliceInt16{given}.Join(sep)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, "", "")
+	f([]int16{}, "|", "")
+
+	f([]int16{1}, "", "1")
+	f([]int16{1}, "|", "1")
+
+	f([]int16{1, 2, 3}, "", "123")
+	f([]int16{1, 2, 3}, "|", "1|2|3")
+	f([]int16{1, 2, 3}, "<int16>", "1<int16>2<int16>3")
 }
 
 func TestSliceGroupByInt16Int(t *testing.T) {
@@ -3974,89 +4270,6 @@ func TestChannelTeeInt16(t *testing.T) {
 	f(10, []int16{1, 2, 3, 1, 2})
 }
 
-func TestSequenceCountInt16(t *testing.T) {
-	f := func(start int16, step int16, count int, expected []int16) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt16{ctx: ctx}
-		seq := s.Count(start, step)
-		seq2 := ChannelInt16{seq}.Take(count)
-		actual := ChannelInt16{seq2}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 2, 4, []int16{1, 3, 5, 7})
-}
-
-func TestSequenceExponentialInt16(t *testing.T) {
-	f := func(start int16, factor int16, count int, expected []int16) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt16{ctx: ctx}
-		seq := s.Exponential(start, factor)
-		seq2 := ChannelInt16{seq}.Take(count)
-		actual := ChannelInt16{seq2}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 1, 4, []int16{1, 1, 1, 1})
-	f(1, 2, 4, []int16{1, 2, 4, 8})
-}
-
-func TestSequenceIterateInt16(t *testing.T) {
-	f := func(start int16, count int, expected []int16) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt16{ctx: ctx}
-		double := func(val int16) int16 { return val * 2 }
-		seq := s.Iterate(start, double)
-		seq2 := ChannelInt16{seq}.Take(count)
-		actual := ChannelInt16{seq2}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 4, []int16{1, 2, 4, 8})
-}
-
-func TestSequenceRangeInt16(t *testing.T) {
-	f := func(start int16, stop int16, step int16, expected []int16) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt16{ctx: ctx}
-		seq := s.Range(start, stop, step)
-		actual := ChannelInt16{seq}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 4, 1, []int16{1, 2, 3})
-	f(3, 0, -1, []int16{3, 2, 1})
-	f(1, 1, 1, []int16{})
-	f(1, 2, 1, []int16{1})
-}
-
-func TestSequenceRepeatInt16(t *testing.T) {
-	f := func(count int, given int16, expected []int16) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt16{ctx: ctx}
-		seq := s.Repeat(given)
-		seq2 := ChannelInt16{seq}.Take(count)
-		actual := ChannelInt16{seq2}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(2, 1, []int16{1, 1})
-}
-
-func TestSequenceReplicateInt16(t *testing.T) {
-	f := func(count int, given int16, expected []int16) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt16{ctx: ctx}
-		seq := s.Replicate(given, count)
-		actual := ChannelInt16{seq}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(0, 1, []int16{})
-	f(1, 1, []int16{1})
-	f(5, 1, []int16{1, 1, 1, 1, 1})
-}
-
 func TestAsyncSliceAnyInt16(t *testing.T) {
 	f := func(check func(t int16) bool, given []int16, expected bool) {
 		s := AsyncSliceInt16{Data: given, Workers: 2}
@@ -4221,6 +4434,89 @@ func TestSlicesProductInt32(t *testing.T) {
 	}
 	f([][]int32{{1, 2}, {3, 4}}, [][]int32{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
 	f([][]int32{{1, 2}, {3}, {4, 5}}, [][]int32{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+}
+
+func TestSequenceCountInt32(t *testing.T) {
+	f := func(start int32, step int32, count int, expected []int32) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt32{ctx: ctx}
+		seq := s.Count(start, step)
+		seq2 := ChannelInt32{seq}.Take(count)
+		actual := ChannelInt32{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 2, 4, []int32{1, 3, 5, 7})
+}
+
+func TestSequenceExponentialInt32(t *testing.T) {
+	f := func(start int32, factor int32, count int, expected []int32) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt32{ctx: ctx}
+		seq := s.Exponential(start, factor)
+		seq2 := ChannelInt32{seq}.Take(count)
+		actual := ChannelInt32{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 1, 4, []int32{1, 1, 1, 1})
+	f(1, 2, 4, []int32{1, 2, 4, 8})
+}
+
+func TestSequenceIterateInt32(t *testing.T) {
+	f := func(start int32, count int, expected []int32) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt32{ctx: ctx}
+		double := func(val int32) int32 { return val * 2 }
+		seq := s.Iterate(start, double)
+		seq2 := ChannelInt32{seq}.Take(count)
+		actual := ChannelInt32{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, []int32{1, 2, 4, 8})
+}
+
+func TestSequenceRangeInt32(t *testing.T) {
+	f := func(start int32, stop int32, step int32, expected []int32) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt32{ctx: ctx}
+		seq := s.Range(start, stop, step)
+		actual := ChannelInt32{seq}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, 1, []int32{1, 2, 3})
+	f(3, 0, -1, []int32{3, 2, 1})
+	f(1, 1, 1, []int32{})
+	f(1, 2, 1, []int32{1})
+}
+
+func TestSequenceRepeatInt32(t *testing.T) {
+	f := func(count int, given int32, expected []int32) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt32{ctx: ctx}
+		seq := s.Repeat(given)
+		seq2 := ChannelInt32{seq}.Take(count)
+		actual := ChannelInt32{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, 1, []int32{1, 1})
+}
+
+func TestSequenceReplicateInt32(t *testing.T) {
+	f := func(count int, given int32, expected []int32) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt32{ctx: ctx}
+		seq := s.Replicate(given, count)
+		actual := ChannelInt32{seq}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []int32{})
+	f(1, 1, []int32{1})
+	f(5, 1, []int32{1, 1, 1, 1, 1})
 }
 
 func TestSliceAnyInt32(t *testing.T) {
@@ -4558,6 +4854,28 @@ func TestSliceEndsWithInt32(t *testing.T) {
 	f([]int32{1, 2, 3}, []int32{3, 2}, false)
 }
 
+func TestSliceEqualInt32(t *testing.T) {
+	f := func(left []int32, right []int32, expected bool) {
+		actual := SliceInt32{left}.Equal(right)
+		assert.Equal(t, expected, actual, "they should be equal")
+
+		actual = SliceInt32{right}.Equal(left)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{}, true)
+	f([]int32{1}, []int32{1}, true)
+	f([]int32{1}, []int32{2}, false)
+	f([]int32{1, 2, 3, 3}, []int32{1, 2, 3, 3}, true)
+	f([]int32{1, 2, 3, 3}, []int32{1, 2, 2, 3}, false)
+	f([]int32{1, 2, 3, 3}, []int32{1, 2, 4, 3}, false)
+
+	// different len
+	f([]int32{1, 2, 3}, []int32{1, 2}, false)
+	f([]int32{1, 2}, []int32{1, 2, 3}, false)
+	f([]int32{}, []int32{1, 2, 3}, false)
+	f([]int32{1, 2, 3}, []int32{}, false)
+}
+
 func TestSliceFilterInt32(t *testing.T) {
 	f := func(given []int32, expected []int32) {
 		even := func(t int32) bool { return (t % 2) == 0 }
@@ -4568,6 +4886,55 @@ func TestSliceFilterInt32(t *testing.T) {
 	f([]int32{1, 2, 3, 4}, []int32{2, 4})
 	f([]int32{1, 3}, []int32{})
 	f([]int32{2, 4}, []int32{2, 4})
+}
+
+func TestSliceFindInt32(t *testing.T) {
+	f := func(given []int32, expectedEl int32, expectedErr error) {
+		even := func(t int32) bool { return (t % 2) == 0 }
+		el, err := SliceInt32{given}.Find(even)
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int32{}, 0, ErrNotFound)
+	f([]int32{1}, 0, ErrNotFound)
+	f([]int32{1}, 0, ErrNotFound)
+	f([]int32{2}, 2, nil)
+	f([]int32{1, 2}, 2, nil)
+	f([]int32{1, 2, 3}, 2, nil)
+	f([]int32{1, 3, 5}, 0, ErrNotFound)
+}
+
+func TestSliceFindIndexInt32(t *testing.T) {
+	f := func(given []int32, expectedInd int, expectedErr error) {
+		even := func(t int32) bool { return (t % 2) == 0 }
+		index, err := SliceInt32{given}.FindIndex(even)
+		assert.Equal(t, expectedInd, index, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int32{}, 0, ErrNotFound)
+	f([]int32{1}, 0, ErrNotFound)
+	f([]int32{1}, 0, ErrNotFound)
+	f([]int32{2}, 0, nil)
+	f([]int32{1, 2}, 1, nil)
+	f([]int32{1, 2, 3}, 1, nil)
+	f([]int32{1, 3, 5, 7, 9, 2}, 5, nil)
+	f([]int32{1, 3, 5}, 0, ErrNotFound)
+}
+
+func TestSliceJoinInt32(t *testing.T) {
+	f := func(given []int32, sep string, expected string) {
+		actual := SliceInt32{given}.Join(sep)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, "", "")
+	f([]int32{}, "|", "")
+
+	f([]int32{1}, "", "1")
+	f([]int32{1}, "|", "1")
+
+	f([]int32{1, 2, 3}, "", "123")
+	f([]int32{1, 2, 3}, "|", "1|2|3")
+	f([]int32{1, 2, 3}, "<int32>", "1<int32>2<int32>3")
 }
 
 func TestSliceGroupByInt32Int(t *testing.T) {
@@ -5374,89 +5741,6 @@ func TestChannelTeeInt32(t *testing.T) {
 	f(10, []int32{1, 2, 3, 1, 2})
 }
 
-func TestSequenceCountInt32(t *testing.T) {
-	f := func(start int32, step int32, count int, expected []int32) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt32{ctx: ctx}
-		seq := s.Count(start, step)
-		seq2 := ChannelInt32{seq}.Take(count)
-		actual := ChannelInt32{seq2}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 2, 4, []int32{1, 3, 5, 7})
-}
-
-func TestSequenceExponentialInt32(t *testing.T) {
-	f := func(start int32, factor int32, count int, expected []int32) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt32{ctx: ctx}
-		seq := s.Exponential(start, factor)
-		seq2 := ChannelInt32{seq}.Take(count)
-		actual := ChannelInt32{seq2}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 1, 4, []int32{1, 1, 1, 1})
-	f(1, 2, 4, []int32{1, 2, 4, 8})
-}
-
-func TestSequenceIterateInt32(t *testing.T) {
-	f := func(start int32, count int, expected []int32) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt32{ctx: ctx}
-		double := func(val int32) int32 { return val * 2 }
-		seq := s.Iterate(start, double)
-		seq2 := ChannelInt32{seq}.Take(count)
-		actual := ChannelInt32{seq2}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 4, []int32{1, 2, 4, 8})
-}
-
-func TestSequenceRangeInt32(t *testing.T) {
-	f := func(start int32, stop int32, step int32, expected []int32) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt32{ctx: ctx}
-		seq := s.Range(start, stop, step)
-		actual := ChannelInt32{seq}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 4, 1, []int32{1, 2, 3})
-	f(3, 0, -1, []int32{3, 2, 1})
-	f(1, 1, 1, []int32{})
-	f(1, 2, 1, []int32{1})
-}
-
-func TestSequenceRepeatInt32(t *testing.T) {
-	f := func(count int, given int32, expected []int32) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt32{ctx: ctx}
-		seq := s.Repeat(given)
-		seq2 := ChannelInt32{seq}.Take(count)
-		actual := ChannelInt32{seq2}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(2, 1, []int32{1, 1})
-}
-
-func TestSequenceReplicateInt32(t *testing.T) {
-	f := func(count int, given int32, expected []int32) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt32{ctx: ctx}
-		seq := s.Replicate(given, count)
-		actual := ChannelInt32{seq}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(0, 1, []int32{})
-	f(1, 1, []int32{1})
-	f(5, 1, []int32{1, 1, 1, 1, 1})
-}
-
 func TestAsyncSliceAnyInt32(t *testing.T) {
 	f := func(check func(t int32) bool, given []int32, expected bool) {
 		s := AsyncSliceInt32{Data: given, Workers: 2}
@@ -5621,6 +5905,89 @@ func TestSlicesProductInt64(t *testing.T) {
 	}
 	f([][]int64{{1, 2}, {3, 4}}, [][]int64{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
 	f([][]int64{{1, 2}, {3}, {4, 5}}, [][]int64{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+}
+
+func TestSequenceCountInt64(t *testing.T) {
+	f := func(start int64, step int64, count int, expected []int64) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt64{ctx: ctx}
+		seq := s.Count(start, step)
+		seq2 := ChannelInt64{seq}.Take(count)
+		actual := ChannelInt64{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 2, 4, []int64{1, 3, 5, 7})
+}
+
+func TestSequenceExponentialInt64(t *testing.T) {
+	f := func(start int64, factor int64, count int, expected []int64) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt64{ctx: ctx}
+		seq := s.Exponential(start, factor)
+		seq2 := ChannelInt64{seq}.Take(count)
+		actual := ChannelInt64{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 1, 4, []int64{1, 1, 1, 1})
+	f(1, 2, 4, []int64{1, 2, 4, 8})
+}
+
+func TestSequenceIterateInt64(t *testing.T) {
+	f := func(start int64, count int, expected []int64) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt64{ctx: ctx}
+		double := func(val int64) int64 { return val * 2 }
+		seq := s.Iterate(start, double)
+		seq2 := ChannelInt64{seq}.Take(count)
+		actual := ChannelInt64{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, []int64{1, 2, 4, 8})
+}
+
+func TestSequenceRangeInt64(t *testing.T) {
+	f := func(start int64, stop int64, step int64, expected []int64) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt64{ctx: ctx}
+		seq := s.Range(start, stop, step)
+		actual := ChannelInt64{seq}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, 1, []int64{1, 2, 3})
+	f(3, 0, -1, []int64{3, 2, 1})
+	f(1, 1, 1, []int64{})
+	f(1, 2, 1, []int64{1})
+}
+
+func TestSequenceRepeatInt64(t *testing.T) {
+	f := func(count int, given int64, expected []int64) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt64{ctx: ctx}
+		seq := s.Repeat(given)
+		seq2 := ChannelInt64{seq}.Take(count)
+		actual := ChannelInt64{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, 1, []int64{1, 1})
+}
+
+func TestSequenceReplicateInt64(t *testing.T) {
+	f := func(count int, given int64, expected []int64) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceInt64{ctx: ctx}
+		seq := s.Replicate(given, count)
+		actual := ChannelInt64{seq}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []int64{})
+	f(1, 1, []int64{1})
+	f(5, 1, []int64{1, 1, 1, 1, 1})
 }
 
 func TestSliceAnyInt64(t *testing.T) {
@@ -5958,6 +6325,28 @@ func TestSliceEndsWithInt64(t *testing.T) {
 	f([]int64{1, 2, 3}, []int64{3, 2}, false)
 }
 
+func TestSliceEqualInt64(t *testing.T) {
+	f := func(left []int64, right []int64, expected bool) {
+		actual := SliceInt64{left}.Equal(right)
+		assert.Equal(t, expected, actual, "they should be equal")
+
+		actual = SliceInt64{right}.Equal(left)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{}, true)
+	f([]int64{1}, []int64{1}, true)
+	f([]int64{1}, []int64{2}, false)
+	f([]int64{1, 2, 3, 3}, []int64{1, 2, 3, 3}, true)
+	f([]int64{1, 2, 3, 3}, []int64{1, 2, 2, 3}, false)
+	f([]int64{1, 2, 3, 3}, []int64{1, 2, 4, 3}, false)
+
+	// different len
+	f([]int64{1, 2, 3}, []int64{1, 2}, false)
+	f([]int64{1, 2}, []int64{1, 2, 3}, false)
+	f([]int64{}, []int64{1, 2, 3}, false)
+	f([]int64{1, 2, 3}, []int64{}, false)
+}
+
 func TestSliceFilterInt64(t *testing.T) {
 	f := func(given []int64, expected []int64) {
 		even := func(t int64) bool { return (t % 2) == 0 }
@@ -5968,6 +6357,55 @@ func TestSliceFilterInt64(t *testing.T) {
 	f([]int64{1, 2, 3, 4}, []int64{2, 4})
 	f([]int64{1, 3}, []int64{})
 	f([]int64{2, 4}, []int64{2, 4})
+}
+
+func TestSliceFindInt64(t *testing.T) {
+	f := func(given []int64, expectedEl int64, expectedErr error) {
+		even := func(t int64) bool { return (t % 2) == 0 }
+		el, err := SliceInt64{given}.Find(even)
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int64{}, 0, ErrNotFound)
+	f([]int64{1}, 0, ErrNotFound)
+	f([]int64{1}, 0, ErrNotFound)
+	f([]int64{2}, 2, nil)
+	f([]int64{1, 2}, 2, nil)
+	f([]int64{1, 2, 3}, 2, nil)
+	f([]int64{1, 3, 5}, 0, ErrNotFound)
+}
+
+func TestSliceFindIndexInt64(t *testing.T) {
+	f := func(given []int64, expectedInd int, expectedErr error) {
+		even := func(t int64) bool { return (t % 2) == 0 }
+		index, err := SliceInt64{given}.FindIndex(even)
+		assert.Equal(t, expectedInd, index, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int64{}, 0, ErrNotFound)
+	f([]int64{1}, 0, ErrNotFound)
+	f([]int64{1}, 0, ErrNotFound)
+	f([]int64{2}, 0, nil)
+	f([]int64{1, 2}, 1, nil)
+	f([]int64{1, 2, 3}, 1, nil)
+	f([]int64{1, 3, 5, 7, 9, 2}, 5, nil)
+	f([]int64{1, 3, 5}, 0, ErrNotFound)
+}
+
+func TestSliceJoinInt64(t *testing.T) {
+	f := func(given []int64, sep string, expected string) {
+		actual := SliceInt64{given}.Join(sep)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, "", "")
+	f([]int64{}, "|", "")
+
+	f([]int64{1}, "", "1")
+	f([]int64{1}, "|", "1")
+
+	f([]int64{1, 2, 3}, "", "123")
+	f([]int64{1, 2, 3}, "|", "1|2|3")
+	f([]int64{1, 2, 3}, "<int64>", "1<int64>2<int64>3")
 }
 
 func TestSliceGroupByInt64Int(t *testing.T) {
@@ -6772,89 +7210,6 @@ func TestChannelTeeInt64(t *testing.T) {
 	f(2, []int64{1, 2, 3, 1, 2})
 
 	f(10, []int64{1, 2, 3, 1, 2})
-}
-
-func TestSequenceCountInt64(t *testing.T) {
-	f := func(start int64, step int64, count int, expected []int64) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt64{ctx: ctx}
-		seq := s.Count(start, step)
-		seq2 := ChannelInt64{seq}.Take(count)
-		actual := ChannelInt64{seq2}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 2, 4, []int64{1, 3, 5, 7})
-}
-
-func TestSequenceExponentialInt64(t *testing.T) {
-	f := func(start int64, factor int64, count int, expected []int64) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt64{ctx: ctx}
-		seq := s.Exponential(start, factor)
-		seq2 := ChannelInt64{seq}.Take(count)
-		actual := ChannelInt64{seq2}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 1, 4, []int64{1, 1, 1, 1})
-	f(1, 2, 4, []int64{1, 2, 4, 8})
-}
-
-func TestSequenceIterateInt64(t *testing.T) {
-	f := func(start int64, count int, expected []int64) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt64{ctx: ctx}
-		double := func(val int64) int64 { return val * 2 }
-		seq := s.Iterate(start, double)
-		seq2 := ChannelInt64{seq}.Take(count)
-		actual := ChannelInt64{seq2}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 4, []int64{1, 2, 4, 8})
-}
-
-func TestSequenceRangeInt64(t *testing.T) {
-	f := func(start int64, stop int64, step int64, expected []int64) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt64{ctx: ctx}
-		seq := s.Range(start, stop, step)
-		actual := ChannelInt64{seq}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(1, 4, 1, []int64{1, 2, 3})
-	f(3, 0, -1, []int64{3, 2, 1})
-	f(1, 1, 1, []int64{})
-	f(1, 2, 1, []int64{1})
-}
-
-func TestSequenceRepeatInt64(t *testing.T) {
-	f := func(count int, given int64, expected []int64) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt64{ctx: ctx}
-		seq := s.Repeat(given)
-		seq2 := ChannelInt64{seq}.Take(count)
-		actual := ChannelInt64{seq2}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(2, 1, []int64{1, 1})
-}
-
-func TestSequenceReplicateInt64(t *testing.T) {
-	f := func(count int, given int64, expected []int64) {
-		ctx, cancel := context.WithCancel(context.Background())
-		s := SequenceInt64{ctx: ctx}
-		seq := s.Replicate(given, count)
-		actual := ChannelInt64{seq}.ToSlice()
-		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
-	}
-	f(0, 1, []int64{})
-	f(1, 1, []int64{1})
-	f(5, 1, []int64{1, 1, 1, 1, 1})
 }
 
 func TestAsyncSliceAnyInt64(t *testing.T) {

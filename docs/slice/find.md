@@ -50,3 +50,22 @@ func (s Slice) Find(f func(el T) bool) (T, error) {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceFind(t *testing.T) {
+	f := func(given []T, expectedEl T, expectedErr error) {
+		even := func(t T) bool { return (t % 2) == 0 }
+		el, err := Slice{given}.Find(even)
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]T{}, 0, ErrNotFound)
+	f([]T{1}, 0, ErrNotFound)
+	f([]T{1}, 0, ErrNotFound)
+	f([]T{2}, 2, nil)
+	f([]T{1, 2}, 2, nil)
+	f([]T{1, 2, 3}, 2, nil)
+	f([]T{1, 3, 5}, 0, ErrNotFound)
+}
+```
