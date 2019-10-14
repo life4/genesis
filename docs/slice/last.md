@@ -48,3 +48,17 @@ func (s Slice) Last() (T, error) {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceLast(t *testing.T) {
+	f := func(given []T, expectedEl T, expectedErr error) {
+		el, err := Slice{given}.Last()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]T{}, 0, ErrEmpty)
+	f([]T{1}, 1, nil)
+	f([]T{1, 2, 3}, 3, nil)
+}
+```

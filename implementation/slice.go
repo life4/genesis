@@ -493,7 +493,13 @@ func (s Slice) permutations(c chan []T, size int, left []T, right []T) {
 // {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 func (s Slice) Product(repeat int) chan []T {
 	c := make(chan []T, 1)
-	go s.product(c, repeat, []T{}, 0)
+	go func() {
+		defer close(c)
+		if repeat < 1 {
+			return
+		}
+		s.product(c, repeat, []T{}, 0)
+	}()
 	return c
 }
 
@@ -515,10 +521,6 @@ func (s Slice) product(c chan []T, repeat int, left []T, pos int) {
 		result = append(result, left...)
 		result = append(result, el)
 		s.product(c, repeat, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
 	}
 }
 

@@ -607,6 +607,17 @@ func TestSliceIntersperseInt(t *testing.T) {
 	f(0, []int{1, 2, 3}, []int{1, 0, 2, 0, 3})
 }
 
+func TestSliceLastInt(t *testing.T) {
+	f := func(given []int, expectedEl int, expectedErr error) {
+		el, err := SliceInt{given}.Last()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int{}, 0, ErrEmpty)
+	f([]int{1}, 1, nil)
+	f([]int{1, 2, 3}, 3, nil)
+}
+
 func TestSliceMapIntInt(t *testing.T) {
 	f := func(given []int, expected []int) {
 		double := func(t int) int { return int((t * 2)) }
@@ -662,6 +673,32 @@ func TestSliceMapIntInt64(t *testing.T) {
 	f([]int{1, 2, 3}, []int64{2, 4, 6})
 }
 
+func TestSliceMaxInt(t *testing.T) {
+	f := func(given []int, expectedEl int, expectedErr error) {
+		el, err := SliceInt{given}.Max()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int{}, 0, ErrEmpty)
+	f([]int{1}, 1, nil)
+	f([]int{1, 2, 3}, 3, nil)
+	f([]int{1, 3, 2}, 3, nil)
+	f([]int{3, 2, 1}, 3, nil)
+}
+
+func TestSliceMinInt(t *testing.T) {
+	f := func(given []int, expectedEl int, expectedErr error) {
+		el, err := SliceInt{given}.Min()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int{}, 0, ErrEmpty)
+	f([]int{1}, 1, nil)
+	f([]int{1, 2, 3}, 1, nil)
+	f([]int{2, 1, 3}, 1, nil)
+	f([]int{3, 2, 1}, 1, nil)
+}
+
 func TestSlicesPermutationsInt(t *testing.T) {
 	f := func(size int, given []int, expected [][]int) {
 		actual := make([][]int, 0)
@@ -679,6 +716,33 @@ func TestSlicesPermutationsInt(t *testing.T) {
 	f(2, []int{}, [][]int{})
 	f(2, []int{1}, [][]int{{1}})
 	f(2, []int{1, 2, 3}, [][]int{{1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}})
+}
+
+func TestSliceProductInt(t *testing.T) {
+	f := func(given []int, repeat int, expected [][]int) {
+		actual := make([][]int, 0)
+		i := 0
+		s := SliceInt{given}
+		for el := range s.Product(repeat) {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	f([]int{1, 2}, 0, [][]int{})
+	f([]int{}, 2, [][]int{})
+	f([]int{1}, 2, [][]int{{1, 1}})
+
+	f([]int{1, 2}, 1, [][]int{{1}, {2}})
+	f([]int{1, 2}, 2, [][]int{{1, 1}, {1, 2}, {2, 1}, {2, 2}})
+	f([]int{1, 2}, 3, [][]int{
+		{1, 1, 1}, {1, 1, 2}, {1, 2, 1}, {1, 2, 2},
+		{2, 1, 1}, {2, 1, 2}, {2, 2, 1}, {2, 2, 2},
+	})
 }
 
 func TestChannelToSliceInt(t *testing.T) {
@@ -2095,6 +2159,17 @@ func TestSliceIntersperseInt8(t *testing.T) {
 	f(0, []int8{1, 2, 3}, []int8{1, 0, 2, 0, 3})
 }
 
+func TestSliceLastInt8(t *testing.T) {
+	f := func(given []int8, expectedEl int8, expectedErr error) {
+		el, err := SliceInt8{given}.Last()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int8{}, 0, ErrEmpty)
+	f([]int8{1}, 1, nil)
+	f([]int8{1, 2, 3}, 3, nil)
+}
+
 func TestSliceMapInt8Int(t *testing.T) {
 	f := func(given []int8, expected []int) {
 		double := func(t int8) int { return int((t * 2)) }
@@ -2150,6 +2225,32 @@ func TestSliceMapInt8Int64(t *testing.T) {
 	f([]int8{1, 2, 3}, []int64{2, 4, 6})
 }
 
+func TestSliceMaxInt8(t *testing.T) {
+	f := func(given []int8, expectedEl int8, expectedErr error) {
+		el, err := SliceInt8{given}.Max()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int8{}, 0, ErrEmpty)
+	f([]int8{1}, 1, nil)
+	f([]int8{1, 2, 3}, 3, nil)
+	f([]int8{1, 3, 2}, 3, nil)
+	f([]int8{3, 2, 1}, 3, nil)
+}
+
+func TestSliceMinInt8(t *testing.T) {
+	f := func(given []int8, expectedEl int8, expectedErr error) {
+		el, err := SliceInt8{given}.Min()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int8{}, 0, ErrEmpty)
+	f([]int8{1}, 1, nil)
+	f([]int8{1, 2, 3}, 1, nil)
+	f([]int8{2, 1, 3}, 1, nil)
+	f([]int8{3, 2, 1}, 1, nil)
+}
+
 func TestSlicesPermutationsInt8(t *testing.T) {
 	f := func(size int, given []int8, expected [][]int8) {
 		actual := make([][]int8, 0)
@@ -2167,6 +2268,33 @@ func TestSlicesPermutationsInt8(t *testing.T) {
 	f(2, []int8{}, [][]int8{})
 	f(2, []int8{1}, [][]int8{{1}})
 	f(2, []int8{1, 2, 3}, [][]int8{{1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}})
+}
+
+func TestSliceProductInt8(t *testing.T) {
+	f := func(given []int8, repeat int, expected [][]int8) {
+		actual := make([][]int8, 0)
+		i := 0
+		s := SliceInt8{given}
+		for el := range s.Product(repeat) {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	f([]int8{1, 2}, 0, [][]int8{})
+	f([]int8{}, 2, [][]int8{})
+	f([]int8{1}, 2, [][]int8{{1, 1}})
+
+	f([]int8{1, 2}, 1, [][]int8{{1}, {2}})
+	f([]int8{1, 2}, 2, [][]int8{{1, 1}, {1, 2}, {2, 1}, {2, 2}})
+	f([]int8{1, 2}, 3, [][]int8{
+		{1, 1, 1}, {1, 1, 2}, {1, 2, 1}, {1, 2, 2},
+		{2, 1, 1}, {2, 1, 2}, {2, 2, 1}, {2, 2, 2},
+	})
 }
 
 func TestChannelToSliceInt8(t *testing.T) {
@@ -3583,6 +3711,17 @@ func TestSliceIntersperseInt16(t *testing.T) {
 	f(0, []int16{1, 2, 3}, []int16{1, 0, 2, 0, 3})
 }
 
+func TestSliceLastInt16(t *testing.T) {
+	f := func(given []int16, expectedEl int16, expectedErr error) {
+		el, err := SliceInt16{given}.Last()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int16{}, 0, ErrEmpty)
+	f([]int16{1}, 1, nil)
+	f([]int16{1, 2, 3}, 3, nil)
+}
+
 func TestSliceMapInt16Int(t *testing.T) {
 	f := func(given []int16, expected []int) {
 		double := func(t int16) int { return int((t * 2)) }
@@ -3638,6 +3777,32 @@ func TestSliceMapInt16Int64(t *testing.T) {
 	f([]int16{1, 2, 3}, []int64{2, 4, 6})
 }
 
+func TestSliceMaxInt16(t *testing.T) {
+	f := func(given []int16, expectedEl int16, expectedErr error) {
+		el, err := SliceInt16{given}.Max()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int16{}, 0, ErrEmpty)
+	f([]int16{1}, 1, nil)
+	f([]int16{1, 2, 3}, 3, nil)
+	f([]int16{1, 3, 2}, 3, nil)
+	f([]int16{3, 2, 1}, 3, nil)
+}
+
+func TestSliceMinInt16(t *testing.T) {
+	f := func(given []int16, expectedEl int16, expectedErr error) {
+		el, err := SliceInt16{given}.Min()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int16{}, 0, ErrEmpty)
+	f([]int16{1}, 1, nil)
+	f([]int16{1, 2, 3}, 1, nil)
+	f([]int16{2, 1, 3}, 1, nil)
+	f([]int16{3, 2, 1}, 1, nil)
+}
+
 func TestSlicesPermutationsInt16(t *testing.T) {
 	f := func(size int, given []int16, expected [][]int16) {
 		actual := make([][]int16, 0)
@@ -3655,6 +3820,33 @@ func TestSlicesPermutationsInt16(t *testing.T) {
 	f(2, []int16{}, [][]int16{})
 	f(2, []int16{1}, [][]int16{{1}})
 	f(2, []int16{1, 2, 3}, [][]int16{{1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}})
+}
+
+func TestSliceProductInt16(t *testing.T) {
+	f := func(given []int16, repeat int, expected [][]int16) {
+		actual := make([][]int16, 0)
+		i := 0
+		s := SliceInt16{given}
+		for el := range s.Product(repeat) {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	f([]int16{1, 2}, 0, [][]int16{})
+	f([]int16{}, 2, [][]int16{})
+	f([]int16{1}, 2, [][]int16{{1, 1}})
+
+	f([]int16{1, 2}, 1, [][]int16{{1}, {2}})
+	f([]int16{1, 2}, 2, [][]int16{{1, 1}, {1, 2}, {2, 1}, {2, 2}})
+	f([]int16{1, 2}, 3, [][]int16{
+		{1, 1, 1}, {1, 1, 2}, {1, 2, 1}, {1, 2, 2},
+		{2, 1, 1}, {2, 1, 2}, {2, 2, 1}, {2, 2, 2},
+	})
 }
 
 func TestChannelToSliceInt16(t *testing.T) {
@@ -5071,6 +5263,17 @@ func TestSliceIntersperseInt32(t *testing.T) {
 	f(0, []int32{1, 2, 3}, []int32{1, 0, 2, 0, 3})
 }
 
+func TestSliceLastInt32(t *testing.T) {
+	f := func(given []int32, expectedEl int32, expectedErr error) {
+		el, err := SliceInt32{given}.Last()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int32{}, 0, ErrEmpty)
+	f([]int32{1}, 1, nil)
+	f([]int32{1, 2, 3}, 3, nil)
+}
+
 func TestSliceMapInt32Int(t *testing.T) {
 	f := func(given []int32, expected []int) {
 		double := func(t int32) int { return int((t * 2)) }
@@ -5126,6 +5329,32 @@ func TestSliceMapInt32Int64(t *testing.T) {
 	f([]int32{1, 2, 3}, []int64{2, 4, 6})
 }
 
+func TestSliceMaxInt32(t *testing.T) {
+	f := func(given []int32, expectedEl int32, expectedErr error) {
+		el, err := SliceInt32{given}.Max()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int32{}, 0, ErrEmpty)
+	f([]int32{1}, 1, nil)
+	f([]int32{1, 2, 3}, 3, nil)
+	f([]int32{1, 3, 2}, 3, nil)
+	f([]int32{3, 2, 1}, 3, nil)
+}
+
+func TestSliceMinInt32(t *testing.T) {
+	f := func(given []int32, expectedEl int32, expectedErr error) {
+		el, err := SliceInt32{given}.Min()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int32{}, 0, ErrEmpty)
+	f([]int32{1}, 1, nil)
+	f([]int32{1, 2, 3}, 1, nil)
+	f([]int32{2, 1, 3}, 1, nil)
+	f([]int32{3, 2, 1}, 1, nil)
+}
+
 func TestSlicesPermutationsInt32(t *testing.T) {
 	f := func(size int, given []int32, expected [][]int32) {
 		actual := make([][]int32, 0)
@@ -5143,6 +5372,33 @@ func TestSlicesPermutationsInt32(t *testing.T) {
 	f(2, []int32{}, [][]int32{})
 	f(2, []int32{1}, [][]int32{{1}})
 	f(2, []int32{1, 2, 3}, [][]int32{{1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}})
+}
+
+func TestSliceProductInt32(t *testing.T) {
+	f := func(given []int32, repeat int, expected [][]int32) {
+		actual := make([][]int32, 0)
+		i := 0
+		s := SliceInt32{given}
+		for el := range s.Product(repeat) {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	f([]int32{1, 2}, 0, [][]int32{})
+	f([]int32{}, 2, [][]int32{})
+	f([]int32{1}, 2, [][]int32{{1, 1}})
+
+	f([]int32{1, 2}, 1, [][]int32{{1}, {2}})
+	f([]int32{1, 2}, 2, [][]int32{{1, 1}, {1, 2}, {2, 1}, {2, 2}})
+	f([]int32{1, 2}, 3, [][]int32{
+		{1, 1, 1}, {1, 1, 2}, {1, 2, 1}, {1, 2, 2},
+		{2, 1, 1}, {2, 1, 2}, {2, 2, 1}, {2, 2, 2},
+	})
 }
 
 func TestChannelToSliceInt32(t *testing.T) {
@@ -6559,6 +6815,17 @@ func TestSliceIntersperseInt64(t *testing.T) {
 	f(0, []int64{1, 2, 3}, []int64{1, 0, 2, 0, 3})
 }
 
+func TestSliceLastInt64(t *testing.T) {
+	f := func(given []int64, expectedEl int64, expectedErr error) {
+		el, err := SliceInt64{given}.Last()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int64{}, 0, ErrEmpty)
+	f([]int64{1}, 1, nil)
+	f([]int64{1, 2, 3}, 3, nil)
+}
+
 func TestSliceMapInt64Int(t *testing.T) {
 	f := func(given []int64, expected []int) {
 		double := func(t int64) int { return int((t * 2)) }
@@ -6614,6 +6881,32 @@ func TestSliceMapInt64Int64(t *testing.T) {
 	f([]int64{1, 2, 3}, []int64{2, 4, 6})
 }
 
+func TestSliceMaxInt64(t *testing.T) {
+	f := func(given []int64, expectedEl int64, expectedErr error) {
+		el, err := SliceInt64{given}.Max()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int64{}, 0, ErrEmpty)
+	f([]int64{1}, 1, nil)
+	f([]int64{1, 2, 3}, 3, nil)
+	f([]int64{1, 3, 2}, 3, nil)
+	f([]int64{3, 2, 1}, 3, nil)
+}
+
+func TestSliceMinInt64(t *testing.T) {
+	f := func(given []int64, expectedEl int64, expectedErr error) {
+		el, err := SliceInt64{given}.Min()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int64{}, 0, ErrEmpty)
+	f([]int64{1}, 1, nil)
+	f([]int64{1, 2, 3}, 1, nil)
+	f([]int64{2, 1, 3}, 1, nil)
+	f([]int64{3, 2, 1}, 1, nil)
+}
+
 func TestSlicesPermutationsInt64(t *testing.T) {
 	f := func(size int, given []int64, expected [][]int64) {
 		actual := make([][]int64, 0)
@@ -6631,6 +6924,33 @@ func TestSlicesPermutationsInt64(t *testing.T) {
 	f(2, []int64{}, [][]int64{})
 	f(2, []int64{1}, [][]int64{{1}})
 	f(2, []int64{1, 2, 3}, [][]int64{{1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}})
+}
+
+func TestSliceProductInt64(t *testing.T) {
+	f := func(given []int64, repeat int, expected [][]int64) {
+		actual := make([][]int64, 0)
+		i := 0
+		s := SliceInt64{given}
+		for el := range s.Product(repeat) {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	f([]int64{1, 2}, 0, [][]int64{})
+	f([]int64{}, 2, [][]int64{})
+	f([]int64{1}, 2, [][]int64{{1, 1}})
+
+	f([]int64{1, 2}, 1, [][]int64{{1}, {2}})
+	f([]int64{1, 2}, 2, [][]int64{{1, 1}, {1, 2}, {2, 1}, {2, 2}})
+	f([]int64{1, 2}, 3, [][]int64{
+		{1, 1, 1}, {1, 1, 2}, {1, 2, 1}, {1, 2, 2},
+		{2, 1, 1}, {2, 1, 2}, {2, 2, 1}, {2, 2, 2},
+	})
 }
 
 func TestChannelToSliceInt64(t *testing.T) {

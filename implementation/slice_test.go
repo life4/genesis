@@ -355,6 +355,17 @@ func TestSliceIntersperse(t *testing.T) {
 	f(0, []T{1, 2, 3}, []T{1, 0, 2, 0, 3})
 }
 
+func TestSliceLast(t *testing.T) {
+	f := func(given []T, expectedEl T, expectedErr error) {
+		el, err := Slice{given}.Last()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]T{}, 0, ErrEmpty)
+	f([]T{1}, 1, nil)
+	f([]T{1, 2, 3}, 3, nil)
+}
+
 func TestSliceMap(t *testing.T) {
 	f := func(given []T, expected []G) {
 		double := func(t T) G { return G((t * 2)) }
@@ -364,6 +375,32 @@ func TestSliceMap(t *testing.T) {
 	f([]T{}, []G{})
 	f([]T{1}, []G{2})
 	f([]T{1, 2, 3}, []G{2, 4, 6})
+}
+
+func TestSliceMax(t *testing.T) {
+	f := func(given []T, expectedEl T, expectedErr error) {
+		el, err := Slice{given}.Max()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]T{}, 0, ErrEmpty)
+	f([]T{1}, 1, nil)
+	f([]T{1, 2, 3}, 3, nil)
+	f([]T{1, 3, 2}, 3, nil)
+	f([]T{3, 2, 1}, 3, nil)
+}
+
+func TestSliceMin(t *testing.T) {
+	f := func(given []T, expectedEl T, expectedErr error) {
+		el, err := Slice{given}.Min()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]T{}, 0, ErrEmpty)
+	f([]T{1}, 1, nil)
+	f([]T{1, 2, 3}, 1, nil)
+	f([]T{2, 1, 3}, 1, nil)
+	f([]T{3, 2, 1}, 1, nil)
 }
 
 func TestSlicesPermutations(t *testing.T) {
@@ -383,4 +420,31 @@ func TestSlicesPermutations(t *testing.T) {
 	f(2, []T{}, [][]T{})
 	f(2, []T{1}, [][]T{{1}})
 	f(2, []T{1, 2, 3}, [][]T{{1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}})
+}
+
+func TestSliceProduct(t *testing.T) {
+	f := func(given []T, repeat int, expected [][]T) {
+		actual := make([][]T, 0)
+		i := 0
+		s := Slice{given}
+		for el := range s.Product(repeat) {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	f([]T{1, 2}, 0, [][]T{})
+	f([]T{}, 2, [][]T{})
+	f([]T{1}, 2, [][]T{{1, 1}})
+
+	f([]T{1, 2}, 1, [][]T{{1}, {2}})
+	f([]T{1, 2}, 2, [][]T{{1, 1}, {1, 2}, {2, 1}, {2, 2}})
+	f([]T{1, 2}, 3, [][]T{
+		{1, 1, 1}, {1, 1, 2}, {1, 2, 1}, {1, 2, 2},
+		{2, 1, 1}, {2, 1, 2}, {2, 2, 1}, {2, 2, 2},
+	})
 }

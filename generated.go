@@ -1530,7 +1530,13 @@ func (s SliceBool) permutations(c chan []bool, size int, left []bool, right []bo
 // {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 func (s SliceBool) Product(repeat int) chan []bool {
 	c := make(chan []bool, 1)
-	go s.product(c, repeat, []bool{}, 0)
+	go func() {
+		defer close(c)
+		if repeat < 1 {
+			return
+		}
+		s.product(c, repeat, []bool{}, 0)
+	}()
 	return c
 }
 
@@ -1552,10 +1558,6 @@ func (s SliceBool) product(c chan []bool, repeat int, left []bool, pos int) {
 		result = append(result, left...)
 		result = append(result, el)
 		s.product(c, repeat, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
 	}
 }
 
@@ -5332,7 +5334,13 @@ func (s SliceByte) permutations(c chan []byte, size int, left []byte, right []by
 // {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 func (s SliceByte) Product(repeat int) chan []byte {
 	c := make(chan []byte, 1)
-	go s.product(c, repeat, []byte{}, 0)
+	go func() {
+		defer close(c)
+		if repeat < 1 {
+			return
+		}
+		s.product(c, repeat, []byte{}, 0)
+	}()
 	return c
 }
 
@@ -5354,10 +5362,6 @@ func (s SliceByte) product(c chan []byte, repeat int, left []byte, pos int) {
 		result = append(result, left...)
 		result = append(result, el)
 		s.product(c, repeat, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
 	}
 }
 
@@ -9221,7 +9225,13 @@ func (s SliceString) permutations(c chan []string, size int, left []string, righ
 // {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 func (s SliceString) Product(repeat int) chan []string {
 	c := make(chan []string, 1)
-	go s.product(c, repeat, []string{}, 0)
+	go func() {
+		defer close(c)
+		if repeat < 1 {
+			return
+		}
+		s.product(c, repeat, []string{}, 0)
+	}()
 	return c
 }
 
@@ -9243,10 +9253,6 @@ func (s SliceString) product(c chan []string, repeat int, left []string, pos int
 		result = append(result, left...)
 		result = append(result, el)
 		s.product(c, repeat, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
 	}
 }
 
@@ -13101,7 +13107,13 @@ func (s SliceFloat32) permutations(c chan []float32, size int, left []float32, r
 // {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 func (s SliceFloat32) Product(repeat int) chan []float32 {
 	c := make(chan []float32, 1)
-	go s.product(c, repeat, []float32{}, 0)
+	go func() {
+		defer close(c)
+		if repeat < 1 {
+			return
+		}
+		s.product(c, repeat, []float32{}, 0)
+	}()
 	return c
 }
 
@@ -13123,10 +13135,6 @@ func (s SliceFloat32) product(c chan []float32, repeat int, left []float32, pos 
 		result = append(result, left...)
 		result = append(result, el)
 		s.product(c, repeat, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
 	}
 }
 
@@ -17030,7 +17038,13 @@ func (s SliceFloat64) permutations(c chan []float64, size int, left []float64, r
 // {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 func (s SliceFloat64) Product(repeat int) chan []float64 {
 	c := make(chan []float64, 1)
-	go s.product(c, repeat, []float64{}, 0)
+	go func() {
+		defer close(c)
+		if repeat < 1 {
+			return
+		}
+		s.product(c, repeat, []float64{}, 0)
+	}()
 	return c
 }
 
@@ -17052,10 +17066,6 @@ func (s SliceFloat64) product(c chan []float64, repeat int, left []float64, pos 
 		result = append(result, left...)
 		result = append(result, el)
 		s.product(c, repeat, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
 	}
 }
 
@@ -20968,7 +20978,13 @@ func (s SliceInt) permutations(c chan []int, size int, left []int, right []int) 
 // {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 func (s SliceInt) Product(repeat int) chan []int {
 	c := make(chan []int, 1)
-	go s.product(c, repeat, []int{}, 0)
+	go func() {
+		defer close(c)
+		if repeat < 1 {
+			return
+		}
+		s.product(c, repeat, []int{}, 0)
+	}()
 	return c
 }
 
@@ -20990,10 +21006,6 @@ func (s SliceInt) product(c chan []int, repeat int, left []int, pos int) {
 		result = append(result, left...)
 		result = append(result, el)
 		s.product(c, repeat, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
 	}
 }
 
@@ -24906,7 +24918,13 @@ func (s SliceInt8) permutations(c chan []int8, size int, left []int8, right []in
 // {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 func (s SliceInt8) Product(repeat int) chan []int8 {
 	c := make(chan []int8, 1)
-	go s.product(c, repeat, []int8{}, 0)
+	go func() {
+		defer close(c)
+		if repeat < 1 {
+			return
+		}
+		s.product(c, repeat, []int8{}, 0)
+	}()
 	return c
 }
 
@@ -24928,10 +24946,6 @@ func (s SliceInt8) product(c chan []int8, repeat int, left []int8, pos int) {
 		result = append(result, left...)
 		result = append(result, el)
 		s.product(c, repeat, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
 	}
 }
 
@@ -28844,7 +28858,13 @@ func (s SliceInt16) permutations(c chan []int16, size int, left []int16, right [
 // {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 func (s SliceInt16) Product(repeat int) chan []int16 {
 	c := make(chan []int16, 1)
-	go s.product(c, repeat, []int16{}, 0)
+	go func() {
+		defer close(c)
+		if repeat < 1 {
+			return
+		}
+		s.product(c, repeat, []int16{}, 0)
+	}()
 	return c
 }
 
@@ -28866,10 +28886,6 @@ func (s SliceInt16) product(c chan []int16, repeat int, left []int16, pos int) {
 		result = append(result, left...)
 		result = append(result, el)
 		s.product(c, repeat, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
 	}
 }
 
@@ -32782,7 +32798,13 @@ func (s SliceInt32) permutations(c chan []int32, size int, left []int32, right [
 // {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 func (s SliceInt32) Product(repeat int) chan []int32 {
 	c := make(chan []int32, 1)
-	go s.product(c, repeat, []int32{}, 0)
+	go func() {
+		defer close(c)
+		if repeat < 1 {
+			return
+		}
+		s.product(c, repeat, []int32{}, 0)
+	}()
 	return c
 }
 
@@ -32804,10 +32826,6 @@ func (s SliceInt32) product(c chan []int32, repeat int, left []int32, pos int) {
 		result = append(result, left...)
 		result = append(result, el)
 		s.product(c, repeat, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
 	}
 }
 
@@ -36720,7 +36738,13 @@ func (s SliceInt64) permutations(c chan []int64, size int, left []int64, right [
 // {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 func (s SliceInt64) Product(repeat int) chan []int64 {
 	c := make(chan []int64, 1)
-	go s.product(c, repeat, []int64{}, 0)
+	go func() {
+		defer close(c)
+		if repeat < 1 {
+			return
+		}
+		s.product(c, repeat, []int64{}, 0)
+	}()
 	return c
 }
 
@@ -36742,10 +36766,6 @@ func (s SliceInt64) product(c chan []int64, repeat int, left []int64, pos int) {
 		result = append(result, left...)
 		result = append(result, el)
 		s.product(c, repeat, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
 	}
 }
 
@@ -40658,7 +40678,13 @@ func (s SliceUint) permutations(c chan []uint, size int, left []uint, right []ui
 // {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 func (s SliceUint) Product(repeat int) chan []uint {
 	c := make(chan []uint, 1)
-	go s.product(c, repeat, []uint{}, 0)
+	go func() {
+		defer close(c)
+		if repeat < 1 {
+			return
+		}
+		s.product(c, repeat, []uint{}, 0)
+	}()
 	return c
 }
 
@@ -40680,10 +40706,6 @@ func (s SliceUint) product(c chan []uint, repeat int, left []uint, pos int) {
 		result = append(result, left...)
 		result = append(result, el)
 		s.product(c, repeat, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
 	}
 }
 
@@ -44596,7 +44618,13 @@ func (s SliceUint8) permutations(c chan []uint8, size int, left []uint8, right [
 // {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 func (s SliceUint8) Product(repeat int) chan []uint8 {
 	c := make(chan []uint8, 1)
-	go s.product(c, repeat, []uint8{}, 0)
+	go func() {
+		defer close(c)
+		if repeat < 1 {
+			return
+		}
+		s.product(c, repeat, []uint8{}, 0)
+	}()
 	return c
 }
 
@@ -44618,10 +44646,6 @@ func (s SliceUint8) product(c chan []uint8, repeat int, left []uint8, pos int) {
 		result = append(result, left...)
 		result = append(result, el)
 		s.product(c, repeat, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
 	}
 }
 
@@ -48534,7 +48558,13 @@ func (s SliceUint16) permutations(c chan []uint16, size int, left []uint16, righ
 // {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 func (s SliceUint16) Product(repeat int) chan []uint16 {
 	c := make(chan []uint16, 1)
-	go s.product(c, repeat, []uint16{}, 0)
+	go func() {
+		defer close(c)
+		if repeat < 1 {
+			return
+		}
+		s.product(c, repeat, []uint16{}, 0)
+	}()
 	return c
 }
 
@@ -48556,10 +48586,6 @@ func (s SliceUint16) product(c chan []uint16, repeat int, left []uint16, pos int
 		result = append(result, left...)
 		result = append(result, el)
 		s.product(c, repeat, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
 	}
 }
 
@@ -52472,7 +52498,13 @@ func (s SliceUint32) permutations(c chan []uint32, size int, left []uint32, righ
 // {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 func (s SliceUint32) Product(repeat int) chan []uint32 {
 	c := make(chan []uint32, 1)
-	go s.product(c, repeat, []uint32{}, 0)
+	go func() {
+		defer close(c)
+		if repeat < 1 {
+			return
+		}
+		s.product(c, repeat, []uint32{}, 0)
+	}()
 	return c
 }
 
@@ -52494,10 +52526,6 @@ func (s SliceUint32) product(c chan []uint32, repeat int, left []uint32, pos int
 		result = append(result, left...)
 		result = append(result, el)
 		s.product(c, repeat, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
 	}
 }
 
@@ -56410,7 +56438,13 @@ func (s SliceUint64) permutations(c chan []uint64, size int, left []uint64, righ
 // {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 func (s SliceUint64) Product(repeat int) chan []uint64 {
 	c := make(chan []uint64, 1)
-	go s.product(c, repeat, []uint64{}, 0)
+	go func() {
+		defer close(c)
+		if repeat < 1 {
+			return
+		}
+		s.product(c, repeat, []uint64{}, 0)
+	}()
 	return c
 }
 
@@ -56432,10 +56466,6 @@ func (s SliceUint64) product(c chan []uint64, repeat int, left []uint64, pos int
 		result = append(result, left...)
 		result = append(result, el)
 		s.product(c, repeat, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
 	}
 }
 
@@ -60307,7 +60337,13 @@ func (s SliceInterface) permutations(c chan []interface{}, size int, left []inte
 // {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 func (s SliceInterface) Product(repeat int) chan []interface{} {
 	c := make(chan []interface{}, 1)
-	go s.product(c, repeat, []interface{}{}, 0)
+	go func() {
+		defer close(c)
+		if repeat < 1 {
+			return
+		}
+		s.product(c, repeat, []interface{}{}, 0)
+	}()
 	return c
 }
 
@@ -60329,10 +60365,6 @@ func (s SliceInterface) product(c chan []interface{}, repeat int, left []interfa
 		result = append(result, left...)
 		result = append(result, el)
 		s.product(c, repeat, result, pos+1)
-	}
-
-	if pos == 0 {
-		close(c)
 	}
 }
 

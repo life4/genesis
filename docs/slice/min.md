@@ -62,3 +62,19 @@ func (s Slice) Min() (T, error) {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceMin(t *testing.T) {
+	f := func(given []T, expectedEl T, expectedErr error) {
+		el, err := Slice{given}.Min()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]T{}, 0, ErrEmpty)
+	f([]T{1}, 1, nil)
+	f([]T{1, 2, 3}, 1, nil)
+	f([]T{2, 1, 3}, 1, nil)
+	f([]T{3, 2, 1}, 1, nil)
+}
+```
