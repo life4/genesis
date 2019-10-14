@@ -44,7 +44,7 @@ func (s Slice) InsertAt(index int, element T) ([]T, error) {
 	result := make([]T, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index == len(s.Data) || index == -1 {
+	if index == len(s.Data) {
 		result = append(result, s.Data...)
 		result = append(result, element)
 		return result, nil
@@ -67,3 +67,23 @@ func (s Slice) InsertAt(index int, element T) ([]T, error) {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceInsertAt(t *testing.T) {
+	f := func(given []T, index int, expected []T, expectedErr error) {
+		actual, err := Slice{given}.InsertAt(index, 10)
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]T{}, -1, []T{}, ErrNegativeValue)
+	f([]T{}, 0, []T{10}, nil)
+	f([]T{}, 1, []T{}, ErrOutOfRange)
+
+	f([]T{1, 2, 3}, -1, []T{1, 2, 3}, ErrNegativeValue)
+	f([]T{1, 2, 3}, 0, []T{10, 1, 2, 3}, nil)
+	f([]T{1, 2, 3}, 1, []T{1, 10, 2, 3}, nil)
+	f([]T{1, 2, 3}, 3, []T{1, 2, 3, 10}, nil)
+	f([]T{1, 2, 3}, 4, []T{1, 2, 3}, ErrOutOfRange)
+}
+```

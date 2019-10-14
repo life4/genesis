@@ -369,7 +369,7 @@ func (s Slice) InsertAt(index int, element T) ([]T, error) {
 	result := make([]T, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index == len(s.Data) || index == -1 {
+	if index == len(s.Data) {
 		result = append(result, s.Data...)
 		result = append(result, element)
 		return result, nil

@@ -579,6 +579,23 @@ func TestSliceGroupByIntInt64(t *testing.T) {
 	f([]int{1, 3, 2, 4, 5}, map[int64][]int{0: {2, 4}, 1: {1, 3, 5}})
 }
 
+func TestSliceInsertAtInt(t *testing.T) {
+	f := func(given []int, index int, expected []int, expectedErr error) {
+		actual, err := SliceInt{given}.InsertAt(index, 10)
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int{}, -1, []int{}, ErrNegativeValue)
+	f([]int{}, 0, []int{10}, nil)
+	f([]int{}, 1, []int{}, ErrOutOfRange)
+
+	f([]int{1, 2, 3}, -1, []int{1, 2, 3}, ErrNegativeValue)
+	f([]int{1, 2, 3}, 0, []int{10, 1, 2, 3}, nil)
+	f([]int{1, 2, 3}, 1, []int{1, 10, 2, 3}, nil)
+	f([]int{1, 2, 3}, 3, []int{1, 2, 3, 10}, nil)
+	f([]int{1, 2, 3}, 4, []int{1, 2, 3}, ErrOutOfRange)
+}
+
 func TestSliceIntersperseInt(t *testing.T) {
 	f := func(el int, given []int, expected []int) {
 		actual := SliceInt{given}.Intersperse(el)
@@ -2048,6 +2065,23 @@ func TestSliceGroupByInt8Int64(t *testing.T) {
 	f([]int8{}, map[int64][]int8{})
 	f([]int8{1}, map[int64][]int8{1: {1}})
 	f([]int8{1, 3, 2, 4, 5}, map[int64][]int8{0: {2, 4}, 1: {1, 3, 5}})
+}
+
+func TestSliceInsertAtInt8(t *testing.T) {
+	f := func(given []int8, index int, expected []int8, expectedErr error) {
+		actual, err := SliceInt8{given}.InsertAt(index, 10)
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int8{}, -1, []int8{}, ErrNegativeValue)
+	f([]int8{}, 0, []int8{10}, nil)
+	f([]int8{}, 1, []int8{}, ErrOutOfRange)
+
+	f([]int8{1, 2, 3}, -1, []int8{1, 2, 3}, ErrNegativeValue)
+	f([]int8{1, 2, 3}, 0, []int8{10, 1, 2, 3}, nil)
+	f([]int8{1, 2, 3}, 1, []int8{1, 10, 2, 3}, nil)
+	f([]int8{1, 2, 3}, 3, []int8{1, 2, 3, 10}, nil)
+	f([]int8{1, 2, 3}, 4, []int8{1, 2, 3}, ErrOutOfRange)
 }
 
 func TestSliceIntersperseInt8(t *testing.T) {
@@ -3521,6 +3555,23 @@ func TestSliceGroupByInt16Int64(t *testing.T) {
 	f([]int16{1, 3, 2, 4, 5}, map[int64][]int16{0: {2, 4}, 1: {1, 3, 5}})
 }
 
+func TestSliceInsertAtInt16(t *testing.T) {
+	f := func(given []int16, index int, expected []int16, expectedErr error) {
+		actual, err := SliceInt16{given}.InsertAt(index, 10)
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int16{}, -1, []int16{}, ErrNegativeValue)
+	f([]int16{}, 0, []int16{10}, nil)
+	f([]int16{}, 1, []int16{}, ErrOutOfRange)
+
+	f([]int16{1, 2, 3}, -1, []int16{1, 2, 3}, ErrNegativeValue)
+	f([]int16{1, 2, 3}, 0, []int16{10, 1, 2, 3}, nil)
+	f([]int16{1, 2, 3}, 1, []int16{1, 10, 2, 3}, nil)
+	f([]int16{1, 2, 3}, 3, []int16{1, 2, 3, 10}, nil)
+	f([]int16{1, 2, 3}, 4, []int16{1, 2, 3}, ErrOutOfRange)
+}
+
 func TestSliceIntersperseInt16(t *testing.T) {
 	f := func(el int16, given []int16, expected []int16) {
 		actual := SliceInt16{given}.Intersperse(el)
@@ -4992,6 +5043,23 @@ func TestSliceGroupByInt32Int64(t *testing.T) {
 	f([]int32{1, 3, 2, 4, 5}, map[int64][]int32{0: {2, 4}, 1: {1, 3, 5}})
 }
 
+func TestSliceInsertAtInt32(t *testing.T) {
+	f := func(given []int32, index int, expected []int32, expectedErr error) {
+		actual, err := SliceInt32{given}.InsertAt(index, 10)
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int32{}, -1, []int32{}, ErrNegativeValue)
+	f([]int32{}, 0, []int32{10}, nil)
+	f([]int32{}, 1, []int32{}, ErrOutOfRange)
+
+	f([]int32{1, 2, 3}, -1, []int32{1, 2, 3}, ErrNegativeValue)
+	f([]int32{1, 2, 3}, 0, []int32{10, 1, 2, 3}, nil)
+	f([]int32{1, 2, 3}, 1, []int32{1, 10, 2, 3}, nil)
+	f([]int32{1, 2, 3}, 3, []int32{1, 2, 3, 10}, nil)
+	f([]int32{1, 2, 3}, 4, []int32{1, 2, 3}, ErrOutOfRange)
+}
+
 func TestSliceIntersperseInt32(t *testing.T) {
 	f := func(el int32, given []int32, expected []int32) {
 		actual := SliceInt32{given}.Intersperse(el)
@@ -6461,6 +6529,23 @@ func TestSliceGroupByInt64Int64(t *testing.T) {
 	f([]int64{}, map[int64][]int64{})
 	f([]int64{1}, map[int64][]int64{1: {1}})
 	f([]int64{1, 3, 2, 4, 5}, map[int64][]int64{0: {2, 4}, 1: {1, 3, 5}})
+}
+
+func TestSliceInsertAtInt64(t *testing.T) {
+	f := func(given []int64, index int, expected []int64, expectedErr error) {
+		actual, err := SliceInt64{given}.InsertAt(index, 10)
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]int64{}, -1, []int64{}, ErrNegativeValue)
+	f([]int64{}, 0, []int64{10}, nil)
+	f([]int64{}, 1, []int64{}, ErrOutOfRange)
+
+	f([]int64{1, 2, 3}, -1, []int64{1, 2, 3}, ErrNegativeValue)
+	f([]int64{1, 2, 3}, 0, []int64{10, 1, 2, 3}, nil)
+	f([]int64{1, 2, 3}, 1, []int64{1, 10, 2, 3}, nil)
+	f([]int64{1, 2, 3}, 3, []int64{1, 2, 3, 10}, nil)
+	f([]int64{1, 2, 3}, 4, []int64{1, 2, 3}, ErrOutOfRange)
 }
 
 func TestSliceIntersperseInt64(t *testing.T) {

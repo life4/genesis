@@ -1303,7 +1303,7 @@ func (s SliceBool) InsertAt(index int, element bool) ([]bool, error) {
 	result := make([]bool, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index == len(s.Data) || index == -1 {
+	if index == len(s.Data) {
 		result = append(result, s.Data...)
 		result = append(result, element)
 		return result, nil
@@ -5073,7 +5073,7 @@ func (s SliceByte) InsertAt(index int, element byte) ([]byte, error) {
 	result := make([]byte, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index == len(s.Data) || index == -1 {
+	if index == len(s.Data) {
 		result = append(result, s.Data...)
 		result = append(result, element)
 		return result, nil
@@ -8962,7 +8962,7 @@ func (s SliceString) InsertAt(index int, element string) ([]string, error) {
 	result := make([]string, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index == len(s.Data) || index == -1 {
+	if index == len(s.Data) {
 		result = append(result, s.Data...)
 		result = append(result, element)
 		return result, nil
@@ -12842,7 +12842,7 @@ func (s SliceFloat32) InsertAt(index int, element float32) ([]float32, error) {
 	result := make([]float32, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index == len(s.Data) || index == -1 {
+	if index == len(s.Data) {
 		result = append(result, s.Data...)
 		result = append(result, element)
 		return result, nil
@@ -16771,7 +16771,7 @@ func (s SliceFloat64) InsertAt(index int, element float64) ([]float64, error) {
 	result := make([]float64, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index == len(s.Data) || index == -1 {
+	if index == len(s.Data) {
 		result = append(result, s.Data...)
 		result = append(result, element)
 		return result, nil
@@ -20709,7 +20709,7 @@ func (s SliceInt) InsertAt(index int, element int) ([]int, error) {
 	result := make([]int, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index == len(s.Data) || index == -1 {
+	if index == len(s.Data) {
 		result = append(result, s.Data...)
 		result = append(result, element)
 		return result, nil
@@ -24647,7 +24647,7 @@ func (s SliceInt8) InsertAt(index int, element int8) ([]int8, error) {
 	result := make([]int8, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index == len(s.Data) || index == -1 {
+	if index == len(s.Data) {
 		result = append(result, s.Data...)
 		result = append(result, element)
 		return result, nil
@@ -28585,7 +28585,7 @@ func (s SliceInt16) InsertAt(index int, element int16) ([]int16, error) {
 	result := make([]int16, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index == len(s.Data) || index == -1 {
+	if index == len(s.Data) {
 		result = append(result, s.Data...)
 		result = append(result, element)
 		return result, nil
@@ -32523,7 +32523,7 @@ func (s SliceInt32) InsertAt(index int, element int32) ([]int32, error) {
 	result := make([]int32, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index == len(s.Data) || index == -1 {
+	if index == len(s.Data) {
 		result = append(result, s.Data...)
 		result = append(result, element)
 		return result, nil
@@ -36461,7 +36461,7 @@ func (s SliceInt64) InsertAt(index int, element int64) ([]int64, error) {
 	result := make([]int64, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index == len(s.Data) || index == -1 {
+	if index == len(s.Data) {
 		result = append(result, s.Data...)
 		result = append(result, element)
 		return result, nil
@@ -40399,7 +40399,7 @@ func (s SliceUint) InsertAt(index int, element uint) ([]uint, error) {
 	result := make([]uint, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index == len(s.Data) || index == -1 {
+	if index == len(s.Data) {
 		result = append(result, s.Data...)
 		result = append(result, element)
 		return result, nil
@@ -44337,7 +44337,7 @@ func (s SliceUint8) InsertAt(index int, element uint8) ([]uint8, error) {
 	result := make([]uint8, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index == len(s.Data) || index == -1 {
+	if index == len(s.Data) {
 		result = append(result, s.Data...)
 		result = append(result, element)
 		return result, nil
@@ -48275,7 +48275,7 @@ func (s SliceUint16) InsertAt(index int, element uint16) ([]uint16, error) {
 	result := make([]uint16, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index == len(s.Data) || index == -1 {
+	if index == len(s.Data) {
 		result = append(result, s.Data...)
 		result = append(result, element)
 		return result, nil
@@ -52213,7 +52213,7 @@ func (s SliceUint32) InsertAt(index int, element uint32) ([]uint32, error) {
 	result := make([]uint32, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index == len(s.Data) || index == -1 {
+	if index == len(s.Data) {
 		result = append(result, s.Data...)
 		result = append(result, element)
 		return result, nil
@@ -56151,7 +56151,7 @@ func (s SliceUint64) InsertAt(index int, element uint64) ([]uint64, error) {
 	result := make([]uint64, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index == len(s.Data) || index == -1 {
+	if index == len(s.Data) {
 		result = append(result, s.Data...)
 		result = append(result, element)
 		return result, nil
@@ -60080,7 +60080,7 @@ func (s SliceInterface) InsertAt(index int, element interface{}) ([]interface{},
 	result := make([]interface{}, 0, len(s.Data)+1)
 
 	// insert at the end
-	if index == len(s.Data) || index == -1 {
+	if index == len(s.Data) {
 		result = append(result, s.Data...)
 		result = append(result, element)
 		return result, nil
