@@ -478,3 +478,43 @@ func TestSliceReduceWhile(t *testing.T) {
 	f([]T{1, 2, 3}, 6)
 	f([]T{1, 2, 0, 3}, 3)
 }
+
+func TestSliceReverse(t *testing.T) {
+	f := func(given []T, expected []T) {
+		actual := Slice{given}.Reverse()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{})
+	f([]T{1}, []T{1})
+	f([]T{1, 2}, []T{2, 1})
+	f([]T{1, 2, 3}, []T{3, 2, 1})
+	f([]T{1, 2, 2, 3, 3}, []T{3, 3, 2, 2, 1})
+}
+
+func TestSliceSame(t *testing.T) {
+	f := func(given []T, expected bool) {
+		actual := Slice{given}.Same()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, true)
+	f([]T{1}, true)
+	f([]T{1, 1}, true)
+	f([]T{1, 1, 1}, true)
+
+	f([]T{1, 2, 1}, false)
+	f([]T{1, 2, 2}, false)
+	f([]T{1, 1, 2}, false)
+}
+
+func TestSliceScan(t *testing.T) {
+	f := func(given []T, expected []G) {
+		sum := func(el T, acc G) G { return G(el) + acc }
+		actual := Slice{given}.Scan(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []G{})
+	f([]T{1}, []G{1})
+	f([]T{1, 2}, []G{1, 3})
+	f([]T{1, 2, 3}, []G{1, 3, 6})
+	f([]T{1, 2, 3, 4}, []G{1, 3, 6, 10})
+}

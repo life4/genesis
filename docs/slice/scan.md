@@ -64,3 +64,19 @@ func (s Slice) Scan(acc G, f func(el T, acc G) G) []G {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceScan(t *testing.T) {
+	f := func(given []T, expected []G) {
+		sum := func(el T, acc G) G { return G(el) + acc }
+		actual := Slice{given}.Scan(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []G{})
+	f([]T{1}, []G{1})
+	f([]T{1, 2}, []G{1, 3})
+	f([]T{1, 2, 3}, []G{1, 3, 6})
+	f([]T{1, 2, 3, 4}, []G{1, 3, 6, 10})
+}
+```

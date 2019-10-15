@@ -45,3 +45,18 @@ func (s Slice) Reverse() []T {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceReverse(t *testing.T) {
+	f := func(given []T, expected []T) {
+		actual := Slice{given}.Reverse()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{})
+	f([]T{1}, []T{1})
+	f([]T{1, 2}, []T{2, 1})
+	f([]T{1, 2, 3}, []T{3, 2, 1})
+	f([]T{1, 2, 2, 3, 3}, []T{3, 3, 2, 2, 1})
+}
+```

@@ -46,3 +46,21 @@ func (s Slice) Same() bool {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceSame(t *testing.T) {
+	f := func(given []T, expected bool) {
+		actual := Slice{given}.Same()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, true)
+	f([]T{1}, true)
+	f([]T{1, 1}, true)
+	f([]T{1, 1, 1}, true)
+
+	f([]T{1, 2, 1}, false)
+	f([]T{1, 2, 2}, false)
+	f([]T{1, 1, 2}, false)
+}
+```
