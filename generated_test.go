@@ -987,6 +987,27 @@ func TestSliceScanIntInt64(t *testing.T) {
 	f([]int{1, 2, 3, 4}, []int64{1, 3, 6, 10})
 }
 
+func TestSliceStartsWithInt(t *testing.T) {
+	f := func(given []int, suffix []int, expected bool) {
+		actual := SliceInt{given}.StartsWith(suffix)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{}, true)
+	f([]int{1}, []int{1}, true)
+	f([]int{1}, []int{2}, false)
+	f([]int{1, 2}, []int{1, 2, 3}, false)
+
+	f([]int{1, 2, 3}, []int{1}, true)
+	f([]int{1, 2, 3}, []int{1, 2}, true)
+	f([]int{1, 2, 3}, []int{1, 2, 3}, true)
+
+	f([]int{1, 2, 3}, []int{2}, false)
+	f([]int{1, 2, 3}, []int{3}, false)
+	f([]int{1, 2, 3}, []int{2, 3}, false)
+	f([]int{1, 2, 3}, []int{3, 2}, false)
+	f([]int{1, 2, 3}, []int{2, 1}, false)
+}
+
 func TestChannelToSliceInt(t *testing.T) {
 	f := func(given []int) {
 		c := make(chan int, 1)
@@ -2779,6 +2800,27 @@ func TestSliceScanInt8Int64(t *testing.T) {
 	f([]int8{1, 2}, []int64{1, 3})
 	f([]int8{1, 2, 3}, []int64{1, 3, 6})
 	f([]int8{1, 2, 3, 4}, []int64{1, 3, 6, 10})
+}
+
+func TestSliceStartsWithInt8(t *testing.T) {
+	f := func(given []int8, suffix []int8, expected bool) {
+		actual := SliceInt8{given}.StartsWith(suffix)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{}, true)
+	f([]int8{1}, []int8{1}, true)
+	f([]int8{1}, []int8{2}, false)
+	f([]int8{1, 2}, []int8{1, 2, 3}, false)
+
+	f([]int8{1, 2, 3}, []int8{1}, true)
+	f([]int8{1, 2, 3}, []int8{1, 2}, true)
+	f([]int8{1, 2, 3}, []int8{1, 2, 3}, true)
+
+	f([]int8{1, 2, 3}, []int8{2}, false)
+	f([]int8{1, 2, 3}, []int8{3}, false)
+	f([]int8{1, 2, 3}, []int8{2, 3}, false)
+	f([]int8{1, 2, 3}, []int8{3, 2}, false)
+	f([]int8{1, 2, 3}, []int8{2, 1}, false)
 }
 
 func TestChannelToSliceInt8(t *testing.T) {
@@ -4575,6 +4617,27 @@ func TestSliceScanInt16Int64(t *testing.T) {
 	f([]int16{1, 2, 3, 4}, []int64{1, 3, 6, 10})
 }
 
+func TestSliceStartsWithInt16(t *testing.T) {
+	f := func(given []int16, suffix []int16, expected bool) {
+		actual := SliceInt16{given}.StartsWith(suffix)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{}, true)
+	f([]int16{1}, []int16{1}, true)
+	f([]int16{1}, []int16{2}, false)
+	f([]int16{1, 2}, []int16{1, 2, 3}, false)
+
+	f([]int16{1, 2, 3}, []int16{1}, true)
+	f([]int16{1, 2, 3}, []int16{1, 2}, true)
+	f([]int16{1, 2, 3}, []int16{1, 2, 3}, true)
+
+	f([]int16{1, 2, 3}, []int16{2}, false)
+	f([]int16{1, 2, 3}, []int16{3}, false)
+	f([]int16{1, 2, 3}, []int16{2, 3}, false)
+	f([]int16{1, 2, 3}, []int16{3, 2}, false)
+	f([]int16{1, 2, 3}, []int16{2, 1}, false)
+}
+
 func TestChannelToSliceInt16(t *testing.T) {
 	f := func(given []int16) {
 		c := make(chan int16, 1)
@@ -6369,6 +6432,27 @@ func TestSliceScanInt32Int64(t *testing.T) {
 	f([]int32{1, 2, 3, 4}, []int64{1, 3, 6, 10})
 }
 
+func TestSliceStartsWithInt32(t *testing.T) {
+	f := func(given []int32, suffix []int32, expected bool) {
+		actual := SliceInt32{given}.StartsWith(suffix)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{}, true)
+	f([]int32{1}, []int32{1}, true)
+	f([]int32{1}, []int32{2}, false)
+	f([]int32{1, 2}, []int32{1, 2, 3}, false)
+
+	f([]int32{1, 2, 3}, []int32{1}, true)
+	f([]int32{1, 2, 3}, []int32{1, 2}, true)
+	f([]int32{1, 2, 3}, []int32{1, 2, 3}, true)
+
+	f([]int32{1, 2, 3}, []int32{2}, false)
+	f([]int32{1, 2, 3}, []int32{3}, false)
+	f([]int32{1, 2, 3}, []int32{2, 3}, false)
+	f([]int32{1, 2, 3}, []int32{3, 2}, false)
+	f([]int32{1, 2, 3}, []int32{2, 1}, false)
+}
+
 func TestChannelToSliceInt32(t *testing.T) {
 	f := func(given []int32) {
 		c := make(chan int32, 1)
@@ -8161,6 +8245,27 @@ func TestSliceScanInt64Int64(t *testing.T) {
 	f([]int64{1, 2}, []int64{1, 3})
 	f([]int64{1, 2, 3}, []int64{1, 3, 6})
 	f([]int64{1, 2, 3, 4}, []int64{1, 3, 6, 10})
+}
+
+func TestSliceStartsWithInt64(t *testing.T) {
+	f := func(given []int64, suffix []int64, expected bool) {
+		actual := SliceInt64{given}.StartsWith(suffix)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{}, true)
+	f([]int64{1}, []int64{1}, true)
+	f([]int64{1}, []int64{2}, false)
+	f([]int64{1, 2}, []int64{1, 2, 3}, false)
+
+	f([]int64{1, 2, 3}, []int64{1}, true)
+	f([]int64{1, 2, 3}, []int64{1, 2}, true)
+	f([]int64{1, 2, 3}, []int64{1, 2, 3}, true)
+
+	f([]int64{1, 2, 3}, []int64{2}, false)
+	f([]int64{1, 2, 3}, []int64{3}, false)
+	f([]int64{1, 2, 3}, []int64{2, 3}, false)
+	f([]int64{1, 2, 3}, []int64{3, 2}, false)
+	f([]int64{1, 2, 3}, []int64{2, 1}, false)
 }
 
 func TestChannelToSliceInt64(t *testing.T) {

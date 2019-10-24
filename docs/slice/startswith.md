@@ -47,3 +47,27 @@ func (s Slice) StartsWith(prefix []T) bool {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceStartsWith(t *testing.T) {
+	f := func(given []T, suffix []T, expected bool) {
+		actual := Slice{given}.StartsWith(suffix)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{}, true)
+	f([]T{1}, []T{1}, true)
+	f([]T{1}, []T{2}, false)
+	f([]T{1, 2}, []T{1, 2, 3}, false)
+
+	f([]T{1, 2, 3}, []T{1}, true)
+	f([]T{1, 2, 3}, []T{1, 2}, true)
+	f([]T{1, 2, 3}, []T{1, 2, 3}, true)
+
+	f([]T{1, 2, 3}, []T{2}, false)
+	f([]T{1, 2, 3}, []T{3}, false)
+	f([]T{1, 2, 3}, []T{2, 3}, false)
+	f([]T{1, 2, 3}, []T{3, 2}, false)
+	f([]T{1, 2, 3}, []T{2, 1}, false)
+}
+```
