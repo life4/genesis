@@ -519,6 +519,34 @@ func TestSliceScan(t *testing.T) {
 	f([]T{1, 2, 3, 4}, []G{1, 3, 6, 10})
 }
 
+func TestSliceSorted(t *testing.T) {
+	f := func(given []T, expected bool) {
+		actual := Slice{given}.Sorted()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, true)
+	f([]T{1}, true)
+	f([]T{1, 1}, true)
+	f([]T{1, 2, 2}, true)
+	f([]T{1, 2, 3}, true)
+
+	f([]T{2, 1}, false)
+	f([]T{1, 2, 1}, false)
+}
+
+func TestSliceSplit(t *testing.T) {
+	f := func(given []T, sep T, expected [][]T) {
+		actual := Slice{given}.Split(sep)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, 1, [][]T{{}})
+	f([]T{2}, 1, [][]T{{2}})
+	f([]T{2, 1, 3}, 1, [][]T{{2}, {3}})
+	f([]T{1, 3}, 1, [][]T{{}, {3}})
+	f([]T{2, 1}, 1, [][]T{{2}, {}})
+	f([]T{2, 1, 3, 4, 1, 5, 6, 7}, 1, [][]T{{2}, {3, 4}, {5, 6, 7}})
+}
+
 func TestSliceStartsWith(t *testing.T) {
 	f := func(given []T, suffix []T, expected bool) {
 		actual := Slice{given}.StartsWith(suffix)
@@ -538,4 +566,15 @@ func TestSliceStartsWith(t *testing.T) {
 	f([]T{1, 2, 3}, []T{2, 3}, false)
 	f([]T{1, 2, 3}, []T{3, 2}, false)
 	f([]T{1, 2, 3}, []T{2, 1}, false)
+}
+
+func TestSliceSum(t *testing.T) {
+	f := func(given []T, expected T) {
+		actual := Slice{given}.Sum()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, 0)
+	f([]T{1}, 1)
+	f([]T{1, 2}, 3)
+	f([]T{1, 2, 3}, 6)
 }

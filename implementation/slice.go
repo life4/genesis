@@ -624,6 +624,7 @@ func (s Slice) Split(sep T) [][]T {
 	for _, el := range s.Data {
 		if el == sep {
 			result = append(result, curr)
+			curr = make([]T, 0)
 		} else {
 			curr = append(curr, el)
 		}

@@ -39,6 +39,7 @@ func (s Slice) Split(sep T) [][]T {
 	for _, el := range s.Data {
 		if el == sep {
 			result = append(result, curr)
+			curr = make([]T, 0)
 		} else {
 			curr = append(curr, el)
 		}
@@ -48,3 +49,19 @@ func (s Slice) Split(sep T) [][]T {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceSplit(t *testing.T) {
+	f := func(given []T, sep T, expected [][]T) {
+		actual := Slice{given}.Split(sep)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, 1, [][]T{{}})
+	f([]T{2}, 1, [][]T{{2}})
+	f([]T{2, 1, 3}, 1, [][]T{{2}, {3}})
+	f([]T{1, 3}, 1, [][]T{{}, {3}})
+	f([]T{2, 1}, 1, [][]T{{2}, {}})
+	f([]T{2, 1, 3, 4, 1, 5, 6, 7}, 1, [][]T{{2}, {3, 4}, {5, 6, 7}})
+}
+```

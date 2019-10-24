@@ -40,3 +40,17 @@ func (s Slice) Sum() T {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceSum(t *testing.T) {
+	f := func(given []T, expected T) {
+		actual := Slice{given}.Sum()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, 0)
+	f([]T{1}, 1)
+	f([]T{1, 2}, 3)
+	f([]T{1, 2, 3}, 6)
+}
+```

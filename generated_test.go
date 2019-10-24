@@ -987,6 +987,34 @@ func TestSliceScanIntInt64(t *testing.T) {
 	f([]int{1, 2, 3, 4}, []int64{1, 3, 6, 10})
 }
 
+func TestSliceSortedInt(t *testing.T) {
+	f := func(given []int, expected bool) {
+		actual := SliceInt{given}.Sorted()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, true)
+	f([]int{1}, true)
+	f([]int{1, 1}, true)
+	f([]int{1, 2, 2}, true)
+	f([]int{1, 2, 3}, true)
+
+	f([]int{2, 1}, false)
+	f([]int{1, 2, 1}, false)
+}
+
+func TestSliceSplitInt(t *testing.T) {
+	f := func(given []int, sep int, expected [][]int) {
+		actual := SliceInt{given}.Split(sep)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 1, [][]int{{}})
+	f([]int{2}, 1, [][]int{{2}})
+	f([]int{2, 1, 3}, 1, [][]int{{2}, {3}})
+	f([]int{1, 3}, 1, [][]int{{}, {3}})
+	f([]int{2, 1}, 1, [][]int{{2}, {}})
+	f([]int{2, 1, 3, 4, 1, 5, 6, 7}, 1, [][]int{{2}, {3, 4}, {5, 6, 7}})
+}
+
 func TestSliceStartsWithInt(t *testing.T) {
 	f := func(given []int, suffix []int, expected bool) {
 		actual := SliceInt{given}.StartsWith(suffix)
@@ -1006,6 +1034,17 @@ func TestSliceStartsWithInt(t *testing.T) {
 	f([]int{1, 2, 3}, []int{2, 3}, false)
 	f([]int{1, 2, 3}, []int{3, 2}, false)
 	f([]int{1, 2, 3}, []int{2, 1}, false)
+}
+
+func TestSliceSumInt(t *testing.T) {
+	f := func(given []int, expected int) {
+		actual := SliceInt{given}.Sum()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 1)
+	f([]int{1, 2}, 3)
+	f([]int{1, 2, 3}, 6)
 }
 
 func TestChannelToSliceInt(t *testing.T) {
@@ -2802,6 +2841,34 @@ func TestSliceScanInt8Int64(t *testing.T) {
 	f([]int8{1, 2, 3, 4}, []int64{1, 3, 6, 10})
 }
 
+func TestSliceSortedInt8(t *testing.T) {
+	f := func(given []int8, expected bool) {
+		actual := SliceInt8{given}.Sorted()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, true)
+	f([]int8{1}, true)
+	f([]int8{1, 1}, true)
+	f([]int8{1, 2, 2}, true)
+	f([]int8{1, 2, 3}, true)
+
+	f([]int8{2, 1}, false)
+	f([]int8{1, 2, 1}, false)
+}
+
+func TestSliceSplitInt8(t *testing.T) {
+	f := func(given []int8, sep int8, expected [][]int8) {
+		actual := SliceInt8{given}.Split(sep)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 1, [][]int8{{}})
+	f([]int8{2}, 1, [][]int8{{2}})
+	f([]int8{2, 1, 3}, 1, [][]int8{{2}, {3}})
+	f([]int8{1, 3}, 1, [][]int8{{}, {3}})
+	f([]int8{2, 1}, 1, [][]int8{{2}, {}})
+	f([]int8{2, 1, 3, 4, 1, 5, 6, 7}, 1, [][]int8{{2}, {3, 4}, {5, 6, 7}})
+}
+
 func TestSliceStartsWithInt8(t *testing.T) {
 	f := func(given []int8, suffix []int8, expected bool) {
 		actual := SliceInt8{given}.StartsWith(suffix)
@@ -2821,6 +2888,17 @@ func TestSliceStartsWithInt8(t *testing.T) {
 	f([]int8{1, 2, 3}, []int8{2, 3}, false)
 	f([]int8{1, 2, 3}, []int8{3, 2}, false)
 	f([]int8{1, 2, 3}, []int8{2, 1}, false)
+}
+
+func TestSliceSumInt8(t *testing.T) {
+	f := func(given []int8, expected int8) {
+		actual := SliceInt8{given}.Sum()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 1)
+	f([]int8{1, 2}, 3)
+	f([]int8{1, 2, 3}, 6)
 }
 
 func TestChannelToSliceInt8(t *testing.T) {
@@ -4617,6 +4695,34 @@ func TestSliceScanInt16Int64(t *testing.T) {
 	f([]int16{1, 2, 3, 4}, []int64{1, 3, 6, 10})
 }
 
+func TestSliceSortedInt16(t *testing.T) {
+	f := func(given []int16, expected bool) {
+		actual := SliceInt16{given}.Sorted()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, true)
+	f([]int16{1}, true)
+	f([]int16{1, 1}, true)
+	f([]int16{1, 2, 2}, true)
+	f([]int16{1, 2, 3}, true)
+
+	f([]int16{2, 1}, false)
+	f([]int16{1, 2, 1}, false)
+}
+
+func TestSliceSplitInt16(t *testing.T) {
+	f := func(given []int16, sep int16, expected [][]int16) {
+		actual := SliceInt16{given}.Split(sep)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 1, [][]int16{{}})
+	f([]int16{2}, 1, [][]int16{{2}})
+	f([]int16{2, 1, 3}, 1, [][]int16{{2}, {3}})
+	f([]int16{1, 3}, 1, [][]int16{{}, {3}})
+	f([]int16{2, 1}, 1, [][]int16{{2}, {}})
+	f([]int16{2, 1, 3, 4, 1, 5, 6, 7}, 1, [][]int16{{2}, {3, 4}, {5, 6, 7}})
+}
+
 func TestSliceStartsWithInt16(t *testing.T) {
 	f := func(given []int16, suffix []int16, expected bool) {
 		actual := SliceInt16{given}.StartsWith(suffix)
@@ -4636,6 +4742,17 @@ func TestSliceStartsWithInt16(t *testing.T) {
 	f([]int16{1, 2, 3}, []int16{2, 3}, false)
 	f([]int16{1, 2, 3}, []int16{3, 2}, false)
 	f([]int16{1, 2, 3}, []int16{2, 1}, false)
+}
+
+func TestSliceSumInt16(t *testing.T) {
+	f := func(given []int16, expected int16) {
+		actual := SliceInt16{given}.Sum()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 1)
+	f([]int16{1, 2}, 3)
+	f([]int16{1, 2, 3}, 6)
 }
 
 func TestChannelToSliceInt16(t *testing.T) {
@@ -6432,6 +6549,34 @@ func TestSliceScanInt32Int64(t *testing.T) {
 	f([]int32{1, 2, 3, 4}, []int64{1, 3, 6, 10})
 }
 
+func TestSliceSortedInt32(t *testing.T) {
+	f := func(given []int32, expected bool) {
+		actual := SliceInt32{given}.Sorted()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, true)
+	f([]int32{1}, true)
+	f([]int32{1, 1}, true)
+	f([]int32{1, 2, 2}, true)
+	f([]int32{1, 2, 3}, true)
+
+	f([]int32{2, 1}, false)
+	f([]int32{1, 2, 1}, false)
+}
+
+func TestSliceSplitInt32(t *testing.T) {
+	f := func(given []int32, sep int32, expected [][]int32) {
+		actual := SliceInt32{given}.Split(sep)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 1, [][]int32{{}})
+	f([]int32{2}, 1, [][]int32{{2}})
+	f([]int32{2, 1, 3}, 1, [][]int32{{2}, {3}})
+	f([]int32{1, 3}, 1, [][]int32{{}, {3}})
+	f([]int32{2, 1}, 1, [][]int32{{2}, {}})
+	f([]int32{2, 1, 3, 4, 1, 5, 6, 7}, 1, [][]int32{{2}, {3, 4}, {5, 6, 7}})
+}
+
 func TestSliceStartsWithInt32(t *testing.T) {
 	f := func(given []int32, suffix []int32, expected bool) {
 		actual := SliceInt32{given}.StartsWith(suffix)
@@ -6451,6 +6596,17 @@ func TestSliceStartsWithInt32(t *testing.T) {
 	f([]int32{1, 2, 3}, []int32{2, 3}, false)
 	f([]int32{1, 2, 3}, []int32{3, 2}, false)
 	f([]int32{1, 2, 3}, []int32{2, 1}, false)
+}
+
+func TestSliceSumInt32(t *testing.T) {
+	f := func(given []int32, expected int32) {
+		actual := SliceInt32{given}.Sum()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 1)
+	f([]int32{1, 2}, 3)
+	f([]int32{1, 2, 3}, 6)
 }
 
 func TestChannelToSliceInt32(t *testing.T) {
@@ -8247,6 +8403,34 @@ func TestSliceScanInt64Int64(t *testing.T) {
 	f([]int64{1, 2, 3, 4}, []int64{1, 3, 6, 10})
 }
 
+func TestSliceSortedInt64(t *testing.T) {
+	f := func(given []int64, expected bool) {
+		actual := SliceInt64{given}.Sorted()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, true)
+	f([]int64{1}, true)
+	f([]int64{1, 1}, true)
+	f([]int64{1, 2, 2}, true)
+	f([]int64{1, 2, 3}, true)
+
+	f([]int64{2, 1}, false)
+	f([]int64{1, 2, 1}, false)
+}
+
+func TestSliceSplitInt64(t *testing.T) {
+	f := func(given []int64, sep int64, expected [][]int64) {
+		actual := SliceInt64{given}.Split(sep)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 1, [][]int64{{}})
+	f([]int64{2}, 1, [][]int64{{2}})
+	f([]int64{2, 1, 3}, 1, [][]int64{{2}, {3}})
+	f([]int64{1, 3}, 1, [][]int64{{}, {3}})
+	f([]int64{2, 1}, 1, [][]int64{{2}, {}})
+	f([]int64{2, 1, 3, 4, 1, 5, 6, 7}, 1, [][]int64{{2}, {3, 4}, {5, 6, 7}})
+}
+
 func TestSliceStartsWithInt64(t *testing.T) {
 	f := func(given []int64, suffix []int64, expected bool) {
 		actual := SliceInt64{given}.StartsWith(suffix)
@@ -8266,6 +8450,17 @@ func TestSliceStartsWithInt64(t *testing.T) {
 	f([]int64{1, 2, 3}, []int64{2, 3}, false)
 	f([]int64{1, 2, 3}, []int64{3, 2}, false)
 	f([]int64{1, 2, 3}, []int64{2, 1}, false)
+}
+
+func TestSliceSumInt64(t *testing.T) {
+	f := func(given []int64, expected int64) {
+		actual := SliceInt64{given}.Sum()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 1)
+	f([]int64{1, 2}, 3)
+	f([]int64{1, 2, 3}, 6)
 }
 
 func TestChannelToSliceInt64(t *testing.T) {

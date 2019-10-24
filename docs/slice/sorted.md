@@ -44,3 +44,21 @@ func (s Slice) Sorted() bool {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceSorted(t *testing.T) {
+	f := func(given []T, expected bool) {
+		actual := Slice{given}.Sorted()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, true)
+	f([]T{1}, true)
+	f([]T{1, 1}, true)
+	f([]T{1, 2, 2}, true)
+	f([]T{1, 2, 3}, true)
+
+	f([]T{2, 1}, false)
+	f([]T{1, 2, 1}, false)
+}
+```

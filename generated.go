@@ -2086,6 +2086,7 @@ func (s SliceBool) Split(sep bool) [][]bool {
 	for _, el := range s.Data {
 		if el == sep {
 			result = append(result, curr)
+			curr = make([]bool, 0)
 		} else {
 			curr = append(curr, el)
 		}
@@ -5931,6 +5932,7 @@ func (s SliceByte) Split(sep byte) [][]byte {
 	for _, el := range s.Data {
 		if el == sep {
 			result = append(result, curr)
+			curr = make([]byte, 0)
 		} else {
 			curr = append(curr, el)
 		}
@@ -9838,6 +9840,7 @@ func (s SliceString) Split(sep string) [][]string {
 	for _, el := range s.Data {
 		if el == sep {
 			result = append(result, curr)
+			curr = make([]string, 0)
 		} else {
 			curr = append(curr, el)
 		}
@@ -13736,6 +13739,7 @@ func (s SliceFloat32) Split(sep float32) [][]float32 {
 	for _, el := range s.Data {
 		if el == sep {
 			result = append(result, curr)
+			curr = make([]float32, 0)
 		} else {
 			curr = append(curr, el)
 		}
@@ -17683,6 +17687,7 @@ func (s SliceFloat64) Split(sep float64) [][]float64 {
 	for _, el := range s.Data {
 		if el == sep {
 			result = append(result, curr)
+			curr = make([]float64, 0)
 		} else {
 			curr = append(curr, el)
 		}
@@ -21639,6 +21644,7 @@ func (s SliceInt) Split(sep int) [][]int {
 	for _, el := range s.Data {
 		if el == sep {
 			result = append(result, curr)
+			curr = make([]int, 0)
 		} else {
 			curr = append(curr, el)
 		}
@@ -25595,6 +25601,7 @@ func (s SliceInt8) Split(sep int8) [][]int8 {
 	for _, el := range s.Data {
 		if el == sep {
 			result = append(result, curr)
+			curr = make([]int8, 0)
 		} else {
 			curr = append(curr, el)
 		}
@@ -29551,6 +29558,7 @@ func (s SliceInt16) Split(sep int16) [][]int16 {
 	for _, el := range s.Data {
 		if el == sep {
 			result = append(result, curr)
+			curr = make([]int16, 0)
 		} else {
 			curr = append(curr, el)
 		}
@@ -33507,6 +33515,7 @@ func (s SliceInt32) Split(sep int32) [][]int32 {
 	for _, el := range s.Data {
 		if el == sep {
 			result = append(result, curr)
+			curr = make([]int32, 0)
 		} else {
 			curr = append(curr, el)
 		}
@@ -37463,6 +37472,7 @@ func (s SliceInt64) Split(sep int64) [][]int64 {
 	for _, el := range s.Data {
 		if el == sep {
 			result = append(result, curr)
+			curr = make([]int64, 0)
 		} else {
 			curr = append(curr, el)
 		}
@@ -41419,6 +41429,7 @@ func (s SliceUint) Split(sep uint) [][]uint {
 	for _, el := range s.Data {
 		if el == sep {
 			result = append(result, curr)
+			curr = make([]uint, 0)
 		} else {
 			curr = append(curr, el)
 		}
@@ -45375,6 +45386,7 @@ func (s SliceUint8) Split(sep uint8) [][]uint8 {
 	for _, el := range s.Data {
 		if el == sep {
 			result = append(result, curr)
+			curr = make([]uint8, 0)
 		} else {
 			curr = append(curr, el)
 		}
@@ -49331,6 +49343,7 @@ func (s SliceUint16) Split(sep uint16) [][]uint16 {
 	for _, el := range s.Data {
 		if el == sep {
 			result = append(result, curr)
+			curr = make([]uint16, 0)
 		} else {
 			curr = append(curr, el)
 		}
@@ -53287,6 +53300,7 @@ func (s SliceUint32) Split(sep uint32) [][]uint32 {
 	for _, el := range s.Data {
 		if el == sep {
 			result = append(result, curr)
+			curr = make([]uint32, 0)
 		} else {
 			curr = append(curr, el)
 		}
@@ -57243,6 +57257,7 @@ func (s SliceUint64) Split(sep uint64) [][]uint64 {
 	for _, el := range s.Data {
 		if el == sep {
 			result = append(result, curr)
+			curr = make([]uint64, 0)
 		} else {
 			curr = append(curr, el)
 		}
@@ -61133,6 +61148,7 @@ func (s SliceInterface) Split(sep interface{}) [][]interface{} {
 	for _, el := range s.Data {
 		if el == sep {
 			result = append(result, curr)
+			curr = make([]interface{}, 0)
 		} else {
 			curr = append(curr, el)
 		}
