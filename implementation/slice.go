@@ -580,11 +580,14 @@ func (s Slice) Scan(acc G, f func(el T, acc G) G) []G {
 }
 
 // Shuffle in random order arr elements
-func (s Slice) Shuffle() []T {
+func (s Slice) Shuffle(seed int64) []T {
 	if len(s.Data) <= 1 {
 		return s.Data
 	}
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}

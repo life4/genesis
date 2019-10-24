@@ -2067,11 +2067,14 @@ func (s SliceBool) ScanInterface(acc interface{}, f func(el bool, acc interface{
 }
 
 // Shuffle in random order arr elements
-func (s SliceBool) Shuffle() []bool {
+func (s SliceBool) Shuffle(seed int64) []bool {
 	if len(s.Data) <= 1 {
 		return s.Data
 	}
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
@@ -5888,11 +5891,14 @@ func (s SliceByte) ScanInterface(acc interface{}, f func(el byte, acc interface{
 }
 
 // Shuffle in random order arr elements
-func (s SliceByte) Shuffle() []byte {
+func (s SliceByte) Shuffle(seed int64) []byte {
 	if len(s.Data) <= 1 {
 		return s.Data
 	}
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
@@ -9796,11 +9802,14 @@ func (s SliceString) ScanInterface(acc interface{}, f func(el string, acc interf
 }
 
 // Shuffle in random order arr elements
-func (s SliceString) Shuffle() []string {
+func (s SliceString) Shuffle(seed int64) []string {
 	if len(s.Data) <= 1 {
 		return s.Data
 	}
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
@@ -13695,11 +13704,14 @@ func (s SliceFloat32) ScanInterface(acc interface{}, f func(el float32, acc inte
 }
 
 // Shuffle in random order arr elements
-func (s SliceFloat32) Shuffle() []float32 {
+func (s SliceFloat32) Shuffle(seed int64) []float32 {
 	if len(s.Data) <= 1 {
 		return s.Data
 	}
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
@@ -17643,11 +17655,14 @@ func (s SliceFloat64) ScanInterface(acc interface{}, f func(el float64, acc inte
 }
 
 // Shuffle in random order arr elements
-func (s SliceFloat64) Shuffle() []float64 {
+func (s SliceFloat64) Shuffle(seed int64) []float64 {
 	if len(s.Data) <= 1 {
 		return s.Data
 	}
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
@@ -21600,11 +21615,14 @@ func (s SliceInt) ScanInterface(acc interface{}, f func(el int, acc interface{})
 }
 
 // Shuffle in random order arr elements
-func (s SliceInt) Shuffle() []int {
+func (s SliceInt) Shuffle(seed int64) []int {
 	if len(s.Data) <= 1 {
 		return s.Data
 	}
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
@@ -25557,11 +25575,14 @@ func (s SliceInt8) ScanInterface(acc interface{}, f func(el int8, acc interface{
 }
 
 // Shuffle in random order arr elements
-func (s SliceInt8) Shuffle() []int8 {
+func (s SliceInt8) Shuffle(seed int64) []int8 {
 	if len(s.Data) <= 1 {
 		return s.Data
 	}
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
@@ -29514,11 +29535,14 @@ func (s SliceInt16) ScanInterface(acc interface{}, f func(el int16, acc interfac
 }
 
 // Shuffle in random order arr elements
-func (s SliceInt16) Shuffle() []int16 {
+func (s SliceInt16) Shuffle(seed int64) []int16 {
 	if len(s.Data) <= 1 {
 		return s.Data
 	}
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
@@ -33471,11 +33495,14 @@ func (s SliceInt32) ScanInterface(acc interface{}, f func(el int32, acc interfac
 }
 
 // Shuffle in random order arr elements
-func (s SliceInt32) Shuffle() []int32 {
+func (s SliceInt32) Shuffle(seed int64) []int32 {
 	if len(s.Data) <= 1 {
 		return s.Data
 	}
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
@@ -37428,11 +37455,14 @@ func (s SliceInt64) ScanInterface(acc interface{}, f func(el int64, acc interfac
 }
 
 // Shuffle in random order arr elements
-func (s SliceInt64) Shuffle() []int64 {
+func (s SliceInt64) Shuffle(seed int64) []int64 {
 	if len(s.Data) <= 1 {
 		return s.Data
 	}
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
@@ -41385,11 +41415,14 @@ func (s SliceUint) ScanInterface(acc interface{}, f func(el uint, acc interface{
 }
 
 // Shuffle in random order arr elements
-func (s SliceUint) Shuffle() []uint {
+func (s SliceUint) Shuffle(seed int64) []uint {
 	if len(s.Data) <= 1 {
 		return s.Data
 	}
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
@@ -45342,11 +45375,14 @@ func (s SliceUint8) ScanInterface(acc interface{}, f func(el uint8, acc interfac
 }
 
 // Shuffle in random order arr elements
-func (s SliceUint8) Shuffle() []uint8 {
+func (s SliceUint8) Shuffle(seed int64) []uint8 {
 	if len(s.Data) <= 1 {
 		return s.Data
 	}
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
@@ -49299,11 +49335,14 @@ func (s SliceUint16) ScanInterface(acc interface{}, f func(el uint16, acc interf
 }
 
 // Shuffle in random order arr elements
-func (s SliceUint16) Shuffle() []uint16 {
+func (s SliceUint16) Shuffle(seed int64) []uint16 {
 	if len(s.Data) <= 1 {
 		return s.Data
 	}
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
@@ -53256,11 +53295,14 @@ func (s SliceUint32) ScanInterface(acc interface{}, f func(el uint32, acc interf
 }
 
 // Shuffle in random order arr elements
-func (s SliceUint32) Shuffle() []uint32 {
+func (s SliceUint32) Shuffle(seed int64) []uint32 {
 	if len(s.Data) <= 1 {
 		return s.Data
 	}
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
@@ -57213,11 +57255,14 @@ func (s SliceUint64) ScanInterface(acc interface{}, f func(el uint64, acc interf
 }
 
 // Shuffle in random order arr elements
-func (s SliceUint64) Shuffle() []uint64 {
+func (s SliceUint64) Shuffle(seed int64) []uint64 {
 	if len(s.Data) <= 1 {
 		return s.Data
 	}
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
@@ -61129,11 +61174,14 @@ func (s SliceInterface) ScanInterface(acc interface{}, f func(el interface{}, ac
 }
 
 // Shuffle in random order arr elements
-func (s SliceInterface) Shuffle() []interface{} {
+func (s SliceInterface) Shuffle(seed int64) []interface{} {
 	if len(s.Data) <= 1 {
 		return s.Data
 	}
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
