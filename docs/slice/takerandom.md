@@ -1,7 +1,7 @@
 # Slice.TakeRandom
 
 ```go
-func (s Slice) TakeRandom(count int) ([]T, error)
+func (s Slice) TakeRandom(count int, seed int64) ([]T, error)
 ```
 
 TakeRandom returns slice of count random elements from the slice
@@ -40,7 +40,7 @@ Generic types: T.
 
 ```go
 // TakeRandom returns slice of count random elements from the slice
-func (s Slice) TakeRandom(count int) ([]T, error) {
+func (s Slice) TakeRandom(count int, seed int64) ([]T, error) {
 	if count > len(s.Data) {
 		return nil, ErrOutOfRange
 	}
@@ -48,7 +48,10 @@ func (s Slice) TakeRandom(count int) ([]T, error) {
 		return nil, ErrNonPositiveValue
 	}
 
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
@@ -57,3 +60,16 @@ func (s Slice) TakeRandom(count int) ([]T, error) {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceTakeRandom(t *testing.T) {
+	f := func(given []T, count int, seed int64, expected []T) {
+		actual, _ := Slice{given}.TakeRandom(count, seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{1}, 1, 0, []T{1})
+	f([]T{1, 2, 3, 4, 5}, 3, 1, []T{3, 1, 2})
+	f([]T{1, 2, 3, 4, 5}, 5, 1, []T{3, 1, 2, 5, 4})
+}
+```

@@ -53,3 +53,18 @@ func (s Slice) Window(size int) ([][]T, error) {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceWindow(t *testing.T) {
+	f := func(given []T, size int, expected [][]T) {
+		actual, _ := Slice{given}.Window(size)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, 1, [][]T{})
+	f([]T{1, 2, 3, 4}, 1, [][]T{{1}, {2}, {3}, {4}})
+	f([]T{1, 2, 3, 4}, 2, [][]T{{1, 2}, {2, 3}, {3, 4}})
+	f([]T{1, 2, 3, 4}, 3, [][]T{{1, 2, 3}, {2, 3, 4}})
+	f([]T{1, 2, 3, 4}, 4, [][]T{{1, 2, 3, 4}})
+}
+```

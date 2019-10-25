@@ -57,3 +57,25 @@ func (s Slice) TakeEvery(nth int, from int) ([]T, error) {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceTakeEvery(t *testing.T) {
+	f := func(given []T, nth int, from int, expected []T) {
+		actual, _ := Slice{given}.TakeEvery(nth, from)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	// step 1
+	f([]T{}, 1, 1, []T{})
+	f([]T{1, 2, 3}, 1, 0, []T{1, 2, 3})
+
+	// step 2 from 0
+	f([]T{1, 2, 3, 4, 5}, 2, 0, []T{1, 3, 5})
+	f([]T{1, 2, 3, 4, 5, 6}, 2, 0, []T{1, 3, 5})
+
+	// step 2 from 1
+	f([]T{1, 2, 3, 4}, 2, 1, []T{2, 4})
+	f([]T{1, 2, 3, 4, 5}, 2, 1, []T{2, 4})
+}
+```

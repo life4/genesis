@@ -45,3 +45,19 @@ func (s Slice) TakeWhile(f func(el T) bool) []T {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceTakeWhile(t *testing.T) {
+	f := func(given []T, expected []T) {
+		even := func(el T) bool { return el%2 == 0 }
+		actual := Slice{given}.TakeWhile(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{})
+	f([]T{1}, []T{})
+	f([]T{2}, []T{2})
+	f([]T{2, 4, 6, 1, 8}, []T{2, 4, 6})
+	f([]T{1, 2, 3}, []T{})
+}
+```

@@ -519,6 +519,17 @@ func TestSliceScan(t *testing.T) {
 	f([]T{1, 2, 3, 4}, []G{1, 3, 6, 10})
 }
 
+func TestSliceShuffle(t *testing.T) {
+	f := func(given []T, seed int64, expected []T) {
+		actual := Slice{given}.Shuffle(seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, 0, []T{})
+	f([]T{1}, 0, []T{1})
+	f([]T{1, 2, 3, 4, 5, 6}, 2, []T{3, 5, 4, 1, 6, 2})
+	f([]T{1, 2, 2, 3, 3}, 2, []T{3, 2, 3, 2, 1})
+}
+
 func TestSliceSorted(t *testing.T) {
 	f := func(given []T, expected bool) {
 		actual := Slice{given}.Sorted()
@@ -577,4 +588,72 @@ func TestSliceSum(t *testing.T) {
 	f([]T{1}, 1)
 	f([]T{1, 2}, 3)
 	f([]T{1, 2, 3}, 6)
+}
+
+func TestSliceTakeEvery(t *testing.T) {
+	f := func(given []T, nth int, from int, expected []T) {
+		actual, _ := Slice{given}.TakeEvery(nth, from)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	// step 1
+	f([]T{}, 1, 1, []T{})
+	f([]T{1, 2, 3}, 1, 0, []T{1, 2, 3})
+
+	// step 2 from 0
+	f([]T{1, 2, 3, 4, 5}, 2, 0, []T{1, 3, 5})
+	f([]T{1, 2, 3, 4, 5, 6}, 2, 0, []T{1, 3, 5})
+
+	// step 2 from 1
+	f([]T{1, 2, 3, 4}, 2, 1, []T{2, 4})
+	f([]T{1, 2, 3, 4, 5}, 2, 1, []T{2, 4})
+}
+
+func TestSliceTakeRandom(t *testing.T) {
+	f := func(given []T, count int, seed int64, expected []T) {
+		actual, _ := Slice{given}.TakeRandom(count, seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{1}, 1, 0, []T{1})
+	f([]T{1, 2, 3, 4, 5}, 3, 1, []T{3, 1, 2})
+	f([]T{1, 2, 3, 4, 5}, 5, 1, []T{3, 1, 2, 5, 4})
+}
+
+func TestSliceTakeWhile(t *testing.T) {
+	f := func(given []T, expected []T) {
+		even := func(el T) bool { return el%2 == 0 }
+		actual := Slice{given}.TakeWhile(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{})
+	f([]T{1}, []T{})
+	f([]T{2}, []T{2})
+	f([]T{2, 4, 6, 1, 8}, []T{2, 4, 6})
+	f([]T{1, 2, 3}, []T{})
+}
+
+func TestSliceUniq(t *testing.T) {
+	f := func(given []T, expected []T) {
+		actual := Slice{given}.Uniq()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{})
+	f([]T{1}, []T{1})
+	f([]T{1, 1}, []T{1})
+	f([]T{1, 2}, []T{1, 2})
+	f([]T{1, 2, 1}, []T{1, 2})
+	f([]T{1, 2, 1, 2}, []T{1, 2})
+	f([]T{1, 2, 1, 2, 3, 2, 1, 1}, []T{1, 2, 3})
+}
+
+func TestSliceWindow(t *testing.T) {
+	f := func(given []T, size int, expected [][]T) {
+		actual, _ := Slice{given}.Window(size)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, 1, [][]T{})
+	f([]T{1, 2, 3, 4}, 1, [][]T{{1}, {2}, {3}, {4}})
+	f([]T{1, 2, 3, 4}, 2, [][]T{{1, 2}, {2, 3}, {3, 4}})
+	f([]T{1, 2, 3, 4}, 3, [][]T{{1, 2, 3}, {2, 3, 4}})
+	f([]T{1, 2, 3, 4}, 4, [][]T{{1, 2, 3, 4}})
 }

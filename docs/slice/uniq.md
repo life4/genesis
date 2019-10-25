@@ -52,3 +52,20 @@ func (s Slice) Uniq() []T {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceUniq(t *testing.T) {
+	f := func(given []T, expected []T) {
+		actual := Slice{given}.Uniq()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{})
+	f([]T{1}, []T{1})
+	f([]T{1, 1}, []T{1})
+	f([]T{1, 2}, []T{1, 2})
+	f([]T{1, 2, 1}, []T{1, 2})
+	f([]T{1, 2, 1, 2}, []T{1, 2})
+	f([]T{1, 2, 1, 2, 3, 2, 1, 1}, []T{1, 2, 3})
+}
+```

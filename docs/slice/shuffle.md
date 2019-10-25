@@ -49,3 +49,17 @@ func (s Slice) Shuffle(seed int64) []T {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceShuffle(t *testing.T) {
+	f := func(given []T, seed int64, expected []T) {
+		actual := Slice{given}.Shuffle(seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, 0, []T{})
+	f([]T{1}, 0, []T{1})
+	f([]T{1, 2, 3, 4, 5, 6}, 2, []T{3, 5, 4, 1, 6, 2})
+	f([]T{1, 2, 2, 3, 3}, 2, []T{3, 2, 3, 2, 1})
+}
+```

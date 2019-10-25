@@ -987,6 +987,17 @@ func TestSliceScanIntInt64(t *testing.T) {
 	f([]int{1, 2, 3, 4}, []int64{1, 3, 6, 10})
 }
 
+func TestSliceShuffleInt(t *testing.T) {
+	f := func(given []int, seed int64, expected []int) {
+		actual := SliceInt{given}.Shuffle(seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0, []int{})
+	f([]int{1}, 0, []int{1})
+	f([]int{1, 2, 3, 4, 5, 6}, 2, []int{3, 5, 4, 1, 6, 2})
+	f([]int{1, 2, 2, 3, 3}, 2, []int{3, 2, 3, 2, 1})
+}
+
 func TestSliceSortedInt(t *testing.T) {
 	f := func(given []int, expected bool) {
 		actual := SliceInt{given}.Sorted()
@@ -1045,6 +1056,74 @@ func TestSliceSumInt(t *testing.T) {
 	f([]int{1}, 1)
 	f([]int{1, 2}, 3)
 	f([]int{1, 2, 3}, 6)
+}
+
+func TestSliceTakeEveryInt(t *testing.T) {
+	f := func(given []int, nth int, from int, expected []int) {
+		actual, _ := SliceInt{given}.TakeEvery(nth, from)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	// step 1
+	f([]int{}, 1, 1, []int{})
+	f([]int{1, 2, 3}, 1, 0, []int{1, 2, 3})
+
+	// step 2 from 0
+	f([]int{1, 2, 3, 4, 5}, 2, 0, []int{1, 3, 5})
+	f([]int{1, 2, 3, 4, 5, 6}, 2, 0, []int{1, 3, 5})
+
+	// step 2 from 1
+	f([]int{1, 2, 3, 4}, 2, 1, []int{2, 4})
+	f([]int{1, 2, 3, 4, 5}, 2, 1, []int{2, 4})
+}
+
+func TestSliceTakeRandomInt(t *testing.T) {
+	f := func(given []int, count int, seed int64, expected []int) {
+		actual, _ := SliceInt{given}.TakeRandom(count, seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{1}, 1, 0, []int{1})
+	f([]int{1, 2, 3, 4, 5}, 3, 1, []int{3, 1, 2})
+	f([]int{1, 2, 3, 4, 5}, 5, 1, []int{3, 1, 2, 5, 4})
+}
+
+func TestSliceTakeWhileInt(t *testing.T) {
+	f := func(given []int, expected []int) {
+		even := func(el int) bool { return el%2 == 0 }
+		actual := SliceInt{given}.TakeWhile(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{})
+	f([]int{2}, []int{2})
+	f([]int{2, 4, 6, 1, 8}, []int{2, 4, 6})
+	f([]int{1, 2, 3}, []int{})
+}
+
+func TestSliceUniqInt(t *testing.T) {
+	f := func(given []int, expected []int) {
+		actual := SliceInt{given}.Uniq()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{1})
+	f([]int{1, 1}, []int{1})
+	f([]int{1, 2}, []int{1, 2})
+	f([]int{1, 2, 1}, []int{1, 2})
+	f([]int{1, 2, 1, 2}, []int{1, 2})
+	f([]int{1, 2, 1, 2, 3, 2, 1, 1}, []int{1, 2, 3})
+}
+
+func TestSliceWindowInt(t *testing.T) {
+	f := func(given []int, size int, expected [][]int) {
+		actual, _ := SliceInt{given}.Window(size)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 1, [][]int{})
+	f([]int{1, 2, 3, 4}, 1, [][]int{{1}, {2}, {3}, {4}})
+	f([]int{1, 2, 3, 4}, 2, [][]int{{1, 2}, {2, 3}, {3, 4}})
+	f([]int{1, 2, 3, 4}, 3, [][]int{{1, 2, 3}, {2, 3, 4}})
+	f([]int{1, 2, 3, 4}, 4, [][]int{{1, 2, 3, 4}})
 }
 
 func TestChannelToSliceInt(t *testing.T) {
@@ -2841,6 +2920,17 @@ func TestSliceScanInt8Int64(t *testing.T) {
 	f([]int8{1, 2, 3, 4}, []int64{1, 3, 6, 10})
 }
 
+func TestSliceShuffleInt8(t *testing.T) {
+	f := func(given []int8, seed int64, expected []int8) {
+		actual := SliceInt8{given}.Shuffle(seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0, []int8{})
+	f([]int8{1}, 0, []int8{1})
+	f([]int8{1, 2, 3, 4, 5, 6}, 2, []int8{3, 5, 4, 1, 6, 2})
+	f([]int8{1, 2, 2, 3, 3}, 2, []int8{3, 2, 3, 2, 1})
+}
+
 func TestSliceSortedInt8(t *testing.T) {
 	f := func(given []int8, expected bool) {
 		actual := SliceInt8{given}.Sorted()
@@ -2899,6 +2989,74 @@ func TestSliceSumInt8(t *testing.T) {
 	f([]int8{1}, 1)
 	f([]int8{1, 2}, 3)
 	f([]int8{1, 2, 3}, 6)
+}
+
+func TestSliceTakeEveryInt8(t *testing.T) {
+	f := func(given []int8, nth int, from int, expected []int8) {
+		actual, _ := SliceInt8{given}.TakeEvery(nth, from)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	// step 1
+	f([]int8{}, 1, 1, []int8{})
+	f([]int8{1, 2, 3}, 1, 0, []int8{1, 2, 3})
+
+	// step 2 from 0
+	f([]int8{1, 2, 3, 4, 5}, 2, 0, []int8{1, 3, 5})
+	f([]int8{1, 2, 3, 4, 5, 6}, 2, 0, []int8{1, 3, 5})
+
+	// step 2 from 1
+	f([]int8{1, 2, 3, 4}, 2, 1, []int8{2, 4})
+	f([]int8{1, 2, 3, 4, 5}, 2, 1, []int8{2, 4})
+}
+
+func TestSliceTakeRandomInt8(t *testing.T) {
+	f := func(given []int8, count int, seed int64, expected []int8) {
+		actual, _ := SliceInt8{given}.TakeRandom(count, seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{1}, 1, 0, []int8{1})
+	f([]int8{1, 2, 3, 4, 5}, 3, 1, []int8{3, 1, 2})
+	f([]int8{1, 2, 3, 4, 5}, 5, 1, []int8{3, 1, 2, 5, 4})
+}
+
+func TestSliceTakeWhileInt8(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		even := func(el int8) bool { return el%2 == 0 }
+		actual := SliceInt8{given}.TakeWhile(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{})
+	f([]int8{2}, []int8{2})
+	f([]int8{2, 4, 6, 1, 8}, []int8{2, 4, 6})
+	f([]int8{1, 2, 3}, []int8{})
+}
+
+func TestSliceUniqInt8(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		actual := SliceInt8{given}.Uniq()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{1})
+	f([]int8{1, 1}, []int8{1})
+	f([]int8{1, 2}, []int8{1, 2})
+	f([]int8{1, 2, 1}, []int8{1, 2})
+	f([]int8{1, 2, 1, 2}, []int8{1, 2})
+	f([]int8{1, 2, 1, 2, 3, 2, 1, 1}, []int8{1, 2, 3})
+}
+
+func TestSliceWindowInt8(t *testing.T) {
+	f := func(given []int8, size int, expected [][]int8) {
+		actual, _ := SliceInt8{given}.Window(size)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 1, [][]int8{})
+	f([]int8{1, 2, 3, 4}, 1, [][]int8{{1}, {2}, {3}, {4}})
+	f([]int8{1, 2, 3, 4}, 2, [][]int8{{1, 2}, {2, 3}, {3, 4}})
+	f([]int8{1, 2, 3, 4}, 3, [][]int8{{1, 2, 3}, {2, 3, 4}})
+	f([]int8{1, 2, 3, 4}, 4, [][]int8{{1, 2, 3, 4}})
 }
 
 func TestChannelToSliceInt8(t *testing.T) {
@@ -4695,6 +4853,17 @@ func TestSliceScanInt16Int64(t *testing.T) {
 	f([]int16{1, 2, 3, 4}, []int64{1, 3, 6, 10})
 }
 
+func TestSliceShuffleInt16(t *testing.T) {
+	f := func(given []int16, seed int64, expected []int16) {
+		actual := SliceInt16{given}.Shuffle(seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0, []int16{})
+	f([]int16{1}, 0, []int16{1})
+	f([]int16{1, 2, 3, 4, 5, 6}, 2, []int16{3, 5, 4, 1, 6, 2})
+	f([]int16{1, 2, 2, 3, 3}, 2, []int16{3, 2, 3, 2, 1})
+}
+
 func TestSliceSortedInt16(t *testing.T) {
 	f := func(given []int16, expected bool) {
 		actual := SliceInt16{given}.Sorted()
@@ -4753,6 +4922,74 @@ func TestSliceSumInt16(t *testing.T) {
 	f([]int16{1}, 1)
 	f([]int16{1, 2}, 3)
 	f([]int16{1, 2, 3}, 6)
+}
+
+func TestSliceTakeEveryInt16(t *testing.T) {
+	f := func(given []int16, nth int, from int, expected []int16) {
+		actual, _ := SliceInt16{given}.TakeEvery(nth, from)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	// step 1
+	f([]int16{}, 1, 1, []int16{})
+	f([]int16{1, 2, 3}, 1, 0, []int16{1, 2, 3})
+
+	// step 2 from 0
+	f([]int16{1, 2, 3, 4, 5}, 2, 0, []int16{1, 3, 5})
+	f([]int16{1, 2, 3, 4, 5, 6}, 2, 0, []int16{1, 3, 5})
+
+	// step 2 from 1
+	f([]int16{1, 2, 3, 4}, 2, 1, []int16{2, 4})
+	f([]int16{1, 2, 3, 4, 5}, 2, 1, []int16{2, 4})
+}
+
+func TestSliceTakeRandomInt16(t *testing.T) {
+	f := func(given []int16, count int, seed int64, expected []int16) {
+		actual, _ := SliceInt16{given}.TakeRandom(count, seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{1}, 1, 0, []int16{1})
+	f([]int16{1, 2, 3, 4, 5}, 3, 1, []int16{3, 1, 2})
+	f([]int16{1, 2, 3, 4, 5}, 5, 1, []int16{3, 1, 2, 5, 4})
+}
+
+func TestSliceTakeWhileInt16(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		even := func(el int16) bool { return el%2 == 0 }
+		actual := SliceInt16{given}.TakeWhile(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{})
+	f([]int16{2}, []int16{2})
+	f([]int16{2, 4, 6, 1, 8}, []int16{2, 4, 6})
+	f([]int16{1, 2, 3}, []int16{})
+}
+
+func TestSliceUniqInt16(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		actual := SliceInt16{given}.Uniq()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{1})
+	f([]int16{1, 1}, []int16{1})
+	f([]int16{1, 2}, []int16{1, 2})
+	f([]int16{1, 2, 1}, []int16{1, 2})
+	f([]int16{1, 2, 1, 2}, []int16{1, 2})
+	f([]int16{1, 2, 1, 2, 3, 2, 1, 1}, []int16{1, 2, 3})
+}
+
+func TestSliceWindowInt16(t *testing.T) {
+	f := func(given []int16, size int, expected [][]int16) {
+		actual, _ := SliceInt16{given}.Window(size)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 1, [][]int16{})
+	f([]int16{1, 2, 3, 4}, 1, [][]int16{{1}, {2}, {3}, {4}})
+	f([]int16{1, 2, 3, 4}, 2, [][]int16{{1, 2}, {2, 3}, {3, 4}})
+	f([]int16{1, 2, 3, 4}, 3, [][]int16{{1, 2, 3}, {2, 3, 4}})
+	f([]int16{1, 2, 3, 4}, 4, [][]int16{{1, 2, 3, 4}})
 }
 
 func TestChannelToSliceInt16(t *testing.T) {
@@ -6549,6 +6786,17 @@ func TestSliceScanInt32Int64(t *testing.T) {
 	f([]int32{1, 2, 3, 4}, []int64{1, 3, 6, 10})
 }
 
+func TestSliceShuffleInt32(t *testing.T) {
+	f := func(given []int32, seed int64, expected []int32) {
+		actual := SliceInt32{given}.Shuffle(seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0, []int32{})
+	f([]int32{1}, 0, []int32{1})
+	f([]int32{1, 2, 3, 4, 5, 6}, 2, []int32{3, 5, 4, 1, 6, 2})
+	f([]int32{1, 2, 2, 3, 3}, 2, []int32{3, 2, 3, 2, 1})
+}
+
 func TestSliceSortedInt32(t *testing.T) {
 	f := func(given []int32, expected bool) {
 		actual := SliceInt32{given}.Sorted()
@@ -6607,6 +6855,74 @@ func TestSliceSumInt32(t *testing.T) {
 	f([]int32{1}, 1)
 	f([]int32{1, 2}, 3)
 	f([]int32{1, 2, 3}, 6)
+}
+
+func TestSliceTakeEveryInt32(t *testing.T) {
+	f := func(given []int32, nth int, from int, expected []int32) {
+		actual, _ := SliceInt32{given}.TakeEvery(nth, from)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	// step 1
+	f([]int32{}, 1, 1, []int32{})
+	f([]int32{1, 2, 3}, 1, 0, []int32{1, 2, 3})
+
+	// step 2 from 0
+	f([]int32{1, 2, 3, 4, 5}, 2, 0, []int32{1, 3, 5})
+	f([]int32{1, 2, 3, 4, 5, 6}, 2, 0, []int32{1, 3, 5})
+
+	// step 2 from 1
+	f([]int32{1, 2, 3, 4}, 2, 1, []int32{2, 4})
+	f([]int32{1, 2, 3, 4, 5}, 2, 1, []int32{2, 4})
+}
+
+func TestSliceTakeRandomInt32(t *testing.T) {
+	f := func(given []int32, count int, seed int64, expected []int32) {
+		actual, _ := SliceInt32{given}.TakeRandom(count, seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{1}, 1, 0, []int32{1})
+	f([]int32{1, 2, 3, 4, 5}, 3, 1, []int32{3, 1, 2})
+	f([]int32{1, 2, 3, 4, 5}, 5, 1, []int32{3, 1, 2, 5, 4})
+}
+
+func TestSliceTakeWhileInt32(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		even := func(el int32) bool { return el%2 == 0 }
+		actual := SliceInt32{given}.TakeWhile(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{})
+	f([]int32{2}, []int32{2})
+	f([]int32{2, 4, 6, 1, 8}, []int32{2, 4, 6})
+	f([]int32{1, 2, 3}, []int32{})
+}
+
+func TestSliceUniqInt32(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		actual := SliceInt32{given}.Uniq()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{1})
+	f([]int32{1, 1}, []int32{1})
+	f([]int32{1, 2}, []int32{1, 2})
+	f([]int32{1, 2, 1}, []int32{1, 2})
+	f([]int32{1, 2, 1, 2}, []int32{1, 2})
+	f([]int32{1, 2, 1, 2, 3, 2, 1, 1}, []int32{1, 2, 3})
+}
+
+func TestSliceWindowInt32(t *testing.T) {
+	f := func(given []int32, size int, expected [][]int32) {
+		actual, _ := SliceInt32{given}.Window(size)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 1, [][]int32{})
+	f([]int32{1, 2, 3, 4}, 1, [][]int32{{1}, {2}, {3}, {4}})
+	f([]int32{1, 2, 3, 4}, 2, [][]int32{{1, 2}, {2, 3}, {3, 4}})
+	f([]int32{1, 2, 3, 4}, 3, [][]int32{{1, 2, 3}, {2, 3, 4}})
+	f([]int32{1, 2, 3, 4}, 4, [][]int32{{1, 2, 3, 4}})
 }
 
 func TestChannelToSliceInt32(t *testing.T) {
@@ -8403,6 +8719,17 @@ func TestSliceScanInt64Int64(t *testing.T) {
 	f([]int64{1, 2, 3, 4}, []int64{1, 3, 6, 10})
 }
 
+func TestSliceShuffleInt64(t *testing.T) {
+	f := func(given []int64, seed int64, expected []int64) {
+		actual := SliceInt64{given}.Shuffle(seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0, []int64{})
+	f([]int64{1}, 0, []int64{1})
+	f([]int64{1, 2, 3, 4, 5, 6}, 2, []int64{3, 5, 4, 1, 6, 2})
+	f([]int64{1, 2, 2, 3, 3}, 2, []int64{3, 2, 3, 2, 1})
+}
+
 func TestSliceSortedInt64(t *testing.T) {
 	f := func(given []int64, expected bool) {
 		actual := SliceInt64{given}.Sorted()
@@ -8461,6 +8788,74 @@ func TestSliceSumInt64(t *testing.T) {
 	f([]int64{1}, 1)
 	f([]int64{1, 2}, 3)
 	f([]int64{1, 2, 3}, 6)
+}
+
+func TestSliceTakeEveryInt64(t *testing.T) {
+	f := func(given []int64, nth int, from int, expected []int64) {
+		actual, _ := SliceInt64{given}.TakeEvery(nth, from)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	// step 1
+	f([]int64{}, 1, 1, []int64{})
+	f([]int64{1, 2, 3}, 1, 0, []int64{1, 2, 3})
+
+	// step 2 from 0
+	f([]int64{1, 2, 3, 4, 5}, 2, 0, []int64{1, 3, 5})
+	f([]int64{1, 2, 3, 4, 5, 6}, 2, 0, []int64{1, 3, 5})
+
+	// step 2 from 1
+	f([]int64{1, 2, 3, 4}, 2, 1, []int64{2, 4})
+	f([]int64{1, 2, 3, 4, 5}, 2, 1, []int64{2, 4})
+}
+
+func TestSliceTakeRandomInt64(t *testing.T) {
+	f := func(given []int64, count int, seed int64, expected []int64) {
+		actual, _ := SliceInt64{given}.TakeRandom(count, seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{1}, 1, 0, []int64{1})
+	f([]int64{1, 2, 3, 4, 5}, 3, 1, []int64{3, 1, 2})
+	f([]int64{1, 2, 3, 4, 5}, 5, 1, []int64{3, 1, 2, 5, 4})
+}
+
+func TestSliceTakeWhileInt64(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		even := func(el int64) bool { return el%2 == 0 }
+		actual := SliceInt64{given}.TakeWhile(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{})
+	f([]int64{2}, []int64{2})
+	f([]int64{2, 4, 6, 1, 8}, []int64{2, 4, 6})
+	f([]int64{1, 2, 3}, []int64{})
+}
+
+func TestSliceUniqInt64(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		actual := SliceInt64{given}.Uniq()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{1})
+	f([]int64{1, 1}, []int64{1})
+	f([]int64{1, 2}, []int64{1, 2})
+	f([]int64{1, 2, 1}, []int64{1, 2})
+	f([]int64{1, 2, 1, 2}, []int64{1, 2})
+	f([]int64{1, 2, 1, 2, 3, 2, 1, 1}, []int64{1, 2, 3})
+}
+
+func TestSliceWindowInt64(t *testing.T) {
+	f := func(given []int64, size int, expected [][]int64) {
+		actual, _ := SliceInt64{given}.Window(size)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 1, [][]int64{})
+	f([]int64{1, 2, 3, 4}, 1, [][]int64{{1}, {2}, {3}, {4}})
+	f([]int64{1, 2, 3, 4}, 2, [][]int64{{1, 2}, {2, 3}, {3, 4}})
+	f([]int64{1, 2, 3, 4}, 3, [][]int64{{1, 2, 3}, {2, 3, 4}})
+	f([]int64{1, 2, 3, 4}, 4, [][]int64{{1, 2, 3, 4}})
 }
 
 func TestChannelToSliceInt64(t *testing.T) {

@@ -677,7 +677,7 @@ func (s Slice) TakeEvery(nth int, from int) ([]T, error) {
 }
 
 // TakeRandom returns slice of count random elements from the slice
-func (s Slice) TakeRandom(count int) ([]T, error) {
+func (s Slice) TakeRandom(count int, seed int64) ([]T, error) {
 	if count > len(s.Data) {
 		return nil, ErrOutOfRange
 	}
@@ -685,7 +685,10 @@ func (s Slice) TakeRandom(count int) ([]T, error) {
 		return nil, ErrNonPositiveValue
 	}
 
-	rand.Seed(time.Now().UnixNano())
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
 	swap := func(i, j int) {
 		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
 	}
