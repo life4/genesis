@@ -331,14 +331,15 @@ func (s Slice) Find(f func(el T) bool) (T, error) {
 	return tmp, ErrNotFound
 }
 
-// FindIndex is like Find, but return element index instead of element itself
-func (s Slice) FindIndex(f func(el T) bool) (int, error) {
+// FindIndex is like Find, but return element index instead of element itself.
+// Returns -1 if element not found
+func (s Slice) FindIndex(f func(el T) bool) int {
 	for i, el := range s.Data {
 		if f(el) {
-			return i, nil
+			return i
 		}
 	}
-	return 0, ErrNotFound
+	return -1
 }
 
 // Join concatenates elements of the slice to create a single string.

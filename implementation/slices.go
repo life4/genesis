@@ -47,23 +47,31 @@ func (s Slices) product(c chan []T, left []T, pos int) {
 	}
 }
 
-// Zip returns array of arrays of elements from given arrs
-// on the same position
-func (s Slices) Zip() [][]T {
+// Zip returns chan of arrays of elements from given arrs on the same position.
+func (s Slices) Zip() chan []T {
+	if len(s.Data) == 0 {
+		result := make(chan []T)
+		close(result)
+		return result
+	}
+
 	size := len(s.Data[0])
 	for _, arr := range s.Data[1:] {
-		if len(arr) > size {
+		if len(arr) < size {
 			size = len(arr)
 		}
 	}
 
-	result := make([][]T, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]T, 0, len(s.Data))
-		for _, arr := range s.Data {
-			chunk = append(chunk, arr[i])
+	result := make(chan []T, 1)
+	go func() {
+		for i := 0; i < size; i++ {
+			chunk := make([]T, 0, len(s.Data))
+			for _, arr := range s.Data {
+				chunk = append(chunk, arr[i])
+			}
+			result <- chunk
 		}
-		result = append(result, chunk)
-	}
+		close(result)
+	}()
 	return result
 }

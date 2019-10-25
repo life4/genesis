@@ -55,3 +55,16 @@ func (s Slice) Choice(seed int64) (T, error) {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceChoice(t *testing.T) {
+	f := func(given []T, seed int64, expected T) {
+		actual, _ := Slice{given}.Choice(seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{1}, 0, 1)
+	f([]T{1, 2, 3}, 1, 3)
+	f([]T{1, 2, 3}, 2, 2)
+}
+```

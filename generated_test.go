@@ -5,6 +5,19 @@ import (
 	"github.com/stretchr/testify/assert"
 	"testing")
 
+func TestSlicesConcatInt(t *testing.T) {
+	f := func(given [][]int, expected []int) {
+		actual := SlicesInt{given}.Concat()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([][]int{}, []int{})
+	f([][]int{{}}, []int{})
+	f([][]int{{1}}, []int{1})
+	f([][]int{{1}, {}}, []int{1})
+	f([][]int{{}, {1}}, []int{1})
+	f([][]int{{1, 2}, {3, 4, 5}}, []int{1, 2, 3, 4, 5})
+}
+
 func TestSlicesProductInt(t *testing.T) {
 	f := func(given [][]int, expected [][]int) {
 		actual := make([][]int, 0)
@@ -21,6 +34,26 @@ func TestSlicesProductInt(t *testing.T) {
 	}
 	f([][]int{{1, 2}, {3, 4}}, [][]int{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
 	f([][]int{{1, 2}, {3}, {4, 5}}, [][]int{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+}
+
+func TestSlicesZipInt(t *testing.T) {
+	f := func(given [][]int, expected [][]int) {
+		actual := make([][]int, 0)
+		i := 0
+		s := SlicesInt{given}
+		for el := range s.Zip() {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([][]int{}, [][]int{})
+	f([][]int{{1}, {2}}, [][]int{{1, 2}})
+	f([][]int{{1, 2}, {3, 4}}, [][]int{{1, 3}, {2, 4}})
+	f([][]int{{1, 2, 3}, {4, 5}}, [][]int{{1, 4}, {2, 5}})
 }
 
 func TestSequenceCountInt(t *testing.T) {
@@ -130,6 +163,16 @@ func TestSliceAllInt(t *testing.T) {
 	f([]int{2, 4}, true)
 	f([]int{2, 4, 1}, false)
 	f([]int{1, 2, 4}, false)
+}
+
+func TestSliceChoiceInt(t *testing.T) {
+	f := func(given []int, seed int64, expected int) {
+		actual, _ := SliceInt{given}.Choice(seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{1}, 0, 1)
+	f([]int{1, 2, 3}, 1, 3)
+	f([]int{1, 2, 3}, 2, 2)
 }
 
 func TestSliceChunkByIntInt(t *testing.T) {
@@ -492,20 +535,19 @@ func TestSliceFindInt(t *testing.T) {
 }
 
 func TestSliceFindIndexInt(t *testing.T) {
-	f := func(given []int, expectedInd int, expectedErr error) {
+	f := func(given []int, expectedInd int) {
 		even := func(t int) bool { return (t % 2) == 0 }
-		index, err := SliceInt{given}.FindIndex(even)
+		index := SliceInt{given}.FindIndex(even)
 		assert.Equal(t, expectedInd, index, "they should be equal")
-		assert.Equal(t, expectedErr, err, "they should be equal")
 	}
-	f([]int{}, 0, ErrNotFound)
-	f([]int{1}, 0, ErrNotFound)
-	f([]int{1}, 0, ErrNotFound)
-	f([]int{2}, 0, nil)
-	f([]int{1, 2}, 1, nil)
-	f([]int{1, 2, 3}, 1, nil)
-	f([]int{1, 3, 5, 7, 9, 2}, 5, nil)
-	f([]int{1, 3, 5}, 0, ErrNotFound)
+	f([]int{}, -1)
+	f([]int{1}, -1)
+	f([]int{1}, -1)
+	f([]int{2}, 0)
+	f([]int{1, 2}, 1)
+	f([]int{1, 2, 3}, 1)
+	f([]int{1, 3, 5, 7, 9, 2}, 5)
+	f([]int{1, 3, 5}, -1)
 }
 
 func TestSliceJoinInt(t *testing.T) {
@@ -1124,6 +1166,30 @@ func TestSliceWindowInt(t *testing.T) {
 	f([]int{1, 2, 3, 4}, 2, [][]int{{1, 2}, {2, 3}, {3, 4}})
 	f([]int{1, 2, 3, 4}, 3, [][]int{{1, 2, 3}, {2, 3, 4}})
 	f([]int{1, 2, 3, 4}, 4, [][]int{{1, 2, 3, 4}})
+}
+
+func TestSliceWithoutInt(t *testing.T) {
+	f := func(given []int, items []int, expected []int) {
+		actual := SliceInt{given}.Without(items...)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{}, []int{})
+	f([]int{}, []int{1, 2}, []int{})
+
+	f([]int{1}, []int{1}, []int{})
+	f([]int{1}, []int{1, 2}, []int{})
+	f([]int{1}, []int{2}, []int{1})
+
+	f([]int{1, 2, 3, 4}, []int{1}, []int{2, 3, 4})
+	f([]int{1, 2, 3, 4}, []int{2}, []int{1, 3, 4})
+	f([]int{1, 2, 3, 4}, []int{4}, []int{1, 2, 3})
+
+	f([]int{1, 2, 3, 4}, []int{1, 2}, []int{3, 4})
+	f([]int{1, 2, 3, 4}, []int{1, 2, 4}, []int{3})
+	f([]int{1, 2, 3, 4}, []int{1, 2, 3, 4}, []int{})
+	f([]int{1, 2, 3, 4}, []int{2, 4}, []int{1, 3})
+
+	f([]int{1, 1, 2, 3, 1, 4, 1}, []int{1}, []int{2, 3, 4})
 }
 
 func TestChannelToSliceInt(t *testing.T) {
@@ -1938,6 +2004,19 @@ func TestAsyncSliceReduceInt(t *testing.T) {
 	f(sum, []int{1, 2, 3, 4, 5}, 15)
 }
 
+func TestSlicesConcatInt8(t *testing.T) {
+	f := func(given [][]int8, expected []int8) {
+		actual := SlicesInt8{given}.Concat()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([][]int8{}, []int8{})
+	f([][]int8{{}}, []int8{})
+	f([][]int8{{1}}, []int8{1})
+	f([][]int8{{1}, {}}, []int8{1})
+	f([][]int8{{}, {1}}, []int8{1})
+	f([][]int8{{1, 2}, {3, 4, 5}}, []int8{1, 2, 3, 4, 5})
+}
+
 func TestSlicesProductInt8(t *testing.T) {
 	f := func(given [][]int8, expected [][]int8) {
 		actual := make([][]int8, 0)
@@ -1954,6 +2033,26 @@ func TestSlicesProductInt8(t *testing.T) {
 	}
 	f([][]int8{{1, 2}, {3, 4}}, [][]int8{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
 	f([][]int8{{1, 2}, {3}, {4, 5}}, [][]int8{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+}
+
+func TestSlicesZipInt8(t *testing.T) {
+	f := func(given [][]int8, expected [][]int8) {
+		actual := make([][]int8, 0)
+		i := 0
+		s := SlicesInt8{given}
+		for el := range s.Zip() {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([][]int8{}, [][]int8{})
+	f([][]int8{{1}, {2}}, [][]int8{{1, 2}})
+	f([][]int8{{1, 2}, {3, 4}}, [][]int8{{1, 3}, {2, 4}})
+	f([][]int8{{1, 2, 3}, {4, 5}}, [][]int8{{1, 4}, {2, 5}})
 }
 
 func TestSequenceCountInt8(t *testing.T) {
@@ -2063,6 +2162,16 @@ func TestSliceAllInt8(t *testing.T) {
 	f([]int8{2, 4}, true)
 	f([]int8{2, 4, 1}, false)
 	f([]int8{1, 2, 4}, false)
+}
+
+func TestSliceChoiceInt8(t *testing.T) {
+	f := func(given []int8, seed int64, expected int8) {
+		actual, _ := SliceInt8{given}.Choice(seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{1}, 0, 1)
+	f([]int8{1, 2, 3}, 1, 3)
+	f([]int8{1, 2, 3}, 2, 2)
 }
 
 func TestSliceChunkByInt8Int(t *testing.T) {
@@ -2425,20 +2534,19 @@ func TestSliceFindInt8(t *testing.T) {
 }
 
 func TestSliceFindIndexInt8(t *testing.T) {
-	f := func(given []int8, expectedInd int, expectedErr error) {
+	f := func(given []int8, expectedInd int) {
 		even := func(t int8) bool { return (t % 2) == 0 }
-		index, err := SliceInt8{given}.FindIndex(even)
+		index := SliceInt8{given}.FindIndex(even)
 		assert.Equal(t, expectedInd, index, "they should be equal")
-		assert.Equal(t, expectedErr, err, "they should be equal")
 	}
-	f([]int8{}, 0, ErrNotFound)
-	f([]int8{1}, 0, ErrNotFound)
-	f([]int8{1}, 0, ErrNotFound)
-	f([]int8{2}, 0, nil)
-	f([]int8{1, 2}, 1, nil)
-	f([]int8{1, 2, 3}, 1, nil)
-	f([]int8{1, 3, 5, 7, 9, 2}, 5, nil)
-	f([]int8{1, 3, 5}, 0, ErrNotFound)
+	f([]int8{}, -1)
+	f([]int8{1}, -1)
+	f([]int8{1}, -1)
+	f([]int8{2}, 0)
+	f([]int8{1, 2}, 1)
+	f([]int8{1, 2, 3}, 1)
+	f([]int8{1, 3, 5, 7, 9, 2}, 5)
+	f([]int8{1, 3, 5}, -1)
 }
 
 func TestSliceJoinInt8(t *testing.T) {
@@ -3057,6 +3165,30 @@ func TestSliceWindowInt8(t *testing.T) {
 	f([]int8{1, 2, 3, 4}, 2, [][]int8{{1, 2}, {2, 3}, {3, 4}})
 	f([]int8{1, 2, 3, 4}, 3, [][]int8{{1, 2, 3}, {2, 3, 4}})
 	f([]int8{1, 2, 3, 4}, 4, [][]int8{{1, 2, 3, 4}})
+}
+
+func TestSliceWithoutInt8(t *testing.T) {
+	f := func(given []int8, items []int8, expected []int8) {
+		actual := SliceInt8{given}.Without(items...)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{}, []int8{})
+	f([]int8{}, []int8{1, 2}, []int8{})
+
+	f([]int8{1}, []int8{1}, []int8{})
+	f([]int8{1}, []int8{1, 2}, []int8{})
+	f([]int8{1}, []int8{2}, []int8{1})
+
+	f([]int8{1, 2, 3, 4}, []int8{1}, []int8{2, 3, 4})
+	f([]int8{1, 2, 3, 4}, []int8{2}, []int8{1, 3, 4})
+	f([]int8{1, 2, 3, 4}, []int8{4}, []int8{1, 2, 3})
+
+	f([]int8{1, 2, 3, 4}, []int8{1, 2}, []int8{3, 4})
+	f([]int8{1, 2, 3, 4}, []int8{1, 2, 4}, []int8{3})
+	f([]int8{1, 2, 3, 4}, []int8{1, 2, 3, 4}, []int8{})
+	f([]int8{1, 2, 3, 4}, []int8{2, 4}, []int8{1, 3})
+
+	f([]int8{1, 1, 2, 3, 1, 4, 1}, []int8{1}, []int8{2, 3, 4})
 }
 
 func TestChannelToSliceInt8(t *testing.T) {
@@ -3871,6 +4003,19 @@ func TestAsyncSliceReduceInt8(t *testing.T) {
 	f(sum, []int8{1, 2, 3, 4, 5}, 15)
 }
 
+func TestSlicesConcatInt16(t *testing.T) {
+	f := func(given [][]int16, expected []int16) {
+		actual := SlicesInt16{given}.Concat()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([][]int16{}, []int16{})
+	f([][]int16{{}}, []int16{})
+	f([][]int16{{1}}, []int16{1})
+	f([][]int16{{1}, {}}, []int16{1})
+	f([][]int16{{}, {1}}, []int16{1})
+	f([][]int16{{1, 2}, {3, 4, 5}}, []int16{1, 2, 3, 4, 5})
+}
+
 func TestSlicesProductInt16(t *testing.T) {
 	f := func(given [][]int16, expected [][]int16) {
 		actual := make([][]int16, 0)
@@ -3887,6 +4032,26 @@ func TestSlicesProductInt16(t *testing.T) {
 	}
 	f([][]int16{{1, 2}, {3, 4}}, [][]int16{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
 	f([][]int16{{1, 2}, {3}, {4, 5}}, [][]int16{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+}
+
+func TestSlicesZipInt16(t *testing.T) {
+	f := func(given [][]int16, expected [][]int16) {
+		actual := make([][]int16, 0)
+		i := 0
+		s := SlicesInt16{given}
+		for el := range s.Zip() {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([][]int16{}, [][]int16{})
+	f([][]int16{{1}, {2}}, [][]int16{{1, 2}})
+	f([][]int16{{1, 2}, {3, 4}}, [][]int16{{1, 3}, {2, 4}})
+	f([][]int16{{1, 2, 3}, {4, 5}}, [][]int16{{1, 4}, {2, 5}})
 }
 
 func TestSequenceCountInt16(t *testing.T) {
@@ -3996,6 +4161,16 @@ func TestSliceAllInt16(t *testing.T) {
 	f([]int16{2, 4}, true)
 	f([]int16{2, 4, 1}, false)
 	f([]int16{1, 2, 4}, false)
+}
+
+func TestSliceChoiceInt16(t *testing.T) {
+	f := func(given []int16, seed int64, expected int16) {
+		actual, _ := SliceInt16{given}.Choice(seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{1}, 0, 1)
+	f([]int16{1, 2, 3}, 1, 3)
+	f([]int16{1, 2, 3}, 2, 2)
 }
 
 func TestSliceChunkByInt16Int(t *testing.T) {
@@ -4358,20 +4533,19 @@ func TestSliceFindInt16(t *testing.T) {
 }
 
 func TestSliceFindIndexInt16(t *testing.T) {
-	f := func(given []int16, expectedInd int, expectedErr error) {
+	f := func(given []int16, expectedInd int) {
 		even := func(t int16) bool { return (t % 2) == 0 }
-		index, err := SliceInt16{given}.FindIndex(even)
+		index := SliceInt16{given}.FindIndex(even)
 		assert.Equal(t, expectedInd, index, "they should be equal")
-		assert.Equal(t, expectedErr, err, "they should be equal")
 	}
-	f([]int16{}, 0, ErrNotFound)
-	f([]int16{1}, 0, ErrNotFound)
-	f([]int16{1}, 0, ErrNotFound)
-	f([]int16{2}, 0, nil)
-	f([]int16{1, 2}, 1, nil)
-	f([]int16{1, 2, 3}, 1, nil)
-	f([]int16{1, 3, 5, 7, 9, 2}, 5, nil)
-	f([]int16{1, 3, 5}, 0, ErrNotFound)
+	f([]int16{}, -1)
+	f([]int16{1}, -1)
+	f([]int16{1}, -1)
+	f([]int16{2}, 0)
+	f([]int16{1, 2}, 1)
+	f([]int16{1, 2, 3}, 1)
+	f([]int16{1, 3, 5, 7, 9, 2}, 5)
+	f([]int16{1, 3, 5}, -1)
 }
 
 func TestSliceJoinInt16(t *testing.T) {
@@ -4990,6 +5164,30 @@ func TestSliceWindowInt16(t *testing.T) {
 	f([]int16{1, 2, 3, 4}, 2, [][]int16{{1, 2}, {2, 3}, {3, 4}})
 	f([]int16{1, 2, 3, 4}, 3, [][]int16{{1, 2, 3}, {2, 3, 4}})
 	f([]int16{1, 2, 3, 4}, 4, [][]int16{{1, 2, 3, 4}})
+}
+
+func TestSliceWithoutInt16(t *testing.T) {
+	f := func(given []int16, items []int16, expected []int16) {
+		actual := SliceInt16{given}.Without(items...)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{}, []int16{})
+	f([]int16{}, []int16{1, 2}, []int16{})
+
+	f([]int16{1}, []int16{1}, []int16{})
+	f([]int16{1}, []int16{1, 2}, []int16{})
+	f([]int16{1}, []int16{2}, []int16{1})
+
+	f([]int16{1, 2, 3, 4}, []int16{1}, []int16{2, 3, 4})
+	f([]int16{1, 2, 3, 4}, []int16{2}, []int16{1, 3, 4})
+	f([]int16{1, 2, 3, 4}, []int16{4}, []int16{1, 2, 3})
+
+	f([]int16{1, 2, 3, 4}, []int16{1, 2}, []int16{3, 4})
+	f([]int16{1, 2, 3, 4}, []int16{1, 2, 4}, []int16{3})
+	f([]int16{1, 2, 3, 4}, []int16{1, 2, 3, 4}, []int16{})
+	f([]int16{1, 2, 3, 4}, []int16{2, 4}, []int16{1, 3})
+
+	f([]int16{1, 1, 2, 3, 1, 4, 1}, []int16{1}, []int16{2, 3, 4})
 }
 
 func TestChannelToSliceInt16(t *testing.T) {
@@ -5804,6 +6002,19 @@ func TestAsyncSliceReduceInt16(t *testing.T) {
 	f(sum, []int16{1, 2, 3, 4, 5}, 15)
 }
 
+func TestSlicesConcatInt32(t *testing.T) {
+	f := func(given [][]int32, expected []int32) {
+		actual := SlicesInt32{given}.Concat()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([][]int32{}, []int32{})
+	f([][]int32{{}}, []int32{})
+	f([][]int32{{1}}, []int32{1})
+	f([][]int32{{1}, {}}, []int32{1})
+	f([][]int32{{}, {1}}, []int32{1})
+	f([][]int32{{1, 2}, {3, 4, 5}}, []int32{1, 2, 3, 4, 5})
+}
+
 func TestSlicesProductInt32(t *testing.T) {
 	f := func(given [][]int32, expected [][]int32) {
 		actual := make([][]int32, 0)
@@ -5820,6 +6031,26 @@ func TestSlicesProductInt32(t *testing.T) {
 	}
 	f([][]int32{{1, 2}, {3, 4}}, [][]int32{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
 	f([][]int32{{1, 2}, {3}, {4, 5}}, [][]int32{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+}
+
+func TestSlicesZipInt32(t *testing.T) {
+	f := func(given [][]int32, expected [][]int32) {
+		actual := make([][]int32, 0)
+		i := 0
+		s := SlicesInt32{given}
+		for el := range s.Zip() {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([][]int32{}, [][]int32{})
+	f([][]int32{{1}, {2}}, [][]int32{{1, 2}})
+	f([][]int32{{1, 2}, {3, 4}}, [][]int32{{1, 3}, {2, 4}})
+	f([][]int32{{1, 2, 3}, {4, 5}}, [][]int32{{1, 4}, {2, 5}})
 }
 
 func TestSequenceCountInt32(t *testing.T) {
@@ -5929,6 +6160,16 @@ func TestSliceAllInt32(t *testing.T) {
 	f([]int32{2, 4}, true)
 	f([]int32{2, 4, 1}, false)
 	f([]int32{1, 2, 4}, false)
+}
+
+func TestSliceChoiceInt32(t *testing.T) {
+	f := func(given []int32, seed int64, expected int32) {
+		actual, _ := SliceInt32{given}.Choice(seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{1}, 0, 1)
+	f([]int32{1, 2, 3}, 1, 3)
+	f([]int32{1, 2, 3}, 2, 2)
 }
 
 func TestSliceChunkByInt32Int(t *testing.T) {
@@ -6291,20 +6532,19 @@ func TestSliceFindInt32(t *testing.T) {
 }
 
 func TestSliceFindIndexInt32(t *testing.T) {
-	f := func(given []int32, expectedInd int, expectedErr error) {
+	f := func(given []int32, expectedInd int) {
 		even := func(t int32) bool { return (t % 2) == 0 }
-		index, err := SliceInt32{given}.FindIndex(even)
+		index := SliceInt32{given}.FindIndex(even)
 		assert.Equal(t, expectedInd, index, "they should be equal")
-		assert.Equal(t, expectedErr, err, "they should be equal")
 	}
-	f([]int32{}, 0, ErrNotFound)
-	f([]int32{1}, 0, ErrNotFound)
-	f([]int32{1}, 0, ErrNotFound)
-	f([]int32{2}, 0, nil)
-	f([]int32{1, 2}, 1, nil)
-	f([]int32{1, 2, 3}, 1, nil)
-	f([]int32{1, 3, 5, 7, 9, 2}, 5, nil)
-	f([]int32{1, 3, 5}, 0, ErrNotFound)
+	f([]int32{}, -1)
+	f([]int32{1}, -1)
+	f([]int32{1}, -1)
+	f([]int32{2}, 0)
+	f([]int32{1, 2}, 1)
+	f([]int32{1, 2, 3}, 1)
+	f([]int32{1, 3, 5, 7, 9, 2}, 5)
+	f([]int32{1, 3, 5}, -1)
 }
 
 func TestSliceJoinInt32(t *testing.T) {
@@ -6923,6 +7163,30 @@ func TestSliceWindowInt32(t *testing.T) {
 	f([]int32{1, 2, 3, 4}, 2, [][]int32{{1, 2}, {2, 3}, {3, 4}})
 	f([]int32{1, 2, 3, 4}, 3, [][]int32{{1, 2, 3}, {2, 3, 4}})
 	f([]int32{1, 2, 3, 4}, 4, [][]int32{{1, 2, 3, 4}})
+}
+
+func TestSliceWithoutInt32(t *testing.T) {
+	f := func(given []int32, items []int32, expected []int32) {
+		actual := SliceInt32{given}.Without(items...)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{}, []int32{})
+	f([]int32{}, []int32{1, 2}, []int32{})
+
+	f([]int32{1}, []int32{1}, []int32{})
+	f([]int32{1}, []int32{1, 2}, []int32{})
+	f([]int32{1}, []int32{2}, []int32{1})
+
+	f([]int32{1, 2, 3, 4}, []int32{1}, []int32{2, 3, 4})
+	f([]int32{1, 2, 3, 4}, []int32{2}, []int32{1, 3, 4})
+	f([]int32{1, 2, 3, 4}, []int32{4}, []int32{1, 2, 3})
+
+	f([]int32{1, 2, 3, 4}, []int32{1, 2}, []int32{3, 4})
+	f([]int32{1, 2, 3, 4}, []int32{1, 2, 4}, []int32{3})
+	f([]int32{1, 2, 3, 4}, []int32{1, 2, 3, 4}, []int32{})
+	f([]int32{1, 2, 3, 4}, []int32{2, 4}, []int32{1, 3})
+
+	f([]int32{1, 1, 2, 3, 1, 4, 1}, []int32{1}, []int32{2, 3, 4})
 }
 
 func TestChannelToSliceInt32(t *testing.T) {
@@ -7737,6 +8001,19 @@ func TestAsyncSliceReduceInt32(t *testing.T) {
 	f(sum, []int32{1, 2, 3, 4, 5}, 15)
 }
 
+func TestSlicesConcatInt64(t *testing.T) {
+	f := func(given [][]int64, expected []int64) {
+		actual := SlicesInt64{given}.Concat()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([][]int64{}, []int64{})
+	f([][]int64{{}}, []int64{})
+	f([][]int64{{1}}, []int64{1})
+	f([][]int64{{1}, {}}, []int64{1})
+	f([][]int64{{}, {1}}, []int64{1})
+	f([][]int64{{1, 2}, {3, 4, 5}}, []int64{1, 2, 3, 4, 5})
+}
+
 func TestSlicesProductInt64(t *testing.T) {
 	f := func(given [][]int64, expected [][]int64) {
 		actual := make([][]int64, 0)
@@ -7753,6 +8030,26 @@ func TestSlicesProductInt64(t *testing.T) {
 	}
 	f([][]int64{{1, 2}, {3, 4}}, [][]int64{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
 	f([][]int64{{1, 2}, {3}, {4, 5}}, [][]int64{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+}
+
+func TestSlicesZipInt64(t *testing.T) {
+	f := func(given [][]int64, expected [][]int64) {
+		actual := make([][]int64, 0)
+		i := 0
+		s := SlicesInt64{given}
+		for el := range s.Zip() {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([][]int64{}, [][]int64{})
+	f([][]int64{{1}, {2}}, [][]int64{{1, 2}})
+	f([][]int64{{1, 2}, {3, 4}}, [][]int64{{1, 3}, {2, 4}})
+	f([][]int64{{1, 2, 3}, {4, 5}}, [][]int64{{1, 4}, {2, 5}})
 }
 
 func TestSequenceCountInt64(t *testing.T) {
@@ -7862,6 +8159,16 @@ func TestSliceAllInt64(t *testing.T) {
 	f([]int64{2, 4}, true)
 	f([]int64{2, 4, 1}, false)
 	f([]int64{1, 2, 4}, false)
+}
+
+func TestSliceChoiceInt64(t *testing.T) {
+	f := func(given []int64, seed int64, expected int64) {
+		actual, _ := SliceInt64{given}.Choice(seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{1}, 0, 1)
+	f([]int64{1, 2, 3}, 1, 3)
+	f([]int64{1, 2, 3}, 2, 2)
 }
 
 func TestSliceChunkByInt64Int(t *testing.T) {
@@ -8224,20 +8531,19 @@ func TestSliceFindInt64(t *testing.T) {
 }
 
 func TestSliceFindIndexInt64(t *testing.T) {
-	f := func(given []int64, expectedInd int, expectedErr error) {
+	f := func(given []int64, expectedInd int) {
 		even := func(t int64) bool { return (t % 2) == 0 }
-		index, err := SliceInt64{given}.FindIndex(even)
+		index := SliceInt64{given}.FindIndex(even)
 		assert.Equal(t, expectedInd, index, "they should be equal")
-		assert.Equal(t, expectedErr, err, "they should be equal")
 	}
-	f([]int64{}, 0, ErrNotFound)
-	f([]int64{1}, 0, ErrNotFound)
-	f([]int64{1}, 0, ErrNotFound)
-	f([]int64{2}, 0, nil)
-	f([]int64{1, 2}, 1, nil)
-	f([]int64{1, 2, 3}, 1, nil)
-	f([]int64{1, 3, 5, 7, 9, 2}, 5, nil)
-	f([]int64{1, 3, 5}, 0, ErrNotFound)
+	f([]int64{}, -1)
+	f([]int64{1}, -1)
+	f([]int64{1}, -1)
+	f([]int64{2}, 0)
+	f([]int64{1, 2}, 1)
+	f([]int64{1, 2, 3}, 1)
+	f([]int64{1, 3, 5, 7, 9, 2}, 5)
+	f([]int64{1, 3, 5}, -1)
 }
 
 func TestSliceJoinInt64(t *testing.T) {
@@ -8856,6 +9162,30 @@ func TestSliceWindowInt64(t *testing.T) {
 	f([]int64{1, 2, 3, 4}, 2, [][]int64{{1, 2}, {2, 3}, {3, 4}})
 	f([]int64{1, 2, 3, 4}, 3, [][]int64{{1, 2, 3}, {2, 3, 4}})
 	f([]int64{1, 2, 3, 4}, 4, [][]int64{{1, 2, 3, 4}})
+}
+
+func TestSliceWithoutInt64(t *testing.T) {
+	f := func(given []int64, items []int64, expected []int64) {
+		actual := SliceInt64{given}.Without(items...)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{}, []int64{})
+	f([]int64{}, []int64{1, 2}, []int64{})
+
+	f([]int64{1}, []int64{1}, []int64{})
+	f([]int64{1}, []int64{1, 2}, []int64{})
+	f([]int64{1}, []int64{2}, []int64{1})
+
+	f([]int64{1, 2, 3, 4}, []int64{1}, []int64{2, 3, 4})
+	f([]int64{1, 2, 3, 4}, []int64{2}, []int64{1, 3, 4})
+	f([]int64{1, 2, 3, 4}, []int64{4}, []int64{1, 2, 3})
+
+	f([]int64{1, 2, 3, 4}, []int64{1, 2}, []int64{3, 4})
+	f([]int64{1, 2, 3, 4}, []int64{1, 2, 4}, []int64{3})
+	f([]int64{1, 2, 3, 4}, []int64{1, 2, 3, 4}, []int64{})
+	f([]int64{1, 2, 3, 4}, []int64{2, 4}, []int64{1, 3})
+
+	f([]int64{1, 1, 2, 3, 1, 4, 1}, []int64{1}, []int64{2, 3, 4})
 }
 
 func TestChannelToSliceInt64(t *testing.T) {

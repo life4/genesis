@@ -50,3 +50,30 @@ func (s Slice) Without(elements ...T) []T {
 }
 ```
 
+## Tests
+
+```go
+func TestSliceWithout(t *testing.T) {
+	f := func(given []T, items []T, expected []T) {
+		actual := Slice{given}.Without(items...)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{}, []T{})
+	f([]T{}, []T{1, 2}, []T{})
+
+	f([]T{1}, []T{1}, []T{})
+	f([]T{1}, []T{1, 2}, []T{})
+	f([]T{1}, []T{2}, []T{1})
+
+	f([]T{1, 2, 3, 4}, []T{1}, []T{2, 3, 4})
+	f([]T{1, 2, 3, 4}, []T{2}, []T{1, 3, 4})
+	f([]T{1, 2, 3, 4}, []T{4}, []T{1, 2, 3})
+
+	f([]T{1, 2, 3, 4}, []T{1, 2}, []T{3, 4})
+	f([]T{1, 2, 3, 4}, []T{1, 2, 4}, []T{3})
+	f([]T{1, 2, 3, 4}, []T{1, 2, 3, 4}, []T{})
+	f([]T{1, 2, 3, 4}, []T{2, 4}, []T{1, 3})
+
+	f([]T{1, 1, 2, 3, 1, 4, 1}, []T{1}, []T{2, 3, 4})
+}
+```

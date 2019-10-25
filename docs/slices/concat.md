@@ -42,3 +42,19 @@ func (s Slices) Concat() []T {
 }
 ```
 
+## Tests
+
+```go
+func TestSlicesConcat(t *testing.T) {
+	f := func(given [][]T, expected []T) {
+		actual := Slices{given}.Concat()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([][]T{}, []T{})
+	f([][]T{{}}, []T{})
+	f([][]T{{1}}, []T{1})
+	f([][]T{{1}, {}}, []T{1})
+	f([][]T{{}, {1}}, []T{1})
+	f([][]T{{1, 2}, {3, 4, 5}}, []T{1, 2, 3, 4, 5})
+}
+```

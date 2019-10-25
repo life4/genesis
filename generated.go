@@ -1064,14 +1064,15 @@ func (s SliceBool) Find(f func(el bool) bool) (bool, error) {
 	return tmp, ErrNotFound
 }
 
-// FindIndex is like Find, but return element index instead of element itself
-func (s SliceBool) FindIndex(f func(el bool) bool) (int, error) {
+// FindIndex is like Find, but return element index instead of element itself.
+// Returns -1 if element not found
+func (s SliceBool) FindIndex(f func(el bool) bool) int {
 	for i, el := range s.Data {
 		if f(el) {
-			return i, nil
+			return i
 		}
 	}
-	return 0, ErrNotFound
+	return -1
 }
 
 // GroupBy groups element from array by value returned by f
@@ -3790,24 +3791,32 @@ func (s SlicesBool) product(c chan []bool, left []bool, pos int) {
 	}
 }
 
-// Zip returns array of arrays of elements from given arrs
-// on the same position
-func (s SlicesBool) Zip() [][]bool {
+// Zip returns chan of arrays of elements from given arrs on the same position.
+func (s SlicesBool) Zip() chan []bool {
+	if len(s.Data) == 0 {
+		result := make(chan []bool)
+		close(result)
+		return result
+	}
+
 	size := len(s.Data[0])
 	for _, arr := range s.Data[1:] {
-		if len(arr) > size {
+		if len(arr) < size {
 			size = len(arr)
 		}
 	}
 
-	result := make([][]bool, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]bool, 0, len(s.Data))
-		for _, arr := range s.Data {
-			chunk = append(chunk, arr[i])
+	result := make(chan []bool, 1)
+	go func() {
+		for i := 0; i < size; i++ {
+			chunk := make([]bool, 0, len(s.Data))
+			for _, arr := range s.Data {
+				chunk = append(chunk, arr[i])
+			}
+			result <- chunk
 		}
-		result = append(result, chunk)
-	}
+		close(result)
+	}()
 	return result
 }
 
@@ -4850,14 +4859,15 @@ func (s SliceByte) Find(f func(el byte) bool) (byte, error) {
 	return tmp, ErrNotFound
 }
 
-// FindIndex is like Find, but return element index instead of element itself
-func (s SliceByte) FindIndex(f func(el byte) bool) (int, error) {
+// FindIndex is like Find, but return element index instead of element itself.
+// Returns -1 if element not found
+func (s SliceByte) FindIndex(f func(el byte) bool) int {
 	for i, el := range s.Data {
 		if f(el) {
-			return i, nil
+			return i
 		}
 	}
-	return 0, ErrNotFound
+	return -1
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -7704,24 +7714,32 @@ func (s SlicesByte) product(c chan []byte, left []byte, pos int) {
 	}
 }
 
-// Zip returns array of arrays of elements from given arrs
-// on the same position
-func (s SlicesByte) Zip() [][]byte {
+// Zip returns chan of arrays of elements from given arrs on the same position.
+func (s SlicesByte) Zip() chan []byte {
+	if len(s.Data) == 0 {
+		result := make(chan []byte)
+		close(result)
+		return result
+	}
+
 	size := len(s.Data[0])
 	for _, arr := range s.Data[1:] {
-		if len(arr) > size {
+		if len(arr) < size {
 			size = len(arr)
 		}
 	}
 
-	result := make([][]byte, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]byte, 0, len(s.Data))
-		for _, arr := range s.Data {
-			chunk = append(chunk, arr[i])
+	result := make(chan []byte, 1)
+	go func() {
+		for i := 0; i < size; i++ {
+			chunk := make([]byte, 0, len(s.Data))
+			for _, arr := range s.Data {
+				chunk = append(chunk, arr[i])
+			}
+			result <- chunk
 		}
-		result = append(result, chunk)
-	}
+		close(result)
+	}()
 	return result
 }
 
@@ -8764,14 +8782,15 @@ func (s SliceString) Find(f func(el string) bool) (string, error) {
 	return tmp, ErrNotFound
 }
 
-// FindIndex is like Find, but return element index instead of element itself
-func (s SliceString) FindIndex(f func(el string) bool) (int, error) {
+// FindIndex is like Find, but return element index instead of element itself.
+// Returns -1 if element not found
+func (s SliceString) FindIndex(f func(el string) bool) int {
 	for i, el := range s.Data {
 		if f(el) {
-			return i, nil
+			return i
 		}
 	}
-	return 0, ErrNotFound
+	return -1
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -11618,24 +11637,32 @@ func (s SlicesString) product(c chan []string, left []string, pos int) {
 	}
 }
 
-// Zip returns array of arrays of elements from given arrs
-// on the same position
-func (s SlicesString) Zip() [][]string {
+// Zip returns chan of arrays of elements from given arrs on the same position.
+func (s SlicesString) Zip() chan []string {
+	if len(s.Data) == 0 {
+		result := make(chan []string)
+		close(result)
+		return result
+	}
+
 	size := len(s.Data[0])
 	for _, arr := range s.Data[1:] {
-		if len(arr) > size {
+		if len(arr) < size {
 			size = len(arr)
 		}
 	}
 
-	result := make([][]string, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]string, 0, len(s.Data))
-		for _, arr := range s.Data {
-			chunk = append(chunk, arr[i])
+	result := make(chan []string, 1)
+	go func() {
+		for i := 0; i < size; i++ {
+			chunk := make([]string, 0, len(s.Data))
+			for _, arr := range s.Data {
+				chunk = append(chunk, arr[i])
+			}
+			result <- chunk
 		}
-		result = append(result, chunk)
-	}
+		close(result)
+	}()
 	return result
 }
 
@@ -12678,14 +12705,15 @@ func (s SliceFloat32) Find(f func(el float32) bool) (float32, error) {
 	return tmp, ErrNotFound
 }
 
-// FindIndex is like Find, but return element index instead of element itself
-func (s SliceFloat32) FindIndex(f func(el float32) bool) (int, error) {
+// FindIndex is like Find, but return element index instead of element itself.
+// Returns -1 if element not found
+func (s SliceFloat32) FindIndex(f func(el float32) bool) int {
 	for i, el := range s.Data {
 		if f(el) {
-			return i, nil
+			return i
 		}
 	}
-	return 0, ErrNotFound
+	return -1
 }
 
 // GroupBy groups element from array by value returned by f
@@ -15572,24 +15600,32 @@ func (s SlicesFloat32) product(c chan []float32, left []float32, pos int) {
 	}
 }
 
-// Zip returns array of arrays of elements from given arrs
-// on the same position
-func (s SlicesFloat32) Zip() [][]float32 {
+// Zip returns chan of arrays of elements from given arrs on the same position.
+func (s SlicesFloat32) Zip() chan []float32 {
+	if len(s.Data) == 0 {
+		result := make(chan []float32)
+		close(result)
+		return result
+	}
+
 	size := len(s.Data[0])
 	for _, arr := range s.Data[1:] {
-		if len(arr) > size {
+		if len(arr) < size {
 			size = len(arr)
 		}
 	}
 
-	result := make([][]float32, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]float32, 0, len(s.Data))
-		for _, arr := range s.Data {
-			chunk = append(chunk, arr[i])
+	result := make(chan []float32, 1)
+	go func() {
+		for i := 0; i < size; i++ {
+			chunk := make([]float32, 0, len(s.Data))
+			for _, arr := range s.Data {
+				chunk = append(chunk, arr[i])
+			}
+			result <- chunk
 		}
-		result = append(result, chunk)
-	}
+		close(result)
+	}()
 	return result
 }
 
@@ -16632,14 +16668,15 @@ func (s SliceFloat64) Find(f func(el float64) bool) (float64, error) {
 	return tmp, ErrNotFound
 }
 
-// FindIndex is like Find, but return element index instead of element itself
-func (s SliceFloat64) FindIndex(f func(el float64) bool) (int, error) {
+// FindIndex is like Find, but return element index instead of element itself.
+// Returns -1 if element not found
+func (s SliceFloat64) FindIndex(f func(el float64) bool) int {
 	for i, el := range s.Data {
 		if f(el) {
-			return i, nil
+			return i
 		}
 	}
-	return 0, ErrNotFound
+	return -1
 }
 
 // GroupBy groups element from array by value returned by f
@@ -19526,24 +19563,32 @@ func (s SlicesFloat64) product(c chan []float64, left []float64, pos int) {
 	}
 }
 
-// Zip returns array of arrays of elements from given arrs
-// on the same position
-func (s SlicesFloat64) Zip() [][]float64 {
+// Zip returns chan of arrays of elements from given arrs on the same position.
+func (s SlicesFloat64) Zip() chan []float64 {
+	if len(s.Data) == 0 {
+		result := make(chan []float64)
+		close(result)
+		return result
+	}
+
 	size := len(s.Data[0])
 	for _, arr := range s.Data[1:] {
-		if len(arr) > size {
+		if len(arr) < size {
 			size = len(arr)
 		}
 	}
 
-	result := make([][]float64, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]float64, 0, len(s.Data))
-		for _, arr := range s.Data {
-			chunk = append(chunk, arr[i])
+	result := make(chan []float64, 1)
+	go func() {
+		for i := 0; i < size; i++ {
+			chunk := make([]float64, 0, len(s.Data))
+			for _, arr := range s.Data {
+				chunk = append(chunk, arr[i])
+			}
+			result <- chunk
 		}
-		result = append(result, chunk)
-	}
+		close(result)
+	}()
 	return result
 }
 
@@ -20586,14 +20631,15 @@ func (s SliceInt) Find(f func(el int) bool) (int, error) {
 	return tmp, ErrNotFound
 }
 
-// FindIndex is like Find, but return element index instead of element itself
-func (s SliceInt) FindIndex(f func(el int) bool) (int, error) {
+// FindIndex is like Find, but return element index instead of element itself.
+// Returns -1 if element not found
+func (s SliceInt) FindIndex(f func(el int) bool) int {
 	for i, el := range s.Data {
 		if f(el) {
-			return i, nil
+			return i
 		}
 	}
-	return 0, ErrNotFound
+	return -1
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -23489,24 +23535,32 @@ func (s SlicesInt) product(c chan []int, left []int, pos int) {
 	}
 }
 
-// Zip returns array of arrays of elements from given arrs
-// on the same position
-func (s SlicesInt) Zip() [][]int {
+// Zip returns chan of arrays of elements from given arrs on the same position.
+func (s SlicesInt) Zip() chan []int {
+	if len(s.Data) == 0 {
+		result := make(chan []int)
+		close(result)
+		return result
+	}
+
 	size := len(s.Data[0])
 	for _, arr := range s.Data[1:] {
-		if len(arr) > size {
+		if len(arr) < size {
 			size = len(arr)
 		}
 	}
 
-	result := make([][]int, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]int, 0, len(s.Data))
-		for _, arr := range s.Data {
-			chunk = append(chunk, arr[i])
+	result := make(chan []int, 1)
+	go func() {
+		for i := 0; i < size; i++ {
+			chunk := make([]int, 0, len(s.Data))
+			for _, arr := range s.Data {
+				chunk = append(chunk, arr[i])
+			}
+			result <- chunk
 		}
-		result = append(result, chunk)
-	}
+		close(result)
+	}()
 	return result
 }
 
@@ -24549,14 +24603,15 @@ func (s SliceInt8) Find(f func(el int8) bool) (int8, error) {
 	return tmp, ErrNotFound
 }
 
-// FindIndex is like Find, but return element index instead of element itself
-func (s SliceInt8) FindIndex(f func(el int8) bool) (int, error) {
+// FindIndex is like Find, but return element index instead of element itself.
+// Returns -1 if element not found
+func (s SliceInt8) FindIndex(f func(el int8) bool) int {
 	for i, el := range s.Data {
 		if f(el) {
-			return i, nil
+			return i
 		}
 	}
-	return 0, ErrNotFound
+	return -1
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -27452,24 +27507,32 @@ func (s SlicesInt8) product(c chan []int8, left []int8, pos int) {
 	}
 }
 
-// Zip returns array of arrays of elements from given arrs
-// on the same position
-func (s SlicesInt8) Zip() [][]int8 {
+// Zip returns chan of arrays of elements from given arrs on the same position.
+func (s SlicesInt8) Zip() chan []int8 {
+	if len(s.Data) == 0 {
+		result := make(chan []int8)
+		close(result)
+		return result
+	}
+
 	size := len(s.Data[0])
 	for _, arr := range s.Data[1:] {
-		if len(arr) > size {
+		if len(arr) < size {
 			size = len(arr)
 		}
 	}
 
-	result := make([][]int8, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]int8, 0, len(s.Data))
-		for _, arr := range s.Data {
-			chunk = append(chunk, arr[i])
+	result := make(chan []int8, 1)
+	go func() {
+		for i := 0; i < size; i++ {
+			chunk := make([]int8, 0, len(s.Data))
+			for _, arr := range s.Data {
+				chunk = append(chunk, arr[i])
+			}
+			result <- chunk
 		}
-		result = append(result, chunk)
-	}
+		close(result)
+	}()
 	return result
 }
 
@@ -28512,14 +28575,15 @@ func (s SliceInt16) Find(f func(el int16) bool) (int16, error) {
 	return tmp, ErrNotFound
 }
 
-// FindIndex is like Find, but return element index instead of element itself
-func (s SliceInt16) FindIndex(f func(el int16) bool) (int, error) {
+// FindIndex is like Find, but return element index instead of element itself.
+// Returns -1 if element not found
+func (s SliceInt16) FindIndex(f func(el int16) bool) int {
 	for i, el := range s.Data {
 		if f(el) {
-			return i, nil
+			return i
 		}
 	}
-	return 0, ErrNotFound
+	return -1
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -31415,24 +31479,32 @@ func (s SlicesInt16) product(c chan []int16, left []int16, pos int) {
 	}
 }
 
-// Zip returns array of arrays of elements from given arrs
-// on the same position
-func (s SlicesInt16) Zip() [][]int16 {
+// Zip returns chan of arrays of elements from given arrs on the same position.
+func (s SlicesInt16) Zip() chan []int16 {
+	if len(s.Data) == 0 {
+		result := make(chan []int16)
+		close(result)
+		return result
+	}
+
 	size := len(s.Data[0])
 	for _, arr := range s.Data[1:] {
-		if len(arr) > size {
+		if len(arr) < size {
 			size = len(arr)
 		}
 	}
 
-	result := make([][]int16, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]int16, 0, len(s.Data))
-		for _, arr := range s.Data {
-			chunk = append(chunk, arr[i])
+	result := make(chan []int16, 1)
+	go func() {
+		for i := 0; i < size; i++ {
+			chunk := make([]int16, 0, len(s.Data))
+			for _, arr := range s.Data {
+				chunk = append(chunk, arr[i])
+			}
+			result <- chunk
 		}
-		result = append(result, chunk)
-	}
+		close(result)
+	}()
 	return result
 }
 
@@ -32475,14 +32547,15 @@ func (s SliceInt32) Find(f func(el int32) bool) (int32, error) {
 	return tmp, ErrNotFound
 }
 
-// FindIndex is like Find, but return element index instead of element itself
-func (s SliceInt32) FindIndex(f func(el int32) bool) (int, error) {
+// FindIndex is like Find, but return element index instead of element itself.
+// Returns -1 if element not found
+func (s SliceInt32) FindIndex(f func(el int32) bool) int {
 	for i, el := range s.Data {
 		if f(el) {
-			return i, nil
+			return i
 		}
 	}
-	return 0, ErrNotFound
+	return -1
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -35378,24 +35451,32 @@ func (s SlicesInt32) product(c chan []int32, left []int32, pos int) {
 	}
 }
 
-// Zip returns array of arrays of elements from given arrs
-// on the same position
-func (s SlicesInt32) Zip() [][]int32 {
+// Zip returns chan of arrays of elements from given arrs on the same position.
+func (s SlicesInt32) Zip() chan []int32 {
+	if len(s.Data) == 0 {
+		result := make(chan []int32)
+		close(result)
+		return result
+	}
+
 	size := len(s.Data[0])
 	for _, arr := range s.Data[1:] {
-		if len(arr) > size {
+		if len(arr) < size {
 			size = len(arr)
 		}
 	}
 
-	result := make([][]int32, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]int32, 0, len(s.Data))
-		for _, arr := range s.Data {
-			chunk = append(chunk, arr[i])
+	result := make(chan []int32, 1)
+	go func() {
+		for i := 0; i < size; i++ {
+			chunk := make([]int32, 0, len(s.Data))
+			for _, arr := range s.Data {
+				chunk = append(chunk, arr[i])
+			}
+			result <- chunk
 		}
-		result = append(result, chunk)
-	}
+		close(result)
+	}()
 	return result
 }
 
@@ -36438,14 +36519,15 @@ func (s SliceInt64) Find(f func(el int64) bool) (int64, error) {
 	return tmp, ErrNotFound
 }
 
-// FindIndex is like Find, but return element index instead of element itself
-func (s SliceInt64) FindIndex(f func(el int64) bool) (int, error) {
+// FindIndex is like Find, but return element index instead of element itself.
+// Returns -1 if element not found
+func (s SliceInt64) FindIndex(f func(el int64) bool) int {
 	for i, el := range s.Data {
 		if f(el) {
-			return i, nil
+			return i
 		}
 	}
-	return 0, ErrNotFound
+	return -1
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -39341,24 +39423,32 @@ func (s SlicesInt64) product(c chan []int64, left []int64, pos int) {
 	}
 }
 
-// Zip returns array of arrays of elements from given arrs
-// on the same position
-func (s SlicesInt64) Zip() [][]int64 {
+// Zip returns chan of arrays of elements from given arrs on the same position.
+func (s SlicesInt64) Zip() chan []int64 {
+	if len(s.Data) == 0 {
+		result := make(chan []int64)
+		close(result)
+		return result
+	}
+
 	size := len(s.Data[0])
 	for _, arr := range s.Data[1:] {
-		if len(arr) > size {
+		if len(arr) < size {
 			size = len(arr)
 		}
 	}
 
-	result := make([][]int64, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]int64, 0, len(s.Data))
-		for _, arr := range s.Data {
-			chunk = append(chunk, arr[i])
+	result := make(chan []int64, 1)
+	go func() {
+		for i := 0; i < size; i++ {
+			chunk := make([]int64, 0, len(s.Data))
+			for _, arr := range s.Data {
+				chunk = append(chunk, arr[i])
+			}
+			result <- chunk
 		}
-		result = append(result, chunk)
-	}
+		close(result)
+	}()
 	return result
 }
 
@@ -40401,14 +40491,15 @@ func (s SliceUint) Find(f func(el uint) bool) (uint, error) {
 	return tmp, ErrNotFound
 }
 
-// FindIndex is like Find, but return element index instead of element itself
-func (s SliceUint) FindIndex(f func(el uint) bool) (int, error) {
+// FindIndex is like Find, but return element index instead of element itself.
+// Returns -1 if element not found
+func (s SliceUint) FindIndex(f func(el uint) bool) int {
 	for i, el := range s.Data {
 		if f(el) {
-			return i, nil
+			return i
 		}
 	}
-	return 0, ErrNotFound
+	return -1
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -43304,24 +43395,32 @@ func (s SlicesUint) product(c chan []uint, left []uint, pos int) {
 	}
 }
 
-// Zip returns array of arrays of elements from given arrs
-// on the same position
-func (s SlicesUint) Zip() [][]uint {
+// Zip returns chan of arrays of elements from given arrs on the same position.
+func (s SlicesUint) Zip() chan []uint {
+	if len(s.Data) == 0 {
+		result := make(chan []uint)
+		close(result)
+		return result
+	}
+
 	size := len(s.Data[0])
 	for _, arr := range s.Data[1:] {
-		if len(arr) > size {
+		if len(arr) < size {
 			size = len(arr)
 		}
 	}
 
-	result := make([][]uint, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]uint, 0, len(s.Data))
-		for _, arr := range s.Data {
-			chunk = append(chunk, arr[i])
+	result := make(chan []uint, 1)
+	go func() {
+		for i := 0; i < size; i++ {
+			chunk := make([]uint, 0, len(s.Data))
+			for _, arr := range s.Data {
+				chunk = append(chunk, arr[i])
+			}
+			result <- chunk
 		}
-		result = append(result, chunk)
-	}
+		close(result)
+	}()
 	return result
 }
 
@@ -44364,14 +44463,15 @@ func (s SliceUint8) Find(f func(el uint8) bool) (uint8, error) {
 	return tmp, ErrNotFound
 }
 
-// FindIndex is like Find, but return element index instead of element itself
-func (s SliceUint8) FindIndex(f func(el uint8) bool) (int, error) {
+// FindIndex is like Find, but return element index instead of element itself.
+// Returns -1 if element not found
+func (s SliceUint8) FindIndex(f func(el uint8) bool) int {
 	for i, el := range s.Data {
 		if f(el) {
-			return i, nil
+			return i
 		}
 	}
-	return 0, ErrNotFound
+	return -1
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -47267,24 +47367,32 @@ func (s SlicesUint8) product(c chan []uint8, left []uint8, pos int) {
 	}
 }
 
-// Zip returns array of arrays of elements from given arrs
-// on the same position
-func (s SlicesUint8) Zip() [][]uint8 {
+// Zip returns chan of arrays of elements from given arrs on the same position.
+func (s SlicesUint8) Zip() chan []uint8 {
+	if len(s.Data) == 0 {
+		result := make(chan []uint8)
+		close(result)
+		return result
+	}
+
 	size := len(s.Data[0])
 	for _, arr := range s.Data[1:] {
-		if len(arr) > size {
+		if len(arr) < size {
 			size = len(arr)
 		}
 	}
 
-	result := make([][]uint8, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]uint8, 0, len(s.Data))
-		for _, arr := range s.Data {
-			chunk = append(chunk, arr[i])
+	result := make(chan []uint8, 1)
+	go func() {
+		for i := 0; i < size; i++ {
+			chunk := make([]uint8, 0, len(s.Data))
+			for _, arr := range s.Data {
+				chunk = append(chunk, arr[i])
+			}
+			result <- chunk
 		}
-		result = append(result, chunk)
-	}
+		close(result)
+	}()
 	return result
 }
 
@@ -48327,14 +48435,15 @@ func (s SliceUint16) Find(f func(el uint16) bool) (uint16, error) {
 	return tmp, ErrNotFound
 }
 
-// FindIndex is like Find, but return element index instead of element itself
-func (s SliceUint16) FindIndex(f func(el uint16) bool) (int, error) {
+// FindIndex is like Find, but return element index instead of element itself.
+// Returns -1 if element not found
+func (s SliceUint16) FindIndex(f func(el uint16) bool) int {
 	for i, el := range s.Data {
 		if f(el) {
-			return i, nil
+			return i
 		}
 	}
-	return 0, ErrNotFound
+	return -1
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -51230,24 +51339,32 @@ func (s SlicesUint16) product(c chan []uint16, left []uint16, pos int) {
 	}
 }
 
-// Zip returns array of arrays of elements from given arrs
-// on the same position
-func (s SlicesUint16) Zip() [][]uint16 {
+// Zip returns chan of arrays of elements from given arrs on the same position.
+func (s SlicesUint16) Zip() chan []uint16 {
+	if len(s.Data) == 0 {
+		result := make(chan []uint16)
+		close(result)
+		return result
+	}
+
 	size := len(s.Data[0])
 	for _, arr := range s.Data[1:] {
-		if len(arr) > size {
+		if len(arr) < size {
 			size = len(arr)
 		}
 	}
 
-	result := make([][]uint16, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]uint16, 0, len(s.Data))
-		for _, arr := range s.Data {
-			chunk = append(chunk, arr[i])
+	result := make(chan []uint16, 1)
+	go func() {
+		for i := 0; i < size; i++ {
+			chunk := make([]uint16, 0, len(s.Data))
+			for _, arr := range s.Data {
+				chunk = append(chunk, arr[i])
+			}
+			result <- chunk
 		}
-		result = append(result, chunk)
-	}
+		close(result)
+	}()
 	return result
 }
 
@@ -52290,14 +52407,15 @@ func (s SliceUint32) Find(f func(el uint32) bool) (uint32, error) {
 	return tmp, ErrNotFound
 }
 
-// FindIndex is like Find, but return element index instead of element itself
-func (s SliceUint32) FindIndex(f func(el uint32) bool) (int, error) {
+// FindIndex is like Find, but return element index instead of element itself.
+// Returns -1 if element not found
+func (s SliceUint32) FindIndex(f func(el uint32) bool) int {
 	for i, el := range s.Data {
 		if f(el) {
-			return i, nil
+			return i
 		}
 	}
-	return 0, ErrNotFound
+	return -1
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -55193,24 +55311,32 @@ func (s SlicesUint32) product(c chan []uint32, left []uint32, pos int) {
 	}
 }
 
-// Zip returns array of arrays of elements from given arrs
-// on the same position
-func (s SlicesUint32) Zip() [][]uint32 {
+// Zip returns chan of arrays of elements from given arrs on the same position.
+func (s SlicesUint32) Zip() chan []uint32 {
+	if len(s.Data) == 0 {
+		result := make(chan []uint32)
+		close(result)
+		return result
+	}
+
 	size := len(s.Data[0])
 	for _, arr := range s.Data[1:] {
-		if len(arr) > size {
+		if len(arr) < size {
 			size = len(arr)
 		}
 	}
 
-	result := make([][]uint32, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]uint32, 0, len(s.Data))
-		for _, arr := range s.Data {
-			chunk = append(chunk, arr[i])
+	result := make(chan []uint32, 1)
+	go func() {
+		for i := 0; i < size; i++ {
+			chunk := make([]uint32, 0, len(s.Data))
+			for _, arr := range s.Data {
+				chunk = append(chunk, arr[i])
+			}
+			result <- chunk
 		}
-		result = append(result, chunk)
-	}
+		close(result)
+	}()
 	return result
 }
 
@@ -56253,14 +56379,15 @@ func (s SliceUint64) Find(f func(el uint64) bool) (uint64, error) {
 	return tmp, ErrNotFound
 }
 
-// FindIndex is like Find, but return element index instead of element itself
-func (s SliceUint64) FindIndex(f func(el uint64) bool) (int, error) {
+// FindIndex is like Find, but return element index instead of element itself.
+// Returns -1 if element not found
+func (s SliceUint64) FindIndex(f func(el uint64) bool) int {
 	for i, el := range s.Data {
 		if f(el) {
-			return i, nil
+			return i
 		}
 	}
-	return 0, ErrNotFound
+	return -1
 }
 
 // Join concatenates elements of the slice to create a single string.
@@ -59156,24 +59283,32 @@ func (s SlicesUint64) product(c chan []uint64, left []uint64, pos int) {
 	}
 }
 
-// Zip returns array of arrays of elements from given arrs
-// on the same position
-func (s SlicesUint64) Zip() [][]uint64 {
+// Zip returns chan of arrays of elements from given arrs on the same position.
+func (s SlicesUint64) Zip() chan []uint64 {
+	if len(s.Data) == 0 {
+		result := make(chan []uint64)
+		close(result)
+		return result
+	}
+
 	size := len(s.Data[0])
 	for _, arr := range s.Data[1:] {
-		if len(arr) > size {
+		if len(arr) < size {
 			size = len(arr)
 		}
 	}
 
-	result := make([][]uint64, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]uint64, 0, len(s.Data))
-		for _, arr := range s.Data {
-			chunk = append(chunk, arr[i])
+	result := make(chan []uint64, 1)
+	go func() {
+		for i := 0; i < size; i++ {
+			chunk := make([]uint64, 0, len(s.Data))
+			for _, arr := range s.Data {
+				chunk = append(chunk, arr[i])
+			}
+			result <- chunk
 		}
-		result = append(result, chunk)
-	}
+		close(result)
+	}()
 	return result
 }
 
@@ -60216,14 +60351,15 @@ func (s SliceInterface) Find(f func(el interface{}) bool) (interface{}, error) {
 	return tmp, ErrNotFound
 }
 
-// FindIndex is like Find, but return element index instead of element itself
-func (s SliceInterface) FindIndex(f func(el interface{}) bool) (int, error) {
+// FindIndex is like Find, but return element index instead of element itself.
+// Returns -1 if element not found
+func (s SliceInterface) FindIndex(f func(el interface{}) bool) int {
 	for i, el := range s.Data {
 		if f(el) {
-			return i, nil
+			return i
 		}
 	}
-	return 0, ErrNotFound
+	return -1
 }
 
 // GroupBy groups element from array by value returned by f
@@ -62942,23 +63078,31 @@ func (s SlicesInterface) product(c chan []interface{}, left []interface{}, pos i
 	}
 }
 
-// Zip returns array of arrays of elements from given arrs
-// on the same position
-func (s SlicesInterface) Zip() [][]interface{} {
+// Zip returns chan of arrays of elements from given arrs on the same position.
+func (s SlicesInterface) Zip() chan []interface{} {
+	if len(s.Data) == 0 {
+		result := make(chan []interface{})
+		close(result)
+		return result
+	}
+
 	size := len(s.Data[0])
 	for _, arr := range s.Data[1:] {
-		if len(arr) > size {
+		if len(arr) < size {
 			size = len(arr)
 		}
 	}
 
-	result := make([][]interface{}, 0, size)
-	for i := 0; i <= size; i++ {
-		chunk := make([]interface{}, 0, len(s.Data))
-		for _, arr := range s.Data {
-			chunk = append(chunk, arr[i])
+	result := make(chan []interface{}, 1)
+	go func() {
+		for i := 0; i < size; i++ {
+			chunk := make([]interface{}, 0, len(s.Data))
+			for _, arr := range s.Data {
+				chunk = append(chunk, arr[i])
+			}
+			result <- chunk
 		}
-		result = append(result, chunk)
-	}
+		close(result)
+	}()
 	return result
 }

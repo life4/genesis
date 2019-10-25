@@ -55,7 +55,7 @@ type Slice struct {
 | [Equal](./equal.md) | Equal returns true if slices are equal |
 | [Filter](./filter.md) | Filter returns slice of T for which F returned true |
 | [Find](./find.md) | Find returns the first element for which f returns true |
-| [FindIndex](./findindex.md) | FindIndex is like Find, but return element index instead of element itself |
+| [FindIndex](./findindex.md) | FindIndex is like Find, but return element index instead of element itself. Returns -1 if element not found |
 | [Join](./join.md) | Join concatenates elements of the slice to create a single string. |
 | [GroupBy](./groupby.md) | GroupBy groups element from array by value returned by f |
 | [InsertAt](./insertat.md) | InsertAt returns the slice with element inserted at given index. |

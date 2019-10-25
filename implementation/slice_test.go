@@ -32,6 +32,16 @@ func TestSliceAll(t *testing.T) {
 	f([]T{1, 2, 4}, false)
 }
 
+func TestSliceChoice(t *testing.T) {
+	f := func(given []T, seed int64, expected T) {
+		actual, _ := Slice{given}.Choice(seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{1}, 0, 1)
+	f([]T{1, 2, 3}, 1, 3)
+	f([]T{1, 2, 3}, 2, 2)
+}
+
 func TestSliceChunkBy(t *testing.T) {
 	f := func(given []T, expected [][]T) {
 		reminder := func(t T) G { return G((t % 2)) }
@@ -284,20 +294,19 @@ func TestSliceFind(t *testing.T) {
 }
 
 func TestSliceFindIndex(t *testing.T) {
-	f := func(given []T, expectedInd int, expectedErr error) {
+	f := func(given []T, expectedInd int) {
 		even := func(t T) bool { return (t % 2) == 0 }
-		index, err := Slice{given}.FindIndex(even)
+		index := Slice{given}.FindIndex(even)
 		assert.Equal(t, expectedInd, index, "they should be equal")
-		assert.Equal(t, expectedErr, err, "they should be equal")
 	}
-	f([]T{}, 0, ErrNotFound)
-	f([]T{1}, 0, ErrNotFound)
-	f([]T{1}, 0, ErrNotFound)
-	f([]T{2}, 0, nil)
-	f([]T{1, 2}, 1, nil)
-	f([]T{1, 2, 3}, 1, nil)
-	f([]T{1, 3, 5, 7, 9, 2}, 5, nil)
-	f([]T{1, 3, 5}, 0, ErrNotFound)
+	f([]T{}, -1)
+	f([]T{1}, -1)
+	f([]T{1}, -1)
+	f([]T{2}, 0)
+	f([]T{1, 2}, 1)
+	f([]T{1, 2, 3}, 1)
+	f([]T{1, 3, 5, 7, 9, 2}, 5)
+	f([]T{1, 3, 5}, -1)
 }
 
 func TestSliceJoin(t *testing.T) {
@@ -656,4 +665,28 @@ func TestSliceWindow(t *testing.T) {
 	f([]T{1, 2, 3, 4}, 2, [][]T{{1, 2}, {2, 3}, {3, 4}})
 	f([]T{1, 2, 3, 4}, 3, [][]T{{1, 2, 3}, {2, 3, 4}})
 	f([]T{1, 2, 3, 4}, 4, [][]T{{1, 2, 3, 4}})
+}
+
+func TestSliceWithout(t *testing.T) {
+	f := func(given []T, items []T, expected []T) {
+		actual := Slice{given}.Without(items...)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]T{}, []T{}, []T{})
+	f([]T{}, []T{1, 2}, []T{})
+
+	f([]T{1}, []T{1}, []T{})
+	f([]T{1}, []T{1, 2}, []T{})
+	f([]T{1}, []T{2}, []T{1})
+
+	f([]T{1, 2, 3, 4}, []T{1}, []T{2, 3, 4})
+	f([]T{1, 2, 3, 4}, []T{2}, []T{1, 3, 4})
+	f([]T{1, 2, 3, 4}, []T{4}, []T{1, 2, 3})
+
+	f([]T{1, 2, 3, 4}, []T{1, 2}, []T{3, 4})
+	f([]T{1, 2, 3, 4}, []T{1, 2, 4}, []T{3})
+	f([]T{1, 2, 3, 4}, []T{1, 2, 3, 4}, []T{})
+	f([]T{1, 2, 3, 4}, []T{2, 4}, []T{1, 3})
+
+	f([]T{1, 1, 2, 3, 1, 4, 1}, []T{1}, []T{2, 3, 4})
 }
