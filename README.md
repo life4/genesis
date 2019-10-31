@@ -63,3 +63,5 @@ Generate a new package with given types:
 ```bash
 python3 -m generate
 ```
+
+![](./gopher.png)
