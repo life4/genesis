@@ -44,6 +44,27 @@ doubled := genesis.SliceInt{s}.MapInt(double)
 
 See [docs](./docs) to dive deeper.
 
+## Custom types
+
+Genesis contains pre-generated code for common built-in types. So, in most cases you can just use it. However, if you want to use genesis for custom types, things become a little bit more complicated. The first option is to use an empty interface. For example:
+
+```go
+type UserId int
+ids := []UserId{1, 2, 3, 4, 5}
+// https://github.com/golang/go/wiki/InterfaceSlice
+idsInterface := make([]interface{}, len(ids), len(ids))
+for i := range ids {
+	idsInterface[i] = ids[i]
+}
+index := genesis.SliceInterface{idsInterface}.FindIndex(
+	func(el interface{}) bool { return el.(UserId) == 3 },
+)
+fmt.Println(index)
+// Output: 2
+```
+
+Another option is to generate genesis code for your own type.
+
 ## Generation
 
 Install requirements

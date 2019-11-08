@@ -6,6 +6,21 @@ import (
 	"github.com/life4/genesis"
 )
 
+func ExampleInterface() {
+	type UserId int
+	ids := []UserId{1, 2, 3, 4, 5}
+	// https://github.com/golang/go/wiki/InterfaceSlice
+	idsInterface := make([]interface{}, len(ids), len(ids))
+	for i := range ids {
+		idsInterface[i] = ids[i]
+	}
+	index := genesis.SliceInterface{idsInterface}.FindIndex(
+		func(el interface{}) bool { return el.(UserId) == 3 },
+	)
+	fmt.Println(index)
+	// Output: 2
+}
+
 func ExampleSliceAny() {
 	even := func(item int) bool { return item%2 == 0 }
 
