@@ -85,4 +85,6 @@ Generate a new package with given types:
 python3 -m generate
 ```
 
+# [-> DOCUMENTATION <-](./docs)
+
 ![](./gopher.png)
