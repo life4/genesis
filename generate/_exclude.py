@@ -3,32 +3,32 @@ from ._types import Type
 
 
 EXCLUDED_TESTS = (
-    'bool', 'interface{}', 'byte', 'string',
+    'bool', 'interface{}', 'byte', 'string', 'error',
     'float32', 'float64',
     'uint', 'uint8', 'uint16', 'uint32', 'uint64',
 )
 EXCLUDED = {
     'Sequence': {
-        'Count': ['bool', 'byte', 'string', 'interface{}'],
-        'Exponential': ['bool', 'byte', 'string', 'interface{}'],
-        'Range': ['bool', 'byte', 'string', 'interface{}'],
+        'Count': ['bool', 'byte', 'error', 'string', 'interface{}'],
+        'Exponential': ['bool', 'byte', 'error', 'string', 'interface{}'],
+        'Range': ['bool', 'byte', 'error', 'string', 'interface{}'],
     },
     'Slice': {
         'Join': ('float32', 'float64', 'bool', 'interface{}'),
-        'Max': ('bool', 'interface{}'),
-        'Min': ('bool', 'interface{}'),
-        'Sum': ('bool', 'interface{}'),
-        'Sort': ('bool', 'interface{}'),
-        'Sorted': ('bool', 'interface{}'),
+        'Max': ('bool', 'error', 'interface{}'),
+        'Min': ('bool', 'error', 'interface{}'),
+        'Sum': ('bool', 'error', 'interface{}'),
+        'Sort': ('bool', 'error', 'interface{}'),
+        'Sorted': ('bool', 'error', 'interface{}'),
     },
     'Channel': {
-        'Max': ('bool', 'interface{}'),
-        'Min': ('bool', 'interface{}'),
-        'Sum': ('bool', 'interface{}'),
+        'Max': ('bool', 'error', 'interface{}'),
+        'Min': ('bool', 'error', 'interface{}'),
+        'Sum': ('bool', 'error', 'interface{}'),
     },
     'Pair': {
-        'Max': ('bool', 'interface{}'),
-        'Min': ('bool', 'interface{}'),
+        'Max': ('bool', 'error', 'interface{}'),
+        'Min': ('bool', 'error', 'interface{}'),
     },
 }  # type: dict
 

@@ -171,6 +171,58 @@ func (s SliceBool) ChunkByString(f func(el bool) string) [][]bool {
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceBool) ChunkByRune(f func(el bool) rune) [][]bool {
+	chunks := make([][]bool, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]bool, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]bool, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceBool) ChunkByError(f func(el bool) error) [][]bool {
+	chunks := make([][]bool, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]bool, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]bool, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceBool) ChunkByFloat32(f func(el bool) float32) [][]bool {
 	chunks := make([][]bool, 0)
 	if len(s.Data) == 0 {
@@ -657,6 +709,46 @@ func (s SliceBool) DedupByString(f func(el bool) string) []bool {
 
 // DedupBy returns a given slice without consecutive elements
 // For which f returns the same result
+func (s SliceBool) DedupByRune(f func(el bool) rune) []bool {
+	result := make([]bool, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceBool) DedupByError(f func(el bool) error) []bool {
+	result := make([]bool, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
 func (s SliceBool) DedupByFloat32(f func(el bool) float32) []bool {
 	result := make([]bool, 0, len(s.Data))
 	if len(s.Data) == 0 {
@@ -1118,6 +1210,34 @@ func (s SliceBool) GroupByString(f func(el bool) string) map[string][]bool {
 }
 
 // GroupBy groups element from array by value returned by f
+func (s SliceBool) GroupByRune(f func(el bool) rune) map[rune][]bool {
+	result := make(map[rune][]bool)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]bool, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceBool) GroupByError(f func(el bool) error) map[error][]bool {
+	result := make(map[error][]bool)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]bool, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
 func (s SliceBool) GroupByFloat32(f func(el bool) float32) map[float32][]bool {
 	result := make(map[float32][]bool)
 	for _, el := range s.Data {
@@ -1376,6 +1496,24 @@ func (s SliceBool) MapString(f func(el bool) string) []string {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
+func (s SliceBool) MapRune(f func(el bool) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceBool) MapError(f func(el bool) error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
 func (s SliceBool) MapFloat32(f func(el bool) float32) []float32 {
 	result := make([]float32, 0, len(s.Data))
 	for _, el := range s.Data {
@@ -1587,6 +1725,22 @@ func (s SliceBool) ReduceString(acc string, f func(el bool, acc string) string) 
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceBool) ReduceRune(acc rune, f func(el bool, acc rune) rune) rune {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceBool) ReduceError(acc error, f func(el bool, acc error) error) error {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
 func (s SliceBool) ReduceFloat32(acc float32, f func(el bool, acc float32) float32) float32 {
 	for _, el := range s.Data {
 		acc = f(el, acc)
@@ -1716,6 +1870,30 @@ func (s SliceBool) ReduceWhileByte(acc byte, f func(el bool, acc byte) (byte, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceBool) ReduceWhileString(acc string, f func(el bool, acc string) (string, error)) (string, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceBool) ReduceWhileRune(acc rune, f func(el bool, acc rune) (rune, error)) (rune, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceBool) ReduceWhileError(acc error, f func(el bool, acc error) (error, error)) (error, error) {
 	var err error
 	for _, el := range s.Data {
 		acc, err = f(el, acc)
@@ -1930,6 +2108,26 @@ func (s SliceBool) ScanByte(acc byte, f func(el bool, acc byte) byte) []byte {
 // Scan is like Reduce, but returns slice of f results
 func (s SliceBool) ScanString(acc string, f func(el bool, acc string) string) []string {
 	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceBool) ScanRune(acc rune, f func(el bool, acc rune) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceBool) ScanError(acc error, f func(el bool, acc error) error) []error {
+	result := make([]error, 0, len(s.Data))
 	for _, el := range s.Data {
 		acc = f(el, acc)
 		result = append(result, acc)
@@ -2354,6 +2552,30 @@ func (c ChannelBool) MapString(f func(el bool) string) chan string {
 }
 
 // Map applies f to all elements from channel and returns channel with results
+func (c ChannelBool) MapRune(f func(el bool) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelBool) MapError(f func(el bool) error) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
 func (c ChannelBool) MapFloat32(f func(el bool) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
@@ -2534,6 +2756,22 @@ func (c ChannelBool) ReduceString(acc string, f func(el bool, acc string) string
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelBool) ReduceRune(acc rune, f func(el bool, acc rune) rune) rune {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelBool) ReduceError(acc error, f func(el bool, acc error) error) error {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
 func (c ChannelBool) ReduceFloat32(acc float32, f func(el bool, acc float32) float32) float32 {
 	for el := range c.Data {
 		acc = f(el, acc)
@@ -2666,6 +2904,32 @@ func (c ChannelBool) ScanByte(acc byte, f func(el bool, acc byte) byte) chan byt
 // Scan is like Reduce, but returns slice of f results
 func (c ChannelBool) ScanString(acc string, f func(el bool, acc string) string) chan string {
 	result := make(chan string, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelBool) ScanRune(acc rune, f func(el bool, acc rune) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelBool) ScanError(acc error, f func(el bool, acc error) error) chan error {
+	result := make(chan error, 1)
 	go func() {
 		for el := range c.Data {
 			acc = f(el, acc)
@@ -3217,6 +3481,74 @@ func (s AsyncSliceBool) MapByte(f func(el bool) byte) []byte {
 // Map applies F to all elements in slice of T and returns slice of results
 func (s AsyncSliceBool) MapString(f func(el bool) string) []string {
 	result := make([]string, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceBool) MapRune(f func(el bool) rune) []rune {
+	result := make([]rune, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceBool) MapError(f func(el bool) error) []error {
+	result := make([]error, len(s.Data))
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -3966,6 +4298,58 @@ func (s SliceByte) ChunkByString(f func(el byte) string) [][]byte {
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceByte) ChunkByRune(f func(el byte) rune) [][]byte {
+	chunks := make([][]byte, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]byte, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]byte, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceByte) ChunkByError(f func(el byte) error) [][]byte {
+	chunks := make([][]byte, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]byte, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]byte, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceByte) ChunkByFloat32(f func(el byte) float32) [][]byte {
 	chunks := make([][]byte, 0)
 	if len(s.Data) == 0 {
@@ -4433,6 +4817,46 @@ func (s SliceByte) DedupByByte(f func(el byte) byte) []byte {
 // DedupBy returns a given slice without consecutive elements
 // For which f returns the same result
 func (s SliceByte) DedupByString(f func(el byte) string) []byte {
+	result := make([]byte, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceByte) DedupByRune(f func(el byte) rune) []byte {
+	result := make([]byte, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceByte) DedupByError(f func(el byte) error) []byte {
 	result := make([]byte, 0, len(s.Data))
 	if len(s.Data) == 0 {
 		return result
@@ -4922,6 +5346,34 @@ func (s SliceByte) GroupByString(f func(el byte) string) map[string][]byte {
 }
 
 // GroupBy groups element from array by value returned by f
+func (s SliceByte) GroupByRune(f func(el byte) rune) map[rune][]byte {
+	result := make(map[rune][]byte)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]byte, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceByte) GroupByError(f func(el byte) error) map[error][]byte {
+	result := make(map[error][]byte)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]byte, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
 func (s SliceByte) GroupByFloat32(f func(el byte) float32) map[float32][]byte {
 	result := make(map[float32][]byte)
 	for _, el := range s.Data {
@@ -5180,6 +5632,24 @@ func (s SliceByte) MapString(f func(el byte) string) []string {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
+func (s SliceByte) MapRune(f func(el byte) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceByte) MapError(f func(el byte) error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
 func (s SliceByte) MapFloat32(f func(el byte) float32) []float32 {
 	result := make([]float32, 0, len(s.Data))
 	for _, el := range s.Data {
@@ -5423,6 +5893,22 @@ func (s SliceByte) ReduceString(acc string, f func(el byte, acc string) string) 
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceByte) ReduceRune(acc rune, f func(el byte, acc rune) rune) rune {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceByte) ReduceError(acc error, f func(el byte, acc error) error) error {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
 func (s SliceByte) ReduceFloat32(acc float32, f func(el byte, acc float32) float32) float32 {
 	for _, el := range s.Data {
 		acc = f(el, acc)
@@ -5552,6 +6038,30 @@ func (s SliceByte) ReduceWhileByte(acc byte, f func(el byte, acc byte) (byte, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceByte) ReduceWhileString(acc string, f func(el byte, acc string) (string, error)) (string, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceByte) ReduceWhileRune(acc rune, f func(el byte, acc rune) (rune, error)) (rune, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceByte) ReduceWhileError(acc error, f func(el byte, acc error) (error, error)) (error, error) {
 	var err error
 	for _, el := range s.Data {
 		acc, err = f(el, acc)
@@ -5766,6 +6276,26 @@ func (s SliceByte) ScanByte(acc byte, f func(el byte, acc byte) byte) []byte {
 // Scan is like Reduce, but returns slice of f results
 func (s SliceByte) ScanString(acc string, f func(el byte, acc string) string) []string {
 	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceByte) ScanRune(acc rune, f func(el byte, acc rune) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceByte) ScanError(acc error, f func(el byte, acc error) error) []error {
+	result := make([]error, 0, len(s.Data))
 	for _, el := range s.Data {
 		acc = f(el, acc)
 		result = append(result, acc)
@@ -6224,6 +6754,30 @@ func (c ChannelByte) MapString(f func(el byte) string) chan string {
 }
 
 // Map applies f to all elements from channel and returns channel with results
+func (c ChannelByte) MapRune(f func(el byte) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelByte) MapError(f func(el byte) error) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
 func (c ChannelByte) MapFloat32(f func(el byte) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
@@ -6432,6 +6986,22 @@ func (c ChannelByte) ReduceString(acc string, f func(el byte, acc string) string
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelByte) ReduceRune(acc rune, f func(el byte, acc rune) rune) rune {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelByte) ReduceError(acc error, f func(el byte, acc error) error) error {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
 func (c ChannelByte) ReduceFloat32(acc float32, f func(el byte, acc float32) float32) float32 {
 	for el := range c.Data {
 		acc = f(el, acc)
@@ -6564,6 +7134,32 @@ func (c ChannelByte) ScanByte(acc byte, f func(el byte, acc byte) byte) chan byt
 // Scan is like Reduce, but returns slice of f results
 func (c ChannelByte) ScanString(acc string, f func(el byte, acc string) string) chan string {
 	result := make(chan string, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelByte) ScanRune(acc rune, f func(el byte, acc rune) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelByte) ScanError(acc error, f func(el byte, acc error) error) chan error {
+	result := make(chan error, 1)
 	go func() {
 		for el := range c.Data {
 			acc = f(el, acc)
@@ -7140,6 +7736,74 @@ func (s AsyncSliceByte) MapByte(f func(el byte) byte) []byte {
 // Map applies F to all elements in slice of T and returns slice of results
 func (s AsyncSliceByte) MapString(f func(el byte) string) []string {
 	result := make([]string, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceByte) MapRune(f func(el byte) rune) []rune {
+	result := make([]rune, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceByte) MapError(f func(el byte) error) []error {
+	result := make([]error, len(s.Data))
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -7889,6 +8553,58 @@ func (s SliceString) ChunkByString(f func(el string) string) [][]string {
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceString) ChunkByRune(f func(el string) rune) [][]string {
+	chunks := make([][]string, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]string, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]string, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceString) ChunkByError(f func(el string) error) [][]string {
+	chunks := make([][]string, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]string, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]string, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceString) ChunkByFloat32(f func(el string) float32) [][]string {
 	chunks := make([][]string, 0)
 	if len(s.Data) == 0 {
@@ -8356,6 +9072,46 @@ func (s SliceString) DedupByByte(f func(el string) byte) []string {
 // DedupBy returns a given slice without consecutive elements
 // For which f returns the same result
 func (s SliceString) DedupByString(f func(el string) string) []string {
+	result := make([]string, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceString) DedupByRune(f func(el string) rune) []string {
+	result := make([]string, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceString) DedupByError(f func(el string) error) []string {
 	result := make([]string, 0, len(s.Data))
 	if len(s.Data) == 0 {
 		return result
@@ -8845,6 +9601,34 @@ func (s SliceString) GroupByString(f func(el string) string) map[string][]string
 }
 
 // GroupBy groups element from array by value returned by f
+func (s SliceString) GroupByRune(f func(el string) rune) map[rune][]string {
+	result := make(map[rune][]string)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]string, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceString) GroupByError(f func(el string) error) map[error][]string {
+	result := make(map[error][]string)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]string, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
 func (s SliceString) GroupByFloat32(f func(el string) float32) map[float32][]string {
 	result := make(map[float32][]string)
 	for _, el := range s.Data {
@@ -9103,6 +9887,24 @@ func (s SliceString) MapString(f func(el string) string) []string {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
+func (s SliceString) MapRune(f func(el string) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceString) MapError(f func(el string) error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
 func (s SliceString) MapFloat32(f func(el string) float32) []float32 {
 	result := make([]float32, 0, len(s.Data))
 	for _, el := range s.Data {
@@ -9346,6 +10148,22 @@ func (s SliceString) ReduceString(acc string, f func(el string, acc string) stri
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceString) ReduceRune(acc rune, f func(el string, acc rune) rune) rune {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceString) ReduceError(acc error, f func(el string, acc error) error) error {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
 func (s SliceString) ReduceFloat32(acc float32, f func(el string, acc float32) float32) float32 {
 	for _, el := range s.Data {
 		acc = f(el, acc)
@@ -9475,6 +10293,30 @@ func (s SliceString) ReduceWhileByte(acc byte, f func(el string, acc byte) (byte
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceString) ReduceWhileString(acc string, f func(el string, acc string) (string, error)) (string, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceString) ReduceWhileRune(acc rune, f func(el string, acc rune) (rune, error)) (rune, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceString) ReduceWhileError(acc error, f func(el string, acc error) (error, error)) (error, error) {
 	var err error
 	for _, el := range s.Data {
 		acc, err = f(el, acc)
@@ -9689,6 +10531,26 @@ func (s SliceString) ScanByte(acc byte, f func(el string, acc byte) byte) []byte
 // Scan is like Reduce, but returns slice of f results
 func (s SliceString) ScanString(acc string, f func(el string, acc string) string) []string {
 	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceString) ScanRune(acc rune, f func(el string, acc rune) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceString) ScanError(acc error, f func(el string, acc error) error) []error {
+	result := make([]error, 0, len(s.Data))
 	for _, el := range s.Data {
 		acc = f(el, acc)
 		result = append(result, acc)
@@ -10147,6 +11009,30 @@ func (c ChannelString) MapString(f func(el string) string) chan string {
 }
 
 // Map applies f to all elements from channel and returns channel with results
+func (c ChannelString) MapRune(f func(el string) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelString) MapError(f func(el string) error) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
 func (c ChannelString) MapFloat32(f func(el string) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
@@ -10355,6 +11241,22 @@ func (c ChannelString) ReduceString(acc string, f func(el string, acc string) st
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelString) ReduceRune(acc rune, f func(el string, acc rune) rune) rune {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelString) ReduceError(acc error, f func(el string, acc error) error) error {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
 func (c ChannelString) ReduceFloat32(acc float32, f func(el string, acc float32) float32) float32 {
 	for el := range c.Data {
 		acc = f(el, acc)
@@ -10487,6 +11389,32 @@ func (c ChannelString) ScanByte(acc byte, f func(el string, acc byte) byte) chan
 // Scan is like Reduce, but returns slice of f results
 func (c ChannelString) ScanString(acc string, f func(el string, acc string) string) chan string {
 	result := make(chan string, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelString) ScanRune(acc rune, f func(el string, acc rune) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelString) ScanError(acc error, f func(el string, acc error) error) chan error {
+	result := make(chan error, 1)
 	go func() {
 		for el := range c.Data {
 			acc = f(el, acc)
@@ -11095,6 +12023,74 @@ func (s AsyncSliceString) MapString(f func(el string) string) []string {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceString) MapRune(f func(el string) rune) []rune {
+	result := make([]rune, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceString) MapError(f func(el string) error) []error {
+	result := make([]error, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
 func (s AsyncSliceString) MapFloat32(f func(el string) float32) []float32 {
 	result := make([]float32, len(s.Data))
 	wg := sync.WaitGroup{}
@@ -11667,6 +12663,8446 @@ func (s SlicesString) Zip() chan []string {
 }
 
 // Slice is a set of operations to work with slice
+type SliceRune struct {
+	Data []rune
+}
+
+// Channel is a set of operations with channel
+type ChannelRune struct {
+	Data chan rune
+}
+
+// Sequence is a set of operations to generate sequences
+type SequenceRune struct {
+	ctx context.Context
+}
+
+// Pair is a set of functions for 2 values that you can pass into reduce-like funcs
+type PairRune struct {
+	// empty
+}
+
+// AsyncSlice is a set of operations to work with slice asynchronously
+type AsyncSliceRune struct {
+	Data    []rune
+	Workers int
+}
+
+// Slices is a set of operations to work with slice of slices
+type SlicesRune struct {
+	Data [][]rune
+}
+
+// Any returns true if f returns true for any element in arr
+func (s SliceRune) Any(f func(el rune) bool) bool {
+	for _, el := range s.Data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+// All returns true if f returns true for all elements in arr
+func (s SliceRune) All(f func(el rune) bool) bool {
+	for _, el := range s.Data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
+}
+
+// Choice chooses a random element from the slice.
+// If seed is zero, UNIX timestamp will be used.
+func (s SliceRune) Choice(seed int64) (rune, error) {
+	if len(s.Data) == 0 {
+		var tmp rune
+		return tmp, ErrEmpty
+	}
+
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
+	i := rand.Intn(len(s.Data))
+	return s.Data[i], nil
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceRune) ChunkByBool(f func(el rune) bool) [][]rune {
+	chunks := make([][]rune, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]rune, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]rune, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceRune) ChunkByByte(f func(el rune) byte) [][]rune {
+	chunks := make([][]rune, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]rune, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]rune, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceRune) ChunkByString(f func(el rune) string) [][]rune {
+	chunks := make([][]rune, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]rune, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]rune, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceRune) ChunkByRune(f func(el rune) rune) [][]rune {
+	chunks := make([][]rune, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]rune, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]rune, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceRune) ChunkByError(f func(el rune) error) [][]rune {
+	chunks := make([][]rune, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]rune, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]rune, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceRune) ChunkByFloat32(f func(el rune) float32) [][]rune {
+	chunks := make([][]rune, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]rune, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]rune, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceRune) ChunkByFloat64(f func(el rune) float64) [][]rune {
+	chunks := make([][]rune, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]rune, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]rune, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceRune) ChunkByInt(f func(el rune) int) [][]rune {
+	chunks := make([][]rune, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]rune, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]rune, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceRune) ChunkByInt8(f func(el rune) int8) [][]rune {
+	chunks := make([][]rune, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]rune, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]rune, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceRune) ChunkByInt16(f func(el rune) int16) [][]rune {
+	chunks := make([][]rune, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]rune, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]rune, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceRune) ChunkByInt32(f func(el rune) int32) [][]rune {
+	chunks := make([][]rune, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]rune, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]rune, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceRune) ChunkByInt64(f func(el rune) int64) [][]rune {
+	chunks := make([][]rune, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]rune, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]rune, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceRune) ChunkByUint(f func(el rune) uint) [][]rune {
+	chunks := make([][]rune, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]rune, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]rune, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceRune) ChunkByUint8(f func(el rune) uint8) [][]rune {
+	chunks := make([][]rune, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]rune, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]rune, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceRune) ChunkByUint16(f func(el rune) uint16) [][]rune {
+	chunks := make([][]rune, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]rune, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]rune, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceRune) ChunkByUint32(f func(el rune) uint32) [][]rune {
+	chunks := make([][]rune, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]rune, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]rune, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceRune) ChunkByUint64(f func(el rune) uint64) [][]rune {
+	chunks := make([][]rune, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]rune, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]rune, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceRune) ChunkByInterface(f func(el rune) interface{}) [][]rune {
+	chunks := make([][]rune, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]rune, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]rune, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkEvery returns slice of slices containing count elements each
+func (s SliceRune) ChunkEvery(count int) ([][]rune, error) {
+	chunks := make([][]rune, 0)
+	if count <= 0 {
+		return chunks, ErrNegativeValue
+	}
+	chunk := make([]rune, 0, count)
+	for i, el := range s.Data {
+		chunk = append(chunk, el)
+		if (i+1)%count == 0 {
+			chunks = append(chunks, chunk)
+			chunk = make([]rune, 0, count)
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks, nil
+}
+
+// Contains returns true if el in arr.
+func (s SliceRune) Contains(el rune) bool {
+	for _, val := range s.Data {
+		if val == el {
+			return true
+		}
+	}
+	return false
+}
+
+// Count return count of el occurences in arr.
+func (s SliceRune) Count(el rune) int {
+	count := 0
+	for _, val := range s.Data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
+// CountBy returns how many times f returns true.
+func (s SliceRune) CountBy(f func(el rune) bool) int {
+	count := 0
+	for _, el := range s.Data {
+		if f(el) {
+			count++
+		}
+	}
+	return count
+}
+
+// Cycle is an infinite loop over slice
+func (s SliceRune) Cycle() chan rune {
+	c := make(chan rune, 1)
+	go func() {
+		defer close(c)
+		if len(s.Data) == 0 {
+			return
+		}
+		for {
+			for _, val := range s.Data {
+				c <- val
+			}
+		}
+	}()
+	return c
+}
+
+// Dedup returns a given slice without consecutive duplicated elements
+func (s SliceRune) Dedup() []rune {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]rune, 0, len(s.Data))
+	prev := s.Data[0]
+	result = append(result, prev)
+	for _, el := range s.Data[1:] {
+		if el != prev {
+			result = append(result, el)
+			prev = el
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceRune) DedupByBool(f func(el rune) bool) []rune {
+	result := make([]rune, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceRune) DedupByByte(f func(el rune) byte) []rune {
+	result := make([]rune, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceRune) DedupByString(f func(el rune) string) []rune {
+	result := make([]rune, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceRune) DedupByRune(f func(el rune) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceRune) DedupByError(f func(el rune) error) []rune {
+	result := make([]rune, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceRune) DedupByFloat32(f func(el rune) float32) []rune {
+	result := make([]rune, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceRune) DedupByFloat64(f func(el rune) float64) []rune {
+	result := make([]rune, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceRune) DedupByInt(f func(el rune) int) []rune {
+	result := make([]rune, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceRune) DedupByInt8(f func(el rune) int8) []rune {
+	result := make([]rune, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceRune) DedupByInt16(f func(el rune) int16) []rune {
+	result := make([]rune, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceRune) DedupByInt32(f func(el rune) int32) []rune {
+	result := make([]rune, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceRune) DedupByInt64(f func(el rune) int64) []rune {
+	result := make([]rune, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceRune) DedupByUint(f func(el rune) uint) []rune {
+	result := make([]rune, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceRune) DedupByUint8(f func(el rune) uint8) []rune {
+	result := make([]rune, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceRune) DedupByUint16(f func(el rune) uint16) []rune {
+	result := make([]rune, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceRune) DedupByUint32(f func(el rune) uint32) []rune {
+	result := make([]rune, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceRune) DedupByUint64(f func(el rune) uint64) []rune {
+	result := make([]rune, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceRune) DedupByInterface(f func(el rune) interface{}) []rune {
+	result := make([]rune, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// Delete deletes the first occurence of the element from the slice
+func (s SliceRune) Delete(element rune) []rune {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]rune, 0, len(s.Data))
+	deleted := false
+	for _, el := range s.Data {
+		if !deleted && el == element {
+			deleted = true
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAll deletes all occurences of the element from the slice
+func (s SliceRune) DeleteAll(element rune) []rune {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		if el == element {
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAt returns the slice without elements on given positions
+func (s SliceRune) DeleteAt(indices ...int) ([]rune, error) {
+	if len(indices) == 0 || len(s.Data) == 0 {
+		return s.Data, nil
+	}
+
+	for _, index := range indices {
+		if index >= len(s.Data) {
+			return s.Data, ErrOutOfRange
+		}
+	}
+
+	result := make([]rune, 0, len(s.Data)-1)
+	for i, el := range s.Data {
+		add := true
+		for _, index := range indices {
+			if i == index {
+				add = false
+				break
+			}
+		}
+		if add {
+			result = append(result, el)
+		}
+	}
+	return result, nil
+}
+
+// DropEvery returns a slice of every nth element in the enumerable dropped,
+// starting with the first element.
+func (s SliceRune) DropEvery(nth int, from int) ([]rune, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveValue
+	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
+	result := make([]rune, 0, len(s.Data)/nth)
+	for i, el := range s.Data {
+		if (i+from)%nth != 0 {
+			result = append(result, el)
+		}
+	}
+	return result, nil
+}
+
+// DropWhile drops elements from arr while f returns true
+func (s SliceRune) DropWhile(f func(el rune) bool) []rune {
+	for i, el := range s.Data {
+		if !f(el) {
+			return s.Data[i:]
+		}
+	}
+	return []rune{}
+}
+
+// Each calls f for every element from arr
+func (s SliceRune) Each(f func(el rune)) {
+	for _, el := range s.Data {
+		f(el)
+	}
+}
+
+// EndsWith returns true if slice ends with the given suffix slice.
+// If suffix is empty, it returns true.
+func (s SliceRune) EndsWith(suffix []rune) bool {
+	if len(suffix) > len(s.Data) {
+		return false
+	}
+	start := len(s.Data) - len(suffix)
+	for i, el := range suffix {
+		if el != s.Data[start+i] {
+			return false
+		}
+	}
+	return true
+}
+
+// Equal returns true if slices are equal
+func (s SliceRune) Equal(other []rune) bool {
+	if len(s.Data) != len(other) {
+		return false
+	}
+	for i, el := range other {
+		if s.Data[i] != el {
+			return false
+		}
+	}
+	return true
+}
+
+// Filter returns slice of T for which F returned true
+func (s SliceRune) Filter(f func(el rune) bool) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		if f(el) {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
+// Find returns the first element for which f returns true
+func (s SliceRune) Find(f func(el rune) bool) (rune, error) {
+	for _, el := range s.Data {
+		if f(el) {
+			return el, nil
+		}
+	}
+	var tmp rune
+	return tmp, ErrNotFound
+}
+
+// FindIndex is like Find, but return element index instead of element itself.
+// Returns -1 if element not found
+func (s SliceRune) FindIndex(f func(el rune) bool) int {
+	for i, el := range s.Data {
+		if f(el) {
+			return i
+		}
+	}
+	return -1
+}
+
+// Join concatenates elements of the slice to create a single string.
+func (s SliceRune) Join(sep string) string {
+	strs := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		strs = append(strs, fmt.Sprintf("%v", el))
+	}
+	return strings.Join(strs, sep)
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceRune) GroupByBool(f func(el rune) bool) map[bool][]rune {
+	result := make(map[bool][]rune)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]rune, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceRune) GroupByByte(f func(el rune) byte) map[byte][]rune {
+	result := make(map[byte][]rune)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]rune, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceRune) GroupByString(f func(el rune) string) map[string][]rune {
+	result := make(map[string][]rune)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]rune, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceRune) GroupByRune(f func(el rune) rune) map[rune][]rune {
+	result := make(map[rune][]rune)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]rune, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceRune) GroupByError(f func(el rune) error) map[error][]rune {
+	result := make(map[error][]rune)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]rune, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceRune) GroupByFloat32(f func(el rune) float32) map[float32][]rune {
+	result := make(map[float32][]rune)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]rune, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceRune) GroupByFloat64(f func(el rune) float64) map[float64][]rune {
+	result := make(map[float64][]rune)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]rune, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceRune) GroupByInt(f func(el rune) int) map[int][]rune {
+	result := make(map[int][]rune)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]rune, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceRune) GroupByInt8(f func(el rune) int8) map[int8][]rune {
+	result := make(map[int8][]rune)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]rune, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceRune) GroupByInt16(f func(el rune) int16) map[int16][]rune {
+	result := make(map[int16][]rune)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]rune, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceRune) GroupByInt32(f func(el rune) int32) map[int32][]rune {
+	result := make(map[int32][]rune)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]rune, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceRune) GroupByInt64(f func(el rune) int64) map[int64][]rune {
+	result := make(map[int64][]rune)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]rune, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceRune) GroupByUint(f func(el rune) uint) map[uint][]rune {
+	result := make(map[uint][]rune)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]rune, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceRune) GroupByUint8(f func(el rune) uint8) map[uint8][]rune {
+	result := make(map[uint8][]rune)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]rune, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceRune) GroupByUint16(f func(el rune) uint16) map[uint16][]rune {
+	result := make(map[uint16][]rune)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]rune, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceRune) GroupByUint32(f func(el rune) uint32) map[uint32][]rune {
+	result := make(map[uint32][]rune)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]rune, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceRune) GroupByUint64(f func(el rune) uint64) map[uint64][]rune {
+	result := make(map[uint64][]rune)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]rune, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceRune) GroupByInterface(f func(el rune) interface{}) map[interface{}][]rune {
+	result := make(map[interface{}][]rune)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]rune, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// InsertAt returns the slice with element inserted at given index.
+func (s SliceRune) InsertAt(index int, element rune) ([]rune, error) {
+	result := make([]rune, 0, len(s.Data)+1)
+
+	// insert at the end
+	if index == len(s.Data) {
+		result = append(result, s.Data...)
+		result = append(result, element)
+		return result, nil
+	}
+
+	if index > len(s.Data) {
+		return s.Data, ErrOutOfRange
+	}
+	if index < 0 {
+		return s.Data, ErrNegativeValue
+	}
+
+	for i, el := range s.Data {
+		if i == index {
+			result = append(result, element)
+		}
+		result = append(result, el)
+	}
+	return result, nil
+}
+
+// Intersperse inserts el between each element of arr
+func (s SliceRune) Intersperse(el rune) []rune {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+	result := make([]rune, 0, len(s.Data)*2-1)
+	result = append(result, s.Data[0])
+	for _, val := range s.Data[1:] {
+		result = append(result, el, val)
+	}
+	return result
+}
+
+// Last returns the last element from the slice
+func (s SliceRune) Last() (rune, error) {
+	if len(s.Data) == 0 {
+		var tmp rune
+		return tmp, ErrEmpty
+	}
+	return s.Data[len(s.Data)-1], nil
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceRune) MapBool(f func(el rune) bool) []bool {
+	result := make([]bool, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceRune) MapByte(f func(el rune) byte) []byte {
+	result := make([]byte, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceRune) MapString(f func(el rune) string) []string {
+	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceRune) MapRune(f func(el rune) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceRune) MapError(f func(el rune) error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceRune) MapFloat32(f func(el rune) float32) []float32 {
+	result := make([]float32, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceRune) MapFloat64(f func(el rune) float64) []float64 {
+	result := make([]float64, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceRune) MapInt(f func(el rune) int) []int {
+	result := make([]int, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceRune) MapInt8(f func(el rune) int8) []int8 {
+	result := make([]int8, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceRune) MapInt16(f func(el rune) int16) []int16 {
+	result := make([]int16, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceRune) MapInt32(f func(el rune) int32) []int32 {
+	result := make([]int32, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceRune) MapInt64(f func(el rune) int64) []int64 {
+	result := make([]int64, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceRune) MapUint(f func(el rune) uint) []uint {
+	result := make([]uint, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceRune) MapUint8(f func(el rune) uint8) []uint8 {
+	result := make([]uint8, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceRune) MapUint16(f func(el rune) uint16) []uint16 {
+	result := make([]uint16, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceRune) MapUint32(f func(el rune) uint32) []uint32 {
+	result := make([]uint32, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceRune) MapUint64(f func(el rune) uint64) []uint64 {
+	result := make([]uint64, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceRune) MapInterface(f func(el rune) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Max returns the maximal element from arr
+func (s SliceRune) Max() (rune, error) {
+	if len(s.Data) == 0 {
+		var tmp rune
+		return tmp, ErrEmpty
+	}
+
+	max := s.Data[0]
+	for _, el := range s.Data[1:] {
+		if el > max {
+			max = el
+		}
+	}
+	return max, nil
+}
+
+// Min returns the minimal element from arr
+func (s SliceRune) Min() (rune, error) {
+	if len(s.Data) == 0 {
+		var tmp rune
+		return tmp, ErrEmpty
+	}
+
+	min := s.Data[0]
+	for _, el := range s.Data[1:] {
+		if el < min {
+			min = el
+		}
+	}
+	return min, nil
+}
+
+// Permutations returns successive size-length permutations of elements from the slice.
+// {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
+func (s SliceRune) Permutations(size int) chan []rune {
+	c := make(chan []rune, 1)
+	go func() {
+		if len(s.Data) > 0 {
+			s.permutations(c, size, []rune{}, s.Data)
+		}
+		close(c)
+	}()
+	return c
+}
+
+// permutations is a core implementation for Permutations
+func (s SliceRune) permutations(c chan []rune, size int, left []rune, right []rune) {
+	if len(left) == size || len(right) == 0 {
+		c <- left
+		return
+	}
+
+	for i, el := range right {
+		newLeft := make([]rune, 0, len(left)+1)
+		newLeft = append(newLeft, left...)
+		newLeft = append(newLeft, el)
+
+		newRight := make([]rune, 0, len(right)-1)
+		for j, other := range right {
+			if j != i {
+				newRight = append(newRight, other)
+			}
+		}
+		s.permutations(c, size, newLeft, newRight)
+	}
+}
+
+// Product returns cortesian product of elements
+// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+func (s SliceRune) Product(repeat int) chan []rune {
+	c := make(chan []rune, 1)
+	go func() {
+		defer close(c)
+		if repeat < 1 {
+			return
+		}
+		s.product(c, repeat, []rune{}, 0)
+	}()
+	return c
+}
+
+// product is a core implementation for Product
+func (s SliceRune) product(c chan []rune, repeat int, left []rune, pos int) {
+	// iterate over the last array
+	if pos == repeat-1 {
+		for _, el := range s.Data {
+			result := make([]rune, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.Data {
+		result := make([]rune, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, repeat, result, pos+1)
+	}
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceRune) ReduceBool(acc bool, f func(el rune, acc bool) bool) bool {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceRune) ReduceByte(acc byte, f func(el rune, acc byte) byte) byte {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceRune) ReduceString(acc string, f func(el rune, acc string) string) string {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceRune) ReduceRune(acc rune, f func(el rune, acc rune) rune) rune {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceRune) ReduceError(acc error, f func(el rune, acc error) error) error {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceRune) ReduceFloat32(acc float32, f func(el rune, acc float32) float32) float32 {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceRune) ReduceFloat64(acc float64, f func(el rune, acc float64) float64) float64 {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceRune) ReduceInt(acc int, f func(el rune, acc int) int) int {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceRune) ReduceInt8(acc int8, f func(el rune, acc int8) int8) int8 {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceRune) ReduceInt16(acc int16, f func(el rune, acc int16) int16) int16 {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceRune) ReduceInt32(acc int32, f func(el rune, acc int32) int32) int32 {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceRune) ReduceInt64(acc int64, f func(el rune, acc int64) int64) int64 {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceRune) ReduceUint(acc uint, f func(el rune, acc uint) uint) uint {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceRune) ReduceUint8(acc uint8, f func(el rune, acc uint8) uint8) uint8 {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceRune) ReduceUint16(acc uint16, f func(el rune, acc uint16) uint16) uint16 {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceRune) ReduceUint32(acc uint32, f func(el rune, acc uint32) uint32) uint32 {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceRune) ReduceUint64(acc uint64, f func(el rune, acc uint64) uint64) uint64 {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceRune) ReduceInterface(acc interface{}, f func(el rune, acc interface{}) interface{}) interface{} {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceRune) ReduceWhileBool(acc bool, f func(el rune, acc bool) (bool, error)) (bool, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceRune) ReduceWhileByte(acc byte, f func(el rune, acc byte) (byte, error)) (byte, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceRune) ReduceWhileString(acc string, f func(el rune, acc string) (string, error)) (string, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceRune) ReduceWhileRune(acc rune, f func(el rune, acc rune) (rune, error)) (rune, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceRune) ReduceWhileError(acc error, f func(el rune, acc error) (error, error)) (error, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceRune) ReduceWhileFloat32(acc float32, f func(el rune, acc float32) (float32, error)) (float32, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceRune) ReduceWhileFloat64(acc float64, f func(el rune, acc float64) (float64, error)) (float64, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceRune) ReduceWhileInt(acc int, f func(el rune, acc int) (int, error)) (int, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceRune) ReduceWhileInt8(acc int8, f func(el rune, acc int8) (int8, error)) (int8, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceRune) ReduceWhileInt16(acc int16, f func(el rune, acc int16) (int16, error)) (int16, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceRune) ReduceWhileInt32(acc int32, f func(el rune, acc int32) (int32, error)) (int32, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceRune) ReduceWhileInt64(acc int64, f func(el rune, acc int64) (int64, error)) (int64, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceRune) ReduceWhileUint(acc uint, f func(el rune, acc uint) (uint, error)) (uint, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceRune) ReduceWhileUint8(acc uint8, f func(el rune, acc uint8) (uint8, error)) (uint8, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceRune) ReduceWhileUint16(acc uint16, f func(el rune, acc uint16) (uint16, error)) (uint16, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceRune) ReduceWhileUint32(acc uint32, f func(el rune, acc uint32) (uint32, error)) (uint32, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceRune) ReduceWhileUint64(acc uint64, f func(el rune, acc uint64) (uint64, error)) (uint64, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceRune) ReduceWhileInterface(acc interface{}, f func(el rune, acc interface{}) (interface{}, error)) (interface{}, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Reverse returns given arr in reversed order
+func (s SliceRune) Reverse() []rune {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
+	result := make([]rune, 0, len(s.Data))
+	for i := len(s.Data) - 1; i >= 0; i-- {
+		result = append(result, s.Data[i])
+	}
+	return result
+}
+
+// Same returns true if all element in arr the same
+func (s SliceRune) Same() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
+	for i := 0; i < len(s.Data)-1; i++ {
+		if s.Data[i] != s.Data[i+1] {
+			return false
+		}
+	}
+	return true
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceRune) ScanBool(acc bool, f func(el rune, acc bool) bool) []bool {
+	result := make([]bool, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceRune) ScanByte(acc byte, f func(el rune, acc byte) byte) []byte {
+	result := make([]byte, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceRune) ScanString(acc string, f func(el rune, acc string) string) []string {
+	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceRune) ScanRune(acc rune, f func(el rune, acc rune) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceRune) ScanError(acc error, f func(el rune, acc error) error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceRune) ScanFloat32(acc float32, f func(el rune, acc float32) float32) []float32 {
+	result := make([]float32, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceRune) ScanFloat64(acc float64, f func(el rune, acc float64) float64) []float64 {
+	result := make([]float64, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceRune) ScanInt(acc int, f func(el rune, acc int) int) []int {
+	result := make([]int, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceRune) ScanInt8(acc int8, f func(el rune, acc int8) int8) []int8 {
+	result := make([]int8, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceRune) ScanInt16(acc int16, f func(el rune, acc int16) int16) []int16 {
+	result := make([]int16, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceRune) ScanInt32(acc int32, f func(el rune, acc int32) int32) []int32 {
+	result := make([]int32, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceRune) ScanInt64(acc int64, f func(el rune, acc int64) int64) []int64 {
+	result := make([]int64, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceRune) ScanUint(acc uint, f func(el rune, acc uint) uint) []uint {
+	result := make([]uint, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceRune) ScanUint8(acc uint8, f func(el rune, acc uint8) uint8) []uint8 {
+	result := make([]uint8, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceRune) ScanUint16(acc uint16, f func(el rune, acc uint16) uint16) []uint16 {
+	result := make([]uint16, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceRune) ScanUint32(acc uint32, f func(el rune, acc uint32) uint32) []uint32 {
+	result := make([]uint32, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceRune) ScanUint64(acc uint64, f func(el rune, acc uint64) uint64) []uint64 {
+	result := make([]uint64, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceRune) ScanInterface(acc interface{}, f func(el rune, acc interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Shuffle in random order arr elements
+func (s SliceRune) Shuffle(seed int64) []rune {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
+	swap := func(i, j int) {
+		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
+	}
+	rand.Shuffle(len(s.Data), swap)
+	return s.Data
+}
+
+// Sort returns sorted slice
+func (s SliceRune) Sort() []rune {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
+	less := func(i int, j int) bool {
+		return s.Data[i] < s.Data[j]
+	}
+	sort.SliceStable(s.Data, less)
+	return s.Data
+}
+
+// Sorted returns true if slice is sorted
+func (s SliceRune) Sorted() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
+	for i := 1; i < len(s.Data); i++ {
+		if s.Data[i-1] > s.Data[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// Split splits arr by sep
+func (s SliceRune) Split(sep rune) [][]rune {
+	result := make([][]rune, 0)
+	curr := make([]rune, 0)
+	for _, el := range s.Data {
+		if el == sep {
+			result = append(result, curr)
+			curr = make([]rune, 0)
+		} else {
+			curr = append(curr, el)
+		}
+	}
+	result = append(result, curr)
+	return result
+}
+
+// StartsWith returns true if slice starts with the given prefix slice.
+// If prefix is empty, it returns true.
+func (s SliceRune) StartsWith(prefix []rune) bool {
+	if len(prefix) > len(s.Data) {
+		return false
+	}
+	for i, el := range prefix {
+		if el != s.Data[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// Sum return sum of all elements from arr
+func (s SliceRune) Sum() rune {
+	var sum rune
+	for _, el := range s.Data {
+		sum += el
+	}
+	return sum
+}
+
+// TakeEvery returns slice of every nth elements
+func (s SliceRune) TakeEvery(nth int, from int) ([]rune, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveValue
+	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
+	result := make([]rune, 0, len(s.Data))
+	for i, el := range s.Data {
+		if (i+from)%nth == 0 {
+			result = append(result, el)
+		}
+	}
+	return result, nil
+}
+
+// TakeRandom returns slice of count random elements from the slice
+func (s SliceRune) TakeRandom(count int, seed int64) ([]rune, error) {
+	if count > len(s.Data) {
+		return nil, ErrOutOfRange
+	}
+	if count <= 0 {
+		return nil, ErrNonPositiveValue
+	}
+
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
+	swap := func(i, j int) {
+		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
+	}
+	rand.Shuffle(len(s.Data), swap)
+	return s.Data[:count], nil
+}
+
+// TakeWhile takes elements from arr while f returns true
+func (s SliceRune) TakeWhile(f func(el rune) bool) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
+// ToChannel returns channel with elements from the slice
+func (s SliceRune) ToChannel() chan rune {
+	c := make(chan rune, 1)
+	go func() {
+		for _, el := range s.Data {
+			c <- el
+		}
+		close(c)
+	}()
+	return c
+}
+
+// Uniq returns arr with only first occurences of every element.
+func (s SliceRune) Uniq() []rune {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
+	added := make(map[rune]struct{})
+	nothing := struct{}{}
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		_, exists := added[el]
+		if !exists {
+			result = append(result, el)
+			added[el] = nothing
+		}
+	}
+	return result
+
+}
+
+// Window makes sliding window for a given slice:
+// ({1,2,3}, 2) -> (1,2), (2,3)
+func (s SliceRune) Window(size int) ([][]rune, error) {
+	if size <= 0 {
+		return nil, ErrNonPositiveValue
+	}
+	result := make([][]rune, 0, len(s.Data)/size)
+	for i := 0; i <= len(s.Data)-size; i++ {
+		chunk := s.Data[i : i+size]
+		result = append(result, chunk)
+	}
+	return result, nil
+}
+
+// Without returns the slice with filtered out element
+func (s SliceRune) Without(elements ...rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		allowed := true
+		for _, other := range elements {
+			if el == other {
+				allowed = false
+			}
+		}
+		if allowed {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
+// Any returns true if f returns true for any element in channel
+func (c ChannelRune) Any(f func(el rune) bool) bool {
+	for el := range c.Data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+// All returns true if f returns true for all elements in channel
+func (c ChannelRune) All(f func(el rune) bool) bool {
+	for el := range c.Data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
+}
+
+// ChunkEvery returns channel with slices containing count elements each
+func (c ChannelRune) ChunkEvery(count int) chan []rune {
+	chunks := make(chan []rune, 1)
+	go func() {
+		chunk := make([]rune, 0, count)
+		i := 0
+		for el := range c.Data {
+			chunk = append(chunk, el)
+			i++
+			if i%count == 0 {
+				i = 0
+				chunks <- chunk
+				chunk = make([]rune, 0, count)
+			}
+		}
+		if len(chunk) > 0 {
+			chunks <- chunk
+		}
+		close(chunks)
+	}()
+	return chunks
+}
+
+// Count return count of el occurences in channel.
+func (c ChannelRune) Count(el rune) int {
+	count := 0
+	for val := range c.Data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
+// Drop drops first n elements from channel c and returns a new channel with the rest.
+// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
+func (c ChannelRune) Drop(n int) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		i := 0
+		for el := range c.Data {
+			if i >= n {
+				result <- el
+			}
+			i++
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Each calls f for every element in the channel
+func (c ChannelRune) Each(f func(el rune)) {
+	for el := range c.Data {
+		f(el)
+	}
+}
+
+// Filter returns a new channel with elements from input channel
+// for which f returns true
+func (c ChannelRune) Filter(f func(el rune) bool) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			if f(el) {
+				result <- el
+			}
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelRune) MapBool(f func(el rune) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelRune) MapByte(f func(el rune) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelRune) MapString(f func(el rune) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelRune) MapRune(f func(el rune) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelRune) MapError(f func(el rune) error) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelRune) MapFloat32(f func(el rune) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelRune) MapFloat64(f func(el rune) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelRune) MapInt(f func(el rune) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelRune) MapInt8(f func(el rune) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelRune) MapInt16(f func(el rune) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelRune) MapInt32(f func(el rune) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelRune) MapInt64(f func(el rune) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelRune) MapUint(f func(el rune) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelRune) MapUint8(f func(el rune) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelRune) MapUint16(f func(el rune) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelRune) MapUint32(f func(el rune) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelRune) MapUint64(f func(el rune) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelRune) MapInterface(f func(el rune) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Max returns the maximal element from channel
+func (c ChannelRune) Max() (rune, error) {
+	max, ok := <-c.Data
+	if !ok {
+		return max, ErrEmpty
+	}
+	for el := range c.Data {
+		if el > max {
+			max = el
+		}
+	}
+	return max, nil
+}
+
+// Min returns the minimal element from channel
+func (c ChannelRune) Min() (rune, error) {
+	min, ok := <-c.Data
+	if !ok {
+		return min, ErrEmpty
+	}
+	for el := range c.Data {
+		if el < min {
+			min = el
+		}
+	}
+	return min, nil
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelRune) ReduceBool(acc bool, f func(el rune, acc bool) bool) bool {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelRune) ReduceByte(acc byte, f func(el rune, acc byte) byte) byte {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelRune) ReduceString(acc string, f func(el rune, acc string) string) string {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelRune) ReduceRune(acc rune, f func(el rune, acc rune) rune) rune {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelRune) ReduceError(acc error, f func(el rune, acc error) error) error {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelRune) ReduceFloat32(acc float32, f func(el rune, acc float32) float32) float32 {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelRune) ReduceFloat64(acc float64, f func(el rune, acc float64) float64) float64 {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelRune) ReduceInt(acc int, f func(el rune, acc int) int) int {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelRune) ReduceInt8(acc int8, f func(el rune, acc int8) int8) int8 {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelRune) ReduceInt16(acc int16, f func(el rune, acc int16) int16) int16 {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelRune) ReduceInt32(acc int32, f func(el rune, acc int32) int32) int32 {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelRune) ReduceInt64(acc int64, f func(el rune, acc int64) int64) int64 {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelRune) ReduceUint(acc uint, f func(el rune, acc uint) uint) uint {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelRune) ReduceUint8(acc uint8, f func(el rune, acc uint8) uint8) uint8 {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelRune) ReduceUint16(acc uint16, f func(el rune, acc uint16) uint16) uint16 {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelRune) ReduceUint32(acc uint32, f func(el rune, acc uint32) uint32) uint32 {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelRune) ReduceUint64(acc uint64, f func(el rune, acc uint64) uint64) uint64 {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelRune) ReduceInterface(acc interface{}, f func(el rune, acc interface{}) interface{}) interface{} {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelRune) ScanBool(acc bool, f func(el rune, acc bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelRune) ScanByte(acc byte, f func(el rune, acc byte) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelRune) ScanString(acc string, f func(el rune, acc string) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelRune) ScanRune(acc rune, f func(el rune, acc rune) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelRune) ScanError(acc error, f func(el rune, acc error) error) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelRune) ScanFloat32(acc float32, f func(el rune, acc float32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelRune) ScanFloat64(acc float64, f func(el rune, acc float64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelRune) ScanInt(acc int, f func(el rune, acc int) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelRune) ScanInt8(acc int8, f func(el rune, acc int8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelRune) ScanInt16(acc int16, f func(el rune, acc int16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelRune) ScanInt32(acc int32, f func(el rune, acc int32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelRune) ScanInt64(acc int64, f func(el rune, acc int64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelRune) ScanUint(acc uint, f func(el rune, acc uint) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelRune) ScanUint8(acc uint8, f func(el rune, acc uint8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelRune) ScanUint16(acc uint16, f func(el rune, acc uint16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelRune) ScanUint32(acc uint32, f func(el rune, acc uint32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelRune) ScanUint64(acc uint64, f func(el rune, acc uint64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelRune) ScanInterface(acc interface{}, f func(el rune, acc interface{}) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Sum returns sum of all elements from channel
+func (c ChannelRune) Sum() rune {
+	var sum rune
+	for el := range c.Data {
+		sum += el
+	}
+	return sum
+}
+
+// Take takes first count elements from the channel.
+func (c ChannelRune) Take(count int) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for el := range c.Data {
+			result <- el
+			i++
+			if i == count {
+				return
+			}
+		}
+	}()
+	return result
+}
+
+// Tee returns 2 channels with elements from the input channel
+func (c ChannelRune) Tee(count int) []chan rune {
+	channels := make([]chan rune, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan rune, 1))
+	}
+	go func() {
+		for el := range c.Data {
+			wg := sync.WaitGroup{}
+			putInto := func(ch chan rune) {
+				defer wg.Done()
+				ch <- el
+			}
+			wg.Add(count)
+			for _, ch := range channels {
+				putInto(ch)
+			}
+			wg.Wait()
+		}
+		for _, ch := range channels {
+			close(ch)
+		}
+	}()
+	return channels
+}
+
+// ToSlice returns slice with all elements from channel.
+func (c ChannelRune) ToSlice() []rune {
+	result := make([]rune, 0)
+	for val := range c.Data {
+		result = append(result, val)
+	}
+	return result
+}
+
+// Count is like Range, but infinite
+func (s SequenceRune) Count(start rune, step rune) chan rune {
+	c := make(chan rune, 1)
+	go func() {
+		defer close(c)
+		for {
+			select {
+			case <-s.ctx.Done():
+				return
+			case c <- start:
+				start += step
+			}
+		}
+	}()
+	return c
+}
+
+// Exponential generates elements from start with
+// multiplication of value on factor on every step
+func (s SequenceRune) Exponential(start rune, factor rune) chan rune {
+	c := make(chan rune, 1)
+	go func() {
+		defer close(c)
+		for {
+			select {
+			case <-s.ctx.Done():
+				return
+			case c <- start:
+				start *= factor
+			}
+		}
+	}()
+	return c
+}
+
+// Iterate returns an infinite list of repeated applications of f to val
+func (s SequenceRune) Iterate(val rune, f func(val rune) rune) chan rune {
+	c := make(chan rune, 1)
+	go func() {
+		defer close(c)
+		for {
+			select {
+			case <-s.ctx.Done():
+				return
+			case c <- val:
+				val = f(val)
+			}
+		}
+	}()
+	return c
+}
+
+// Range generates elements from start to end with given step
+func (s SequenceRune) Range(start rune, end rune, step rune) chan rune {
+	c := make(chan rune, 1)
+	pos := start <= end
+	go func() {
+		for pos && (start < end) || !pos && (start > end) {
+			c <- start
+			start += step
+		}
+		close(c)
+	}()
+	return c
+}
+
+// Repeat returns channel that produces val infinite times
+func (s SequenceRune) Repeat(val rune) chan rune {
+	c := make(chan rune, 1)
+	go func() {
+		defer close(c)
+		for {
+			select {
+			case <-s.ctx.Done():
+				return
+			case c <- val:
+				continue
+			}
+		}
+	}()
+	return c
+}
+
+// Replicate returns channel that produces val n times
+func (s SequenceRune) Replicate(val rune, n int) chan rune {
+	c := make(chan rune, 1)
+	go func() {
+		for i := 0; i < n; i++ {
+			c <- val
+		}
+		close(c)
+	}()
+	return c
+}
+
+// Min returns minimal value
+func (PairRune) Min(a rune, b rune) rune {
+	if a <= b {
+		return a
+	}
+	return b
+}
+
+// Max returns maximal value
+func (PairRune) Max(a rune, b rune) rune {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+// All returns true if f returns true for all elements in slice
+func (s AsyncSliceRune) All(f func(el rune) bool) bool {
+	if len(s.Data) == 0 {
+		return true
+	}
+
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- bool, ctx context.Context) {
+		defer wg.Done()
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case index, ok := <-jobs:
+				if !ok {
+					return
+				}
+				if !f(s.Data[index]) {
+					result <- false
+					return
+				}
+			}
+		}
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	// when we're returning the result, cancel all workers
+	defer cancel()
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	result := make(chan bool, workers)
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs, result, ctx)
+	}
+
+	// close the result channel when all workers have done
+	go func() {
+		wg.Wait()
+		close(result)
+	}()
+
+	// schedule the jobs: indices to check
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+
+	for range result {
+		return false
+	}
+	return true
+}
+
+// Any returns true if f returns true for any element from slice
+func (s AsyncSliceRune) Any(f func(el rune) bool) bool {
+	if len(s.Data) == 0 {
+		return false
+	}
+
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- bool, ctx context.Context) {
+		defer wg.Done()
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case index, ok := <-jobs:
+				if !ok {
+					return
+				}
+				if f(s.Data[index]) {
+					result <- true
+					return
+				}
+			}
+		}
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	// when we're returning the result, cancel all workers
+	defer cancel()
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	result := make(chan bool, workers)
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs, result, ctx)
+	}
+
+	// close the result channel when all workers have done
+	go func() {
+		wg.Wait()
+		close(result)
+	}()
+
+	// schedule the jobs: indices to check
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+
+	for range result {
+		return true
+	}
+	return false
+}
+
+// Each calls f for every element from slice
+func (s AsyncSliceRune) Each(f func(el rune)) {
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		defer wg.Done()
+		for index := range jobs {
+			f(s.Data[index])
+		}
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+}
+
+// Filter returns slice of element for which f returns true
+func (s AsyncSliceRune) Filter(f func(el rune) bool) []rune {
+	resultMap := make([]bool, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			if f(s.Data[index]) {
+				resultMap[index] = true
+			}
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+
+	// return filtered results
+	result := make([]rune, 0, len(s.Data))
+	for i, el := range s.Data {
+		if resultMap[i] {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceRune) MapBool(f func(el rune) bool) []bool {
+	result := make([]bool, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceRune) MapByte(f func(el rune) byte) []byte {
+	result := make([]byte, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceRune) MapString(f func(el rune) string) []string {
+	result := make([]string, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceRune) MapRune(f func(el rune) rune) []rune {
+	result := make([]rune, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceRune) MapError(f func(el rune) error) []error {
+	result := make([]error, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceRune) MapFloat32(f func(el rune) float32) []float32 {
+	result := make([]float32, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceRune) MapFloat64(f func(el rune) float64) []float64 {
+	result := make([]float64, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceRune) MapInt(f func(el rune) int) []int {
+	result := make([]int, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceRune) MapInt8(f func(el rune) int8) []int8 {
+	result := make([]int8, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceRune) MapInt16(f func(el rune) int16) []int16 {
+	result := make([]int16, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceRune) MapInt32(f func(el rune) int32) []int32 {
+	result := make([]int32, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceRune) MapInt64(f func(el rune) int64) []int64 {
+	result := make([]int64, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceRune) MapUint(f func(el rune) uint) []uint {
+	result := make([]uint, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceRune) MapUint8(f func(el rune) uint8) []uint8 {
+	result := make([]uint8, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceRune) MapUint16(f func(el rune) uint16) []uint16 {
+	result := make([]uint16, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceRune) MapUint32(f func(el rune) uint32) []uint32 {
+	result := make([]uint32, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceRune) MapUint64(f func(el rune) uint64) []uint64 {
+	result := make([]uint64, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceRune) MapInterface(f func(el rune) interface{}) []interface{} {
+	result := make([]interface{}, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Reduce reduces slice to a single value with f
+func (s AsyncSliceRune) Reduce(f func(left rune, right rune) rune) rune {
+	if len(s.Data) == 0 {
+		var tmp rune
+		return tmp
+	}
+
+	state := make([]rune, len(s.Data))
+	state = append(state, s.Data...)
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- rune) {
+		for index := range jobs {
+			result <- f(state[index], state[index+1])
+		}
+		wg.Done()
+	}
+
+	for len(state) > 1 {
+		// calculate workers count
+		workers := s.Workers
+		if workers == 0 || workers > len(state) {
+			workers = len(state)
+		}
+
+		// run workers
+		jobs := make(chan int, len(state))
+		wg.Add(workers)
+		result := make(chan rune, 1)
+		for i := 0; i < workers; i++ {
+			go worker(jobs, result)
+		}
+
+		go func() {
+			wg.Wait()
+			close(result)
+		}()
+
+		// add indices into jobs for workers
+		for i := 0; i < len(state)-1; i += 2 {
+			jobs <- i
+		}
+		close(jobs)
+
+		// collect new state
+		newState := make([]rune, 0, len(state)/2+len(state)%2)
+		for el := range result {
+			newState = append(newState, el)
+		}
+		if len(state)%2 == 1 {
+			newState = append(newState, state[len(state)-1])
+		}
+		// put new state as current state after all
+		state = newState
+	}
+
+	return state[0]
+}
+
+// Concat concatenates given slices into a single slice.
+func (s SlicesRune) Concat() []rune {
+	result := make([]rune, 0)
+	for _, arr := range s.Data {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+// Product returns cortesian product of elements
+// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+func (s SlicesRune) Product() chan []rune {
+	c := make(chan []rune, 1)
+	go s.product(c, []rune{}, 0)
+	return c
+}
+
+// product is a core implementation of Product
+func (s SlicesRune) product(c chan []rune, left []rune, pos int) {
+	// iterate over the last array
+	if pos == len(s.Data)-1 {
+		for _, el := range s.Data[pos] {
+			result := make([]rune, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.Data[pos] {
+		result := make([]rune, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
+// Zip returns chan of arrays of elements from given arrs on the same position.
+func (s SlicesRune) Zip() chan []rune {
+	if len(s.Data) == 0 {
+		result := make(chan []rune)
+		close(result)
+		return result
+	}
+
+	size := len(s.Data[0])
+	for _, arr := range s.Data[1:] {
+		if len(arr) < size {
+			size = len(arr)
+		}
+	}
+
+	result := make(chan []rune, 1)
+	go func() {
+		for i := 0; i < size; i++ {
+			chunk := make([]rune, 0, len(s.Data))
+			for _, arr := range s.Data {
+				chunk = append(chunk, arr[i])
+			}
+			result <- chunk
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Slice is a set of operations to work with slice
+type SliceError struct {
+	Data []error
+}
+
+// Channel is a set of operations with channel
+type ChannelError struct {
+	Data chan error
+}
+
+// Sequence is a set of operations to generate sequences
+type SequenceError struct {
+	ctx context.Context
+}
+
+// Pair is a set of functions for 2 values that you can pass into reduce-like funcs
+type PairError struct {
+	// empty
+}
+
+// AsyncSlice is a set of operations to work with slice asynchronously
+type AsyncSliceError struct {
+	Data    []error
+	Workers int
+}
+
+// Slices is a set of operations to work with slice of slices
+type SlicesError struct {
+	Data [][]error
+}
+
+// Any returns true if f returns true for any element in arr
+func (s SliceError) Any(f func(el error) bool) bool {
+	for _, el := range s.Data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+// All returns true if f returns true for all elements in arr
+func (s SliceError) All(f func(el error) bool) bool {
+	for _, el := range s.Data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
+}
+
+// Choice chooses a random element from the slice.
+// If seed is zero, UNIX timestamp will be used.
+func (s SliceError) Choice(seed int64) (error, error) {
+	if len(s.Data) == 0 {
+		var tmp error
+		return tmp, ErrEmpty
+	}
+
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
+	i := rand.Intn(len(s.Data))
+	return s.Data[i], nil
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceError) ChunkByBool(f func(el error) bool) [][]error {
+	chunks := make([][]error, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]error, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]error, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceError) ChunkByByte(f func(el error) byte) [][]error {
+	chunks := make([][]error, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]error, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]error, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceError) ChunkByString(f func(el error) string) [][]error {
+	chunks := make([][]error, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]error, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]error, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceError) ChunkByRune(f func(el error) rune) [][]error {
+	chunks := make([][]error, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]error, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]error, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceError) ChunkByError(f func(el error) error) [][]error {
+	chunks := make([][]error, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]error, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]error, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceError) ChunkByFloat32(f func(el error) float32) [][]error {
+	chunks := make([][]error, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]error, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]error, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceError) ChunkByFloat64(f func(el error) float64) [][]error {
+	chunks := make([][]error, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]error, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]error, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceError) ChunkByInt(f func(el error) int) [][]error {
+	chunks := make([][]error, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]error, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]error, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceError) ChunkByInt8(f func(el error) int8) [][]error {
+	chunks := make([][]error, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]error, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]error, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceError) ChunkByInt16(f func(el error) int16) [][]error {
+	chunks := make([][]error, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]error, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]error, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceError) ChunkByInt32(f func(el error) int32) [][]error {
+	chunks := make([][]error, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]error, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]error, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceError) ChunkByInt64(f func(el error) int64) [][]error {
+	chunks := make([][]error, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]error, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]error, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceError) ChunkByUint(f func(el error) uint) [][]error {
+	chunks := make([][]error, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]error, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]error, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceError) ChunkByUint8(f func(el error) uint8) [][]error {
+	chunks := make([][]error, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]error, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]error, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceError) ChunkByUint16(f func(el error) uint16) [][]error {
+	chunks := make([][]error, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]error, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]error, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceError) ChunkByUint32(f func(el error) uint32) [][]error {
+	chunks := make([][]error, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]error, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]error, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceError) ChunkByUint64(f func(el error) uint64) [][]error {
+	chunks := make([][]error, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]error, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]error, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceError) ChunkByInterface(f func(el error) interface{}) [][]error {
+	chunks := make([][]error, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]error, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]error, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkEvery returns slice of slices containing count elements each
+func (s SliceError) ChunkEvery(count int) ([][]error, error) {
+	chunks := make([][]error, 0)
+	if count <= 0 {
+		return chunks, ErrNegativeValue
+	}
+	chunk := make([]error, 0, count)
+	for i, el := range s.Data {
+		chunk = append(chunk, el)
+		if (i+1)%count == 0 {
+			chunks = append(chunks, chunk)
+			chunk = make([]error, 0, count)
+		}
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks, nil
+}
+
+// Contains returns true if el in arr.
+func (s SliceError) Contains(el error) bool {
+	for _, val := range s.Data {
+		if val == el {
+			return true
+		}
+	}
+	return false
+}
+
+// Count return count of el occurences in arr.
+func (s SliceError) Count(el error) int {
+	count := 0
+	for _, val := range s.Data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
+// CountBy returns how many times f returns true.
+func (s SliceError) CountBy(f func(el error) bool) int {
+	count := 0
+	for _, el := range s.Data {
+		if f(el) {
+			count++
+		}
+	}
+	return count
+}
+
+// Cycle is an infinite loop over slice
+func (s SliceError) Cycle() chan error {
+	c := make(chan error, 1)
+	go func() {
+		defer close(c)
+		if len(s.Data) == 0 {
+			return
+		}
+		for {
+			for _, val := range s.Data {
+				c <- val
+			}
+		}
+	}()
+	return c
+}
+
+// Dedup returns a given slice without consecutive duplicated elements
+func (s SliceError) Dedup() []error {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]error, 0, len(s.Data))
+	prev := s.Data[0]
+	result = append(result, prev)
+	for _, el := range s.Data[1:] {
+		if el != prev {
+			result = append(result, el)
+			prev = el
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceError) DedupByBool(f func(el error) bool) []error {
+	result := make([]error, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceError) DedupByByte(f func(el error) byte) []error {
+	result := make([]error, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceError) DedupByString(f func(el error) string) []error {
+	result := make([]error, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceError) DedupByRune(f func(el error) rune) []error {
+	result := make([]error, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceError) DedupByError(f func(el error) error) []error {
+	result := make([]error, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceError) DedupByFloat32(f func(el error) float32) []error {
+	result := make([]error, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceError) DedupByFloat64(f func(el error) float64) []error {
+	result := make([]error, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceError) DedupByInt(f func(el error) int) []error {
+	result := make([]error, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceError) DedupByInt8(f func(el error) int8) []error {
+	result := make([]error, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceError) DedupByInt16(f func(el error) int16) []error {
+	result := make([]error, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceError) DedupByInt32(f func(el error) int32) []error {
+	result := make([]error, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceError) DedupByInt64(f func(el error) int64) []error {
+	result := make([]error, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceError) DedupByUint(f func(el error) uint) []error {
+	result := make([]error, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceError) DedupByUint8(f func(el error) uint8) []error {
+	result := make([]error, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceError) DedupByUint16(f func(el error) uint16) []error {
+	result := make([]error, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceError) DedupByUint32(f func(el error) uint32) []error {
+	result := make([]error, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceError) DedupByUint64(f func(el error) uint64) []error {
+	result := make([]error, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceError) DedupByInterface(f func(el error) interface{}) []error {
+	result := make([]error, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// Delete deletes the first occurence of the element from the slice
+func (s SliceError) Delete(element error) []error {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]error, 0, len(s.Data))
+	deleted := false
+	for _, el := range s.Data {
+		if !deleted && el == element {
+			deleted = true
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAll deletes all occurences of the element from the slice
+func (s SliceError) DeleteAll(element error) []error {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		if el == element {
+			continue
+		}
+		result = append(result, el)
+	}
+	return result
+
+}
+
+// DeleteAt returns the slice without elements on given positions
+func (s SliceError) DeleteAt(indices ...int) ([]error, error) {
+	if len(indices) == 0 || len(s.Data) == 0 {
+		return s.Data, nil
+	}
+
+	for _, index := range indices {
+		if index >= len(s.Data) {
+			return s.Data, ErrOutOfRange
+		}
+	}
+
+	result := make([]error, 0, len(s.Data)-1)
+	for i, el := range s.Data {
+		add := true
+		for _, index := range indices {
+			if i == index {
+				add = false
+				break
+			}
+		}
+		if add {
+			result = append(result, el)
+		}
+	}
+	return result, nil
+}
+
+// DropEvery returns a slice of every nth element in the enumerable dropped,
+// starting with the first element.
+func (s SliceError) DropEvery(nth int, from int) ([]error, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveValue
+	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
+	result := make([]error, 0, len(s.Data)/nth)
+	for i, el := range s.Data {
+		if (i+from)%nth != 0 {
+			result = append(result, el)
+		}
+	}
+	return result, nil
+}
+
+// DropWhile drops elements from arr while f returns true
+func (s SliceError) DropWhile(f func(el error) bool) []error {
+	for i, el := range s.Data {
+		if !f(el) {
+			return s.Data[i:]
+		}
+	}
+	return []error{}
+}
+
+// Each calls f for every element from arr
+func (s SliceError) Each(f func(el error)) {
+	for _, el := range s.Data {
+		f(el)
+	}
+}
+
+// EndsWith returns true if slice ends with the given suffix slice.
+// If suffix is empty, it returns true.
+func (s SliceError) EndsWith(suffix []error) bool {
+	if len(suffix) > len(s.Data) {
+		return false
+	}
+	start := len(s.Data) - len(suffix)
+	for i, el := range suffix {
+		if el != s.Data[start+i] {
+			return false
+		}
+	}
+	return true
+}
+
+// Equal returns true if slices are equal
+func (s SliceError) Equal(other []error) bool {
+	if len(s.Data) != len(other) {
+		return false
+	}
+	for i, el := range other {
+		if s.Data[i] != el {
+			return false
+		}
+	}
+	return true
+}
+
+// Filter returns slice of T for which F returned true
+func (s SliceError) Filter(f func(el error) bool) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		if f(el) {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
+// Find returns the first element for which f returns true
+func (s SliceError) Find(f func(el error) bool) (error, error) {
+	for _, el := range s.Data {
+		if f(el) {
+			return el, nil
+		}
+	}
+	var tmp error
+	return tmp, ErrNotFound
+}
+
+// FindIndex is like Find, but return element index instead of element itself.
+// Returns -1 if element not found
+func (s SliceError) FindIndex(f func(el error) bool) int {
+	for i, el := range s.Data {
+		if f(el) {
+			return i
+		}
+	}
+	return -1
+}
+
+// Join concatenates elements of the slice to create a single string.
+func (s SliceError) Join(sep string) string {
+	strs := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		strs = append(strs, fmt.Sprintf("%v", el))
+	}
+	return strings.Join(strs, sep)
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceError) GroupByBool(f func(el error) bool) map[bool][]error {
+	result := make(map[bool][]error)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]error, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceError) GroupByByte(f func(el error) byte) map[byte][]error {
+	result := make(map[byte][]error)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]error, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceError) GroupByString(f func(el error) string) map[string][]error {
+	result := make(map[string][]error)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]error, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceError) GroupByRune(f func(el error) rune) map[rune][]error {
+	result := make(map[rune][]error)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]error, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceError) GroupByError(f func(el error) error) map[error][]error {
+	result := make(map[error][]error)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]error, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceError) GroupByFloat32(f func(el error) float32) map[float32][]error {
+	result := make(map[float32][]error)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]error, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceError) GroupByFloat64(f func(el error) float64) map[float64][]error {
+	result := make(map[float64][]error)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]error, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceError) GroupByInt(f func(el error) int) map[int][]error {
+	result := make(map[int][]error)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]error, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceError) GroupByInt8(f func(el error) int8) map[int8][]error {
+	result := make(map[int8][]error)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]error, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceError) GroupByInt16(f func(el error) int16) map[int16][]error {
+	result := make(map[int16][]error)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]error, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceError) GroupByInt32(f func(el error) int32) map[int32][]error {
+	result := make(map[int32][]error)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]error, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceError) GroupByInt64(f func(el error) int64) map[int64][]error {
+	result := make(map[int64][]error)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]error, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceError) GroupByUint(f func(el error) uint) map[uint][]error {
+	result := make(map[uint][]error)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]error, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceError) GroupByUint8(f func(el error) uint8) map[uint8][]error {
+	result := make(map[uint8][]error)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]error, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceError) GroupByUint16(f func(el error) uint16) map[uint16][]error {
+	result := make(map[uint16][]error)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]error, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceError) GroupByUint32(f func(el error) uint32) map[uint32][]error {
+	result := make(map[uint32][]error)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]error, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceError) GroupByUint64(f func(el error) uint64) map[uint64][]error {
+	result := make(map[uint64][]error)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]error, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceError) GroupByInterface(f func(el error) interface{}) map[interface{}][]error {
+	result := make(map[interface{}][]error)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]error, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// InsertAt returns the slice with element inserted at given index.
+func (s SliceError) InsertAt(index int, element error) ([]error, error) {
+	result := make([]error, 0, len(s.Data)+1)
+
+	// insert at the end
+	if index == len(s.Data) {
+		result = append(result, s.Data...)
+		result = append(result, element)
+		return result, nil
+	}
+
+	if index > len(s.Data) {
+		return s.Data, ErrOutOfRange
+	}
+	if index < 0 {
+		return s.Data, ErrNegativeValue
+	}
+
+	for i, el := range s.Data {
+		if i == index {
+			result = append(result, element)
+		}
+		result = append(result, el)
+	}
+	return result, nil
+}
+
+// Intersperse inserts el between each element of arr
+func (s SliceError) Intersperse(el error) []error {
+	if len(s.Data) == 0 {
+		return s.Data
+	}
+	result := make([]error, 0, len(s.Data)*2-1)
+	result = append(result, s.Data[0])
+	for _, val := range s.Data[1:] {
+		result = append(result, el, val)
+	}
+	return result
+}
+
+// Last returns the last element from the slice
+func (s SliceError) Last() (error, error) {
+	if len(s.Data) == 0 {
+		var tmp error
+		return tmp, ErrEmpty
+	}
+	return s.Data[len(s.Data)-1], nil
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceError) MapBool(f func(el error) bool) []bool {
+	result := make([]bool, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceError) MapByte(f func(el error) byte) []byte {
+	result := make([]byte, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceError) MapString(f func(el error) string) []string {
+	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceError) MapRune(f func(el error) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceError) MapError(f func(el error) error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceError) MapFloat32(f func(el error) float32) []float32 {
+	result := make([]float32, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceError) MapFloat64(f func(el error) float64) []float64 {
+	result := make([]float64, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceError) MapInt(f func(el error) int) []int {
+	result := make([]int, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceError) MapInt8(f func(el error) int8) []int8 {
+	result := make([]int8, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceError) MapInt16(f func(el error) int16) []int16 {
+	result := make([]int16, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceError) MapInt32(f func(el error) int32) []int32 {
+	result := make([]int32, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceError) MapInt64(f func(el error) int64) []int64 {
+	result := make([]int64, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceError) MapUint(f func(el error) uint) []uint {
+	result := make([]uint, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceError) MapUint8(f func(el error) uint8) []uint8 {
+	result := make([]uint8, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceError) MapUint16(f func(el error) uint16) []uint16 {
+	result := make([]uint16, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceError) MapUint32(f func(el error) uint32) []uint32 {
+	result := make([]uint32, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceError) MapUint64(f func(el error) uint64) []uint64 {
+	result := make([]uint64, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceError) MapInterface(f func(el error) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Permutations returns successive size-length permutations of elements from the slice.
+// {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
+func (s SliceError) Permutations(size int) chan []error {
+	c := make(chan []error, 1)
+	go func() {
+		if len(s.Data) > 0 {
+			s.permutations(c, size, []error{}, s.Data)
+		}
+		close(c)
+	}()
+	return c
+}
+
+// permutations is a core implementation for Permutations
+func (s SliceError) permutations(c chan []error, size int, left []error, right []error) {
+	if len(left) == size || len(right) == 0 {
+		c <- left
+		return
+	}
+
+	for i, el := range right {
+		newLeft := make([]error, 0, len(left)+1)
+		newLeft = append(newLeft, left...)
+		newLeft = append(newLeft, el)
+
+		newRight := make([]error, 0, len(right)-1)
+		for j, other := range right {
+			if j != i {
+				newRight = append(newRight, other)
+			}
+		}
+		s.permutations(c, size, newLeft, newRight)
+	}
+}
+
+// Product returns cortesian product of elements
+// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+func (s SliceError) Product(repeat int) chan []error {
+	c := make(chan []error, 1)
+	go func() {
+		defer close(c)
+		if repeat < 1 {
+			return
+		}
+		s.product(c, repeat, []error{}, 0)
+	}()
+	return c
+}
+
+// product is a core implementation for Product
+func (s SliceError) product(c chan []error, repeat int, left []error, pos int) {
+	// iterate over the last array
+	if pos == repeat-1 {
+		for _, el := range s.Data {
+			result := make([]error, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.Data {
+		result := make([]error, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, repeat, result, pos+1)
+	}
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceError) ReduceBool(acc bool, f func(el error, acc bool) bool) bool {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceError) ReduceByte(acc byte, f func(el error, acc byte) byte) byte {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceError) ReduceString(acc string, f func(el error, acc string) string) string {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceError) ReduceRune(acc rune, f func(el error, acc rune) rune) rune {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceError) ReduceError(acc error, f func(el error, acc error) error) error {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceError) ReduceFloat32(acc float32, f func(el error, acc float32) float32) float32 {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceError) ReduceFloat64(acc float64, f func(el error, acc float64) float64) float64 {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceError) ReduceInt(acc int, f func(el error, acc int) int) int {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceError) ReduceInt8(acc int8, f func(el error, acc int8) int8) int8 {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceError) ReduceInt16(acc int16, f func(el error, acc int16) int16) int16 {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceError) ReduceInt32(acc int32, f func(el error, acc int32) int32) int32 {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceError) ReduceInt64(acc int64, f func(el error, acc int64) int64) int64 {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceError) ReduceUint(acc uint, f func(el error, acc uint) uint) uint {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceError) ReduceUint8(acc uint8, f func(el error, acc uint8) uint8) uint8 {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceError) ReduceUint16(acc uint16, f func(el error, acc uint16) uint16) uint16 {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceError) ReduceUint32(acc uint32, f func(el error, acc uint32) uint32) uint32 {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceError) ReduceUint64(acc uint64, f func(el error, acc uint64) uint64) uint64 {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceError) ReduceInterface(acc interface{}, f func(el error, acc interface{}) interface{}) interface{} {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceError) ReduceWhileBool(acc bool, f func(el error, acc bool) (bool, error)) (bool, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceError) ReduceWhileByte(acc byte, f func(el error, acc byte) (byte, error)) (byte, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceError) ReduceWhileString(acc string, f func(el error, acc string) (string, error)) (string, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceError) ReduceWhileRune(acc rune, f func(el error, acc rune) (rune, error)) (rune, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceError) ReduceWhileError(acc error, f func(el error, acc error) (error, error)) (error, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceError) ReduceWhileFloat32(acc float32, f func(el error, acc float32) (float32, error)) (float32, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceError) ReduceWhileFloat64(acc float64, f func(el error, acc float64) (float64, error)) (float64, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceError) ReduceWhileInt(acc int, f func(el error, acc int) (int, error)) (int, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceError) ReduceWhileInt8(acc int8, f func(el error, acc int8) (int8, error)) (int8, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceError) ReduceWhileInt16(acc int16, f func(el error, acc int16) (int16, error)) (int16, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceError) ReduceWhileInt32(acc int32, f func(el error, acc int32) (int32, error)) (int32, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceError) ReduceWhileInt64(acc int64, f func(el error, acc int64) (int64, error)) (int64, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceError) ReduceWhileUint(acc uint, f func(el error, acc uint) (uint, error)) (uint, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceError) ReduceWhileUint8(acc uint8, f func(el error, acc uint8) (uint8, error)) (uint8, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceError) ReduceWhileUint16(acc uint16, f func(el error, acc uint16) (uint16, error)) (uint16, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceError) ReduceWhileUint32(acc uint32, f func(el error, acc uint32) (uint32, error)) (uint32, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceError) ReduceWhileUint64(acc uint64, f func(el error, acc uint64) (uint64, error)) (uint64, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceError) ReduceWhileInterface(acc interface{}, f func(el error, acc interface{}) (interface{}, error)) (interface{}, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// Reverse returns given arr in reversed order
+func (s SliceError) Reverse() []error {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
+	result := make([]error, 0, len(s.Data))
+	for i := len(s.Data) - 1; i >= 0; i-- {
+		result = append(result, s.Data[i])
+	}
+	return result
+}
+
+// Same returns true if all element in arr the same
+func (s SliceError) Same() bool {
+	if len(s.Data) <= 1 {
+		return true
+	}
+	for i := 0; i < len(s.Data)-1; i++ {
+		if s.Data[i] != s.Data[i+1] {
+			return false
+		}
+	}
+	return true
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceError) ScanBool(acc bool, f func(el error, acc bool) bool) []bool {
+	result := make([]bool, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceError) ScanByte(acc byte, f func(el error, acc byte) byte) []byte {
+	result := make([]byte, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceError) ScanString(acc string, f func(el error, acc string) string) []string {
+	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceError) ScanRune(acc rune, f func(el error, acc rune) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceError) ScanError(acc error, f func(el error, acc error) error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceError) ScanFloat32(acc float32, f func(el error, acc float32) float32) []float32 {
+	result := make([]float32, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceError) ScanFloat64(acc float64, f func(el error, acc float64) float64) []float64 {
+	result := make([]float64, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceError) ScanInt(acc int, f func(el error, acc int) int) []int {
+	result := make([]int, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceError) ScanInt8(acc int8, f func(el error, acc int8) int8) []int8 {
+	result := make([]int8, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceError) ScanInt16(acc int16, f func(el error, acc int16) int16) []int16 {
+	result := make([]int16, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceError) ScanInt32(acc int32, f func(el error, acc int32) int32) []int32 {
+	result := make([]int32, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceError) ScanInt64(acc int64, f func(el error, acc int64) int64) []int64 {
+	result := make([]int64, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceError) ScanUint(acc uint, f func(el error, acc uint) uint) []uint {
+	result := make([]uint, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceError) ScanUint8(acc uint8, f func(el error, acc uint8) uint8) []uint8 {
+	result := make([]uint8, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceError) ScanUint16(acc uint16, f func(el error, acc uint16) uint16) []uint16 {
+	result := make([]uint16, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceError) ScanUint32(acc uint32, f func(el error, acc uint32) uint32) []uint32 {
+	result := make([]uint32, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceError) ScanUint64(acc uint64, f func(el error, acc uint64) uint64) []uint64 {
+	result := make([]uint64, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceError) ScanInterface(acc interface{}, f func(el error, acc interface{}) interface{}) []interface{} {
+	result := make([]interface{}, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Shuffle in random order arr elements
+func (s SliceError) Shuffle(seed int64) []error {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
+	swap := func(i, j int) {
+		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
+	}
+	rand.Shuffle(len(s.Data), swap)
+	return s.Data
+}
+
+// Split splits arr by sep
+func (s SliceError) Split(sep error) [][]error {
+	result := make([][]error, 0)
+	curr := make([]error, 0)
+	for _, el := range s.Data {
+		if el == sep {
+			result = append(result, curr)
+			curr = make([]error, 0)
+		} else {
+			curr = append(curr, el)
+		}
+	}
+	result = append(result, curr)
+	return result
+}
+
+// StartsWith returns true if slice starts with the given prefix slice.
+// If prefix is empty, it returns true.
+func (s SliceError) StartsWith(prefix []error) bool {
+	if len(prefix) > len(s.Data) {
+		return false
+	}
+	for i, el := range prefix {
+		if el != s.Data[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// TakeEvery returns slice of every nth elements
+func (s SliceError) TakeEvery(nth int, from int) ([]error, error) {
+	if nth <= 0 {
+		return s.Data, ErrNonPositiveValue
+	}
+	if from < 0 {
+		return s.Data, ErrNegativeValue
+	}
+	result := make([]error, 0, len(s.Data))
+	for i, el := range s.Data {
+		if (i+from)%nth == 0 {
+			result = append(result, el)
+		}
+	}
+	return result, nil
+}
+
+// TakeRandom returns slice of count random elements from the slice
+func (s SliceError) TakeRandom(count int, seed int64) ([]error, error) {
+	if count > len(s.Data) {
+		return nil, ErrOutOfRange
+	}
+	if count <= 0 {
+		return nil, ErrNonPositiveValue
+	}
+
+	if seed == 0 {
+		seed = time.Now().UnixNano()
+	}
+	rand.Seed(seed)
+	swap := func(i, j int) {
+		s.Data[i], s.Data[j] = s.Data[j], s.Data[i]
+	}
+	rand.Shuffle(len(s.Data), swap)
+	return s.Data[:count], nil
+}
+
+// TakeWhile takes elements from arr while f returns true
+func (s SliceError) TakeWhile(f func(el error) bool) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		if !f(el) {
+			return result
+		}
+		result = append(result, el)
+	}
+	return result
+}
+
+// ToChannel returns channel with elements from the slice
+func (s SliceError) ToChannel() chan error {
+	c := make(chan error, 1)
+	go func() {
+		for _, el := range s.Data {
+			c <- el
+		}
+		close(c)
+	}()
+	return c
+}
+
+// Uniq returns arr with only first occurences of every element.
+func (s SliceError) Uniq() []error {
+	if len(s.Data) <= 1 {
+		return s.Data
+	}
+	added := make(map[error]struct{})
+	nothing := struct{}{}
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		_, exists := added[el]
+		if !exists {
+			result = append(result, el)
+			added[el] = nothing
+		}
+	}
+	return result
+
+}
+
+// Window makes sliding window for a given slice:
+// ({1,2,3}, 2) -> (1,2), (2,3)
+func (s SliceError) Window(size int) ([][]error, error) {
+	if size <= 0 {
+		return nil, ErrNonPositiveValue
+	}
+	result := make([][]error, 0, len(s.Data)/size)
+	for i := 0; i <= len(s.Data)-size; i++ {
+		chunk := s.Data[i : i+size]
+		result = append(result, chunk)
+	}
+	return result, nil
+}
+
+// Without returns the slice with filtered out element
+func (s SliceError) Without(elements ...error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		allowed := true
+		for _, other := range elements {
+			if el == other {
+				allowed = false
+			}
+		}
+		if allowed {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
+// Any returns true if f returns true for any element in channel
+func (c ChannelError) Any(f func(el error) bool) bool {
+	for el := range c.Data {
+		if f(el) {
+			return true
+		}
+	}
+	return false
+}
+
+// All returns true if f returns true for all elements in channel
+func (c ChannelError) All(f func(el error) bool) bool {
+	for el := range c.Data {
+		if !f(el) {
+			return false
+		}
+	}
+	return true
+}
+
+// ChunkEvery returns channel with slices containing count elements each
+func (c ChannelError) ChunkEvery(count int) chan []error {
+	chunks := make(chan []error, 1)
+	go func() {
+		chunk := make([]error, 0, count)
+		i := 0
+		for el := range c.Data {
+			chunk = append(chunk, el)
+			i++
+			if i%count == 0 {
+				i = 0
+				chunks <- chunk
+				chunk = make([]error, 0, count)
+			}
+		}
+		if len(chunk) > 0 {
+			chunks <- chunk
+		}
+		close(chunks)
+	}()
+	return chunks
+}
+
+// Count return count of el occurences in channel.
+func (c ChannelError) Count(el error) int {
+	count := 0
+	for val := range c.Data {
+		if val == el {
+			count++
+		}
+	}
+	return count
+}
+
+// Drop drops first n elements from channel c and returns a new channel with the rest.
+// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
+func (c ChannelError) Drop(n int) chan error {
+	result := make(chan error, 1)
+	go func() {
+		i := 0
+		for el := range c.Data {
+			if i >= n {
+				result <- el
+			}
+			i++
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Each calls f for every element in the channel
+func (c ChannelError) Each(f func(el error)) {
+	for el := range c.Data {
+		f(el)
+	}
+}
+
+// Filter returns a new channel with elements from input channel
+// for which f returns true
+func (c ChannelError) Filter(f func(el error) bool) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			if f(el) {
+				result <- el
+			}
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelError) MapBool(f func(el error) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelError) MapByte(f func(el error) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelError) MapString(f func(el error) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelError) MapRune(f func(el error) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelError) MapError(f func(el error) error) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelError) MapFloat32(f func(el error) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelError) MapFloat64(f func(el error) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelError) MapInt(f func(el error) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelError) MapInt8(f func(el error) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelError) MapInt16(f func(el error) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelError) MapInt32(f func(el error) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelError) MapInt64(f func(el error) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelError) MapUint(f func(el error) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelError) MapUint8(f func(el error) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelError) MapUint16(f func(el error) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelError) MapUint32(f func(el error) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelError) MapUint64(f func(el error) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelError) MapInterface(f func(el error) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelError) ReduceBool(acc bool, f func(el error, acc bool) bool) bool {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelError) ReduceByte(acc byte, f func(el error, acc byte) byte) byte {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelError) ReduceString(acc string, f func(el error, acc string) string) string {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelError) ReduceRune(acc rune, f func(el error, acc rune) rune) rune {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelError) ReduceError(acc error, f func(el error, acc error) error) error {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelError) ReduceFloat32(acc float32, f func(el error, acc float32) float32) float32 {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelError) ReduceFloat64(acc float64, f func(el error, acc float64) float64) float64 {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelError) ReduceInt(acc int, f func(el error, acc int) int) int {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelError) ReduceInt8(acc int8, f func(el error, acc int8) int8) int8 {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelError) ReduceInt16(acc int16, f func(el error, acc int16) int16) int16 {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelError) ReduceInt32(acc int32, f func(el error, acc int32) int32) int32 {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelError) ReduceInt64(acc int64, f func(el error, acc int64) int64) int64 {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelError) ReduceUint(acc uint, f func(el error, acc uint) uint) uint {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelError) ReduceUint8(acc uint8, f func(el error, acc uint8) uint8) uint8 {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelError) ReduceUint16(acc uint16, f func(el error, acc uint16) uint16) uint16 {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelError) ReduceUint32(acc uint32, f func(el error, acc uint32) uint32) uint32 {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelError) ReduceUint64(acc uint64, f func(el error, acc uint64) uint64) uint64 {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelError) ReduceInterface(acc interface{}, f func(el error, acc interface{}) interface{}) interface{} {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelError) ScanBool(acc bool, f func(el error, acc bool) bool) chan bool {
+	result := make(chan bool, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelError) ScanByte(acc byte, f func(el error, acc byte) byte) chan byte {
+	result := make(chan byte, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelError) ScanString(acc string, f func(el error, acc string) string) chan string {
+	result := make(chan string, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelError) ScanRune(acc rune, f func(el error, acc rune) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelError) ScanError(acc error, f func(el error, acc error) error) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelError) ScanFloat32(acc float32, f func(el error, acc float32) float32) chan float32 {
+	result := make(chan float32, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelError) ScanFloat64(acc float64, f func(el error, acc float64) float64) chan float64 {
+	result := make(chan float64, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelError) ScanInt(acc int, f func(el error, acc int) int) chan int {
+	result := make(chan int, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelError) ScanInt8(acc int8, f func(el error, acc int8) int8) chan int8 {
+	result := make(chan int8, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelError) ScanInt16(acc int16, f func(el error, acc int16) int16) chan int16 {
+	result := make(chan int16, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelError) ScanInt32(acc int32, f func(el error, acc int32) int32) chan int32 {
+	result := make(chan int32, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelError) ScanInt64(acc int64, f func(el error, acc int64) int64) chan int64 {
+	result := make(chan int64, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelError) ScanUint(acc uint, f func(el error, acc uint) uint) chan uint {
+	result := make(chan uint, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelError) ScanUint8(acc uint8, f func(el error, acc uint8) uint8) chan uint8 {
+	result := make(chan uint8, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelError) ScanUint16(acc uint16, f func(el error, acc uint16) uint16) chan uint16 {
+	result := make(chan uint16, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelError) ScanUint32(acc uint32, f func(el error, acc uint32) uint32) chan uint32 {
+	result := make(chan uint32, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelError) ScanUint64(acc uint64, f func(el error, acc uint64) uint64) chan uint64 {
+	result := make(chan uint64, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelError) ScanInterface(acc interface{}, f func(el error, acc interface{}) interface{}) chan interface{} {
+	result := make(chan interface{}, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Take takes first count elements from the channel.
+func (c ChannelError) Take(count int) chan error {
+	result := make(chan error, 1)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for el := range c.Data {
+			result <- el
+			i++
+			if i == count {
+				return
+			}
+		}
+	}()
+	return result
+}
+
+// Tee returns 2 channels with elements from the input channel
+func (c ChannelError) Tee(count int) []chan error {
+	channels := make([]chan error, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan error, 1))
+	}
+	go func() {
+		for el := range c.Data {
+			wg := sync.WaitGroup{}
+			putInto := func(ch chan error) {
+				defer wg.Done()
+				ch <- el
+			}
+			wg.Add(count)
+			for _, ch := range channels {
+				putInto(ch)
+			}
+			wg.Wait()
+		}
+		for _, ch := range channels {
+			close(ch)
+		}
+	}()
+	return channels
+}
+
+// ToSlice returns slice with all elements from channel.
+func (c ChannelError) ToSlice() []error {
+	result := make([]error, 0)
+	for val := range c.Data {
+		result = append(result, val)
+	}
+	return result
+}
+
+// Iterate returns an infinite list of repeated applications of f to val
+func (s SequenceError) Iterate(val error, f func(val error) error) chan error {
+	c := make(chan error, 1)
+	go func() {
+		defer close(c)
+		for {
+			select {
+			case <-s.ctx.Done():
+				return
+			case c <- val:
+				val = f(val)
+			}
+		}
+	}()
+	return c
+}
+
+// Repeat returns channel that produces val infinite times
+func (s SequenceError) Repeat(val error) chan error {
+	c := make(chan error, 1)
+	go func() {
+		defer close(c)
+		for {
+			select {
+			case <-s.ctx.Done():
+				return
+			case c <- val:
+				continue
+			}
+		}
+	}()
+	return c
+}
+
+// Replicate returns channel that produces val n times
+func (s SequenceError) Replicate(val error, n int) chan error {
+	c := make(chan error, 1)
+	go func() {
+		for i := 0; i < n; i++ {
+			c <- val
+		}
+		close(c)
+	}()
+	return c
+}
+
+// All returns true if f returns true for all elements in slice
+func (s AsyncSliceError) All(f func(el error) bool) bool {
+	if len(s.Data) == 0 {
+		return true
+	}
+
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- bool, ctx context.Context) {
+		defer wg.Done()
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case index, ok := <-jobs:
+				if !ok {
+					return
+				}
+				if !f(s.Data[index]) {
+					result <- false
+					return
+				}
+			}
+		}
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	// when we're returning the result, cancel all workers
+	defer cancel()
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	result := make(chan bool, workers)
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs, result, ctx)
+	}
+
+	// close the result channel when all workers have done
+	go func() {
+		wg.Wait()
+		close(result)
+	}()
+
+	// schedule the jobs: indices to check
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+
+	for range result {
+		return false
+	}
+	return true
+}
+
+// Any returns true if f returns true for any element from slice
+func (s AsyncSliceError) Any(f func(el error) bool) bool {
+	if len(s.Data) == 0 {
+		return false
+	}
+
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- bool, ctx context.Context) {
+		defer wg.Done()
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case index, ok := <-jobs:
+				if !ok {
+					return
+				}
+				if f(s.Data[index]) {
+					result <- true
+					return
+				}
+			}
+		}
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	// when we're returning the result, cancel all workers
+	defer cancel()
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	result := make(chan bool, workers)
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs, result, ctx)
+	}
+
+	// close the result channel when all workers have done
+	go func() {
+		wg.Wait()
+		close(result)
+	}()
+
+	// schedule the jobs: indices to check
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+
+	for range result {
+		return true
+	}
+	return false
+}
+
+// Each calls f for every element from slice
+func (s AsyncSliceError) Each(f func(el error)) {
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		defer wg.Done()
+		for index := range jobs {
+			f(s.Data[index])
+		}
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+}
+
+// Filter returns slice of element for which f returns true
+func (s AsyncSliceError) Filter(f func(el error) bool) []error {
+	resultMap := make([]bool, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			if f(s.Data[index]) {
+				resultMap[index] = true
+			}
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+
+	// return filtered results
+	result := make([]error, 0, len(s.Data))
+	for i, el := range s.Data {
+		if resultMap[i] {
+			result = append(result, el)
+		}
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceError) MapBool(f func(el error) bool) []bool {
+	result := make([]bool, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceError) MapByte(f func(el error) byte) []byte {
+	result := make([]byte, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceError) MapString(f func(el error) string) []string {
+	result := make([]string, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceError) MapRune(f func(el error) rune) []rune {
+	result := make([]rune, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceError) MapError(f func(el error) error) []error {
+	result := make([]error, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceError) MapFloat32(f func(el error) float32) []float32 {
+	result := make([]float32, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceError) MapFloat64(f func(el error) float64) []float64 {
+	result := make([]float64, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceError) MapInt(f func(el error) int) []int {
+	result := make([]int, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceError) MapInt8(f func(el error) int8) []int8 {
+	result := make([]int8, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceError) MapInt16(f func(el error) int16) []int16 {
+	result := make([]int16, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceError) MapInt32(f func(el error) int32) []int32 {
+	result := make([]int32, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceError) MapInt64(f func(el error) int64) []int64 {
+	result := make([]int64, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceError) MapUint(f func(el error) uint) []uint {
+	result := make([]uint, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceError) MapUint8(f func(el error) uint8) []uint8 {
+	result := make([]uint8, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceError) MapUint16(f func(el error) uint16) []uint16 {
+	result := make([]uint16, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceError) MapUint32(f func(el error) uint32) []uint32 {
+	result := make([]uint32, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceError) MapUint64(f func(el error) uint64) []uint64 {
+	result := make([]uint64, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceError) MapInterface(f func(el error) interface{}) []interface{} {
+	result := make([]interface{}, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Reduce reduces slice to a single value with f
+func (s AsyncSliceError) Reduce(f func(left error, right error) error) error {
+	if len(s.Data) == 0 {
+		var tmp error
+		return tmp
+	}
+
+	state := make([]error, len(s.Data))
+	state = append(state, s.Data...)
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int, result chan<- error) {
+		for index := range jobs {
+			result <- f(state[index], state[index+1])
+		}
+		wg.Done()
+	}
+
+	for len(state) > 1 {
+		// calculate workers count
+		workers := s.Workers
+		if workers == 0 || workers > len(state) {
+			workers = len(state)
+		}
+
+		// run workers
+		jobs := make(chan int, len(state))
+		wg.Add(workers)
+		result := make(chan error, 1)
+		for i := 0; i < workers; i++ {
+			go worker(jobs, result)
+		}
+
+		go func() {
+			wg.Wait()
+			close(result)
+		}()
+
+		// add indices into jobs for workers
+		for i := 0; i < len(state)-1; i += 2 {
+			jobs <- i
+		}
+		close(jobs)
+
+		// collect new state
+		newState := make([]error, 0, len(state)/2+len(state)%2)
+		for el := range result {
+			newState = append(newState, el)
+		}
+		if len(state)%2 == 1 {
+			newState = append(newState, state[len(state)-1])
+		}
+		// put new state as current state after all
+		state = newState
+	}
+
+	return state[0]
+}
+
+// Concat concatenates given slices into a single slice.
+func (s SlicesError) Concat() []error {
+	result := make([]error, 0)
+	for _, arr := range s.Data {
+		result = append(result, arr...)
+	}
+	return result
+}
+
+// Product returns cortesian product of elements
+// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+func (s SlicesError) Product() chan []error {
+	c := make(chan []error, 1)
+	go s.product(c, []error{}, 0)
+	return c
+}
+
+// product is a core implementation of Product
+func (s SlicesError) product(c chan []error, left []error, pos int) {
+	// iterate over the last array
+	if pos == len(s.Data)-1 {
+		for _, el := range s.Data[pos] {
+			result := make([]error, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			c <- result
+		}
+		return
+	}
+
+	for _, el := range s.Data[pos] {
+		result := make([]error, 0, len(left)+1)
+		result = append(result, left...)
+		result = append(result, el)
+		s.product(c, result, pos+1)
+	}
+
+	if pos == 0 {
+		close(c)
+	}
+}
+
+// Zip returns chan of arrays of elements from given arrs on the same position.
+func (s SlicesError) Zip() chan []error {
+	if len(s.Data) == 0 {
+		result := make(chan []error)
+		close(result)
+		return result
+	}
+
+	size := len(s.Data[0])
+	for _, arr := range s.Data[1:] {
+		if len(arr) < size {
+			size = len(arr)
+		}
+	}
+
+	result := make(chan []error, 1)
+	go func() {
+		for i := 0; i < size; i++ {
+			chunk := make([]error, 0, len(s.Data))
+			for _, arr := range s.Data {
+				chunk = append(chunk, arr[i])
+			}
+			result <- chunk
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Slice is a set of operations to work with slice
 type SliceFloat32 struct {
 	Data []float32
 }
@@ -11787,6 +21223,58 @@ func (s SliceFloat32) ChunkByByte(f func(el float32) byte) [][]float32 {
 
 // ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat32) ChunkByString(f func(el float32) string) [][]float32 {
+	chunks := make([][]float32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]float32, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float32, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceFloat32) ChunkByRune(f func(el float32) rune) [][]float32 {
+	chunks := make([][]float32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]float32, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float32, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceFloat32) ChunkByError(f func(el float32) error) [][]float32 {
 	chunks := make([][]float32, 0)
 	if len(s.Data) == 0 {
 		return chunks
@@ -12298,6 +21786,46 @@ func (s SliceFloat32) DedupByString(f func(el float32) string) []float32 {
 
 // DedupBy returns a given slice without consecutive elements
 // For which f returns the same result
+func (s SliceFloat32) DedupByRune(f func(el float32) rune) []float32 {
+	result := make([]float32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceFloat32) DedupByError(f func(el float32) error) []float32 {
+	result := make([]float32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
 func (s SliceFloat32) DedupByFloat32(f func(el float32) float32) []float32 {
 	result := make([]float32, 0, len(s.Data))
 	if len(s.Data) == 0 {
@@ -12759,6 +22287,34 @@ func (s SliceFloat32) GroupByString(f func(el float32) string) map[string][]floa
 }
 
 // GroupBy groups element from array by value returned by f
+func (s SliceFloat32) GroupByRune(f func(el float32) rune) map[rune][]float32 {
+	result := make(map[rune][]float32)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceFloat32) GroupByError(f func(el float32) error) map[error][]float32 {
+	result := make(map[error][]float32)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
 func (s SliceFloat32) GroupByFloat32(f func(el float32) float32) map[float32][]float32 {
 	result := make(map[float32][]float32)
 	for _, el := range s.Data {
@@ -13017,6 +22573,24 @@ func (s SliceFloat32) MapString(f func(el float32) string) []string {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
+func (s SliceFloat32) MapRune(f func(el float32) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceFloat32) MapError(f func(el float32) error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
 func (s SliceFloat32) MapFloat32(f func(el float32) float32) []float32 {
 	result := make([]float32, 0, len(s.Data))
 	for _, el := range s.Data {
@@ -13260,6 +22834,22 @@ func (s SliceFloat32) ReduceString(acc string, f func(el float32, acc string) st
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceFloat32) ReduceRune(acc rune, f func(el float32, acc rune) rune) rune {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceFloat32) ReduceError(acc error, f func(el float32, acc error) error) error {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
 func (s SliceFloat32) ReduceFloat32(acc float32, f func(el float32, acc float32) float32) float32 {
 	for _, el := range s.Data {
 		acc = f(el, acc)
@@ -13389,6 +22979,30 @@ func (s SliceFloat32) ReduceWhileByte(acc byte, f func(el float32, acc byte) (by
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat32) ReduceWhileString(acc string, f func(el float32, acc string) (string, error)) (string, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceFloat32) ReduceWhileRune(acc rune, f func(el float32, acc rune) (rune, error)) (rune, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceFloat32) ReduceWhileError(acc error, f func(el float32, acc error) (error, error)) (error, error) {
 	var err error
 	for _, el := range s.Data {
 		acc, err = f(el, acc)
@@ -13603,6 +23217,26 @@ func (s SliceFloat32) ScanByte(acc byte, f func(el float32, acc byte) byte) []by
 // Scan is like Reduce, but returns slice of f results
 func (s SliceFloat32) ScanString(acc string, f func(el float32, acc string) string) []string {
 	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceFloat32) ScanRune(acc rune, f func(el float32, acc rune) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceFloat32) ScanError(acc error, f func(el float32, acc error) error) []error {
+	result := make([]error, 0, len(s.Data))
 	for _, el := range s.Data {
 		acc = f(el, acc)
 		result = append(result, acc)
@@ -14061,6 +23695,30 @@ func (c ChannelFloat32) MapString(f func(el float32) string) chan string {
 }
 
 // Map applies f to all elements from channel and returns channel with results
+func (c ChannelFloat32) MapRune(f func(el float32) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelFloat32) MapError(f func(el float32) error) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
 func (c ChannelFloat32) MapFloat32(f func(el float32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
@@ -14269,6 +23927,22 @@ func (c ChannelFloat32) ReduceString(acc string, f func(el float32, acc string) 
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelFloat32) ReduceRune(acc rune, f func(el float32, acc rune) rune) rune {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelFloat32) ReduceError(acc error, f func(el float32, acc error) error) error {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
 func (c ChannelFloat32) ReduceFloat32(acc float32, f func(el float32, acc float32) float32) float32 {
 	for el := range c.Data {
 		acc = f(el, acc)
@@ -14401,6 +24075,32 @@ func (c ChannelFloat32) ScanByte(acc byte, f func(el float32, acc byte) byte) ch
 // Scan is like Reduce, but returns slice of f results
 func (c ChannelFloat32) ScanString(acc string, f func(el float32, acc string) string) chan string {
 	result := make(chan string, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelFloat32) ScanRune(acc rune, f func(el float32, acc rune) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelFloat32) ScanError(acc error, f func(el float32, acc error) error) chan error {
+	result := make(chan error, 1)
 	go func() {
 		for el := range c.Data {
 			acc = f(el, acc)
@@ -15026,6 +24726,74 @@ func (s AsyncSliceFloat32) MapByte(f func(el float32) byte) []byte {
 // Map applies F to all elements in slice of T and returns slice of results
 func (s AsyncSliceFloat32) MapString(f func(el float32) string) []string {
 	result := make([]string, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceFloat32) MapRune(f func(el float32) rune) []rune {
+	result := make([]rune, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceFloat32) MapError(f func(el float32) error) []error {
+	result := make([]error, len(s.Data))
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -15775,6 +25543,58 @@ func (s SliceFloat64) ChunkByString(f func(el float64) string) [][]float64 {
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceFloat64) ChunkByRune(f func(el float64) rune) [][]float64 {
+	chunks := make([][]float64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]float64, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float64, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceFloat64) ChunkByError(f func(el float64) error) [][]float64 {
+	chunks := make([][]float64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]float64, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]float64, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceFloat64) ChunkByFloat32(f func(el float64) float32) [][]float64 {
 	chunks := make([][]float64, 0)
 	if len(s.Data) == 0 {
@@ -16261,6 +26081,46 @@ func (s SliceFloat64) DedupByString(f func(el float64) string) []float64 {
 
 // DedupBy returns a given slice without consecutive elements
 // For which f returns the same result
+func (s SliceFloat64) DedupByRune(f func(el float64) rune) []float64 {
+	result := make([]float64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceFloat64) DedupByError(f func(el float64) error) []float64 {
+	result := make([]float64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
 func (s SliceFloat64) DedupByFloat32(f func(el float64) float32) []float64 {
 	result := make([]float64, 0, len(s.Data))
 	if len(s.Data) == 0 {
@@ -16722,6 +26582,34 @@ func (s SliceFloat64) GroupByString(f func(el float64) string) map[string][]floa
 }
 
 // GroupBy groups element from array by value returned by f
+func (s SliceFloat64) GroupByRune(f func(el float64) rune) map[rune][]float64 {
+	result := make(map[rune][]float64)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceFloat64) GroupByError(f func(el float64) error) map[error][]float64 {
+	result := make(map[error][]float64)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]float64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
 func (s SliceFloat64) GroupByFloat32(f func(el float64) float32) map[float32][]float64 {
 	result := make(map[float32][]float64)
 	for _, el := range s.Data {
@@ -16980,6 +26868,24 @@ func (s SliceFloat64) MapString(f func(el float64) string) []string {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
+func (s SliceFloat64) MapRune(f func(el float64) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceFloat64) MapError(f func(el float64) error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
 func (s SliceFloat64) MapFloat32(f func(el float64) float32) []float32 {
 	result := make([]float32, 0, len(s.Data))
 	for _, el := range s.Data {
@@ -17223,6 +27129,22 @@ func (s SliceFloat64) ReduceString(acc string, f func(el float64, acc string) st
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceFloat64) ReduceRune(acc rune, f func(el float64, acc rune) rune) rune {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceFloat64) ReduceError(acc error, f func(el float64, acc error) error) error {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
 func (s SliceFloat64) ReduceFloat32(acc float32, f func(el float64, acc float32) float32) float32 {
 	for _, el := range s.Data {
 		acc = f(el, acc)
@@ -17352,6 +27274,30 @@ func (s SliceFloat64) ReduceWhileByte(acc byte, f func(el float64, acc byte) (by
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceFloat64) ReduceWhileString(acc string, f func(el float64, acc string) (string, error)) (string, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceFloat64) ReduceWhileRune(acc rune, f func(el float64, acc rune) (rune, error)) (rune, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceFloat64) ReduceWhileError(acc error, f func(el float64, acc error) (error, error)) (error, error) {
 	var err error
 	for _, el := range s.Data {
 		acc, err = f(el, acc)
@@ -17566,6 +27512,26 @@ func (s SliceFloat64) ScanByte(acc byte, f func(el float64, acc byte) byte) []by
 // Scan is like Reduce, but returns slice of f results
 func (s SliceFloat64) ScanString(acc string, f func(el float64, acc string) string) []string {
 	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceFloat64) ScanRune(acc rune, f func(el float64, acc rune) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceFloat64) ScanError(acc error, f func(el float64, acc error) error) []error {
+	result := make([]error, 0, len(s.Data))
 	for _, el := range s.Data {
 		acc = f(el, acc)
 		result = append(result, acc)
@@ -18024,6 +27990,30 @@ func (c ChannelFloat64) MapString(f func(el float64) string) chan string {
 }
 
 // Map applies f to all elements from channel and returns channel with results
+func (c ChannelFloat64) MapRune(f func(el float64) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelFloat64) MapError(f func(el float64) error) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
 func (c ChannelFloat64) MapFloat32(f func(el float64) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
@@ -18232,6 +28222,22 @@ func (c ChannelFloat64) ReduceString(acc string, f func(el float64, acc string) 
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelFloat64) ReduceRune(acc rune, f func(el float64, acc rune) rune) rune {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelFloat64) ReduceError(acc error, f func(el float64, acc error) error) error {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
 func (c ChannelFloat64) ReduceFloat32(acc float32, f func(el float64, acc float32) float32) float32 {
 	for el := range c.Data {
 		acc = f(el, acc)
@@ -18364,6 +28370,32 @@ func (c ChannelFloat64) ScanByte(acc byte, f func(el float64, acc byte) byte) ch
 // Scan is like Reduce, but returns slice of f results
 func (c ChannelFloat64) ScanString(acc string, f func(el float64, acc string) string) chan string {
 	result := make(chan string, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelFloat64) ScanRune(acc rune, f func(el float64, acc rune) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelFloat64) ScanError(acc error, f func(el float64, acc error) error) chan error {
+	result := make(chan error, 1)
 	go func() {
 		for el := range c.Data {
 			acc = f(el, acc)
@@ -18989,6 +29021,74 @@ func (s AsyncSliceFloat64) MapByte(f func(el float64) byte) []byte {
 // Map applies F to all elements in slice of T and returns slice of results
 func (s AsyncSliceFloat64) MapString(f func(el float64) string) []string {
 	result := make([]string, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceFloat64) MapRune(f func(el float64) rune) []rune {
+	result := make([]rune, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceFloat64) MapError(f func(el float64) error) []error {
+	result := make([]error, len(s.Data))
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -19738,6 +29838,58 @@ func (s SliceInt) ChunkByString(f func(el int) string) [][]int {
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceInt) ChunkByRune(f func(el int) rune) [][]int {
+	chunks := make([][]int, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]int, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceInt) ChunkByError(f func(el int) error) [][]int {
+	chunks := make([][]int, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]int, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt) ChunkByFloat32(f func(el int) float32) [][]int {
 	chunks := make([][]int, 0)
 	if len(s.Data) == 0 {
@@ -20205,6 +30357,46 @@ func (s SliceInt) DedupByByte(f func(el int) byte) []int {
 // DedupBy returns a given slice without consecutive elements
 // For which f returns the same result
 func (s SliceInt) DedupByString(f func(el int) string) []int {
+	result := make([]int, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceInt) DedupByRune(f func(el int) rune) []int {
+	result := make([]int, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceInt) DedupByError(f func(el int) error) []int {
 	result := make([]int, 0, len(s.Data))
 	if len(s.Data) == 0 {
 		return result
@@ -20694,6 +30886,34 @@ func (s SliceInt) GroupByString(f func(el int) string) map[string][]int {
 }
 
 // GroupBy groups element from array by value returned by f
+func (s SliceInt) GroupByRune(f func(el int) rune) map[rune][]int {
+	result := make(map[rune][]int)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceInt) GroupByError(f func(el int) error) map[error][]int {
+	result := make(map[error][]int)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
 func (s SliceInt) GroupByFloat32(f func(el int) float32) map[float32][]int {
 	result := make(map[float32][]int)
 	for _, el := range s.Data {
@@ -20952,6 +31172,24 @@ func (s SliceInt) MapString(f func(el int) string) []string {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
+func (s SliceInt) MapRune(f func(el int) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceInt) MapError(f func(el int) error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
 func (s SliceInt) MapFloat32(f func(el int) float32) []float32 {
 	result := make([]float32, 0, len(s.Data))
 	for _, el := range s.Data {
@@ -21195,6 +31433,22 @@ func (s SliceInt) ReduceString(acc string, f func(el int, acc string) string) st
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceInt) ReduceRune(acc rune, f func(el int, acc rune) rune) rune {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceInt) ReduceError(acc error, f func(el int, acc error) error) error {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
 func (s SliceInt) ReduceFloat32(acc float32, f func(el int, acc float32) float32) float32 {
 	for _, el := range s.Data {
 		acc = f(el, acc)
@@ -21324,6 +31578,30 @@ func (s SliceInt) ReduceWhileByte(acc byte, f func(el int, acc byte) (byte, erro
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt) ReduceWhileString(acc string, f func(el int, acc string) (string, error)) (string, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceInt) ReduceWhileRune(acc rune, f func(el int, acc rune) (rune, error)) (rune, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceInt) ReduceWhileError(acc error, f func(el int, acc error) (error, error)) (error, error) {
 	var err error
 	for _, el := range s.Data {
 		acc, err = f(el, acc)
@@ -21538,6 +31816,26 @@ func (s SliceInt) ScanByte(acc byte, f func(el int, acc byte) byte) []byte {
 // Scan is like Reduce, but returns slice of f results
 func (s SliceInt) ScanString(acc string, f func(el int, acc string) string) []string {
 	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceInt) ScanRune(acc rune, f func(el int, acc rune) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceInt) ScanError(acc error, f func(el int, acc error) error) []error {
+	result := make([]error, 0, len(s.Data))
 	for _, el := range s.Data {
 		acc = f(el, acc)
 		result = append(result, acc)
@@ -21996,6 +32294,30 @@ func (c ChannelInt) MapString(f func(el int) string) chan string {
 }
 
 // Map applies f to all elements from channel and returns channel with results
+func (c ChannelInt) MapRune(f func(el int) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelInt) MapError(f func(el int) error) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
 func (c ChannelInt) MapFloat32(f func(el int) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
@@ -22204,6 +32526,22 @@ func (c ChannelInt) ReduceString(acc string, f func(el int, acc string) string) 
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelInt) ReduceRune(acc rune, f func(el int, acc rune) rune) rune {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelInt) ReduceError(acc error, f func(el int, acc error) error) error {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
 func (c ChannelInt) ReduceFloat32(acc float32, f func(el int, acc float32) float32) float32 {
 	for el := range c.Data {
 		acc = f(el, acc)
@@ -22336,6 +32674,32 @@ func (c ChannelInt) ScanByte(acc byte, f func(el int, acc byte) byte) chan byte 
 // Scan is like Reduce, but returns slice of f results
 func (c ChannelInt) ScanString(acc string, f func(el int, acc string) string) chan string {
 	result := make(chan string, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelInt) ScanRune(acc rune, f func(el int, acc rune) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelInt) ScanError(acc error, f func(el int, acc error) error) chan error {
+	result := make(chan error, 1)
 	go func() {
 		for el := range c.Data {
 			acc = f(el, acc)
@@ -22961,6 +33325,74 @@ func (s AsyncSliceInt) MapByte(f func(el int) byte) []byte {
 // Map applies F to all elements in slice of T and returns slice of results
 func (s AsyncSliceInt) MapString(f func(el int) string) []string {
 	result := make([]string, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceInt) MapRune(f func(el int) rune) []rune {
+	result := make([]rune, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceInt) MapError(f func(el int) error) []error {
+	result := make([]error, len(s.Data))
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -23710,6 +34142,58 @@ func (s SliceInt8) ChunkByString(f func(el int8) string) [][]int8 {
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceInt8) ChunkByRune(f func(el int8) rune) [][]int8 {
+	chunks := make([][]int8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]int8, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int8, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceInt8) ChunkByError(f func(el int8) error) [][]int8 {
+	chunks := make([][]int8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]int8, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int8, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt8) ChunkByFloat32(f func(el int8) float32) [][]int8 {
 	chunks := make([][]int8, 0)
 	if len(s.Data) == 0 {
@@ -24177,6 +34661,46 @@ func (s SliceInt8) DedupByByte(f func(el int8) byte) []int8 {
 // DedupBy returns a given slice without consecutive elements
 // For which f returns the same result
 func (s SliceInt8) DedupByString(f func(el int8) string) []int8 {
+	result := make([]int8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceInt8) DedupByRune(f func(el int8) rune) []int8 {
+	result := make([]int8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceInt8) DedupByError(f func(el int8) error) []int8 {
 	result := make([]int8, 0, len(s.Data))
 	if len(s.Data) == 0 {
 		return result
@@ -24666,6 +35190,34 @@ func (s SliceInt8) GroupByString(f func(el int8) string) map[string][]int8 {
 }
 
 // GroupBy groups element from array by value returned by f
+func (s SliceInt8) GroupByRune(f func(el int8) rune) map[rune][]int8 {
+	result := make(map[rune][]int8)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceInt8) GroupByError(f func(el int8) error) map[error][]int8 {
+	result := make(map[error][]int8)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
 func (s SliceInt8) GroupByFloat32(f func(el int8) float32) map[float32][]int8 {
 	result := make(map[float32][]int8)
 	for _, el := range s.Data {
@@ -24924,6 +35476,24 @@ func (s SliceInt8) MapString(f func(el int8) string) []string {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
+func (s SliceInt8) MapRune(f func(el int8) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceInt8) MapError(f func(el int8) error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
 func (s SliceInt8) MapFloat32(f func(el int8) float32) []float32 {
 	result := make([]float32, 0, len(s.Data))
 	for _, el := range s.Data {
@@ -25167,6 +35737,22 @@ func (s SliceInt8) ReduceString(acc string, f func(el int8, acc string) string) 
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceInt8) ReduceRune(acc rune, f func(el int8, acc rune) rune) rune {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceInt8) ReduceError(acc error, f func(el int8, acc error) error) error {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
 func (s SliceInt8) ReduceFloat32(acc float32, f func(el int8, acc float32) float32) float32 {
 	for _, el := range s.Data {
 		acc = f(el, acc)
@@ -25296,6 +35882,30 @@ func (s SliceInt8) ReduceWhileByte(acc byte, f func(el int8, acc byte) (byte, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt8) ReduceWhileString(acc string, f func(el int8, acc string) (string, error)) (string, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceInt8) ReduceWhileRune(acc rune, f func(el int8, acc rune) (rune, error)) (rune, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceInt8) ReduceWhileError(acc error, f func(el int8, acc error) (error, error)) (error, error) {
 	var err error
 	for _, el := range s.Data {
 		acc, err = f(el, acc)
@@ -25510,6 +36120,26 @@ func (s SliceInt8) ScanByte(acc byte, f func(el int8, acc byte) byte) []byte {
 // Scan is like Reduce, but returns slice of f results
 func (s SliceInt8) ScanString(acc string, f func(el int8, acc string) string) []string {
 	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceInt8) ScanRune(acc rune, f func(el int8, acc rune) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceInt8) ScanError(acc error, f func(el int8, acc error) error) []error {
+	result := make([]error, 0, len(s.Data))
 	for _, el := range s.Data {
 		acc = f(el, acc)
 		result = append(result, acc)
@@ -25968,6 +36598,30 @@ func (c ChannelInt8) MapString(f func(el int8) string) chan string {
 }
 
 // Map applies f to all elements from channel and returns channel with results
+func (c ChannelInt8) MapRune(f func(el int8) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelInt8) MapError(f func(el int8) error) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
 func (c ChannelInt8) MapFloat32(f func(el int8) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
@@ -26176,6 +36830,22 @@ func (c ChannelInt8) ReduceString(acc string, f func(el int8, acc string) string
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelInt8) ReduceRune(acc rune, f func(el int8, acc rune) rune) rune {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelInt8) ReduceError(acc error, f func(el int8, acc error) error) error {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
 func (c ChannelInt8) ReduceFloat32(acc float32, f func(el int8, acc float32) float32) float32 {
 	for el := range c.Data {
 		acc = f(el, acc)
@@ -26308,6 +36978,32 @@ func (c ChannelInt8) ScanByte(acc byte, f func(el int8, acc byte) byte) chan byt
 // Scan is like Reduce, but returns slice of f results
 func (c ChannelInt8) ScanString(acc string, f func(el int8, acc string) string) chan string {
 	result := make(chan string, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelInt8) ScanRune(acc rune, f func(el int8, acc rune) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelInt8) ScanError(acc error, f func(el int8, acc error) error) chan error {
+	result := make(chan error, 1)
 	go func() {
 		for el := range c.Data {
 			acc = f(el, acc)
@@ -26933,6 +37629,74 @@ func (s AsyncSliceInt8) MapByte(f func(el int8) byte) []byte {
 // Map applies F to all elements in slice of T and returns slice of results
 func (s AsyncSliceInt8) MapString(f func(el int8) string) []string {
 	result := make([]string, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceInt8) MapRune(f func(el int8) rune) []rune {
+	result := make([]rune, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceInt8) MapError(f func(el int8) error) []error {
+	result := make([]error, len(s.Data))
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -27682,6 +38446,58 @@ func (s SliceInt16) ChunkByString(f func(el int16) string) [][]int16 {
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceInt16) ChunkByRune(f func(el int16) rune) [][]int16 {
+	chunks := make([][]int16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]int16, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int16, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceInt16) ChunkByError(f func(el int16) error) [][]int16 {
+	chunks := make([][]int16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]int16, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int16, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt16) ChunkByFloat32(f func(el int16) float32) [][]int16 {
 	chunks := make([][]int16, 0)
 	if len(s.Data) == 0 {
@@ -28149,6 +38965,46 @@ func (s SliceInt16) DedupByByte(f func(el int16) byte) []int16 {
 // DedupBy returns a given slice without consecutive elements
 // For which f returns the same result
 func (s SliceInt16) DedupByString(f func(el int16) string) []int16 {
+	result := make([]int16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceInt16) DedupByRune(f func(el int16) rune) []int16 {
+	result := make([]int16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceInt16) DedupByError(f func(el int16) error) []int16 {
 	result := make([]int16, 0, len(s.Data))
 	if len(s.Data) == 0 {
 		return result
@@ -28638,6 +39494,34 @@ func (s SliceInt16) GroupByString(f func(el int16) string) map[string][]int16 {
 }
 
 // GroupBy groups element from array by value returned by f
+func (s SliceInt16) GroupByRune(f func(el int16) rune) map[rune][]int16 {
+	result := make(map[rune][]int16)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceInt16) GroupByError(f func(el int16) error) map[error][]int16 {
+	result := make(map[error][]int16)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
 func (s SliceInt16) GroupByFloat32(f func(el int16) float32) map[float32][]int16 {
 	result := make(map[float32][]int16)
 	for _, el := range s.Data {
@@ -28896,6 +39780,24 @@ func (s SliceInt16) MapString(f func(el int16) string) []string {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
+func (s SliceInt16) MapRune(f func(el int16) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceInt16) MapError(f func(el int16) error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
 func (s SliceInt16) MapFloat32(f func(el int16) float32) []float32 {
 	result := make([]float32, 0, len(s.Data))
 	for _, el := range s.Data {
@@ -29139,6 +40041,22 @@ func (s SliceInt16) ReduceString(acc string, f func(el int16, acc string) string
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceInt16) ReduceRune(acc rune, f func(el int16, acc rune) rune) rune {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceInt16) ReduceError(acc error, f func(el int16, acc error) error) error {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
 func (s SliceInt16) ReduceFloat32(acc float32, f func(el int16, acc float32) float32) float32 {
 	for _, el := range s.Data {
 		acc = f(el, acc)
@@ -29268,6 +40186,30 @@ func (s SliceInt16) ReduceWhileByte(acc byte, f func(el int16, acc byte) (byte, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt16) ReduceWhileString(acc string, f func(el int16, acc string) (string, error)) (string, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceInt16) ReduceWhileRune(acc rune, f func(el int16, acc rune) (rune, error)) (rune, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceInt16) ReduceWhileError(acc error, f func(el int16, acc error) (error, error)) (error, error) {
 	var err error
 	for _, el := range s.Data {
 		acc, err = f(el, acc)
@@ -29482,6 +40424,26 @@ func (s SliceInt16) ScanByte(acc byte, f func(el int16, acc byte) byte) []byte {
 // Scan is like Reduce, but returns slice of f results
 func (s SliceInt16) ScanString(acc string, f func(el int16, acc string) string) []string {
 	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceInt16) ScanRune(acc rune, f func(el int16, acc rune) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceInt16) ScanError(acc error, f func(el int16, acc error) error) []error {
+	result := make([]error, 0, len(s.Data))
 	for _, el := range s.Data {
 		acc = f(el, acc)
 		result = append(result, acc)
@@ -29940,6 +40902,30 @@ func (c ChannelInt16) MapString(f func(el int16) string) chan string {
 }
 
 // Map applies f to all elements from channel and returns channel with results
+func (c ChannelInt16) MapRune(f func(el int16) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelInt16) MapError(f func(el int16) error) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
 func (c ChannelInt16) MapFloat32(f func(el int16) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
@@ -30148,6 +41134,22 @@ func (c ChannelInt16) ReduceString(acc string, f func(el int16, acc string) stri
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelInt16) ReduceRune(acc rune, f func(el int16, acc rune) rune) rune {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelInt16) ReduceError(acc error, f func(el int16, acc error) error) error {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
 func (c ChannelInt16) ReduceFloat32(acc float32, f func(el int16, acc float32) float32) float32 {
 	for el := range c.Data {
 		acc = f(el, acc)
@@ -30280,6 +41282,32 @@ func (c ChannelInt16) ScanByte(acc byte, f func(el int16, acc byte) byte) chan b
 // Scan is like Reduce, but returns slice of f results
 func (c ChannelInt16) ScanString(acc string, f func(el int16, acc string) string) chan string {
 	result := make(chan string, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelInt16) ScanRune(acc rune, f func(el int16, acc rune) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelInt16) ScanError(acc error, f func(el int16, acc error) error) chan error {
+	result := make(chan error, 1)
 	go func() {
 		for el := range c.Data {
 			acc = f(el, acc)
@@ -30905,6 +41933,74 @@ func (s AsyncSliceInt16) MapByte(f func(el int16) byte) []byte {
 // Map applies F to all elements in slice of T and returns slice of results
 func (s AsyncSliceInt16) MapString(f func(el int16) string) []string {
 	result := make([]string, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceInt16) MapRune(f func(el int16) rune) []rune {
+	result := make([]rune, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceInt16) MapError(f func(el int16) error) []error {
+	result := make([]error, len(s.Data))
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -31654,6 +42750,58 @@ func (s SliceInt32) ChunkByString(f func(el int32) string) [][]int32 {
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceInt32) ChunkByRune(f func(el int32) rune) [][]int32 {
+	chunks := make([][]int32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]int32, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int32, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceInt32) ChunkByError(f func(el int32) error) [][]int32 {
+	chunks := make([][]int32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]int32, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int32, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt32) ChunkByFloat32(f func(el int32) float32) [][]int32 {
 	chunks := make([][]int32, 0)
 	if len(s.Data) == 0 {
@@ -32121,6 +43269,46 @@ func (s SliceInt32) DedupByByte(f func(el int32) byte) []int32 {
 // DedupBy returns a given slice without consecutive elements
 // For which f returns the same result
 func (s SliceInt32) DedupByString(f func(el int32) string) []int32 {
+	result := make([]int32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceInt32) DedupByRune(f func(el int32) rune) []int32 {
+	result := make([]int32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceInt32) DedupByError(f func(el int32) error) []int32 {
 	result := make([]int32, 0, len(s.Data))
 	if len(s.Data) == 0 {
 		return result
@@ -32610,6 +43798,34 @@ func (s SliceInt32) GroupByString(f func(el int32) string) map[string][]int32 {
 }
 
 // GroupBy groups element from array by value returned by f
+func (s SliceInt32) GroupByRune(f func(el int32) rune) map[rune][]int32 {
+	result := make(map[rune][]int32)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceInt32) GroupByError(f func(el int32) error) map[error][]int32 {
+	result := make(map[error][]int32)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
 func (s SliceInt32) GroupByFloat32(f func(el int32) float32) map[float32][]int32 {
 	result := make(map[float32][]int32)
 	for _, el := range s.Data {
@@ -32868,6 +44084,24 @@ func (s SliceInt32) MapString(f func(el int32) string) []string {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
+func (s SliceInt32) MapRune(f func(el int32) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceInt32) MapError(f func(el int32) error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
 func (s SliceInt32) MapFloat32(f func(el int32) float32) []float32 {
 	result := make([]float32, 0, len(s.Data))
 	for _, el := range s.Data {
@@ -33111,6 +44345,22 @@ func (s SliceInt32) ReduceString(acc string, f func(el int32, acc string) string
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceInt32) ReduceRune(acc rune, f func(el int32, acc rune) rune) rune {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceInt32) ReduceError(acc error, f func(el int32, acc error) error) error {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
 func (s SliceInt32) ReduceFloat32(acc float32, f func(el int32, acc float32) float32) float32 {
 	for _, el := range s.Data {
 		acc = f(el, acc)
@@ -33240,6 +44490,30 @@ func (s SliceInt32) ReduceWhileByte(acc byte, f func(el int32, acc byte) (byte, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt32) ReduceWhileString(acc string, f func(el int32, acc string) (string, error)) (string, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceInt32) ReduceWhileRune(acc rune, f func(el int32, acc rune) (rune, error)) (rune, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceInt32) ReduceWhileError(acc error, f func(el int32, acc error) (error, error)) (error, error) {
 	var err error
 	for _, el := range s.Data {
 		acc, err = f(el, acc)
@@ -33454,6 +44728,26 @@ func (s SliceInt32) ScanByte(acc byte, f func(el int32, acc byte) byte) []byte {
 // Scan is like Reduce, but returns slice of f results
 func (s SliceInt32) ScanString(acc string, f func(el int32, acc string) string) []string {
 	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceInt32) ScanRune(acc rune, f func(el int32, acc rune) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceInt32) ScanError(acc error, f func(el int32, acc error) error) []error {
+	result := make([]error, 0, len(s.Data))
 	for _, el := range s.Data {
 		acc = f(el, acc)
 		result = append(result, acc)
@@ -33912,6 +45206,30 @@ func (c ChannelInt32) MapString(f func(el int32) string) chan string {
 }
 
 // Map applies f to all elements from channel and returns channel with results
+func (c ChannelInt32) MapRune(f func(el int32) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelInt32) MapError(f func(el int32) error) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
 func (c ChannelInt32) MapFloat32(f func(el int32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
@@ -34120,6 +45438,22 @@ func (c ChannelInt32) ReduceString(acc string, f func(el int32, acc string) stri
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelInt32) ReduceRune(acc rune, f func(el int32, acc rune) rune) rune {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelInt32) ReduceError(acc error, f func(el int32, acc error) error) error {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
 func (c ChannelInt32) ReduceFloat32(acc float32, f func(el int32, acc float32) float32) float32 {
 	for el := range c.Data {
 		acc = f(el, acc)
@@ -34252,6 +45586,32 @@ func (c ChannelInt32) ScanByte(acc byte, f func(el int32, acc byte) byte) chan b
 // Scan is like Reduce, but returns slice of f results
 func (c ChannelInt32) ScanString(acc string, f func(el int32, acc string) string) chan string {
 	result := make(chan string, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelInt32) ScanRune(acc rune, f func(el int32, acc rune) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelInt32) ScanError(acc error, f func(el int32, acc error) error) chan error {
+	result := make(chan error, 1)
 	go func() {
 		for el := range c.Data {
 			acc = f(el, acc)
@@ -34877,6 +46237,74 @@ func (s AsyncSliceInt32) MapByte(f func(el int32) byte) []byte {
 // Map applies F to all elements in slice of T and returns slice of results
 func (s AsyncSliceInt32) MapString(f func(el int32) string) []string {
 	result := make([]string, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceInt32) MapRune(f func(el int32) rune) []rune {
+	result := make([]rune, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceInt32) MapError(f func(el int32) error) []error {
+	result := make([]error, len(s.Data))
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -35626,6 +47054,58 @@ func (s SliceInt64) ChunkByString(f func(el int64) string) [][]int64 {
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceInt64) ChunkByRune(f func(el int64) rune) [][]int64 {
+	chunks := make([][]int64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]int64, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int64, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceInt64) ChunkByError(f func(el int64) error) [][]int64 {
+	chunks := make([][]int64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]int64, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]int64, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInt64) ChunkByFloat32(f func(el int64) float32) [][]int64 {
 	chunks := make([][]int64, 0)
 	if len(s.Data) == 0 {
@@ -36093,6 +47573,46 @@ func (s SliceInt64) DedupByByte(f func(el int64) byte) []int64 {
 // DedupBy returns a given slice without consecutive elements
 // For which f returns the same result
 func (s SliceInt64) DedupByString(f func(el int64) string) []int64 {
+	result := make([]int64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceInt64) DedupByRune(f func(el int64) rune) []int64 {
+	result := make([]int64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceInt64) DedupByError(f func(el int64) error) []int64 {
 	result := make([]int64, 0, len(s.Data))
 	if len(s.Data) == 0 {
 		return result
@@ -36582,6 +48102,34 @@ func (s SliceInt64) GroupByString(f func(el int64) string) map[string][]int64 {
 }
 
 // GroupBy groups element from array by value returned by f
+func (s SliceInt64) GroupByRune(f func(el int64) rune) map[rune][]int64 {
+	result := make(map[rune][]int64)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceInt64) GroupByError(f func(el int64) error) map[error][]int64 {
+	result := make(map[error][]int64)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]int64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
 func (s SliceInt64) GroupByFloat32(f func(el int64) float32) map[float32][]int64 {
 	result := make(map[float32][]int64)
 	for _, el := range s.Data {
@@ -36840,6 +48388,24 @@ func (s SliceInt64) MapString(f func(el int64) string) []string {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
+func (s SliceInt64) MapRune(f func(el int64) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceInt64) MapError(f func(el int64) error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
 func (s SliceInt64) MapFloat32(f func(el int64) float32) []float32 {
 	result := make([]float32, 0, len(s.Data))
 	for _, el := range s.Data {
@@ -37083,6 +48649,22 @@ func (s SliceInt64) ReduceString(acc string, f func(el int64, acc string) string
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceInt64) ReduceRune(acc rune, f func(el int64, acc rune) rune) rune {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceInt64) ReduceError(acc error, f func(el int64, acc error) error) error {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
 func (s SliceInt64) ReduceFloat32(acc float32, f func(el int64, acc float32) float32) float32 {
 	for _, el := range s.Data {
 		acc = f(el, acc)
@@ -37212,6 +48794,30 @@ func (s SliceInt64) ReduceWhileByte(acc byte, f func(el int64, acc byte) (byte, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInt64) ReduceWhileString(acc string, f func(el int64, acc string) (string, error)) (string, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceInt64) ReduceWhileRune(acc rune, f func(el int64, acc rune) (rune, error)) (rune, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceInt64) ReduceWhileError(acc error, f func(el int64, acc error) (error, error)) (error, error) {
 	var err error
 	for _, el := range s.Data {
 		acc, err = f(el, acc)
@@ -37426,6 +49032,26 @@ func (s SliceInt64) ScanByte(acc byte, f func(el int64, acc byte) byte) []byte {
 // Scan is like Reduce, but returns slice of f results
 func (s SliceInt64) ScanString(acc string, f func(el int64, acc string) string) []string {
 	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceInt64) ScanRune(acc rune, f func(el int64, acc rune) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceInt64) ScanError(acc error, f func(el int64, acc error) error) []error {
+	result := make([]error, 0, len(s.Data))
 	for _, el := range s.Data {
 		acc = f(el, acc)
 		result = append(result, acc)
@@ -37884,6 +49510,30 @@ func (c ChannelInt64) MapString(f func(el int64) string) chan string {
 }
 
 // Map applies f to all elements from channel and returns channel with results
+func (c ChannelInt64) MapRune(f func(el int64) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelInt64) MapError(f func(el int64) error) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
 func (c ChannelInt64) MapFloat32(f func(el int64) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
@@ -38092,6 +49742,22 @@ func (c ChannelInt64) ReduceString(acc string, f func(el int64, acc string) stri
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelInt64) ReduceRune(acc rune, f func(el int64, acc rune) rune) rune {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelInt64) ReduceError(acc error, f func(el int64, acc error) error) error {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
 func (c ChannelInt64) ReduceFloat32(acc float32, f func(el int64, acc float32) float32) float32 {
 	for el := range c.Data {
 		acc = f(el, acc)
@@ -38224,6 +49890,32 @@ func (c ChannelInt64) ScanByte(acc byte, f func(el int64, acc byte) byte) chan b
 // Scan is like Reduce, but returns slice of f results
 func (c ChannelInt64) ScanString(acc string, f func(el int64, acc string) string) chan string {
 	result := make(chan string, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelInt64) ScanRune(acc rune, f func(el int64, acc rune) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelInt64) ScanError(acc error, f func(el int64, acc error) error) chan error {
+	result := make(chan error, 1)
 	go func() {
 		for el := range c.Data {
 			acc = f(el, acc)
@@ -38849,6 +50541,74 @@ func (s AsyncSliceInt64) MapByte(f func(el int64) byte) []byte {
 // Map applies F to all elements in slice of T and returns slice of results
 func (s AsyncSliceInt64) MapString(f func(el int64) string) []string {
 	result := make([]string, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceInt64) MapRune(f func(el int64) rune) []rune {
+	result := make([]rune, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceInt64) MapError(f func(el int64) error) []error {
+	result := make([]error, len(s.Data))
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -39598,6 +51358,58 @@ func (s SliceUint) ChunkByString(f func(el uint) string) [][]uint {
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceUint) ChunkByRune(f func(el uint) rune) [][]uint {
+	chunks := make([][]uint, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]uint, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceUint) ChunkByError(f func(el uint) error) [][]uint {
+	chunks := make([][]uint, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]uint, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint) ChunkByFloat32(f func(el uint) float32) [][]uint {
 	chunks := make([][]uint, 0)
 	if len(s.Data) == 0 {
@@ -40065,6 +51877,46 @@ func (s SliceUint) DedupByByte(f func(el uint) byte) []uint {
 // DedupBy returns a given slice without consecutive elements
 // For which f returns the same result
 func (s SliceUint) DedupByString(f func(el uint) string) []uint {
+	result := make([]uint, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceUint) DedupByRune(f func(el uint) rune) []uint {
+	result := make([]uint, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceUint) DedupByError(f func(el uint) error) []uint {
 	result := make([]uint, 0, len(s.Data))
 	if len(s.Data) == 0 {
 		return result
@@ -40554,6 +52406,34 @@ func (s SliceUint) GroupByString(f func(el uint) string) map[string][]uint {
 }
 
 // GroupBy groups element from array by value returned by f
+func (s SliceUint) GroupByRune(f func(el uint) rune) map[rune][]uint {
+	result := make(map[rune][]uint)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceUint) GroupByError(f func(el uint) error) map[error][]uint {
+	result := make(map[error][]uint)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
 func (s SliceUint) GroupByFloat32(f func(el uint) float32) map[float32][]uint {
 	result := make(map[float32][]uint)
 	for _, el := range s.Data {
@@ -40812,6 +52692,24 @@ func (s SliceUint) MapString(f func(el uint) string) []string {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
+func (s SliceUint) MapRune(f func(el uint) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceUint) MapError(f func(el uint) error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
 func (s SliceUint) MapFloat32(f func(el uint) float32) []float32 {
 	result := make([]float32, 0, len(s.Data))
 	for _, el := range s.Data {
@@ -41055,6 +52953,22 @@ func (s SliceUint) ReduceString(acc string, f func(el uint, acc string) string) 
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceUint) ReduceRune(acc rune, f func(el uint, acc rune) rune) rune {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceUint) ReduceError(acc error, f func(el uint, acc error) error) error {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
 func (s SliceUint) ReduceFloat32(acc float32, f func(el uint, acc float32) float32) float32 {
 	for _, el := range s.Data {
 		acc = f(el, acc)
@@ -41184,6 +53098,30 @@ func (s SliceUint) ReduceWhileByte(acc byte, f func(el uint, acc byte) (byte, er
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint) ReduceWhileString(acc string, f func(el uint, acc string) (string, error)) (string, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceUint) ReduceWhileRune(acc rune, f func(el uint, acc rune) (rune, error)) (rune, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceUint) ReduceWhileError(acc error, f func(el uint, acc error) (error, error)) (error, error) {
 	var err error
 	for _, el := range s.Data {
 		acc, err = f(el, acc)
@@ -41398,6 +53336,26 @@ func (s SliceUint) ScanByte(acc byte, f func(el uint, acc byte) byte) []byte {
 // Scan is like Reduce, but returns slice of f results
 func (s SliceUint) ScanString(acc string, f func(el uint, acc string) string) []string {
 	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceUint) ScanRune(acc rune, f func(el uint, acc rune) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceUint) ScanError(acc error, f func(el uint, acc error) error) []error {
+	result := make([]error, 0, len(s.Data))
 	for _, el := range s.Data {
 		acc = f(el, acc)
 		result = append(result, acc)
@@ -41856,6 +53814,30 @@ func (c ChannelUint) MapString(f func(el uint) string) chan string {
 }
 
 // Map applies f to all elements from channel and returns channel with results
+func (c ChannelUint) MapRune(f func(el uint) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelUint) MapError(f func(el uint) error) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
 func (c ChannelUint) MapFloat32(f func(el uint) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
@@ -42064,6 +54046,22 @@ func (c ChannelUint) ReduceString(acc string, f func(el uint, acc string) string
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelUint) ReduceRune(acc rune, f func(el uint, acc rune) rune) rune {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelUint) ReduceError(acc error, f func(el uint, acc error) error) error {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
 func (c ChannelUint) ReduceFloat32(acc float32, f func(el uint, acc float32) float32) float32 {
 	for el := range c.Data {
 		acc = f(el, acc)
@@ -42196,6 +54194,32 @@ func (c ChannelUint) ScanByte(acc byte, f func(el uint, acc byte) byte) chan byt
 // Scan is like Reduce, but returns slice of f results
 func (c ChannelUint) ScanString(acc string, f func(el uint, acc string) string) chan string {
 	result := make(chan string, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelUint) ScanRune(acc rune, f func(el uint, acc rune) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelUint) ScanError(acc error, f func(el uint, acc error) error) chan error {
+	result := make(chan error, 1)
 	go func() {
 		for el := range c.Data {
 			acc = f(el, acc)
@@ -42821,6 +54845,74 @@ func (s AsyncSliceUint) MapByte(f func(el uint) byte) []byte {
 // Map applies F to all elements in slice of T and returns slice of results
 func (s AsyncSliceUint) MapString(f func(el uint) string) []string {
 	result := make([]string, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceUint) MapRune(f func(el uint) rune) []rune {
+	result := make([]rune, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceUint) MapError(f func(el uint) error) []error {
+	result := make([]error, len(s.Data))
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -43570,6 +55662,58 @@ func (s SliceUint8) ChunkByString(f func(el uint8) string) [][]uint8 {
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceUint8) ChunkByRune(f func(el uint8) rune) [][]uint8 {
+	chunks := make([][]uint8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]uint8, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint8, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceUint8) ChunkByError(f func(el uint8) error) [][]uint8 {
+	chunks := make([][]uint8, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]uint8, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint8, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint8) ChunkByFloat32(f func(el uint8) float32) [][]uint8 {
 	chunks := make([][]uint8, 0)
 	if len(s.Data) == 0 {
@@ -44037,6 +56181,46 @@ func (s SliceUint8) DedupByByte(f func(el uint8) byte) []uint8 {
 // DedupBy returns a given slice without consecutive elements
 // For which f returns the same result
 func (s SliceUint8) DedupByString(f func(el uint8) string) []uint8 {
+	result := make([]uint8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceUint8) DedupByRune(f func(el uint8) rune) []uint8 {
+	result := make([]uint8, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceUint8) DedupByError(f func(el uint8) error) []uint8 {
 	result := make([]uint8, 0, len(s.Data))
 	if len(s.Data) == 0 {
 		return result
@@ -44526,6 +56710,34 @@ func (s SliceUint8) GroupByString(f func(el uint8) string) map[string][]uint8 {
 }
 
 // GroupBy groups element from array by value returned by f
+func (s SliceUint8) GroupByRune(f func(el uint8) rune) map[rune][]uint8 {
+	result := make(map[rune][]uint8)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceUint8) GroupByError(f func(el uint8) error) map[error][]uint8 {
+	result := make(map[error][]uint8)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint8, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
 func (s SliceUint8) GroupByFloat32(f func(el uint8) float32) map[float32][]uint8 {
 	result := make(map[float32][]uint8)
 	for _, el := range s.Data {
@@ -44784,6 +56996,24 @@ func (s SliceUint8) MapString(f func(el uint8) string) []string {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
+func (s SliceUint8) MapRune(f func(el uint8) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceUint8) MapError(f func(el uint8) error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
 func (s SliceUint8) MapFloat32(f func(el uint8) float32) []float32 {
 	result := make([]float32, 0, len(s.Data))
 	for _, el := range s.Data {
@@ -45027,6 +57257,22 @@ func (s SliceUint8) ReduceString(acc string, f func(el uint8, acc string) string
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceUint8) ReduceRune(acc rune, f func(el uint8, acc rune) rune) rune {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceUint8) ReduceError(acc error, f func(el uint8, acc error) error) error {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
 func (s SliceUint8) ReduceFloat32(acc float32, f func(el uint8, acc float32) float32) float32 {
 	for _, el := range s.Data {
 		acc = f(el, acc)
@@ -45156,6 +57402,30 @@ func (s SliceUint8) ReduceWhileByte(acc byte, f func(el uint8, acc byte) (byte, 
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint8) ReduceWhileString(acc string, f func(el uint8, acc string) (string, error)) (string, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceUint8) ReduceWhileRune(acc rune, f func(el uint8, acc rune) (rune, error)) (rune, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceUint8) ReduceWhileError(acc error, f func(el uint8, acc error) (error, error)) (error, error) {
 	var err error
 	for _, el := range s.Data {
 		acc, err = f(el, acc)
@@ -45370,6 +57640,26 @@ func (s SliceUint8) ScanByte(acc byte, f func(el uint8, acc byte) byte) []byte {
 // Scan is like Reduce, but returns slice of f results
 func (s SliceUint8) ScanString(acc string, f func(el uint8, acc string) string) []string {
 	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceUint8) ScanRune(acc rune, f func(el uint8, acc rune) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceUint8) ScanError(acc error, f func(el uint8, acc error) error) []error {
+	result := make([]error, 0, len(s.Data))
 	for _, el := range s.Data {
 		acc = f(el, acc)
 		result = append(result, acc)
@@ -45828,6 +58118,30 @@ func (c ChannelUint8) MapString(f func(el uint8) string) chan string {
 }
 
 // Map applies f to all elements from channel and returns channel with results
+func (c ChannelUint8) MapRune(f func(el uint8) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelUint8) MapError(f func(el uint8) error) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
 func (c ChannelUint8) MapFloat32(f func(el uint8) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
@@ -46036,6 +58350,22 @@ func (c ChannelUint8) ReduceString(acc string, f func(el uint8, acc string) stri
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelUint8) ReduceRune(acc rune, f func(el uint8, acc rune) rune) rune {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelUint8) ReduceError(acc error, f func(el uint8, acc error) error) error {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
 func (c ChannelUint8) ReduceFloat32(acc float32, f func(el uint8, acc float32) float32) float32 {
 	for el := range c.Data {
 		acc = f(el, acc)
@@ -46168,6 +58498,32 @@ func (c ChannelUint8) ScanByte(acc byte, f func(el uint8, acc byte) byte) chan b
 // Scan is like Reduce, but returns slice of f results
 func (c ChannelUint8) ScanString(acc string, f func(el uint8, acc string) string) chan string {
 	result := make(chan string, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelUint8) ScanRune(acc rune, f func(el uint8, acc rune) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelUint8) ScanError(acc error, f func(el uint8, acc error) error) chan error {
+	result := make(chan error, 1)
 	go func() {
 		for el := range c.Data {
 			acc = f(el, acc)
@@ -46793,6 +59149,74 @@ func (s AsyncSliceUint8) MapByte(f func(el uint8) byte) []byte {
 // Map applies F to all elements in slice of T and returns slice of results
 func (s AsyncSliceUint8) MapString(f func(el uint8) string) []string {
 	result := make([]string, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceUint8) MapRune(f func(el uint8) rune) []rune {
+	result := make([]rune, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceUint8) MapError(f func(el uint8) error) []error {
+	result := make([]error, len(s.Data))
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -47542,6 +59966,58 @@ func (s SliceUint16) ChunkByString(f func(el uint16) string) [][]uint16 {
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceUint16) ChunkByRune(f func(el uint16) rune) [][]uint16 {
+	chunks := make([][]uint16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]uint16, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint16, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceUint16) ChunkByError(f func(el uint16) error) [][]uint16 {
+	chunks := make([][]uint16, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]uint16, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint16, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint16) ChunkByFloat32(f func(el uint16) float32) [][]uint16 {
 	chunks := make([][]uint16, 0)
 	if len(s.Data) == 0 {
@@ -48009,6 +60485,46 @@ func (s SliceUint16) DedupByByte(f func(el uint16) byte) []uint16 {
 // DedupBy returns a given slice without consecutive elements
 // For which f returns the same result
 func (s SliceUint16) DedupByString(f func(el uint16) string) []uint16 {
+	result := make([]uint16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceUint16) DedupByRune(f func(el uint16) rune) []uint16 {
+	result := make([]uint16, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceUint16) DedupByError(f func(el uint16) error) []uint16 {
 	result := make([]uint16, 0, len(s.Data))
 	if len(s.Data) == 0 {
 		return result
@@ -48498,6 +61014,34 @@ func (s SliceUint16) GroupByString(f func(el uint16) string) map[string][]uint16
 }
 
 // GroupBy groups element from array by value returned by f
+func (s SliceUint16) GroupByRune(f func(el uint16) rune) map[rune][]uint16 {
+	result := make(map[rune][]uint16)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceUint16) GroupByError(f func(el uint16) error) map[error][]uint16 {
+	result := make(map[error][]uint16)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint16, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
 func (s SliceUint16) GroupByFloat32(f func(el uint16) float32) map[float32][]uint16 {
 	result := make(map[float32][]uint16)
 	for _, el := range s.Data {
@@ -48756,6 +61300,24 @@ func (s SliceUint16) MapString(f func(el uint16) string) []string {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
+func (s SliceUint16) MapRune(f func(el uint16) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceUint16) MapError(f func(el uint16) error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
 func (s SliceUint16) MapFloat32(f func(el uint16) float32) []float32 {
 	result := make([]float32, 0, len(s.Data))
 	for _, el := range s.Data {
@@ -48999,6 +61561,22 @@ func (s SliceUint16) ReduceString(acc string, f func(el uint16, acc string) stri
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceUint16) ReduceRune(acc rune, f func(el uint16, acc rune) rune) rune {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceUint16) ReduceError(acc error, f func(el uint16, acc error) error) error {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
 func (s SliceUint16) ReduceFloat32(acc float32, f func(el uint16, acc float32) float32) float32 {
 	for _, el := range s.Data {
 		acc = f(el, acc)
@@ -49128,6 +61706,30 @@ func (s SliceUint16) ReduceWhileByte(acc byte, f func(el uint16, acc byte) (byte
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint16) ReduceWhileString(acc string, f func(el uint16, acc string) (string, error)) (string, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceUint16) ReduceWhileRune(acc rune, f func(el uint16, acc rune) (rune, error)) (rune, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceUint16) ReduceWhileError(acc error, f func(el uint16, acc error) (error, error)) (error, error) {
 	var err error
 	for _, el := range s.Data {
 		acc, err = f(el, acc)
@@ -49342,6 +61944,26 @@ func (s SliceUint16) ScanByte(acc byte, f func(el uint16, acc byte) byte) []byte
 // Scan is like Reduce, but returns slice of f results
 func (s SliceUint16) ScanString(acc string, f func(el uint16, acc string) string) []string {
 	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceUint16) ScanRune(acc rune, f func(el uint16, acc rune) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceUint16) ScanError(acc error, f func(el uint16, acc error) error) []error {
+	result := make([]error, 0, len(s.Data))
 	for _, el := range s.Data {
 		acc = f(el, acc)
 		result = append(result, acc)
@@ -49800,6 +62422,30 @@ func (c ChannelUint16) MapString(f func(el uint16) string) chan string {
 }
 
 // Map applies f to all elements from channel and returns channel with results
+func (c ChannelUint16) MapRune(f func(el uint16) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelUint16) MapError(f func(el uint16) error) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
 func (c ChannelUint16) MapFloat32(f func(el uint16) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
@@ -50008,6 +62654,22 @@ func (c ChannelUint16) ReduceString(acc string, f func(el uint16, acc string) st
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelUint16) ReduceRune(acc rune, f func(el uint16, acc rune) rune) rune {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelUint16) ReduceError(acc error, f func(el uint16, acc error) error) error {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
 func (c ChannelUint16) ReduceFloat32(acc float32, f func(el uint16, acc float32) float32) float32 {
 	for el := range c.Data {
 		acc = f(el, acc)
@@ -50140,6 +62802,32 @@ func (c ChannelUint16) ScanByte(acc byte, f func(el uint16, acc byte) byte) chan
 // Scan is like Reduce, but returns slice of f results
 func (c ChannelUint16) ScanString(acc string, f func(el uint16, acc string) string) chan string {
 	result := make(chan string, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelUint16) ScanRune(acc rune, f func(el uint16, acc rune) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelUint16) ScanError(acc error, f func(el uint16, acc error) error) chan error {
+	result := make(chan error, 1)
 	go func() {
 		for el := range c.Data {
 			acc = f(el, acc)
@@ -50765,6 +63453,74 @@ func (s AsyncSliceUint16) MapByte(f func(el uint16) byte) []byte {
 // Map applies F to all elements in slice of T and returns slice of results
 func (s AsyncSliceUint16) MapString(f func(el uint16) string) []string {
 	result := make([]string, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceUint16) MapRune(f func(el uint16) rune) []rune {
+	result := make([]rune, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceUint16) MapError(f func(el uint16) error) []error {
+	result := make([]error, len(s.Data))
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -51514,6 +64270,58 @@ func (s SliceUint32) ChunkByString(f func(el uint32) string) [][]uint32 {
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceUint32) ChunkByRune(f func(el uint32) rune) [][]uint32 {
+	chunks := make([][]uint32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]uint32, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint32, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceUint32) ChunkByError(f func(el uint32) error) [][]uint32 {
+	chunks := make([][]uint32, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]uint32, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint32, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint32) ChunkByFloat32(f func(el uint32) float32) [][]uint32 {
 	chunks := make([][]uint32, 0)
 	if len(s.Data) == 0 {
@@ -51981,6 +64789,46 @@ func (s SliceUint32) DedupByByte(f func(el uint32) byte) []uint32 {
 // DedupBy returns a given slice without consecutive elements
 // For which f returns the same result
 func (s SliceUint32) DedupByString(f func(el uint32) string) []uint32 {
+	result := make([]uint32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceUint32) DedupByRune(f func(el uint32) rune) []uint32 {
+	result := make([]uint32, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceUint32) DedupByError(f func(el uint32) error) []uint32 {
 	result := make([]uint32, 0, len(s.Data))
 	if len(s.Data) == 0 {
 		return result
@@ -52470,6 +65318,34 @@ func (s SliceUint32) GroupByString(f func(el uint32) string) map[string][]uint32
 }
 
 // GroupBy groups element from array by value returned by f
+func (s SliceUint32) GroupByRune(f func(el uint32) rune) map[rune][]uint32 {
+	result := make(map[rune][]uint32)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceUint32) GroupByError(f func(el uint32) error) map[error][]uint32 {
+	result := make(map[error][]uint32)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint32, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
 func (s SliceUint32) GroupByFloat32(f func(el uint32) float32) map[float32][]uint32 {
 	result := make(map[float32][]uint32)
 	for _, el := range s.Data {
@@ -52728,6 +65604,24 @@ func (s SliceUint32) MapString(f func(el uint32) string) []string {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
+func (s SliceUint32) MapRune(f func(el uint32) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceUint32) MapError(f func(el uint32) error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
 func (s SliceUint32) MapFloat32(f func(el uint32) float32) []float32 {
 	result := make([]float32, 0, len(s.Data))
 	for _, el := range s.Data {
@@ -52971,6 +65865,22 @@ func (s SliceUint32) ReduceString(acc string, f func(el uint32, acc string) stri
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceUint32) ReduceRune(acc rune, f func(el uint32, acc rune) rune) rune {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceUint32) ReduceError(acc error, f func(el uint32, acc error) error) error {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
 func (s SliceUint32) ReduceFloat32(acc float32, f func(el uint32, acc float32) float32) float32 {
 	for _, el := range s.Data {
 		acc = f(el, acc)
@@ -53100,6 +66010,30 @@ func (s SliceUint32) ReduceWhileByte(acc byte, f func(el uint32, acc byte) (byte
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint32) ReduceWhileString(acc string, f func(el uint32, acc string) (string, error)) (string, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceUint32) ReduceWhileRune(acc rune, f func(el uint32, acc rune) (rune, error)) (rune, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceUint32) ReduceWhileError(acc error, f func(el uint32, acc error) (error, error)) (error, error) {
 	var err error
 	for _, el := range s.Data {
 		acc, err = f(el, acc)
@@ -53314,6 +66248,26 @@ func (s SliceUint32) ScanByte(acc byte, f func(el uint32, acc byte) byte) []byte
 // Scan is like Reduce, but returns slice of f results
 func (s SliceUint32) ScanString(acc string, f func(el uint32, acc string) string) []string {
 	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceUint32) ScanRune(acc rune, f func(el uint32, acc rune) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceUint32) ScanError(acc error, f func(el uint32, acc error) error) []error {
+	result := make([]error, 0, len(s.Data))
 	for _, el := range s.Data {
 		acc = f(el, acc)
 		result = append(result, acc)
@@ -53772,6 +66726,30 @@ func (c ChannelUint32) MapString(f func(el uint32) string) chan string {
 }
 
 // Map applies f to all elements from channel and returns channel with results
+func (c ChannelUint32) MapRune(f func(el uint32) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelUint32) MapError(f func(el uint32) error) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
 func (c ChannelUint32) MapFloat32(f func(el uint32) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
@@ -53980,6 +66958,22 @@ func (c ChannelUint32) ReduceString(acc string, f func(el uint32, acc string) st
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelUint32) ReduceRune(acc rune, f func(el uint32, acc rune) rune) rune {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelUint32) ReduceError(acc error, f func(el uint32, acc error) error) error {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
 func (c ChannelUint32) ReduceFloat32(acc float32, f func(el uint32, acc float32) float32) float32 {
 	for el := range c.Data {
 		acc = f(el, acc)
@@ -54112,6 +67106,32 @@ func (c ChannelUint32) ScanByte(acc byte, f func(el uint32, acc byte) byte) chan
 // Scan is like Reduce, but returns slice of f results
 func (c ChannelUint32) ScanString(acc string, f func(el uint32, acc string) string) chan string {
 	result := make(chan string, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelUint32) ScanRune(acc rune, f func(el uint32, acc rune) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelUint32) ScanError(acc error, f func(el uint32, acc error) error) chan error {
+	result := make(chan error, 1)
 	go func() {
 		for el := range c.Data {
 			acc = f(el, acc)
@@ -54737,6 +67757,74 @@ func (s AsyncSliceUint32) MapByte(f func(el uint32) byte) []byte {
 // Map applies F to all elements in slice of T and returns slice of results
 func (s AsyncSliceUint32) MapString(f func(el uint32) string) []string {
 	result := make([]string, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceUint32) MapRune(f func(el uint32) rune) []rune {
+	result := make([]rune, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceUint32) MapError(f func(el uint32) error) []error {
+	result := make([]error, len(s.Data))
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -55486,6 +68574,58 @@ func (s SliceUint64) ChunkByString(f func(el uint64) string) [][]uint64 {
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceUint64) ChunkByRune(f func(el uint64) rune) [][]uint64 {
+	chunks := make([][]uint64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]uint64, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint64, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceUint64) ChunkByError(f func(el uint64) error) [][]uint64 {
+	chunks := make([][]uint64, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]uint64, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]uint64, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceUint64) ChunkByFloat32(f func(el uint64) float32) [][]uint64 {
 	chunks := make([][]uint64, 0)
 	if len(s.Data) == 0 {
@@ -55953,6 +69093,46 @@ func (s SliceUint64) DedupByByte(f func(el uint64) byte) []uint64 {
 // DedupBy returns a given slice without consecutive elements
 // For which f returns the same result
 func (s SliceUint64) DedupByString(f func(el uint64) string) []uint64 {
+	result := make([]uint64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceUint64) DedupByRune(f func(el uint64) rune) []uint64 {
+	result := make([]uint64, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceUint64) DedupByError(f func(el uint64) error) []uint64 {
 	result := make([]uint64, 0, len(s.Data))
 	if len(s.Data) == 0 {
 		return result
@@ -56442,6 +69622,34 @@ func (s SliceUint64) GroupByString(f func(el uint64) string) map[string][]uint64
 }
 
 // GroupBy groups element from array by value returned by f
+func (s SliceUint64) GroupByRune(f func(el uint64) rune) map[rune][]uint64 {
+	result := make(map[rune][]uint64)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceUint64) GroupByError(f func(el uint64) error) map[error][]uint64 {
+	result := make(map[error][]uint64)
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]uint64, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
 func (s SliceUint64) GroupByFloat32(f func(el uint64) float32) map[float32][]uint64 {
 	result := make(map[float32][]uint64)
 	for _, el := range s.Data {
@@ -56700,6 +69908,24 @@ func (s SliceUint64) MapString(f func(el uint64) string) []string {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
+func (s SliceUint64) MapRune(f func(el uint64) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceUint64) MapError(f func(el uint64) error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
 func (s SliceUint64) MapFloat32(f func(el uint64) float32) []float32 {
 	result := make([]float32, 0, len(s.Data))
 	for _, el := range s.Data {
@@ -56943,6 +70169,22 @@ func (s SliceUint64) ReduceString(acc string, f func(el uint64, acc string) stri
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceUint64) ReduceRune(acc rune, f func(el uint64, acc rune) rune) rune {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceUint64) ReduceError(acc error, f func(el uint64, acc error) error) error {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
 func (s SliceUint64) ReduceFloat32(acc float32, f func(el uint64, acc float32) float32) float32 {
 	for _, el := range s.Data {
 		acc = f(el, acc)
@@ -57072,6 +70314,30 @@ func (s SliceUint64) ReduceWhileByte(acc byte, f func(el uint64, acc byte) (byte
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceUint64) ReduceWhileString(acc string, f func(el uint64, acc string) (string, error)) (string, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceUint64) ReduceWhileRune(acc rune, f func(el uint64, acc rune) (rune, error)) (rune, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceUint64) ReduceWhileError(acc error, f func(el uint64, acc error) (error, error)) (error, error) {
 	var err error
 	for _, el := range s.Data {
 		acc, err = f(el, acc)
@@ -57286,6 +70552,26 @@ func (s SliceUint64) ScanByte(acc byte, f func(el uint64, acc byte) byte) []byte
 // Scan is like Reduce, but returns slice of f results
 func (s SliceUint64) ScanString(acc string, f func(el uint64, acc string) string) []string {
 	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceUint64) ScanRune(acc rune, f func(el uint64, acc rune) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceUint64) ScanError(acc error, f func(el uint64, acc error) error) []error {
+	result := make([]error, 0, len(s.Data))
 	for _, el := range s.Data {
 		acc = f(el, acc)
 		result = append(result, acc)
@@ -57744,6 +71030,30 @@ func (c ChannelUint64) MapString(f func(el uint64) string) chan string {
 }
 
 // Map applies f to all elements from channel and returns channel with results
+func (c ChannelUint64) MapRune(f func(el uint64) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelUint64) MapError(f func(el uint64) error) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
 func (c ChannelUint64) MapFloat32(f func(el uint64) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
@@ -57952,6 +71262,22 @@ func (c ChannelUint64) ReduceString(acc string, f func(el uint64, acc string) st
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelUint64) ReduceRune(acc rune, f func(el uint64, acc rune) rune) rune {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelUint64) ReduceError(acc error, f func(el uint64, acc error) error) error {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
 func (c ChannelUint64) ReduceFloat32(acc float32, f func(el uint64, acc float32) float32) float32 {
 	for el := range c.Data {
 		acc = f(el, acc)
@@ -58084,6 +71410,32 @@ func (c ChannelUint64) ScanByte(acc byte, f func(el uint64, acc byte) byte) chan
 // Scan is like Reduce, but returns slice of f results
 func (c ChannelUint64) ScanString(acc string, f func(el uint64, acc string) string) chan string {
 	result := make(chan string, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelUint64) ScanRune(acc rune, f func(el uint64, acc rune) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelUint64) ScanError(acc error, f func(el uint64, acc error) error) chan error {
+	result := make(chan error, 1)
 	go func() {
 		for el := range c.Data {
 			acc = f(el, acc)
@@ -58709,6 +72061,74 @@ func (s AsyncSliceUint64) MapByte(f func(el uint64) byte) []byte {
 // Map applies F to all elements in slice of T and returns slice of results
 func (s AsyncSliceUint64) MapString(f func(el uint64) string) []string {
 	result := make([]string, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceUint64) MapRune(f func(el uint64) rune) []rune {
+	result := make([]rune, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceUint64) MapError(f func(el uint64) error) []error {
+	result := make([]error, len(s.Data))
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -59458,6 +72878,58 @@ func (s SliceInterface) ChunkByString(f func(el interface{}) string) [][]interfa
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceInterface) ChunkByRune(f func(el interface{}) rune) [][]interface{} {
+	chunks := make([][]interface{}, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]interface{}, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]interface{}, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
+func (s SliceInterface) ChunkByError(f func(el interface{}) error) [][]interface{} {
+	chunks := make([][]interface{}, 0)
+	if len(s.Data) == 0 {
+		return chunks
+	}
+
+	chunk := make([]interface{}, 0)
+	prev := f(s.Data[0])
+	chunk = append(chunk, s.Data[0])
+
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			chunks = append(chunks, chunk)
+			chunk = make([]interface{}, 0)
+			prev = curr
+		}
+		chunk = append(chunk, el)
+	}
+	if len(chunk) > 0 {
+		chunks = append(chunks, chunk)
+	}
+	return chunks
+}
+
+// ChunkBy splits arr on every element for which f returns a new value.
 func (s SliceInterface) ChunkByFloat32(f func(el interface{}) float32) [][]interface{} {
 	chunks := make([][]interface{}, 0)
 	if len(s.Data) == 0 {
@@ -59944,6 +73416,46 @@ func (s SliceInterface) DedupByString(f func(el interface{}) string) []interface
 
 // DedupBy returns a given slice without consecutive elements
 // For which f returns the same result
+func (s SliceInterface) DedupByRune(f func(el interface{}) rune) []interface{} {
+	result := make([]interface{}, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
+func (s SliceInterface) DedupByError(f func(el interface{}) error) []interface{} {
+	result := make([]interface{}, 0, len(s.Data))
+	if len(s.Data) == 0 {
+		return result
+	}
+
+	prev := f(s.Data[0])
+	result = append(result, s.Data[0])
+	for _, el := range s.Data[1:] {
+		curr := f(el)
+		if curr != prev {
+			result = append(result, el)
+			prev = curr
+		}
+	}
+	return result
+}
+
+// DedupBy returns a given slice without consecutive elements
+// For which f returns the same result
 func (s SliceInterface) DedupByFloat32(f func(el interface{}) float32) []interface{} {
 	result := make([]interface{}, 0, len(s.Data))
 	if len(s.Data) == 0 {
@@ -60405,6 +73917,34 @@ func (s SliceInterface) GroupByString(f func(el interface{}) string) map[string]
 }
 
 // GroupBy groups element from array by value returned by f
+func (s SliceInterface) GroupByRune(f func(el interface{}) rune) map[rune][]interface{} {
+	result := make(map[rune][]interface{})
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]interface{}, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
+func (s SliceInterface) GroupByError(f func(el interface{}) error) map[error][]interface{} {
+	result := make(map[error][]interface{})
+	for _, el := range s.Data {
+		key := f(el)
+		val, ok := result[key]
+		if !ok {
+			result[key] = make([]interface{}, 1)
+		}
+		result[key] = append(val, el)
+	}
+	return result
+}
+
+// GroupBy groups element from array by value returned by f
 func (s SliceInterface) GroupByFloat32(f func(el interface{}) float32) map[float32][]interface{} {
 	result := make(map[float32][]interface{})
 	for _, el := range s.Data {
@@ -60663,6 +74203,24 @@ func (s SliceInterface) MapString(f func(el interface{}) string) []string {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
+func (s SliceInterface) MapRune(f func(el interface{}) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s SliceInterface) MapError(f func(el interface{}) error) []error {
+	result := make([]error, 0, len(s.Data))
+	for _, el := range s.Data {
+		result = append(result, f(el))
+	}
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
 func (s SliceInterface) MapFloat32(f func(el interface{}) float32) []float32 {
 	result := make([]float32, 0, len(s.Data))
 	for _, el := range s.Data {
@@ -60874,6 +74432,22 @@ func (s SliceInterface) ReduceString(acc string, f func(el interface{}, acc stri
 }
 
 // Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceInterface) ReduceRune(acc rune, f func(el interface{}, acc rune) rune) rune {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
+func (s SliceInterface) ReduceError(acc error, f func(el interface{}, acc error) error) error {
+	for _, el := range s.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies F to acc and every element in slice of T and returns acc
 func (s SliceInterface) ReduceFloat32(acc float32, f func(el interface{}, acc float32) float32) float32 {
 	for _, el := range s.Data {
 		acc = f(el, acc)
@@ -61003,6 +74577,30 @@ func (s SliceInterface) ReduceWhileByte(acc byte, f func(el interface{}, acc byt
 
 // ReduceWhile is like Reduce, but stops when f returns error
 func (s SliceInterface) ReduceWhileString(acc string, f func(el interface{}, acc string) (string, error)) (string, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceInterface) ReduceWhileRune(acc rune, f func(el interface{}, acc rune) (rune, error)) (rune, error) {
+	var err error
+	for _, el := range s.Data {
+		acc, err = f(el, acc)
+		if err != nil {
+			return acc, err
+		}
+	}
+	return acc, nil
+}
+
+// ReduceWhile is like Reduce, but stops when f returns error
+func (s SliceInterface) ReduceWhileError(acc error, f func(el interface{}, acc error) (error, error)) (error, error) {
 	var err error
 	for _, el := range s.Data {
 		acc, err = f(el, acc)
@@ -61217,6 +74815,26 @@ func (s SliceInterface) ScanByte(acc byte, f func(el interface{}, acc byte) byte
 // Scan is like Reduce, but returns slice of f results
 func (s SliceInterface) ScanString(acc string, f func(el interface{}, acc string) string) []string {
 	result := make([]string, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceInterface) ScanRune(acc rune, f func(el interface{}, acc rune) rune) []rune {
+	result := make([]rune, 0, len(s.Data))
+	for _, el := range s.Data {
+		acc = f(el, acc)
+		result = append(result, acc)
+	}
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (s SliceInterface) ScanError(acc error, f func(el interface{}, acc error) error) []error {
+	result := make([]error, 0, len(s.Data))
 	for _, el := range s.Data {
 		acc = f(el, acc)
 		result = append(result, acc)
@@ -61641,6 +75259,30 @@ func (c ChannelInterface) MapString(f func(el interface{}) string) chan string {
 }
 
 // Map applies f to all elements from channel and returns channel with results
+func (c ChannelInterface) MapRune(f func(el interface{}) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
+func (c ChannelInterface) MapError(f func(el interface{}) error) chan error {
+	result := make(chan error, 1)
+	go func() {
+		for el := range c.Data {
+			result <- f(el)
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results
 func (c ChannelInterface) MapFloat32(f func(el interface{}) float32) chan float32 {
 	result := make(chan float32, 1)
 	go func() {
@@ -61821,6 +75463,22 @@ func (c ChannelInterface) ReduceString(acc string, f func(el interface{}, acc st
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelInterface) ReduceRune(acc rune, f func(el interface{}, acc rune) rune) rune {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
+func (c ChannelInterface) ReduceError(acc error, f func(el interface{}, acc error) error) error {
+	for el := range c.Data {
+		acc = f(el, acc)
+	}
+	return acc
+}
+
+// Reduce applies f to acc and every element from channel and returns acc
 func (c ChannelInterface) ReduceFloat32(acc float32, f func(el interface{}, acc float32) float32) float32 {
 	for el := range c.Data {
 		acc = f(el, acc)
@@ -61953,6 +75611,32 @@ func (c ChannelInterface) ScanByte(acc byte, f func(el interface{}, acc byte) by
 // Scan is like Reduce, but returns slice of f results
 func (c ChannelInterface) ScanString(acc string, f func(el interface{}, acc string) string) chan string {
 	result := make(chan string, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelInterface) ScanRune(acc rune, f func(el interface{}, acc rune) rune) chan rune {
+	result := make(chan rune, 1)
+	go func() {
+		for el := range c.Data {
+			acc = f(el, acc)
+			result <- acc
+		}
+		close(result)
+	}()
+	return result
+}
+
+// Scan is like Reduce, but returns slice of f results
+func (c ChannelInterface) ScanError(acc error, f func(el interface{}, acc error) error) chan error {
+	result := make(chan error, 1)
 	go func() {
 		for el := range c.Data {
 			acc = f(el, acc)
@@ -62504,6 +76188,74 @@ func (s AsyncSliceInterface) MapByte(f func(el interface{}) byte) []byte {
 // Map applies F to all elements in slice of T and returns slice of results
 func (s AsyncSliceInterface) MapString(f func(el interface{}) string) []string {
 	result := make([]string, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceInterface) MapRune(f func(el interface{}) rune) []rune {
+	result := make([]rune, len(s.Data))
+	wg := sync.WaitGroup{}
+
+	worker := func(jobs <-chan int) {
+		for index := range jobs {
+			result[index] = f(s.Data[index])
+		}
+		wg.Done()
+	}
+
+	// calculate workers count
+	workers := s.Workers
+	if workers == 0 || workers > len(s.Data) {
+		workers = len(s.Data)
+	}
+
+	// run workers
+	jobs := make(chan int, len(s.Data))
+	wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go worker(jobs)
+	}
+
+	// add indices into jobs for workers
+	for i := 0; i < len(s.Data); i++ {
+		jobs <- i
+	}
+	close(jobs)
+	wg.Wait()
+	return result
+}
+
+// Map applies F to all elements in slice of T and returns slice of results
+func (s AsyncSliceInterface) MapError(f func(el interface{}) error) []error {
+	result := make([]error, len(s.Data))
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {

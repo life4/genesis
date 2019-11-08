@@ -19,7 +19,7 @@ class Type:
 
 
 TYPES = (
-    Type('bool'), Type('byte'), Type('string'),
+    Type('bool'), Type('byte'), Type('string'), Type('rune'), Type('error'),
     Type('float32'), Type('float64'),
     Type('int'), Type('int8'), Type('int16'), Type('int32'), Type('int64'),
     Type('uint'), Type('uint8'), Type('uint16'), Type('uint32'), Type('uint64'),

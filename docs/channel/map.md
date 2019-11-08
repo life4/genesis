@@ -15,6 +15,8 @@ Generic types: G, T.
 | ChannelBool | bool |
 | ChannelByte | byte |
 | ChannelString | string |
+| ChannelRune | rune |
+| ChannelError | error |
 | ChannelFloat32 | float32 |
 | ChannelFloat64 | float64 |
 | ChannelInt | int |
@@ -36,6 +38,8 @@ Generic types: G, T.
 | MapBool | bool |
 | MapByte | byte |
 | MapString | string |
+| MapRune | rune |
+| MapError | error |
 | MapFloat32 | float32 |
 | MapFloat64 | float64 |
 | MapInt | int |

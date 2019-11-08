@@ -15,6 +15,8 @@ Generic types: T.
 | AsyncSliceBool | bool |
 | AsyncSliceByte | byte |
 | AsyncSliceString | string |
+| AsyncSliceRune | rune |
+| AsyncSliceError | error |
 | AsyncSliceFloat32 | float32 |
 | AsyncSliceFloat64 | float64 |
 | AsyncSliceInt | int |

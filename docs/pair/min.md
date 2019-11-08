@@ -14,6 +14,7 @@ Generic types: T.
 | ------ | ------ |
 | PairByte | byte |
 | PairString | string |
+| PairRune | rune |
 | PairFloat32 | float32 |
 | PairFloat64 | float64 |
 | PairInt | int |

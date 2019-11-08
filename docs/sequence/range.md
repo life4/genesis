@@ -12,6 +12,7 @@ Generic types: T.
 
 | Struct | T type |
 | ------ | ------ |
+| SequenceRune | rune |
 | SequenceFloat32 | float32 |
 | SequenceFloat64 | float64 |
 | SequenceInt | int |

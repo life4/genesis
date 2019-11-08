@@ -23,6 +23,7 @@ fmt.Println(max)
 | ------ | ------ |
 | SliceByte | byte |
 | SliceString | string |
+| SliceRune | rune |
 | SliceFloat32 | float32 |
 | SliceFloat64 | float64 |
 | SliceInt | int |

@@ -16,6 +16,8 @@ type Sequence struct {
 | SequenceBool | bool |
 | SequenceByte | byte |
 | SequenceString | string |
+| SequenceRune | rune |
+| SequenceError | error |
 | SequenceFloat32 | float32 |
 | SequenceFloat64 | float64 |
 | SequenceInt | int |

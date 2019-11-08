@@ -5,6 +5,2188 @@ import (
 	"github.com/stretchr/testify/assert"
 	"testing")
 
+func TestSlicesConcatRune(t *testing.T) {
+	f := func(given [][]rune, expected []rune) {
+		actual := SlicesRune{given}.Concat()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([][]rune{}, []rune{})
+	f([][]rune{{}}, []rune{})
+	f([][]rune{{1}}, []rune{1})
+	f([][]rune{{1}, {}}, []rune{1})
+	f([][]rune{{}, {1}}, []rune{1})
+	f([][]rune{{1, 2}, {3, 4, 5}}, []rune{1, 2, 3, 4, 5})
+}
+
+func TestSlicesProductRune(t *testing.T) {
+	f := func(given [][]rune, expected [][]rune) {
+		actual := make([][]rune, 0)
+		i := 0
+		s := SlicesRune{given}
+		for el := range s.Product() {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([][]rune{{1, 2}, {3, 4}}, [][]rune{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
+	f([][]rune{{1, 2}, {3}, {4, 5}}, [][]rune{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
+}
+
+func TestSlicesZipRune(t *testing.T) {
+	f := func(given [][]rune, expected [][]rune) {
+		actual := make([][]rune, 0)
+		i := 0
+		s := SlicesRune{given}
+		for el := range s.Zip() {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([][]rune{}, [][]rune{})
+	f([][]rune{{1}, {2}}, [][]rune{{1, 2}})
+	f([][]rune{{1, 2}, {3, 4}}, [][]rune{{1, 3}, {2, 4}})
+	f([][]rune{{1, 2, 3}, {4, 5}}, [][]rune{{1, 4}, {2, 5}})
+}
+
+func TestSequenceCountRune(t *testing.T) {
+	f := func(start rune, step rune, count int, expected []rune) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceRune{ctx: ctx}
+		seq := s.Count(start, step)
+		seq2 := ChannelRune{seq}.Take(count)
+		actual := ChannelRune{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 2, 4, []rune{1, 3, 5, 7})
+}
+
+func TestSequenceExponentialRune(t *testing.T) {
+	f := func(start rune, factor rune, count int, expected []rune) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceRune{ctx: ctx}
+		seq := s.Exponential(start, factor)
+		seq2 := ChannelRune{seq}.Take(count)
+		actual := ChannelRune{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 1, 4, []rune{1, 1, 1, 1})
+	f(1, 2, 4, []rune{1, 2, 4, 8})
+}
+
+func TestSequenceIterateRune(t *testing.T) {
+	f := func(start rune, count int, expected []rune) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceRune{ctx: ctx}
+		double := func(val rune) rune { return val * 2 }
+		seq := s.Iterate(start, double)
+		seq2 := ChannelRune{seq}.Take(count)
+		actual := ChannelRune{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, []rune{1, 2, 4, 8})
+}
+
+func TestSequenceRangeRune(t *testing.T) {
+	f := func(start rune, stop rune, step rune, expected []rune) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceRune{ctx: ctx}
+		seq := s.Range(start, stop, step)
+		actual := ChannelRune{seq}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, 4, 1, []rune{1, 2, 3})
+	f(3, 0, -1, []rune{3, 2, 1})
+	f(1, 1, 1, []rune{})
+	f(1, 2, 1, []rune{1})
+}
+
+func TestSequenceRepeatRune(t *testing.T) {
+	f := func(count int, given rune, expected []rune) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceRune{ctx: ctx}
+		seq := s.Repeat(given)
+		seq2 := ChannelRune{seq}.Take(count)
+		actual := ChannelRune{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, 1, []rune{1, 1})
+}
+
+func TestSequenceReplicateRune(t *testing.T) {
+	f := func(count int, given rune, expected []rune) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceRune{ctx: ctx}
+		seq := s.Replicate(given, count)
+		actual := ChannelRune{seq}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []rune{})
+	f(1, 1, []rune{1})
+	f(5, 1, []rune{1, 1, 1, 1, 1})
+}
+
+func TestSliceAnyRune(t *testing.T) {
+	f := func(given []rune, expected bool) {
+		even := func(t rune) bool { return (t % 2) == 0 }
+		actual := SliceRune{given}.Any(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, false)
+	f([]rune{1, 3}, false)
+	f([]rune{2}, true)
+	f([]rune{1, 2}, true)
+}
+
+func TestSliceAllRune(t *testing.T) {
+	f := func(given []rune, expected bool) {
+		even := func(t rune) bool { return (t % 2) == 0 }
+		actual := SliceRune{given}.All(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, true)
+	f([]rune{2}, true)
+	f([]rune{1}, false)
+	f([]rune{2, 4}, true)
+	f([]rune{2, 4, 1}, false)
+	f([]rune{1, 2, 4}, false)
+}
+
+func TestSliceChoiceRune(t *testing.T) {
+	f := func(given []rune, seed int64, expected rune) {
+		actual, _ := SliceRune{given}.Choice(seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{1}, 0, 1)
+	f([]rune{1, 2, 3}, 1, 3)
+	f([]rune{1, 2, 3}, 2, 2)
+}
+
+func TestSliceChunkByRuneRune(t *testing.T) {
+	f := func(given []rune, expected [][]rune) {
+		reminder := func(t rune) rune { return rune((t % 2)) }
+		actual := SliceRune{given}.ChunkByRune(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, [][]rune{})
+	f([]rune{1}, [][]rune{{1}})
+	f([]rune{1, 2, 3}, [][]rune{{1}, {2}, {3}})
+	f([]rune{1, 3, 2, 4, 5}, [][]rune{{1, 3}, {2, 4}, {5}})
+}
+
+func TestSliceChunkByRuneInt(t *testing.T) {
+	f := func(given []rune, expected [][]rune) {
+		reminder := func(t rune) int { return int((t % 2)) }
+		actual := SliceRune{given}.ChunkByInt(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, [][]rune{})
+	f([]rune{1}, [][]rune{{1}})
+	f([]rune{1, 2, 3}, [][]rune{{1}, {2}, {3}})
+	f([]rune{1, 3, 2, 4, 5}, [][]rune{{1, 3}, {2, 4}, {5}})
+}
+
+func TestSliceChunkByRuneInt8(t *testing.T) {
+	f := func(given []rune, expected [][]rune) {
+		reminder := func(t rune) int8 { return int8((t % 2)) }
+		actual := SliceRune{given}.ChunkByInt8(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, [][]rune{})
+	f([]rune{1}, [][]rune{{1}})
+	f([]rune{1, 2, 3}, [][]rune{{1}, {2}, {3}})
+	f([]rune{1, 3, 2, 4, 5}, [][]rune{{1, 3}, {2, 4}, {5}})
+}
+
+func TestSliceChunkByRuneInt16(t *testing.T) {
+	f := func(given []rune, expected [][]rune) {
+		reminder := func(t rune) int16 { return int16((t % 2)) }
+		actual := SliceRune{given}.ChunkByInt16(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, [][]rune{})
+	f([]rune{1}, [][]rune{{1}})
+	f([]rune{1, 2, 3}, [][]rune{{1}, {2}, {3}})
+	f([]rune{1, 3, 2, 4, 5}, [][]rune{{1, 3}, {2, 4}, {5}})
+}
+
+func TestSliceChunkByRuneInt32(t *testing.T) {
+	f := func(given []rune, expected [][]rune) {
+		reminder := func(t rune) int32 { return int32((t % 2)) }
+		actual := SliceRune{given}.ChunkByInt32(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, [][]rune{})
+	f([]rune{1}, [][]rune{{1}})
+	f([]rune{1, 2, 3}, [][]rune{{1}, {2}, {3}})
+	f([]rune{1, 3, 2, 4, 5}, [][]rune{{1, 3}, {2, 4}, {5}})
+}
+
+func TestSliceChunkByRuneInt64(t *testing.T) {
+	f := func(given []rune, expected [][]rune) {
+		reminder := func(t rune) int64 { return int64((t % 2)) }
+		actual := SliceRune{given}.ChunkByInt64(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, [][]rune{})
+	f([]rune{1}, [][]rune{{1}})
+	f([]rune{1, 2, 3}, [][]rune{{1}, {2}, {3}})
+	f([]rune{1, 3, 2, 4, 5}, [][]rune{{1, 3}, {2, 4}, {5}})
+}
+
+func TestSliceChunkEveryRune(t *testing.T) {
+	f := func(count int, given []rune, expected [][]rune) {
+		actual, _ := SliceRune{given}.ChunkEvery(count)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, []rune{}, [][]rune{})
+	f(2, []rune{1}, [][]rune{{1}})
+	f(2, []rune{1, 2, 3, 4}, [][]rune{{1, 2}, {3, 4}})
+	f(2, []rune{1, 2, 3, 4, 5}, [][]rune{{1, 2}, {3, 4}, {5}})
+}
+
+func TestSliceContainsRune(t *testing.T) {
+	f := func(el rune, given []rune, expected bool) {
+		actual := SliceRune{given}.Contains(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []rune{}, false)
+	f(1, []rune{1}, true)
+	f(1, []rune{2}, false)
+	f(1, []rune{2, 3, 4, 5}, false)
+	f(1, []rune{2, 3, 1, 4, 5}, true)
+	f(1, []rune{2, 3, 1, 1, 4, 5}, true)
+}
+
+func TestSliceCountRune(t *testing.T) {
+	f := func(el rune, given []rune, expected int) {
+		actual := SliceRune{given}.Count(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []rune{}, 0)
+	f(1, []rune{1}, 1)
+	f(1, []rune{2}, 0)
+	f(1, []rune{2, 3, 4, 5}, 0)
+	f(1, []rune{2, 3, 1, 4, 5}, 1)
+	f(1, []rune{2, 3, 1, 1, 4, 5}, 2)
+	f(1, []rune{1, 1, 1, 1, 1}, 5)
+}
+
+func TestSliceCountByRune(t *testing.T) {
+	f := func(given []rune, expected int) {
+		even := func(t rune) bool { return (t % 2) == 0 }
+		actual := SliceRune{given}.CountBy(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 0)
+	f([]rune{2}, 1)
+	f([]rune{1, 2, 3, 4, 5}, 2)
+	f([]rune{1, 2, 3, 4, 5, 6}, 3)
+}
+
+func TestSliceCycleRune(t *testing.T) {
+	f := func(count int, given []rune, expected []rune) {
+		c := SliceRune{given}.Cycle()
+		seq := ChannelRune{c}.Take(count)
+		actual := ChannelRune{seq}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(5, []rune{}, []rune{})
+	f(5, []rune{1}, []rune{1, 1, 1, 1, 1})
+	f(5, []rune{1, 2}, []rune{1, 2, 1, 2, 1})
+}
+
+func TestSliceDedupRune(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		actual := SliceRune{given}.Dedup()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{1})
+	f([]rune{1, 1}, []rune{1})
+	f([]rune{1, 2}, []rune{1, 2})
+	f([]rune{1, 2, 3}, []rune{1, 2, 3})
+	f([]rune{1, 2, 2, 3}, []rune{1, 2, 3})
+	f([]rune{1, 2, 2, 3, 3, 3, 2, 1, 1}, []rune{1, 2, 3, 2, 1})
+}
+
+func TestSliceDedupByRuneRune(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		even := func(el rune) rune { return rune(el % 2) }
+		actual := SliceRune{given}.DedupByRune(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{1})
+	f([]rune{1, 1}, []rune{1})
+	f([]rune{1, 2}, []rune{1, 2})
+	f([]rune{1, 2, 3}, []rune{1, 2, 3})
+	f([]rune{1, 2, 2, 3}, []rune{1, 2, 3})
+	f([]rune{1, 2, 4, 3, 5, 7, 10}, []rune{1, 2, 3, 10})
+}
+
+func TestSliceDedupByRuneInt(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		even := func(el rune) int { return int(el % 2) }
+		actual := SliceRune{given}.DedupByInt(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{1})
+	f([]rune{1, 1}, []rune{1})
+	f([]rune{1, 2}, []rune{1, 2})
+	f([]rune{1, 2, 3}, []rune{1, 2, 3})
+	f([]rune{1, 2, 2, 3}, []rune{1, 2, 3})
+	f([]rune{1, 2, 4, 3, 5, 7, 10}, []rune{1, 2, 3, 10})
+}
+
+func TestSliceDedupByRuneInt8(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		even := func(el rune) int8 { return int8(el % 2) }
+		actual := SliceRune{given}.DedupByInt8(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{1})
+	f([]rune{1, 1}, []rune{1})
+	f([]rune{1, 2}, []rune{1, 2})
+	f([]rune{1, 2, 3}, []rune{1, 2, 3})
+	f([]rune{1, 2, 2, 3}, []rune{1, 2, 3})
+	f([]rune{1, 2, 4, 3, 5, 7, 10}, []rune{1, 2, 3, 10})
+}
+
+func TestSliceDedupByRuneInt16(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		even := func(el rune) int16 { return int16(el % 2) }
+		actual := SliceRune{given}.DedupByInt16(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{1})
+	f([]rune{1, 1}, []rune{1})
+	f([]rune{1, 2}, []rune{1, 2})
+	f([]rune{1, 2, 3}, []rune{1, 2, 3})
+	f([]rune{1, 2, 2, 3}, []rune{1, 2, 3})
+	f([]rune{1, 2, 4, 3, 5, 7, 10}, []rune{1, 2, 3, 10})
+}
+
+func TestSliceDedupByRuneInt32(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		even := func(el rune) int32 { return int32(el % 2) }
+		actual := SliceRune{given}.DedupByInt32(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{1})
+	f([]rune{1, 1}, []rune{1})
+	f([]rune{1, 2}, []rune{1, 2})
+	f([]rune{1, 2, 3}, []rune{1, 2, 3})
+	f([]rune{1, 2, 2, 3}, []rune{1, 2, 3})
+	f([]rune{1, 2, 4, 3, 5, 7, 10}, []rune{1, 2, 3, 10})
+}
+
+func TestSliceDedupByRuneInt64(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		even := func(el rune) int64 { return int64(el % 2) }
+		actual := SliceRune{given}.DedupByInt64(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{1})
+	f([]rune{1, 1}, []rune{1})
+	f([]rune{1, 2}, []rune{1, 2})
+	f([]rune{1, 2, 3}, []rune{1, 2, 3})
+	f([]rune{1, 2, 2, 3}, []rune{1, 2, 3})
+	f([]rune{1, 2, 4, 3, 5, 7, 10}, []rune{1, 2, 3, 10})
+}
+
+func TestSliceDeleteRune(t *testing.T) {
+	f := func(given []rune, el rune, expected []rune) {
+		actual := SliceRune{given}.Delete(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 1, []rune{})
+	f([]rune{1}, 1, []rune{})
+	f([]rune{2}, 1, []rune{2})
+	f([]rune{1, 2}, 1, []rune{2})
+	f([]rune{1, 2, 3}, 2, []rune{1, 3})
+	f([]rune{1, 2, 2, 3, 2}, 2, []rune{1, 2, 3, 2})
+}
+
+func TestSliceDeleteAllRune(t *testing.T) {
+	f := func(given []rune, el rune, expected []rune) {
+		actual := SliceRune{given}.DeleteAll(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 1, []rune{})
+	f([]rune{1}, 1, []rune{})
+	f([]rune{2}, 1, []rune{2})
+	f([]rune{1, 2}, 1, []rune{2})
+	f([]rune{1, 2, 3}, 2, []rune{1, 3})
+	f([]rune{1, 2, 2, 3, 2}, 2, []rune{1, 3})
+}
+
+func TestSliceDeleteAtRune(t *testing.T) {
+	f := func(given []rune, indices []int, expected []rune) {
+		actual, _ := SliceRune{given}.DeleteAt(indices...)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []int{}, []rune{})
+	f([]rune{1}, []int{0}, []rune{})
+	f([]rune{1, 2}, []int{0}, []rune{2})
+
+	f([]rune{1, 2, 3}, []int{0}, []rune{2, 3})
+	f([]rune{1, 2, 3}, []int{1}, []rune{1, 3})
+	f([]rune{1, 2, 3}, []int{2}, []rune{1, 2})
+
+	f([]rune{1, 2, 3}, []int{0, 1}, []rune{3})
+	f([]rune{1, 2, 3}, []int{0, 2}, []rune{2})
+	f([]rune{1, 2, 3}, []int{1, 2}, []rune{1})
+}
+
+func TestSliceDropEveryRune(t *testing.T) {
+	f := func(given []rune, nth int, from int, expected []rune) {
+		actual, _ := SliceRune{given}.DropEvery(nth, from)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 1, 1, []rune{})
+	f([]rune{1, 2, 3}, 1, 1, []rune{})
+
+	f([]rune{1, 2, 3, 4}, 2, 1, []rune{1, 3})
+	f([]rune{1, 2, 3, 4, 5}, 2, 1, []rune{1, 3, 5})
+
+	f([]rune{1, 2, 3, 4}, 2, 0, []rune{2, 4})
+	f([]rune{1, 2, 3, 4, 5}, 2, 0, []rune{2, 4})
+
+	f([]rune{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2, 1, []rune{1, 3, 5, 7, 9})
+	f([]rune{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, 1, []rune{1, 2, 4, 5, 7, 8, 10})
+}
+
+func TestSliceDropWhileRune(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		even := func(el rune) bool { return el%2 == 0 }
+		actual := SliceRune{given}.DropWhile(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{2}, []rune{})
+	f([]rune{1}, []rune{1})
+	f([]rune{2, 1}, []rune{1})
+	f([]rune{2, 1, 2}, []rune{1, 2})
+	f([]rune{1, 2}, []rune{1, 2})
+	f([]rune{2, 4, 6, 1, 8}, []rune{1, 8})
+}
+
+func TestSliceEndsWithRune(t *testing.T) {
+	f := func(given []rune, suffix []rune, expected bool) {
+		actual := SliceRune{given}.EndsWith(suffix)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{}, true)
+	f([]rune{1}, []rune{1}, true)
+	f([]rune{1}, []rune{2}, false)
+	f([]rune{2, 3}, []rune{1, 2, 3}, false)
+
+	f([]rune{1, 2, 3}, []rune{3}, true)
+	f([]rune{1, 2, 3}, []rune{2, 3}, true)
+	f([]rune{1, 2, 3}, []rune{1, 2, 3}, true)
+
+	f([]rune{1, 2, 3}, []rune{1}, false)
+	f([]rune{1, 2, 3}, []rune{2}, false)
+	f([]rune{1, 2, 3}, []rune{1, 2}, false)
+	f([]rune{1, 2, 3}, []rune{3, 2}, false)
+}
+
+func TestSliceEqualRune(t *testing.T) {
+	f := func(left []rune, right []rune, expected bool) {
+		actual := SliceRune{left}.Equal(right)
+		assert.Equal(t, expected, actual, "they should be equal")
+
+		actual = SliceRune{right}.Equal(left)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{}, true)
+	f([]rune{1}, []rune{1}, true)
+	f([]rune{1}, []rune{2}, false)
+	f([]rune{1, 2, 3, 3}, []rune{1, 2, 3, 3}, true)
+	f([]rune{1, 2, 3, 3}, []rune{1, 2, 2, 3}, false)
+	f([]rune{1, 2, 3, 3}, []rune{1, 2, 4, 3}, false)
+
+	// different len
+	f([]rune{1, 2, 3}, []rune{1, 2}, false)
+	f([]rune{1, 2}, []rune{1, 2, 3}, false)
+	f([]rune{}, []rune{1, 2, 3}, false)
+	f([]rune{1, 2, 3}, []rune{}, false)
+}
+
+func TestSliceFilterRune(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		even := func(t rune) bool { return (t % 2) == 0 }
+		actual := SliceRune{given}.Filter(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1, 2, 3, 4}, []rune{2, 4})
+	f([]rune{1, 3}, []rune{})
+	f([]rune{2, 4}, []rune{2, 4})
+}
+
+func TestSliceFindRune(t *testing.T) {
+	f := func(given []rune, expectedEl rune, expectedErr error) {
+		even := func(t rune) bool { return (t % 2) == 0 }
+		el, err := SliceRune{given}.Find(even)
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]rune{}, 0, ErrNotFound)
+	f([]rune{1}, 0, ErrNotFound)
+	f([]rune{1}, 0, ErrNotFound)
+	f([]rune{2}, 2, nil)
+	f([]rune{1, 2}, 2, nil)
+	f([]rune{1, 2, 3}, 2, nil)
+	f([]rune{1, 3, 5}, 0, ErrNotFound)
+}
+
+func TestSliceFindIndexRune(t *testing.T) {
+	f := func(given []rune, expectedInd int) {
+		even := func(t rune) bool { return (t % 2) == 0 }
+		index := SliceRune{given}.FindIndex(even)
+		assert.Equal(t, expectedInd, index, "they should be equal")
+	}
+	f([]rune{}, -1)
+	f([]rune{1}, -1)
+	f([]rune{1}, -1)
+	f([]rune{2}, 0)
+	f([]rune{1, 2}, 1)
+	f([]rune{1, 2, 3}, 1)
+	f([]rune{1, 3, 5, 7, 9, 2}, 5)
+	f([]rune{1, 3, 5}, -1)
+}
+
+func TestSliceJoinRune(t *testing.T) {
+	f := func(given []rune, sep string, expected string) {
+		actual := SliceRune{given}.Join(sep)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, "", "")
+	f([]rune{}, "|", "")
+
+	f([]rune{1}, "", "1")
+	f([]rune{1}, "|", "1")
+
+	f([]rune{1, 2, 3}, "", "123")
+	f([]rune{1, 2, 3}, "|", "1|2|3")
+	f([]rune{1, 2, 3}, "<rune>", "1<rune>2<rune>3")
+}
+
+func TestSliceGroupByRuneRune(t *testing.T) {
+	f := func(given []rune, expected map[rune][]rune) {
+		reminder := func(t rune) rune { return rune((t % 2)) }
+		actual := SliceRune{given}.GroupByRune(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, map[rune][]rune{})
+	f([]rune{1}, map[rune][]rune{1: {1}})
+	f([]rune{1, 3, 2, 4, 5}, map[rune][]rune{0: {2, 4}, 1: {1, 3, 5}})
+}
+
+func TestSliceGroupByRuneInt(t *testing.T) {
+	f := func(given []rune, expected map[int][]rune) {
+		reminder := func(t rune) int { return int((t % 2)) }
+		actual := SliceRune{given}.GroupByInt(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, map[int][]rune{})
+	f([]rune{1}, map[int][]rune{1: {1}})
+	f([]rune{1, 3, 2, 4, 5}, map[int][]rune{0: {2, 4}, 1: {1, 3, 5}})
+}
+
+func TestSliceGroupByRuneInt8(t *testing.T) {
+	f := func(given []rune, expected map[int8][]rune) {
+		reminder := func(t rune) int8 { return int8((t % 2)) }
+		actual := SliceRune{given}.GroupByInt8(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, map[int8][]rune{})
+	f([]rune{1}, map[int8][]rune{1: {1}})
+	f([]rune{1, 3, 2, 4, 5}, map[int8][]rune{0: {2, 4}, 1: {1, 3, 5}})
+}
+
+func TestSliceGroupByRuneInt16(t *testing.T) {
+	f := func(given []rune, expected map[int16][]rune) {
+		reminder := func(t rune) int16 { return int16((t % 2)) }
+		actual := SliceRune{given}.GroupByInt16(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, map[int16][]rune{})
+	f([]rune{1}, map[int16][]rune{1: {1}})
+	f([]rune{1, 3, 2, 4, 5}, map[int16][]rune{0: {2, 4}, 1: {1, 3, 5}})
+}
+
+func TestSliceGroupByRuneInt32(t *testing.T) {
+	f := func(given []rune, expected map[int32][]rune) {
+		reminder := func(t rune) int32 { return int32((t % 2)) }
+		actual := SliceRune{given}.GroupByInt32(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, map[int32][]rune{})
+	f([]rune{1}, map[int32][]rune{1: {1}})
+	f([]rune{1, 3, 2, 4, 5}, map[int32][]rune{0: {2, 4}, 1: {1, 3, 5}})
+}
+
+func TestSliceGroupByRuneInt64(t *testing.T) {
+	f := func(given []rune, expected map[int64][]rune) {
+		reminder := func(t rune) int64 { return int64((t % 2)) }
+		actual := SliceRune{given}.GroupByInt64(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, map[int64][]rune{})
+	f([]rune{1}, map[int64][]rune{1: {1}})
+	f([]rune{1, 3, 2, 4, 5}, map[int64][]rune{0: {2, 4}, 1: {1, 3, 5}})
+}
+
+func TestSliceInsertAtRune(t *testing.T) {
+	f := func(given []rune, index int, expected []rune, expectedErr error) {
+		actual, err := SliceRune{given}.InsertAt(index, 10)
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]rune{}, -1, []rune{}, ErrNegativeValue)
+	f([]rune{}, 0, []rune{10}, nil)
+	f([]rune{}, 1, []rune{}, ErrOutOfRange)
+
+	f([]rune{1, 2, 3}, -1, []rune{1, 2, 3}, ErrNegativeValue)
+	f([]rune{1, 2, 3}, 0, []rune{10, 1, 2, 3}, nil)
+	f([]rune{1, 2, 3}, 1, []rune{1, 10, 2, 3}, nil)
+	f([]rune{1, 2, 3}, 3, []rune{1, 2, 3, 10}, nil)
+	f([]rune{1, 2, 3}, 4, []rune{1, 2, 3}, ErrOutOfRange)
+}
+
+func TestSliceIntersperseRune(t *testing.T) {
+	f := func(el rune, given []rune, expected []rune) {
+		actual := SliceRune{given}.Intersperse(el)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, []rune{}, []rune{})
+	f(0, []rune{1}, []rune{1})
+	f(0, []rune{1, 2}, []rune{1, 0, 2})
+	f(0, []rune{1, 2, 3}, []rune{1, 0, 2, 0, 3})
+}
+
+func TestSliceLastRune(t *testing.T) {
+	f := func(given []rune, expectedEl rune, expectedErr error) {
+		el, err := SliceRune{given}.Last()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]rune{}, 0, ErrEmpty)
+	f([]rune{1}, 1, nil)
+	f([]rune{1, 2, 3}, 3, nil)
+}
+
+func TestSliceMapRuneRune(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		double := func(t rune) rune { return rune((t * 2)) }
+		actual := SliceRune{given}.MapRune(double)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{2})
+	f([]rune{1, 2, 3}, []rune{2, 4, 6})
+}
+
+func TestSliceMapRuneInt(t *testing.T) {
+	f := func(given []rune, expected []int) {
+		double := func(t rune) int { return int((t * 2)) }
+		actual := SliceRune{given}.MapInt(double)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []int{})
+	f([]rune{1}, []int{2})
+	f([]rune{1, 2, 3}, []int{2, 4, 6})
+}
+
+func TestSliceMapRuneInt8(t *testing.T) {
+	f := func(given []rune, expected []int8) {
+		double := func(t rune) int8 { return int8((t * 2)) }
+		actual := SliceRune{given}.MapInt8(double)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []int8{})
+	f([]rune{1}, []int8{2})
+	f([]rune{1, 2, 3}, []int8{2, 4, 6})
+}
+
+func TestSliceMapRuneInt16(t *testing.T) {
+	f := func(given []rune, expected []int16) {
+		double := func(t rune) int16 { return int16((t * 2)) }
+		actual := SliceRune{given}.MapInt16(double)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []int16{})
+	f([]rune{1}, []int16{2})
+	f([]rune{1, 2, 3}, []int16{2, 4, 6})
+}
+
+func TestSliceMapRuneInt32(t *testing.T) {
+	f := func(given []rune, expected []int32) {
+		double := func(t rune) int32 { return int32((t * 2)) }
+		actual := SliceRune{given}.MapInt32(double)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []int32{})
+	f([]rune{1}, []int32{2})
+	f([]rune{1, 2, 3}, []int32{2, 4, 6})
+}
+
+func TestSliceMapRuneInt64(t *testing.T) {
+	f := func(given []rune, expected []int64) {
+		double := func(t rune) int64 { return int64((t * 2)) }
+		actual := SliceRune{given}.MapInt64(double)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []int64{})
+	f([]rune{1}, []int64{2})
+	f([]rune{1, 2, 3}, []int64{2, 4, 6})
+}
+
+func TestSliceMaxRune(t *testing.T) {
+	f := func(given []rune, expectedEl rune, expectedErr error) {
+		el, err := SliceRune{given}.Max()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]rune{}, 0, ErrEmpty)
+	f([]rune{1}, 1, nil)
+	f([]rune{1, 2, 3}, 3, nil)
+	f([]rune{1, 3, 2}, 3, nil)
+	f([]rune{3, 2, 1}, 3, nil)
+}
+
+func TestSliceMinRune(t *testing.T) {
+	f := func(given []rune, expectedEl rune, expectedErr error) {
+		el, err := SliceRune{given}.Min()
+		assert.Equal(t, expectedEl, el, "they should be equal")
+		assert.Equal(t, expectedErr, err, "they should be equal")
+	}
+	f([]rune{}, 0, ErrEmpty)
+	f([]rune{1}, 1, nil)
+	f([]rune{1, 2, 3}, 1, nil)
+	f([]rune{2, 1, 3}, 1, nil)
+	f([]rune{3, 2, 1}, 1, nil)
+}
+
+func TestSlicesPermutationsRune(t *testing.T) {
+	f := func(size int, given []rune, expected [][]rune) {
+		actual := make([][]rune, 0)
+		i := 0
+		s := SliceRune{given}
+		for el := range s.Permutations(size) {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, []rune{}, [][]rune{})
+	f(2, []rune{1}, [][]rune{{1}})
+	f(2, []rune{1, 2, 3}, [][]rune{{1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}})
+}
+
+func TestSliceProductRune(t *testing.T) {
+	f := func(given []rune, repeat int, expected [][]rune) {
+		actual := make([][]rune, 0)
+		i := 0
+		s := SliceRune{given}
+		for el := range s.Product(repeat) {
+			actual = append(actual, el)
+			i++
+			if i > 50 {
+				t.Fatal("infinite loop")
+			}
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	f([]rune{1, 2}, 0, [][]rune{})
+	f([]rune{}, 2, [][]rune{})
+	f([]rune{1}, 2, [][]rune{{1, 1}})
+
+	f([]rune{1, 2}, 1, [][]rune{{1}, {2}})
+	f([]rune{1, 2}, 2, [][]rune{{1, 1}, {1, 2}, {2, 1}, {2, 2}})
+	f([]rune{1, 2}, 3, [][]rune{
+		{1, 1, 1}, {1, 1, 2}, {1, 2, 1}, {1, 2, 2},
+		{2, 1, 1}, {2, 1, 2}, {2, 2, 1}, {2, 2, 2},
+	})
+}
+
+func TestSliceReduceRuneRune(t *testing.T) {
+	f := func(given []rune, expected rune) {
+		sum := func(el rune, acc rune) rune { return rune(el) + acc }
+		actual := SliceRune{given}.ReduceRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 1)
+	f([]rune{1, 2}, 3)
+	f([]rune{1, 2, 3}, 6)
+}
+
+func TestSliceReduceRuneInt(t *testing.T) {
+	f := func(given []rune, expected int) {
+		sum := func(el rune, acc int) int { return int(el) + acc }
+		actual := SliceRune{given}.ReduceInt(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 1)
+	f([]rune{1, 2}, 3)
+	f([]rune{1, 2, 3}, 6)
+}
+
+func TestSliceReduceRuneInt8(t *testing.T) {
+	f := func(given []rune, expected int8) {
+		sum := func(el rune, acc int8) int8 { return int8(el) + acc }
+		actual := SliceRune{given}.ReduceInt8(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 1)
+	f([]rune{1, 2}, 3)
+	f([]rune{1, 2, 3}, 6)
+}
+
+func TestSliceReduceRuneInt16(t *testing.T) {
+	f := func(given []rune, expected int16) {
+		sum := func(el rune, acc int16) int16 { return int16(el) + acc }
+		actual := SliceRune{given}.ReduceInt16(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 1)
+	f([]rune{1, 2}, 3)
+	f([]rune{1, 2, 3}, 6)
+}
+
+func TestSliceReduceRuneInt32(t *testing.T) {
+	f := func(given []rune, expected int32) {
+		sum := func(el rune, acc int32) int32 { return int32(el) + acc }
+		actual := SliceRune{given}.ReduceInt32(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 1)
+	f([]rune{1, 2}, 3)
+	f([]rune{1, 2, 3}, 6)
+}
+
+func TestSliceReduceRuneInt64(t *testing.T) {
+	f := func(given []rune, expected int64) {
+		sum := func(el rune, acc int64) int64 { return int64(el) + acc }
+		actual := SliceRune{given}.ReduceInt64(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 1)
+	f([]rune{1, 2}, 3)
+	f([]rune{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileRuneRune(t *testing.T) {
+	f := func(given []rune, expected rune) {
+		sum := func(el rune, acc rune) (rune, error) {
+			if el == 0 {
+				return acc, ErrEmpty
+			}
+			return rune(el) + acc, nil
+		}
+		actual, _ := SliceRune{given}.ReduceWhileRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 1)
+	f([]rune{1, 2}, 3)
+	f([]rune{1, 2, 3}, 6)
+	f([]rune{1, 2, 0, 3}, 3)
+}
+
+func TestSliceReduceWhileRuneInt(t *testing.T) {
+	f := func(given []rune, expected int) {
+		sum := func(el rune, acc int) (int, error) {
+			if el == 0 {
+				return acc, ErrEmpty
+			}
+			return int(el) + acc, nil
+		}
+		actual, _ := SliceRune{given}.ReduceWhileInt(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 1)
+	f([]rune{1, 2}, 3)
+	f([]rune{1, 2, 3}, 6)
+	f([]rune{1, 2, 0, 3}, 3)
+}
+
+func TestSliceReduceWhileRuneInt8(t *testing.T) {
+	f := func(given []rune, expected int8) {
+		sum := func(el rune, acc int8) (int8, error) {
+			if el == 0 {
+				return acc, ErrEmpty
+			}
+			return int8(el) + acc, nil
+		}
+		actual, _ := SliceRune{given}.ReduceWhileInt8(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 1)
+	f([]rune{1, 2}, 3)
+	f([]rune{1, 2, 3}, 6)
+	f([]rune{1, 2, 0, 3}, 3)
+}
+
+func TestSliceReduceWhileRuneInt16(t *testing.T) {
+	f := func(given []rune, expected int16) {
+		sum := func(el rune, acc int16) (int16, error) {
+			if el == 0 {
+				return acc, ErrEmpty
+			}
+			return int16(el) + acc, nil
+		}
+		actual, _ := SliceRune{given}.ReduceWhileInt16(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 1)
+	f([]rune{1, 2}, 3)
+	f([]rune{1, 2, 3}, 6)
+	f([]rune{1, 2, 0, 3}, 3)
+}
+
+func TestSliceReduceWhileRuneInt32(t *testing.T) {
+	f := func(given []rune, expected int32) {
+		sum := func(el rune, acc int32) (int32, error) {
+			if el == 0 {
+				return acc, ErrEmpty
+			}
+			return int32(el) + acc, nil
+		}
+		actual, _ := SliceRune{given}.ReduceWhileInt32(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 1)
+	f([]rune{1, 2}, 3)
+	f([]rune{1, 2, 3}, 6)
+	f([]rune{1, 2, 0, 3}, 3)
+}
+
+func TestSliceReduceWhileRuneInt64(t *testing.T) {
+	f := func(given []rune, expected int64) {
+		sum := func(el rune, acc int64) (int64, error) {
+			if el == 0 {
+				return acc, ErrEmpty
+			}
+			return int64(el) + acc, nil
+		}
+		actual, _ := SliceRune{given}.ReduceWhileInt64(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 1)
+	f([]rune{1, 2}, 3)
+	f([]rune{1, 2, 3}, 6)
+	f([]rune{1, 2, 0, 3}, 3)
+}
+
+func TestSliceReverseRune(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		actual := SliceRune{given}.Reverse()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{1})
+	f([]rune{1, 2}, []rune{2, 1})
+	f([]rune{1, 2, 3}, []rune{3, 2, 1})
+	f([]rune{1, 2, 2, 3, 3}, []rune{3, 3, 2, 2, 1})
+}
+
+func TestSliceSameRune(t *testing.T) {
+	f := func(given []rune, expected bool) {
+		actual := SliceRune{given}.Same()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, true)
+	f([]rune{1}, true)
+	f([]rune{1, 1}, true)
+	f([]rune{1, 1, 1}, true)
+
+	f([]rune{1, 2, 1}, false)
+	f([]rune{1, 2, 2}, false)
+	f([]rune{1, 1, 2}, false)
+}
+
+func TestSliceScanRuneRune(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		sum := func(el rune, acc rune) rune { return rune(el) + acc }
+		actual := SliceRune{given}.ScanRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{1})
+	f([]rune{1, 2}, []rune{1, 3})
+	f([]rune{1, 2, 3}, []rune{1, 3, 6})
+	f([]rune{1, 2, 3, 4}, []rune{1, 3, 6, 10})
+}
+
+func TestSliceScanRuneInt(t *testing.T) {
+	f := func(given []rune, expected []int) {
+		sum := func(el rune, acc int) int { return int(el) + acc }
+		actual := SliceRune{given}.ScanInt(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []int{})
+	f([]rune{1}, []int{1})
+	f([]rune{1, 2}, []int{1, 3})
+	f([]rune{1, 2, 3}, []int{1, 3, 6})
+	f([]rune{1, 2, 3, 4}, []int{1, 3, 6, 10})
+}
+
+func TestSliceScanRuneInt8(t *testing.T) {
+	f := func(given []rune, expected []int8) {
+		sum := func(el rune, acc int8) int8 { return int8(el) + acc }
+		actual := SliceRune{given}.ScanInt8(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []int8{})
+	f([]rune{1}, []int8{1})
+	f([]rune{1, 2}, []int8{1, 3})
+	f([]rune{1, 2, 3}, []int8{1, 3, 6})
+	f([]rune{1, 2, 3, 4}, []int8{1, 3, 6, 10})
+}
+
+func TestSliceScanRuneInt16(t *testing.T) {
+	f := func(given []rune, expected []int16) {
+		sum := func(el rune, acc int16) int16 { return int16(el) + acc }
+		actual := SliceRune{given}.ScanInt16(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []int16{})
+	f([]rune{1}, []int16{1})
+	f([]rune{1, 2}, []int16{1, 3})
+	f([]rune{1, 2, 3}, []int16{1, 3, 6})
+	f([]rune{1, 2, 3, 4}, []int16{1, 3, 6, 10})
+}
+
+func TestSliceScanRuneInt32(t *testing.T) {
+	f := func(given []rune, expected []int32) {
+		sum := func(el rune, acc int32) int32 { return int32(el) + acc }
+		actual := SliceRune{given}.ScanInt32(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []int32{})
+	f([]rune{1}, []int32{1})
+	f([]rune{1, 2}, []int32{1, 3})
+	f([]rune{1, 2, 3}, []int32{1, 3, 6})
+	f([]rune{1, 2, 3, 4}, []int32{1, 3, 6, 10})
+}
+
+func TestSliceScanRuneInt64(t *testing.T) {
+	f := func(given []rune, expected []int64) {
+		sum := func(el rune, acc int64) int64 { return int64(el) + acc }
+		actual := SliceRune{given}.ScanInt64(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []int64{})
+	f([]rune{1}, []int64{1})
+	f([]rune{1, 2}, []int64{1, 3})
+	f([]rune{1, 2, 3}, []int64{1, 3, 6})
+	f([]rune{1, 2, 3, 4}, []int64{1, 3, 6, 10})
+}
+
+func TestSliceShuffleRune(t *testing.T) {
+	f := func(given []rune, seed int64, expected []rune) {
+		actual := SliceRune{given}.Shuffle(seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0, []rune{})
+	f([]rune{1}, 0, []rune{1})
+	f([]rune{1, 2, 3, 4, 5, 6}, 2, []rune{3, 5, 4, 1, 6, 2})
+	f([]rune{1, 2, 2, 3, 3}, 2, []rune{3, 2, 3, 2, 1})
+}
+
+func TestSliceSortedRune(t *testing.T) {
+	f := func(given []rune, expected bool) {
+		actual := SliceRune{given}.Sorted()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, true)
+	f([]rune{1}, true)
+	f([]rune{1, 1}, true)
+	f([]rune{1, 2, 2}, true)
+	f([]rune{1, 2, 3}, true)
+
+	f([]rune{2, 1}, false)
+	f([]rune{1, 2, 1}, false)
+}
+
+func TestSliceSplitRune(t *testing.T) {
+	f := func(given []rune, sep rune, expected [][]rune) {
+		actual := SliceRune{given}.Split(sep)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 1, [][]rune{{}})
+	f([]rune{2}, 1, [][]rune{{2}})
+	f([]rune{2, 1, 3}, 1, [][]rune{{2}, {3}})
+	f([]rune{1, 3}, 1, [][]rune{{}, {3}})
+	f([]rune{2, 1}, 1, [][]rune{{2}, {}})
+	f([]rune{2, 1, 3, 4, 1, 5, 6, 7}, 1, [][]rune{{2}, {3, 4}, {5, 6, 7}})
+}
+
+func TestSliceStartsWithRune(t *testing.T) {
+	f := func(given []rune, suffix []rune, expected bool) {
+		actual := SliceRune{given}.StartsWith(suffix)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{}, true)
+	f([]rune{1}, []rune{1}, true)
+	f([]rune{1}, []rune{2}, false)
+	f([]rune{1, 2}, []rune{1, 2, 3}, false)
+
+	f([]rune{1, 2, 3}, []rune{1}, true)
+	f([]rune{1, 2, 3}, []rune{1, 2}, true)
+	f([]rune{1, 2, 3}, []rune{1, 2, 3}, true)
+
+	f([]rune{1, 2, 3}, []rune{2}, false)
+	f([]rune{1, 2, 3}, []rune{3}, false)
+	f([]rune{1, 2, 3}, []rune{2, 3}, false)
+	f([]rune{1, 2, 3}, []rune{3, 2}, false)
+	f([]rune{1, 2, 3}, []rune{2, 1}, false)
+}
+
+func TestSliceSumRune(t *testing.T) {
+	f := func(given []rune, expected rune) {
+		actual := SliceRune{given}.Sum()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 1)
+	f([]rune{1, 2}, 3)
+	f([]rune{1, 2, 3}, 6)
+}
+
+func TestSliceTakeEveryRune(t *testing.T) {
+	f := func(given []rune, nth int, from int, expected []rune) {
+		actual, _ := SliceRune{given}.TakeEvery(nth, from)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	// step 1
+	f([]rune{}, 1, 1, []rune{})
+	f([]rune{1, 2, 3}, 1, 0, []rune{1, 2, 3})
+
+	// step 2 from 0
+	f([]rune{1, 2, 3, 4, 5}, 2, 0, []rune{1, 3, 5})
+	f([]rune{1, 2, 3, 4, 5, 6}, 2, 0, []rune{1, 3, 5})
+
+	// step 2 from 1
+	f([]rune{1, 2, 3, 4}, 2, 1, []rune{2, 4})
+	f([]rune{1, 2, 3, 4, 5}, 2, 1, []rune{2, 4})
+}
+
+func TestSliceTakeRandomRune(t *testing.T) {
+	f := func(given []rune, count int, seed int64, expected []rune) {
+		actual, _ := SliceRune{given}.TakeRandom(count, seed)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{1}, 1, 0, []rune{1})
+	f([]rune{1, 2, 3, 4, 5}, 3, 1, []rune{3, 1, 2})
+	f([]rune{1, 2, 3, 4, 5}, 5, 1, []rune{3, 1, 2, 5, 4})
+}
+
+func TestSliceTakeWhileRune(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		even := func(el rune) bool { return el%2 == 0 }
+		actual := SliceRune{given}.TakeWhile(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{})
+	f([]rune{2}, []rune{2})
+	f([]rune{2, 4, 6, 1, 8}, []rune{2, 4, 6})
+	f([]rune{1, 2, 3}, []rune{})
+}
+
+func TestSliceUniqRune(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		actual := SliceRune{given}.Uniq()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{1})
+	f([]rune{1, 1}, []rune{1})
+	f([]rune{1, 2}, []rune{1, 2})
+	f([]rune{1, 2, 1}, []rune{1, 2})
+	f([]rune{1, 2, 1, 2}, []rune{1, 2})
+	f([]rune{1, 2, 1, 2, 3, 2, 1, 1}, []rune{1, 2, 3})
+}
+
+func TestSliceWindowRune(t *testing.T) {
+	f := func(given []rune, size int, expected [][]rune) {
+		actual, _ := SliceRune{given}.Window(size)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 1, [][]rune{})
+	f([]rune{1, 2, 3, 4}, 1, [][]rune{{1}, {2}, {3}, {4}})
+	f([]rune{1, 2, 3, 4}, 2, [][]rune{{1, 2}, {2, 3}, {3, 4}})
+	f([]rune{1, 2, 3, 4}, 3, [][]rune{{1, 2, 3}, {2, 3, 4}})
+	f([]rune{1, 2, 3, 4}, 4, [][]rune{{1, 2, 3, 4}})
+}
+
+func TestSliceWithoutRune(t *testing.T) {
+	f := func(given []rune, items []rune, expected []rune) {
+		actual := SliceRune{given}.Without(items...)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{}, []rune{})
+	f([]rune{}, []rune{1, 2}, []rune{})
+
+	f([]rune{1}, []rune{1}, []rune{})
+	f([]rune{1}, []rune{1, 2}, []rune{})
+	f([]rune{1}, []rune{2}, []rune{1})
+
+	f([]rune{1, 2, 3, 4}, []rune{1}, []rune{2, 3, 4})
+	f([]rune{1, 2, 3, 4}, []rune{2}, []rune{1, 3, 4})
+	f([]rune{1, 2, 3, 4}, []rune{4}, []rune{1, 2, 3})
+
+	f([]rune{1, 2, 3, 4}, []rune{1, 2}, []rune{3, 4})
+	f([]rune{1, 2, 3, 4}, []rune{1, 2, 4}, []rune{3})
+	f([]rune{1, 2, 3, 4}, []rune{1, 2, 3, 4}, []rune{})
+	f([]rune{1, 2, 3, 4}, []rune{2, 4}, []rune{1, 3})
+
+	f([]rune{1, 1, 2, 3, 1, 4, 1}, []rune{1}, []rune{2, 3, 4})
+}
+
+func TestChannelToSliceRune(t *testing.T) {
+	f := func(given []rune) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := ChannelRune{c}.ToSlice()
+		assert.Equal(t, given, actual, "they should be equal")
+	}
+	f([]rune{})
+	f([]rune{1})
+	f([]rune{1, 2, 3, 1, 2})
+}
+
+func TestChannelAnyRune(t *testing.T) {
+	f := func(given []rune, expected bool) {
+		even := func(t rune) bool { return t%2 == 0 }
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := ChannelRune{c}.Any(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, false)
+	f([]rune{1}, false)
+	f([]rune{2}, true)
+	f([]rune{1, 2}, true)
+	f([]rune{1, 2, 3}, true)
+	f([]rune{1, 3, 5}, false)
+	f([]rune{1, 3, 5, 7, 9, 11}, false)
+	f([]rune{1, 3, 5, 7, 10, 11}, true)
+}
+
+func TestChannelAllRune(t *testing.T) {
+	f := func(given []rune, expected bool) {
+		even := func(t rune) bool { return t%2 == 0 }
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := ChannelRune{c}.All(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, true)
+	f([]rune{1}, false)
+	f([]rune{2}, true)
+	f([]rune{1, 2}, false)
+	f([]rune{2, 4}, true)
+	f([]rune{2, 4, 6, 8, 10, 12}, true)
+	f([]rune{2, 4, 6, 8, 11, 12}, false)
+}
+
+func TestChannelEachRune(t *testing.T) {
+	f := func(given []rune) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := make(chan rune, len(given))
+		mapper := func(t rune) { result <- t }
+		ChannelRune{c}.Each(mapper)
+		close(result)
+		actual := ChannelRune{result}.ToSlice()
+		assert.Equal(t, given, actual, "they should be equal")
+	}
+
+	f([]rune{})
+	f([]rune{1})
+	f([]rune{1, 2, 3})
+	f([]rune{1, 2, 3, 4, 5, 6, 7})
+}
+
+func TestChannelChunkEveryRune(t *testing.T) {
+	f := func(size int, given []rune, expected [][]rune) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelRune{c}.ChunkEvery(size)
+		actual := make([][]rune, 0)
+		for el := range result {
+			actual = append(actual, el)
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(2, []rune{}, [][]rune{})
+	f(2, []rune{1}, [][]rune{{1}})
+	f(2, []rune{1, 2}, [][]rune{{1, 2}})
+	f(2, []rune{1, 2, 3, 4}, [][]rune{{1, 2}, {3, 4}})
+	f(2, []rune{1, 2, 3, 4, 5}, [][]rune{{1, 2}, {3, 4}, {5}})
+}
+
+func TestChannelCountRune(t *testing.T) {
+	f := func(element rune, given []rune, expected int) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := ChannelRune{c}.Count(element)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []rune{}, 0)
+	f(1, []rune{1}, 1)
+	f(1, []rune{2}, 0)
+	f(1, []rune{1, 2, 3, 1, 4}, 2)
+}
+
+func TestChannelDropRune(t *testing.T) {
+	f := func(count int, given []rune, expected []rune) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelRune{c}.Drop(count)
+		actual := make([]rune, 0)
+		for el := range result {
+			actual = append(actual, el)
+		}
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(1, []rune{}, []rune{})
+	f(1, []rune{2}, []rune{})
+	f(1, []rune{2, 3}, []rune{3})
+	f(1, []rune{1, 2, 3}, []rune{2, 3})
+	f(0, []rune{1, 2, 3}, []rune{1, 2, 3})
+	f(3, []rune{1, 2, 3, 4, 5, 6}, []rune{4, 5, 6})
+	f(1, []rune{1, 2, 3, 4, 5, 6}, []rune{2, 3, 4, 5, 6})
+}
+
+func TestChannelFilterRune(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		even := func(t rune) bool { return t%2 == 0 }
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelRune{c}.Filter(even)
+		actual := ChannelRune{result}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{})
+	f([]rune{2}, []rune{2})
+	f([]rune{1, 2, 3, 4}, []rune{2, 4})
+}
+
+func TestChannelMapRuneRune(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		double := func(el rune) rune { return rune(el * 2) }
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelRune{c}.MapRune(double)
+
+		// convert chan rune to chan rune
+		c2 := make(chan rune, 1)
+		go func() {
+			for el := range result {
+				c2 <- rune(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelRune{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{2})
+	f([]rune{1, 2, 3}, []rune{2, 4, 6})
+}
+
+func TestChannelMapRuneInt(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		double := func(el rune) int { return int(el * 2) }
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelRune{c}.MapInt(double)
+
+		// convert chan rune to chan int
+		c2 := make(chan rune, 1)
+		go func() {
+			for el := range result {
+				c2 <- rune(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelRune{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{2})
+	f([]rune{1, 2, 3}, []rune{2, 4, 6})
+}
+
+func TestChannelMapRuneInt8(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		double := func(el rune) int8 { return int8(el * 2) }
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelRune{c}.MapInt8(double)
+
+		// convert chan rune to chan int8
+		c2 := make(chan rune, 1)
+		go func() {
+			for el := range result {
+				c2 <- rune(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelRune{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{2})
+	f([]rune{1, 2, 3}, []rune{2, 4, 6})
+}
+
+func TestChannelMapRuneInt16(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		double := func(el rune) int16 { return int16(el * 2) }
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelRune{c}.MapInt16(double)
+
+		// convert chan rune to chan int16
+		c2 := make(chan rune, 1)
+		go func() {
+			for el := range result {
+				c2 <- rune(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelRune{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{2})
+	f([]rune{1, 2, 3}, []rune{2, 4, 6})
+}
+
+func TestChannelMapRuneInt32(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		double := func(el rune) int32 { return int32(el * 2) }
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelRune{c}.MapInt32(double)
+
+		// convert chan rune to chan int32
+		c2 := make(chan rune, 1)
+		go func() {
+			for el := range result {
+				c2 <- rune(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelRune{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{2})
+	f([]rune{1, 2, 3}, []rune{2, 4, 6})
+}
+
+func TestChannelMapRuneInt64(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		double := func(el rune) int64 { return int64(el * 2) }
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelRune{c}.MapInt64(double)
+
+		// convert chan rune to chan int64
+		c2 := make(chan rune, 1)
+		go func() {
+			for el := range result {
+				c2 <- rune(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelRune{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{2})
+	f([]rune{1, 2, 3}, []rune{2, 4, 6})
+}
+
+func TestChannelMaxRune(t *testing.T) {
+	f := func(given []rune, expected rune, expectedErr error) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual, actualErr := ChannelRune{c}.Max()
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, actualErr, "they should be equal")
+	}
+	f([]rune{}, 0, ErrEmpty)
+	f([]rune{1, 4, 2}, 4, nil)
+	f([]rune{1, 2, 4}, 4, nil)
+	f([]rune{4, 2, 1}, 4, nil)
+}
+
+func TestChannelMinRune(t *testing.T) {
+	f := func(given []rune, expected rune, expectedErr error) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual, actualErr := ChannelRune{c}.Min()
+		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expectedErr, actualErr, "they should be equal")
+	}
+	f([]rune{}, 0, ErrEmpty)
+	f([]rune{4, 1, 2}, 1, nil)
+	f([]rune{1, 2, 4}, 1, nil)
+	f([]rune{4, 2, 1}, 1, nil)
+}
+
+func TestChannelReduceRuneRune(t *testing.T) {
+	f := func(given []rune, expected rune) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el rune, acc rune) rune { return rune(el) + acc }
+		actual := ChannelRune{c}.ReduceRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 1)
+	f([]rune{1, 2}, 3)
+	f([]rune{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceRuneInt(t *testing.T) {
+	f := func(given []rune, expected int) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el rune, acc int) int { return int(el) + acc }
+		actual := ChannelRune{c}.ReduceInt(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 1)
+	f([]rune{1, 2}, 3)
+	f([]rune{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceRuneInt8(t *testing.T) {
+	f := func(given []rune, expected int8) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el rune, acc int8) int8 { return int8(el) + acc }
+		actual := ChannelRune{c}.ReduceInt8(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 1)
+	f([]rune{1, 2}, 3)
+	f([]rune{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceRuneInt16(t *testing.T) {
+	f := func(given []rune, expected int16) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el rune, acc int16) int16 { return int16(el) + acc }
+		actual := ChannelRune{c}.ReduceInt16(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 1)
+	f([]rune{1, 2}, 3)
+	f([]rune{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceRuneInt32(t *testing.T) {
+	f := func(given []rune, expected int32) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el rune, acc int32) int32 { return int32(el) + acc }
+		actual := ChannelRune{c}.ReduceInt32(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 1)
+	f([]rune{1, 2}, 3)
+	f([]rune{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelReduceRuneInt64(t *testing.T) {
+	f := func(given []rune, expected int64) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el rune, acc int64) int64 { return int64(el) + acc }
+		actual := ChannelRune{c}.ReduceInt64(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 1)
+	f([]rune{1, 2}, 3)
+	f([]rune{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelScanRuneRune(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el rune, acc rune) rune { return rune(el) + acc }
+		result := ChannelRune{c}.ScanRune(0, sum)
+
+		// convert chan rune to chan rune
+		c2 := make(chan rune, 1)
+		go func() {
+			for el := range result {
+				c2 <- rune(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelRune{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{1})
+	f([]rune{1, 2}, []rune{1, 3})
+	f([]rune{1, 2, 3, 4, 5}, []rune{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanRuneInt(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el rune, acc int) int { return int(el) + acc }
+		result := ChannelRune{c}.ScanInt(0, sum)
+
+		// convert chan rune to chan int
+		c2 := make(chan rune, 1)
+		go func() {
+			for el := range result {
+				c2 <- rune(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelRune{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{1})
+	f([]rune{1, 2}, []rune{1, 3})
+	f([]rune{1, 2, 3, 4, 5}, []rune{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanRuneInt8(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el rune, acc int8) int8 { return int8(el) + acc }
+		result := ChannelRune{c}.ScanInt8(0, sum)
+
+		// convert chan rune to chan int8
+		c2 := make(chan rune, 1)
+		go func() {
+			for el := range result {
+				c2 <- rune(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelRune{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{1})
+	f([]rune{1, 2}, []rune{1, 3})
+	f([]rune{1, 2, 3, 4, 5}, []rune{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanRuneInt16(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el rune, acc int16) int16 { return int16(el) + acc }
+		result := ChannelRune{c}.ScanInt16(0, sum)
+
+		// convert chan rune to chan int16
+		c2 := make(chan rune, 1)
+		go func() {
+			for el := range result {
+				c2 <- rune(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelRune{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{1})
+	f([]rune{1, 2}, []rune{1, 3})
+	f([]rune{1, 2, 3, 4, 5}, []rune{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanRuneInt32(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el rune, acc int32) int32 { return int32(el) + acc }
+		result := ChannelRune{c}.ScanInt32(0, sum)
+
+		// convert chan rune to chan int32
+		c2 := make(chan rune, 1)
+		go func() {
+			for el := range result {
+				c2 <- rune(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelRune{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{1})
+	f([]rune{1, 2}, []rune{1, 3})
+	f([]rune{1, 2, 3, 4, 5}, []rune{1, 3, 6, 10, 15})
+}
+
+func TestChannelScanRuneInt64(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el rune, acc int64) int64 { return int64(el) + acc }
+		result := ChannelRune{c}.ScanInt64(0, sum)
+
+		// convert chan rune to chan int64
+		c2 := make(chan rune, 1)
+		go func() {
+			for el := range result {
+				c2 <- rune(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelRune{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, []rune{})
+	f([]rune{1}, []rune{1})
+	f([]rune{1, 2}, []rune{1, 3})
+	f([]rune{1, 2, 3, 4, 5}, []rune{1, 3, 6, 10, 15})
+}
+
+func TestChannelSumRune(t *testing.T) {
+	f := func(given []rune, expected rune) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := ChannelRune{c}.Sum()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]rune{}, 0)
+	f([]rune{1}, 1)
+	f([]rune{1, 2}, 3)
+	f([]rune{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelTakeRune(t *testing.T) {
+	f := func(count int, given rune, expected []rune) {
+		ctx, cancel := context.WithCancel(context.Background())
+		s := SequenceRune{ctx: ctx}
+		seq := s.Repeat(given)
+		seq2 := ChannelRune{seq}.Take(count)
+		actual := ChannelRune{seq2}.ToSlice()
+		cancel()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f(0, 1, []rune{})
+	f(1, 1, []rune{1})
+	f(2, 1, []rune{1, 1})
+}
+
+func TestChannelTeeRune(t *testing.T) {
+	f := func(count int, given []rune) {
+		c := make(chan rune, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		channels := ChannelRune{c}.Tee(count)
+		for _, ch := range channels {
+			go func(ch chan rune) {
+				actual := ChannelRune{ch}.ToSlice()
+				assert.Equal(t, given, actual, "they should be equal")
+			}(ch)
+		}
+	}
+	f(1, []rune{})
+	f(1, []rune{1})
+	f(1, []rune{1, 2})
+	f(1, []rune{1, 2, 3})
+	f(1, []rune{1, 2, 3, 1, 2})
+
+	f(2, []rune{})
+	f(2, []rune{1})
+	f(2, []rune{1, 2})
+	f(2, []rune{1, 2, 3})
+	f(2, []rune{1, 2, 3, 1, 2})
+
+	f(10, []rune{1, 2, 3, 1, 2})
+}
+
+func TestAsyncSliceAnyRune(t *testing.T) {
+	f := func(check func(t rune) bool, given []rune, expected bool) {
+		s := AsyncSliceRune{Data: given, Workers: 2}
+		actual := s.Any(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t rune) bool { return (t % 2) == 0 }
+
+	f(isEven, []rune{}, false)
+	f(isEven, []rune{1}, false)
+	f(isEven, []rune{1, 3}, false)
+	f(isEven, []rune{2}, true)
+	f(isEven, []rune{1, 2}, true)
+	f(isEven, []rune{1, 3, 5, 7, 9, 11}, false)
+	f(isEven, []rune{1, 3, 5, 7, 9, 12}, true)
+}
+
+func TestAsyncSliceAllRune(t *testing.T) {
+	f := func(check func(t rune) bool, given []rune, expected bool) {
+		s := AsyncSliceRune{Data: given, Workers: 2}
+		actual := s.All(check)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	isEven := func(t rune) bool { return (t % 2) == 0 }
+
+	f(isEven, []rune{}, true)
+	f(isEven, []rune{1}, false)
+	f(isEven, []rune{1, 3}, false)
+	f(isEven, []rune{2}, true)
+	f(isEven, []rune{2, 4}, true)
+	f(isEven, []rune{2, 3}, false)
+	f(isEven, []rune{2, 4, 6, 8, 10, 12}, true)
+	f(isEven, []rune{2, 4, 6, 8, 10, 11}, false)
+}
+
+func TestAsyncSliceEachRune(t *testing.T) {
+	f := func(given []rune) {
+		s := AsyncSliceRune{Data: given, Workers: 2}
+		result := make(chan rune, len(given))
+		mapper := func(t rune) { result <- t }
+		s.Each(mapper)
+		close(result)
+		actual := ChannelRune{result}.ToSlice()
+		sorted := SliceRune{actual}.Sort()
+		assert.Equal(t, given, sorted, "they should be equal")
+	}
+
+	f([]rune{})
+	f([]rune{1})
+	f([]rune{1, 2, 3})
+	f([]rune{1, 2, 3, 4, 5, 6, 7})
+}
+
+func TestAsyncSliceFilterRune(t *testing.T) {
+	f := func(given []rune, expected []rune) {
+		filter := func(t rune) bool { return t > 10 }
+		s := AsyncSliceRune{Data: given, Workers: 2}
+		actual := s.Filter(filter)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+
+	f([]rune{}, []rune{})
+	f([]rune{5}, []rune{})
+	f([]rune{15}, []rune{15})
+	f([]rune{9, 11, 12, 13, 6}, []rune{11, 12, 13})
+}
+
+func TestAsyncSliceMapRuneRune(t *testing.T) {
+	f := func(mapper func(t rune) rune, given []rune, expected []rune) {
+		s := AsyncSliceRune{Data: given, Workers: 2}
+		actual := s.MapRune(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t rune) rune { return rune((t * 2)) }
+
+	f(double, []rune{}, []rune{})
+	f(double, []rune{1}, []rune{2})
+	f(double, []rune{1, 2, 3}, []rune{2, 4, 6})
+}
+
+func TestAsyncSliceMapRuneInt(t *testing.T) {
+	f := func(mapper func(t rune) int, given []rune, expected []int) {
+		s := AsyncSliceRune{Data: given, Workers: 2}
+		actual := s.MapInt(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t rune) int { return int((t * 2)) }
+
+	f(double, []rune{}, []int{})
+	f(double, []rune{1}, []int{2})
+	f(double, []rune{1, 2, 3}, []int{2, 4, 6})
+}
+
+func TestAsyncSliceMapRuneInt8(t *testing.T) {
+	f := func(mapper func(t rune) int8, given []rune, expected []int8) {
+		s := AsyncSliceRune{Data: given, Workers: 2}
+		actual := s.MapInt8(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t rune) int8 { return int8((t * 2)) }
+
+	f(double, []rune{}, []int8{})
+	f(double, []rune{1}, []int8{2})
+	f(double, []rune{1, 2, 3}, []int8{2, 4, 6})
+}
+
+func TestAsyncSliceMapRuneInt16(t *testing.T) {
+	f := func(mapper func(t rune) int16, given []rune, expected []int16) {
+		s := AsyncSliceRune{Data: given, Workers: 2}
+		actual := s.MapInt16(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t rune) int16 { return int16((t * 2)) }
+
+	f(double, []rune{}, []int16{})
+	f(double, []rune{1}, []int16{2})
+	f(double, []rune{1, 2, 3}, []int16{2, 4, 6})
+}
+
+func TestAsyncSliceMapRuneInt32(t *testing.T) {
+	f := func(mapper func(t rune) int32, given []rune, expected []int32) {
+		s := AsyncSliceRune{Data: given, Workers: 2}
+		actual := s.MapInt32(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t rune) int32 { return int32((t * 2)) }
+
+	f(double, []rune{}, []int32{})
+	f(double, []rune{1}, []int32{2})
+	f(double, []rune{1, 2, 3}, []int32{2, 4, 6})
+}
+
+func TestAsyncSliceMapRuneInt64(t *testing.T) {
+	f := func(mapper func(t rune) int64, given []rune, expected []int64) {
+		s := AsyncSliceRune{Data: given, Workers: 2}
+		actual := s.MapInt64(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t rune) int64 { return int64((t * 2)) }
+
+	f(double, []rune{}, []int64{})
+	f(double, []rune{1}, []int64{2})
+	f(double, []rune{1, 2, 3}, []int64{2, 4, 6})
+}
+
+func TestAsyncSliceReduceRune(t *testing.T) {
+	f := func(reducer func(a rune, b rune) rune, given []rune, expected rune) {
+		s := AsyncSliceRune{Data: given, Workers: 4}
+		actual := s.Reduce(reducer)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	sum := func(a rune, b rune) rune { return a + b }
+
+	f(sum, []rune{}, 0)
+	f(sum, []rune{1}, 1)
+	f(sum, []rune{1, 2}, 3)
+	f(sum, []rune{1, 2, 3}, 6)
+	f(sum, []rune{1, 2, 3, 4}, 10)
+	f(sum, []rune{1, 2, 3, 4, 5}, 15)
+}
+
 func TestSlicesConcatInt(t *testing.T) {
 	f := func(given [][]int, expected []int) {
 		actual := SlicesInt{given}.Concat()
@@ -175,6 +2357,18 @@ func TestSliceChoiceInt(t *testing.T) {
 	f([]int{1, 2, 3}, 2, 2)
 }
 
+func TestSliceChunkByIntRune(t *testing.T) {
+	f := func(given []int, expected [][]int) {
+		reminder := func(t int) rune { return rune((t % 2)) }
+		actual := SliceInt{given}.ChunkByRune(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, [][]int{})
+	f([]int{1}, [][]int{{1}})
+	f([]int{1, 2, 3}, [][]int{{1}, {2}, {3}})
+	f([]int{1, 3, 2, 4, 5}, [][]int{{1, 3}, {2, 4}, {5}})
+}
+
 func TestSliceChunkByIntInt(t *testing.T) {
 	f := func(given []int, expected [][]int) {
 		reminder := func(t int) int { return int((t % 2)) }
@@ -310,6 +2504,21 @@ func TestSliceDedupInt(t *testing.T) {
 	f([]int{1, 2, 3}, []int{1, 2, 3})
 	f([]int{1, 2, 2, 3}, []int{1, 2, 3})
 	f([]int{1, 2, 2, 3, 3, 3, 2, 1, 1}, []int{1, 2, 3, 2, 1})
+}
+
+func TestSliceDedupByIntRune(t *testing.T) {
+	f := func(given []int, expected []int) {
+		even := func(el int) rune { return rune(el % 2) }
+		actual := SliceInt{given}.DedupByRune(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{1})
+	f([]int{1, 1}, []int{1})
+	f([]int{1, 2}, []int{1, 2})
+	f([]int{1, 2, 3}, []int{1, 2, 3})
+	f([]int{1, 2, 2, 3}, []int{1, 2, 3})
+	f([]int{1, 2, 4, 3, 5, 7, 10}, []int{1, 2, 3, 10})
 }
 
 func TestSliceDedupByIntInt(t *testing.T) {
@@ -566,6 +2775,17 @@ func TestSliceJoinInt(t *testing.T) {
 	f([]int{1, 2, 3}, "<int>", "1<int>2<int>3")
 }
 
+func TestSliceGroupByIntRune(t *testing.T) {
+	f := func(given []int, expected map[rune][]int) {
+		reminder := func(t int) rune { return rune((t % 2)) }
+		actual := SliceInt{given}.GroupByRune(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, map[rune][]int{})
+	f([]int{1}, map[rune][]int{1: {1}})
+	f([]int{1, 3, 2, 4, 5}, map[rune][]int{0: {2, 4}, 1: {1, 3, 5}})
+}
+
 func TestSliceGroupByIntInt(t *testing.T) {
 	f := func(given []int, expected map[int][]int) {
 		reminder := func(t int) int { return int((t % 2)) }
@@ -658,6 +2878,17 @@ func TestSliceLastInt(t *testing.T) {
 	f([]int{}, 0, ErrEmpty)
 	f([]int{1}, 1, nil)
 	f([]int{1, 2, 3}, 3, nil)
+}
+
+func TestSliceMapIntRune(t *testing.T) {
+	f := func(given []int, expected []rune) {
+		double := func(t int) rune { return rune((t * 2)) }
+		actual := SliceInt{given}.MapRune(double)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []rune{})
+	f([]int{1}, []rune{2})
+	f([]int{1, 2, 3}, []rune{2, 4, 6})
 }
 
 func TestSliceMapIntInt(t *testing.T) {
@@ -787,6 +3018,18 @@ func TestSliceProductInt(t *testing.T) {
 	})
 }
 
+func TestSliceReduceIntRune(t *testing.T) {
+	f := func(given []int, expected rune) {
+		sum := func(el int, acc rune) rune { return rune(el) + acc }
+		actual := SliceInt{given}.ReduceRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 1)
+	f([]int{1, 2}, 3)
+	f([]int{1, 2, 3}, 6)
+}
+
 func TestSliceReduceIntInt(t *testing.T) {
 	f := func(given []int, expected int) {
 		sum := func(el int, acc int) int { return int(el) + acc }
@@ -845,6 +3088,24 @@ func TestSliceReduceIntInt64(t *testing.T) {
 	f([]int{1}, 1)
 	f([]int{1, 2}, 3)
 	f([]int{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileIntRune(t *testing.T) {
+	f := func(given []int, expected rune) {
+		sum := func(el int, acc rune) (rune, error) {
+			if el == 0 {
+				return acc, ErrEmpty
+			}
+			return rune(el) + acc, nil
+		}
+		actual, _ := SliceInt{given}.ReduceWhileRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 1)
+	f([]int{1, 2}, 3)
+	f([]int{1, 2, 3}, 6)
+	f([]int{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileIntInt(t *testing.T) {
@@ -962,6 +3223,19 @@ func TestSliceSameInt(t *testing.T) {
 	f([]int{1, 2, 1}, false)
 	f([]int{1, 2, 2}, false)
 	f([]int{1, 1, 2}, false)
+}
+
+func TestSliceScanIntRune(t *testing.T) {
+	f := func(given []int, expected []rune) {
+		sum := func(el int, acc rune) rune { return rune(el) + acc }
+		actual := SliceInt{given}.ScanRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []rune{})
+	f([]int{1}, []rune{1})
+	f([]int{1, 2}, []rune{1, 3})
+	f([]int{1, 2, 3}, []rune{1, 3, 6})
+	f([]int{1, 2, 3, 4}, []rune{1, 3, 6, 10})
 }
 
 func TestSliceScanIntInt(t *testing.T) {
@@ -1363,6 +3637,35 @@ func TestChannelFilterInt(t *testing.T) {
 	f([]int{1, 2, 3, 4}, []int{2, 4})
 }
 
+func TestChannelMapIntRune(t *testing.T) {
+	f := func(given []int, expected []int) {
+		double := func(el int) rune { return rune(el * 2) }
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt{c}.MapRune(double)
+
+		// convert chan int to chan rune
+		c2 := make(chan int, 1)
+		go func() {
+			for el := range result {
+				c2 <- int(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{2})
+	f([]int{1, 2, 3}, []int{2, 4, 6})
+}
+
 func TestChannelMapIntInt(t *testing.T) {
 	f := func(given []int, expected []int) {
 		double := func(el int) int { return int(el * 2) }
@@ -1546,6 +3849,25 @@ func TestChannelMinInt(t *testing.T) {
 	f([]int{4, 2, 1}, 1, nil)
 }
 
+func TestChannelReduceIntRune(t *testing.T) {
+	f := func(given []int, expected rune) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int, acc rune) rune { return rune(el) + acc }
+		actual := ChannelInt{c}.ReduceRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, 0)
+	f([]int{1}, 1)
+	f([]int{1, 2}, 3)
+	f([]int{1, 2, 3, 4, 5}, 15)
+}
+
 func TestChannelReduceIntInt(t *testing.T) {
 	f := func(given []int, expected int) {
 		c := make(chan int, 1)
@@ -1639,6 +3961,36 @@ func TestChannelReduceIntInt64(t *testing.T) {
 	f([]int{1}, 1)
 	f([]int{1, 2}, 3)
 	f([]int{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelScanIntRune(t *testing.T) {
+	f := func(given []int, expected []int) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int, acc rune) rune { return rune(el) + acc }
+		result := ChannelInt{c}.ScanRune(0, sum)
+
+		// convert chan int to chan rune
+		c2 := make(chan int, 1)
+		go func() {
+			for el := range result {
+				c2 <- int(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{1})
+	f([]int{1, 2}, []int{1, 3})
+	f([]int{1, 2, 3, 4, 5}, []int{1, 3, 6, 10, 15})
 }
 
 func TestChannelScanIntInt(t *testing.T) {
@@ -1923,6 +4275,19 @@ func TestAsyncSliceFilterInt(t *testing.T) {
 	f([]int{9, 11, 12, 13, 6}, []int{11, 12, 13})
 }
 
+func TestAsyncSliceMapIntRune(t *testing.T) {
+	f := func(mapper func(t int) rune, given []int, expected []rune) {
+		s := AsyncSliceInt{Data: given, Workers: 2}
+		actual := s.MapRune(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int) rune { return rune((t * 2)) }
+
+	f(double, []int{}, []rune{})
+	f(double, []int{1}, []rune{2})
+	f(double, []int{1, 2, 3}, []rune{2, 4, 6})
+}
+
 func TestAsyncSliceMapIntInt(t *testing.T) {
 	f := func(mapper func(t int) int, given []int, expected []int) {
 		s := AsyncSliceInt{Data: given, Workers: 2}
@@ -2174,6 +4539,18 @@ func TestSliceChoiceInt8(t *testing.T) {
 	f([]int8{1, 2, 3}, 2, 2)
 }
 
+func TestSliceChunkByInt8Rune(t *testing.T) {
+	f := func(given []int8, expected [][]int8) {
+		reminder := func(t int8) rune { return rune((t % 2)) }
+		actual := SliceInt8{given}.ChunkByRune(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, [][]int8{})
+	f([]int8{1}, [][]int8{{1}})
+	f([]int8{1, 2, 3}, [][]int8{{1}, {2}, {3}})
+	f([]int8{1, 3, 2, 4, 5}, [][]int8{{1, 3}, {2, 4}, {5}})
+}
+
 func TestSliceChunkByInt8Int(t *testing.T) {
 	f := func(given []int8, expected [][]int8) {
 		reminder := func(t int8) int { return int((t % 2)) }
@@ -2309,6 +4686,21 @@ func TestSliceDedupInt8(t *testing.T) {
 	f([]int8{1, 2, 3}, []int8{1, 2, 3})
 	f([]int8{1, 2, 2, 3}, []int8{1, 2, 3})
 	f([]int8{1, 2, 2, 3, 3, 3, 2, 1, 1}, []int8{1, 2, 3, 2, 1})
+}
+
+func TestSliceDedupByInt8Rune(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		even := func(el int8) rune { return rune(el % 2) }
+		actual := SliceInt8{given}.DedupByRune(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{1})
+	f([]int8{1, 1}, []int8{1})
+	f([]int8{1, 2}, []int8{1, 2})
+	f([]int8{1, 2, 3}, []int8{1, 2, 3})
+	f([]int8{1, 2, 2, 3}, []int8{1, 2, 3})
+	f([]int8{1, 2, 4, 3, 5, 7, 10}, []int8{1, 2, 3, 10})
 }
 
 func TestSliceDedupByInt8Int(t *testing.T) {
@@ -2565,6 +4957,17 @@ func TestSliceJoinInt8(t *testing.T) {
 	f([]int8{1, 2, 3}, "<int8>", "1<int8>2<int8>3")
 }
 
+func TestSliceGroupByInt8Rune(t *testing.T) {
+	f := func(given []int8, expected map[rune][]int8) {
+		reminder := func(t int8) rune { return rune((t % 2)) }
+		actual := SliceInt8{given}.GroupByRune(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, map[rune][]int8{})
+	f([]int8{1}, map[rune][]int8{1: {1}})
+	f([]int8{1, 3, 2, 4, 5}, map[rune][]int8{0: {2, 4}, 1: {1, 3, 5}})
+}
+
 func TestSliceGroupByInt8Int(t *testing.T) {
 	f := func(given []int8, expected map[int][]int8) {
 		reminder := func(t int8) int { return int((t % 2)) }
@@ -2657,6 +5060,17 @@ func TestSliceLastInt8(t *testing.T) {
 	f([]int8{}, 0, ErrEmpty)
 	f([]int8{1}, 1, nil)
 	f([]int8{1, 2, 3}, 3, nil)
+}
+
+func TestSliceMapInt8Rune(t *testing.T) {
+	f := func(given []int8, expected []rune) {
+		double := func(t int8) rune { return rune((t * 2)) }
+		actual := SliceInt8{given}.MapRune(double)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []rune{})
+	f([]int8{1}, []rune{2})
+	f([]int8{1, 2, 3}, []rune{2, 4, 6})
 }
 
 func TestSliceMapInt8Int(t *testing.T) {
@@ -2786,6 +5200,18 @@ func TestSliceProductInt8(t *testing.T) {
 	})
 }
 
+func TestSliceReduceInt8Rune(t *testing.T) {
+	f := func(given []int8, expected rune) {
+		sum := func(el int8, acc rune) rune { return rune(el) + acc }
+		actual := SliceInt8{given}.ReduceRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 1)
+	f([]int8{1, 2}, 3)
+	f([]int8{1, 2, 3}, 6)
+}
+
 func TestSliceReduceInt8Int(t *testing.T) {
 	f := func(given []int8, expected int) {
 		sum := func(el int8, acc int) int { return int(el) + acc }
@@ -2844,6 +5270,24 @@ func TestSliceReduceInt8Int64(t *testing.T) {
 	f([]int8{1}, 1)
 	f([]int8{1, 2}, 3)
 	f([]int8{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt8Rune(t *testing.T) {
+	f := func(given []int8, expected rune) {
+		sum := func(el int8, acc rune) (rune, error) {
+			if el == 0 {
+				return acc, ErrEmpty
+			}
+			return rune(el) + acc, nil
+		}
+		actual, _ := SliceInt8{given}.ReduceWhileRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 1)
+	f([]int8{1, 2}, 3)
+	f([]int8{1, 2, 3}, 6)
+	f([]int8{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileInt8Int(t *testing.T) {
@@ -2961,6 +5405,19 @@ func TestSliceSameInt8(t *testing.T) {
 	f([]int8{1, 2, 1}, false)
 	f([]int8{1, 2, 2}, false)
 	f([]int8{1, 1, 2}, false)
+}
+
+func TestSliceScanInt8Rune(t *testing.T) {
+	f := func(given []int8, expected []rune) {
+		sum := func(el int8, acc rune) rune { return rune(el) + acc }
+		actual := SliceInt8{given}.ScanRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []rune{})
+	f([]int8{1}, []rune{1})
+	f([]int8{1, 2}, []rune{1, 3})
+	f([]int8{1, 2, 3}, []rune{1, 3, 6})
+	f([]int8{1, 2, 3, 4}, []rune{1, 3, 6, 10})
 }
 
 func TestSliceScanInt8Int(t *testing.T) {
@@ -3362,6 +5819,35 @@ func TestChannelFilterInt8(t *testing.T) {
 	f([]int8{1, 2, 3, 4}, []int8{2, 4})
 }
 
+func TestChannelMapInt8Rune(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		double := func(el int8) rune { return rune(el * 2) }
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt8{c}.MapRune(double)
+
+		// convert chan int8 to chan rune
+		c2 := make(chan int8, 1)
+		go func() {
+			for el := range result {
+				c2 <- int8(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt8{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{2})
+	f([]int8{1, 2, 3}, []int8{2, 4, 6})
+}
+
 func TestChannelMapInt8Int(t *testing.T) {
 	f := func(given []int8, expected []int8) {
 		double := func(el int8) int { return int(el * 2) }
@@ -3545,6 +6031,25 @@ func TestChannelMinInt8(t *testing.T) {
 	f([]int8{4, 2, 1}, 1, nil)
 }
 
+func TestChannelReduceInt8Rune(t *testing.T) {
+	f := func(given []int8, expected rune) {
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int8, acc rune) rune { return rune(el) + acc }
+		actual := ChannelInt8{c}.ReduceRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, 0)
+	f([]int8{1}, 1)
+	f([]int8{1, 2}, 3)
+	f([]int8{1, 2, 3, 4, 5}, 15)
+}
+
 func TestChannelReduceInt8Int(t *testing.T) {
 	f := func(given []int8, expected int) {
 		c := make(chan int8, 1)
@@ -3638,6 +6143,36 @@ func TestChannelReduceInt8Int64(t *testing.T) {
 	f([]int8{1}, 1)
 	f([]int8{1, 2}, 3)
 	f([]int8{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelScanInt8Rune(t *testing.T) {
+	f := func(given []int8, expected []int8) {
+		c := make(chan int8, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int8, acc rune) rune { return rune(el) + acc }
+		result := ChannelInt8{c}.ScanRune(0, sum)
+
+		// convert chan int8 to chan rune
+		c2 := make(chan int8, 1)
+		go func() {
+			for el := range result {
+				c2 <- int8(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt8{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int8{}, []int8{})
+	f([]int8{1}, []int8{1})
+	f([]int8{1, 2}, []int8{1, 3})
+	f([]int8{1, 2, 3, 4, 5}, []int8{1, 3, 6, 10, 15})
 }
 
 func TestChannelScanInt8Int(t *testing.T) {
@@ -3922,6 +6457,19 @@ func TestAsyncSliceFilterInt8(t *testing.T) {
 	f([]int8{9, 11, 12, 13, 6}, []int8{11, 12, 13})
 }
 
+func TestAsyncSliceMapInt8Rune(t *testing.T) {
+	f := func(mapper func(t int8) rune, given []int8, expected []rune) {
+		s := AsyncSliceInt8{Data: given, Workers: 2}
+		actual := s.MapRune(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int8) rune { return rune((t * 2)) }
+
+	f(double, []int8{}, []rune{})
+	f(double, []int8{1}, []rune{2})
+	f(double, []int8{1, 2, 3}, []rune{2, 4, 6})
+}
+
 func TestAsyncSliceMapInt8Int(t *testing.T) {
 	f := func(mapper func(t int8) int, given []int8, expected []int) {
 		s := AsyncSliceInt8{Data: given, Workers: 2}
@@ -4173,6 +6721,18 @@ func TestSliceChoiceInt16(t *testing.T) {
 	f([]int16{1, 2, 3}, 2, 2)
 }
 
+func TestSliceChunkByInt16Rune(t *testing.T) {
+	f := func(given []int16, expected [][]int16) {
+		reminder := func(t int16) rune { return rune((t % 2)) }
+		actual := SliceInt16{given}.ChunkByRune(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, [][]int16{})
+	f([]int16{1}, [][]int16{{1}})
+	f([]int16{1, 2, 3}, [][]int16{{1}, {2}, {3}})
+	f([]int16{1, 3, 2, 4, 5}, [][]int16{{1, 3}, {2, 4}, {5}})
+}
+
 func TestSliceChunkByInt16Int(t *testing.T) {
 	f := func(given []int16, expected [][]int16) {
 		reminder := func(t int16) int { return int((t % 2)) }
@@ -4308,6 +6868,21 @@ func TestSliceDedupInt16(t *testing.T) {
 	f([]int16{1, 2, 3}, []int16{1, 2, 3})
 	f([]int16{1, 2, 2, 3}, []int16{1, 2, 3})
 	f([]int16{1, 2, 2, 3, 3, 3, 2, 1, 1}, []int16{1, 2, 3, 2, 1})
+}
+
+func TestSliceDedupByInt16Rune(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		even := func(el int16) rune { return rune(el % 2) }
+		actual := SliceInt16{given}.DedupByRune(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{1})
+	f([]int16{1, 1}, []int16{1})
+	f([]int16{1, 2}, []int16{1, 2})
+	f([]int16{1, 2, 3}, []int16{1, 2, 3})
+	f([]int16{1, 2, 2, 3}, []int16{1, 2, 3})
+	f([]int16{1, 2, 4, 3, 5, 7, 10}, []int16{1, 2, 3, 10})
 }
 
 func TestSliceDedupByInt16Int(t *testing.T) {
@@ -4564,6 +7139,17 @@ func TestSliceJoinInt16(t *testing.T) {
 	f([]int16{1, 2, 3}, "<int16>", "1<int16>2<int16>3")
 }
 
+func TestSliceGroupByInt16Rune(t *testing.T) {
+	f := func(given []int16, expected map[rune][]int16) {
+		reminder := func(t int16) rune { return rune((t % 2)) }
+		actual := SliceInt16{given}.GroupByRune(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, map[rune][]int16{})
+	f([]int16{1}, map[rune][]int16{1: {1}})
+	f([]int16{1, 3, 2, 4, 5}, map[rune][]int16{0: {2, 4}, 1: {1, 3, 5}})
+}
+
 func TestSliceGroupByInt16Int(t *testing.T) {
 	f := func(given []int16, expected map[int][]int16) {
 		reminder := func(t int16) int { return int((t % 2)) }
@@ -4656,6 +7242,17 @@ func TestSliceLastInt16(t *testing.T) {
 	f([]int16{}, 0, ErrEmpty)
 	f([]int16{1}, 1, nil)
 	f([]int16{1, 2, 3}, 3, nil)
+}
+
+func TestSliceMapInt16Rune(t *testing.T) {
+	f := func(given []int16, expected []rune) {
+		double := func(t int16) rune { return rune((t * 2)) }
+		actual := SliceInt16{given}.MapRune(double)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []rune{})
+	f([]int16{1}, []rune{2})
+	f([]int16{1, 2, 3}, []rune{2, 4, 6})
 }
 
 func TestSliceMapInt16Int(t *testing.T) {
@@ -4785,6 +7382,18 @@ func TestSliceProductInt16(t *testing.T) {
 	})
 }
 
+func TestSliceReduceInt16Rune(t *testing.T) {
+	f := func(given []int16, expected rune) {
+		sum := func(el int16, acc rune) rune { return rune(el) + acc }
+		actual := SliceInt16{given}.ReduceRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 1)
+	f([]int16{1, 2}, 3)
+	f([]int16{1, 2, 3}, 6)
+}
+
 func TestSliceReduceInt16Int(t *testing.T) {
 	f := func(given []int16, expected int) {
 		sum := func(el int16, acc int) int { return int(el) + acc }
@@ -4843,6 +7452,24 @@ func TestSliceReduceInt16Int64(t *testing.T) {
 	f([]int16{1}, 1)
 	f([]int16{1, 2}, 3)
 	f([]int16{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt16Rune(t *testing.T) {
+	f := func(given []int16, expected rune) {
+		sum := func(el int16, acc rune) (rune, error) {
+			if el == 0 {
+				return acc, ErrEmpty
+			}
+			return rune(el) + acc, nil
+		}
+		actual, _ := SliceInt16{given}.ReduceWhileRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 1)
+	f([]int16{1, 2}, 3)
+	f([]int16{1, 2, 3}, 6)
+	f([]int16{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileInt16Int(t *testing.T) {
@@ -4960,6 +7587,19 @@ func TestSliceSameInt16(t *testing.T) {
 	f([]int16{1, 2, 1}, false)
 	f([]int16{1, 2, 2}, false)
 	f([]int16{1, 1, 2}, false)
+}
+
+func TestSliceScanInt16Rune(t *testing.T) {
+	f := func(given []int16, expected []rune) {
+		sum := func(el int16, acc rune) rune { return rune(el) + acc }
+		actual := SliceInt16{given}.ScanRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []rune{})
+	f([]int16{1}, []rune{1})
+	f([]int16{1, 2}, []rune{1, 3})
+	f([]int16{1, 2, 3}, []rune{1, 3, 6})
+	f([]int16{1, 2, 3, 4}, []rune{1, 3, 6, 10})
 }
 
 func TestSliceScanInt16Int(t *testing.T) {
@@ -5361,6 +8001,35 @@ func TestChannelFilterInt16(t *testing.T) {
 	f([]int16{1, 2, 3, 4}, []int16{2, 4})
 }
 
+func TestChannelMapInt16Rune(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		double := func(el int16) rune { return rune(el * 2) }
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt16{c}.MapRune(double)
+
+		// convert chan int16 to chan rune
+		c2 := make(chan int16, 1)
+		go func() {
+			for el := range result {
+				c2 <- int16(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt16{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{2})
+	f([]int16{1, 2, 3}, []int16{2, 4, 6})
+}
+
 func TestChannelMapInt16Int(t *testing.T) {
 	f := func(given []int16, expected []int16) {
 		double := func(el int16) int { return int(el * 2) }
@@ -5544,6 +8213,25 @@ func TestChannelMinInt16(t *testing.T) {
 	f([]int16{4, 2, 1}, 1, nil)
 }
 
+func TestChannelReduceInt16Rune(t *testing.T) {
+	f := func(given []int16, expected rune) {
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int16, acc rune) rune { return rune(el) + acc }
+		actual := ChannelInt16{c}.ReduceRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, 0)
+	f([]int16{1}, 1)
+	f([]int16{1, 2}, 3)
+	f([]int16{1, 2, 3, 4, 5}, 15)
+}
+
 func TestChannelReduceInt16Int(t *testing.T) {
 	f := func(given []int16, expected int) {
 		c := make(chan int16, 1)
@@ -5637,6 +8325,36 @@ func TestChannelReduceInt16Int64(t *testing.T) {
 	f([]int16{1}, 1)
 	f([]int16{1, 2}, 3)
 	f([]int16{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelScanInt16Rune(t *testing.T) {
+	f := func(given []int16, expected []int16) {
+		c := make(chan int16, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int16, acc rune) rune { return rune(el) + acc }
+		result := ChannelInt16{c}.ScanRune(0, sum)
+
+		// convert chan int16 to chan rune
+		c2 := make(chan int16, 1)
+		go func() {
+			for el := range result {
+				c2 <- int16(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt16{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int16{}, []int16{})
+	f([]int16{1}, []int16{1})
+	f([]int16{1, 2}, []int16{1, 3})
+	f([]int16{1, 2, 3, 4, 5}, []int16{1, 3, 6, 10, 15})
 }
 
 func TestChannelScanInt16Int(t *testing.T) {
@@ -5921,6 +8639,19 @@ func TestAsyncSliceFilterInt16(t *testing.T) {
 	f([]int16{9, 11, 12, 13, 6}, []int16{11, 12, 13})
 }
 
+func TestAsyncSliceMapInt16Rune(t *testing.T) {
+	f := func(mapper func(t int16) rune, given []int16, expected []rune) {
+		s := AsyncSliceInt16{Data: given, Workers: 2}
+		actual := s.MapRune(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int16) rune { return rune((t * 2)) }
+
+	f(double, []int16{}, []rune{})
+	f(double, []int16{1}, []rune{2})
+	f(double, []int16{1, 2, 3}, []rune{2, 4, 6})
+}
+
 func TestAsyncSliceMapInt16Int(t *testing.T) {
 	f := func(mapper func(t int16) int, given []int16, expected []int) {
 		s := AsyncSliceInt16{Data: given, Workers: 2}
@@ -6172,6 +8903,18 @@ func TestSliceChoiceInt32(t *testing.T) {
 	f([]int32{1, 2, 3}, 2, 2)
 }
 
+func TestSliceChunkByInt32Rune(t *testing.T) {
+	f := func(given []int32, expected [][]int32) {
+		reminder := func(t int32) rune { return rune((t % 2)) }
+		actual := SliceInt32{given}.ChunkByRune(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, [][]int32{})
+	f([]int32{1}, [][]int32{{1}})
+	f([]int32{1, 2, 3}, [][]int32{{1}, {2}, {3}})
+	f([]int32{1, 3, 2, 4, 5}, [][]int32{{1, 3}, {2, 4}, {5}})
+}
+
 func TestSliceChunkByInt32Int(t *testing.T) {
 	f := func(given []int32, expected [][]int32) {
 		reminder := func(t int32) int { return int((t % 2)) }
@@ -6307,6 +9050,21 @@ func TestSliceDedupInt32(t *testing.T) {
 	f([]int32{1, 2, 3}, []int32{1, 2, 3})
 	f([]int32{1, 2, 2, 3}, []int32{1, 2, 3})
 	f([]int32{1, 2, 2, 3, 3, 3, 2, 1, 1}, []int32{1, 2, 3, 2, 1})
+}
+
+func TestSliceDedupByInt32Rune(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		even := func(el int32) rune { return rune(el % 2) }
+		actual := SliceInt32{given}.DedupByRune(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{1})
+	f([]int32{1, 1}, []int32{1})
+	f([]int32{1, 2}, []int32{1, 2})
+	f([]int32{1, 2, 3}, []int32{1, 2, 3})
+	f([]int32{1, 2, 2, 3}, []int32{1, 2, 3})
+	f([]int32{1, 2, 4, 3, 5, 7, 10}, []int32{1, 2, 3, 10})
 }
 
 func TestSliceDedupByInt32Int(t *testing.T) {
@@ -6563,6 +9321,17 @@ func TestSliceJoinInt32(t *testing.T) {
 	f([]int32{1, 2, 3}, "<int32>", "1<int32>2<int32>3")
 }
 
+func TestSliceGroupByInt32Rune(t *testing.T) {
+	f := func(given []int32, expected map[rune][]int32) {
+		reminder := func(t int32) rune { return rune((t % 2)) }
+		actual := SliceInt32{given}.GroupByRune(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, map[rune][]int32{})
+	f([]int32{1}, map[rune][]int32{1: {1}})
+	f([]int32{1, 3, 2, 4, 5}, map[rune][]int32{0: {2, 4}, 1: {1, 3, 5}})
+}
+
 func TestSliceGroupByInt32Int(t *testing.T) {
 	f := func(given []int32, expected map[int][]int32) {
 		reminder := func(t int32) int { return int((t % 2)) }
@@ -6655,6 +9424,17 @@ func TestSliceLastInt32(t *testing.T) {
 	f([]int32{}, 0, ErrEmpty)
 	f([]int32{1}, 1, nil)
 	f([]int32{1, 2, 3}, 3, nil)
+}
+
+func TestSliceMapInt32Rune(t *testing.T) {
+	f := func(given []int32, expected []rune) {
+		double := func(t int32) rune { return rune((t * 2)) }
+		actual := SliceInt32{given}.MapRune(double)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []rune{})
+	f([]int32{1}, []rune{2})
+	f([]int32{1, 2, 3}, []rune{2, 4, 6})
 }
 
 func TestSliceMapInt32Int(t *testing.T) {
@@ -6784,6 +9564,18 @@ func TestSliceProductInt32(t *testing.T) {
 	})
 }
 
+func TestSliceReduceInt32Rune(t *testing.T) {
+	f := func(given []int32, expected rune) {
+		sum := func(el int32, acc rune) rune { return rune(el) + acc }
+		actual := SliceInt32{given}.ReduceRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 1)
+	f([]int32{1, 2}, 3)
+	f([]int32{1, 2, 3}, 6)
+}
+
 func TestSliceReduceInt32Int(t *testing.T) {
 	f := func(given []int32, expected int) {
 		sum := func(el int32, acc int) int { return int(el) + acc }
@@ -6842,6 +9634,24 @@ func TestSliceReduceInt32Int64(t *testing.T) {
 	f([]int32{1}, 1)
 	f([]int32{1, 2}, 3)
 	f([]int32{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt32Rune(t *testing.T) {
+	f := func(given []int32, expected rune) {
+		sum := func(el int32, acc rune) (rune, error) {
+			if el == 0 {
+				return acc, ErrEmpty
+			}
+			return rune(el) + acc, nil
+		}
+		actual, _ := SliceInt32{given}.ReduceWhileRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 1)
+	f([]int32{1, 2}, 3)
+	f([]int32{1, 2, 3}, 6)
+	f([]int32{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileInt32Int(t *testing.T) {
@@ -6959,6 +9769,19 @@ func TestSliceSameInt32(t *testing.T) {
 	f([]int32{1, 2, 1}, false)
 	f([]int32{1, 2, 2}, false)
 	f([]int32{1, 1, 2}, false)
+}
+
+func TestSliceScanInt32Rune(t *testing.T) {
+	f := func(given []int32, expected []rune) {
+		sum := func(el int32, acc rune) rune { return rune(el) + acc }
+		actual := SliceInt32{given}.ScanRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []rune{})
+	f([]int32{1}, []rune{1})
+	f([]int32{1, 2}, []rune{1, 3})
+	f([]int32{1, 2, 3}, []rune{1, 3, 6})
+	f([]int32{1, 2, 3, 4}, []rune{1, 3, 6, 10})
 }
 
 func TestSliceScanInt32Int(t *testing.T) {
@@ -7360,6 +10183,35 @@ func TestChannelFilterInt32(t *testing.T) {
 	f([]int32{1, 2, 3, 4}, []int32{2, 4})
 }
 
+func TestChannelMapInt32Rune(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		double := func(el int32) rune { return rune(el * 2) }
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt32{c}.MapRune(double)
+
+		// convert chan int32 to chan rune
+		c2 := make(chan int32, 1)
+		go func() {
+			for el := range result {
+				c2 <- int32(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt32{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{2})
+	f([]int32{1, 2, 3}, []int32{2, 4, 6})
+}
+
 func TestChannelMapInt32Int(t *testing.T) {
 	f := func(given []int32, expected []int32) {
 		double := func(el int32) int { return int(el * 2) }
@@ -7543,6 +10395,25 @@ func TestChannelMinInt32(t *testing.T) {
 	f([]int32{4, 2, 1}, 1, nil)
 }
 
+func TestChannelReduceInt32Rune(t *testing.T) {
+	f := func(given []int32, expected rune) {
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int32, acc rune) rune { return rune(el) + acc }
+		actual := ChannelInt32{c}.ReduceRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, 0)
+	f([]int32{1}, 1)
+	f([]int32{1, 2}, 3)
+	f([]int32{1, 2, 3, 4, 5}, 15)
+}
+
 func TestChannelReduceInt32Int(t *testing.T) {
 	f := func(given []int32, expected int) {
 		c := make(chan int32, 1)
@@ -7636,6 +10507,36 @@ func TestChannelReduceInt32Int64(t *testing.T) {
 	f([]int32{1}, 1)
 	f([]int32{1, 2}, 3)
 	f([]int32{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelScanInt32Rune(t *testing.T) {
+	f := func(given []int32, expected []int32) {
+		c := make(chan int32, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int32, acc rune) rune { return rune(el) + acc }
+		result := ChannelInt32{c}.ScanRune(0, sum)
+
+		// convert chan int32 to chan rune
+		c2 := make(chan int32, 1)
+		go func() {
+			for el := range result {
+				c2 <- int32(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt32{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int32{}, []int32{})
+	f([]int32{1}, []int32{1})
+	f([]int32{1, 2}, []int32{1, 3})
+	f([]int32{1, 2, 3, 4, 5}, []int32{1, 3, 6, 10, 15})
 }
 
 func TestChannelScanInt32Int(t *testing.T) {
@@ -7920,6 +10821,19 @@ func TestAsyncSliceFilterInt32(t *testing.T) {
 	f([]int32{9, 11, 12, 13, 6}, []int32{11, 12, 13})
 }
 
+func TestAsyncSliceMapInt32Rune(t *testing.T) {
+	f := func(mapper func(t int32) rune, given []int32, expected []rune) {
+		s := AsyncSliceInt32{Data: given, Workers: 2}
+		actual := s.MapRune(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int32) rune { return rune((t * 2)) }
+
+	f(double, []int32{}, []rune{})
+	f(double, []int32{1}, []rune{2})
+	f(double, []int32{1, 2, 3}, []rune{2, 4, 6})
+}
+
 func TestAsyncSliceMapInt32Int(t *testing.T) {
 	f := func(mapper func(t int32) int, given []int32, expected []int) {
 		s := AsyncSliceInt32{Data: given, Workers: 2}
@@ -8171,6 +11085,18 @@ func TestSliceChoiceInt64(t *testing.T) {
 	f([]int64{1, 2, 3}, 2, 2)
 }
 
+func TestSliceChunkByInt64Rune(t *testing.T) {
+	f := func(given []int64, expected [][]int64) {
+		reminder := func(t int64) rune { return rune((t % 2)) }
+		actual := SliceInt64{given}.ChunkByRune(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, [][]int64{})
+	f([]int64{1}, [][]int64{{1}})
+	f([]int64{1, 2, 3}, [][]int64{{1}, {2}, {3}})
+	f([]int64{1, 3, 2, 4, 5}, [][]int64{{1, 3}, {2, 4}, {5}})
+}
+
 func TestSliceChunkByInt64Int(t *testing.T) {
 	f := func(given []int64, expected [][]int64) {
 		reminder := func(t int64) int { return int((t % 2)) }
@@ -8306,6 +11232,21 @@ func TestSliceDedupInt64(t *testing.T) {
 	f([]int64{1, 2, 3}, []int64{1, 2, 3})
 	f([]int64{1, 2, 2, 3}, []int64{1, 2, 3})
 	f([]int64{1, 2, 2, 3, 3, 3, 2, 1, 1}, []int64{1, 2, 3, 2, 1})
+}
+
+func TestSliceDedupByInt64Rune(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		even := func(el int64) rune { return rune(el % 2) }
+		actual := SliceInt64{given}.DedupByRune(even)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{1})
+	f([]int64{1, 1}, []int64{1})
+	f([]int64{1, 2}, []int64{1, 2})
+	f([]int64{1, 2, 3}, []int64{1, 2, 3})
+	f([]int64{1, 2, 2, 3}, []int64{1, 2, 3})
+	f([]int64{1, 2, 4, 3, 5, 7, 10}, []int64{1, 2, 3, 10})
 }
 
 func TestSliceDedupByInt64Int(t *testing.T) {
@@ -8562,6 +11503,17 @@ func TestSliceJoinInt64(t *testing.T) {
 	f([]int64{1, 2, 3}, "<int64>", "1<int64>2<int64>3")
 }
 
+func TestSliceGroupByInt64Rune(t *testing.T) {
+	f := func(given []int64, expected map[rune][]int64) {
+		reminder := func(t int64) rune { return rune((t % 2)) }
+		actual := SliceInt64{given}.GroupByRune(reminder)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, map[rune][]int64{})
+	f([]int64{1}, map[rune][]int64{1: {1}})
+	f([]int64{1, 3, 2, 4, 5}, map[rune][]int64{0: {2, 4}, 1: {1, 3, 5}})
+}
+
 func TestSliceGroupByInt64Int(t *testing.T) {
 	f := func(given []int64, expected map[int][]int64) {
 		reminder := func(t int64) int { return int((t % 2)) }
@@ -8654,6 +11606,17 @@ func TestSliceLastInt64(t *testing.T) {
 	f([]int64{}, 0, ErrEmpty)
 	f([]int64{1}, 1, nil)
 	f([]int64{1, 2, 3}, 3, nil)
+}
+
+func TestSliceMapInt64Rune(t *testing.T) {
+	f := func(given []int64, expected []rune) {
+		double := func(t int64) rune { return rune((t * 2)) }
+		actual := SliceInt64{given}.MapRune(double)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []rune{})
+	f([]int64{1}, []rune{2})
+	f([]int64{1, 2, 3}, []rune{2, 4, 6})
 }
 
 func TestSliceMapInt64Int(t *testing.T) {
@@ -8783,6 +11746,18 @@ func TestSliceProductInt64(t *testing.T) {
 	})
 }
 
+func TestSliceReduceInt64Rune(t *testing.T) {
+	f := func(given []int64, expected rune) {
+		sum := func(el int64, acc rune) rune { return rune(el) + acc }
+		actual := SliceInt64{given}.ReduceRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 1)
+	f([]int64{1, 2}, 3)
+	f([]int64{1, 2, 3}, 6)
+}
+
 func TestSliceReduceInt64Int(t *testing.T) {
 	f := func(given []int64, expected int) {
 		sum := func(el int64, acc int) int { return int(el) + acc }
@@ -8841,6 +11816,24 @@ func TestSliceReduceInt64Int64(t *testing.T) {
 	f([]int64{1}, 1)
 	f([]int64{1, 2}, 3)
 	f([]int64{1, 2, 3}, 6)
+}
+
+func TestSliceReduceWhileInt64Rune(t *testing.T) {
+	f := func(given []int64, expected rune) {
+		sum := func(el int64, acc rune) (rune, error) {
+			if el == 0 {
+				return acc, ErrEmpty
+			}
+			return rune(el) + acc, nil
+		}
+		actual, _ := SliceInt64{given}.ReduceWhileRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 1)
+	f([]int64{1, 2}, 3)
+	f([]int64{1, 2, 3}, 6)
+	f([]int64{1, 2, 0, 3}, 3)
 }
 
 func TestSliceReduceWhileInt64Int(t *testing.T) {
@@ -8958,6 +11951,19 @@ func TestSliceSameInt64(t *testing.T) {
 	f([]int64{1, 2, 1}, false)
 	f([]int64{1, 2, 2}, false)
 	f([]int64{1, 1, 2}, false)
+}
+
+func TestSliceScanInt64Rune(t *testing.T) {
+	f := func(given []int64, expected []rune) {
+		sum := func(el int64, acc rune) rune { return rune(el) + acc }
+		actual := SliceInt64{given}.ScanRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []rune{})
+	f([]int64{1}, []rune{1})
+	f([]int64{1, 2}, []rune{1, 3})
+	f([]int64{1, 2, 3}, []rune{1, 3, 6})
+	f([]int64{1, 2, 3, 4}, []rune{1, 3, 6, 10})
 }
 
 func TestSliceScanInt64Int(t *testing.T) {
@@ -9359,6 +12365,35 @@ func TestChannelFilterInt64(t *testing.T) {
 	f([]int64{1, 2, 3, 4}, []int64{2, 4})
 }
 
+func TestChannelMapInt64Rune(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		double := func(el int64) rune { return rune(el * 2) }
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := ChannelInt64{c}.MapRune(double)
+
+		// convert chan int64 to chan rune
+		c2 := make(chan int64, 1)
+		go func() {
+			for el := range result {
+				c2 <- int64(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt64{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{2})
+	f([]int64{1, 2, 3}, []int64{2, 4, 6})
+}
+
 func TestChannelMapInt64Int(t *testing.T) {
 	f := func(given []int64, expected []int64) {
 		double := func(el int64) int { return int(el * 2) }
@@ -9542,6 +12577,25 @@ func TestChannelMinInt64(t *testing.T) {
 	f([]int64{4, 2, 1}, 1, nil)
 }
 
+func TestChannelReduceInt64Rune(t *testing.T) {
+	f := func(given []int64, expected rune) {
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int64, acc rune) rune { return rune(el) + acc }
+		actual := ChannelInt64{c}.ReduceRune(0, sum)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, 0)
+	f([]int64{1}, 1)
+	f([]int64{1, 2}, 3)
+	f([]int64{1, 2, 3, 4, 5}, 15)
+}
+
 func TestChannelReduceInt64Int(t *testing.T) {
 	f := func(given []int64, expected int) {
 		c := make(chan int64, 1)
@@ -9635,6 +12689,36 @@ func TestChannelReduceInt64Int64(t *testing.T) {
 	f([]int64{1}, 1)
 	f([]int64{1, 2}, 3)
 	f([]int64{1, 2, 3, 4, 5}, 15)
+}
+
+func TestChannelScanInt64Rune(t *testing.T) {
+	f := func(given []int64, expected []int64) {
+		c := make(chan int64, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		sum := func(el int64, acc rune) rune { return rune(el) + acc }
+		result := ChannelInt64{c}.ScanRune(0, sum)
+
+		// convert chan int64 to chan rune
+		c2 := make(chan int64, 1)
+		go func() {
+			for el := range result {
+				c2 <- int64(el)
+			}
+			close(c2)
+		}()
+
+		actual := ChannelInt64{c2}.ToSlice()
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	f([]int64{}, []int64{})
+	f([]int64{1}, []int64{1})
+	f([]int64{1, 2}, []int64{1, 3})
+	f([]int64{1, 2, 3, 4, 5}, []int64{1, 3, 6, 10, 15})
 }
 
 func TestChannelScanInt64Int(t *testing.T) {
@@ -9917,6 +13001,19 @@ func TestAsyncSliceFilterInt64(t *testing.T) {
 	f([]int64{5}, []int64{})
 	f([]int64{15}, []int64{15})
 	f([]int64{9, 11, 12, 13, 6}, []int64{11, 12, 13})
+}
+
+func TestAsyncSliceMapInt64Rune(t *testing.T) {
+	f := func(mapper func(t int64) rune, given []int64, expected []rune) {
+		s := AsyncSliceInt64{Data: given, Workers: 2}
+		actual := s.MapRune(mapper)
+		assert.Equal(t, expected, actual, "they should be equal")
+	}
+	double := func(t int64) rune { return rune((t * 2)) }
+
+	f(double, []int64{}, []rune{})
+	f(double, []int64{1}, []rune{2})
+	f(double, []int64{1, 2, 3}, []rune{2, 4, 6})
 }
 
 func TestAsyncSliceMapInt64Int(t *testing.T) {

@@ -14,6 +14,7 @@ Generic types: T.
 | ------ | ------ |
 | ChannelByte | byte |
 | ChannelString | string |
+| ChannelRune | rune |
 | ChannelFloat32 | float32 |
 | ChannelFloat64 | float64 |
 | ChannelInt | int |

@@ -15,6 +15,8 @@ Generic types: G, T.
 | ChannelBool | bool |
 | ChannelByte | byte |
 | ChannelString | string |
+| ChannelRune | rune |
+| ChannelError | error |
 | ChannelFloat32 | float32 |
 | ChannelFloat64 | float64 |
 | ChannelInt | int |
@@ -36,6 +38,8 @@ Generic types: G, T.
 | ScanBool | bool |
 | ScanByte | byte |
 | ScanString | string |
+| ScanRune | rune |
+| ScanError | error |
 | ScanFloat32 | float32 |
 | ScanFloat64 | float64 |
 | ScanInt | int |

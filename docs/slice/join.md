@@ -14,6 +14,8 @@ Generic types: T.
 | ------ | ------ |
 | SliceByte | byte |
 | SliceString | string |
+| SliceRune | rune |
+| SliceError | error |
 | SliceInt | int |
 | SliceInt8 | int8 |
 | SliceInt16 | int16 |

@@ -15,6 +15,8 @@ Generic types: T.
 | ChannelBool | bool |
 | ChannelByte | byte |
 | ChannelString | string |
+| ChannelRune | rune |
+| ChannelError | error |
 | ChannelFloat32 | float32 |
 | ChannelFloat64 | float64 |
 | ChannelInt | int |

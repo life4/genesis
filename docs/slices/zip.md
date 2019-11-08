@@ -15,6 +15,8 @@ Generic types: T.
 | SlicesBool | bool |
 | SlicesByte | byte |
 | SlicesString | string |
+| SlicesRune | rune |
+| SlicesError | error |
 | SlicesFloat32 | float32 |
 | SlicesFloat64 | float64 |
 | SlicesInt | int |

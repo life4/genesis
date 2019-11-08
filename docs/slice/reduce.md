@@ -15,6 +15,8 @@ Generic types: G, T.
 | SliceBool | bool |
 | SliceByte | byte |
 | SliceString | string |
+| SliceRune | rune |
+| SliceError | error |
 | SliceFloat32 | float32 |
 | SliceFloat64 | float64 |
 | SliceInt | int |
@@ -36,6 +38,8 @@ Generic types: G, T.
 | ReduceBool | bool |
 | ReduceByte | byte |
 | ReduceString | string |
+| ReduceRune | rune |
+| ReduceError | error |
 | ReduceFloat32 | float32 |
 | ReduceFloat64 | float64 |
 | ReduceInt | int |

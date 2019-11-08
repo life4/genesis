@@ -16,6 +16,8 @@ type Pair struct {
 | PairBool | bool |
 | PairByte | byte |
 | PairString | string |
+| PairRune | rune |
+| PairError | error |
 | PairFloat32 | float32 |
 | PairFloat64 | float64 |
 | PairInt | int |

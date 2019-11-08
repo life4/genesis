@@ -15,6 +15,8 @@ Generic types: G, T.
 | AsyncSliceBool | bool |
 | AsyncSliceByte | byte |
 | AsyncSliceString | string |
+| AsyncSliceRune | rune |
+| AsyncSliceError | error |
 | AsyncSliceFloat32 | float32 |
 | AsyncSliceFloat64 | float64 |
 | AsyncSliceInt | int |
@@ -36,6 +38,8 @@ Generic types: G, T.
 | MapBool | bool |
 | MapByte | byte |
 | MapString | string |
+| MapRune | rune |
+| MapError | error |
 | MapFloat32 | float32 |
 | MapFloat64 | float64 |
 | MapInt | int |
