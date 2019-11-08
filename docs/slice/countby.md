@@ -8,6 +8,16 @@ CountBy returns how many times f returns true.
 
 Generic types: T.
 
+## Examples
+
+```go
+s := []int{1, 2, 3, 4, 5, 6}
+even := func(item int) bool { return item%2 == 0 }
+result := genesis.SliceInt{s}.CountBy(even)
+fmt.Println(result)
+// Output: 3
+```
+
 ## Structs
 
 | Struct | T type |

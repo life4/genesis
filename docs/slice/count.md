@@ -8,6 +8,15 @@ Count return count of el occurences in arr.
 
 Generic types: T.
 
+## Examples
+
+```go
+s := []int{1, 0, 1, 0, 0, 1, 1, 0, 1, 0}
+result := genesis.SliceInt{s}.Count(1)
+fmt.Println(result)
+// Output: 5
+```
+
 ## Structs
 
 | Struct | T type |

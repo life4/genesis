@@ -8,6 +8,21 @@ Contains returns true if el in arr.
 
 Generic types: T.
 
+## Examples
+
+```go
+s := []int{2, 4, 6, 8}
+result := genesis.SliceInt{s}.Contains(4)
+fmt.Println(result)
+
+result = genesis.SliceInt{s}.Contains(3)
+fmt.Println(result)
+
+// Output:
+// true
+// false
+```
+
 ## Structs
 
 | Struct | T type |

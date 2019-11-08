@@ -8,6 +8,24 @@ Any returns true if f returns true for any element in arr
 
 Generic types: T.
 
+## Examples
+
+```go
+even := func(item int) bool { return item%2 == 0 }
+
+s := []int{1, 2, 3}
+result := genesis.SliceInt{s}.Any(even)
+fmt.Println(result)
+
+s = []int{1, 3, 5}
+result = genesis.SliceInt{s}.Any(even)
+fmt.Println(result)
+
+// Output:
+// true
+// false
+```
+
 ## Structs
 
 | Struct | T type |

@@ -8,6 +8,17 @@ Cycle is an infinite loop over slice
 
 Generic types: T.
 
+## Examples
+
+```go
+s := []int{1, 2, 3}
+channel := genesis.SliceInt{s}.Cycle()
+limited := genesis.ChannelInt{channel}.Take(5)
+result := genesis.ChannelInt{limited}.ToSlice()
+fmt.Println(result)
+// Output: [1 2 3 1 2]
+```
+
 ## Structs
 
 | Struct | T type |

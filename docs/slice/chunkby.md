@@ -8,6 +8,16 @@ ChunkBy splits arr on every element for which f returns a new value.
 
 Generic types: G, T.
 
+## Examples
+
+```go
+s := []int{1, 3, 4, 6, 8, 9}
+remainder := func(item int) int { return item % 2 }
+result := genesis.SliceInt{s}.ChunkByInt(remainder)
+fmt.Println(result)
+// Output: [[1 3] [4 6 8] [9]]
+```
+
 ## Structs
 
 | Struct | T type |

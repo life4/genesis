@@ -8,6 +8,15 @@ ChunkEvery returns slice of slices containing count elements each
 
 Generic types: T.
 
+## Examples
+
+```go
+s := []int{1, 1, 2, 3, 5, 8, 13}
+result, _ := genesis.SliceInt{s}.ChunkEvery(3)
+fmt.Println(result)
+// Output: [[1 1 2] [3 5 8] [13]]
+```
+
 ## Structs
 
 | Struct | T type |

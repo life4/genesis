@@ -8,6 +8,15 @@ Dedup returns a given slice without consecutive duplicated elements
 
 Generic types: T.
 
+## Examples
+
+```go
+s := []int{1, 2, 2, 3, 3, 3, 2, 3, 1, 1}
+result := genesis.SliceInt{s}.Dedup()
+fmt.Println(result)
+// Output: [1 2 3 2 3 1]
+```
+
 ## Structs
 
 | Struct | T type |
