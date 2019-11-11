@@ -590,7 +590,7 @@ func (s SliceBool) Contains(el bool) bool {
 	return false
 }
 
-// Count return count of el occurences in arr.
+// Count return count of el occurrences in arr.
 func (s SliceBool) Count(el bool) int {
 	count := 0
 	for _, val := range s.Data {
@@ -1007,7 +1007,7 @@ func (s SliceBool) DedupByInterface(f func(el bool) interface{}) []bool {
 	return result
 }
 
-// Delete deletes the first occurence of the element from the slice
+// Delete deletes the first occurrence of the element from the slice
 func (s SliceBool) Delete(element bool) []bool {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -1026,7 +1026,7 @@ func (s SliceBool) Delete(element bool) []bool {
 
 }
 
-// DeleteAll deletes all occurences of the element from the slice
+// DeleteAll deletes all occurrences of the element from the slice
 func (s SliceBool) DeleteAll(element bool) []bool {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -2372,7 +2372,7 @@ func (s SliceBool) ToChannel() chan bool {
 	return c
 }
 
-// Uniq returns arr with only first occurences of every element.
+// Uniq returns arr with only first occurrences of every element.
 func (s SliceBool) Uniq() []bool {
 	if len(s.Data) <= 1 {
 		return s.Data
@@ -2465,7 +2465,7 @@ func (c ChannelBool) ChunkEvery(count int) chan []bool {
 	return chunks
 }
 
-// Count return count of el occurences in channel.
+// Count return count of el occurrences in channel.
 func (c ChannelBool) Count(el bool) int {
 	count := 0
 	for val := range c.Data {
@@ -4717,7 +4717,7 @@ func (s SliceByte) Contains(el byte) bool {
 	return false
 }
 
-// Count return count of el occurences in arr.
+// Count return count of el occurrences in arr.
 func (s SliceByte) Count(el byte) int {
 	count := 0
 	for _, val := range s.Data {
@@ -5134,7 +5134,7 @@ func (s SliceByte) DedupByInterface(f func(el byte) interface{}) []byte {
 	return result
 }
 
-// Delete deletes the first occurence of the element from the slice
+// Delete deletes the first occurrence of the element from the slice
 func (s SliceByte) Delete(element byte) []byte {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -5153,7 +5153,7 @@ func (s SliceByte) Delete(element byte) []byte {
 
 }
 
-// DeleteAll deletes all occurences of the element from the slice
+// DeleteAll deletes all occurrences of the element from the slice
 func (s SliceByte) DeleteAll(element byte) []byte {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -6574,7 +6574,7 @@ func (s SliceByte) ToChannel() chan byte {
 	return c
 }
 
-// Uniq returns arr with only first occurences of every element.
+// Uniq returns arr with only first occurrences of every element.
 func (s SliceByte) Uniq() []byte {
 	if len(s.Data) <= 1 {
 		return s.Data
@@ -6667,7 +6667,7 @@ func (c ChannelByte) ChunkEvery(count int) chan []byte {
 	return chunks
 }
 
-// Count return count of el occurences in channel.
+// Count return count of el occurrences in channel.
 func (c ChannelByte) Count(el byte) int {
 	count := 0
 	for val := range c.Data {
@@ -8972,7 +8972,7 @@ func (s SliceString) Contains(el string) bool {
 	return false
 }
 
-// Count return count of el occurences in arr.
+// Count return count of el occurrences in arr.
 func (s SliceString) Count(el string) int {
 	count := 0
 	for _, val := range s.Data {
@@ -9389,7 +9389,7 @@ func (s SliceString) DedupByInterface(f func(el string) interface{}) []string {
 	return result
 }
 
-// Delete deletes the first occurence of the element from the slice
+// Delete deletes the first occurrence of the element from the slice
 func (s SliceString) Delete(element string) []string {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -9408,7 +9408,7 @@ func (s SliceString) Delete(element string) []string {
 
 }
 
-// DeleteAll deletes all occurences of the element from the slice
+// DeleteAll deletes all occurrences of the element from the slice
 func (s SliceString) DeleteAll(element string) []string {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -10829,7 +10829,7 @@ func (s SliceString) ToChannel() chan string {
 	return c
 }
 
-// Uniq returns arr with only first occurences of every element.
+// Uniq returns arr with only first occurrences of every element.
 func (s SliceString) Uniq() []string {
 	if len(s.Data) <= 1 {
 		return s.Data
@@ -10922,7 +10922,7 @@ func (c ChannelString) ChunkEvery(count int) chan []string {
 	return chunks
 }
 
-// Count return count of el occurences in channel.
+// Count return count of el occurrences in channel.
 func (c ChannelString) Count(el string) int {
 	count := 0
 	for val := range c.Data {
@@ -13227,7 +13227,7 @@ func (s SliceRune) Contains(el rune) bool {
 	return false
 }
 
-// Count return count of el occurences in arr.
+// Count return count of el occurrences in arr.
 func (s SliceRune) Count(el rune) int {
 	count := 0
 	for _, val := range s.Data {
@@ -13644,7 +13644,7 @@ func (s SliceRune) DedupByInterface(f func(el rune) interface{}) []rune {
 	return result
 }
 
-// Delete deletes the first occurence of the element from the slice
+// Delete deletes the first occurrence of the element from the slice
 func (s SliceRune) Delete(element rune) []rune {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -13663,7 +13663,7 @@ func (s SliceRune) Delete(element rune) []rune {
 
 }
 
-// DeleteAll deletes all occurences of the element from the slice
+// DeleteAll deletes all occurrences of the element from the slice
 func (s SliceRune) DeleteAll(element rune) []rune {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -15084,7 +15084,7 @@ func (s SliceRune) ToChannel() chan rune {
 	return c
 }
 
-// Uniq returns arr with only first occurences of every element.
+// Uniq returns arr with only first occurrences of every element.
 func (s SliceRune) Uniq() []rune {
 	if len(s.Data) <= 1 {
 		return s.Data
@@ -15177,7 +15177,7 @@ func (c ChannelRune) ChunkEvery(count int) chan []rune {
 	return chunks
 }
 
-// Count return count of el occurences in channel.
+// Count return count of el occurrences in channel.
 func (c ChannelRune) Count(el rune) int {
 	count := 0
 	for val := range c.Data {
@@ -17531,7 +17531,7 @@ func (s SliceError) Contains(el error) bool {
 	return false
 }
 
-// Count return count of el occurences in arr.
+// Count return count of el occurrences in arr.
 func (s SliceError) Count(el error) int {
 	count := 0
 	for _, val := range s.Data {
@@ -17948,7 +17948,7 @@ func (s SliceError) DedupByInterface(f func(el error) interface{}) []error {
 	return result
 }
 
-// Delete deletes the first occurence of the element from the slice
+// Delete deletes the first occurrence of the element from the slice
 func (s SliceError) Delete(element error) []error {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -17967,7 +17967,7 @@ func (s SliceError) Delete(element error) []error {
 
 }
 
-// DeleteAll deletes all occurences of the element from the slice
+// DeleteAll deletes all occurrences of the element from the slice
 func (s SliceError) DeleteAll(element error) []error {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -19322,7 +19322,7 @@ func (s SliceError) ToChannel() chan error {
 	return c
 }
 
-// Uniq returns arr with only first occurences of every element.
+// Uniq returns arr with only first occurrences of every element.
 func (s SliceError) Uniq() []error {
 	if len(s.Data) <= 1 {
 		return s.Data
@@ -19415,7 +19415,7 @@ func (c ChannelError) ChunkEvery(count int) chan []error {
 	return chunks
 }
 
-// Count return count of el occurences in channel.
+// Count return count of el occurrences in channel.
 func (c ChannelError) Count(el error) int {
 	count := 0
 	for val := range c.Data {
@@ -21667,7 +21667,7 @@ func (s SliceFloat32) Contains(el float32) bool {
 	return false
 }
 
-// Count return count of el occurences in arr.
+// Count return count of el occurrences in arr.
 func (s SliceFloat32) Count(el float32) int {
 	count := 0
 	for _, val := range s.Data {
@@ -22084,7 +22084,7 @@ func (s SliceFloat32) DedupByInterface(f func(el float32) interface{}) []float32
 	return result
 }
 
-// Delete deletes the first occurence of the element from the slice
+// Delete deletes the first occurrence of the element from the slice
 func (s SliceFloat32) Delete(element float32) []float32 {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -22103,7 +22103,7 @@ func (s SliceFloat32) Delete(element float32) []float32 {
 
 }
 
-// DeleteAll deletes all occurences of the element from the slice
+// DeleteAll deletes all occurrences of the element from the slice
 func (s SliceFloat32) DeleteAll(element float32) []float32 {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -23515,7 +23515,7 @@ func (s SliceFloat32) ToChannel() chan float32 {
 	return c
 }
 
-// Uniq returns arr with only first occurences of every element.
+// Uniq returns arr with only first occurrences of every element.
 func (s SliceFloat32) Uniq() []float32 {
 	if len(s.Data) <= 1 {
 		return s.Data
@@ -23608,7 +23608,7 @@ func (c ChannelFloat32) ChunkEvery(count int) chan []float32 {
 	return chunks
 }
 
-// Count return count of el occurences in channel.
+// Count return count of el occurrences in channel.
 func (c ChannelFloat32) Count(el float32) int {
 	count := 0
 	for val := range c.Data {
@@ -25962,7 +25962,7 @@ func (s SliceFloat64) Contains(el float64) bool {
 	return false
 }
 
-// Count return count of el occurences in arr.
+// Count return count of el occurrences in arr.
 func (s SliceFloat64) Count(el float64) int {
 	count := 0
 	for _, val := range s.Data {
@@ -26379,7 +26379,7 @@ func (s SliceFloat64) DedupByInterface(f func(el float64) interface{}) []float64
 	return result
 }
 
-// Delete deletes the first occurence of the element from the slice
+// Delete deletes the first occurrence of the element from the slice
 func (s SliceFloat64) Delete(element float64) []float64 {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -26398,7 +26398,7 @@ func (s SliceFloat64) Delete(element float64) []float64 {
 
 }
 
-// DeleteAll deletes all occurences of the element from the slice
+// DeleteAll deletes all occurrences of the element from the slice
 func (s SliceFloat64) DeleteAll(element float64) []float64 {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -27810,7 +27810,7 @@ func (s SliceFloat64) ToChannel() chan float64 {
 	return c
 }
 
-// Uniq returns arr with only first occurences of every element.
+// Uniq returns arr with only first occurrences of every element.
 func (s SliceFloat64) Uniq() []float64 {
 	if len(s.Data) <= 1 {
 		return s.Data
@@ -27903,7 +27903,7 @@ func (c ChannelFloat64) ChunkEvery(count int) chan []float64 {
 	return chunks
 }
 
-// Count return count of el occurences in channel.
+// Count return count of el occurrences in channel.
 func (c ChannelFloat64) Count(el float64) int {
 	count := 0
 	for val := range c.Data {
@@ -30257,7 +30257,7 @@ func (s SliceInt) Contains(el int) bool {
 	return false
 }
 
-// Count return count of el occurences in arr.
+// Count return count of el occurrences in arr.
 func (s SliceInt) Count(el int) int {
 	count := 0
 	for _, val := range s.Data {
@@ -30674,7 +30674,7 @@ func (s SliceInt) DedupByInterface(f func(el int) interface{}) []int {
 	return result
 }
 
-// Delete deletes the first occurence of the element from the slice
+// Delete deletes the first occurrence of the element from the slice
 func (s SliceInt) Delete(element int) []int {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -30693,7 +30693,7 @@ func (s SliceInt) Delete(element int) []int {
 
 }
 
-// DeleteAll deletes all occurences of the element from the slice
+// DeleteAll deletes all occurrences of the element from the slice
 func (s SliceInt) DeleteAll(element int) []int {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -32114,7 +32114,7 @@ func (s SliceInt) ToChannel() chan int {
 	return c
 }
 
-// Uniq returns arr with only first occurences of every element.
+// Uniq returns arr with only first occurrences of every element.
 func (s SliceInt) Uniq() []int {
 	if len(s.Data) <= 1 {
 		return s.Data
@@ -32207,7 +32207,7 @@ func (c ChannelInt) ChunkEvery(count int) chan []int {
 	return chunks
 }
 
-// Count return count of el occurences in channel.
+// Count return count of el occurrences in channel.
 func (c ChannelInt) Count(el int) int {
 	count := 0
 	for val := range c.Data {
@@ -34561,7 +34561,7 @@ func (s SliceInt8) Contains(el int8) bool {
 	return false
 }
 
-// Count return count of el occurences in arr.
+// Count return count of el occurrences in arr.
 func (s SliceInt8) Count(el int8) int {
 	count := 0
 	for _, val := range s.Data {
@@ -34978,7 +34978,7 @@ func (s SliceInt8) DedupByInterface(f func(el int8) interface{}) []int8 {
 	return result
 }
 
-// Delete deletes the first occurence of the element from the slice
+// Delete deletes the first occurrence of the element from the slice
 func (s SliceInt8) Delete(element int8) []int8 {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -34997,7 +34997,7 @@ func (s SliceInt8) Delete(element int8) []int8 {
 
 }
 
-// DeleteAll deletes all occurences of the element from the slice
+// DeleteAll deletes all occurrences of the element from the slice
 func (s SliceInt8) DeleteAll(element int8) []int8 {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -36418,7 +36418,7 @@ func (s SliceInt8) ToChannel() chan int8 {
 	return c
 }
 
-// Uniq returns arr with only first occurences of every element.
+// Uniq returns arr with only first occurrences of every element.
 func (s SliceInt8) Uniq() []int8 {
 	if len(s.Data) <= 1 {
 		return s.Data
@@ -36511,7 +36511,7 @@ func (c ChannelInt8) ChunkEvery(count int) chan []int8 {
 	return chunks
 }
 
-// Count return count of el occurences in channel.
+// Count return count of el occurrences in channel.
 func (c ChannelInt8) Count(el int8) int {
 	count := 0
 	for val := range c.Data {
@@ -38865,7 +38865,7 @@ func (s SliceInt16) Contains(el int16) bool {
 	return false
 }
 
-// Count return count of el occurences in arr.
+// Count return count of el occurrences in arr.
 func (s SliceInt16) Count(el int16) int {
 	count := 0
 	for _, val := range s.Data {
@@ -39282,7 +39282,7 @@ func (s SliceInt16) DedupByInterface(f func(el int16) interface{}) []int16 {
 	return result
 }
 
-// Delete deletes the first occurence of the element from the slice
+// Delete deletes the first occurrence of the element from the slice
 func (s SliceInt16) Delete(element int16) []int16 {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -39301,7 +39301,7 @@ func (s SliceInt16) Delete(element int16) []int16 {
 
 }
 
-// DeleteAll deletes all occurences of the element from the slice
+// DeleteAll deletes all occurrences of the element from the slice
 func (s SliceInt16) DeleteAll(element int16) []int16 {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -40722,7 +40722,7 @@ func (s SliceInt16) ToChannel() chan int16 {
 	return c
 }
 
-// Uniq returns arr with only first occurences of every element.
+// Uniq returns arr with only first occurrences of every element.
 func (s SliceInt16) Uniq() []int16 {
 	if len(s.Data) <= 1 {
 		return s.Data
@@ -40815,7 +40815,7 @@ func (c ChannelInt16) ChunkEvery(count int) chan []int16 {
 	return chunks
 }
 
-// Count return count of el occurences in channel.
+// Count return count of el occurrences in channel.
 func (c ChannelInt16) Count(el int16) int {
 	count := 0
 	for val := range c.Data {
@@ -43169,7 +43169,7 @@ func (s SliceInt32) Contains(el int32) bool {
 	return false
 }
 
-// Count return count of el occurences in arr.
+// Count return count of el occurrences in arr.
 func (s SliceInt32) Count(el int32) int {
 	count := 0
 	for _, val := range s.Data {
@@ -43586,7 +43586,7 @@ func (s SliceInt32) DedupByInterface(f func(el int32) interface{}) []int32 {
 	return result
 }
 
-// Delete deletes the first occurence of the element from the slice
+// Delete deletes the first occurrence of the element from the slice
 func (s SliceInt32) Delete(element int32) []int32 {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -43605,7 +43605,7 @@ func (s SliceInt32) Delete(element int32) []int32 {
 
 }
 
-// DeleteAll deletes all occurences of the element from the slice
+// DeleteAll deletes all occurrences of the element from the slice
 func (s SliceInt32) DeleteAll(element int32) []int32 {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -45026,7 +45026,7 @@ func (s SliceInt32) ToChannel() chan int32 {
 	return c
 }
 
-// Uniq returns arr with only first occurences of every element.
+// Uniq returns arr with only first occurrences of every element.
 func (s SliceInt32) Uniq() []int32 {
 	if len(s.Data) <= 1 {
 		return s.Data
@@ -45119,7 +45119,7 @@ func (c ChannelInt32) ChunkEvery(count int) chan []int32 {
 	return chunks
 }
 
-// Count return count of el occurences in channel.
+// Count return count of el occurrences in channel.
 func (c ChannelInt32) Count(el int32) int {
 	count := 0
 	for val := range c.Data {
@@ -47473,7 +47473,7 @@ func (s SliceInt64) Contains(el int64) bool {
 	return false
 }
 
-// Count return count of el occurences in arr.
+// Count return count of el occurrences in arr.
 func (s SliceInt64) Count(el int64) int {
 	count := 0
 	for _, val := range s.Data {
@@ -47890,7 +47890,7 @@ func (s SliceInt64) DedupByInterface(f func(el int64) interface{}) []int64 {
 	return result
 }
 
-// Delete deletes the first occurence of the element from the slice
+// Delete deletes the first occurrence of the element from the slice
 func (s SliceInt64) Delete(element int64) []int64 {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -47909,7 +47909,7 @@ func (s SliceInt64) Delete(element int64) []int64 {
 
 }
 
-// DeleteAll deletes all occurences of the element from the slice
+// DeleteAll deletes all occurrences of the element from the slice
 func (s SliceInt64) DeleteAll(element int64) []int64 {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -49330,7 +49330,7 @@ func (s SliceInt64) ToChannel() chan int64 {
 	return c
 }
 
-// Uniq returns arr with only first occurences of every element.
+// Uniq returns arr with only first occurrences of every element.
 func (s SliceInt64) Uniq() []int64 {
 	if len(s.Data) <= 1 {
 		return s.Data
@@ -49423,7 +49423,7 @@ func (c ChannelInt64) ChunkEvery(count int) chan []int64 {
 	return chunks
 }
 
-// Count return count of el occurences in channel.
+// Count return count of el occurrences in channel.
 func (c ChannelInt64) Count(el int64) int {
 	count := 0
 	for val := range c.Data {
@@ -51777,7 +51777,7 @@ func (s SliceUint) Contains(el uint) bool {
 	return false
 }
 
-// Count return count of el occurences in arr.
+// Count return count of el occurrences in arr.
 func (s SliceUint) Count(el uint) int {
 	count := 0
 	for _, val := range s.Data {
@@ -52194,7 +52194,7 @@ func (s SliceUint) DedupByInterface(f func(el uint) interface{}) []uint {
 	return result
 }
 
-// Delete deletes the first occurence of the element from the slice
+// Delete deletes the first occurrence of the element from the slice
 func (s SliceUint) Delete(element uint) []uint {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -52213,7 +52213,7 @@ func (s SliceUint) Delete(element uint) []uint {
 
 }
 
-// DeleteAll deletes all occurences of the element from the slice
+// DeleteAll deletes all occurrences of the element from the slice
 func (s SliceUint) DeleteAll(element uint) []uint {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -53634,7 +53634,7 @@ func (s SliceUint) ToChannel() chan uint {
 	return c
 }
 
-// Uniq returns arr with only first occurences of every element.
+// Uniq returns arr with only first occurrences of every element.
 func (s SliceUint) Uniq() []uint {
 	if len(s.Data) <= 1 {
 		return s.Data
@@ -53727,7 +53727,7 @@ func (c ChannelUint) ChunkEvery(count int) chan []uint {
 	return chunks
 }
 
-// Count return count of el occurences in channel.
+// Count return count of el occurrences in channel.
 func (c ChannelUint) Count(el uint) int {
 	count := 0
 	for val := range c.Data {
@@ -56081,7 +56081,7 @@ func (s SliceUint8) Contains(el uint8) bool {
 	return false
 }
 
-// Count return count of el occurences in arr.
+// Count return count of el occurrences in arr.
 func (s SliceUint8) Count(el uint8) int {
 	count := 0
 	for _, val := range s.Data {
@@ -56498,7 +56498,7 @@ func (s SliceUint8) DedupByInterface(f func(el uint8) interface{}) []uint8 {
 	return result
 }
 
-// Delete deletes the first occurence of the element from the slice
+// Delete deletes the first occurrence of the element from the slice
 func (s SliceUint8) Delete(element uint8) []uint8 {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -56517,7 +56517,7 @@ func (s SliceUint8) Delete(element uint8) []uint8 {
 
 }
 
-// DeleteAll deletes all occurences of the element from the slice
+// DeleteAll deletes all occurrences of the element from the slice
 func (s SliceUint8) DeleteAll(element uint8) []uint8 {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -57938,7 +57938,7 @@ func (s SliceUint8) ToChannel() chan uint8 {
 	return c
 }
 
-// Uniq returns arr with only first occurences of every element.
+// Uniq returns arr with only first occurrences of every element.
 func (s SliceUint8) Uniq() []uint8 {
 	if len(s.Data) <= 1 {
 		return s.Data
@@ -58031,7 +58031,7 @@ func (c ChannelUint8) ChunkEvery(count int) chan []uint8 {
 	return chunks
 }
 
-// Count return count of el occurences in channel.
+// Count return count of el occurrences in channel.
 func (c ChannelUint8) Count(el uint8) int {
 	count := 0
 	for val := range c.Data {
@@ -60385,7 +60385,7 @@ func (s SliceUint16) Contains(el uint16) bool {
 	return false
 }
 
-// Count return count of el occurences in arr.
+// Count return count of el occurrences in arr.
 func (s SliceUint16) Count(el uint16) int {
 	count := 0
 	for _, val := range s.Data {
@@ -60802,7 +60802,7 @@ func (s SliceUint16) DedupByInterface(f func(el uint16) interface{}) []uint16 {
 	return result
 }
 
-// Delete deletes the first occurence of the element from the slice
+// Delete deletes the first occurrence of the element from the slice
 func (s SliceUint16) Delete(element uint16) []uint16 {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -60821,7 +60821,7 @@ func (s SliceUint16) Delete(element uint16) []uint16 {
 
 }
 
-// DeleteAll deletes all occurences of the element from the slice
+// DeleteAll deletes all occurrences of the element from the slice
 func (s SliceUint16) DeleteAll(element uint16) []uint16 {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -62242,7 +62242,7 @@ func (s SliceUint16) ToChannel() chan uint16 {
 	return c
 }
 
-// Uniq returns arr with only first occurences of every element.
+// Uniq returns arr with only first occurrences of every element.
 func (s SliceUint16) Uniq() []uint16 {
 	if len(s.Data) <= 1 {
 		return s.Data
@@ -62335,7 +62335,7 @@ func (c ChannelUint16) ChunkEvery(count int) chan []uint16 {
 	return chunks
 }
 
-// Count return count of el occurences in channel.
+// Count return count of el occurrences in channel.
 func (c ChannelUint16) Count(el uint16) int {
 	count := 0
 	for val := range c.Data {
@@ -64689,7 +64689,7 @@ func (s SliceUint32) Contains(el uint32) bool {
 	return false
 }
 
-// Count return count of el occurences in arr.
+// Count return count of el occurrences in arr.
 func (s SliceUint32) Count(el uint32) int {
 	count := 0
 	for _, val := range s.Data {
@@ -65106,7 +65106,7 @@ func (s SliceUint32) DedupByInterface(f func(el uint32) interface{}) []uint32 {
 	return result
 }
 
-// Delete deletes the first occurence of the element from the slice
+// Delete deletes the first occurrence of the element from the slice
 func (s SliceUint32) Delete(element uint32) []uint32 {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -65125,7 +65125,7 @@ func (s SliceUint32) Delete(element uint32) []uint32 {
 
 }
 
-// DeleteAll deletes all occurences of the element from the slice
+// DeleteAll deletes all occurrences of the element from the slice
 func (s SliceUint32) DeleteAll(element uint32) []uint32 {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -66546,7 +66546,7 @@ func (s SliceUint32) ToChannel() chan uint32 {
 	return c
 }
 
-// Uniq returns arr with only first occurences of every element.
+// Uniq returns arr with only first occurrences of every element.
 func (s SliceUint32) Uniq() []uint32 {
 	if len(s.Data) <= 1 {
 		return s.Data
@@ -66639,7 +66639,7 @@ func (c ChannelUint32) ChunkEvery(count int) chan []uint32 {
 	return chunks
 }
 
-// Count return count of el occurences in channel.
+// Count return count of el occurrences in channel.
 func (c ChannelUint32) Count(el uint32) int {
 	count := 0
 	for val := range c.Data {
@@ -68993,7 +68993,7 @@ func (s SliceUint64) Contains(el uint64) bool {
 	return false
 }
 
-// Count return count of el occurences in arr.
+// Count return count of el occurrences in arr.
 func (s SliceUint64) Count(el uint64) int {
 	count := 0
 	for _, val := range s.Data {
@@ -69410,7 +69410,7 @@ func (s SliceUint64) DedupByInterface(f func(el uint64) interface{}) []uint64 {
 	return result
 }
 
-// Delete deletes the first occurence of the element from the slice
+// Delete deletes the first occurrence of the element from the slice
 func (s SliceUint64) Delete(element uint64) []uint64 {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -69429,7 +69429,7 @@ func (s SliceUint64) Delete(element uint64) []uint64 {
 
 }
 
-// DeleteAll deletes all occurences of the element from the slice
+// DeleteAll deletes all occurrences of the element from the slice
 func (s SliceUint64) DeleteAll(element uint64) []uint64 {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -70850,7 +70850,7 @@ func (s SliceUint64) ToChannel() chan uint64 {
 	return c
 }
 
-// Uniq returns arr with only first occurences of every element.
+// Uniq returns arr with only first occurrences of every element.
 func (s SliceUint64) Uniq() []uint64 {
 	if len(s.Data) <= 1 {
 		return s.Data
@@ -70943,7 +70943,7 @@ func (c ChannelUint64) ChunkEvery(count int) chan []uint64 {
 	return chunks
 }
 
-// Count return count of el occurences in channel.
+// Count return count of el occurrences in channel.
 func (c ChannelUint64) Count(el uint64) int {
 	count := 0
 	for val := range c.Data {
@@ -73297,7 +73297,7 @@ func (s SliceInterface) Contains(el interface{}) bool {
 	return false
 }
 
-// Count return count of el occurences in arr.
+// Count return count of el occurrences in arr.
 func (s SliceInterface) Count(el interface{}) int {
 	count := 0
 	for _, val := range s.Data {
@@ -73714,7 +73714,7 @@ func (s SliceInterface) DedupByInterface(f func(el interface{}) interface{}) []i
 	return result
 }
 
-// Delete deletes the first occurence of the element from the slice
+// Delete deletes the first occurrence of the element from the slice
 func (s SliceInterface) Delete(element interface{}) []interface{} {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -73733,7 +73733,7 @@ func (s SliceInterface) Delete(element interface{}) []interface{} {
 
 }
 
-// DeleteAll deletes all occurences of the element from the slice
+// DeleteAll deletes all occurrences of the element from the slice
 func (s SliceInterface) DeleteAll(element interface{}) []interface{} {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -75079,7 +75079,7 @@ func (s SliceInterface) ToChannel() chan interface{} {
 	return c
 }
 
-// Uniq returns arr with only first occurences of every element.
+// Uniq returns arr with only first occurrences of every element.
 func (s SliceInterface) Uniq() []interface{} {
 	if len(s.Data) <= 1 {
 		return s.Data
@@ -75172,7 +75172,7 @@ func (c ChannelInterface) ChunkEvery(count int) chan []interface{} {
 	return chunks
 }
 
-// Count return count of el occurences in channel.
+// Count return count of el occurrences in channel.
 func (c ChannelInterface) Count(el interface{}) int {
 	count := 0
 	for val := range c.Data {

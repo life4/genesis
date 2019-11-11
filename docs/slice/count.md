@@ -4,7 +4,7 @@
 func (s Slice) Count(el T) int
 ```
 
-Count return count of el occurences in arr.
+Count return count of el occurrences in arr.
 
 Generic types: T.
 
@@ -43,7 +43,7 @@ fmt.Println(result)
 ## Source
 
 ```go
-// Count return count of el occurences in arr.
+// Count return count of el occurrences in arr.
 func (s Slice) Count(el T) int {
 	count := 0
 	for _, val := range s.Data {

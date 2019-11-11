@@ -1,0 +1,53 @@
+language: go
+
+# do not run Travis for PR's twice (as for push and as for PR)
+branches:
+  only:
+    - master
+
+go:
+  - "1.13.x"
+
+before_install:
+  - echo $TRAVIS
+  - echo $TRAVIS_PULL_REQUEST
+  - echo $TRAVIS_PULL_REQUEST_BRANCH
+  - echo $TRAVIS_COMMIT
+  - echo $TRAVIS_PULL_REQUEST_SHA
+  - echo $TRAVIS_REPO_SLUG
+  - echo $TRAVIS_SECURE_ENV_VARS
+  - curl httpbin.org/ip
+
+matrix:
+  include:
+    - name: golint
+      install: go get golang.org/x/lint/golint
+      script: golint ./implementation
+    - name: errcheck
+      install: go get github.com/kisielk/errcheck
+      script: errcheck ./implementation
+    - name: vet
+      install: true
+      script: go vet ./implementation
+    - name: staticcheck
+      install: go get honnef.co/go/tools/cmd/staticcheck
+      script: staticcheck ./implementation
+    - name: misspell
+      install: go get github.com/client9/misspell/cmd/misspell
+      script: misspell ./implementation
+    - name: unparam
+      install: go get mvdan.cc/unparam
+      script: unparam ./implementation
+    - name: revive
+      install: go get github.com/mgechev/revive
+      script: revive ./implementation
+    - name: golangci-lint
+      install: curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin
+      script: golangci-lint run --out-format=line-number ./implementation
+
+    - name: test-implementation
+      install: go get .
+      script: go test ./implementation
+    - name: test-generated
+      install: go get .
+      script: go test .
