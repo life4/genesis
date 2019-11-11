@@ -52,7 +52,7 @@ func (c Channel) ChunkEvery(count int) chan []T {
 	return chunks
 }
 
-// Count return count of el occurences in channel.
+// Count return count of el occurrences in channel.
 func (c Channel) Count(el T) int {
 	count := 0
 	for val := range c.Data {

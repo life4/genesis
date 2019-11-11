@@ -4,7 +4,7 @@
 func (s Slice) Uniq() []T
 ```
 
-Uniq returns arr with only first occurences of every element.
+Uniq returns arr with only first occurrences of every element.
 
 Generic types: T.
 
@@ -34,7 +34,7 @@ Generic types: T.
 ## Source
 
 ```go
-// Uniq returns arr with only first occurences of every element.
+// Uniq returns arr with only first occurrences of every element.
 func (s Slice) Uniq() []T {
 	if len(s.Data) <= 1 {
 		return s.Data

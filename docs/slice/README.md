@@ -42,13 +42,13 @@ type Slice struct {
 | [ChunkBy](./chunkby.md) | ChunkBy splits arr on every element for which f returns a new value. |
 | [ChunkEvery](./chunkevery.md) | ChunkEvery returns slice of slices containing count elements each |
 | [Contains](./contains.md) | Contains returns true if el in arr. |
-| [Count](./count.md) | Count return count of el occurences in arr. |
+| [Count](./count.md) | Count return count of el occurrences in arr. |
 | [CountBy](./countby.md) | CountBy returns how many times f returns true. |
 | [Cycle](./cycle.md) | Cycle is an infinite loop over slice |
 | [Dedup](./dedup.md) | Dedup returns a given slice without consecutive duplicated elements |
 | [DedupBy](./dedupby.md) | DedupBy returns a given slice without consecutive elements For which f returns the same result |
-| [Delete](./delete.md) | Delete deletes the first occurence of the element from the slice |
-| [DeleteAll](./deleteall.md) | DeleteAll deletes all occurences of the element from the slice |
+| [Delete](./delete.md) | Delete deletes the first occurrence of the element from the slice |
+| [DeleteAll](./deleteall.md) | DeleteAll deletes all occurrences of the element from the slice |
 | [DeleteAt](./deleteat.md) | DeleteAt returns the slice without elements on given positions |
 | [DropEvery](./dropevery.md) | DropEvery returns a slice of every nth element in the enumerable dropped, starting with the first element. |
 | [DropWhile](./dropwhile.md) | DropWhile drops elements from arr while f returns true |
@@ -83,6 +83,6 @@ type Slice struct {
 | [TakeRandom](./takerandom.md) | TakeRandom returns slice of count random elements from the slice |
 | [TakeWhile](./takewhile.md) | TakeWhile takes elements from arr while f returns true |
 | [ToChannel](./tochannel.md) | ToChannel returns channel with elements from the slice |
-| [Uniq](./uniq.md) | Uniq returns arr with only first occurences of every element. |
+| [Uniq](./uniq.md) | Uniq returns arr with only first occurrences of every element. |
 | [Window](./window.md) | Window makes sliding window for a given slice: ({1,2,3}, 2) -> (1,2), (2,3) |
 | [Without](./without.md) | Without returns the slice with filtered out element |

@@ -4,7 +4,7 @@
 func (s Slice) DeleteAll(element T) []T
 ```
 
-DeleteAll deletes all occurences of the element from the slice
+DeleteAll deletes all occurrences of the element from the slice
 
 Generic types: T.
 
@@ -34,7 +34,7 @@ Generic types: T.
 ## Source
 
 ```go
-// DeleteAll deletes all occurences of the element from the slice
+// DeleteAll deletes all occurrences of the element from the slice
 func (s Slice) DeleteAll(element T) []T {
 	if len(s.Data) == 0 {
 		return s.Data

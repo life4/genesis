@@ -4,7 +4,7 @@
 func (s Slice) Delete(element T) []T
 ```
 
-Delete deletes the first occurence of the element from the slice
+Delete deletes the first occurrence of the element from the slice
 
 Generic types: T.
 
@@ -34,7 +34,7 @@ Generic types: T.
 ## Source
 
 ```go
-// Delete deletes the first occurence of the element from the slice
+// Delete deletes the first occurrence of the element from the slice
 func (s Slice) Delete(element T) []T {
 	if len(s.Data) == 0 {
 		return s.Data

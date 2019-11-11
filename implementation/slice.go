@@ -105,7 +105,7 @@ func (s Slice) Contains(el T) bool {
 	return false
 }
 
-// Count return count of el occurences in arr.
+// Count return count of el occurrences in arr.
 func (s Slice) Count(el T) int {
 	count := 0
 	for _, val := range s.Data {
@@ -182,7 +182,7 @@ func (s Slice) DedupBy(f func(el T) G) []T {
 	return result
 }
 
-// Delete deletes the first occurence of the element from the slice
+// Delete deletes the first occurrence of the element from the slice
 func (s Slice) Delete(element T) []T {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -201,7 +201,7 @@ func (s Slice) Delete(element T) []T {
 
 }
 
-// DeleteAll deletes all occurences of the element from the slice
+// DeleteAll deletes all occurrences of the element from the slice
 func (s Slice) DeleteAll(element T) []T {
 	if len(s.Data) == 0 {
 		return s.Data
@@ -721,7 +721,7 @@ func (s Slice) ToChannel() chan T {
 	return c
 }
 
-// Uniq returns arr with only first occurences of every element.
+// Uniq returns arr with only first occurrences of every element.
 func (s Slice) Uniq() []T {
 	if len(s.Data) <= 1 {
 		return s.Data

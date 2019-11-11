@@ -39,7 +39,7 @@ type Channel struct {
 | [Any](./any.md) | Any returns true if f returns true for any element in channel |
 | [All](./all.md) | All returns true if f returns true for all elements in channel |
 | [ChunkEvery](./chunkevery.md) | ChunkEvery returns channel with slices containing count elements each |
-| [Count](./count.md) | Count return count of el occurences in channel. |
+| [Count](./count.md) | Count return count of el occurrences in channel. |
 | [Drop](./drop.md) | Drop drops first n elements from channel c and returns a new channel with the rest. It returns channel do be unblocking. If you want array instead, wrap result into TakeAll. |
 | [Each](./each.md) | Each calls f for every element in the channel |
 | [Filter](./filter.md) | Filter returns a new channel with elements from input channel for which f returns true |
