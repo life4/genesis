@@ -47,7 +47,7 @@ matrix:
 
     - name: test-implementation
       install: go get .
-      script: go run ./implementation
+      script: go test ./implementation
     - name: test-generated
       install: go get .
-      script: go run .
+      script: go test .
