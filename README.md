@@ -1,5 +1,7 @@
 # Genesis
 
+[![Build Status](https://travis-ci.org/life4/genesis.svg?branch=master)](https://travis-ci.org/life4/genesis)
+
 Missed golang generic stdlib for slices and channels.
 
 **Some functions:**
