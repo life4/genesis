@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestSlicesConcat(t *testing.T) {
+func TestConcat(t *testing.T) {
 	f := func(given [][]int, expected []int) {
 		actual := gslices.Concat(given...)
 		assert.Equal(t, expected, actual)
@@ -20,7 +20,7 @@ func TestSlicesConcat(t *testing.T) {
 	f([][]int{{1, 2}, {3, 4, 5}}, []int{1, 2, 3, 4, 5})
 }
 
-func TestSlicesProduct(t *testing.T) {
+func TestProduct2(t *testing.T) {
 	f := func(given [][]int, expected [][]int) {
 		actual := make([][]int, 0)
 		i := 0
@@ -37,7 +37,7 @@ func TestSlicesProduct(t *testing.T) {
 	f([][]int{{1, 2}, {3}, {4, 5}}, [][]int{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
 }
 
-func TestSlicesZip(t *testing.T) {
+func TestZip(t *testing.T) {
 	f := func(given [][]int, expected [][]int) {
 		actual := make([][]int, 0)
 		i := 0

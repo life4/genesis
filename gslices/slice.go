@@ -474,6 +474,15 @@ func Reverse[T any](items []T) []T {
 	return result
 }
 
+// Repeat repeats items slice n times.
+func Repeat[T any](items []T, n int) []T {
+	result := make([]T, 0, len(items)*n)
+	for i := 0; i < n; i++ {
+		result = append(result, items...)
+	}
+	return result
+}
+
 // Same returns true if all element in arr the same
 func Same[T comparable](items []T) bool {
 	if len(items) <= 1 {
