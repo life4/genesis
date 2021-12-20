@@ -7,8 +7,6 @@ import (
 	"sort"
 	"strings"
 	"time"
-
-	"github.com/life4/genesis/gerrors"
 )
 
 // Any returns true if f returns true for any element in arr
@@ -36,7 +34,7 @@ func All[T any](items []T, f func(el T) bool) bool {
 func Choice[T any](items []T, seed int64) (T, error) {
 	if len(items) == 0 {
 		var tmp T
-		return tmp, gerrors.ErrEmpty
+		return tmp, ErrEmpty
 	}
 
 	if seed == 0 {
@@ -51,7 +49,7 @@ func Choice[T any](items []T, seed int64) (T, error) {
 func ChunkEvery[T any](items []T, count int) ([][]T, error) {
 	chunks := make([][]T, 0)
 	if count <= 0 {
-		return chunks, gerrors.ErrNegativeValue
+		return chunks, ErrNegativeValue
 	}
 	chunk := make([]T, 0, count)
 	for i, el := range items {
@@ -178,7 +176,7 @@ func DeleteAt[T any](items []T, indices ...int) ([]T, error) {
 
 	for _, index := range indices {
 		if index >= len(items) {
-			return items, gerrors.ErrOutOfRange
+			return items, ErrOutOfRange
 		}
 	}
 
@@ -202,10 +200,10 @@ func DeleteAt[T any](items []T, indices ...int) ([]T, error) {
 // starting with the first element.
 func DropEvery[T any](items []T, nth int, from int) ([]T, error) {
 	if nth <= 0 {
-		return items, gerrors.ErrNonPositiveValue
+		return items, ErrNonPositiveValue
 	}
 	if from < 0 {
-		return items, gerrors.ErrNegativeValue
+		return items, ErrNegativeValue
 	}
 	result := make([]T, 0, len(items)/nth)
 	for i, el := range items {
@@ -288,7 +286,7 @@ func Find[T any](items []T, f func(el T) bool) (T, error) {
 		}
 	}
 	var tmp T
-	return tmp, gerrors.ErrNotFound
+	return tmp, ErrNotFound
 }
 
 // FindIndex is like Find, but return element index instead of element itself.
@@ -323,10 +321,10 @@ func InsertAt[T any](items []T, index int, element T) ([]T, error) {
 	}
 
 	if index > len(items) {
-		return items, gerrors.ErrOutOfRange
+		return items, ErrOutOfRange
 	}
 	if index < 0 {
-		return items, gerrors.ErrNegativeValue
+		return items, ErrNegativeValue
 	}
 
 	for i, el := range items {
@@ -355,7 +353,7 @@ func Intersperse[T any](items []T, el T) []T {
 func Last[T any](items []T) (T, error) {
 	if len(items) == 0 {
 		var tmp T
-		return tmp, gerrors.ErrEmpty
+		return tmp, ErrEmpty
 	}
 	return items[len(items)-1], nil
 }
@@ -364,7 +362,7 @@ func Last[T any](items []T) (T, error) {
 func Max[T constraints.Ordered](items []T) (T, error) {
 	if len(items) == 0 {
 		var tmp T
-		return tmp, gerrors.ErrEmpty
+		return tmp, ErrEmpty
 	}
 
 	max := items[0]
@@ -380,7 +378,7 @@ func Max[T constraints.Ordered](items []T) (T, error) {
 func Min[T constraints.Ordered](items []T) (T, error) {
 	if len(items) == 0 {
 		var tmp T
-		return tmp, gerrors.ErrEmpty
+		return tmp, ErrEmpty
 	}
 
 	min := items[0]
@@ -579,10 +577,10 @@ func Sum[T constraints.Ordered](items []T) T {
 // TakeEvery returns slice of every nth elements
 func TakeEvery[T any](items []T, nth int, from int) ([]T, error) {
 	if nth <= 0 {
-		return items, gerrors.ErrNonPositiveValue
+		return items, ErrNonPositiveValue
 	}
 	if from < 0 {
-		return items, gerrors.ErrNegativeValue
+		return items, ErrNegativeValue
 	}
 	result := make([]T, 0, len(items))
 	for i, el := range items {
@@ -596,10 +594,10 @@ func TakeEvery[T any](items []T, nth int, from int) ([]T, error) {
 // TakeRandom returns slice of count random elements from the slice
 func TakeRandom[T any](items []T, count int, seed int64) ([]T, error) {
 	if count > len(items) {
-		return nil, gerrors.ErrOutOfRange
+		return nil, ErrOutOfRange
 	}
 	if count <= 0 {
-		return nil, gerrors.ErrNonPositiveValue
+		return nil, ErrNonPositiveValue
 	}
 
 	if seed == 0 {
@@ -660,7 +658,7 @@ func Uniq[T comparable](items []T) []T {
 // ({1,2,3}, 2) -> (1,2), (2,3)
 func Window[T any](items []T, size int) ([][]T, error) {
 	if size <= 0 {
-		return nil, gerrors.ErrNonPositiveValue
+		return nil, ErrNonPositiveValue
 	}
 	result := make([][]T, 0, len(items)/size)
 	for i := 0; i <= len(items)-size; i++ {

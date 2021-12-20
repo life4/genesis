@@ -1,4 +1,4 @@
-package gerrors
+package gslices
 
 import (
 	"errors"

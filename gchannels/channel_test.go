@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/life4/genesis/gchannels"
-	"github.com/life4/genesis/gerrors"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -222,7 +221,7 @@ func TestChannelMax(t *testing.T) {
 		assert.Equal(t, expected, actual)
 		assert.Equal(t, expectedErr, actualErr)
 	}
-	f([]int{}, 0, gerrors.ErrEmpty)
+	f([]int{}, 0, gchannels.ErrEmpty)
 	f([]int{1, 4, 2}, 4, nil)
 	f([]int{1, 2, 4}, 4, nil)
 	f([]int{4, 2, 1}, 4, nil)
@@ -241,7 +240,7 @@ func TestChannelMin(t *testing.T) {
 		assert.Equal(t, expected, actual)
 		assert.Equal(t, expectedErr, actualErr)
 	}
-	f([]int{}, 0, gerrors.ErrEmpty)
+	f([]int{}, 0, gchannels.ErrEmpty)
 	f([]int{4, 1, 2}, 1, nil)
 	f([]int{1, 2, 4}, 1, nil)
 	f([]int{4, 2, 1}, 1, nil)

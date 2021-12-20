@@ -3,8 +3,6 @@ package gchannels
 import (
 	"constraints"
 	"sync"
-
-	"github.com/life4/genesis/gerrors"
 )
 
 // Any returns true if f returns true for any element in channel
@@ -116,7 +114,7 @@ func Map[T any, G any](c <-chan T, f func(el T) G) chan G {
 func Max[T constraints.Ordered](c <-chan T) (T, error) {
 	max, ok := <-c
 	if !ok {
-		return max, gerrors.ErrEmpty
+		return max, ErrEmpty
 	}
 	for el := range c {
 		if el > max {
@@ -130,7 +128,7 @@ func Max[T constraints.Ordered](c <-chan T) (T, error) {
 func Min[T constraints.Ordered](c <-chan T) (T, error) {
 	min, ok := <-c
 	if !ok {
-		return min, gerrors.ErrEmpty
+		return min, ErrEmpty
 	}
 	for el := range c {
 		if el < min {

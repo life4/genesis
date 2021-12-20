@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/life4/genesis/gchannels"
-	"github.com/life4/genesis/gerrors"
 	"github.com/life4/genesis/gslices"
 	"github.com/stretchr/testify/require"
 )
@@ -287,13 +286,13 @@ func TestFind(t *testing.T) {
 		require.Equal(t, expectedEl, el)
 		require.Equal(t, expectedErr, err)
 	}
-	f([]int{}, 0, gerrors.ErrNotFound)
-	f([]int{1}, 0, gerrors.ErrNotFound)
-	f([]int{1}, 0, gerrors.ErrNotFound)
+	f([]int{}, 0, gslices.ErrNotFound)
+	f([]int{1}, 0, gslices.ErrNotFound)
+	f([]int{1}, 0, gslices.ErrNotFound)
 	f([]int{2}, 2, nil)
 	f([]int{1, 2}, 2, nil)
 	f([]int{1, 2, 3}, 2, nil)
-	f([]int{1, 3, 5}, 0, gerrors.ErrNotFound)
+	f([]int{1, 3, 5}, 0, gslices.ErrNotFound)
 }
 
 func TestFindIndex(t *testing.T) {
@@ -343,15 +342,15 @@ func TestInsertAt(t *testing.T) {
 		require.Equal(t, expected, actual)
 		require.Equal(t, expectedErr, err)
 	}
-	f([]int{}, -1, []int{}, gerrors.ErrNegativeValue)
+	f([]int{}, -1, []int{}, gslices.ErrNegativeValue)
 	f([]int{}, 0, []int{10}, nil)
-	f([]int{}, 1, []int{}, gerrors.ErrOutOfRange)
+	f([]int{}, 1, []int{}, gslices.ErrOutOfRange)
 
-	f([]int{1, 2, 3}, -1, []int{1, 2, 3}, gerrors.ErrNegativeValue)
+	f([]int{1, 2, 3}, -1, []int{1, 2, 3}, gslices.ErrNegativeValue)
 	f([]int{1, 2, 3}, 0, []int{10, 1, 2, 3}, nil)
 	f([]int{1, 2, 3}, 1, []int{1, 10, 2, 3}, nil)
 	f([]int{1, 2, 3}, 3, []int{1, 2, 3, 10}, nil)
-	f([]int{1, 2, 3}, 4, []int{1, 2, 3}, gerrors.ErrOutOfRange)
+	f([]int{1, 2, 3}, 4, []int{1, 2, 3}, gslices.ErrOutOfRange)
 }
 
 func TestIntersperse(t *testing.T) {
@@ -371,7 +370,7 @@ func TestLast(t *testing.T) {
 		require.Equal(t, expectedEl, el)
 		require.Equal(t, expectedErr, err)
 	}
-	f([]int{}, 0, gerrors.ErrEmpty)
+	f([]int{}, 0, gslices.ErrEmpty)
 	f([]int{1}, 1, nil)
 	f([]int{1, 2, 3}, 3, nil)
 }
@@ -393,7 +392,7 @@ func TestMax(t *testing.T) {
 		require.Equal(t, expectedEl, el)
 		require.Equal(t, expectedErr, err)
 	}
-	f([]int{}, 0, gerrors.ErrEmpty)
+	f([]int{}, 0, gslices.ErrEmpty)
 	f([]int{1}, 1, nil)
 	f([]int{1, 2, 3}, 3, nil)
 	f([]int{1, 3, 2}, 3, nil)
@@ -406,7 +405,7 @@ func TestMin(t *testing.T) {
 		require.Equal(t, expectedEl, el)
 		require.Equal(t, expectedErr, err)
 	}
-	f([]int{}, 0, gerrors.ErrEmpty)
+	f([]int{}, 0, gslices.ErrEmpty)
 	f([]int{1}, 1, nil)
 	f([]int{1, 2, 3}, 1, nil)
 	f([]int{2, 1, 3}, 1, nil)
@@ -473,7 +472,7 @@ func TestReduceWhile(t *testing.T) {
 	f := func(given []int, expected int) {
 		sum := func(el int, acc int) (int, error) {
 			if el == 0 {
-				return acc, gerrors.ErrEmpty
+				return acc, gslices.ErrEmpty
 			}
 			return (el) + acc, nil
 		}
