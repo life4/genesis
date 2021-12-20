@@ -1,9 +1,10 @@
-package gchannels
+package gchannels_test
 
 import (
 	"context"
 	"testing"
 
+	"github.com/life4/genesis/gchannels"
 	"github.com/life4/genesis/gerrors"
 	"github.com/life4/genesis/gsequences"
 	"github.com/stretchr/testify/assert"
@@ -18,7 +19,7 @@ func TestChannelToSlice(t *testing.T) {
 			}
 			close(c)
 		}()
-		actual := ToSlice(c)
+		actual := gchannels.ToSlice(c)
 		assert.Equal(t, given, actual)
 	}
 	f([]int{})
@@ -36,7 +37,7 @@ func TestChannelAny(t *testing.T) {
 			}
 			close(c)
 		}()
-		actual := Any(c, even)
+		actual := gchannels.Any(c, even)
 		assert.Equal(t, expected, actual)
 	}
 	f([]int{}, false)
@@ -59,7 +60,7 @@ func TestChannelAll(t *testing.T) {
 			}
 			close(c)
 		}()
-		actual := All(c, even)
+		actual := gchannels.All(c, even)
 		assert.Equal(t, expected, actual)
 	}
 	f([]int{}, true)
@@ -82,9 +83,9 @@ func TestChannelEach(t *testing.T) {
 		}()
 		result := make(chan int, len(given))
 		mapper := func(t int) { result <- t }
-		Each(c, mapper)
+		gchannels.Each(c, mapper)
 		close(result)
-		actual := ToSlice(result)
+		actual := gchannels.ToSlice(result)
 		assert.Equal(t, given, actual)
 	}
 
@@ -103,7 +104,7 @@ func TestChannelChunkEvery(t *testing.T) {
 			}
 			close(c)
 		}()
-		result := ChunkEvery(c, size)
+		result := gchannels.ChunkEvery(c, size)
 		actual := make([][]int, 0)
 		for el := range result {
 			actual = append(actual, el)
@@ -126,7 +127,7 @@ func TestChannelCount(t *testing.T) {
 			}
 			close(c)
 		}()
-		actual := Count(c, element)
+		actual := gchannels.Count(c, element)
 		assert.Equal(t, expected, actual)
 	}
 	f(1, []int{}, 0)
@@ -144,7 +145,7 @@ func TestChannelDrop(t *testing.T) {
 			}
 			close(c)
 		}()
-		result := Drop(c, count)
+		result := gchannels.Drop(c, count)
 		actual := make([]int, 0)
 		for el := range result {
 			actual = append(actual, el)
@@ -170,8 +171,8 @@ func TestChannelFilter(t *testing.T) {
 			}
 			close(c)
 		}()
-		result := Filter(c, even)
-		actual := ToSlice(result)
+		result := gchannels.Filter(c, even)
+		actual := gchannels.ToSlice(result)
 		assert.Equal(t, expected, actual)
 	}
 	f([]int{}, []int{})
@@ -190,7 +191,7 @@ func TestChannelMap(t *testing.T) {
 			}
 			close(c)
 		}()
-		result := Map(c, double)
+		result := gchannels.Map(c, double)
 
 		// convert chan int to chan G
 		c2 := make(chan int, 1)
@@ -201,7 +202,7 @@ func TestChannelMap(t *testing.T) {
 			close(c2)
 		}()
 
-		actual := ToSlice(c2)
+		actual := gchannels.ToSlice(c2)
 		assert.Equal(t, expected, actual)
 	}
 	f([]int{}, []int{})
@@ -218,7 +219,7 @@ func TestChannelMax(t *testing.T) {
 			}
 			close(c)
 		}()
-		actual, actualErr := Max(c)
+		actual, actualErr := gchannels.Max(c)
 		assert.Equal(t, expected, actual)
 		assert.Equal(t, expectedErr, actualErr)
 	}
@@ -237,7 +238,7 @@ func TestChannelMin(t *testing.T) {
 			}
 			close(c)
 		}()
-		actual, actualErr := Min(c)
+		actual, actualErr := gchannels.Min(c)
 		assert.Equal(t, expected, actual)
 		assert.Equal(t, expectedErr, actualErr)
 	}
@@ -257,7 +258,7 @@ func TestChannelReduce(t *testing.T) {
 			close(c)
 		}()
 		sum := func(el int, acc int) int { return (el) + acc }
-		actual := Reduce(c, 0, sum)
+		actual := gchannels.Reduce(c, 0, sum)
 		assert.Equal(t, expected, actual)
 	}
 	f([]int{}, 0)
@@ -276,7 +277,7 @@ func TestChannelScan(t *testing.T) {
 			close(c)
 		}()
 		sum := func(el int, acc int) int { return (el) + acc }
-		result := Scan(c, 0, sum)
+		result := gchannels.Scan(c, 0, sum)
 
 		// convert chan int to chan G
 		c2 := make(chan int, 1)
@@ -287,7 +288,7 @@ func TestChannelScan(t *testing.T) {
 			close(c2)
 		}()
 
-		actual := ToSlice(c2)
+		actual := gchannels.ToSlice(c2)
 		assert.Equal(t, expected, actual)
 	}
 	f([]int{}, []int{})
@@ -305,7 +306,7 @@ func TestChannelSum(t *testing.T) {
 			}
 			close(c)
 		}()
-		actual := Sum(c)
+		actual := gchannels.Sum(c)
 		assert.Equal(t, expected, actual)
 	}
 	f([]int{}, 0)
@@ -318,8 +319,8 @@ func TestChannelTake(t *testing.T) {
 	f := func(count int, given int, expected []int) {
 		ctx, cancel := context.WithCancel(context.Background())
 		seq := gsequences.Repeat(ctx, given)
-		seq2 := Take(seq, count)
-		actual := ToSlice(seq2)
+		seq2 := gchannels.Take(seq, count)
+		actual := gchannels.ToSlice(seq2)
 		cancel()
 		assert.Equal(t, expected, actual)
 	}
@@ -337,10 +338,10 @@ func TestChannelTee(t *testing.T) {
 			}
 			close(c)
 		}()
-		channels := Tee(c, count)
+		channels := gchannels.Tee(c, count)
 		for _, ch := range channels {
 			go func(ch chan int) {
-				actual := ToSlice(ch)
+				actual := gchannels.ToSlice(ch)
 				assert.Equal(t, given, actual)
 			}(ch)
 		}

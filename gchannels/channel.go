@@ -8,7 +8,7 @@ import (
 )
 
 // Any returns true if f returns true for any element in channel
-func Any[T any](c chan T, f func(el T) bool) bool {
+func Any[T any](c <-chan T, f func(el T) bool) bool {
 	for el := range c {
 		if f(el) {
 			return true
@@ -18,7 +18,7 @@ func Any[T any](c chan T, f func(el T) bool) bool {
 }
 
 // All returns true if f returns true for all elements in channel
-func All[T any](c chan T, f func(el T) bool) bool {
+func All[T any](c <-chan T, f func(el T) bool) bool {
 	for el := range c {
 		if !f(el) {
 			return false
@@ -28,7 +28,7 @@ func All[T any](c chan T, f func(el T) bool) bool {
 }
 
 // ChunkEvery returns channel with slices containing count elements each
-func ChunkEvery[T any](c chan T, count int) chan []T {
+func ChunkEvery[T any](c <-chan T, count int) chan []T {
 	chunks := make(chan []T, 1)
 	go func() {
 		chunk := make([]T, 0, count)
@@ -51,7 +51,7 @@ func ChunkEvery[T any](c chan T, count int) chan []T {
 }
 
 // Count return count of el occurrences in channel.
-func Count[T comparable](c chan T, el T) int {
+func Count[T comparable](c <-chan T, el T) int {
 	count := 0
 	for val := range c {
 		if val == el {
@@ -63,7 +63,7 @@ func Count[T comparable](c chan T, el T) int {
 
 // Drop drops first n elements from channel c and returns a new channel with the rest.
 // It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
-func Drop[T any](c chan T, n int) chan T {
+func Drop[T any](c <-chan T, n int) chan T {
 	result := make(chan T, 1)
 	go func() {
 		i := 0
@@ -79,7 +79,7 @@ func Drop[T any](c chan T, n int) chan T {
 }
 
 // Each calls f for every element in the channel
-func Each[T any](c chan T, f func(el T)) {
+func Each[T any](c <-chan T, f func(el T)) {
 	for el := range c {
 		f(el)
 	}
@@ -87,7 +87,7 @@ func Each[T any](c chan T, f func(el T)) {
 
 // Filter returns a new channel with elements from input channel
 // for which f returns true
-func Filter[T any](c chan T, f func(el T) bool) chan T {
+func Filter[T any](c <-chan T, f func(el T) bool) chan T {
 	result := make(chan T, 1)
 	go func() {
 		for el := range c {
@@ -101,7 +101,7 @@ func Filter[T any](c chan T, f func(el T) bool) chan T {
 }
 
 // Map applies f to all elements from channel and returns channel with results
-func Map[T any, G any](c chan T, f func(el T) G) chan G {
+func Map[T any, G any](c <-chan T, f func(el T) G) chan G {
 	result := make(chan G, 1)
 	go func() {
 		for el := range c {
@@ -113,7 +113,7 @@ func Map[T any, G any](c chan T, f func(el T) G) chan G {
 }
 
 // Max returns the maximal element from channel
-func Max[T constraints.Ordered](c chan T) (T, error) {
+func Max[T constraints.Ordered](c <-chan T) (T, error) {
 	max, ok := <-c
 	if !ok {
 		return max, gerrors.ErrEmpty
@@ -127,7 +127,7 @@ func Max[T constraints.Ordered](c chan T) (T, error) {
 }
 
 // Min returns the minimal element from channel
-func Min[T constraints.Ordered](c chan T) (T, error) {
+func Min[T constraints.Ordered](c <-chan T) (T, error) {
 	min, ok := <-c
 	if !ok {
 		return min, gerrors.ErrEmpty
@@ -141,7 +141,7 @@ func Min[T constraints.Ordered](c chan T) (T, error) {
 }
 
 // Reduce applies f to acc and every element from channel and returns acc
-func Reduce[T any, G any](c chan T, acc G, f func(el T, acc G) G) G {
+func Reduce[T any, G any](c <-chan T, acc G, f func(el T, acc G) G) G {
 	for el := range c {
 		acc = f(el, acc)
 	}
@@ -149,7 +149,7 @@ func Reduce[T any, G any](c chan T, acc G, f func(el T, acc G) G) G {
 }
 
 // Scan is like Reduce, but returns slice of f results
-func Scan[T any, G any](c chan T, acc G, f func(el T, acc G) G) chan G {
+func Scan[T any, G any](c <-chan T, acc G, f func(el T, acc G) G) chan G {
 	result := make(chan G, 1)
 	go func() {
 		for el := range c {
@@ -162,7 +162,7 @@ func Scan[T any, G any](c chan T, acc G, f func(el T, acc G) G) chan G {
 }
 
 // Sum returns sum of all elements from channel
-func Sum[T constraints.Ordered](c chan T) T {
+func Sum[T constraints.Ordered](c <-chan T) T {
 	var sum T
 	for el := range c {
 		sum += el
@@ -171,7 +171,7 @@ func Sum[T constraints.Ordered](c chan T) T {
 }
 
 // Take takes first count elements from the channel.
-func Take[T any](c chan T, count int) chan T {
+func Take[T any](c <-chan T, count int) chan T {
 	result := make(chan T, 1)
 	go func() {
 		defer close(result)
@@ -191,7 +191,7 @@ func Take[T any](c chan T, count int) chan T {
 }
 
 // Tee returns 2 channels with elements from the input channel
-func Tee[T any](c chan T, count int) []chan T {
+func Tee[T any](c <-chan T, count int) []chan T {
 	channels := make([]chan T, 0, count)
 	for i := 0; i < count; i++ {
 		channels = append(channels, make(chan T, 1))
@@ -217,7 +217,7 @@ func Tee[T any](c chan T, count int) []chan T {
 }
 
 // ToSlice returns slice with all elements from channel.
-func ToSlice[T any](c chan T) []T {
+func ToSlice[T any](c <-chan T) []T {
 	result := make([]T, 0)
 	for val := range c {
 		result = append(result, val)
