@@ -677,3 +677,8 @@ func Without[T comparable](items []T, elements ...T) []T {
 	}
 	return result
 }
+
+// Wrap makes a single element slice out of the given value
+func Wrap[T any](item T) []T {
+	return []T{item}
+}
