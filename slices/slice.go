@@ -86,8 +86,8 @@ func Count[S ~[]T, T comparable](items S, el T) int {
 	return count
 }
 
-// CountBy returns how many times f returns true.
-func CountBy[S ~[]T, T any](items S, f func(el T) bool) int {
+// CountFunc returns how many times f returns true.
+func CountFunc[S ~[]T, T any](items S, f func(el T) bool) int {
 	count := 0
 	for _, el := range items {
 		if f(el) {
@@ -95,6 +95,15 @@ func CountBy[S ~[]T, T any](items S, f func(el T) bool) int {
 		}
 	}
 	return count
+}
+
+// Copy creates a copy of the given slice.
+func Copy[S ~[]T, T any](items S) S {
+	if items == nil {
+		return nil
+	}
+	var res S
+	return append(res, items...)
 }
 
 // Cycle is an infinite loop over slice
@@ -120,9 +129,9 @@ func Dedup[S ~[]T, T comparable](items S) S {
 		return items
 	}
 
-	result := make([]T, 0, len(items))
+	result := make(S, 1, len(items))
 	prev := items[0]
-	result = append(result, prev)
+	result[0] = prev
 	for _, el := range items[1:] {
 		if el != prev {
 			result = append(result, el)
@@ -300,6 +309,19 @@ func FindIndex[S ~[]T, T any](items S, f func(el T) bool) int {
 	return -1
 }
 
+// Grow increases the slice's by n elements.
+// So, for cap(slice)=8 and n=2, the result will have cap at least 10.
+// The function can be used to reduce allocations when inserting more elements
+// into an existing slice.
+func Grow[S ~[]T, T any](items S, n int) S {
+	return append(items, make(S, n)...)[:len(items)]
+}
+
+// Shrink removes unused capacity from the slice.
+func Shrink[S ~[]T, T any](items S) S {
+	return items[:len(items):len(items)]
+}
+
 // Join concatenates elements of the slice to create a single string.
 func Join[S ~[]T, T any](items S, sep string) string {
 	strs := make([]string, 0, len(items))
@@ -309,14 +331,34 @@ func Join[S ~[]T, T any](items S, sep string) string {
 	return strings.Join(strs, sep)
 }
 
-// InsertAt returns the slice with element inserted at given index.
-func InsertAt[S ~[]T, T any](items S, index int, element T) (S, error) {
+// Index returns the index of the first occurrence of item in items.
+func Index[S []T, T comparable](items S, item T) (int, error) {
+	for i, val := range items {
+		if val == item {
+			return i, nil
+		}
+	}
+	return 0, ErrNotFound
+}
+
+// IndexFunc returns the first index in items for which f returns true.
+func IndexFunc[S []T, T comparable](items S, f func(T) bool) (int, error) {
+	for i, val := range items {
+		if f(val) {
+			return i, nil
+		}
+	}
+	return 0, ErrNotFound
+}
+
+// InsertAt returns the items slice with the item inserted at the given index.
+func InsertAt[S ~[]T, T any](items S, index int, item T) (S, error) {
 	result := make([]T, 0, len(items)+1)
 
 	// insert at the end
 	if index == len(items) {
 		result = append(result, items...)
-		result = append(result, element)
+		result = append(result, item)
 		return result, nil
 	}
 
@@ -329,7 +371,7 @@ func InsertAt[S ~[]T, T any](items S, index int, element T) (S, error) {
 
 	for i, el := range items {
 		if i == index {
-			result = append(result, element)
+			result = append(result, item)
 		}
 		result = append(result, el)
 	}

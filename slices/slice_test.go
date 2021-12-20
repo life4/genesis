@@ -94,10 +94,10 @@ func TestCount(t *testing.T) {
 	f(1, []int{1, 1, 1, 1, 1}, 5)
 }
 
-func TestCountBy(t *testing.T) {
+func TestCountFunc(t *testing.T) {
 	f := func(given []int, expected int) {
 		even := func(t int) bool { return (t % 2) == 0 }
-		actual := slices.CountBy(given, even)
+		actual := slices.CountFunc(given, even)
 		require.Equal(t, expected, actual)
 	}
 	f([]int{}, 0)
