@@ -60,3 +60,27 @@ func Zero[T Number](n T) bool {
 func Empty[T any](items []T) bool {
 	return len(items) == 0
 }
+
+// Default returns the default value of the same type as the given value.
+//
+// A few examples:
+//
+// 	 + 0 for int and float
+// 	 + "" for string
+// 	 + nil for slice
+func Default[T any](value T) T {
+	var def T
+	return def
+}
+
+// IsDefault checks if the given value is the default for this type.
+//
+// A few examples:
+//
+// 	 + 0 for int and float
+// 	 + "" for string
+// 	 + nil for slice
+func IsDefault[T comparable](value T) bool {
+	var def T
+	return value == def
+}

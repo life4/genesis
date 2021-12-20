@@ -9,7 +9,7 @@ import (
 
 func TestSlicesConcat(t *testing.T) {
 	f := func(given [][]int, expected []int) {
-		actual := gslices.Concat(given)
+		actual := gslices.Concat(given...)
 		assert.Equal(t, expected, actual)
 	}
 	f([][]int{}, []int{})
@@ -24,7 +24,7 @@ func TestSlicesProduct(t *testing.T) {
 	f := func(given [][]int, expected [][]int) {
 		actual := make([][]int, 0)
 		i := 0
-		for el := range gslices.Product2(given) {
+		for el := range gslices.Product2(given...) {
 			actual = append(actual, el)
 			i++
 			if i > 50 {
@@ -41,7 +41,7 @@ func TestSlicesZip(t *testing.T) {
 	f := func(given [][]int, expected [][]int) {
 		actual := make([][]int, 0)
 		i := 0
-		for el := range gslices.Zip(given) {
+		for el := range gslices.Zip(given...) {
 			actual = append(actual, el)
 			i++
 			if i > 50 {
