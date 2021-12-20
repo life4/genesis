@@ -272,6 +272,14 @@ func Filter[T any](items []T, f func(el T) bool) []T {
 	return result
 }
 
+// Reject is like filter but it returns slice of T for which F returned false
+func Reject[T any](items []T, f func(el T) bool) []T {
+	notF := func(el T) bool {
+		return !f(el)
+	}
+	return Filter(items, notF)
+}
+
 // Find returns the first element for which f returns true
 func Find[T any](items []T, f func(el T) bool) (T, error) {
 	for _, el := range items {
