@@ -1,17 +1,18 @@
-package gslices
+package gslices_test
 
 import (
 	"testing"
 
 	"github.com/life4/genesis/gchannels"
 	"github.com/life4/genesis/gerrors"
+	"github.com/life4/genesis/gslices"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestSliceAny(t *testing.T) {
 	f := func(given []int, expected bool) {
 		even := func(t int) bool { return (t % 2) == 0 }
-		actual := Any(given, even)
+		actual := gslices.Any(given, even)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, false)
@@ -23,7 +24,7 @@ func TestSliceAny(t *testing.T) {
 func TestSliceAll(t *testing.T) {
 	f := func(given []int, expected bool) {
 		even := func(t int) bool { return (t % 2) == 0 }
-		actual := All(given, even)
+		actual := gslices.All(given, even)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, true)
@@ -36,7 +37,7 @@ func TestSliceAll(t *testing.T) {
 
 func TestSliceChoice(t *testing.T) {
 	f := func(given []int, seed int64, expected int) {
-		actual, _ := Choice(given, seed)
+		actual, _ := gslices.Choice(given, seed)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{1}, 0, 1)
@@ -47,7 +48,7 @@ func TestSliceChoice(t *testing.T) {
 func TestSliceChunkBy(t *testing.T) {
 	f := func(given []int, expected [][]int) {
 		reminder := func(t int) int { return (t % 2) }
-		actual := ChunkBy(given, reminder)
+		actual := gslices.ChunkBy(given, reminder)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, [][]int{})
@@ -58,7 +59,7 @@ func TestSliceChunkBy(t *testing.T) {
 
 func TestSliceChunkEvery(t *testing.T) {
 	f := func(count int, given []int, expected [][]int) {
-		actual, _ := ChunkEvery(given, count)
+		actual, _ := gslices.ChunkEvery(given, count)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(2, []int{}, [][]int{})
@@ -69,7 +70,7 @@ func TestSliceChunkEvery(t *testing.T) {
 
 func TestSliceContains(t *testing.T) {
 	f := func(el int, given []int, expected bool) {
-		actual := Contains(given, el)
+		actual := gslices.Contains(given, el)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(1, []int{}, false)
@@ -82,7 +83,7 @@ func TestSliceContains(t *testing.T) {
 
 func TestSliceCount(t *testing.T) {
 	f := func(el int, given []int, expected int) {
-		actual := Count(given, el)
+		actual := gslices.Count(given, el)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(1, []int{}, 0)
@@ -97,7 +98,7 @@ func TestSliceCount(t *testing.T) {
 func TestSliceCountBy(t *testing.T) {
 	f := func(given []int, expected int) {
 		even := func(t int) bool { return (t % 2) == 0 }
-		actual := CountBy(given, even)
+		actual := gslices.CountBy(given, even)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, 0)
@@ -109,7 +110,7 @@ func TestSliceCountBy(t *testing.T) {
 
 func TestSliceCycle(t *testing.T) {
 	f := func(count int, given []int, expected []int) {
-		c := Cycle(given)
+		c := gslices.Cycle(given)
 		seq := gchannels.Take(c, count)
 		actual := gchannels.ToSlice(seq)
 		assert.Equal(t, expected, actual, "they should be equal")
@@ -121,7 +122,7 @@ func TestSliceCycle(t *testing.T) {
 
 func TestSliceDedup(t *testing.T) {
 	f := func(given []int, expected []int) {
-		actual := Dedup(given)
+		actual := gslices.Dedup(given)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, []int{})
@@ -136,7 +137,7 @@ func TestSliceDedup(t *testing.T) {
 func TestSliceDedupBy(t *testing.T) {
 	f := func(given []int, expected []int) {
 		even := func(el int) int { return el % 2 }
-		actual := DedupBy(given, even)
+		actual := gslices.DedupBy(given, even)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, []int{})
@@ -150,7 +151,7 @@ func TestSliceDedupBy(t *testing.T) {
 
 func TestSliceDelete(t *testing.T) {
 	f := func(given []int, el int, expected []int) {
-		actual := Delete(given, el)
+		actual := gslices.Delete(given, el)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, 1, []int{})
@@ -163,7 +164,7 @@ func TestSliceDelete(t *testing.T) {
 
 func TestSliceDeleteAll(t *testing.T) {
 	f := func(given []int, el int, expected []int) {
-		actual := DeleteAll(given, el)
+		actual := gslices.DeleteAll(given, el)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, 1, []int{})
@@ -176,7 +177,7 @@ func TestSliceDeleteAll(t *testing.T) {
 
 func TestSliceDeleteAt(t *testing.T) {
 	f := func(given []int, indices []int, expected []int) {
-		actual, _ := DeleteAt(given, indices...)
+		actual, _ := gslices.DeleteAt(given, indices...)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, []int{}, []int{})
@@ -194,7 +195,7 @@ func TestSliceDeleteAt(t *testing.T) {
 
 func TestSliceDropEvery(t *testing.T) {
 	f := func(given []int, nth int, from int, expected []int) {
-		actual, _ := DropEvery(given, nth, from)
+		actual, _ := gslices.DropEvery(given, nth, from)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, 1, 1, []int{})
@@ -213,7 +214,7 @@ func TestSliceDropEvery(t *testing.T) {
 func TestSliceDropWhile(t *testing.T) {
 	f := func(given []int, expected []int) {
 		even := func(el int) bool { return el%2 == 0 }
-		actual := DropWhile(given, even)
+		actual := gslices.DropWhile(given, even)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, []int{})
@@ -227,7 +228,7 @@ func TestSliceDropWhile(t *testing.T) {
 
 func TestSliceEndsWith(t *testing.T) {
 	f := func(given []int, suffix []int, expected bool) {
-		actual := EndsWith(given, suffix)
+		actual := gslices.EndsWith(given, suffix)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, []int{}, true)
@@ -247,10 +248,10 @@ func TestSliceEndsWith(t *testing.T) {
 
 func TestSliceEqual(t *testing.T) {
 	f := func(left []int, right []int, expected bool) {
-		actual := Equal(left, right)
+		actual := gslices.Equal(left, right)
 		assert.Equal(t, expected, actual, "they should be equal")
 
-		actual = Equal(right, left)
+		actual = gslices.Equal(right, left)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, []int{}, true)
@@ -270,7 +271,7 @@ func TestSliceEqual(t *testing.T) {
 func TestSliceFilter(t *testing.T) {
 	f := func(given []int, expected []int) {
 		even := func(t int) bool { return (t % 2) == 0 }
-		actual := Filter(given, even)
+		actual := gslices.Filter(given, even)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, []int{})
@@ -282,7 +283,7 @@ func TestSliceFilter(t *testing.T) {
 func TestSliceFind(t *testing.T) {
 	f := func(given []int, expectedEl int, expectedErr error) {
 		even := func(t int) bool { return (t % 2) == 0 }
-		el, err := Find(given, even)
+		el, err := gslices.Find(given, even)
 		assert.Equal(t, expectedEl, el, "they should be equal")
 		assert.Equal(t, expectedErr, err, "they should be equal")
 	}
@@ -298,7 +299,7 @@ func TestSliceFind(t *testing.T) {
 func TestSliceFindIndex(t *testing.T) {
 	f := func(given []int, expectedInd int) {
 		even := func(t int) bool { return (t % 2) == 0 }
-		index := FindIndex(given, even)
+		index := gslices.FindIndex(given, even)
 		assert.Equal(t, expectedInd, index, "they should be equal")
 	}
 	f([]int{}, -1)
@@ -313,7 +314,7 @@ func TestSliceFindIndex(t *testing.T) {
 
 func TestSliceJoin(t *testing.T) {
 	f := func(given []int, sep string, expected string) {
-		actual := Join(given, sep)
+		actual := gslices.Join(given, sep)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, "", "")
@@ -330,7 +331,7 @@ func TestSliceJoin(t *testing.T) {
 func TestSliceGroupBy(t *testing.T) {
 	f := func(given []int, expected map[int][]int) {
 		reminder := func(t int) int { return (t % 2) }
-		actual := GroupBy(given, reminder)
+		actual := gslices.GroupBy(given, reminder)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, map[int][]int{})
@@ -340,7 +341,7 @@ func TestSliceGroupBy(t *testing.T) {
 
 func TestSliceInsertAt(t *testing.T) {
 	f := func(given []int, index int, expected []int, expectedErr error) {
-		actual, err := InsertAt(given, index, 10)
+		actual, err := gslices.InsertAt(given, index, 10)
 		assert.Equal(t, expected, actual, "they should be equal")
 		assert.Equal(t, expectedErr, err, "they should be equal")
 	}
@@ -357,7 +358,7 @@ func TestSliceInsertAt(t *testing.T) {
 
 func TestSliceIntersperse(t *testing.T) {
 	f := func(el int, given []int, expected []int) {
-		actual := Intersperse(given, el)
+		actual := gslices.Intersperse(given, el)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f(0, []int{}, []int{})
@@ -368,7 +369,7 @@ func TestSliceIntersperse(t *testing.T) {
 
 func TestSliceLast(t *testing.T) {
 	f := func(given []int, expectedEl int, expectedErr error) {
-		el, err := Last(given)
+		el, err := gslices.Last(given)
 		assert.Equal(t, expectedEl, el, "they should be equal")
 		assert.Equal(t, expectedErr, err, "they should be equal")
 	}
@@ -380,7 +381,7 @@ func TestSliceLast(t *testing.T) {
 func TestSliceMap(t *testing.T) {
 	f := func(given []int, expected []int) {
 		double := func(t int) int { return (t * 2) }
-		actual := Map(given, double)
+		actual := gslices.Map(given, double)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, []int{})
@@ -390,7 +391,7 @@ func TestSliceMap(t *testing.T) {
 
 func TestSliceMax(t *testing.T) {
 	f := func(given []int, expectedEl int, expectedErr error) {
-		el, err := Max(given)
+		el, err := gslices.Max(given)
 		assert.Equal(t, expectedEl, el, "they should be equal")
 		assert.Equal(t, expectedErr, err, "they should be equal")
 	}
@@ -403,7 +404,7 @@ func TestSliceMax(t *testing.T) {
 
 func TestSliceMin(t *testing.T) {
 	f := func(given []int, expectedEl int, expectedErr error) {
-		el, err := Min(given)
+		el, err := gslices.Min(given)
 		assert.Equal(t, expectedEl, el, "they should be equal")
 		assert.Equal(t, expectedErr, err, "they should be equal")
 	}
@@ -418,7 +419,7 @@ func TestSlicesPermutations(t *testing.T) {
 	f := func(size int, given []int, expected [][]int) {
 		actual := make([][]int, 0)
 		i := 0
-		for el := range Permutations(given, size) {
+		for el := range gslices.Permutations(given, size) {
 			actual = append(actual, el)
 			i++
 			if i > 50 {
@@ -436,7 +437,7 @@ func TestSliceProduct(t *testing.T) {
 	f := func(given []int, repeat int, expected [][]int) {
 		actual := make([][]int, 0)
 		i := 0
-		for el := range Product(given, repeat) {
+		for el := range gslices.Product(given, repeat) {
 			actual = append(actual, el)
 			i++
 			if i > 50 {
@@ -461,7 +462,7 @@ func TestSliceProduct(t *testing.T) {
 func TestSliceReduce(t *testing.T) {
 	f := func(given []int, expected int) {
 		sum := func(el int, acc int) int { return (el) + acc }
-		actual := Reduce(given, 0, sum)
+		actual := gslices.Reduce(given, 0, sum)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, 0)
@@ -478,7 +479,7 @@ func TestSliceReduceWhile(t *testing.T) {
 			}
 			return (el) + acc, nil
 		}
-		actual, _ := ReduceWhile(given, 0, sum)
+		actual, _ := gslices.ReduceWhile(given, 0, sum)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, 0)
@@ -490,7 +491,7 @@ func TestSliceReduceWhile(t *testing.T) {
 
 func TestSliceReverse(t *testing.T) {
 	f := func(given []int, expected []int) {
-		actual := Reverse(given)
+		actual := gslices.Reverse(given)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, []int{})
@@ -502,7 +503,7 @@ func TestSliceReverse(t *testing.T) {
 
 func TestSliceSame(t *testing.T) {
 	f := func(given []int, expected bool) {
-		actual := Same(given)
+		actual := gslices.Same(given)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, true)
@@ -518,7 +519,7 @@ func TestSliceSame(t *testing.T) {
 func TestSliceScan(t *testing.T) {
 	f := func(given []int, expected []int) {
 		sum := func(el int, acc int) int { return (el) + acc }
-		actual := Scan(given, 0, sum)
+		actual := gslices.Scan(given, 0, sum)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, []int{})
@@ -530,7 +531,7 @@ func TestSliceScan(t *testing.T) {
 
 func TestSliceShuffle(t *testing.T) {
 	f := func(given []int, seed int64, expected []int) {
-		actual := Shuffle(given, seed)
+		actual := gslices.Shuffle(given, seed)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, 0, []int{})
@@ -541,7 +542,7 @@ func TestSliceShuffle(t *testing.T) {
 
 func TestSliceSorted(t *testing.T) {
 	f := func(given []int, expected bool) {
-		actual := Sorted(given)
+		actual := gslices.Sorted(given)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, true)
@@ -556,7 +557,7 @@ func TestSliceSorted(t *testing.T) {
 
 func TestSliceSplit(t *testing.T) {
 	f := func(given []int, sep int, expected [][]int) {
-		actual := Split(given, sep)
+		actual := gslices.Split(given, sep)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, 1, [][]int{{}})
@@ -569,7 +570,7 @@ func TestSliceSplit(t *testing.T) {
 
 func TestSliceStartsWith(t *testing.T) {
 	f := func(given []int, suffix []int, expected bool) {
-		actual := StartsWith(given, suffix)
+		actual := gslices.StartsWith(given, suffix)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, []int{}, true)
@@ -590,7 +591,7 @@ func TestSliceStartsWith(t *testing.T) {
 
 func TestSliceSum(t *testing.T) {
 	f := func(given []int, expected int) {
-		actual := Sum(given)
+		actual := gslices.Sum(given)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, 0)
@@ -601,7 +602,7 @@ func TestSliceSum(t *testing.T) {
 
 func TestSliceTakeEvery(t *testing.T) {
 	f := func(given []int, nth int, from int, expected []int) {
-		actual, _ := TakeEvery(given, nth, from)
+		actual, _ := gslices.TakeEvery(given, nth, from)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 
@@ -620,7 +621,7 @@ func TestSliceTakeEvery(t *testing.T) {
 
 func TestSliceTakeRandom(t *testing.T) {
 	f := func(given []int, count int, seed int64, expected []int) {
-		actual, _ := TakeRandom(given, count, seed)
+		actual, _ := gslices.TakeRandom(given, count, seed)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{1}, 1, 0, []int{1})
@@ -631,7 +632,7 @@ func TestSliceTakeRandom(t *testing.T) {
 func TestSliceTakeWhile(t *testing.T) {
 	f := func(given []int, expected []int) {
 		even := func(el int) bool { return el%2 == 0 }
-		actual := TakeWhile(given, even)
+		actual := gslices.TakeWhile(given, even)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, []int{})
@@ -643,7 +644,7 @@ func TestSliceTakeWhile(t *testing.T) {
 
 func TestSliceUniq(t *testing.T) {
 	f := func(given []int, expected []int) {
-		actual := Uniq(given)
+		actual := gslices.Uniq(given)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, []int{})
@@ -657,7 +658,7 @@ func TestSliceUniq(t *testing.T) {
 
 func TestSliceWindow(t *testing.T) {
 	f := func(given []int, size int, expected [][]int) {
-		actual, _ := Window(given, size)
+		actual, _ := gslices.Window(given, size)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, 1, [][]int{})
@@ -669,7 +670,7 @@ func TestSliceWindow(t *testing.T) {
 
 func TestSliceWithout(t *testing.T) {
 	f := func(given []int, items []int, expected []int) {
-		actual := Without(given, items...)
+		actual := gslices.Without(given, items...)
 		assert.Equal(t, expected, actual, "they should be equal")
 	}
 	f([]int{}, []int{}, []int{})
