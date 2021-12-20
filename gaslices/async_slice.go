@@ -5,15 +5,9 @@ import (
 	"sync"
 )
 
-// AsyncSlice is a set of operations to work with slice asynchronously
-type AsyncSlice struct {
-	Data    []T
-	Workers int
-}
-
 // All returns true if f returns true for all elements in slice
-func (s AsyncSlice) All(f func(el T) bool) bool {
-	if len(s.Data) == 0 {
+func All[T any](items []T, workers int, f func(el T) bool) bool {
+	if len(items) == 0 {
 		return true
 	}
 
@@ -29,7 +23,7 @@ func (s AsyncSlice) All(f func(el T) bool) bool {
 				if !ok {
 					return
 				}
-				if !f(s.Data[index]) {
+				if !f(items[index]) {
 					result <- false
 					return
 				}
@@ -42,13 +36,12 @@ func (s AsyncSlice) All(f func(el T) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.Workers
-	if workers == 0 || workers > len(s.Data) {
-		workers = len(s.Data)
+	if workers <= 0 || workers > len(items) {
+		workers = len(items)
 	}
 
 	// run workers
-	jobs := make(chan int, len(s.Data))
+	jobs := make(chan int, len(items))
 	result := make(chan bool, workers)
 	wg.Add(workers)
 	for i := 0; i < workers; i++ {
@@ -62,7 +55,7 @@ func (s AsyncSlice) All(f func(el T) bool) bool {
 	}()
 
 	// schedule the jobs: indices to check
-	for i := 0; i < len(s.Data); i++ {
+	for i := 0; i < len(items); i++ {
 		jobs <- i
 	}
 	close(jobs)
@@ -74,8 +67,8 @@ func (s AsyncSlice) All(f func(el T) bool) bool {
 }
 
 // Any returns true if f returns true for any element from slice
-func (s AsyncSlice) Any(f func(el T) bool) bool {
-	if len(s.Data) == 0 {
+func Any[T any](items []T, workers int, f func(el T) bool) bool {
+	if len(items) == 0 {
 		return false
 	}
 
@@ -91,7 +84,7 @@ func (s AsyncSlice) Any(f func(el T) bool) bool {
 				if !ok {
 					return
 				}
-				if f(s.Data[index]) {
+				if f(items[index]) {
 					result <- true
 					return
 				}
@@ -104,13 +97,12 @@ func (s AsyncSlice) Any(f func(el T) bool) bool {
 	defer cancel()
 
 	// calculate workers count
-	workers := s.Workers
-	if workers == 0 || workers > len(s.Data) {
-		workers = len(s.Data)
+	if workers <= 0 || workers > len(items) {
+		workers = len(items)
 	}
 
 	// run workers
-	jobs := make(chan int, len(s.Data))
+	jobs := make(chan int, len(items))
 	result := make(chan bool, workers)
 	wg.Add(workers)
 	for i := 0; i < workers; i++ {
@@ -124,7 +116,7 @@ func (s AsyncSlice) Any(f func(el T) bool) bool {
 	}()
 
 	// schedule the jobs: indices to check
-	for i := 0; i < len(s.Data); i++ {
+	for i := 0; i < len(items); i++ {
 		jobs <- i
 	}
 	close(jobs)
@@ -136,31 +128,30 @@ func (s AsyncSlice) Any(f func(el T) bool) bool {
 }
 
 // Each calls f for every element from slice
-func (s AsyncSlice) Each(f func(el T)) {
+func Each[T any](items []T, workers int, f func(el T)) {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
 		defer wg.Done()
 		for index := range jobs {
-			f(s.Data[index])
+			f(items[index])
 		}
 	}
 
 	// calculate workers count
-	workers := s.Workers
-	if workers == 0 || workers > len(s.Data) {
-		workers = len(s.Data)
+	if workers <= 0 || workers > len(items) {
+		workers = len(items)
 	}
 
 	// run workers
-	jobs := make(chan int, len(s.Data))
+	jobs := make(chan int, len(items))
 	wg.Add(workers)
 	for i := 0; i < workers; i++ {
 		go worker(jobs)
 	}
 
 	// add indices into jobs for workers
-	for i := 0; i < len(s.Data); i++ {
+	for i := 0; i < len(items); i++ {
 		jobs <- i
 	}
 	close(jobs)
@@ -168,13 +159,13 @@ func (s AsyncSlice) Each(f func(el T)) {
 }
 
 // Filter returns slice of element for which f returns true
-func (s AsyncSlice) Filter(f func(el T) bool) []T {
-	resultMap := make([]bool, len(s.Data))
+func Filter[T any](items []T, workers int, f func(el T) bool) []T {
+	resultMap := make([]bool, len(items))
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
 		for index := range jobs {
-			if f(s.Data[index]) {
+			if f(items[index]) {
 				resultMap[index] = true
 			}
 		}
@@ -182,28 +173,27 @@ func (s AsyncSlice) Filter(f func(el T) bool) []T {
 	}
 
 	// calculate workers count
-	workers := s.Workers
-	if workers == 0 || workers > len(s.Data) {
-		workers = len(s.Data)
+	if workers <= 0 || workers > len(items) {
+		workers = len(items)
 	}
 
 	// run workers
-	jobs := make(chan int, len(s.Data))
+	jobs := make(chan int, len(items))
 	wg.Add(workers)
 	for i := 0; i < workers; i++ {
 		go worker(jobs)
 	}
 
 	// add indices into jobs for workers
-	for i := 0; i < len(s.Data); i++ {
+	for i := 0; i < len(items); i++ {
 		jobs <- i
 	}
 	close(jobs)
 	wg.Wait()
 
 	// return filtered results
-	result := make([]T, 0, len(s.Data))
-	for i, el := range s.Data {
+	result := make([]T, 0, len(items))
+	for i, el := range items {
 		if resultMap[i] {
 			result = append(result, el)
 		}
@@ -212,32 +202,31 @@ func (s AsyncSlice) Filter(f func(el T) bool) []T {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
-func (s AsyncSlice) Map(f func(el T) G) []G {
-	result := make([]G, len(s.Data))
+func Map[T any, G any](items []T, workers int, f func(el T) G) []G {
+	result := make([]G, len(items))
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
 		for index := range jobs {
-			result[index] = f(s.Data[index])
+			result[index] = f(items[index])
 		}
 		wg.Done()
 	}
 
 	// calculate workers count
-	workers := s.Workers
-	if workers == 0 || workers > len(s.Data) {
-		workers = len(s.Data)
+	if workers <= 0 || workers > len(items) {
+		workers = len(items)
 	}
 
 	// run workers
-	jobs := make(chan int, len(s.Data))
+	jobs := make(chan int, len(items))
 	wg.Add(workers)
 	for i := 0; i < workers; i++ {
 		go worker(jobs)
 	}
 
 	// add indices into jobs for workers
-	for i := 0; i < len(s.Data); i++ {
+	for i := 0; i < len(items); i++ {
 		jobs <- i
 	}
 	close(jobs)
@@ -246,14 +235,14 @@ func (s AsyncSlice) Map(f func(el T) G) []G {
 }
 
 // Reduce reduces slice to a single value with f
-func (s AsyncSlice) Reduce(f func(left T, right T) T) T {
-	if len(s.Data) == 0 {
+func Reduce[T any](items []T, workers int, f func(left T, right T) T) T {
+	if len(items) == 0 {
 		var tmp T
 		return tmp
 	}
 
-	state := make([]T, len(s.Data))
-	state = append(state, s.Data...)
+	state := make([]T, len(items))
+	state = append(state, items...)
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int, result chan<- T) {
@@ -265,8 +254,7 @@ func (s AsyncSlice) Reduce(f func(left T, right T) T) T {
 
 	for len(state) > 1 {
 		// calculate workers count
-		workers := s.Workers
-		if workers == 0 || workers > len(state) {
+		if workers <= 0 || workers > len(state) {
 			workers = len(state)
 		}
 
