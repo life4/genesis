@@ -32,13 +32,13 @@ go get github.com/life4/genesis
 Find the minimal value in a slice of ints:
 
 ```go
-gslices.Min([]int{42, 7, 13}) == 7
+gslices.Must(gslices.Min([]int{42, 7, 13})) == 7
 ```
 
 Double values in a slice of ints:
 
 ```go
-gslices.Map([]int{4, 8, 15, 16, 23, 42}, func(el int) int { return el * 2 })
+gslices.Map([]int{4, 8, 15}, func(el int) int { return el * 2 })
 ```
 
 ## Usage
