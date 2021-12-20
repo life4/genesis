@@ -1,12 +1,12 @@
-package gsequences
+package gchannels
 
 import (
 	"constraints"
 	"context"
 )
 
-// Count is like Range, but infinite
-func Count[T constraints.Integer](ctx context.Context, start T, step T) chan T {
+// Counter is like Range, but infinite
+func Counter[T constraints.Integer](ctx context.Context, start T, step T) chan T {
 	c := make(chan T, 1)
 	go func() {
 		defer close(c)

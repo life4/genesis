@@ -6,7 +6,6 @@ import (
 
 	"github.com/life4/genesis/gchannels"
 	"github.com/life4/genesis/gerrors"
-	"github.com/life4/genesis/gsequences"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -318,7 +317,7 @@ func TestChannelSum(t *testing.T) {
 func TestChannelTake(t *testing.T) {
 	f := func(count int, given int, expected []int) {
 		ctx, cancel := context.WithCancel(context.Background())
-		seq := gsequences.Repeat(ctx, given)
+		seq := gchannels.Repeat(ctx, given)
 		seq2 := gchannels.Take(seq, count)
 		actual := gchannels.ToSlice(seq2)
 		cancel()

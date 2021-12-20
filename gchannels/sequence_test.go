@@ -1,18 +1,17 @@
-package gsequences_test
+package gchannels_test
 
 import (
 	"context"
 	"testing"
 
 	"github.com/life4/genesis/gchannels"
-	"github.com/life4/genesis/gsequences"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestSequenceCount(t *testing.T) {
 	f := func(start int, step int, count int, expected []int) {
 		ctx, cancel := context.WithCancel(context.Background())
-		seq := gsequences.Count(ctx, start, step)
+		seq := gchannels.Counter(ctx, start, step)
 		seq2 := gchannels.Take(seq, count)
 		actual := gchannels.ToSlice(seq2)
 		cancel()
@@ -24,7 +23,7 @@ func TestSequenceCount(t *testing.T) {
 func TestSequenceExponential(t *testing.T) {
 	f := func(start int, factor int, count int, expected []int) {
 		ctx, cancel := context.WithCancel(context.Background())
-		seq := gsequences.Exponential(ctx, start, factor)
+		seq := gchannels.Exponential(ctx, start, factor)
 		seq2 := gchannels.Take(seq, count)
 		actual := gchannels.ToSlice(seq2)
 		cancel()
@@ -38,7 +37,7 @@ func TestSequenceIterate(t *testing.T) {
 	f := func(start int, count int, expected []int) {
 		ctx, cancel := context.WithCancel(context.Background())
 		double := func(val int) int { return val * 2 }
-		seq := gsequences.Iterate(ctx, start, double)
+		seq := gchannels.Iterate(ctx, start, double)
 		seq2 := gchannels.Take(seq, count)
 		actual := gchannels.ToSlice(seq2)
 		cancel()
@@ -50,7 +49,7 @@ func TestSequenceIterate(t *testing.T) {
 func TestSequenceRange(t *testing.T) {
 	f := func(start int, stop int, step int, expected []int) {
 		ctx, cancel := context.WithCancel(context.Background())
-		seq := gsequences.Range(ctx, start, stop, step)
+		seq := gchannels.Range(ctx, start, stop, step)
 		actual := gchannels.ToSlice(seq)
 		cancel()
 		assert.Equal(t, expected, actual)
@@ -64,7 +63,7 @@ func TestSequenceRange(t *testing.T) {
 func TestSequenceRepeat(t *testing.T) {
 	f := func(count int, given int, expected []int) {
 		ctx, cancel := context.WithCancel(context.Background())
-		seq := gsequences.Repeat(ctx, given)
+		seq := gchannels.Repeat(ctx, given)
 		seq2 := gchannels.Take(seq, count)
 		actual := gchannels.ToSlice(seq2)
 		cancel()
@@ -76,7 +75,7 @@ func TestSequenceRepeat(t *testing.T) {
 func TestSequenceReplicate(t *testing.T) {
 	f := func(count int, given int, expected []int) {
 		ctx, cancel := context.WithCancel(context.Background())
-		seq := gsequences.Replicate(ctx, given, count)
+		seq := gchannels.Replicate(ctx, given, count)
 		actual := gchannels.ToSlice(seq)
 		cancel()
 		assert.Equal(t, expected, actual)
