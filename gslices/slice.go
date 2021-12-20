@@ -10,7 +10,7 @@ import (
 )
 
 // Any returns true if f returns true for any element in arr
-func Any[T any](items []T, f func(el T) bool) bool {
+func Any[S ~[]T, T any](items S, f func(el T) bool) bool {
 	for _, el := range items {
 		if f(el) {
 			return true
@@ -20,7 +20,7 @@ func Any[T any](items []T, f func(el T) bool) bool {
 }
 
 // All returns true if f returns true for all elements in arr
-func All[T any](items []T, f func(el T) bool) bool {
+func All[S ~[]T, T any](items S, f func(el T) bool) bool {
 	for _, el := range items {
 		if !f(el) {
 			return false
@@ -31,7 +31,7 @@ func All[T any](items []T, f func(el T) bool) bool {
 
 // Choice chooses a random element from the slice.
 // If seed is zero, UNIX timestamp will be used.
-func Choice[T any](items []T, seed int64) (T, error) {
+func Choice[S ~[]T, T any](items S, seed int64) (T, error) {
 	if len(items) == 0 {
 		var tmp T
 		return tmp, ErrEmpty
@@ -46,8 +46,8 @@ func Choice[T any](items []T, seed int64) (T, error) {
 }
 
 // ChunkEvery returns slice of slices containing count elements each
-func ChunkEvery[T any](items []T, count int) ([][]T, error) {
-	chunks := make([][]T, 0)
+func ChunkEvery[S ~[]T, T any](items S, count int) ([]S, error) {
+	chunks := make([]S, 0)
 	if count <= 0 {
 		return chunks, ErrNegativeValue
 	}
@@ -66,7 +66,7 @@ func ChunkEvery[T any](items []T, count int) ([][]T, error) {
 }
 
 // Contains returns true if el in arr.
-func Contains[T comparable](items []T, el T) bool {
+func Contains[S ~[]T, T comparable](items S, el T) bool {
 	for _, val := range items {
 		if val == el {
 			return true
@@ -76,7 +76,7 @@ func Contains[T comparable](items []T, el T) bool {
 }
 
 // Count return count of el occurrences in arr.
-func Count[T comparable](items []T, el T) int {
+func Count[S ~[]T, T comparable](items S, el T) int {
 	count := 0
 	for _, val := range items {
 		if val == el {
@@ -87,7 +87,7 @@ func Count[T comparable](items []T, el T) int {
 }
 
 // CountBy returns how many times f returns true.
-func CountBy[T any](items []T, f func(el T) bool) int {
+func CountBy[S ~[]T, T any](items S, f func(el T) bool) int {
 	count := 0
 	for _, el := range items {
 		if f(el) {
@@ -98,7 +98,7 @@ func CountBy[T any](items []T, f func(el T) bool) int {
 }
 
 // Cycle is an infinite loop over slice
-func Cycle[T any](items []T) chan T {
+func Cycle[S ~[]T, T any](items S) chan T {
 	c := make(chan T)
 	go func() {
 		defer close(c)
@@ -115,7 +115,7 @@ func Cycle[T any](items []T) chan T {
 }
 
 // Dedup returns a given slice without consecutive duplicated elements
-func Dedup[T comparable](items []T) []T {
+func Dedup[S ~[]T, T comparable](items S) S {
 	if len(items) == 0 {
 		return items
 	}
@@ -133,7 +133,7 @@ func Dedup[T comparable](items []T) []T {
 }
 
 // Delete deletes the first occurrence of the element from the slice
-func Delete[T comparable](items []T, element T) []T {
+func Delete[S ~[]T, T comparable](items S, element T) S {
 	if len(items) == 0 {
 		return items
 	}
@@ -152,7 +152,7 @@ func Delete[T comparable](items []T, element T) []T {
 }
 
 // DeleteAll deletes all occurrences of the element from the slice
-func DeleteAll[T comparable](items []T, element T) []T {
+func DeleteAll[S ~[]T, T comparable](items S, element T) S {
 	if len(items) == 0 {
 		return items
 	}
@@ -169,7 +169,7 @@ func DeleteAll[T comparable](items []T, element T) []T {
 }
 
 // DeleteAt returns the slice without elements on given positions
-func DeleteAt[T any](items []T, indices ...int) ([]T, error) {
+func DeleteAt[S ~[]T, T any](items S, indices ...int) (S, error) {
 	if len(indices) == 0 || len(items) == 0 {
 		return items, nil
 	}
@@ -198,7 +198,7 @@ func DeleteAt[T any](items []T, indices ...int) ([]T, error) {
 
 // DropEvery returns a slice of every nth element in the enumerable dropped,
 // starting with the first element.
-func DropEvery[T any](items []T, nth int, from int) ([]T, error) {
+func DropEvery[S ~[]T, T any](items S, nth int, from int) (S, error) {
 	if nth <= 0 {
 		return items, ErrNonPositiveValue
 	}
@@ -215,7 +215,7 @@ func DropEvery[T any](items []T, nth int, from int) ([]T, error) {
 }
 
 // DropWhile drops elements from arr while f returns true
-func DropWhile[T any](items []T, f func(el T) bool) []T {
+func DropWhile[S ~[]T, T any](items S, f func(el T) bool) S {
 	for i, el := range items {
 		if !f(el) {
 			return items[i:]
@@ -225,7 +225,7 @@ func DropWhile[T any](items []T, f func(el T) bool) []T {
 }
 
 // Each calls f for every element from arr
-func Each[T any](items []T, f func(el T)) {
+func Each[S ~[]T, T any](items S, f func(el T)) {
 	for _, el := range items {
 		f(el)
 	}
@@ -233,7 +233,7 @@ func Each[T any](items []T, f func(el T)) {
 
 // EndsWith returns true if slice ends with the given suffix slice.
 // If suffix is empty, it returns true.
-func EndsWith[T comparable](items []T, suffix []T) bool {
+func EndsWith[S ~[]T, T comparable](items S, suffix S) bool {
 	if len(suffix) > len(items) {
 		return false
 	}
@@ -247,7 +247,7 @@ func EndsWith[T comparable](items []T, suffix []T) bool {
 }
 
 // Equal returns true if slices are equal
-func Equal[T comparable](items []T, other []T) bool {
+func Equal[S ~[]T, T comparable](items S, other S) bool {
 	if len(items) != len(other) {
 		return false
 	}
@@ -260,7 +260,7 @@ func Equal[T comparable](items []T, other []T) bool {
 }
 
 // Filter returns slice of T for which F returned true
-func Filter[T any](items []T, f func(el T) bool) []T {
+func Filter[S ~[]T, T any](items S, f func(el T) bool) S {
 	result := make([]T, 0, len(items))
 	for _, el := range items {
 		if f(el) {
@@ -271,7 +271,7 @@ func Filter[T any](items []T, f func(el T) bool) []T {
 }
 
 // Reject is like filter but it returns slice of T for which F returned false
-func Reject[T any](items []T, f func(el T) bool) []T {
+func Reject[S ~[]T, T any](items S, f func(el T) bool) S {
 	notF := func(el T) bool {
 		return !f(el)
 	}
@@ -279,7 +279,7 @@ func Reject[T any](items []T, f func(el T) bool) []T {
 }
 
 // Find returns the first element for which f returns true
-func Find[T any](items []T, f func(el T) bool) (T, error) {
+func Find[S ~[]T, T any](items S, f func(el T) bool) (T, error) {
 	for _, el := range items {
 		if f(el) {
 			return el, nil
@@ -291,7 +291,7 @@ func Find[T any](items []T, f func(el T) bool) (T, error) {
 
 // FindIndex is like Find, but return element index instead of element itself.
 // Returns -1 if element not found
-func FindIndex[T any](items []T, f func(el T) bool) int {
+func FindIndex[S ~[]T, T any](items S, f func(el T) bool) int {
 	for i, el := range items {
 		if f(el) {
 			return i
@@ -301,7 +301,7 @@ func FindIndex[T any](items []T, f func(el T) bool) int {
 }
 
 // Join concatenates elements of the slice to create a single string.
-func Join[T any](items []T, sep string) string {
+func Join[S ~[]T, T any](items S, sep string) string {
 	strs := make([]string, 0, len(items))
 	for _, el := range items {
 		strs = append(strs, fmt.Sprintf("%v", el))
@@ -310,7 +310,7 @@ func Join[T any](items []T, sep string) string {
 }
 
 // InsertAt returns the slice with element inserted at given index.
-func InsertAt[T any](items []T, index int, element T) ([]T, error) {
+func InsertAt[S ~[]T, T any](items S, index int, element T) (S, error) {
 	result := make([]T, 0, len(items)+1)
 
 	// insert at the end
@@ -337,7 +337,7 @@ func InsertAt[T any](items []T, index int, element T) ([]T, error) {
 }
 
 // Intersperse inserts el between each element of arr
-func Intersperse[T any](items []T, el T) []T {
+func Intersperse[S ~[]T, T any](items S, el T) S {
 	if len(items) == 0 {
 		return items
 	}
@@ -350,7 +350,7 @@ func Intersperse[T any](items []T, el T) []T {
 }
 
 // Last returns the last element from the slice
-func Last[T any](items []T) (T, error) {
+func Last[S ~[]T, T any](items S) (T, error) {
 	if len(items) == 0 {
 		var tmp T
 		return tmp, ErrEmpty
@@ -359,7 +359,7 @@ func Last[T any](items []T) (T, error) {
 }
 
 // Max returns the maximal element from arr
-func Max[T constraints.Ordered](items []T) (T, error) {
+func Max[S ~[]T, T constraints.Ordered](items S) (T, error) {
 	if len(items) == 0 {
 		var tmp T
 		return tmp, ErrEmpty
@@ -375,7 +375,7 @@ func Max[T constraints.Ordered](items []T) (T, error) {
 }
 
 // Min returns the minimal element from arr
-func Min[T constraints.Ordered](items []T) (T, error) {
+func Min[S ~[]T, T constraints.Ordered](items S) (T, error) {
 	if len(items) == 0 {
 		var tmp T
 		return tmp, ErrEmpty
@@ -392,8 +392,8 @@ func Min[T constraints.Ordered](items []T) (T, error) {
 
 // Permutations returns successive size-length permutations of elements from the slice.
 // {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
-func Permutations[T any](items []T, size int) chan []T {
-	c := make(chan []T, 1)
+func Permutations[S ~[]T, T any](items S, size int) chan S {
+	c := make(chan S, 1)
 	go func() {
 		if len(items) > 0 {
 			permutations(items, c, size, []T{}, items)
@@ -404,7 +404,7 @@ func Permutations[T any](items []T, size int) chan []T {
 }
 
 // permutations is a core implementation for Permutations
-func permutations[T any](items []T, c chan []T, size int, left []T, right []T) {
+func permutations[S ~[]T, T any](items S, c chan S, size int, left S, right S) {
 	if len(left) == size || len(right) == 0 {
 		c <- left
 		return
@@ -427,7 +427,7 @@ func permutations[T any](items []T, c chan []T, size int, left []T, right []T) {
 
 // Product returns cortesian product of elements
 // {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
-func Product[T any](items []T, repeat int) chan []T {
+func Product[S ~[]T, T any](items S, repeat int) chan []T {
 	c := make(chan []T, 1)
 	go func() {
 		defer close(c)
@@ -440,7 +440,7 @@ func Product[T any](items []T, repeat int) chan []T {
 }
 
 // product is a core implementation for Product
-func product[T any](items []T, c chan []T, repeat int, left []T, pos int) {
+func product[S ~[]T, T any](items S, c chan []T, repeat int, left []T, pos int) {
 	// iterate over the last array
 	if pos == repeat-1 {
 		for _, el := range items {
@@ -461,7 +461,7 @@ func product[T any](items []T, c chan []T, repeat int, left []T, pos int) {
 }
 
 // Reverse returns given arr in reversed order
-func Reverse[T any](items []T) []T {
+func Reverse[S ~[]T, T any](items S) []T {
 	if len(items) <= 1 {
 		return items
 	}
@@ -473,7 +473,7 @@ func Reverse[T any](items []T) []T {
 }
 
 // Repeat repeats items slice n times.
-func Repeat[T any](items []T, n int) []T {
+func Repeat[S ~[]T, T any](items S, n int) []T {
 	result := make([]T, 0, len(items)*n)
 	for i := 0; i < n; i++ {
 		result = append(result, items...)
@@ -495,7 +495,7 @@ func Same[T comparable](items []T) bool {
 }
 
 // Shuffle in random order arr elements
-func Shuffle[T any](items []T, seed int64) []T {
+func Shuffle[S ~[]T, T any](items S, seed int64) []T {
 	if len(items) <= 1 {
 		return items
 	}
@@ -575,7 +575,7 @@ func Sum[T constraints.Ordered](items []T) T {
 }
 
 // TakeEvery returns slice of every nth elements
-func TakeEvery[T any](items []T, nth int, from int) ([]T, error) {
+func TakeEvery[S ~[]T, T any](items S, nth int, from int) ([]T, error) {
 	if nth <= 0 {
 		return items, ErrNonPositiveValue
 	}
@@ -592,7 +592,7 @@ func TakeEvery[T any](items []T, nth int, from int) ([]T, error) {
 }
 
 // TakeRandom returns slice of count random elements from the slice
-func TakeRandom[T any](items []T, count int, seed int64) ([]T, error) {
+func TakeRandom[S ~[]T, T any](items S, count int, seed int64) ([]T, error) {
 	if count > len(items) {
 		return nil, ErrOutOfRange
 	}
@@ -612,7 +612,7 @@ func TakeRandom[T any](items []T, count int, seed int64) ([]T, error) {
 }
 
 // TakeWhile takes elements from arr while f returns true
-func TakeWhile[T any](items []T, f func(el T) bool) []T {
+func TakeWhile[S ~[]T, T any](items S, f func(el T) bool) []T {
 	result := make([]T, 0, len(items))
 	for _, el := range items {
 		if !f(el) {
@@ -624,7 +624,7 @@ func TakeWhile[T any](items []T, f func(el T) bool) []T {
 }
 
 // ToChannel returns channel with elements from the slice
-func ToChannel[T any](items []T) chan T {
+func ToChannel[S ~[]T, T any](items S) chan T {
 	c := make(chan T)
 	go func() {
 		for _, el := range items {
@@ -656,7 +656,7 @@ func Uniq[T comparable](items []T) []T {
 
 // Window makes sliding window for a given slice:
 // ({1,2,3}, 2) -> (1,2), (2,3)
-func Window[T any](items []T, size int) ([][]T, error) {
+func Window[S ~[]T, T any](items S, size int) ([][]T, error) {
 	if size <= 0 {
 		return nil, ErrNonPositiveValue
 	}
