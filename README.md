@@ -32,7 +32,7 @@ go get github.com/life4/genesis
 Find the minimal value in a slice of ints:
 
 ```go
-gslices.Must(gslices.Min([]int{42, 7, 13})) == 7
+glambdas.Must(gslices.Min([]int{42, 7, 13})) == 7
 ```
 
 Double values in a slice of ints:
@@ -49,5 +49,7 @@ Genesis contains the following packages:
 + [gaslices](https://pkg.go.dev/github.com/life4/genesis/gaslices): asynchronous versions of some slice functions. You specify how many goroutines to run, genesis does the magic.
 + [gchannels](https://pkg.go.dev/github.com/life4/genesis/gchannels): generic function for channels.
 + [glambdas](https://pkg.go.dev/github.com/life4/genesis/glambdas): helper generic functions to work with `gslices.Map` and similar.
+
+See [documentation](https://pkg.go.dev/github.com/life4/genesis) for more information.
 
 ![mascot image](./gopher.png)
