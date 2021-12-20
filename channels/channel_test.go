@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestChannelToSlice(t *testing.T) {
+func TestToSlice(t *testing.T) {
 	f := func(given []int) {
 		c := make(chan int, 1)
 		go func() {
@@ -25,7 +25,7 @@ func TestChannelToSlice(t *testing.T) {
 	f([]int{1, 2, 3, 1, 2})
 }
 
-func TestChannelAny(t *testing.T) {
+func TestAny(t *testing.T) {
 	f := func(given []int, expected bool) {
 		even := func(t int) bool { return t%2 == 0 }
 		c := make(chan int, 1)
@@ -48,7 +48,7 @@ func TestChannelAny(t *testing.T) {
 	f([]int{1, 3, 5, 7, 10, 11}, true)
 }
 
-func TestChannelAll(t *testing.T) {
+func TestAll(t *testing.T) {
 	f := func(given []int, expected bool) {
 		even := func(t int) bool { return t%2 == 0 }
 		c := make(chan int, 1)
@@ -70,7 +70,7 @@ func TestChannelAll(t *testing.T) {
 	f([]int{2, 4, 6, 8, 11, 12}, false)
 }
 
-func TestChannelEach(t *testing.T) {
+func TestEach(t *testing.T) {
 	f := func(given []int) {
 		c := make(chan int, 1)
 		go func() {
@@ -93,7 +93,7 @@ func TestChannelEach(t *testing.T) {
 	f([]int{1, 2, 3, 4, 5, 6, 7})
 }
 
-func TestChannelChunkEvery(t *testing.T) {
+func TestChunkEvery(t *testing.T) {
 	f := func(size int, given []int, expected [][]int) {
 		c := make(chan int, 1)
 		go func() {
@@ -116,7 +116,7 @@ func TestChannelChunkEvery(t *testing.T) {
 	f(2, []int{1, 2, 3, 4, 5}, [][]int{{1, 2}, {3, 4}, {5}})
 }
 
-func TestChannelCount(t *testing.T) {
+func TestCount(t *testing.T) {
 	f := func(element int, given []int, expected int) {
 		c := make(chan int, 1)
 		go func() {
@@ -134,7 +134,7 @@ func TestChannelCount(t *testing.T) {
 	f(1, []int{1, 2, 3, 1, 4}, 2)
 }
 
-func TestChannelDrop(t *testing.T) {
+func TestDrop(t *testing.T) {
 	f := func(count int, given []int, expected []int) {
 		c := make(chan int, 1)
 		go func() {
@@ -159,7 +159,7 @@ func TestChannelDrop(t *testing.T) {
 	f(1, []int{1, 2, 3, 4, 5, 6}, []int{2, 3, 4, 5, 6})
 }
 
-func TestChannelFilter(t *testing.T) {
+func TestFilter(t *testing.T) {
 	f := func(given []int, expected []int) {
 		even := func(t int) bool { return t%2 == 0 }
 		c := make(chan int, 1)
@@ -179,7 +179,7 @@ func TestChannelFilter(t *testing.T) {
 	f([]int{1, 2, 3, 4}, []int{2, 4})
 }
 
-func TestChannelMap(t *testing.T) {
+func TestMap(t *testing.T) {
 	f := func(given []int, expected []int) {
 		double := func(el int) int { return (el * 2) }
 		c := make(chan int, 1)
@@ -208,7 +208,7 @@ func TestChannelMap(t *testing.T) {
 	f([]int{1, 2, 3}, []int{2, 4, 6})
 }
 
-func TestChannelMax(t *testing.T) {
+func TestMax(t *testing.T) {
 	f := func(given []int, expected int, expectedErr error) {
 		c := make(chan int, 1)
 		go func() {
@@ -227,7 +227,7 @@ func TestChannelMax(t *testing.T) {
 	f([]int{4, 2, 1}, 4, nil)
 }
 
-func TestChannelMin(t *testing.T) {
+func TestMin(t *testing.T) {
 	f := func(given []int, expected int, expectedErr error) {
 		c := make(chan int, 1)
 		go func() {
@@ -246,7 +246,7 @@ func TestChannelMin(t *testing.T) {
 	f([]int{4, 2, 1}, 1, nil)
 }
 
-func TestChannelReduce(t *testing.T) {
+func TestReduce(t *testing.T) {
 	f := func(given []int, expected int) {
 		c := make(chan int, 1)
 		go func() {
@@ -265,7 +265,7 @@ func TestChannelReduce(t *testing.T) {
 	f([]int{1, 2, 3, 4, 5}, 15)
 }
 
-func TestChannelScan(t *testing.T) {
+func TestScan(t *testing.T) {
 	f := func(given []int, expected []int) {
 		c := make(chan int, 1)
 		go func() {
@@ -295,7 +295,7 @@ func TestChannelScan(t *testing.T) {
 	f([]int{1, 2, 3, 4, 5}, []int{1, 3, 6, 10, 15})
 }
 
-func TestChannelSum(t *testing.T) {
+func TestSum(t *testing.T) {
 	f := func(given []int, expected int) {
 		c := make(chan int, 1)
 		go func() {
@@ -313,7 +313,7 @@ func TestChannelSum(t *testing.T) {
 	f([]int{1, 2, 3, 4, 5}, 15)
 }
 
-func TestChannelTake(t *testing.T) {
+func TestTake(t *testing.T) {
 	f := func(count int, given int, expected []int) {
 		ctx, cancel := context.WithCancel(context.Background())
 		seq := channels.Repeat(ctx, given)
@@ -327,7 +327,7 @@ func TestChannelTake(t *testing.T) {
 	f(2, 1, []int{1, 1})
 }
 
-func TestChannelTee(t *testing.T) {
+func TestTee(t *testing.T) {
 	f := func(count int, given []int) {
 		c := make(chan int, 1)
 		go func() {

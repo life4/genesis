@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestSequenceCount(t *testing.T) {
+func TestCounter(t *testing.T) {
 	f := func(start int, step int, count int, expected []int) {
 		ctx, cancel := context.WithCancel(context.Background())
 		seq := channels.Counter(ctx, start, step)
@@ -20,7 +20,7 @@ func TestSequenceCount(t *testing.T) {
 	f(1, 2, 4, []int{1, 3, 5, 7})
 }
 
-func TestSequenceExponential(t *testing.T) {
+func TestExponential(t *testing.T) {
 	f := func(start int, factor int, count int, expected []int) {
 		ctx, cancel := context.WithCancel(context.Background())
 		seq := channels.Exponential(ctx, start, factor)
@@ -33,7 +33,7 @@ func TestSequenceExponential(t *testing.T) {
 	f(1, 2, 4, []int{1, 2, 4, 8})
 }
 
-func TestSequenceIterate(t *testing.T) {
+func TestIterate(t *testing.T) {
 	f := func(start int, count int, expected []int) {
 		ctx, cancel := context.WithCancel(context.Background())
 		double := func(val int) int { return val * 2 }
@@ -46,7 +46,7 @@ func TestSequenceIterate(t *testing.T) {
 	f(1, 4, []int{1, 2, 4, 8})
 }
 
-func TestSequenceRange(t *testing.T) {
+func TestRange(t *testing.T) {
 	f := func(start int, stop int, step int, expected []int) {
 		ctx, cancel := context.WithCancel(context.Background())
 		seq := channels.Range(ctx, start, stop, step)
@@ -60,7 +60,7 @@ func TestSequenceRange(t *testing.T) {
 	f(1, 2, 1, []int{1})
 }
 
-func TestSequenceRepeat(t *testing.T) {
+func TestRepeat(t *testing.T) {
 	f := func(count int, given int, expected []int) {
 		ctx, cancel := context.WithCancel(context.Background())
 		seq := channels.Repeat(ctx, given)
@@ -72,7 +72,7 @@ func TestSequenceRepeat(t *testing.T) {
 	f(2, 1, []int{1, 1})
 }
 
-func TestSequenceReplicate(t *testing.T) {
+func TestReplicate(t *testing.T) {
 	f := func(count int, given int, expected []int) {
 		ctx, cancel := context.WithCancel(context.Background())
 		seq := channels.Replicate(ctx, given, count)
