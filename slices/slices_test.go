@@ -1,15 +1,15 @@
-package gslices_test
+package slices_test
 
 import (
 	"testing"
 
-	"github.com/life4/genesis/gslices"
+	"github.com/life4/genesis/slices"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestConcat(t *testing.T) {
 	f := func(given [][]int, expected []int) {
-		actual := gslices.Concat(given...)
+		actual := slices.Concat(given...)
 		assert.Equal(t, expected, actual)
 	}
 	f([][]int{}, []int{})
@@ -24,7 +24,7 @@ func TestProduct2(t *testing.T) {
 	f := func(given [][]int, expected [][]int) {
 		actual := make([][]int, 0)
 		i := 0
-		for el := range gslices.Product2(given...) {
+		for el := range slices.Product2(given...) {
 			actual = append(actual, el)
 			i++
 			if i > 50 {
@@ -41,7 +41,7 @@ func TestZip(t *testing.T) {
 	f := func(given [][]int, expected [][]int) {
 		actual := make([][]int, 0)
 		i := 0
-		for el := range gslices.Zip(given...) {
+		for el := range slices.Zip(given...) {
 			actual = append(actual, el)
 			i++
 			if i > 50 {

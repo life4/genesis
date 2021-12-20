@@ -1,4 +1,4 @@
-package gaslices
+package aslices
 
 import (
 	"context"

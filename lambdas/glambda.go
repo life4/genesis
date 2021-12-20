@@ -1,4 +1,4 @@
-package glambdas
+package lambdas
 
 import "constraints"
 

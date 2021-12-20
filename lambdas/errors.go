@@ -1,4 +1,4 @@
-package glambdas
+package lambdas
 
 // Must wraps a function invicotaion and panic if it returned an error.
 func Must[T any](val T, err error) T {

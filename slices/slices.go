@@ -1,4 +1,4 @@
-package gslices
+package slices
 
 // Concat concatenates given slices into a single slice.
 func Concat[S ~[]T, T any](slices ...S) S {

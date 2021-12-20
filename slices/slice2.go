@@ -1,4 +1,4 @@
-package gslices
+package slices
 
 import (
 	"constraints"

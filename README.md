@@ -32,23 +32,23 @@ go get github.com/life4/genesis
 Find the minimal value in a slice of ints:
 
 ```go
-glambdas.Must(gslices.Min([]int{42, 7, 13})) == 7
+lambdas.Must(slices.Min([]int{42, 7, 13})) == 7
 ```
 
 Double values in a slice of ints:
 
 ```go
-gslices.Map([]int{4, 8, 15}, func(el int) int { return el * 2 })
+slices.Map([]int{4, 8, 15}, func(el int) int { return el * 2 })
 ```
 
 ## Usage
 
 Genesis contains the following packages:
 
-+ [gslices](https://pkg.go.dev/github.com/life4/genesis/gslices): generic functions for slices.
-+ [gaslices](https://pkg.go.dev/github.com/life4/genesis/gaslices): asynchronous versions of some slice functions. You specify how many goroutines to run, genesis does the magic.
-+ [gchannels](https://pkg.go.dev/github.com/life4/genesis/gchannels): generic function for channels.
-+ [glambdas](https://pkg.go.dev/github.com/life4/genesis/glambdas): helper generic functions to work with `gslices.Map` and similar.
++ [slices](https://pkg.go.dev/github.com/life4/genesis/slices): generic functions for slices.
++ [aslices](https://pkg.go.dev/github.com/life4/genesis/aslices): asynchronous versions of some slice functions. You specify how many goroutines to run, genesis does the magic.
++ [channels](https://pkg.go.dev/github.com/life4/genesis/channels): generic function for channels.
++ [lambdas](https://pkg.go.dev/github.com/life4/genesis/lambdas): helper generic functions to work with `slices.Map` and similar.
 
 See [documentation](https://pkg.go.dev/github.com/life4/genesis) for more information.
 

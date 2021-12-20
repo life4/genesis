@@ -1,4 +1,4 @@
-package gchannels
+package channels
 
 import (
 	"constraints"
