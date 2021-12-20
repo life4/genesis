@@ -6,7 +6,7 @@ import (
 )
 
 // All returns true if f returns true for all elements in slice
-func All[T any](items []T, workers int, f func(el T) bool) bool {
+func All[S ~[]T, T any](items S, workers int, f func(el T) bool) bool {
 	if len(items) == 0 {
 		return true
 	}
@@ -67,7 +67,7 @@ func All[T any](items []T, workers int, f func(el T) bool) bool {
 }
 
 // Any returns true if f returns true for any element from slice
-func Any[T any](items []T, workers int, f func(el T) bool) bool {
+func Any[S ~[]T, T any](items S, workers int, f func(el T) bool) bool {
 	if len(items) == 0 {
 		return false
 	}
@@ -128,7 +128,7 @@ func Any[T any](items []T, workers int, f func(el T) bool) bool {
 }
 
 // Each calls f for every element from slice
-func Each[T any](items []T, workers int, f func(el T)) {
+func Each[S ~[]T, T any](items S, workers int, f func(el T)) {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -159,7 +159,7 @@ func Each[T any](items []T, workers int, f func(el T)) {
 }
 
 // Filter returns slice of element for which f returns true
-func Filter[T any](items []T, workers int, f func(el T) bool) []T {
+func Filter[S ~[]T, T any](items S, workers int, f func(el T) bool) S {
 	resultMap := make([]bool, len(items))
 	wg := sync.WaitGroup{}
 
@@ -202,7 +202,7 @@ func Filter[T any](items []T, workers int, f func(el T) bool) []T {
 }
 
 // Map applies F to all elements in slice of T and returns slice of results
-func Map[T any, G any](items []T, workers int, f func(el T) G) []G {
+func Map[S ~[]T, T any, G any](items S, workers int, f func(el T) G) []G {
 	result := make([]G, len(items))
 	wg := sync.WaitGroup{}
 
@@ -235,7 +235,7 @@ func Map[T any, G any](items []T, workers int, f func(el T) G) []G {
 }
 
 // Reduce reduces slice to a single value with f
-func Reduce[T any](items []T, workers int, f func(left T, right T) T) T {
+func Reduce[S ~[]T, T any](items S, workers int, f func(left T, right T) T) T {
 	if len(items) == 0 {
 		var tmp T
 		return tmp

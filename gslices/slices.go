@@ -1,12 +1,12 @@
 package gslices
 
 // Concat concatenates given slices into a single slice.
-func Concat[T any](slices ...[]T) []T {
+func Concat[S ~[]T, T any](slices ...S) S {
 	size := 0
 	for _, items := range slices {
 		size += len(items)
 	}
-	result := make([]T, 0, size)
+	result := make(S, 0, size)
 	for _, items := range slices {
 		result = append(result, items...)
 	}
@@ -47,9 +47,9 @@ func product2[T any](items [][]T, c chan []T, left []T, pos int) {
 }
 
 // Zip returns chan of arrays of elements from given arrs on the same position.
-func Zip[T any](items ...[]T) chan []T {
+func Zip[S ~[]T, T any](items ...S) chan S {
 	if len(items) == 0 {
-		result := make(chan []T)
+		result := make(chan S)
 		close(result)
 		return result
 	}
@@ -61,7 +61,7 @@ func Zip[T any](items ...[]T) chan []T {
 		}
 	}
 
-	result := make(chan []T, 1)
+	result := make(chan S, 1)
 	go func() {
 		for i := 0; i < size; i++ {
 			chunk := make([]T, 0, len(items))
