@@ -64,7 +64,7 @@ func Count[T comparable](c <-chan T, el T) int {
 // Drop drops first n elements from channel c and returns a new channel with the rest.
 // It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
 func Drop[T any](c <-chan T, n int) chan T {
-	result := make(chan T, 1)
+	result := make(chan T)
 	go func() {
 		i := 0
 		for el := range c {
@@ -88,7 +88,7 @@ func Each[T any](c <-chan T, f func(el T)) {
 // Filter returns a new channel with elements from input channel
 // for which f returns true
 func Filter[T any](c <-chan T, f func(el T) bool) chan T {
-	result := make(chan T, 1)
+	result := make(chan T)
 	go func() {
 		for el := range c {
 			if f(el) {
@@ -172,7 +172,7 @@ func Sum[T constraints.Ordered](c <-chan T) T {
 
 // Take takes first count elements from the channel.
 func Take[T any](c <-chan T, count int) chan T {
-	result := make(chan T, 1)
+	result := make(chan T)
 	go func() {
 		defer close(result)
 		if count <= 0 {
@@ -194,7 +194,7 @@ func Take[T any](c <-chan T, count int) chan T {
 func Tee[T any](c <-chan T, count int) []chan T {
 	channels := make([]chan T, 0, count)
 	for i := 0; i < count; i++ {
-		channels = append(channels, make(chan T, 1))
+		channels = append(channels, make(chan T))
 	}
 	go func() {
 		for el := range c {

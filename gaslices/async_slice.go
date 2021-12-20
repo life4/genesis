@@ -261,7 +261,7 @@ func Reduce[T any](items []T, workers int, f func(left T, right T) T) T {
 		// run workers
 		jobs := make(chan int, len(state))
 		wg.Add(workers)
-		result := make(chan T, 1)
+		result := make(chan T)
 		for i := 0; i < workers; i++ {
 			go worker(jobs, result)
 		}

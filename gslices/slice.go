@@ -101,7 +101,7 @@ func CountBy[T any](items []T, f func(el T) bool) int {
 
 // Cycle is an infinite loop over slice
 func Cycle[T any](items []T) chan T {
-	c := make(chan T, 1)
+	c := make(chan T)
 	go func() {
 		defer close(c)
 		if len(items) == 0 {
@@ -610,7 +610,7 @@ func TakeWhile[T any](items []T, f func(el T) bool) []T {
 
 // ToChannel returns channel with elements from the slice
 func ToChannel[T any](items []T) chan T {
-	c := make(chan T, 1)
+	c := make(chan T)
 	go func() {
 		for _, el := range items {
 			c <- el

@@ -7,7 +7,7 @@ import (
 
 // Counter is like Range, but infinite
 func Counter[T constraints.Integer](ctx context.Context, start T, step T) chan T {
-	c := make(chan T, 1)
+	c := make(chan T)
 	go func() {
 		defer close(c)
 		for {
@@ -25,7 +25,7 @@ func Counter[T constraints.Integer](ctx context.Context, start T, step T) chan T
 // Exponential generates elements from start with
 // multiplication of value on factor on every step
 func Exponential[T constraints.Integer](ctx context.Context, start T, factor T) chan T {
-	c := make(chan T, 1)
+	c := make(chan T)
 	go func() {
 		defer close(c)
 		for {
@@ -42,7 +42,7 @@ func Exponential[T constraints.Integer](ctx context.Context, start T, factor T) 
 
 // Iterate returns an infinite list of repeated applications of f to val
 func Iterate[T constraints.Integer](ctx context.Context, val T, f func(val T) T) chan T {
-	c := make(chan T, 1)
+	c := make(chan T)
 	go func() {
 		defer close(c)
 		for {
@@ -59,7 +59,7 @@ func Iterate[T constraints.Integer](ctx context.Context, val T, f func(val T) T)
 
 // Range generates elements from start to end with given step
 func Range[T constraints.Integer](ctx context.Context, start T, end T, step T) chan T {
-	c := make(chan T, 1)
+	c := make(chan T)
 	pos := start <= end
 	go func() {
 		for pos && (start < end) || !pos && (start > end) {
@@ -73,7 +73,7 @@ func Range[T constraints.Integer](ctx context.Context, start T, end T, step T) c
 
 // Repeat returns channel that produces val infinite times
 func Repeat[T constraints.Integer](ctx context.Context, val T) chan T {
-	c := make(chan T, 1)
+	c := make(chan T)
 	go func() {
 		defer close(c)
 		for {
@@ -90,7 +90,7 @@ func Repeat[T constraints.Integer](ctx context.Context, val T) chan T {
 
 // Replicate returns channel that produces val n times
 func Replicate[T constraints.Integer](ctx context.Context, val T, n int) chan T {
-	c := make(chan T, 1)
+	c := make(chan T)
 	go func() {
 		for i := 0; i < n; i++ {
 			c <- val
