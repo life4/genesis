@@ -11,7 +11,7 @@ import (
 func TestAsyncSliceAny(t *testing.T) {
 	f := func(check func(t int) bool, given []int, expected bool) {
 		actual := Any(given, 2, check)
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	isEven := func(t int) bool { return (t % 2) == 0 }
 
@@ -27,7 +27,7 @@ func TestAsyncSliceAny(t *testing.T) {
 func TestAsyncSliceAll(t *testing.T) {
 	f := func(check func(t int) bool, given []int, expected bool) {
 		actual := All(given, 2, check)
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	isEven := func(t int) bool { return (t % 2) == 0 }
 
@@ -49,7 +49,7 @@ func TestAsyncSliceEach(t *testing.T) {
 		close(result)
 		actual := gchannels.ToSlice(result)
 		sorted := gslices.Sort(actual)
-		assert.Equal(t, given, sorted, "they should be equal")
+		assert.Equal(t, given, sorted)
 	}
 
 	f([]int{})
@@ -62,7 +62,7 @@ func TestAsyncSliceFilter(t *testing.T) {
 	f := func(given []int, expected []int) {
 		filter := func(t int) bool { return t > 10 }
 		actual := Filter(given, 2, filter)
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 
 	f([]int{}, []int{})
@@ -74,7 +74,7 @@ func TestAsyncSliceFilter(t *testing.T) {
 func TestAsyncSliceMap(t *testing.T) {
 	f := func(mapper func(t int) int, given []int, expected []int) {
 		actual := Map(given, 2, mapper)
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	double := func(t int) int { return (t * 2) }
 
@@ -85,7 +85,7 @@ func TestAsyncSliceMap(t *testing.T) {
 func TestAsyncSliceReduce(t *testing.T) {
 	f := func(reducer func(a int, b int) int, given []int, expected int) {
 		actual := Reduce(given, 4, reducer)
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	sum := func(a int, b int) int { return a + b }
 

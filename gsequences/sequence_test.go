@@ -15,7 +15,7 @@ func TestSequenceCount(t *testing.T) {
 		seq2 := gchannels.Take(seq, count)
 		actual := gchannels.ToSlice(seq2)
 		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	f(1, 2, 4, []int{1, 3, 5, 7})
 }
@@ -27,7 +27,7 @@ func TestSequenceExponential(t *testing.T) {
 		seq2 := gchannels.Take(seq, count)
 		actual := gchannels.ToSlice(seq2)
 		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	f(1, 1, 4, []int{1, 1, 1, 1})
 	f(1, 2, 4, []int{1, 2, 4, 8})
@@ -41,7 +41,7 @@ func TestSequenceIterate(t *testing.T) {
 		seq2 := gchannels.Take(seq, count)
 		actual := gchannels.ToSlice(seq2)
 		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	f(1, 4, []int{1, 2, 4, 8})
 }
@@ -52,7 +52,7 @@ func TestSequenceRange(t *testing.T) {
 		seq := Range(ctx, start, stop, step)
 		actual := gchannels.ToSlice(seq)
 		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	f(1, 4, 1, []int{1, 2, 3})
 	f(3, 0, -1, []int{3, 2, 1})
@@ -67,7 +67,7 @@ func TestSequenceRepeat(t *testing.T) {
 		seq2 := gchannels.Take(seq, count)
 		actual := gchannels.ToSlice(seq2)
 		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	f(2, 1, []int{1, 1})
 }
@@ -78,7 +78,7 @@ func TestSequenceReplicate(t *testing.T) {
 		seq := Replicate(ctx, given, count)
 		actual := gchannels.ToSlice(seq)
 		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	f(0, 1, []int{})
 	f(1, 1, []int{1})

@@ -19,7 +19,7 @@ func TestChannelToSlice(t *testing.T) {
 			close(c)
 		}()
 		actual := ToSlice(c)
-		assert.Equal(t, given, actual, "they should be equal")
+		assert.Equal(t, given, actual)
 	}
 	f([]int{})
 	f([]int{1})
@@ -37,7 +37,7 @@ func TestChannelAny(t *testing.T) {
 			close(c)
 		}()
 		actual := Any(c, even)
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	f([]int{}, false)
 	f([]int{1}, false)
@@ -60,7 +60,7 @@ func TestChannelAll(t *testing.T) {
 			close(c)
 		}()
 		actual := All(c, even)
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	f([]int{}, true)
 	f([]int{1}, false)
@@ -85,7 +85,7 @@ func TestChannelEach(t *testing.T) {
 		Each(c, mapper)
 		close(result)
 		actual := ToSlice(result)
-		assert.Equal(t, given, actual, "they should be equal")
+		assert.Equal(t, given, actual)
 	}
 
 	f([]int{})
@@ -108,7 +108,7 @@ func TestChannelChunkEvery(t *testing.T) {
 		for el := range result {
 			actual = append(actual, el)
 		}
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	f(2, []int{}, [][]int{})
 	f(2, []int{1}, [][]int{{1}})
@@ -127,7 +127,7 @@ func TestChannelCount(t *testing.T) {
 			close(c)
 		}()
 		actual := Count(c, element)
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	f(1, []int{}, 0)
 	f(1, []int{1}, 1)
@@ -149,7 +149,7 @@ func TestChannelDrop(t *testing.T) {
 		for el := range result {
 			actual = append(actual, el)
 		}
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	f(1, []int{}, []int{})
 	f(1, []int{2}, []int{})
@@ -172,7 +172,7 @@ func TestChannelFilter(t *testing.T) {
 		}()
 		result := Filter(c, even)
 		actual := ToSlice(result)
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	f([]int{}, []int{})
 	f([]int{1}, []int{})
@@ -202,7 +202,7 @@ func TestChannelMap(t *testing.T) {
 		}()
 
 		actual := ToSlice(c2)
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	f([]int{}, []int{})
 	f([]int{1}, []int{2})
@@ -219,8 +219,8 @@ func TestChannelMax(t *testing.T) {
 			close(c)
 		}()
 		actual, actualErr := Max(c)
-		assert.Equal(t, expected, actual, "they should be equal")
-		assert.Equal(t, expectedErr, actualErr, "they should be equal")
+		assert.Equal(t, expected, actual)
+		assert.Equal(t, expectedErr, actualErr)
 	}
 	f([]int{}, 0, gerrors.ErrEmpty)
 	f([]int{1, 4, 2}, 4, nil)
@@ -238,8 +238,8 @@ func TestChannelMin(t *testing.T) {
 			close(c)
 		}()
 		actual, actualErr := Min(c)
-		assert.Equal(t, expected, actual, "they should be equal")
-		assert.Equal(t, expectedErr, actualErr, "they should be equal")
+		assert.Equal(t, expected, actual)
+		assert.Equal(t, expectedErr, actualErr)
 	}
 	f([]int{}, 0, gerrors.ErrEmpty)
 	f([]int{4, 1, 2}, 1, nil)
@@ -258,7 +258,7 @@ func TestChannelReduce(t *testing.T) {
 		}()
 		sum := func(el int, acc int) int { return (el) + acc }
 		actual := Reduce(c, 0, sum)
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	f([]int{}, 0)
 	f([]int{1}, 1)
@@ -288,7 +288,7 @@ func TestChannelScan(t *testing.T) {
 		}()
 
 		actual := ToSlice(c2)
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	f([]int{}, []int{})
 	f([]int{1}, []int{1})
@@ -306,7 +306,7 @@ func TestChannelSum(t *testing.T) {
 			close(c)
 		}()
 		actual := Sum(c)
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	f([]int{}, 0)
 	f([]int{1}, 1)
@@ -321,7 +321,7 @@ func TestChannelTake(t *testing.T) {
 		seq2 := Take(seq, count)
 		actual := ToSlice(seq2)
 		cancel()
-		assert.Equal(t, expected, actual, "they should be equal")
+		assert.Equal(t, expected, actual)
 	}
 	f(0, 1, []int{})
 	f(1, 1, []int{1})
@@ -341,7 +341,7 @@ func TestChannelTee(t *testing.T) {
 		for _, ch := range channels {
 			go func(ch chan int) {
 				actual := ToSlice(ch)
-				assert.Equal(t, given, actual, "they should be equal")
+				assert.Equal(t, given, actual)
 			}(ch)
 		}
 	}
