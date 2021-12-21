@@ -16,6 +16,6 @@ def go_test():
         name="go test",
         image="golang:1.18beta1-alpine3.14",
         commands=[
-            "go test ./...",
+            "go test -cover ./...",
         ],
     )
