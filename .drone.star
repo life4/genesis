@@ -14,7 +14,7 @@ def main(ctx):
 def go_test():
     return dict(
         name="go test",
-        image="golang:1.18beta1-alpine3.14".format(python),
+        image="golang:1.18beta1-alpine3.14",
         commands=[
             "go test ./...",
         ],
