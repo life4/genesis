@@ -1,46 +1,10 @@
 package maps
 
-// Clear removes all items from the given map
-//
-// This is an in-place operation, meaning that it modifies the original map.
-func Clear[M ~map[K]V, K comparable, V any](items M) {
-	for key := range items {
-		delete(items, key)
-	}
-}
-
 // Copy returns a copy of the given map
 func Copy[M ~map[K]V, K comparable, V any](items M) M {
 	result := make(M)
 	for key, value := range items {
 		result[key] = value
-	}
-	return result
-}
-
-// CopyInto copies items from `from` into `into`.
-func CopyInto[M1, M2 ~map[K]V, K comparable, V any](from M1, into M2) {
-	for key, value := range from {
-		into[key] = value
-	}
-}
-
-// Drop returns a copy of the given map without the given keys.
-//
-// If a key is not found in the given map, it is simply ignored.
-//
-// This function is a counterpart for `Take`.
-func Drop[M ~map[K]V, K comparable, V any](items M, keys ...K) M {
-	result := make(M)
-	skip := make(map[K]struct{})
-	for _, key := range keys {
-		skip[key] = struct{}{}
-	}
-	for key, value := range items {
-		_, contains := skip[key]
-		if !contains {
-			result[key] = value
-		}
 	}
 	return result
 }
@@ -141,31 +105,11 @@ func Keys[M ~map[K]V, K comparable, V any](items M) []K {
 	return result
 }
 
-// Pop removes the given key from the map and returns the associated value.
-//
-// If the key not found, the ErrNotFound error is returned.
-func Pop[M ~map[K]V, K comparable, V any](items M, key K) (V, error) {
-	value, ok := items[key]
-	if !ok {
-		return value, ErrNotFound
-	}
-	delete(items, key)
-	return value, nil
-}
-
-// Replace replaces the `key` by the `value` but only if the key is already in the map.
-func Replace[M ~map[K]V, K comparable, V any](items M, key K, value V) {
-	_, exists := items[key]
-	if exists {
-		items[key] = value
-	}
-}
-
 // Take returns a copy of the given map containing only the given keys.
 //
 // Keys that aren't in the map are simply ignored.
 //
-// This function is a counterpart for `Drop`.
+// This function is a counterpart for `Without`.
 func Take[M ~map[K]V, K comparable, V any](items M, keys ...K) M {
 	result := make(M)
 	for _, key := range keys {
@@ -185,6 +129,24 @@ func Values[M ~map[K]V, K comparable, V any](items M) []V {
 	result := make([]V, 0, len(items))
 	for _, value := range items {
 		result = append(result, value)
+	}
+	return result
+}
+
+// Without returns a copy of the given map without the given keys.
+//
+// If a key is not found in the given map, it is simply ignored.
+func Without[M ~map[K]V, K comparable, V any](items M, keys ...K) M {
+	result := make(M)
+	skip := make(map[K]struct{})
+	for _, key := range keys {
+		skip[key] = struct{}{}
+	}
+	for key, value := range items {
+		_, contains := skip[key]
+		if !contains {
+			result[key] = value
+		}
 	}
 	return result
 }
