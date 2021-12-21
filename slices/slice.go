@@ -566,6 +566,26 @@ func ToChannel[S ~[]T, T any](items S) chan T {
 	return c
 }
 
+// ToMap converts the given slice into a map where keys are indices and values are items
+// from the given slice.
+func ToMap[S ~[]V, V any](items S) map[int]V {
+	result := make(map[int]V)
+	for index, item := range items {
+		result[index] = item
+	}
+	return result
+}
+
+// ToKeys converts the given slice into a map where items from the slice are the keys
+// of the resulting map and all values are equal to the given `val` value.
+func ToKeys[S ~[]K, K comparable, V any](items S, val V) map[K]V {
+	result := make(map[K]V)
+	for _, item := range items {
+		result[item] = val
+	}
+	return result
+}
+
 // Uniq returns arr with only first occurrences of every element.
 func Uniq[S ~[]T, T comparable](items S) S {
 	if len(items) <= 1 {
