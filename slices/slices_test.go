@@ -4,13 +4,13 @@ import (
 	"testing"
 
 	"github.com/life4/genesis/slices"
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestConcat(t *testing.T) {
 	f := func(given [][]int, expected []int) {
 		actual := slices.Concat(given...)
-		assert.Equal(t, expected, actual)
+		require.Equal(t, expected, actual)
 	}
 	f([][]int{}, []int{})
 	f([][]int{{}}, []int{})
@@ -31,7 +31,7 @@ func TestProduct2(t *testing.T) {
 				t.Fatal("infinite loop")
 			}
 		}
-		assert.Equal(t, expected, actual)
+		require.Equal(t, expected, actual)
 	}
 	f([][]int{{1, 2}, {3, 4}}, [][]int{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
 	f([][]int{{1, 2}, {3}, {4, 5}}, [][]int{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
@@ -48,7 +48,7 @@ func TestZip(t *testing.T) {
 				t.Fatal("infinite loop")
 			}
 		}
-		assert.Equal(t, expected, actual)
+		require.Equal(t, expected, actual)
 	}
 	f([][]int{}, [][]int{})
 	f([][]int{{1}, {2}}, [][]int{{1, 2}})

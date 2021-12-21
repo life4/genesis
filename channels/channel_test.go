@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/life4/genesis/channels"
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestToSlice(t *testing.T) {
@@ -18,7 +18,7 @@ func TestToSlice(t *testing.T) {
 			close(c)
 		}()
 		actual := channels.ToSlice(c)
-		assert.Equal(t, given, actual)
+		require.Equal(t, given, actual)
 	}
 	f([]int{})
 	f([]int{1})
@@ -36,7 +36,7 @@ func TestAny(t *testing.T) {
 			close(c)
 		}()
 		actual := channels.Any(c, even)
-		assert.Equal(t, expected, actual)
+		require.Equal(t, expected, actual)
 	}
 	f([]int{}, false)
 	f([]int{1}, false)
@@ -59,7 +59,7 @@ func TestAll(t *testing.T) {
 			close(c)
 		}()
 		actual := channels.All(c, even)
-		assert.Equal(t, expected, actual)
+		require.Equal(t, expected, actual)
 	}
 	f([]int{}, true)
 	f([]int{1}, false)
@@ -84,7 +84,7 @@ func TestEach(t *testing.T) {
 		channels.Each(c, mapper)
 		close(result)
 		actual := channels.ToSlice(result)
-		assert.Equal(t, given, actual)
+		require.Equal(t, given, actual)
 	}
 
 	f([]int{})
@@ -107,7 +107,7 @@ func TestChunkEvery(t *testing.T) {
 		for el := range result {
 			actual = append(actual, el)
 		}
-		assert.Equal(t, expected, actual)
+		require.Equal(t, expected, actual)
 	}
 	f(2, []int{}, [][]int{})
 	f(2, []int{1}, [][]int{{1}})
@@ -126,7 +126,7 @@ func TestCount(t *testing.T) {
 			close(c)
 		}()
 		actual := channels.Count(c, element)
-		assert.Equal(t, expected, actual)
+		require.Equal(t, expected, actual)
 	}
 	f(1, []int{}, 0)
 	f(1, []int{1}, 1)
@@ -148,7 +148,7 @@ func TestDrop(t *testing.T) {
 		for el := range result {
 			actual = append(actual, el)
 		}
-		assert.Equal(t, expected, actual)
+		require.Equal(t, expected, actual)
 	}
 	f(1, []int{}, []int{})
 	f(1, []int{2}, []int{})
@@ -171,7 +171,7 @@ func TestFilter(t *testing.T) {
 		}()
 		result := channels.Filter(c, even)
 		actual := channels.ToSlice(result)
-		assert.Equal(t, expected, actual)
+		require.Equal(t, expected, actual)
 	}
 	f([]int{}, []int{})
 	f([]int{1}, []int{})
@@ -201,7 +201,7 @@ func TestMap(t *testing.T) {
 		}()
 
 		actual := channels.ToSlice(c2)
-		assert.Equal(t, expected, actual)
+		require.Equal(t, expected, actual)
 	}
 	f([]int{}, []int{})
 	f([]int{1}, []int{2})
@@ -218,8 +218,8 @@ func TestMax(t *testing.T) {
 			close(c)
 		}()
 		actual, actualErr := channels.Max(c)
-		assert.Equal(t, expected, actual)
-		assert.Equal(t, expectedErr, actualErr)
+		require.Equal(t, expected, actual)
+		require.Equal(t, expectedErr, actualErr)
 	}
 	f([]int{}, 0, channels.ErrEmpty)
 	f([]int{1, 4, 2}, 4, nil)
@@ -237,8 +237,8 @@ func TestMin(t *testing.T) {
 			close(c)
 		}()
 		actual, actualErr := channels.Min(c)
-		assert.Equal(t, expected, actual)
-		assert.Equal(t, expectedErr, actualErr)
+		require.Equal(t, expected, actual)
+		require.Equal(t, expectedErr, actualErr)
 	}
 	f([]int{}, 0, channels.ErrEmpty)
 	f([]int{4, 1, 2}, 1, nil)
@@ -257,7 +257,7 @@ func TestReduce(t *testing.T) {
 		}()
 		sum := func(el int, acc int) int { return (el) + acc }
 		actual := channels.Reduce(c, 0, sum)
-		assert.Equal(t, expected, actual)
+		require.Equal(t, expected, actual)
 	}
 	f([]int{}, 0)
 	f([]int{1}, 1)
@@ -287,7 +287,7 @@ func TestScan(t *testing.T) {
 		}()
 
 		actual := channels.ToSlice(c2)
-		assert.Equal(t, expected, actual)
+		require.Equal(t, expected, actual)
 	}
 	f([]int{}, []int{})
 	f([]int{1}, []int{1})
@@ -305,7 +305,7 @@ func TestSum(t *testing.T) {
 			close(c)
 		}()
 		actual := channels.Sum(c)
-		assert.Equal(t, expected, actual)
+		require.Equal(t, expected, actual)
 	}
 	f([]int{}, 0)
 	f([]int{1}, 1)
@@ -320,7 +320,7 @@ func TestTake(t *testing.T) {
 		seq2 := channels.Take(seq, count)
 		actual := channels.ToSlice(seq2)
 		cancel()
-		assert.Equal(t, expected, actual)
+		require.Equal(t, expected, actual)
 	}
 	f(0, 1, []int{})
 	f(1, 1, []int{1})
@@ -340,7 +340,7 @@ func TestTee(t *testing.T) {
 		for _, ch := range chans {
 			go func(ch chan int) {
 				actual := channels.ToSlice(ch)
-				assert.Equal(t, given, actual)
+				require.Equal(t, given, actual)
 			}(ch)
 		}
 	}

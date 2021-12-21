@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/life4/genesis/channels"
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestCounter(t *testing.T) {
@@ -15,7 +15,7 @@ func TestCounter(t *testing.T) {
 		seq2 := channels.Take(seq, count)
 		actual := channels.ToSlice(seq2)
 		cancel()
-		assert.Equal(t, expected, actual)
+		require.Equal(t, expected, actual)
 	}
 	f(1, 2, 4, []int{1, 3, 5, 7})
 }
@@ -27,7 +27,7 @@ func TestExponential(t *testing.T) {
 		seq2 := channels.Take(seq, count)
 		actual := channels.ToSlice(seq2)
 		cancel()
-		assert.Equal(t, expected, actual)
+		require.Equal(t, expected, actual)
 	}
 	f(1, 1, 4, []int{1, 1, 1, 1})
 	f(1, 2, 4, []int{1, 2, 4, 8})
@@ -41,7 +41,7 @@ func TestIterate(t *testing.T) {
 		seq2 := channels.Take(seq, count)
 		actual := channels.ToSlice(seq2)
 		cancel()
-		assert.Equal(t, expected, actual)
+		require.Equal(t, expected, actual)
 	}
 	f(1, 4, []int{1, 2, 4, 8})
 }
@@ -52,7 +52,7 @@ func TestRange(t *testing.T) {
 		seq := channels.Range(ctx, start, stop, step)
 		actual := channels.ToSlice(seq)
 		cancel()
-		assert.Equal(t, expected, actual)
+		require.Equal(t, expected, actual)
 	}
 	f(1, 4, 1, []int{1, 2, 3})
 	f(3, 0, -1, []int{3, 2, 1})
@@ -67,7 +67,7 @@ func TestRepeat(t *testing.T) {
 		seq2 := channels.Take(seq, count)
 		actual := channels.ToSlice(seq2)
 		cancel()
-		assert.Equal(t, expected, actual)
+		require.Equal(t, expected, actual)
 	}
 	f(2, 1, []int{1, 1})
 }
@@ -78,7 +78,7 @@ func TestReplicate(t *testing.T) {
 		seq := channels.Replicate(ctx, given, count)
 		actual := channels.ToSlice(seq)
 		cancel()
-		assert.Equal(t, expected, actual)
+		require.Equal(t, expected, actual)
 	}
 	f(0, 1, []int{})
 	f(1, 1, []int{1})
