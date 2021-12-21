@@ -66,3 +66,7 @@ func IsNotDefault[T comparable](value T) bool {
 	var def T
 	return value != def
 }
+
+func IsNaN[T comparable](value T) bool {
+	return value != value
+}

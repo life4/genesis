@@ -72,10 +72,10 @@ func ExampleCount() {
 	// Output: 5
 }
 
-func ExampleCountFunc() {
+func ExampleCountBy() {
 	s := []int{1, 2, 3, 4, 5, 6}
 	even := func(item int) bool { return item%2 == 0 }
-	result := slices.CountFunc(s, even)
+	result := slices.CountBy(s, even)
 	fmt.Println(result)
 	// Output: 3
 }

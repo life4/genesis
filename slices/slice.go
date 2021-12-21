@@ -9,26 +9,6 @@ import (
 	"time"
 )
 
-// Any returns true if f returns true for any element in arr
-func Any[S ~[]T, T any](items S, f func(el T) bool) bool {
-	for _, el := range items {
-		if f(el) {
-			return true
-		}
-	}
-	return false
-}
-
-// All returns true if f returns true for all elements in arr
-func All[S ~[]T, T any](items S, f func(el T) bool) bool {
-	for _, el := range items {
-		if !f(el) {
-			return false
-		}
-	}
-	return true
-}
-
 // Choice chooses a random element from the slice.
 // If seed is zero, UNIX timestamp will be used.
 func Choice[S ~[]T, T any](items S, seed int64) (T, error) {
@@ -80,17 +60,6 @@ func Count[S ~[]T, T comparable](items S, el T) int {
 	count := 0
 	for _, val := range items {
 		if val == el {
-			count++
-		}
-	}
-	return count
-}
-
-// CountFunc returns how many times f returns true.
-func CountFunc[S ~[]T, T any](items S, f func(el T) bool) int {
-	count := 0
-	for _, el := range items {
-		if f(el) {
 			count++
 		}
 	}
@@ -223,23 +192,6 @@ func DropEvery[S ~[]T, T any](items S, nth int, from int) (S, error) {
 	return result, nil
 }
 
-// DropWhile drops elements from arr while f returns true
-func DropWhile[S ~[]T, T any](items S, f func(el T) bool) S {
-	for i, el := range items {
-		if !f(el) {
-			return items[i:]
-		}
-	}
-	return []T{}
-}
-
-// Each calls f for every element from arr
-func Each[S ~[]T, T any](items S, f func(el T)) {
-	for _, el := range items {
-		f(el)
-	}
-}
-
 // EndsWith returns true if slice ends with the given suffix slice.
 // If suffix is empty, it returns true.
 func EndsWith[S ~[]T, T comparable](items S, suffix S) bool {
@@ -256,7 +208,7 @@ func EndsWith[S ~[]T, T comparable](items S, suffix S) bool {
 }
 
 // Equal returns true if slices are equal
-func Equal[S ~[]T, T comparable](items S, other S) bool {
+func Equal[S1 ~[]T, S2 ~[]T, T comparable](items S1, other S2) bool {
 	if len(items) != len(other) {
 		return false
 	}
@@ -266,47 +218,6 @@ func Equal[S ~[]T, T comparable](items S, other S) bool {
 		}
 	}
 	return true
-}
-
-// Filter returns slice of T for which F returned true
-func Filter[S ~[]T, T any](items S, f func(el T) bool) S {
-	result := make([]T, 0, len(items))
-	for _, el := range items {
-		if f(el) {
-			result = append(result, el)
-		}
-	}
-	return result
-}
-
-// Reject is like filter but it returns slice of T for which F returned false
-func Reject[S ~[]T, T any](items S, f func(el T) bool) S {
-	notF := func(el T) bool {
-		return !f(el)
-	}
-	return Filter(items, notF)
-}
-
-// Find returns the first element for which f returns true
-func Find[S ~[]T, T any](items S, f func(el T) bool) (T, error) {
-	for _, el := range items {
-		if f(el) {
-			return el, nil
-		}
-	}
-	var tmp T
-	return tmp, ErrNotFound
-}
-
-// FindIndex is like Find, but return element index instead of element itself.
-// Returns -1 if element not found
-func FindIndex[S ~[]T, T any](items S, f func(el T) bool) int {
-	for i, el := range items {
-		if f(el) {
-			return i
-		}
-	}
-	return -1
 }
 
 // Grow increases the slice's by n elements.
@@ -335,16 +246,6 @@ func Join[S ~[]T, T any](items S, sep string) string {
 func Index[S []T, T comparable](items S, item T) (int, error) {
 	for i, val := range items {
 		if val == item {
-			return i, nil
-		}
-	}
-	return 0, ErrNotFound
-}
-
-// IndexFunc returns the first index in items for which f returns true.
-func IndexFunc[S []T, T comparable](items S, f func(T) bool) (int, error) {
-	for i, val := range items {
-		if f(val) {
 			return i, nil
 		}
 	}
@@ -651,18 +552,6 @@ func TakeRandom[S ~[]T, T any](items S, count int, seed int64) (S, error) {
 	}
 	rand.Shuffle(len(items), swap)
 	return items[:count], nil
-}
-
-// TakeWhile takes elements from arr while f returns true
-func TakeWhile[S ~[]T, T any](items S, f func(el T) bool) S {
-	result := make([]T, 0, len(items))
-	for _, el := range items {
-		if !f(el) {
-			return result
-		}
-		result = append(result, el)
-	}
-	return result
 }
 
 // ToChannel returns channel with elements from the slice
