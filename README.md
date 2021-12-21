@@ -52,6 +52,22 @@ Double values in a slice of ints:
 slices.Map([]int{4, 8, 15}, func(el int) int { return el * 2 })
 ```
 
+Concurrently check status codes for multiple URLs:
+
+```go
+urls := []string{
+	"https://go.dev/",
+	"https://golang.org/",
+	"https://google.com/",
+}
+codes := slices.MapAsync(
+	urls, 0,
+	func(url string) int {
+		return lambdas.Must(http.Get(url)).StatusCode
+	},
+)
+```
+
 ## Usage
 
 Genesis contains the following packages:
