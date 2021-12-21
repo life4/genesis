@@ -1,20 +1,6 @@
 # Genesis
 
-[![Build Status](https://travis-ci.org/life4/genesis.svg?branch=master)](https://travis-ci.org/life4/genesis)
-
 Generic functions for Go. Bringing the beauty of functional programming in Go 1.18+.
-
-**What's inside:**
-
-+ Filter, Map, Reduce.
-+ Min, Max, Sum.
-+ Permutations, Product.
-+ Any, All.
-+ Contains, Find.
-+ Shuffle, Sort.
-+ Range, Count, Cycle.
-
-And much more.
 
 **Features:**
 
@@ -24,6 +10,29 @@ And much more.
 + Pure Go.
 + Sync and async versions of all the main functions.
 + For slices and channels.
+
+**When to use:**
+
++ In a big project. More the project grows, more you find yourself writing oring generic code like "Min". Break the cyrcle.
++ In a team project. Each like of code you write means higher maintenance cost that in turn means loosing time and money.
++ In a pet project. Leave the boring stuff to us, focus on the fun parts.
++ When readability matters. `slices.Shrink` is a function with a human-friendly name and documentation. `s[:len(s):len(s)]` is a jibberish and black magic. Prefer the former.
++ When you miss some conveniences that come in other languages out-of-the-box.
++ When you write a highly concurrent code and don't want to manually implement code for cancellation, results collection and ordering, worker groups, context, etc.
+
+**What's inside**:
+
++ `Filter`, `Map`, and `Reduce` for data processing on steroids.
++ `FilterAsync`, `MapAsync`, and `ReduceAsync` for making your code fast and concurrent with a single line of code.
++ `Grow` and `Shrink` for reducing memory allocations.
++ `Permutations` and `Product` for simple iterations.
++ `Shuffle` and `Sort` for randomization.
++ `Any` and `All` for simple flow control.
++ `Range`, `Count`, and `Cycle` for generating sequences.
+
+And much more.
+
+## Installation
 
 ```bash
 go get github.com/life4/genesis

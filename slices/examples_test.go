@@ -117,3 +117,15 @@ func ExampleMap() {
 	fmt.Println(doubled)
 	// Output: [8 16 30 32 46 84]
 }
+
+func ExampleMapAsync() {
+	pages := slices.MapAsync(
+		[]string{"google.com", "go.dev", "golang.org"},
+		0,
+		func(url string) string {
+			return fmt.Sprintf("<web page for %s>", url)
+		},
+	)
+	fmt.Println(pages)
+	// [<web page for google.com> <web page for go.dev> <web page for golang.org>]
+}

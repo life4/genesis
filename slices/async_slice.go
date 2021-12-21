@@ -171,6 +171,8 @@ func EachAsync[S ~[]T, T any](items S, workers int, f func(el T)) {
 //
 // This is an asynchronous function. It will spawn as many goroutines as you specify
 // in the `workers` argument. Set it to zero to spawn a new goroutine for each item.
+//
+// The resulting items have the same order as in the input slice.
 func FilterAsync[S ~[]T, T any](items S, workers int, f func(el T) bool) S {
 	resultMap := make([]bool, len(items))
 	wg := sync.WaitGroup{}
@@ -217,6 +219,8 @@ func FilterAsync[S ~[]T, T any](items S, workers int, f func(el T) bool) S {
 //
 // This is an asynchronous function. It will spawn as many goroutines as you specify
 // in the `workers` argument. Set it to zero to spawn a new goroutine for each item.
+//
+// The result items have the same order as in the input slice.
 func MapAsync[S ~[]T, T any, G any](items S, workers int, f func(el T) G) []G {
 	result := make([]G, len(items))
 	wg := sync.WaitGroup{}
@@ -249,10 +253,25 @@ func MapAsync[S ~[]T, T any, G any](items S, workers int, f func(el T) G) []G {
 	return result
 }
 
-// ReduceAsync reduces slice to a single value with f
+// ReduceAsync reduces slice to a single value with f.
 //
 // This is an asynchronous function. It will spawn as many goroutines as you specify
 // in the `workers` argument. Set it to zero to spawn a new goroutine for each item.
+//
+// The function is guaranteed to be called with neighbored items. However, it may be called
+// out of order. The results are collected into a new slice which is reduced again, until
+// only one item remains. You can think about it as a piramid. On each iteration,
+// 2 elements ar taken and merged together until only one remains.
+//
+// An example for sum:
+//
+// ```
+// 1 2 3 4 5
+//  3   7  5
+//   10    5
+//      15
+// ```
+//
 func ReduceAsync[S ~[]T, T any](items S, workers int, f func(left T, right T) T) T {
 	if len(items) == 0 {
 		var tmp T

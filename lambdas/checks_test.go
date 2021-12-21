@@ -41,3 +41,23 @@ func TestIsDefault(t *testing.T) {
 	is.True(lambdas.IsDefault(""))
 	is.True(lambdas.IsDefault(0))
 }
+
+func TestIsNil(t *testing.T) {
+	is := is.New(t)
+	var v1 *int
+	is.True(lambdas.IsNil(v1))
+	var v2 int = 2
+	is.True(!lambdas.IsNil(&v2))
+	var v3 []int
+	is.True(!lambdas.IsNil(&v3))
+}
+
+func TestIsNotNil(t *testing.T) {
+	is := is.New(t)
+	var v1 *int
+	is.True(!lambdas.IsNotNil(v1))
+	var v2 int = 2
+	is.True(lambdas.IsNotNil(&v2))
+	var v3 []int
+	is.True(lambdas.IsNotNil(&v3))
+}

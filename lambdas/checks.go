@@ -70,3 +70,15 @@ func IsNotDefault[T comparable](value T) bool {
 func IsNaN[T comparable](value T) bool {
 	return value != value
 }
+
+func IsNotNaN[T comparable](value T) bool {
+	return value == value
+}
+
+func IsNil[T any](value *T) bool {
+	return value == nil
+}
+
+func IsNotNil[T any](value *T) bool {
+	return value != nil
+}
