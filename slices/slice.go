@@ -437,10 +437,12 @@ func Same[S ~[]T, T comparable](items S) bool {
 	return true
 }
 
-// Shuffle in random order arr elements
-func Shuffle[S ~[]T, T any](items S, seed int64) S {
+// Shuffle in random order the given elements
+//
+// This is an in-place operation, it modifies the passed slice.
+func Shuffle[S ~[]T, T any](items S, seed int64) {
 	if len(items) <= 1 {
-		return items
+		return
 	}
 	if seed == 0 {
 		seed = time.Now().UnixNano()
@@ -450,7 +452,6 @@ func Shuffle[S ~[]T, T any](items S, seed int64) S {
 		items[i], items[j] = items[j], items[i]
 	}
 	rand.Shuffle(len(items), swap)
-	return items
 }
 
 // Sort returns sorted slice

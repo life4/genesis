@@ -376,8 +376,8 @@ func TestSame(t *testing.T) {
 func TestShuffle(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, seed int64, expected []int) {
-		actual := slices.Shuffle(given, seed)
-		is.Equal(expected, actual)
+		slices.Shuffle(given, seed)
+		is.Equal(given, expected)
 	}
 	f([]int{}, 0, []int{})
 	f([]int{1}, 0, []int{1})
