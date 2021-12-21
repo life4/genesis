@@ -4,13 +4,13 @@ import (
 	"testing"
 
 	"github.com/life4/genesis/slices"
-	"github.com/stretchr/testify/require"
+	"github.com/matryer/is"
 )
 
 func TestConcat(t *testing.T) {
+	is := is.New(t)
 	f := func(given [][]int, expected []int) {
-		actual := slices.Concat(given...)
-		require.Equal(t, expected, actual)
+		is.Equal(slices.Concat(given...), expected)
 	}
 	f([][]int{}, []int{})
 	f([][]int{{}}, []int{})
@@ -21,6 +21,7 @@ func TestConcat(t *testing.T) {
 }
 
 func TestProduct2(t *testing.T) {
+	is := is.New(t)
 	f := func(given [][]int, expected [][]int) {
 		actual := make([][]int, 0)
 		i := 0
@@ -31,13 +32,14 @@ func TestProduct2(t *testing.T) {
 				t.Fatal("infinite loop")
 			}
 		}
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([][]int{{1, 2}, {3, 4}}, [][]int{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
 	f([][]int{{1, 2}, {3}, {4, 5}}, [][]int{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
 }
 
 func TestZip(t *testing.T) {
+	is := is.New(t)
 	f := func(given [][]int, expected [][]int) {
 		actual := make([][]int, 0)
 		i := 0
@@ -48,7 +50,7 @@ func TestZip(t *testing.T) {
 				t.Fatal("infinite loop")
 			}
 		}
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([][]int{}, [][]int{})
 	f([][]int{{1}, {2}}, [][]int{{1, 2}})

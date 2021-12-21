@@ -4,14 +4,16 @@ import (
 	"testing"
 
 	"github.com/life4/genesis/channels"
+	"github.com/life4/genesis/lambdas"
 	"github.com/life4/genesis/slices"
-	"github.com/stretchr/testify/require"
+	"github.com/matryer/is"
 )
 
 func TestChoice(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, seed int64, expected int) {
-		actual, _ := slices.Choice(given, seed)
-		require.Equal(t, expected, actual)
+		actual := lambdas.Must(slices.Choice(given, seed))
+		is.Equal(expected, actual)
 	}
 	f([]int{1}, 0, 1)
 	f([]int{1, 2, 3}, 1, 3)
@@ -19,9 +21,10 @@ func TestChoice(t *testing.T) {
 }
 
 func TestChunkEvery(t *testing.T) {
+	is := is.New(t)
 	f := func(count int, given []int, expected [][]int) {
 		actual, _ := slices.ChunkEvery(given, count)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f(2, []int{}, [][]int{})
 	f(2, []int{1}, [][]int{{1}})
@@ -30,9 +33,10 @@ func TestChunkEvery(t *testing.T) {
 }
 
 func TestContains(t *testing.T) {
+	is := is.New(t)
 	f := func(el int, given []int, expected bool) {
 		actual := slices.Contains(given, el)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f(1, []int{}, false)
 	f(1, []int{1}, true)
@@ -43,9 +47,10 @@ func TestContains(t *testing.T) {
 }
 
 func TestCount(t *testing.T) {
+	is := is.New(t)
 	f := func(el int, given []int, expected int) {
 		actual := slices.Count(given, el)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f(1, []int{}, 0)
 	f(1, []int{1}, 1)
@@ -57,11 +62,12 @@ func TestCount(t *testing.T) {
 }
 
 func TestCycle(t *testing.T) {
+	is := is.New(t)
 	f := func(count int, given []int, expected []int) {
 		c := slices.Cycle(given)
 		seq := channels.Take(c, count)
 		actual := channels.ToSlice(seq)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f(5, []int{}, []int{})
 	f(5, []int{1}, []int{1, 1, 1, 1, 1})
@@ -69,9 +75,10 @@ func TestCycle(t *testing.T) {
 }
 
 func TestDedup(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, expected []int) {
 		actual := slices.Dedup(given)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, []int{})
 	f([]int{1}, []int{1})
@@ -83,9 +90,10 @@ func TestDedup(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, el int, expected []int) {
 		actual := slices.Delete(given, el)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, 1, []int{})
 	f([]int{1}, 1, []int{})
@@ -96,9 +104,10 @@ func TestDelete(t *testing.T) {
 }
 
 func TestDeleteAll(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, el int, expected []int) {
 		actual := slices.DeleteAll(given, el)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, 1, []int{})
 	f([]int{1}, 1, []int{})
@@ -109,9 +118,10 @@ func TestDeleteAll(t *testing.T) {
 }
 
 func TestDeleteAt(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, indices []int, expected []int) {
 		actual, _ := slices.DeleteAt(given, indices...)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, []int{}, []int{})
 	f([]int{1}, []int{0}, []int{})
@@ -127,9 +137,10 @@ func TestDeleteAt(t *testing.T) {
 }
 
 func TestDropEvery(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, nth int, from int, expected []int) {
 		actual, _ := slices.DropEvery(given, nth, from)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, 1, 1, []int{})
 	f([]int{1, 2, 3}, 1, 1, []int{})
@@ -145,9 +156,10 @@ func TestDropEvery(t *testing.T) {
 }
 
 func TestEndsWith(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, suffix []int, expected bool) {
 		actual := slices.EndsWith(given, suffix)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, []int{}, true)
 	f([]int{1}, []int{1}, true)
@@ -165,12 +177,13 @@ func TestEndsWith(t *testing.T) {
 }
 
 func TestEqual(t *testing.T) {
+	is := is.New(t)
 	f := func(left []int, right []int, expected bool) {
 		actual := slices.Equal(left, right)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 
 		actual = slices.Equal(right, left)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, []int{}, true)
 	f([]int{1}, []int{1}, true)
@@ -187,7 +200,7 @@ func TestEqual(t *testing.T) {
 }
 
 func TestJoin(t *testing.T) {
-	is := require.New(t)
+	is := is.New(t)
 	is.Equal(slices.Join([]int{}, ""), "")
 	is.Equal(slices.Join([]int{}, "|"), "")
 
@@ -201,10 +214,11 @@ func TestJoin(t *testing.T) {
 }
 
 func TestInsertAt(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, index int, expected []int, expectedErr error) {
 		actual, err := slices.InsertAt(given, index, 10)
-		require.Equal(t, expected, actual)
-		require.Equal(t, expectedErr, err)
+		is.Equal(expected, actual)
+		is.Equal(expectedErr, err)
 	}
 	f([]int{}, -1, []int{}, slices.ErrNegativeValue)
 	f([]int{}, 0, []int{10}, nil)
@@ -218,9 +232,10 @@ func TestInsertAt(t *testing.T) {
 }
 
 func TestIntersperse(t *testing.T) {
+	is := is.New(t)
 	f := func(el int, given []int, expected []int) {
 		actual := slices.Intersperse(given, el)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f(0, []int{}, []int{})
 	f(0, []int{1}, []int{1})
@@ -229,10 +244,11 @@ func TestIntersperse(t *testing.T) {
 }
 
 func TestLast(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, expectedEl int, expectedErr error) {
 		el, err := slices.Last(given)
-		require.Equal(t, expectedEl, el)
-		require.Equal(t, expectedErr, err)
+		is.Equal(expectedEl, el)
+		is.Equal(expectedErr, err)
 	}
 	f([]int{}, 0, slices.ErrEmpty)
 	f([]int{1}, 1, nil)
@@ -240,10 +256,11 @@ func TestLast(t *testing.T) {
 }
 
 func TestMax(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, expectedEl int, expectedErr error) {
 		el, err := slices.Max(given)
-		require.Equal(t, expectedEl, el)
-		require.Equal(t, expectedErr, err)
+		is.Equal(expectedEl, el)
+		is.Equal(expectedErr, err)
 	}
 	f([]int{}, 0, slices.ErrEmpty)
 	f([]int{1}, 1, nil)
@@ -253,10 +270,11 @@ func TestMax(t *testing.T) {
 }
 
 func TestMin(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, expectedEl int, expectedErr error) {
 		el, err := slices.Min(given)
-		require.Equal(t, expectedEl, el)
-		require.Equal(t, expectedErr, err)
+		is.Equal(expectedEl, el)
+		is.Equal(expectedErr, err)
 	}
 	f([]int{}, 0, slices.ErrEmpty)
 	f([]int{1}, 1, nil)
@@ -266,6 +284,7 @@ func TestMin(t *testing.T) {
 }
 
 func TestPermutations(t *testing.T) {
+	is := is.New(t)
 	f := func(size int, given []int, expected [][]int) {
 		actual := make([][]int, 0)
 		i := 0
@@ -276,7 +295,7 @@ func TestPermutations(t *testing.T) {
 				t.Fatal("infinite loop")
 			}
 		}
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f(2, []int{}, [][]int{})
 	f(2, []int{1}, [][]int{{1}})
@@ -284,6 +303,7 @@ func TestPermutations(t *testing.T) {
 }
 
 func TestProduct(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, repeat int, expected [][]int) {
 		actual := make([][]int, 0)
 		i := 0
@@ -294,7 +314,7 @@ func TestProduct(t *testing.T) {
 				t.Fatal("infinite loop")
 			}
 		}
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 
 	f([]int{1, 2}, 0, [][]int{})
@@ -310,9 +330,10 @@ func TestProduct(t *testing.T) {
 }
 
 func TestReverse(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, expected []int) {
 		actual := slices.Reverse(given)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, []int{})
 	f([]int{1}, []int{1})
@@ -322,7 +343,7 @@ func TestReverse(t *testing.T) {
 }
 
 func TestRepeat(t *testing.T) {
-	is := require.New(t)
+	is := is.New(t)
 	is.Equal(slices.Repeat([]int{}, 0), []int{})
 	is.Equal(slices.Repeat([]int{1}, 0), []int{})
 	is.Equal(slices.Repeat([]int{1, 2}, 0), []int{})
@@ -337,9 +358,10 @@ func TestRepeat(t *testing.T) {
 }
 
 func TestSame(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, expected bool) {
 		actual := slices.Same(given)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, true)
 	f([]int{1}, true)
@@ -352,9 +374,10 @@ func TestSame(t *testing.T) {
 }
 
 func TestShuffle(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, seed int64, expected []int) {
 		actual := slices.Shuffle(given, seed)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, 0, []int{})
 	f([]int{1}, 0, []int{1})
@@ -363,9 +386,10 @@ func TestShuffle(t *testing.T) {
 }
 
 func TestSorted(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, expected bool) {
 		actual := slices.Sorted(given)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, true)
 	f([]int{1}, true)
@@ -378,9 +402,10 @@ func TestSorted(t *testing.T) {
 }
 
 func TestSplit(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, sep int, expected [][]int) {
 		actual := slices.Split(given, sep)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, 1, [][]int{{}})
 	f([]int{2}, 1, [][]int{{2}})
@@ -391,9 +416,10 @@ func TestSplit(t *testing.T) {
 }
 
 func TestStartsWith(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, suffix []int, expected bool) {
 		actual := slices.StartsWith(given, suffix)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, []int{}, true)
 	f([]int{1}, []int{1}, true)
@@ -412,9 +438,10 @@ func TestStartsWith(t *testing.T) {
 }
 
 func TestSum(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, expected int) {
 		actual := slices.Sum(given)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, 0)
 	f([]int{1}, 1)
@@ -423,9 +450,10 @@ func TestSum(t *testing.T) {
 }
 
 func TestTakeEvery(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, nth int, from int, expected []int) {
 		actual, _ := slices.TakeEvery(given, nth, from)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 
 	// step 1
@@ -442,9 +470,10 @@ func TestTakeEvery(t *testing.T) {
 }
 
 func TestTakeRandom(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, count int, seed int64, expected []int) {
 		actual, _ := slices.TakeRandom(given, count, seed)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{1}, 1, 0, []int{1})
 	f([]int{1, 2, 3, 4, 5}, 3, 1, []int{3, 1, 2})
@@ -452,9 +481,10 @@ func TestTakeRandom(t *testing.T) {
 }
 
 func TestUniq(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, expected []int) {
 		actual := slices.Uniq(given)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, []int{})
 	f([]int{1}, []int{1})
@@ -466,9 +496,10 @@ func TestUniq(t *testing.T) {
 }
 
 func TestWindow(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, size int, expected [][]int) {
 		actual, _ := slices.Window(given, size)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, 1, [][]int{})
 	f([]int{1, 2, 3, 4}, 1, [][]int{{1}, {2}, {3}, {4}})
@@ -478,9 +509,10 @@ func TestWindow(t *testing.T) {
 }
 
 func TestWithout(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, items []int, expected []int) {
 		actual := slices.Without(given, items...)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, []int{}, []int{})
 	f([]int{}, []int{1, 2}, []int{})

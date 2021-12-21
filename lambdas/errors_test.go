@@ -5,18 +5,18 @@ import (
 	"testing"
 
 	"github.com/life4/genesis/lambdas"
-	"github.com/stretchr/testify/require"
+	"github.com/matryer/is"
 )
 
 func TestMust(t *testing.T) {
-	is := require.New(t)
+	is := is.New(t)
 	f := func() (int, error) { return 13, nil }
 	res := lambdas.Must(f())
 	is.Equal(res, 13)
 }
 
 func TestSafe(t *testing.T) {
-	is := require.New(t)
+	is := is.New(t)
 	f1 := func() (int, error) { return 13, nil }
 	is.Equal(lambdas.Safe(f1()), 13)
 	f2 := func() (int, error) { return 13, errors.New("hi") }
@@ -24,7 +24,7 @@ func TestSafe(t *testing.T) {
 }
 
 func TestDefaultTo(t *testing.T) {
-	is := require.New(t)
+	is := is.New(t)
 	f1 := func() (int, error) { return 13, nil }
 	is.Equal(lambdas.DefaultTo(4)(f1()), 13)
 	f2 := func() (int, error) { return 13, errors.New("hi") }

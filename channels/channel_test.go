@@ -5,10 +5,11 @@ import (
 	"testing"
 
 	"github.com/life4/genesis/channels"
-	"github.com/stretchr/testify/require"
+	"github.com/matryer/is"
 )
 
 func TestToSlice(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int) {
 		c := make(chan int, 1)
 		go func() {
@@ -18,7 +19,7 @@ func TestToSlice(t *testing.T) {
 			close(c)
 		}()
 		actual := channels.ToSlice(c)
-		require.Equal(t, given, actual)
+		is.Equal(given, actual)
 	}
 	f([]int{})
 	f([]int{1})
@@ -26,6 +27,7 @@ func TestToSlice(t *testing.T) {
 }
 
 func TestAny(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, expected bool) {
 		even := func(t int) bool { return t%2 == 0 }
 		c := make(chan int, 1)
@@ -36,7 +38,7 @@ func TestAny(t *testing.T) {
 			close(c)
 		}()
 		actual := channels.Any(c, even)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, false)
 	f([]int{1}, false)
@@ -49,6 +51,7 @@ func TestAny(t *testing.T) {
 }
 
 func TestAll(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, expected bool) {
 		even := func(t int) bool { return t%2 == 0 }
 		c := make(chan int, 1)
@@ -59,7 +62,7 @@ func TestAll(t *testing.T) {
 			close(c)
 		}()
 		actual := channels.All(c, even)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, true)
 	f([]int{1}, false)
@@ -71,6 +74,7 @@ func TestAll(t *testing.T) {
 }
 
 func TestEach(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int) {
 		c := make(chan int, 1)
 		go func() {
@@ -84,7 +88,7 @@ func TestEach(t *testing.T) {
 		channels.Each(c, mapper)
 		close(result)
 		actual := channels.ToSlice(result)
-		require.Equal(t, given, actual)
+		is.Equal(given, actual)
 	}
 
 	f([]int{})
@@ -94,6 +98,7 @@ func TestEach(t *testing.T) {
 }
 
 func TestChunkEvery(t *testing.T) {
+	is := is.New(t)
 	f := func(size int, given []int, expected [][]int) {
 		c := make(chan int, 1)
 		go func() {
@@ -107,7 +112,7 @@ func TestChunkEvery(t *testing.T) {
 		for el := range result {
 			actual = append(actual, el)
 		}
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f(2, []int{}, [][]int{})
 	f(2, []int{1}, [][]int{{1}})
@@ -117,6 +122,7 @@ func TestChunkEvery(t *testing.T) {
 }
 
 func TestCount(t *testing.T) {
+	is := is.New(t)
 	f := func(element int, given []int, expected int) {
 		c := make(chan int, 1)
 		go func() {
@@ -126,7 +132,7 @@ func TestCount(t *testing.T) {
 			close(c)
 		}()
 		actual := channels.Count(c, element)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f(1, []int{}, 0)
 	f(1, []int{1}, 1)
@@ -135,6 +141,7 @@ func TestCount(t *testing.T) {
 }
 
 func TestDrop(t *testing.T) {
+	is := is.New(t)
 	f := func(count int, given []int, expected []int) {
 		c := make(chan int, 1)
 		go func() {
@@ -148,7 +155,7 @@ func TestDrop(t *testing.T) {
 		for el := range result {
 			actual = append(actual, el)
 		}
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f(1, []int{}, []int{})
 	f(1, []int{2}, []int{})
@@ -160,6 +167,7 @@ func TestDrop(t *testing.T) {
 }
 
 func TestFilter(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, expected []int) {
 		even := func(t int) bool { return t%2 == 0 }
 		c := make(chan int, 1)
@@ -171,7 +179,7 @@ func TestFilter(t *testing.T) {
 		}()
 		result := channels.Filter(c, even)
 		actual := channels.ToSlice(result)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, []int{})
 	f([]int{1}, []int{})
@@ -180,6 +188,7 @@ func TestFilter(t *testing.T) {
 }
 
 func TestMap(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, expected []int) {
 		double := func(el int) int { return (el * 2) }
 		c := make(chan int, 1)
@@ -201,7 +210,7 @@ func TestMap(t *testing.T) {
 		}()
 
 		actual := channels.ToSlice(c2)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, []int{})
 	f([]int{1}, []int{2})
@@ -209,6 +218,7 @@ func TestMap(t *testing.T) {
 }
 
 func TestMax(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, expected int, expectedErr error) {
 		c := make(chan int, 1)
 		go func() {
@@ -218,8 +228,8 @@ func TestMax(t *testing.T) {
 			close(c)
 		}()
 		actual, actualErr := channels.Max(c)
-		require.Equal(t, expected, actual)
-		require.Equal(t, expectedErr, actualErr)
+		is.Equal(expected, actual)
+		is.Equal(expectedErr, actualErr)
 	}
 	f([]int{}, 0, channels.ErrEmpty)
 	f([]int{1, 4, 2}, 4, nil)
@@ -228,6 +238,7 @@ func TestMax(t *testing.T) {
 }
 
 func TestMin(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, expected int, expectedErr error) {
 		c := make(chan int, 1)
 		go func() {
@@ -237,8 +248,8 @@ func TestMin(t *testing.T) {
 			close(c)
 		}()
 		actual, actualErr := channels.Min(c)
-		require.Equal(t, expected, actual)
-		require.Equal(t, expectedErr, actualErr)
+		is.Equal(expected, actual)
+		is.Equal(expectedErr, actualErr)
 	}
 	f([]int{}, 0, channels.ErrEmpty)
 	f([]int{4, 1, 2}, 1, nil)
@@ -247,6 +258,7 @@ func TestMin(t *testing.T) {
 }
 
 func TestReduce(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, expected int) {
 		c := make(chan int, 1)
 		go func() {
@@ -257,7 +269,7 @@ func TestReduce(t *testing.T) {
 		}()
 		sum := func(el int, acc int) int { return (el) + acc }
 		actual := channels.Reduce(c, 0, sum)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, 0)
 	f([]int{1}, 1)
@@ -266,6 +278,7 @@ func TestReduce(t *testing.T) {
 }
 
 func TestScan(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, expected []int) {
 		c := make(chan int, 1)
 		go func() {
@@ -287,7 +300,7 @@ func TestScan(t *testing.T) {
 		}()
 
 		actual := channels.ToSlice(c2)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, []int{})
 	f([]int{1}, []int{1})
@@ -296,6 +309,7 @@ func TestScan(t *testing.T) {
 }
 
 func TestSum(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, expected int) {
 		c := make(chan int, 1)
 		go func() {
@@ -305,7 +319,7 @@ func TestSum(t *testing.T) {
 			close(c)
 		}()
 		actual := channels.Sum(c)
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f([]int{}, 0)
 	f([]int{1}, 1)
@@ -314,13 +328,14 @@ func TestSum(t *testing.T) {
 }
 
 func TestTake(t *testing.T) {
+	is := is.New(t)
 	f := func(count int, given int, expected []int) {
 		ctx, cancel := context.WithCancel(context.Background())
 		seq := channels.Repeat(ctx, given)
 		seq2 := channels.Take(seq, count)
 		actual := channels.ToSlice(seq2)
 		cancel()
-		require.Equal(t, expected, actual)
+		is.Equal(expected, actual)
 	}
 	f(0, 1, []int{})
 	f(1, 1, []int{1})
@@ -328,6 +343,7 @@ func TestTake(t *testing.T) {
 }
 
 func TestTee(t *testing.T) {
+	is := is.New(t)
 	f := func(count int, given []int) {
 		c := make(chan int, 1)
 		go func() {
@@ -340,7 +356,7 @@ func TestTee(t *testing.T) {
 		for _, ch := range chans {
 			go func(ch chan int) {
 				actual := channels.ToSlice(ch)
-				require.Equal(t, given, actual)
+				is.Equal(given, actual)
 			}(ch)
 		}
 	}

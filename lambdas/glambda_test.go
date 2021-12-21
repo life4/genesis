@@ -4,11 +4,11 @@ import (
 	"testing"
 
 	"github.com/life4/genesis/lambdas"
-	"github.com/stretchr/testify/require"
+	"github.com/matryer/is"
 )
 
 func TestAbs(t *testing.T) {
-	is := require.New(t)
+	is := is.New(t)
 	is.Equal(lambdas.Abs(2), 2)
 	is.Equal(lambdas.Abs(-2), 2)
 	is.Equal(lambdas.Abs(0), 0)
@@ -16,7 +16,7 @@ func TestAbs(t *testing.T) {
 }
 
 func TestMin(t *testing.T) {
-	is := require.New(t)
+	is := is.New(t)
 	is.Equal(lambdas.Min(2, 3), 2)
 	is.Equal(lambdas.Min(3, 2), 2)
 	is.Equal(lambdas.Min(-2, 3), -2)
@@ -25,7 +25,7 @@ func TestMin(t *testing.T) {
 }
 
 func TestMax(t *testing.T) {
-	is := require.New(t)
+	is := is.New(t)
 	is.Equal(lambdas.Max(2, 3), 3)
 	is.Equal(lambdas.Max(3, 2), 3)
 	is.Equal(lambdas.Max(-2, 3), 3)

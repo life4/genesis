@@ -5,13 +5,13 @@ import (
 
 	"github.com/life4/genesis/channels"
 	"github.com/life4/genesis/slices"
-	"github.com/stretchr/testify/require"
+	"github.com/matryer/is"
 )
 
 func TestAnyAsync(t *testing.T) {
+	is := is.New(t)
 	f := func(check func(t int) bool, given []int, expected bool) {
-		actual := slices.AnyAsync(given, 2, check)
-		require.Equal(t, expected, actual)
+		is.Equal(slices.AnyAsync(given, 2, check), expected)
 	}
 	isEven := func(t int) bool { return (t % 2) == 0 }
 
@@ -25,9 +25,9 @@ func TestAnyAsync(t *testing.T) {
 }
 
 func TestAllAsync(t *testing.T) {
+	is := is.New(t)
 	f := func(check func(t int) bool, given []int, expected bool) {
-		actual := slices.AllAsync(given, 2, check)
-		require.Equal(t, expected, actual)
+		is.Equal(slices.AllAsync(given, 2, check), expected)
 	}
 	isEven := func(t int) bool { return (t % 2) == 0 }
 
@@ -42,6 +42,7 @@ func TestAllAsync(t *testing.T) {
 }
 
 func TestEachAsync(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int) {
 		result := make(chan int, len(given))
 		mapper := func(t int) { result <- t }
@@ -49,7 +50,7 @@ func TestEachAsync(t *testing.T) {
 		close(result)
 		actual := channels.ToSlice(result)
 		sorted := slices.Sort(actual)
-		require.Equal(t, given, sorted)
+		is.Equal(given, sorted)
 	}
 
 	f([]int{})
@@ -59,10 +60,10 @@ func TestEachAsync(t *testing.T) {
 }
 
 func TestFilterAsync(t *testing.T) {
+	is := is.New(t)
 	f := func(given []int, expected []int) {
 		filter := func(t int) bool { return t > 10 }
-		actual := slices.FilterAsync(given, 2, filter)
-		require.Equal(t, expected, actual)
+		is.Equal(slices.FilterAsync(given, 2, filter), expected)
 	}
 
 	f([]int{}, []int{})
@@ -72,9 +73,9 @@ func TestFilterAsync(t *testing.T) {
 }
 
 func TestMapAsync(t *testing.T) {
+	is := is.New(t)
 	f := func(mapper func(t int) int, given []int, expected []int) {
-		actual := slices.MapAsync(given, 2, mapper)
-		require.Equal(t, expected, actual)
+		is.Equal(slices.MapAsync(given, 2, mapper), expected)
 	}
 	double := func(t int) int { return (t * 2) }
 
@@ -83,9 +84,9 @@ func TestMapAsync(t *testing.T) {
 	f(double, []int{1, 2, 3}, []int{2, 4, 6})
 }
 func TestReduceAsync(t *testing.T) {
+	is := is.New(t)
 	f := func(reducer func(a int, b int) int, given []int, expected int) {
-		actual := slices.ReduceAsync(given, 4, reducer)
-		require.Equal(t, expected, actual)
+		is.Equal(slices.ReduceAsync(given, 4, reducer), expected)
 	}
 	sum := func(a int, b int) int { return a + b }
 

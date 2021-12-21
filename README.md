@@ -20,7 +20,9 @@ And much more.
 
 + Uses the power of Go 1.18+ generics.
 + No code generation.
-+ Sync and async versions.
++ No dependencies (except [is](https://github.com/matryer/is) for testing).
++ Pure Go.
++ Sync and async versions of all the main functions.
 + For slices and channels.
 
 ```bash
