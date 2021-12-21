@@ -46,7 +46,6 @@ slices.Map([]int{4, 8, 15}, func(el int) int { return el * 2 })
 Genesis contains the following packages:
 
 + [slices](https://pkg.go.dev/github.com/life4/genesis/slices): generic functions for slices.
-+ [aslices](https://pkg.go.dev/github.com/life4/genesis/aslices): asynchronous versions of some slice functions. You specify how many goroutines to run, genesis does the magic.
 + [channels](https://pkg.go.dev/github.com/life4/genesis/channels): generic function for channels.
 + [lambdas](https://pkg.go.dev/github.com/life4/genesis/lambdas): helper generic functions to work with `slices.Map` and similar.
 

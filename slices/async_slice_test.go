@@ -1,17 +1,16 @@
-package aslices_test
+package slices_test
 
 import (
 	"testing"
 
-	"github.com/life4/genesis/aslices"
 	"github.com/life4/genesis/channels"
 	"github.com/life4/genesis/slices"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestAny(t *testing.T) {
+func TestAnyAsync(t *testing.T) {
 	f := func(check func(t int) bool, given []int, expected bool) {
-		actual := aslices.Any(given, 2, check)
+		actual := slices.AnyAsync(given, 2, check)
 		assert.Equal(t, expected, actual)
 	}
 	isEven := func(t int) bool { return (t % 2) == 0 }
@@ -25,9 +24,9 @@ func TestAny(t *testing.T) {
 	f(isEven, []int{1, 3, 5, 7, 9, 12}, true)
 }
 
-func TestAll(t *testing.T) {
+func TestAllAsync(t *testing.T) {
 	f := func(check func(t int) bool, given []int, expected bool) {
-		actual := aslices.All(given, 2, check)
+		actual := slices.AllAsync(given, 2, check)
 		assert.Equal(t, expected, actual)
 	}
 	isEven := func(t int) bool { return (t % 2) == 0 }
@@ -42,11 +41,11 @@ func TestAll(t *testing.T) {
 	f(isEven, []int{2, 4, 6, 8, 10, 11}, false)
 }
 
-func TestEach(t *testing.T) {
+func TestEachAsync(t *testing.T) {
 	f := func(given []int) {
 		result := make(chan int, len(given))
 		mapper := func(t int) { result <- t }
-		aslices.Each(given, 2, mapper)
+		slices.EachAsync(given, 2, mapper)
 		close(result)
 		actual := channels.ToSlice(result)
 		sorted := slices.Sort(actual)
@@ -59,10 +58,10 @@ func TestEach(t *testing.T) {
 	f([]int{1, 2, 3, 4, 5, 6, 7})
 }
 
-func TestFilter(t *testing.T) {
+func TestFilterAsync(t *testing.T) {
 	f := func(given []int, expected []int) {
 		filter := func(t int) bool { return t > 10 }
-		actual := aslices.Filter(given, 2, filter)
+		actual := slices.FilterAsync(given, 2, filter)
 		assert.Equal(t, expected, actual)
 	}
 
@@ -72,9 +71,9 @@ func TestFilter(t *testing.T) {
 	f([]int{9, 11, 12, 13, 6}, []int{11, 12, 13})
 }
 
-func TestMap(t *testing.T) {
+func TestMapAsync(t *testing.T) {
 	f := func(mapper func(t int) int, given []int, expected []int) {
-		actual := aslices.Map(given, 2, mapper)
+		actual := slices.MapAsync(given, 2, mapper)
 		assert.Equal(t, expected, actual)
 	}
 	double := func(t int) int { return (t * 2) }
@@ -83,9 +82,9 @@ func TestMap(t *testing.T) {
 	f(double, []int{1}, []int{2})
 	f(double, []int{1, 2, 3}, []int{2, 4, 6})
 }
-func TestReduce(t *testing.T) {
+func TestReduceAsync(t *testing.T) {
 	f := func(reducer func(a int, b int) int, given []int, expected int) {
-		actual := aslices.Reduce(given, 4, reducer)
+		actual := slices.ReduceAsync(given, 4, reducer)
 		assert.Equal(t, expected, actual)
 	}
 	sum := func(a int, b int) int { return a + b }

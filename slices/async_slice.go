@@ -1,12 +1,15 @@
-package aslices
+package slices
 
 import (
 	"context"
 	"sync"
 )
 
-// All returns true if f returns true for all elements in slice
-func All[S ~[]T, T any](items S, workers int, f func(el T) bool) bool {
+// AllAsync returns true if f returns true for all elements in slice.
+//
+// This is an asynchronous function. It will spawn as many goroutines as you specify
+// in the `workers` argument. Set it to zero to spawn a new goroutine for each item.
+func AllAsync[S ~[]T, T any](items S, workers int, f func(el T) bool) bool {
 	if len(items) == 0 {
 		return true
 	}
@@ -66,8 +69,11 @@ func All[S ~[]T, T any](items S, workers int, f func(el T) bool) bool {
 	return true
 }
 
-// Any returns true if f returns true for any element from slice
-func Any[S ~[]T, T any](items S, workers int, f func(el T) bool) bool {
+// AnyAsync returns true if f returns true for any element from slice
+//
+// This is an asynchronous function. It will spawn as many goroutines as you specify
+// in the `workers` argument. Set it to zero to spawn a new goroutine for each item.
+func AnyAsync[S ~[]T, T any](items S, workers int, f func(el T) bool) bool {
 	if len(items) == 0 {
 		return false
 	}
@@ -127,8 +133,11 @@ func Any[S ~[]T, T any](items S, workers int, f func(el T) bool) bool {
 	return false
 }
 
-// Each calls f for every element from slice
-func Each[S ~[]T, T any](items S, workers int, f func(el T)) {
+// EachAsync calls f for every element from slice
+//
+// This is an asynchronous function. It will spawn as many goroutines as you specify
+// in the `workers` argument. Set it to zero to spawn a new goroutine for each item.
+func EachAsync[S ~[]T, T any](items S, workers int, f func(el T)) {
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int) {
@@ -158,8 +167,11 @@ func Each[S ~[]T, T any](items S, workers int, f func(el T)) {
 	wg.Wait()
 }
 
-// Filter returns slice of element for which f returns true
-func Filter[S ~[]T, T any](items S, workers int, f func(el T) bool) S {
+// FilterAsync returns slice of element for which f returns true
+//
+// This is an asynchronous function. It will spawn as many goroutines as you specify
+// in the `workers` argument. Set it to zero to spawn a new goroutine for each item.
+func FilterAsync[S ~[]T, T any](items S, workers int, f func(el T) bool) S {
 	resultMap := make([]bool, len(items))
 	wg := sync.WaitGroup{}
 
@@ -201,8 +213,11 @@ func Filter[S ~[]T, T any](items S, workers int, f func(el T) bool) S {
 	return result
 }
 
-// Map applies F to all elements in slice of T and returns slice of results
-func Map[S ~[]T, T any, G any](items S, workers int, f func(el T) G) []G {
+// MapAsync applies F to all elements in slice of T and returns slice of results
+//
+// This is an asynchronous function. It will spawn as many goroutines as you specify
+// in the `workers` argument. Set it to zero to spawn a new goroutine for each item.
+func MapAsync[S ~[]T, T any, G any](items S, workers int, f func(el T) G) []G {
 	result := make([]G, len(items))
 	wg := sync.WaitGroup{}
 
@@ -234,8 +249,11 @@ func Map[S ~[]T, T any, G any](items S, workers int, f func(el T) G) []G {
 	return result
 }
 
-// Reduce reduces slice to a single value with f
-func Reduce[S ~[]T, T any](items S, workers int, f func(left T, right T) T) T {
+// ReduceAsync reduces slice to a single value with f
+//
+// This is an asynchronous function. It will spawn as many goroutines as you specify
+// in the `workers` argument. Set it to zero to spawn a new goroutine for each item.
+func ReduceAsync[S ~[]T, T any](items S, workers int, f func(left T, right T) T) T {
 	if len(items) == 0 {
 		var tmp T
 		return tmp
