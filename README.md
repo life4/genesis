@@ -77,6 +77,6 @@ Genesis contains the following packages:
 + [channels](https://pkg.go.dev/github.com/life4/genesis/channels): generic function for channels.
 + [lambdas](https://pkg.go.dev/github.com/life4/genesis/lambdas): helper generic functions to work with `slices.Map` and similar.
 
-See [documentation](https://pkg.go.dev/github.com/life4/genesis@v1.0.0) for more information.
+See [documentation](https://pkg.go.dev/github.com/life4/genesis) for more information.
 
 ![mascot image](./gopher.png)
