@@ -4,6 +4,7 @@ Generic functions for Go. Bringing the beauty of functional programming in Go 1.
 
 **Features:**
 
++ Over 130 generic functions for channels, maps, and slices.
 + Uses the power of Go 1.18+ generics.
 + No code generation.
 + No dependencies (except [is](https://github.com/matryer/is) for testing).
@@ -72,11 +73,11 @@ codes := slices.MapAsync(
 
 Genesis contains the following packages:
 
-+ [slices](https://pkg.go.dev/github.com/life4/genesis/slices): generic functions for slices.
-+ [maps](https://pkg.go.dev/github.com/life4/genesis/maps): generic functions for maps.
-+ [channels](https://pkg.go.dev/github.com/life4/genesis/channels): generic function for channels.
-+ [lambdas](https://pkg.go.dev/github.com/life4/genesis/lambdas): helper generic functions to work with `slices.Map` and similar.
++ [slices](./slices): generic functions for slices.
++ [maps](./maps): generic functions for maps.
++ [channels](./channels): generic function for channels.
++ [lambdas](./lambdas): helper generic functions to work with `slices.Map` and similar.
 
-See [documentation](https://pkg.go.dev/github.com/life4/genesis) for more information.
+**IMPORTANT**: pkg.go.dev doesn't show the documentation for packages with generics just yet (see [#48264](https://github.com/golang/go/issues/48264)). Use github to read the source code or browse the documentation locally.
 
 ![mascot image](./gopher.png)
