@@ -1,12 +1,13 @@
 package slices
 
 import (
-	"constraints"
 	"fmt"
 	"math/rand"
 	"sort"
 	"strings"
 	"time"
+
+	"golang.org/x/exp/constraints"
 )
 
 // Choice chooses a random element from the slice.

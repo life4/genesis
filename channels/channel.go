@@ -1,8 +1,9 @@
 package channels
 
 import (
-	"constraints"
 	"sync"
+
+	"golang.org/x/exp/constraints"
 )
 
 // Any returns true if f returns true for any element in channel

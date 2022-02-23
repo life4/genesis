@@ -1,8 +1,9 @@
 package channels
 
 import (
-	"constraints"
 	"context"
+
+	"golang.org/x/exp/constraints"
 )
 
 // Counter is like Range, but infinite

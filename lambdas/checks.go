@@ -1,6 +1,6 @@
 package lambdas
 
-import "constraints"
+import "golang.org/x/exp/constraints"
 
 // EqualTo returns lambda that checks if an item is equal to the given value.
 func EqualTo[T comparable](a T) func(T) bool {

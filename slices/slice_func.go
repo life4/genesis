@@ -1,7 +1,7 @@
 package slices
 
 import (
-	"constraints"
+	"golang.org/x/exp/constraints"
 )
 
 // Any returns true if f returns true for any element in arr
