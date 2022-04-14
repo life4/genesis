@@ -1,7 +1,7 @@
 package channels
 
 import (
-	"constraints"
+	"github.com/jamiri/genesis/constraints"
 	"sync"
 )
 

@@ -1,6 +1,6 @@
 package lambdas
 
-import "constraints"
+import "github.com/jamiri/genesis/constraints"
 
 type Number interface {
 	constraints.Integer | constraints.Float

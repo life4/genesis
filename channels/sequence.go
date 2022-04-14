@@ -1,8 +1,8 @@
 package channels
 
 import (
-	"constraints"
 	"context"
+	"github.com/jamiri/genesis/constraints"
 )
 
 // Counter is like Range, but infinite

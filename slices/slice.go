@@ -1,8 +1,8 @@
 package slices
 
 import (
-	"constraints"
 	"fmt"
+	"github.com/jamiri/genesis/constraints"
 	"math/rand"
 	"sort"
 	"strings"

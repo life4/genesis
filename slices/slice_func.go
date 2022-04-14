@@ -1,7 +1,7 @@
 package slices
 
 import (
-	"constraints"
+	"github.com/jamiri/genesis/constraints"
 )
 
 // Any returns true if f returns true for any element in arr
