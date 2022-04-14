@@ -1,7 +1,7 @@
 package slices
 
 import (
-	"constraints"
+	"github.com/life4/genesis/constraints"
 	"fmt"
 	"math/rand"
 	"sort"

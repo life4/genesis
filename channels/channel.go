@@ -1,7 +1,7 @@
 package channels
 
 import (
-	"constraints"
+	"github.com/life4/genesis/constraints"
 	"sync"
 )
 
