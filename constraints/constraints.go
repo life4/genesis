@@ -34,13 +34,6 @@ type Float interface {
 	~float32 | ~float64
 }
 
-// Complex is a constraint that permits any complex numeric type.
-// If future releases of Go add new predeclared complex numeric types,
-// this constraint will be modified to include them.
-type Complex interface {
-	~complex64 | ~complex128
-}
-
 // Ordered is a constraint that permits any ordered type: any type
 // that supports the operators < <= >= >.
 // If future releases of Go add new ordered types,
