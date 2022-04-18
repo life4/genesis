@@ -1,6 +1,6 @@
 package lambdas
 
-import "constraints"
+import "github.com/life4/genesis/constraints"
 
 // EqualTo returns lambda that checks if an item is equal to the given value.
 func EqualTo[T comparable](a T) func(T) bool {
