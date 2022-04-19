@@ -14,7 +14,7 @@ Generic functions for Go. Bringing the beauty of functional programming in Go 1.
 
 **When to use:**
 
-+ In a big project. More the project grows, more you find yourself writing oring generic code like "Min". Break the cyrcle.
++ In a big project. More the project grows, more you find yourself writing boring generic code like "Min". Break the cycle.
 + In a team project. Each like of code you write means higher maintenance cost that in turn means loosing time and money.
 + In a pet project. Leave the boring stuff to us, focus on the fun parts.
 + When readability matters. `slices.Shrink` is a function with a human-friendly name and documentation. `s[:len(s):len(s)]` is a jibberish and black magic. Prefer the former.
