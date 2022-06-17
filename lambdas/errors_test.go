@@ -15,6 +15,11 @@ func TestMust(t *testing.T) {
 	is.Equal(res, 13)
 }
 
+func TestEnsure(t *testing.T) {
+	f := func() error { return nil }
+	lambdas.Ensure(f())
+}
+
 func TestSafe(t *testing.T) {
 	is := is.New(t)
 	f1 := func() (int, error) { return 13, nil }

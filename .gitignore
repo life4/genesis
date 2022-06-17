@@ -1,2 +1,13 @@
 __pycache__/
 .mypy_cache/
+
+# goland
+.idea
+
+# vscode
+.vscode
+
+# linux temp files,
+.swp
+*~
+
