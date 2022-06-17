@@ -57,15 +57,15 @@ Concurrently check status codes for multiple URLs:
 
 ```go
 urls := []string{
-	"https://go.dev/",
-	"https://golang.org/",
-	"https://google.com/",
+ "https://go.dev/",
+ "https://golang.org/",
+ "https://google.com/",
 }
 codes := slices.MapAsync(
-	urls, 0,
-	func(url string) int {
-		return lambdas.Must(http.Get(url)).StatusCode
-	},
+ urls, 0,
+ func(url string) int {
+  return lambdas.Must(http.Get(url)).StatusCode
+ },
 )
 ```
 
@@ -73,11 +73,9 @@ codes := slices.MapAsync(
 
 Genesis contains the following packages:
 
-+ [slices](./slices): generic functions for slices.
-+ [maps](./maps): generic functions for maps.
-+ [channels](./channels): generic function for channels.
-+ [lambdas](./lambdas): helper generic functions to work with `slices.Map` and similar.
++ [slices](https://pkg.go.dev/github.com/life4/genesis/slices): generic functions for slices.
++ [maps](https://pkg.go.dev/github.com/life4/genesis/maps): generic functions for maps.
++ [channels](https://pkg.go.dev/github.com/life4/genesis/channels): generic function for channels.
++ [lambdas](https://pkg.go.dev/github.com/life4/genesis/lambdas): helper generic functions to work with `slices.Map` and similar.
 
-**IMPORTANT**: pkg.go.dev doesn't show the documentation for packages with generics just yet (see [#48264](https://github.com/golang/go/issues/48264)). Use github to read the source code or browse the documentation locally.
-
-![mascot image](./gopher.png)
+See [DOCUMENTATION](https://pkg.go.dev/github.com/life4/genesis) for more info.
