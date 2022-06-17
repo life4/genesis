@@ -8,9 +8,9 @@ func Must[T any](val T, err error) T {
 	return val
 }
 
-// Assert wraps a function invicotaion and panic if it returned an error.
-// Compared to Must, in Assert the called function only return an error.
-func Assert(err error) {
+// Ensure wraps a function invicotaion and panic if it returned an error.
+// Compared to Must, in Ensure the called function only returns an error.
+func Ensure(err error) {
 	if err != nil {
 		panic(err)
 	}
