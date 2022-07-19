@@ -353,6 +353,7 @@ func TestTee(t *testing.T) {
 			close(c)
 		}()
 		chans := channels.Tee(c, count)
+		is.Equal(count, len(chans))
 		for _, ch := range chans {
 			go func(ch chan int) {
 				actual := channels.ToSlice(ch)

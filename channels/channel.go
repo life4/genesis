@@ -188,7 +188,7 @@ func Take[T any](c <-chan T, count int) chan T {
 	return result
 }
 
-// Tee returns 2 channels with elements from the input channel
+// Tee returns "count" number of channels with elements from the input channel
 func Tee[T any](c <-chan T, count int) []chan T {
 	channels := make([]chan T, 0, count)
 	for i := 0; i < count; i++ {
