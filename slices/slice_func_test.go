@@ -1,6 +1,7 @@
 package slices_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/life4/genesis/slices"
@@ -164,6 +165,25 @@ func TestMap(t *testing.T) {
 	f([]int{1, 2, 3}, []int{2, 4, 6})
 }
 
+func TestMapFilter(t *testing.T) {
+	is := is.New(t)
+	f := func(given []int, expected []string) {
+		isEven := func(t int) *string {
+			if t%2 == 0 {
+				s := fmt.Sprintf("%d", t)
+				return &s
+			} else {
+				return nil
+			}
+
+		}
+		actual := slices.MapFilter(given, isEven)
+		is.Equal(expected, actual)
+	}
+	f([]int{}, []string{})
+	f([]int{1}, []string{})
+	f([]int{1, 2, 3, 4}, []string{"2", "4"})
+}
 func TestReduce(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, expected int) {
