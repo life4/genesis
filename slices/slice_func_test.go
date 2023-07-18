@@ -168,12 +168,12 @@ func TestMap(t *testing.T) {
 func TestMapFilter(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, expected []string) {
-		isEven := func(t int) *string {
+		isEven := func(t int) (string, bool) {
 			if t%2 == 0 {
 				s := fmt.Sprintf("%d", t)
-				return &s
+				return s, true
 			} else {
-				return nil
+				return "", false
 			}
 
 		}

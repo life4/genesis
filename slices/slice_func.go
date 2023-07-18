@@ -192,12 +192,12 @@ func Map[S ~[]T, T any, G any](items S, f func(el T) G) []G {
 }
 
 // Map applies F to all elements in slice of T and returns slice results as pointers, and will filter out the non-nil ones.
-func MapFilter[S ~[]T, T any, G any](items S, f func(el T) *G) []G {
+func MapFilter[S ~[]T, T any, G any](items S, f func(el T) (G, bool)) []G {
 	result := make([]G, 0, len(items))
 	for _, el := range items {
-		r := f(el)
-		if r != nil {
-			result = append(result, *r)
+		r, b := f(el)
+		if b {
+			result = append(result, r)
 		}
 	}
 	return result
