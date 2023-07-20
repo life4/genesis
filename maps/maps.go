@@ -28,6 +28,15 @@ func Equal[M1, M2 ~map[K]V, K, V comparable](items1 M1, items2 M2) bool {
 	return true
 }
 
+// FromKeys makes a new map with keys taken from `keys` array and all values equal to `value`.
+func FromKeys[K comparable, V any](keys []K, value V) map[K]V {
+	result := make(map[K]V)
+	for _, key := range keys {
+		result[key] = value
+	}
+	return result
+}
+
 // HasKey returns true if the given map contains the given key.
 func HasKey[M ~map[K]V, K comparable, V any](items M, key K) bool {
 	_, ok := items[key]
