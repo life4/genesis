@@ -118,6 +118,21 @@ func ExampleMap() {
 	// Output: [8 16 30 32 46 84]
 }
 
+func ExampleMapFilter() {
+	s := []int{4, 8, 15, 16, 23, 42}
+	isEven := func(t int) (string, bool) {
+		if t%2 == 0 {
+			s := fmt.Sprintf("%d", t)
+			return s, true
+		} else {
+			return "", false
+		}
+
+	}
+	doubled := slices.MapFilter(s, isEven)
+	fmt.Println(doubled)
+	// Output: [4 8 16 42]
+}
 func ExampleMapAsync() {
 	pages := slices.MapAsync(
 		[]string{"google.com", "go.dev", "golang.org"},
