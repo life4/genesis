@@ -14,6 +14,8 @@ func TestCopy(t *testing.T) {
 	m2 := maps.Copy(m1)
 	m2[3] = 4
 	is.Equal(m1, map[int]int{1: 2})
+
+	is.Equal(maps.Copy[map[int]int](nil), nil)
 }
 
 func TestEqual(t *testing.T) {
@@ -21,6 +23,7 @@ func TestEqual(t *testing.T) {
 	is.True(maps.Equal(map[int]int{}, map[int]int{}))
 	is.True(maps.Equal(map[int]int{1: 2}, map[int]int{1: 2}))
 	is.True(maps.Equal(map[int]int{1: 2, 3: 4}, map[int]int{1: 2, 3: 4}))
+	is.True(maps.Equal[map[int]int, map[int]int](nil, nil))
 
 	is.True(!maps.Equal(map[int]int{1: 2, 3: 4}, map[int]int{1: 2, 3: 4, 5: 6}))
 	is.True(!maps.Equal(map[int]int{1: 2, 3: 4}, map[int]int{}))
@@ -41,6 +44,7 @@ func TestHasKey(t *testing.T) {
 	is.True(!maps.HasKey(m, 2))
 	is.True(!maps.HasKey(m, 4))
 	is.True(!maps.HasKey(m, 5))
+	is.True(!maps.HasKey[map[int]int](nil, 3))
 }
 
 func TestFromKeys(t *testing.T) {

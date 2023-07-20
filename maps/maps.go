@@ -1,7 +1,10 @@
 package maps
 
-// Copy returns a copy of the given map
+// Copy returns a copy of the given map.
 func Copy[M ~map[K]V, K comparable, V any](items M) M {
+	if items == nil {
+		return nil
+	}
 	result := make(M)
 	for key, value := range items {
 		result[key] = value
