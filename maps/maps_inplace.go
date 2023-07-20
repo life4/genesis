@@ -92,3 +92,13 @@ func IMergeBy[M1, M2 ~map[K]V, K, V comparable](target M1, items M2, f func(K, V
 		target[key] = value2
 	}
 }
+
+// IMapValues applies the function to the map values.
+//
+// This is an in-place operation. It modifies `items` map in-place.
+// If you want to create a new map, use [MapValues] instead.
+func IMapValues[M ~map[K]V, K comparable, V any](items M, f func(V) V) {
+	for key, value := range items {
+		items[key] = f(value)
+	}
+}

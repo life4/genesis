@@ -71,8 +71,8 @@ func TestMapKeys(t *testing.T) {
 func TestMapValues(t *testing.T) {
 	is := is.New(t)
 	m := map[int]int32{1: 2, 3: 4, 5: 6}
-	f := func(k int32) int64 {
-		return int64(k * 2)
+	f := func(v int32) int64 {
+		return int64(v * 2)
 	}
 	is.Equal(maps.MapValues(m, f), map[int]int64{1: 4, 3: 8, 5: 12})
 }
