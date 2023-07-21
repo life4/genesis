@@ -191,7 +191,7 @@ func Map[S ~[]T, T any, G any](items S, f func(el T) G) []G {
 	return result
 }
 
-// Map applies F to all elements in slice of T and returns slice results as pointers, and will filter out the non-nil ones.
+// MapFilter returns slice of `f` results for which `f` also returned true.
 func MapFilter[S ~[]T, T any, G any](items S, f func(el T) (G, bool)) []G {
 	result := make([]G, 0, len(items))
 	for _, el := range items {
@@ -203,7 +203,7 @@ func MapFilter[S ~[]T, T any, G any](items S, f func(el T) (G, bool)) []G {
 	return result
 }
 
-// Reduce applies F to acc and every element in slice of T and returns acc
+// Reduce applies `f` to acc and every element in slice of `items` and returns `acc`.
 func Reduce[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) G) G {
 	for _, el := range items {
 		acc = f(el, acc)

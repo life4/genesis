@@ -1,7 +1,10 @@
 package maps
 
-// Copy returns a copy of the given map
+// Copy returns a copy of the given map.
 func Copy[M ~map[K]V, K comparable, V any](items M) M {
+	if items == nil {
+		return nil
+	}
 	result := make(M)
 	for key, value := range items {
 		result[key] = value
@@ -28,13 +31,32 @@ func Equal[M1, M2 ~map[K]V, K, V comparable](items1 M1, items2 M2) bool {
 	return true
 }
 
+// FromKeys makes a new map with keys taken from `keys` array and all values equal to `value`.
+func FromKeys[K comparable, V any](keys []K, value V) map[K]V {
+	result := make(map[K]V)
+	for _, key := range keys {
+		result[key] = value
+	}
+	return result
+}
+
 // HasKey returns true if the given map contains the given key.
 func HasKey[M ~map[K]V, K comparable, V any](items M, key K) bool {
 	_, ok := items[key]
 	return ok
 }
 
-// Map calls the given function f with each key and value and makes a new map
+// HasValue returns true if the given map contains the given value.
+func HasValue[M ~map[K]V, K, V comparable](items M, val V) bool {
+	for _, v := range items {
+		if v == val {
+			return true
+		}
+	}
+	return false
+}
+
+// Map calls the given function `f` with each key and value and makes a new map
 // out of key-value pairs returned by the function.
 func Map[M ~map[K]V, K, RK comparable, V, RV any](items M, f func(K, V) (RK, RV)) map[RK]RV {
 	result := make(map[RK]RV)
@@ -45,7 +67,7 @@ func Map[M ~map[K]V, K, RK comparable, V, RV any](items M, f func(K, V) (RK, RV)
 	return result
 }
 
-// MapKeys is like Map but the function f accepts only a key and returns only the new key.
+// MapKeys is like [Map] but the function f accepts only a key and returns only the new key.
 func MapKeys[M ~map[K]V, K, RK comparable, V any](items M, f func(K) RK) map[RK]V {
 	result := make(map[RK]V)
 	for key, value := range items {
@@ -54,7 +76,7 @@ func MapKeys[M ~map[K]V, K, RK comparable, V any](items M, f func(K) RK) map[RK]
 	return result
 }
 
-// MapValues is like Map but the function f accepts only a value and returns only the new value.
+// MapValues is like [Map] but the function `f` accepts only a value and returns only the new value.
 func MapValues[M ~map[K]V, K comparable, V, RV any](items M, f func(V) RV) map[K]RV {
 	result := make(map[K]RV)
 	for key, value := range items {
@@ -66,6 +88,8 @@ func MapValues[M ~map[K]V, K comparable, V, RV any](items M, f func(V) RV) map[K
 // Merge returns a new map containing items from both given maps.
 //
 // In case of duplicate values, the value from items2 has precedence over items1.
+//
+// If you want to modify the map in-place, use [IMerge] instead.
 func Merge[M1, M2 ~map[K]V, K, V comparable](items1 M1, items2 M2) M1 {
 	result := make(M1)
 	for key, value := range items1 {
@@ -77,7 +101,9 @@ func Merge[M1, M2 ~map[K]V, K, V comparable](items1 M1, items2 M2) M1 {
 	return result
 }
 
-// MergeBy is like Merge but conflicts are resolved by the function f.
+// MergeBy is like [Merge] but conflicts are resolved by the function `f`.
+//
+// If you want to modify the map in-place, use [IMergeBy] instead.
 func MergeBy[M1, M2 ~map[K]V, K, V comparable](items1 M1, items2 M2, f func(K, V, V) V) M1 {
 	result := make(M1)
 	for key, value := range items1 {
@@ -109,7 +135,8 @@ func Keys[M ~map[K]V, K comparable, V any](items M) []K {
 //
 // Keys that aren't in the map are simply ignored.
 //
-// This function is a counterpart for `Without`.
+// This function is a counterpart for [Without].
+// If you want to modify the map in-place, use [LeaveOnly] instead.
 func Take[M ~map[K]V, K comparable, V any](items M, keys ...K) M {
 	result := make(M)
 	for _, key := range keys {
@@ -136,6 +163,9 @@ func Values[M ~map[K]V, K comparable, V any](items M) []V {
 // Without returns a copy of the given map without the given keys.
 //
 // If a key is not found in the given map, it is simply ignored.
+//
+// This function is a counterpart for [Take].
+// If you want to modify the map in-place, use [Drop] instead.
 func Without[M ~map[K]V, K comparable, V any](items M, keys ...K) M {
 	result := make(M)
 	skip := make(map[K]struct{})
