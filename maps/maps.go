@@ -46,6 +46,16 @@ func HasKey[M ~map[K]V, K comparable, V any](items M, key K) bool {
 	return ok
 }
 
+// HasValue returns true if the given map contains the given value.
+func HasValue[M ~map[K]V, K, V comparable](items M, val V) bool {
+	for _, v := range items {
+		if v == val {
+			return true
+		}
+	}
+	return false
+}
+
 // Map calls the given function `f` with each key and value and makes a new map
 // out of key-value pairs returned by the function.
 func Map[M ~map[K]V, K, RK comparable, V, RV any](items M, f func(K, V) (RK, RV)) map[RK]RV {

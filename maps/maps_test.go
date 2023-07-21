@@ -47,6 +47,18 @@ func TestHasKey(t *testing.T) {
 	is.True(!maps.HasKey[map[int]int](nil, 3))
 }
 
+func TestHasValue(t *testing.T) {
+	is := is.New(t)
+	m := map[int]int{2: 1, 4: 3}
+	is.True(maps.HasValue(m, 1))
+	is.True(maps.HasValue(m, 3))
+
+	is.True(!maps.HasValue(m, 2))
+	is.True(!maps.HasValue(m, 4))
+	is.True(!maps.HasValue(m, 5))
+	is.True(!maps.HasValue[map[int]int](nil, 3))
+}
+
 func TestFromKeys(t *testing.T) {
 	is := is.New(t)
 	arr := []int{4, 5, 6}
