@@ -61,6 +61,20 @@ func TestCount(t *testing.T) {
 	f(1, []int{1, 1, 1, 1, 1}, 5)
 }
 
+func TestCopy(t *testing.T) {
+	is := is.New(t)
+	a := make([]int, 0, 10)
+	a = append(a, 4)
+	a = append(a, 5)
+	b := slices.Copy(a)
+	a = append(a, 8)
+	b = append(b, 9)
+	is.Equal(a, []int{4, 5, 8})
+	is.Equal(b, []int{4, 5, 9})
+
+	is.Equal(slices.Copy[[]int](nil), nil)
+}
+
 func TestCycle(t *testing.T) {
 	is := is.New(t)
 	f := func(count int, given []int, expected []int) {
@@ -155,6 +169,30 @@ func TestDropEvery(t *testing.T) {
 	f([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, 1, []int{1, 2, 4, 5, 7, 8, 10})
 }
 
+func TestGrow(t *testing.T) {
+	is := is.New(t)
+	arr := make([]int, 3, 5)
+	is.Equal(len(arr), 3)
+	is.Equal(cap(arr), 5)
+	res := slices.Grow(arr, 4)
+	is.Equal(len(arr), 3)
+	is.Equal(cap(arr), 5)
+	is.Equal(len(res), 3)
+	is.True(cap(res) >= 9)
+}
+
+func TestShrink(t *testing.T) {
+	is := is.New(t)
+	arr := make([]int, 3, 5)
+	is.Equal(len(arr), 3)
+	is.Equal(cap(arr), 5)
+	res := slices.Shrink(arr)
+	is.Equal(len(arr), 3)
+	is.Equal(cap(arr), 5)
+	is.Equal(len(res), 3)
+	is.Equal(cap(res), 3)
+}
+
 func TestEndsWith(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, suffix []int, expected bool) {
@@ -211,6 +249,25 @@ func TestJoin(t *testing.T) {
 	is.Equal(slices.Join([]int{1, 2, 3}, "|"), "1|2|3")
 	is.Equal(slices.Join([]int{1, 2, 3}, "<T>"), "1<T>2<T>3")
 	is.Equal(slices.Join([]string{"hello", "world"}, " "), "hello world")
+}
+
+func TestIndex(t *testing.T) {
+	is := is.New(t)
+	f := func(given []int, el int, expectedInd int) {
+		index, _ := slices.Index(given, el)
+		is.Equal(expectedInd, index)
+	}
+	f([]int{}, 3, 0)
+	f([]int{6}, 3, 0)
+	f([]int{6, 13}, 3, 0)
+	f([]int{6}, 6, 0)
+	f([]int{4, 6}, 6, 1)
+	f([]int{4, 6}, 6, 1)
+	f([]int{4, 6, 5}, 6, 1)
+	f([]int{4, 6, 5, 6}, 6, 1)
+	f([]int{4, 5, 6}, 6, 2)
+	f([]int{4, 5, 6, 5}, 6, 2)
+	f([]int{4, 5, 6, 5}, 6, 2)
 }
 
 func TestInsertAt(t *testing.T) {
@@ -469,15 +526,46 @@ func TestTakeEvery(t *testing.T) {
 	f([]int{1, 2, 3, 4, 5}, 2, 1, []int{2, 4})
 }
 
+func TestToMap(t *testing.T) {
+	is := is.New(t)
+	f := func(given []int32, expected map[int]int32) {
+		actual := slices.ToMap(given)
+		is.Equal(expected, actual)
+	}
+	f([]int32{}, map[int]int32{})
+	f([]int32{5}, map[int]int32{0: 5})
+	f([]int32{5, 4, 4}, map[int]int32{0: 5, 1: 4, 2: 4})
+	f(nil, nil)
+}
+
+func TestToKeys(t *testing.T) {
+	is := is.New(t)
+	f := func(given []int32, expected map[int32]int) {
+		actual := slices.ToKeys(given, -1)
+		is.Equal(expected, actual)
+	}
+	f([]int32{}, map[int32]int{})
+	f([]int32{5}, map[int32]int{5: -1})
+	f([]int32{5, 4, 4}, map[int32]int{5: -1, 4: -1})
+	f(nil, nil)
+}
+
 func TestTakeRandom(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, count int, seed int64, expected []int) {
 		actual, _ := slices.TakeRandom(given, count, seed)
 		is.Equal(expected, actual)
 	}
+	f([]int{1}, 0, 0, nil)
 	f([]int{1}, 1, 0, []int{1})
 	f([]int{1, 2, 3, 4, 5}, 3, 1, []int{3, 1, 2})
 	f([]int{1, 2, 3, 4, 5}, 5, 1, []int{3, 1, 2, 5, 4})
+
+	_, err := slices.TakeRandom([]int{1, 2}, 5, 0)
+	is.Equal(err, slices.ErrOutOfRange)
+
+	_, err = slices.TakeRandom([]int{1, 2}, -1, 0)
+	is.Equal(err, slices.ErrNonPositiveValue)
 }
 
 func TestUniq(t *testing.T) {
@@ -560,4 +648,9 @@ func TestToMapGroupedBy(t *testing.T) {
 	f([]employee{}, map[string][]employee{})
 
 	f(nil, map[string][]employee{})
+}
+
+func TestWrap(t *testing.T) {
+	is := is.New(t)
+	is.Equal(slices.Wrap(13), []int{13})
 }

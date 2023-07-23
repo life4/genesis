@@ -1,6 +1,7 @@
 package slices_test
 
 import (
+	"errors"
 	"fmt"
 	"testing"
 
@@ -94,6 +95,69 @@ func TestDropWhile(t *testing.T) {
 	f([]int{2, 4, 6, 1, 8}, []int{1, 8})
 }
 
+func TestEach(t *testing.T) {
+	is := is.New(t)
+	f := func(given []int, expected []int) {
+		actual := make([]int, 0)
+		double := func(t int) {
+			actual = append(actual, t*2)
+		}
+		slices.Each(given, double)
+		is.Equal(expected, actual)
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{2})
+	f([]int{1, 2, 3}, []int{2, 4, 6})
+	f([]int{2, 5, 3}, []int{4, 10, 6})
+}
+
+func TestEachErr(t *testing.T) {
+	is := is.New(t)
+	f := func(given []int, expected []int) {
+		actual := make([]int, 0)
+		double := func(t int) error {
+			if t == 13 {
+				return errors.New("oh no")
+			}
+			actual = append(actual, t*2)
+			return nil
+		}
+		_ = slices.EachErr(given, double)
+		is.Equal(expected, actual)
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{2})
+	f([]int{1, 2, 3}, []int{2, 4, 6})
+	f([]int{2, 5, 3}, []int{4, 10, 6})
+	f([]int{2, 5, 3, 13, 4}, []int{4, 10, 6})
+}
+
+func TestEqualBy(t *testing.T) {
+	is := is.New(t)
+	f := func(left []int, right []int, expected bool) {
+		f := func(a, b int) bool { return a == -b }
+		actual := slices.EqualBy(left, right, f)
+		is.Equal(expected, actual)
+
+		actual = slices.EqualBy(right, left, f)
+		is.Equal(expected, actual)
+	}
+	f([]int{}, []int{}, true)
+	f([]int{1}, []int{-1}, true)
+	f([]int{1}, []int{1}, false)
+	f([]int{1}, []int{2}, false)
+	f([]int{1, 2, 3, 3}, []int{-1, -2, -3, -3}, true)
+	f([]int{1, 2, 3, 3}, []int{-1, -2, -3, 3}, false)
+	f([]int{1, 2, 3, 3}, []int{-1, -2, -2, -3}, false)
+	f([]int{1, 2, 3, 3}, []int{-1, -2, -4, -3}, false)
+
+	// different len
+	f([]int{1, 2, 3}, []int{-1, -2}, false)
+	f([]int{1, 2}, []int{-1, -2, 3}, false)
+	f([]int{}, []int{-1, -2, -3}, false)
+	f([]int{1, 2, 3}, []int{}, false)
+}
+
 func TestFilter(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, expected []int) {
@@ -151,6 +215,20 @@ func TestGroupBy(t *testing.T) {
 	f([]int{}, map[int][]int{})
 	f([]int{1}, map[int][]int{1: {1}})
 	f([]int{1, 3, 2, 4, 5}, map[int][]int{0: {2, 4}, 1: {1, 3, 5}})
+}
+
+func TestIndexBy(t *testing.T) {
+	is := is.New(t)
+	f := func(given []int, expectedInd int) {
+		even := func(t int) bool { return (t % 2) == 0 }
+		index, _ := slices.IndexBy(given, even)
+		is.Equal(expectedInd, index)
+	}
+	f([]int{}, 0)
+	f([]int{6}, 0)
+	f([]int{3, 6}, 1)
+	f([]int{3, 6, 8}, 1)
+	f([]int{3, 5, 8}, 2)
 }
 
 func TestMap(t *testing.T) {
@@ -214,6 +292,19 @@ func TestReduceWhile(t *testing.T) {
 	f([]int{1, 2}, 3)
 	f([]int{1, 2, 3}, 6)
 	f([]int{1, 2, 0, 3}, 3)
+}
+
+func TestReject(t *testing.T) {
+	is := is.New(t)
+	f := func(given []int, expected []int) {
+		odd := func(t int) bool { return (t % 2) == 1 }
+		actual := slices.Reject(given, odd)
+		is.Equal(expected, actual)
+	}
+	f([]int{}, []int{})
+	f([]int{1, 2, 3, 4}, []int{2, 4})
+	f([]int{1, 3}, []int{})
+	f([]int{2, 4}, []int{2, 4})
 }
 
 func TestScan(t *testing.T) {
