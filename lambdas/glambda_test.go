@@ -32,3 +32,13 @@ func TestMax(t *testing.T) {
 	is.Equal(lambdas.Max(2, -3), 2)
 	is.Equal(lambdas.Max(2, 2), 2)
 }
+
+func TestDefault(t *testing.T) {
+	is := is.New(t)
+	is.Equal(lambdas.Default(3), 0)
+	is.Equal(lambdas.Default(int32(3)), int32(0))
+	is.Equal(lambdas.Default(int64(3)), int64(0))
+	is.Equal(lambdas.Default(0), 0)
+	is.Equal(lambdas.Default(3.5), 0.0)
+	is.Equal(lambdas.Default("hi"), "")
+}

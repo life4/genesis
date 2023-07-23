@@ -34,10 +34,10 @@ func Max[T constraints.Ordered](a T, b T) T {
 //
 // A few examples:
 //
-// 	 + 0 for int and float
-// 	 + "" for string
-// 	 + nil for slice
-func Default[T any](value T) T {
+//   - 0 for int and float
+//   - "" for string
+//   - nil for slice
+func Default[T any](T) T {
 	var def T
 	return def
 }
