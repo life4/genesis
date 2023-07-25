@@ -18,18 +18,27 @@ func TestChoice(t *testing.T) {
 	f([]int{1}, 0, 1)
 	f([]int{1, 2, 3}, 1, 3)
 	f([]int{1, 2, 3}, 2, 2)
+
+	_, err := slices.Choice([]int{}, 0)
+	is.Equal(err, slices.ErrEmpty)
+	_, err = slices.Choice[[]int](nil, 0)
+	is.Equal(err, slices.ErrEmpty)
 }
 
 func TestChunkEvery(t *testing.T) {
 	is := is.New(t)
 	f := func(count int, given []int, expected [][]int) {
-		actual, _ := slices.ChunkEvery(given, count)
+		actual, err := slices.ChunkEvery(given, count)
+		is.NoErr(err)
 		is.Equal(expected, actual)
 	}
 	f(2, []int{}, [][]int{})
 	f(2, []int{1}, [][]int{{1}})
 	f(2, []int{1, 2, 3, 4}, [][]int{{1, 2}, {3, 4}})
 	f(2, []int{1, 2, 3, 4, 5}, [][]int{{1, 2}, {3, 4}, {5}})
+
+	_, err := slices.ChunkEvery([]int{}, -1)
+	is.Equal(err, slices.ErrNegativeValue)
 }
 
 func TestContains(t *testing.T) {
@@ -134,7 +143,8 @@ func TestDeleteAll(t *testing.T) {
 func TestDeleteAt(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, indices []int, expected []int) {
-		actual, _ := slices.DeleteAt(given, indices...)
+		actual, err := slices.DeleteAt(given, indices...)
+		is.NoErr(err)
 		is.Equal(expected, actual)
 	}
 	f([]int{}, []int{}, []int{})
@@ -148,12 +158,16 @@ func TestDeleteAt(t *testing.T) {
 	f([]int{1, 2, 3}, []int{0, 1}, []int{3})
 	f([]int{1, 2, 3}, []int{0, 2}, []int{2})
 	f([]int{1, 2, 3}, []int{1, 2}, []int{1})
+
+	_, err := slices.DeleteAt([]int{4, 5, 6}, 11)
+	is.Equal(err, slices.ErrOutOfRange)
 }
 
 func TestDropEvery(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, nth int, from int, expected []int) {
-		actual, _ := slices.DropEvery(given, nth, from)
+		actual, err := slices.DropEvery(given, nth, from)
+		is.NoErr(err)
 		is.Equal(expected, actual)
 	}
 	f([]int{}, 1, 1, []int{})
@@ -167,6 +181,12 @@ func TestDropEvery(t *testing.T) {
 
 	f([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2, 1, []int{1, 3, 5, 7, 9})
 	f([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3, 1, []int{1, 2, 4, 5, 7, 8, 10})
+
+	_, err := slices.DropEvery([]int{}, -1, 2)
+	is.Equal(err, slices.ErrNonPositiveValue)
+
+	_, err = slices.DropEvery([]int{}, 2, -1)
+	is.Equal(err, slices.ErrNegativeValue)
 }
 
 func TestGrow(t *testing.T) {
@@ -440,6 +460,13 @@ func TestShuffle(t *testing.T) {
 	f([]int{1}, 0, []int{1})
 	f([]int{1, 2, 3, 4, 5, 6}, 2, []int{3, 5, 4, 1, 6, 2})
 	f([]int{1, 2, 2, 3, 3}, 2, []int{3, 2, 3, 2, 1})
+
+	// If seed=0, use the current time as seed.
+	s1 := []int{4, 5, 6, 7, 8, 9, 4, 5, 6, 7, 8, 9, 4, 5, 6, 7, 8, 9}
+	s2 := slices.Copy(s1)
+	slices.Shuffle(s1, 0)
+	slices.Shuffle(s2, 0)
+	is.True(!slices.Equal(s1, s2))
 }
 
 func TestSorted(t *testing.T) {
@@ -509,7 +536,8 @@ func TestSum(t *testing.T) {
 func TestTakeEvery(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, nth int, from int, expected []int) {
-		actual, _ := slices.TakeEvery(given, nth, from)
+		actual, err := slices.TakeEvery(given, nth, from)
+		is.NoErr(err)
 		is.Equal(expected, actual)
 	}
 
@@ -524,6 +552,29 @@ func TestTakeEvery(t *testing.T) {
 	// step 2 from 1
 	f([]int{1, 2, 3, 4}, 2, 1, []int{2, 4})
 	f([]int{1, 2, 3, 4, 5}, 2, 1, []int{2, 4})
+
+	_, err := slices.TakeEvery([]int{}, -1, 2)
+	is.Equal(err, slices.ErrNonPositiveValue)
+
+	_, err = slices.TakeEvery([]int{}, 2, -1)
+	is.Equal(err, slices.ErrNegativeValue)
+}
+
+func TestToChannel(t *testing.T) {
+	is := is.New(t)
+	f := func(given, expected []int) {
+		ch := slices.ToChannel(given)
+		actual := make([]int, 0)
+		for el := range ch {
+			actual = append(actual, el)
+		}
+		is.Equal(expected, actual)
+	}
+	f([]int{}, []int{})
+	f(nil, []int{})
+	f([]int{4}, []int{4})
+	f([]int{4, 7, 9}, []int{4, 7, 9})
+	f([]int{4, 7, 9, 9, 4, 0}, []int{4, 7, 9, 9, 4, 0})
 }
 
 func TestToMap(t *testing.T) {
@@ -553,10 +604,10 @@ func TestToKeys(t *testing.T) {
 func TestTakeRandom(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, count int, seed int64, expected []int) {
-		actual, _ := slices.TakeRandom(given, count, seed)
+		actual, err := slices.TakeRandom(given, count, seed)
+		is.NoErr(err)
 		is.Equal(expected, actual)
 	}
-	f([]int{1}, 0, 0, nil)
 	f([]int{1}, 1, 0, []int{1})
 	f([]int{1, 2, 3, 4, 5}, 3, 1, []int{3, 1, 2})
 	f([]int{1, 2, 3, 4, 5}, 5, 1, []int{3, 1, 2, 5, 4})
@@ -586,7 +637,8 @@ func TestUniq(t *testing.T) {
 func TestWindow(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, size int, expected [][]int) {
-		actual, _ := slices.Window(given, size)
+		actual, err := slices.Window(given, size)
+		is.NoErr(err)
 		is.Equal(expected, actual)
 	}
 	f([]int{}, 1, [][]int{})
@@ -594,6 +646,11 @@ func TestWindow(t *testing.T) {
 	f([]int{1, 2, 3, 4}, 2, [][]int{{1, 2}, {2, 3}, {3, 4}})
 	f([]int{1, 2, 3, 4}, 3, [][]int{{1, 2, 3}, {2, 3, 4}})
 	f([]int{1, 2, 3, 4}, 4, [][]int{{1, 2, 3, 4}})
+
+	_, err := slices.Window([]int{1}, 0)
+	is.Equal(err, slices.ErrNonPositiveValue)
+	_, err = slices.Window([]int{1}, -3)
+	is.Equal(err, slices.ErrNonPositiveValue)
 }
 
 func TestWithout(t *testing.T) {
