@@ -8,16 +8,31 @@ import (
 	"github.com/matryer/is"
 )
 
+func panics(is *is.I, f func()) {
+	defer func() {
+		r := recover()
+		is.True(r != nil)
+	}()
+	f()
+}
+
 func TestMust(t *testing.T) {
 	is := is.New(t)
 	f := func() (int, error) { return 13, nil }
 	res := lambdas.Must(f())
 	is.Equal(res, 13)
+
+	f = func() (int, error) { return 13, errors.New("oh no") }
+	panics(is, func() { lambdas.Must(f()) })
 }
 
 func TestEnsure(t *testing.T) {
 	f := func() error { return nil }
 	lambdas.Ensure(f())
+
+	is := is.New(t)
+	f = func() error { return errors.New("oh no") }
+	panics(is, func() { lambdas.Ensure(f()) })
 }
 
 func TestSafe(t *testing.T) {

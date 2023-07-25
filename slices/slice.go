@@ -1,12 +1,13 @@
 package slices
 
 import (
-	"github.com/life4/genesis/constraints"
 	"fmt"
 	"math/rand"
 	"sort"
 	"strings"
 	"time"
+
+	"github.com/life4/genesis/constraints"
 )
 
 // Choice chooses a random element from the slice.
@@ -570,6 +571,9 @@ func ToChannel[S ~[]T, T any](items S) chan T {
 // ToMap converts the given slice into a map where keys are indices and values are items
 // from the given slice.
 func ToMap[S ~[]V, V any](items S) map[int]V {
+	if items == nil {
+		return nil
+	}
 	result := make(map[int]V)
 	for index, item := range items {
 		result[index] = item
@@ -591,6 +595,9 @@ func ToMapGroupedBy[V any, T comparable](items []V, keyExtractor func(V) T) map[
 // ToKeys converts the given slice into a map where items from the slice are the keys
 // of the resulting map and all values are equal to the given `val` value.
 func ToKeys[S ~[]K, K comparable, V any](items S, val V) map[K]V {
+	if items == nil {
+		return nil
+	}
 	result := make(map[K]V)
 	for _, item := range items {
 		result[item] = val
