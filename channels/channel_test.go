@@ -429,3 +429,13 @@ func TestWithContext_Cancellation(t *testing.T) {
 	is.Equal(r, []int{11, 12})
 	close(c1)
 }
+
+func TestWithContext_CancelWaitingInput(t *testing.T) {
+	is := is.New(t)
+	c1 := make(chan int)
+	ctx, cancel := context.WithCancel(context.Background())
+	c2 := channels.WithContext(c1, ctx)
+	cancel()
+	_, more := <-c2
+	is.True(!more)
+}
