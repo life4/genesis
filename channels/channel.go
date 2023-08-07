@@ -291,6 +291,26 @@ func ToSlice[T any](c <-chan T) []T {
 	return result
 }
 
+// WithBuffer creates an echo channel of the given one with the given buffer size.
+//
+// This function effectively makes writes into the given channel non-blocking
+// until the buffer size of pending messages is reached, assuming that all reads
+// will be done only from the channel that the function returns.
+//
+// ⏹️ Internally, the function starts a goroutine.
+// This goroutine finishes when the input channel is closed.
+// The returned channel is closed when this goroutine finishes.
+func WithBuffer[T any](c <-chan T, bufSize int) chan T {
+	result := make(chan T, bufSize)
+	go func() {
+		defer close(result)
+		for el := range c {
+			result <- el
+		}
+	}()
+	return result
+}
+
 // WithContext creates an echo channel of the given one that can be cancelled with ctx.
 //
 // ⏹️ Internally, the function starts a goroutine

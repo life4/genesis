@@ -377,6 +377,32 @@ func TestTee(t *testing.T) {
 	f(10, []int{1, 2, 3, 1, 2})
 }
 
+func TestWithBuffer(t *testing.T) {
+	is := is.New(t)
+	c1 := make(chan int)
+	c2 := channels.WithBuffer(c1, 2)
+	is.Equal(cap(c2), 2)
+
+	// two values can be pushed and then it stops
+	// because we don't read from c2
+	c1 <- 11
+	c1 <- 12
+	select {
+	case c1 <- 13:
+		is.Fail()
+	default:
+	}
+
+	// if we read from c2, c1 unblocks
+	v := <-c2
+	is.Equal(v, 11)
+	c1 <- 13
+
+	close(c1)
+	_, more := <-c1
+	is.True(!more)
+}
+
 // WithContext should echo everything from the input channel
 // and close the resulting channel when the input one is closed.
 func TestWithContext_NoCancellation(t *testing.T) {
