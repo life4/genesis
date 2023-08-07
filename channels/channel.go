@@ -31,6 +31,11 @@ func All[T any](c <-chan T, f func(el T) bool) bool {
 // ⏹️ Internally, the function starts a goroutine.
 // This goroutine finishes when the input channel is closed.
 // The returned channel is closed when this goroutine finishes.
+//
+// ⏸️ The returned channel is unbuffered.
+// The goroutine will be blocked and won't consume elements
+// from the input channel until the value from the output channel
+// is consumed by another goroutine.
 func ChunkEvery[T any](c <-chan T, count int) chan []T {
 	chunks := make(chan []T, 1)
 	go func() {
@@ -70,6 +75,11 @@ func Count[T comparable](c <-chan T, el T) int {
 // ⏹️ Internally, the function starts a goroutine.
 // This goroutine finishes when the input channel is closed.
 // The returned channel is closed when this goroutine finishes.
+//
+// ⏸️ The returned channel is unbuffered.
+// The goroutine will be blocked and won't consume elements
+// from the input channel until the value from the output channel
+// is consumed by another goroutine.
 func Drop[T any](c <-chan T, n int) chan T {
 	result := make(chan T)
 	go func() {
@@ -98,6 +108,11 @@ func Each[T any](c <-chan T, f func(el T)) {
 // ⏹️ Internally, the function starts a goroutine.
 // This goroutine finishes when the input channel is closed.
 // The returned channel is closed when this goroutine finishes.
+//
+// ⏸️ The returned channel is unbuffered.
+// The goroutine will be blocked and won't consume elements
+// from the input channel until the value from the output channel
+// is consumed by another goroutine.
 func Filter[T any](c <-chan T, f func(el T) bool) chan T {
 	result := make(chan T)
 	go func() {
@@ -116,6 +131,11 @@ func Filter[T any](c <-chan T, f func(el T) bool) chan T {
 // ⏹️ Internally, the function starts a goroutine.
 // This goroutine finishes when the input channel is closed.
 // The returned channel is closed when this goroutine finishes.
+//
+// ⏸️ The returned channel is unbuffered.
+// The goroutine will be blocked and won't consume elements
+// from the input channel until the value from the output channel
+// is consumed by another goroutine.
 func Map[T any, G any](c <-chan T, f func(el T) G) chan G {
 	result := make(chan G, 1)
 	go func() {
@@ -168,6 +188,11 @@ func Reduce[T any, G any](c <-chan T, acc G, f func(el T, acc G) G) G {
 // ⏹️ Internally, the function starts a goroutine.
 // This goroutine finishes when the input channel is closed.
 // The returned channel is closed when this goroutine finishes.
+//
+// ⏸️ The returned channel is unbuffered.
+// The goroutine will be blocked and won't consume elements
+// from the input channel until the value from the output channel
+// is consumed by another goroutine.
 func Scan[T any, G any](c <-chan T, acc G, f func(el T, acc G) G) chan G {
 	result := make(chan G, 1)
 	go func() {
@@ -194,6 +219,11 @@ func Sum[T constraints.Ordered](c <-chan T) T {
 // ⏹️ Internally, the function starts a goroutine.
 // This goroutine finishes when the input channel is closed.
 // The returned channel is closed when this goroutine finishes.
+//
+// ⏸️ The returned channel is unbuffered.
+// The goroutine will be blocked and won't consume elements
+// from the input channel until the value from the output channel
+// is consumed by another goroutine.
 func Take[T any](c <-chan T, count int) chan T {
 	result := make(chan T)
 	go func() {
@@ -218,6 +248,11 @@ func Take[T any](c <-chan T, count int) chan T {
 // ⏹️ Internally, the function starts a goroutine.
 // This goroutine finishes when the input channel is closed.
 // The returned channels are closed when this goroutine finishes.
+//
+// ⏸️ The returned channels are unbuffered.
+// The goroutine will be blocked and won't consume elements
+// from the input channel until the value from all the output channels
+// is consumed by another goroutine(s).
 func Tee[T any](c <-chan T, count int) []chan T {
 	channels := make([]chan T, 0, count)
 	for i := 0; i < count; i++ {
@@ -238,7 +273,7 @@ func Tee[T any](c <-chan T, count int) []chan T {
 			}
 			wg.Add(count)
 			for _, ch := range channels {
-				putInto(ch)
+				go putInto(ch)
 			}
 			wg.Wait()
 		}
