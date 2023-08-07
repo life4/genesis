@@ -59,6 +59,27 @@ func ChunkEvery[T any](c <-chan T, count int) chan []T {
 	return chunks
 }
 
+// Close safely closes the given channel.
+//
+// This is a safer version of built-in close. The built-in close function
+// will panic if the given channel is already closed or nil.
+// This function in both cases returns false.
+//
+// There is a reason why the built-in function might panic.
+// The best practice of working with channels is to close the channel
+// only within the context ("owner") that created it.
+// In such cases, you can be 100% sure that the channel is non-nil
+// and closed only once. However, if you found yourself in a different
+// situation and no refactoring can guarantee these rules,
+// the safer Close function is here to help.
+func Close[T any](c chan<- T) bool {
+	defer func() {
+		_ = recover()
+	}()
+	close(c)
+	return true
+}
+
 // Count return count of el occurrences in channel.
 func Count[T comparable](c <-chan T, el T) int {
 	count := 0
@@ -174,6 +195,41 @@ func Min[T constraints.Ordered](c <-chan T) (T, error) {
 		}
 	}
 	return min, nil
+}
+
+// Pop reads a value from the channel (with context).
+//
+// The function is blocking. It will wait and return
+// in one of the following conditions:
+//
+//  1. ⏹️ The context is cancelled.
+//  2. ⏹️ The channel is closed.
+//  3. There is a value pushed into the channel.
+//
+// In the first two cases, the second return value (called "more" or "ok") is "false".
+// Otherwise, if a value is succesfully pulled from the channel, it is "true".
+func Pop[T any](ctx context.Context, c <-chan T) (T, bool) {
+	select {
+	case v, more := <-c:
+		return v, more
+	case <-ctx.Done():
+		return *new(T), false
+	}
+}
+
+// Push writes the value into the channel (with context).
+//
+// ⚠️ Experimental! Behavior of this function might change in the future
+// or the function can be removed altogether.
+// It's not clear yet what's the best approach for when the target channel is closed.
+// By default, Go panics in this case, which might be not good in some situations.
+// Also, using this function might cause situations when the cancelled context
+// will be ignored by the target function instead of exiting.
+func Push[T any](ctx context.Context, c chan<- T, v T) {
+	select {
+	case c <- v:
+	case <-ctx.Done():
+	}
 }
 
 // Reduce applies f to acc and every element from channel and returns acc.
@@ -312,6 +368,14 @@ func WithBuffer[T any](c <-chan T, bufSize int) chan T {
 }
 
 // WithContext creates an echo channel of the given one that can be cancelled with ctx.
+//
+// This can be useful in 2 scenarios:
+//
+//  1. To be able to cancel any function in this package
+//     without closing the original channel.
+//  2. For simpler iteration through channels with support for cancellation.
+//     This pattern is descirbed in the "Concurrency in Go" book
+//     in "The or-done-channel" chapter (page 119).
 //
 // ⏹️ Internally, the function starts a goroutine
 // that copies values from the input channel into the output one.

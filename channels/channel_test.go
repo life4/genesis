@@ -74,6 +74,14 @@ func TestAll(t *testing.T) {
 	f([]int{2, 4, 6, 8, 11, 12}, false)
 }
 
+func TestClose(t *testing.T) {
+	is := is.New(t)
+	is.True(!channels.Close[int](nil))
+	c := make(chan int)
+	is.True(channels.Close(c))
+	is.True(!channels.Close(c))
+}
+
 func TestEach(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int) {
@@ -256,6 +264,46 @@ func TestMin(t *testing.T) {
 	f([]int{4, 1, 2}, 1, nil)
 	f([]int{1, 2, 4}, 1, nil)
 	f([]int{4, 2, 1}, 1, nil)
+}
+
+func TestPop(t *testing.T) {
+	is := is.New(t)
+
+	// exit on cancelled context
+	c := make(chan int)
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	v, ok := channels.Pop(ctx, c)
+	is.True(!ok)
+	is.Equal(v, 0)
+
+	// succesful read
+	ctx = context.Background()
+	go func() { c <- 12 }()
+	v, ok = channels.Pop(ctx, c)
+	is.True(ok)
+	is.Equal(v, 12)
+
+	// exit on closed channel
+	ctx = context.Background()
+	close(c)
+	v, ok = channels.Pop(ctx, c)
+	is.True(!ok)
+	is.Equal(v, 0)
+}
+
+func TestPush(t *testing.T) {
+	// exit on cancelled context
+	c := make(chan int)
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	channels.Push(ctx, c, 11)
+
+	// push into the channel when there is someone to read
+	ctx = context.Background()
+	go channels.Push(ctx, c, 12)
+	is := is.New(t)
+	is.Equal(<-c, 12)
 }
 
 func TestReduce(t *testing.T) {
