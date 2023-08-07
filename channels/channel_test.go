@@ -2,6 +2,7 @@ package channels_test
 
 import (
 	"context"
+	"sync"
 	"testing"
 
 	"github.com/life4/genesis/channels"
@@ -374,4 +375,57 @@ func TestTee(t *testing.T) {
 	f(2, []int{1, 2, 3, 1, 2})
 
 	f(10, []int{1, 2, 3, 1, 2})
+}
+
+// WithContext should echo everything from the input channel
+// and close the resulting channel when the input one is closed.
+func TestWithContext_NoCancellation(t *testing.T) {
+	is := is.New(t)
+	c1 := make(chan int)
+	c2 := channels.WithContext(c1, context.Background())
+
+	r := make([]int, 0)
+	wg := sync.WaitGroup{}
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		for i := range c2 {
+			r = append(r, i)
+		}
+	}()
+
+	c1 <- 11
+	c1 <- 12
+	c1 <- 13
+	close(c1)
+	wg.Wait()
+	is.Equal(r, []int{11, 12, 13})
+}
+
+// WithContext should exit on cancellation.
+func TestWithContext_Cancellation(t *testing.T) {
+	is := is.New(t)
+	c1 := make(chan int)
+	ctx, cancel := context.WithCancel(context.Background())
+	c2 := channels.WithContext(c1, ctx)
+
+	r := make([]int, 0)
+	wg := sync.WaitGroup{}
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		for i := range c2 {
+			r = append(r, i)
+			if i == 12 {
+				cancel()
+			}
+		}
+	}()
+
+	c1 <- 11
+	c1 <- 12
+	c1 <- 13
+	wg.Wait()
+	is.Equal(r, []int{11, 12})
+	close(c1)
 }

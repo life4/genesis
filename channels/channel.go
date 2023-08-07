@@ -1,6 +1,7 @@
 package channels
 
 import (
+	"context"
 	"sync"
 
 	"github.com/life4/genesis/constraints"
@@ -287,5 +288,39 @@ func ToSlice[T any](c <-chan T) []T {
 	for val := range c {
 		result = append(result, val)
 	}
+	return result
+}
+
+// WithContext creates an echo channel of the given one that can be cancelled with ctx.
+//
+// ⏹️ Internally, the function starts a goroutine
+// that copies values from the input channel into the output one.
+// This goroutine finishes when the input channel is closed
+// or the ctx context is cancelled.
+// The returned channel is closed when this goroutine finishes.
+//
+// ⏸️ The returned channel is unbuffered.
+// The goroutine will be blocked and won't consume elements
+// from the input channel until the value from the output channel
+// is consumed by another goroutine.
+func WithContext[T any](c <-chan T, ctx context.Context) chan T {
+	result := make(chan T)
+	go func() {
+		defer close(result)
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case val, more := <-c:
+				if !more {
+					return
+				}
+				select {
+				case result <- val:
+				case <-ctx.Done():
+				}
+			}
+		}
+	}()
 	return result
 }
