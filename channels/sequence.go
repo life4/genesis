@@ -11,6 +11,8 @@ import (
 // ⏹️ Internally, the function starts a goroutine.
 // This goroutine finishes when the ctx is cancelled.
 // The returned channel is closed when this goroutine finishes.
+//
+// ⏸️ The returned channel is unbuffered.
 func Counter[T constraints.Integer](ctx context.Context, start T, step T) chan T {
 	c := make(chan T)
 	go func() {
@@ -33,6 +35,8 @@ func Counter[T constraints.Integer](ctx context.Context, start T, step T) chan T
 // ⏹️ Internally, the function starts a goroutine.
 // This goroutine finishes when the ctx is cancelled.
 // The returned channel is closed when this goroutine finishes.
+//
+// ⏸️ The returned channel is unbuffered.
 func Exponential[T constraints.Integer](ctx context.Context, start T, factor T) chan T {
 	c := make(chan T)
 	go func() {
@@ -54,6 +58,8 @@ func Exponential[T constraints.Integer](ctx context.Context, start T, factor T) 
 // ⏹️ Internally, the function starts a goroutine.
 // This goroutine finishes when the ctx is cancelled.
 // The returned channel is closed when this goroutine finishes.
+//
+// ⏸️ The returned channel is unbuffered.
 func Iterate[T constraints.Integer](ctx context.Context, val T, f func(val T) T) chan T {
 	c := make(chan T)
 	go func() {
@@ -75,6 +81,8 @@ func Iterate[T constraints.Integer](ctx context.Context, val T, f func(val T) T)
 // ⏹️ Internally, the function starts a goroutine.
 // This goroutine finishes when the ctx is cancelled.
 // The returned channel is closed when this goroutine finishes.
+//
+// ⏸️ The returned channel is unbuffered.
 func Range[T constraints.Integer](ctx context.Context, start T, end T, step T) chan T {
 	c := make(chan T)
 	pos := start <= end
@@ -93,6 +101,8 @@ func Range[T constraints.Integer](ctx context.Context, start T, end T, step T) c
 // ⏹️ Internally, the function starts a goroutine.
 // This goroutine finishes when the ctx is cancelled.
 // The returned channel is closed when this goroutine finishes.
+//
+// ⏸️ The returned channel is unbuffered.
 func Repeat[T constraints.Integer](ctx context.Context, val T) chan T {
 	c := make(chan T)
 	go func() {
@@ -114,6 +124,8 @@ func Repeat[T constraints.Integer](ctx context.Context, val T) chan T {
 // ⏹️ Internally, the function starts a goroutine.
 // This goroutine finishes when the ctx is cancelled.
 // The returned channel is closed when this goroutine finishes.
+//
+// ⏸️ The returned channel is unbuffered.
 func Replicate[T constraints.Integer](ctx context.Context, val T, n int) chan T {
 	c := make(chan T)
 	go func() {

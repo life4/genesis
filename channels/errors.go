@@ -4,5 +4,5 @@ import (
 	"errors"
 )
 
-// ErrEmpty is an error for empty slice when it's expected to have elements
+// ErrEmpty is an error for when channel is closed without any elements being sent
 var ErrEmpty = errors.New("container is empty")
