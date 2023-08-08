@@ -148,67 +148,124 @@ func Filter[T any](c <-chan T, f func(el T) bool) chan T {
 	return result
 }
 
-func First[T any](cs ...<-chan T) (T, error) {
+// First selects the first available element from the given channels.
+//
+// # Starvation
+//
+// Imagine that you iterate through a list of channels and return an element
+// from the first one that is available. Since the order of channels is always
+// the same, if a value is always available in a multiple channels, you'll be
+// selecting only from the first one. In other words, you never select from other
+// channels as long as the first one always has a value for you. It might result
+// in a situation when out of multiplt jobs you start only one is not blocked.
+//
+// This situation is called "[starvation]". To avoid that, the element in
+// select statement, according to the [Go specification],
+// "is chosen via a uniform pseudo-random selection".
+//
+// This function preserves that behavior by using internally a composition
+// of select statements.
+//
+// [starvation]: https://en.wikipedia.org/wiki/Starvation_(computer_science)
+// [Go specification]: https://go.dev/ref/spec#Select_statements
+func First[T any](ctx context.Context, cs ...<-chan T) (T, error) {
 	if len(cs) == 0 {
 		var v T
 		return v, ErrEmpty
 	}
-	return <-first(cs), nil
+	res := <-first(ctx, cs)
+	return res.val, res.err
 }
 
-func first[T any](cs []<-chan T) <-chan T {
-	resChan := make(chan T)
+type firstRes[T any] struct {
+	val T
+	err error
+}
+
+func first[T any](ctx context.Context, cs []<-chan T) <-chan firstRes[T] {
+	resChan := make(chan firstRes[T])
 	go func() {
 		defer close(resChan)
-		resChan <- firstSelector(cs)
+		resChan <- firstSelector(ctx, cs)
 	}()
 	return resChan
 }
 
-func firstSelector[T any](cs []<-chan T) T {
+func firstSelector[T any](ctx context.Context, cs []<-chan T) firstRes[T] {
 	switch len(cs) {
 	case 1:
-		return <-cs[0]
+		select {
+		case v := <-cs[0]:
+			return firstRes[T]{v, nil}
+		case <-ctx.Done():
+			return firstRes[T]{err: ctx.Err()}
+		}
 	case 2:
 		select {
 		case v := <-cs[0]:
-			return v
+			return firstRes[T]{v, nil}
 		case v := <-cs[1]:
-			return v
+			return firstRes[T]{v, nil}
+		case <-ctx.Done():
+			return firstRes[T]{err: ctx.Err()}
 		}
 	case 3:
 		select {
 		case v := <-cs[0]:
-			return v
+			return firstRes[T]{v, nil}
 		case v := <-cs[1]:
-			return v
+			return firstRes[T]{v, nil}
 		case v := <-cs[2]:
-			return v
+			return firstRes[T]{v, nil}
+		case <-ctx.Done():
+			return firstRes[T]{err: ctx.Err()}
 		}
 	case 4:
 		select {
 		case v := <-cs[0]:
-			return v
+			return firstRes[T]{v, nil}
 		case v := <-cs[1]:
-			return v
+			return firstRes[T]{v, nil}
 		case v := <-cs[2]:
-			return v
+			return firstRes[T]{v, nil}
 		case v := <-cs[3]:
-			return v
+			return firstRes[T]{v, nil}
+		case <-ctx.Done():
+			return firstRes[T]{err: ctx.Err()}
 		}
-	default:
+	case 5:
 		select {
 		case v := <-cs[0]:
-			return v
+			return firstRes[T]{v, nil}
 		case v := <-cs[1]:
-			return v
+			return firstRes[T]{v, nil}
 		case v := <-cs[2]:
-			return v
+			return firstRes[T]{v, nil}
 		case v := <-cs[3]:
-			return v
-		case v := <-first(cs[4:]):
-			return v
+			return firstRes[T]{v, nil}
+		case v := <-cs[4]:
+			return firstRes[T]{v, nil}
+		case <-ctx.Done():
+			return firstRes[T]{err: ctx.Err()}
 		}
+	default:
+		innerCtx, cancel := context.WithCancel(ctx)
+		var v T
+		select {
+		case v = <-cs[0]:
+		case v = <-cs[1]:
+		case v = <-cs[2]:
+		case v = <-cs[3]:
+		case v = <-cs[4]:
+		case v := <-first(innerCtx, cs[5:]):
+			cancel()
+			return v
+		case <-ctx.Done():
+			cancel()
+			return firstRes[T]{err: ctx.Err()}
+		}
+		cancel()
+		return firstRes[T]{v, nil}
 	}
 }
 

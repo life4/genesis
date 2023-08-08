@@ -208,7 +208,7 @@ func TestFirst(t *testing.T) {
 			csR[i] = c
 		}
 		go func() { csW[i] <- 12 }()
-		v, err := channels.First(csR...)
+		v, err := channels.First(context.Background(), csR...)
 		is.NoErr(err)
 		is.Equal(v, 12)
 	}
@@ -218,7 +218,7 @@ func TestFirst(t *testing.T) {
 		}
 	}
 
-	_, err := channels.First[int]()
+	_, err := channels.First[int](context.Background())
 	is.Equal(err, channels.ErrEmpty)
 }
 
@@ -257,7 +257,7 @@ func TestFirst_Starvation(t *testing.T) {
 	// Calculate how many messages are received from each channel.
 	nReceived := make(map[int]uint32)
 	for k := 0; k < nChannels*4; k++ {
-		i, err := channels.First(csR...)
+		i, err := channels.First(context.Background(), csR...)
 		is.NoErr(err)
 		nReceived[i] += 1
 	}
