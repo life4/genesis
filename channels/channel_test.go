@@ -196,6 +196,32 @@ func TestFilter(t *testing.T) {
 	f([]int{1, 2, 3, 4}, []int{2, 4})
 }
 
+func TestFirst(t *testing.T) {
+	t.Parallel()
+	is := is.New(t)
+	f := func(n, i int) {
+		csW := make([]chan<- int, n)
+		csR := make([]<-chan int, n)
+		for i := 0; i < n; i++ {
+			c := make(chan int)
+			csW[i] = c
+			csR[i] = c
+		}
+		go func() { csW[i] <- 12 }()
+		v, err := channels.First(csR...)
+		is.NoErr(err)
+		is.Equal(v, 12)
+	}
+	for n := 1; n < 10; n++ {
+		for i := 0; i < n; i++ {
+			f(n, i)
+		}
+	}
+
+	_, err := channels.First[int]()
+	is.Equal(err, channels.ErrEmpty)
+}
+
 func TestMap(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, expected []int) {

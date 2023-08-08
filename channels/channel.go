@@ -148,6 +148,70 @@ func Filter[T any](c <-chan T, f func(el T) bool) chan T {
 	return result
 }
 
+func First[T any](cs ...<-chan T) (T, error) {
+	if len(cs) == 0 {
+		var v T
+		return v, ErrEmpty
+	}
+	return <-first(cs), nil
+}
+
+func first[T any](cs []<-chan T) <-chan T {
+	resChan := make(chan T)
+	go func() {
+		defer close(resChan)
+		resChan <- firstSelector(cs)
+	}()
+	return resChan
+}
+
+func firstSelector[T any](cs []<-chan T) T {
+	switch len(cs) {
+	case 1:
+		return <-cs[0]
+	case 2:
+		select {
+		case v := <-cs[0]:
+			return v
+		case v := <-cs[1]:
+			return v
+		}
+	case 3:
+		select {
+		case v := <-cs[0]:
+			return v
+		case v := <-cs[1]:
+			return v
+		case v := <-cs[2]:
+			return v
+		}
+	case 4:
+		select {
+		case v := <-cs[0]:
+			return v
+		case v := <-cs[1]:
+			return v
+		case v := <-cs[2]:
+			return v
+		case v := <-cs[3]:
+			return v
+		}
+	default:
+		select {
+		case v := <-cs[0]:
+			return v
+		case v := <-cs[1]:
+			return v
+		case v := <-cs[2]:
+			return v
+		case v := <-cs[3]:
+			return v
+		case v := <-first(cs[4:]):
+			return v
+		}
+	}
+}
+
 // Map applies f to all elements from channel and returns channel with results.
 //
 // ⏹️ Internally, the function starts a goroutine.
@@ -208,6 +272,9 @@ func Min[T constraints.Ordered](c <-chan T) (T, error) {
 //
 // In the first two cases, the second return value (called "more" or "ok") is "false".
 // Otherwise, if a value is succesfully pulled from the channel, it is "true".
+//
+// Reads from nil channels block forever. So, if a nil channel is passed,
+// the function will exit only when the context is cancelled.
 func Pop[T any](ctx context.Context, c <-chan T) (T, bool) {
 	select {
 	case v, more := <-c:
