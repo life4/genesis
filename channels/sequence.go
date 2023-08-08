@@ -9,7 +9,7 @@ import (
 // Counter is like Range, but infinite.
 //
 // ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the ctx is cancelled.
+// This goroutine finishes when the ctx is canceled.
 // The returned channel is closed when this goroutine finishes.
 //
 // ⏸️ The returned channel is unbuffered.
@@ -33,7 +33,7 @@ func Counter[T constraints.Integer](ctx context.Context, start T, step T) chan T
 // multiplication of value on factor on every step.
 //
 // ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the ctx is cancelled.
+// This goroutine finishes when the ctx is canceled.
 // The returned channel is closed when this goroutine finishes.
 //
 // ⏸️ The returned channel is unbuffered.
@@ -56,7 +56,7 @@ func Exponential[T constraints.Integer](ctx context.Context, start T, factor T) 
 // Iterate returns an infinite list of repeated applications of f to val.
 //
 // ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the ctx is cancelled.
+// This goroutine finishes when the ctx is canceled.
 // The returned channel is closed when this goroutine finishes.
 //
 // ⏸️ The returned channel is unbuffered.
@@ -79,7 +79,7 @@ func Iterate[T constraints.Integer](ctx context.Context, val T, f func(val T) T)
 // Range generates elements from start to end with given step.
 //
 // ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the ctx is cancelled.
+// This goroutine finishes when the ctx is canceled.
 // The returned channel is closed when this goroutine finishes.
 //
 // ⏸️ The returned channel is unbuffered.
@@ -99,7 +99,7 @@ func Range[T constraints.Integer](ctx context.Context, start T, end T, step T) c
 // Repeat returns channel that produces val infinite times.
 //
 // ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the ctx is cancelled.
+// This goroutine finishes when the ctx is canceled.
 // The returned channel is closed when this goroutine finishes.
 //
 // ⏸️ The returned channel is unbuffered.
@@ -122,7 +122,7 @@ func Repeat[T constraints.Integer](ctx context.Context, val T) chan T {
 // Replicate returns channel that produces val n times.
 //
 // ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the ctx is cancelled.
+// This goroutine finishes when the ctx is canceled.
 // The returned channel is closed when this goroutine finishes.
 //
 // ⏸️ The returned channel is unbuffered.

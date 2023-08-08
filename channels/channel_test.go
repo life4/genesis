@@ -199,6 +199,7 @@ func TestFilter(t *testing.T) {
 func TestFirst(t *testing.T) {
 	t.Parallel()
 	is := is.New(t)
+	ctx := context.Background()
 	f := func(n, i int) {
 		csW := make([]chan<- int, n)
 		csR := make([]<-chan int, n)
@@ -208,7 +209,7 @@ func TestFirst(t *testing.T) {
 			csR[i] = c
 		}
 		go func() { csW[i] <- 12 }()
-		v, err := channels.First(context.Background(), csR...)
+		v, err := channels.First(ctx, csR...)
 		is.NoErr(err)
 		is.Equal(v, 12)
 	}
@@ -218,7 +219,7 @@ func TestFirst(t *testing.T) {
 		}
 	}
 
-	_, err := channels.First[int](context.Background())
+	_, err := channels.First[int](ctx)
 	is.Equal(err, channels.ErrEmpty)
 }
 
@@ -346,7 +347,7 @@ func TestMin(t *testing.T) {
 func TestPop(t *testing.T) {
 	is := is.New(t)
 
-	// exit on cancelled context
+	// exit on canceled context
 	c := make(chan int)
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
@@ -370,7 +371,7 @@ func TestPop(t *testing.T) {
 }
 
 func TestPush(t *testing.T) {
-	// exit on cancelled context
+	// exit on canceled context
 	c := make(chan int)
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()

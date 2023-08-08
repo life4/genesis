@@ -2,6 +2,7 @@ package channels
 
 import (
 	"context"
+	"reflect"
 	"sync"
 
 	"github.com/life4/genesis/constraints"
@@ -150,7 +151,32 @@ func Filter[T any](c <-chan T, f func(el T) bool) chan T {
 
 // First selects the first available element from the given channels.
 //
-// # Starvation
+// The function returns in one of the following cases:
+//
+//  1. One of the given channels is closed. In this case,
+//     [ErrClosed] is returned.
+//  2. ⏹️ The ctx context is canceled. In this case,
+//     the cancelation reason is returned as an error.
+//  3. One of the given channels returns a value. In this case,
+//     the error is nil.
+//
+// If all channels are non-closed and empty and ctx is not canceled,
+// the function will block and wait for one of the above to occur.
+//
+// If multiple messages are received at the same time,
+// only one is chosen via a uniform pseudo-random selection (see below).
+// Other messages will stay in their queues untocuhed.
+//
+// In no scenario any messages are lost. A message is either
+// returned by a function or stays in the queue.
+//
+// # 😱 Errors
+//
+//   - [ErrEmpty]: no channels are passed into the function.
+//   - [ErrClosed]: a channel was closed.
+//   - Another: cancelation cause returned by ctx.Err().
+//
+// # 🍽 What is starvation
 //
 // Imagine that you iterate through a list of channels and return an element
 // from the first one that is available. Since the order of channels is always
@@ -163,110 +189,49 @@ func Filter[T any](c <-chan T, f func(el T) bool) chan T {
 // select statement, according to the [Go specification],
 // "is chosen via a uniform pseudo-random selection".
 //
-// This function preserves that behavior by using internally a composition
-// of select statements.
+// This function preserves that behavior by using internally
+// a dynamically created (using [reflect]) select statement.
 //
 // [starvation]: https://en.wikipedia.org/wiki/Starvation_(computer_science)
 // [Go specification]: https://go.dev/ref/spec#Select_statements
 func First[T any](ctx context.Context, cs ...<-chan T) (T, error) {
-	if len(cs) == 0 {
-		var v T
-		return v, ErrEmpty
-	}
-	res := <-first(ctx, cs)
-	return res.val, res.err
-}
-
-type firstRes[T any] struct {
-	val T
-	err error
-}
-
-func first[T any](ctx context.Context, cs []<-chan T) <-chan firstRes[T] {
-	resChan := make(chan firstRes[T])
-	go func() {
-		defer close(resChan)
-		resChan <- firstSelector(ctx, cs)
-	}()
-	return resChan
-}
-
-func firstSelector[T any](ctx context.Context, cs []<-chan T) firstRes[T] {
+	// try to use a regular select if a small number of channels is passed
 	switch len(cs) {
+	case 0:
+		return *new(T), ErrEmpty
 	case 1:
 		select {
-		case v := <-cs[0]:
-			return firstRes[T]{v, nil}
+		case v, ok := <-cs[0]:
+			if !ok {
+				return *new(T), ErrClosed
+			}
+			return v, nil
 		case <-ctx.Done():
-			return firstRes[T]{err: ctx.Err()}
+			return *new(T), ctx.Err()
 		}
-	case 2:
-		select {
-		case v := <-cs[0]:
-			return firstRes[T]{v, nil}
-		case v := <-cs[1]:
-			return firstRes[T]{v, nil}
-		case <-ctx.Done():
-			return firstRes[T]{err: ctx.Err()}
-		}
-	case 3:
-		select {
-		case v := <-cs[0]:
-			return firstRes[T]{v, nil}
-		case v := <-cs[1]:
-			return firstRes[T]{v, nil}
-		case v := <-cs[2]:
-			return firstRes[T]{v, nil}
-		case <-ctx.Done():
-			return firstRes[T]{err: ctx.Err()}
-		}
-	case 4:
-		select {
-		case v := <-cs[0]:
-			return firstRes[T]{v, nil}
-		case v := <-cs[1]:
-			return firstRes[T]{v, nil}
-		case v := <-cs[2]:
-			return firstRes[T]{v, nil}
-		case v := <-cs[3]:
-			return firstRes[T]{v, nil}
-		case <-ctx.Done():
-			return firstRes[T]{err: ctx.Err()}
-		}
-	case 5:
-		select {
-		case v := <-cs[0]:
-			return firstRes[T]{v, nil}
-		case v := <-cs[1]:
-			return firstRes[T]{v, nil}
-		case v := <-cs[2]:
-			return firstRes[T]{v, nil}
-		case v := <-cs[3]:
-			return firstRes[T]{v, nil}
-		case v := <-cs[4]:
-			return firstRes[T]{v, nil}
-		case <-ctx.Done():
-			return firstRes[T]{err: ctx.Err()}
-		}
-	default:
-		innerCtx, cancel := context.WithCancel(ctx)
-		var v T
-		select {
-		case v = <-cs[0]:
-		case v = <-cs[1]:
-		case v = <-cs[2]:
-		case v = <-cs[3]:
-		case v = <-cs[4]:
-		case v := <-first(innerCtx, cs[5:]):
-			cancel()
-			return v
-		case <-ctx.Done():
-			cancel()
-			return firstRes[T]{err: ctx.Err()}
-		}
-		cancel()
-		return firstRes[T]{v, nil}
 	}
+
+	cases := make([]reflect.SelectCase, 0, len(cs)+1)
+	cases = append(cases, reflect.SelectCase{
+		Dir:  reflect.SelectRecv,
+		Chan: reflect.ValueOf(ctx.Done()),
+	})
+	for _, c := range cs {
+		cases = append(cases, reflect.SelectCase{
+			Dir:  reflect.SelectRecv,
+			Chan: reflect.ValueOf(c),
+		})
+	}
+	chosen, rval, ok := reflect.Select(cases)
+	if chosen == 0 {
+		var v T
+		return v, ctx.Err()
+	}
+	val := rval.Interface().(T)
+	if !ok {
+		return val, ErrClosed
+	}
+	return val, nil
 }
 
 // Map applies f to all elements from channel and returns channel with results.
@@ -291,6 +256,10 @@ func Map[T any, G any](c <-chan T, f func(el T) G) chan G {
 }
 
 // Max returns the maximal element from channel.
+//
+// ⏹️ The function is blocked until the channel is closed.
+//
+// 😱 If a channel is closed without any elements being emitted, `ErrEmpty` is returned.
 func Max[T constraints.Ordered](c <-chan T) (T, error) {
 	max, ok := <-c
 	if !ok {
@@ -305,6 +274,10 @@ func Max[T constraints.Ordered](c <-chan T) (T, error) {
 }
 
 // Min returns the minimal element from channel.
+//
+// ⏹️ The function is blocked until the channel is closed.
+//
+// 😱 If a channel is closed without any elements being emitted, `ErrEmpty` is returned.
 func Min[T constraints.Ordered](c <-chan T) (T, error) {
 	min, ok := <-c
 	if !ok {
@@ -323,7 +296,7 @@ func Min[T constraints.Ordered](c <-chan T) (T, error) {
 // The function is blocking. It will wait and return
 // in one of the following conditions:
 //
-//  1. ⏹️ The context is cancelled.
+//  1. ⏹️ The context is canceled.
 //  2. ⏹️ The channel is closed.
 //  3. There is a value pushed into the channel.
 //
@@ -331,7 +304,7 @@ func Min[T constraints.Ordered](c <-chan T) (T, error) {
 // Otherwise, if a value is succesfully pulled from the channel, it is "true".
 //
 // Reads from nil channels block forever. So, if a nil channel is passed,
-// the function will exit only when the context is cancelled.
+// the function will exit only when the context is canceled.
 func Pop[T any](ctx context.Context, c <-chan T) (T, bool) {
 	select {
 	case v, more := <-c:
@@ -347,7 +320,7 @@ func Pop[T any](ctx context.Context, c <-chan T) (T, bool) {
 // or the function can be removed altogether.
 // It's not clear yet what's the best approach for when the target channel is closed.
 // By default, Go panics in this case, which might be not good in some situations.
-// Also, using this function might cause situations when the cancelled context
+// Also, using this function might cause situations when the canceled context
 // will be ignored by the target function instead of exiting.
 func Push[T any](ctx context.Context, c chan<- T, v T) {
 	select {
@@ -491,7 +464,7 @@ func WithBuffer[T any](c <-chan T, bufSize int) chan T {
 	return result
 }
 
-// WithContext creates an echo channel of the given one that can be cancelled with ctx.
+// WithContext creates an echo channel of the given one that can be canceled with ctx.
 //
 // This can be useful in 2 scenarios:
 //
@@ -504,7 +477,7 @@ func WithBuffer[T any](c <-chan T, bufSize int) chan T {
 // ⏹️ Internally, the function starts a goroutine
 // that copies values from the input channel into the output one.
 // This goroutine finishes when the input channel is closed
-// or the ctx context is cancelled.
+// or the ctx context is canceled.
 // The returned channel is closed when this goroutine finishes.
 //
 // ⏸️ The returned channel is unbuffered.
