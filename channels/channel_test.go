@@ -222,6 +222,57 @@ func TestFirst(t *testing.T) {
 	is.Equal(err, channels.ErrEmpty)
 }
 
+func TestFirst_Starvation(t *testing.T) {
+	t.Parallel()
+	is := is.New(t)
+
+	nChannels := 50
+	nMessages := 50
+	bufSize := 2
+
+	// create channels
+	csW := make([]chan<- int, nChannels)
+	csR := make([]<-chan int, nChannels)
+	for i := 0; i < nChannels; i++ {
+		c := make(chan int, bufSize)
+		csW[i] = c
+		csR[i] = c
+	}
+
+	// For each channel, start a job that will emit
+	// in the channel this channel's ID.
+	ctx, cancel := context.WithCancel(context.Background())
+	for i := 0; i < nChannels; i++ {
+		go func(i int) {
+			for m := 0; m < nMessages; m++ {
+				select {
+				case csW[i] <- i:
+				case <-ctx.Done():
+					return
+				}
+			}
+		}(i)
+	}
+
+	// Calculate how many messages are received from each channel.
+	nReceived := make(map[int]uint32)
+	for k := 0; k < nChannels*4; k++ {
+		i, err := channels.First(csR...)
+		is.NoErr(err)
+		nReceived[i] += 1
+	}
+
+	// Check if there are any starved channels.
+	// A starved channel is the one that couldn't get
+	// any messages selected from it.
+	cancel()
+	for i, n := range nReceived {
+		if n == 0 {
+			t.Errorf("channel %d is starved (n=%d)", i, n)
+		}
+	}
+}
+
 func TestMap(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, expected []int) {
