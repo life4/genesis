@@ -74,6 +74,13 @@ func TestAll(t *testing.T) {
 	f([]int{2, 4, 6, 8, 11, 12}, false)
 }
 
+func TestBufferSize(t *testing.T) {
+	is := is.New(t)
+	is.Equal(channels.BufferSize(make(chan int, 3)), 3)
+	is.Equal(channels.BufferSize(make(chan int)), 0)
+	is.Equal(channels.BufferSize[int](nil), 0)
+}
+
 func TestClose(t *testing.T) {
 	is := is.New(t)
 	is.True(!channels.Close[int](nil))
@@ -272,6 +279,34 @@ func TestFirst_Starvation(t *testing.T) {
 			t.Errorf("channel %d is starved (n=%d)", i, n)
 		}
 	}
+}
+
+func TestIsEmpty(t *testing.T) {
+	is := is.New(t)
+	is.True(channels.IsEmpty(make(chan int, 3)))
+	is.True(channels.IsEmpty(make(chan int)))
+	c := make(chan int, 3)
+	is.True(channels.IsEmpty(c))
+	c <- 42
+	is.True(!channels.IsEmpty(c))
+	<-c
+	is.True(channels.IsEmpty(c))
+}
+
+func TestIsFull(t *testing.T) {
+	is := is.New(t)
+	is.True(!channels.IsFull(make(chan int, 3)))
+	is.True(channels.IsFull(make(chan int)))
+	c := make(chan int, 3)
+	is.True(!channels.IsFull(c))
+	c <- 42
+	is.True(!channels.IsFull(c))
+	c <- 43
+	is.True(!channels.IsFull(c))
+	c <- 44
+	is.True(channels.IsFull(c))
+	<-c
+	is.True(!channels.IsFull(c))
 }
 
 func TestMap(t *testing.T) {

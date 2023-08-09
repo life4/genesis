@@ -28,6 +28,16 @@ func All[T any](c <-chan T, f func(el T) bool) bool {
 	return true
 }
 
+// BufferSize returns how many messages a channel can hold before being blocked.
+//
+// When you push that many messages in the channel, the next attempt
+// to write in it will block until another goroutine reads a message.
+//
+// For unbuffered channels the result is 0.
+func BufferSize[T any](c <-chan T) int {
+	return cap(c)
+}
+
 // ChunkEvery returns channel with slices containing count elements each.
 //
 // ⏹️ Internally, the function starts a goroutine.
@@ -232,6 +242,23 @@ func First[T any](ctx context.Context, cs ...<-chan T) (T, error) {
 		return val, ErrClosed
 	}
 	return val, nil
+}
+
+// IsEmpty returns true if there are no messages in the channel.
+//
+// For unbuffered channels, the result is always true.
+func IsEmpty[T any](c <-chan T) bool {
+	return len(c) == 0
+}
+
+// IsFull returns true if the channel's buffer is full.
+//
+// Attempts to write into a full channel will block
+// until another goroutine reads a message from it.
+//
+// For unbuffered channels, the result is always true.
+func IsFull[T any](c <-chan T) bool {
+	return len(c) == cap(c)
 }
 
 // Map applies f to all elements from channel and returns channel with results.
