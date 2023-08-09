@@ -44,6 +44,13 @@ func BufferSize[T any](c <-chan T) int {
 // This goroutine finishes when the input channel is closed.
 // The returned channel is closed when this goroutine finishes.
 //
+// 🐞 BUG: The goroutine might not be cleaned up if
+// the input channel is closed but the goroutine is blocked
+// in attempt to write into the output channel.
+// To avoid the issue, make sure to consume all messages
+// from the output channel. In a future release, the function
+// might be changed to accept a context for better cancelation.
+//
 // ⏸️ The returned channel is unbuffered.
 // The goroutine will be blocked and won't consume elements
 // from the input channel until the value from the output channel
@@ -109,6 +116,13 @@ func Count[T comparable](c <-chan T, el T) int {
 // This goroutine finishes when the input channel is closed.
 // The returned channel is closed when this goroutine finishes.
 //
+// 🐞 BUG: The goroutine might not be cleaned up if
+// the input channel is closed but the goroutine is blocked
+// in attempt to write into the output channel.
+// To avoid the issue, make sure to consume all messages
+// from the output channel. In a future release, the function
+// might be changed to accept a context for better cancelation.
+//
 // ⏸️ The returned channel is unbuffered.
 // The goroutine will be blocked and won't consume elements
 // from the input channel until the value from the output channel
@@ -141,6 +155,13 @@ func Each[T any](c <-chan T, f func(el T)) {
 // ⏹️ Internally, the function starts a goroutine.
 // This goroutine finishes when the input channel is closed.
 // The returned channel is closed when this goroutine finishes.
+//
+// 🐞 BUG: The goroutine might not be cleaned up if
+// the input channel is closed but the goroutine is blocked
+// in attempt to write into the output channel.
+// To avoid the issue, make sure to consume all messages
+// from the output channel. In a future release, the function
+// might be changed to accept a context for better cancelation.
 //
 // ⏸️ The returned channel is unbuffered.
 // The goroutine will be blocked and won't consume elements
@@ -267,6 +288,13 @@ func IsFull[T any](c <-chan T) bool {
 // This goroutine finishes when the input channel is closed.
 // The returned channel is closed when this goroutine finishes.
 //
+// 🐞 BUG: The goroutine might not be cleaned up if
+// the input channel is closed but the goroutine is blocked
+// in attempt to write into the output channel.
+// To avoid the issue, make sure to consume all messages
+// from the output channel. In a future release, the function
+// might be changed to accept a context for better cancelation.
+//
 // ⏸️ The returned channel is unbuffered.
 // The goroutine will be blocked and won't consume elements
 // from the input channel until the value from the output channel
@@ -298,6 +326,57 @@ func Max[T constraints.Ordered](c <-chan T) (T, error) {
 		}
 	}
 	return max, nil
+}
+
+// Merge multiple channels into one.
+//
+// The order in which elements are merged from different channels
+// is not guaranteed.
+//
+// ⏹️ Internally, the function starts a goroutine per input channel.
+// Each of these goroutines finishes either when their input channel is closed.
+// or when the ctx context is cancelled.
+// The returned channel is closed when all of these goroutines finish.
+//
+// ⏸️ The returned channel is unbuffered.
+// The goroutines will be blocked and won't consume elements
+// from the input channels until the value from the output channel
+// is consumed by another goroutine.
+func Merge[T any](ctx context.Context, cs ...<-chan T) chan T {
+	res := make(chan T)
+
+	// make sure the result channel is closed
+	// when all input channels are closed
+	wg := sync.WaitGroup{}
+	wg.Add(len(cs))
+	go func() {
+		wg.Wait()
+		close(res)
+	}()
+
+	echo := func(c <-chan T) {
+		wg.Done()
+		for {
+			select {
+			case v, ok := <-c:
+				if !ok {
+					return
+				}
+				select {
+				case res <- v:
+				case <-ctx.Done():
+					return
+				}
+			case <-ctx.Done():
+				return
+			}
+		}
+	}
+
+	for _, c := range cs {
+		go echo(c)
+	}
+	return res
 }
 
 // Min returns the minimal element from channel.
@@ -370,6 +449,13 @@ func Reduce[T any, G any](c <-chan T, acc G, f func(el T, acc G) G) G {
 // This goroutine finishes when the input channel is closed.
 // The returned channel is closed when this goroutine finishes.
 //
+// 🐞 BUG: The goroutine might not be cleaned up if
+// the input channel is closed but the goroutine is blocked
+// in attempt to write into the output channel.
+// To avoid the issue, make sure to consume all messages
+// from the output channel. In a future release, the function
+// might be changed to accept a context for better cancelation.
+//
 // ⏸️ The returned channel is unbuffered.
 // The goroutine will be blocked and won't consume elements
 // from the input channel until the value from the output channel
@@ -401,6 +487,13 @@ func Sum[T constraints.Ordered](c <-chan T) T {
 // This goroutine finishes when the input channel is closed.
 // The returned channel is closed when this goroutine finishes.
 //
+// 🐞 BUG: The goroutine might not be cleaned up if
+// the input channel is closed but the goroutine is blocked
+// in attempt to write into the output channel.
+// To avoid the issue, make sure to consume all messages
+// from the output channel. In a future release, the function
+// might be changed to accept a context for better cancelation.
+//
 // ⏸️ The returned channel is unbuffered.
 // The goroutine will be blocked and won't consume elements
 // from the input channel until the value from the output channel
@@ -429,6 +522,13 @@ func Take[T any](c <-chan T, count int) chan T {
 // ⏹️ Internally, the function starts a goroutine.
 // This goroutine finishes when the input channel is closed.
 // The returned channels are closed when this goroutine finishes.
+//
+// 🐞 BUG: The goroutine might not be cleaned up if
+// the input channel is closed but the goroutine is blocked
+// in attempt to write into the output channel.
+// To avoid the issue, make sure to consume all messages
+// from the output channel. In a future release, the function
+// might be changed to accept a context for better cancelation.
 //
 // ⏸️ The returned channels are unbuffered.
 // The goroutine will be blocked and won't consume elements
@@ -476,6 +576,13 @@ func ToSlice[T any](c <-chan T) []T {
 // This function effectively makes writes into the given channel non-blocking
 // until the buffer size of pending messages is reached, assuming that all reads
 // will be done only from the channel that the function returns.
+//
+// 🐞 BUG: The goroutine might not be cleaned up if
+// the input channel is closed but the goroutine is blocked
+// in attempt to write into the output channel.
+// To avoid the issue, make sure to consume all messages
+// from the output channel. In a future release, the function
+// might be changed to accept a context for better cancelation.
 //
 // ⏹️ Internally, the function starts a goroutine.
 // This goroutine finishes when the input channel is closed.

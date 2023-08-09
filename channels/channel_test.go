@@ -359,6 +359,54 @@ func TestMax(t *testing.T) {
 	f([]int{4, 2, 1}, 4, nil)
 }
 
+func TestMerge(t *testing.T) {
+	is := is.New(t)
+
+	// no channels passed
+	ctx := context.Background()
+	c1 := channels.Merge[int](ctx)
+	_, more := <-c1
+	is.True(!more)
+
+	// passed channels are all closed
+	c2 := make(chan int)
+	c3 := make(chan int)
+	close(c2)
+	close(c3)
+	c4 := channels.Merge(ctx, c2, c3)
+	_, more = <-c4
+	is.True(!more)
+
+	// one channel
+	c5 := make(chan int)
+	go func() {
+		c5 <- 42
+		close(c5)
+	}()
+	c6 := channels.Merge(ctx, c5)
+	v := <-c6
+	is.Equal(v, 42)
+	_, more = <-c6
+	is.True(!more)
+
+	// cancel on read
+	ctx2, cancel := context.WithCancel(context.Background())
+	c7 := channels.Merge(ctx2, make(<-chan int))
+	cancel()
+	_, more = <-c7
+	is.True(!more)
+
+	// cancel on write
+	ctx3, cancel := context.WithCancel(context.Background())
+	c8 := make(chan int)
+	c9 := channels.Merge(ctx3, c8)
+	c8 <- 42
+	cancel()
+	// Potential race? Let's see if it get flaky.
+	_, more = <-c9
+	is.True(!more)
+}
+
 func TestMin(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, expected int, expectedErr error) {

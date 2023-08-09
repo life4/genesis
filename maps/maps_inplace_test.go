@@ -10,9 +10,13 @@ import (
 
 func TestClear(t *testing.T) {
 	is := is.New(t)
-	m := map[int]int{1: 2, 3: 4}
-	maps.Clear(m)
-	is.Equal(m, map[int]int{})
+	m1 := map[int]int{1: 2, 3: 4}
+	maps.Clear(m1)
+	is.Equal(m1, map[int]int{})
+
+	// m2 := map[float64]int{math.NaN(): 1}
+	// maps.Clear(m2)
+	// is.Equal(m2, map[float64]int{})
 }
 
 func TestDrop(t *testing.T) {
