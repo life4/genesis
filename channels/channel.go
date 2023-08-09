@@ -614,7 +614,7 @@ func ToSlice[T any](c <-chan T) []T {
 //
 // ⏹️ Internally, the function starts a goroutine.
 // This goroutine finishes when the input channel is closed.
-// The returned channels are closed when this goroutine finishes.
+// The returned channel is closed when this goroutine finishes.
 //
 // 🐞 BUG: The goroutine might not be cleaned up if
 // the input channel is closed but the goroutine is blocked
@@ -623,10 +623,6 @@ func ToSlice[T any](c <-chan T) []T {
 // from the output channel (or at least up to the buffer size).
 // In a future release, the function
 // might be changed to accept a context for better cancelation.
-//
-// ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the input channel is closed.
-// The returned channel is closed when this goroutine finishes.
 func WithBuffer[T any](c <-chan T, bufSize int) chan T {
 	result := make(chan T, bufSize)
 	go func() {
