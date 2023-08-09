@@ -230,6 +230,37 @@ func TestFirst(t *testing.T) {
 	is.Equal(err, channels.ErrEmpty)
 }
 
+func TestFirst_Cancellation(t *testing.T) {
+	t.Parallel()
+	is := is.New(t)
+	ctx := context.Background()
+
+	// one closed channel
+	c1 := make(chan int)
+	close(c1)
+	_, err := channels.First(ctx, c1)
+	is.Equal(err, channels.ErrClosed)
+
+	// two channels, one closed
+	c2 := make(chan int)
+	_, err = channels.First(ctx, c2, c1)
+	is.Equal(err, channels.ErrClosed)
+
+	// one channel, context cancelled on wait
+	ctx2, cancel := context.WithCancel(context.Background())
+	cancel()
+	_, err = channels.First(ctx2, c2)
+	is.Equal(err, context.Canceled)
+
+	// two channels, context cancelled on wait
+	c3 := make(chan int)
+	c4 := make(chan int)
+	ctx3, cancel := context.WithCancel(context.Background())
+	cancel()
+	_, err = channels.First(ctx3, c3, c4)
+	is.Equal(err, context.Canceled)
+}
+
 func TestFirst_Starvation(t *testing.T) {
 	t.Parallel()
 	is := is.New(t)
