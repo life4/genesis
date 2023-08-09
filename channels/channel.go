@@ -363,7 +363,12 @@ func Max[T constraints.Ordered](c <-chan T) (T, error) {
 	return max, nil
 }
 
-// Merge multiple channels into one.
+// Merge is an alias for [MergeC] without a context.
+func Merge[T any](cs ...<-chan T) chan T {
+	return MergeC(context.Background(), cs...)
+}
+
+// MergeC merges multiple channels into one.
 //
 // The order in which elements are merged from different channels
 // is not guaranteed.
@@ -377,7 +382,7 @@ func Max[T constraints.Ordered](c <-chan T) (T, error) {
 // The goroutines will be blocked and won't consume elements
 // from the input channels until the value from the output channel
 // is consumed by another goroutine.
-func Merge[T any](ctx context.Context, cs ...<-chan T) chan T {
+func MergeC[T any](ctx context.Context, cs ...<-chan T) chan T {
 	res := make(chan T)
 
 	// make sure the result channel is closed

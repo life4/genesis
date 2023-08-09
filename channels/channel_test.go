@@ -410,10 +410,24 @@ func TestMax(t *testing.T) {
 
 func TestMerge(t *testing.T) {
 	is := is.New(t)
+	chIn := make(chan int)
+	go func() {
+		chIn <- 42
+		close(chIn)
+	}()
+	chOut := channels.Merge(chIn)
+	v := <-chOut
+	is.Equal(v, 42)
+	_, more := <-chOut
+	is.True(!more)
+}
+
+func TestMergeC(t *testing.T) {
+	is := is.New(t)
 
 	// no channels passed
 	ctx := context.Background()
-	c1 := channels.Merge[int](ctx)
+	c1 := channels.MergeC[int](ctx)
 	_, more := <-c1
 	is.True(!more)
 
@@ -422,7 +436,7 @@ func TestMerge(t *testing.T) {
 	c3 := make(chan int)
 	close(c2)
 	close(c3)
-	c4 := channels.Merge(ctx, c2, c3)
+	c4 := channels.MergeC(ctx, c2, c3)
 	_, more = <-c4
 	is.True(!more)
 
@@ -432,7 +446,7 @@ func TestMerge(t *testing.T) {
 		c5 <- 42
 		close(c5)
 	}()
-	c6 := channels.Merge(ctx, c5)
+	c6 := channels.MergeC(ctx, c5)
 	v := <-c6
 	is.Equal(v, 42)
 	_, more = <-c6
@@ -440,7 +454,7 @@ func TestMerge(t *testing.T) {
 
 	// cancel on read
 	ctx2, cancel := context.WithCancel(context.Background())
-	c7 := channels.Merge(ctx2, make(<-chan int))
+	c7 := channels.MergeC(ctx2, make(<-chan int))
 	cancel()
 	_, more = <-c7
 	is.True(!more)
@@ -448,7 +462,7 @@ func TestMerge(t *testing.T) {
 	// cancel on write
 	ctx3, cancel := context.WithCancel(context.Background())
 	c8 := make(chan int)
-	c9 := channels.Merge(ctx3, c8)
+	c9 := channels.MergeC(ctx3, c8)
 	c8 <- 42
 	cancel()
 	// Potential race? Let's see if it get flaky.
