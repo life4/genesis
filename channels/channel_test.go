@@ -204,6 +204,15 @@ func TestFilter(t *testing.T) {
 }
 
 func TestFirst(t *testing.T) {
+	is := is.New(t)
+	c := make(chan int, 2)
+	c <- 42
+	v, err := channels.First(c)
+	is.NoErr(err)
+	is.Equal(v, 42)
+}
+
+func TestFirstC(t *testing.T) {
 	t.Parallel()
 	is := is.New(t)
 	ctx := context.Background()
@@ -216,7 +225,7 @@ func TestFirst(t *testing.T) {
 			csR[i] = c
 		}
 		go func() { csW[i] <- 12 }()
-		v, err := channels.First(ctx, csR...)
+		v, err := channels.FirstC(ctx, csR...)
 		is.NoErr(err)
 		is.Equal(v, 12)
 	}
@@ -226,11 +235,11 @@ func TestFirst(t *testing.T) {
 		}
 	}
 
-	_, err := channels.First[int](ctx)
+	_, err := channels.FirstC[int](ctx)
 	is.Equal(err, channels.ErrEmpty)
 }
 
-func TestFirst_Cancellation(t *testing.T) {
+func TestFirstC_Cancellation(t *testing.T) {
 	t.Parallel()
 	is := is.New(t)
 	ctx := context.Background()
@@ -238,18 +247,18 @@ func TestFirst_Cancellation(t *testing.T) {
 	// one closed channel
 	c1 := make(chan int)
 	close(c1)
-	_, err := channels.First(ctx, c1)
+	_, err := channels.FirstC(ctx, c1)
 	is.Equal(err, channels.ErrClosed)
 
 	// two channels, one closed
 	c2 := make(chan int)
-	_, err = channels.First(ctx, c2, c1)
+	_, err = channels.FirstC(ctx, c2, c1)
 	is.Equal(err, channels.ErrClosed)
 
 	// one channel, context cancelled on wait
 	ctx2, cancel := context.WithCancel(context.Background())
 	cancel()
-	_, err = channels.First(ctx2, c2)
+	_, err = channels.FirstC(ctx2, c2)
 	is.Equal(err, context.Canceled)
 
 	// two channels, context cancelled on wait
@@ -257,11 +266,11 @@ func TestFirst_Cancellation(t *testing.T) {
 	c4 := make(chan int)
 	ctx3, cancel := context.WithCancel(context.Background())
 	cancel()
-	_, err = channels.First(ctx3, c3, c4)
+	_, err = channels.FirstC(ctx3, c3, c4)
 	is.Equal(err, context.Canceled)
 }
 
-func TestFirst_Starvation(t *testing.T) {
+func TestFirstC_Starvation(t *testing.T) {
 	t.Parallel()
 	is := is.New(t)
 
@@ -296,7 +305,7 @@ func TestFirst_Starvation(t *testing.T) {
 	// Calculate how many messages are received from each channel.
 	nReceived := make(map[int]uint32)
 	for k := 0; k < nChannels*4; k++ {
-		i, err := channels.First(context.Background(), csR...)
+		i, err := channels.FirstC(context.Background(), csR...)
 		is.NoErr(err)
 		nReceived[i] += 1
 	}

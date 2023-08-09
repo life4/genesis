@@ -180,7 +180,12 @@ func Filter[T any](c <-chan T, f func(el T) bool) chan T {
 	return result
 }
 
-// First selects the first available element from the given channels.
+// First is an alias for [FirstC] without a context.
+func First[T any](cs ...<-chan T) (T, error) {
+	return FirstC(context.Background(), cs...)
+}
+
+// FirstC selects the first available element from the given channels.
 //
 // The function returns in one of the following cases:
 //
@@ -225,7 +230,7 @@ func Filter[T any](c <-chan T, f func(el T) bool) chan T {
 //
 // [starvation]: https://en.wikipedia.org/wiki/Starvation_(computer_science)
 // [Go specification]: https://go.dev/ref/spec#Select_statements
-func First[T any](ctx context.Context, cs ...<-chan T) (T, error) {
+func FirstC[T any](ctx context.Context, cs ...<-chan T) (T, error) {
 	// try to use a regular select if a small number of channels is passed
 	switch len(cs) {
 	case 0:
