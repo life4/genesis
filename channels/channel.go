@@ -265,6 +265,41 @@ func First[T any](ctx context.Context, cs ...<-chan T) (T, error) {
 	return val, nil
 }
 
+// Given a channel of channels of values, return a channel of values.
+//
+// This pattern is described in the "Concurrency in Go" book
+// as "the Bridge channel" pattern. It might be useful when you design
+// your system as a pipeline consisting of goroutines connected through
+// channels and you have steps producing new steps.
+//
+// ⏹️ Internally, the function starts a goroutine.
+// This goroutine finishes when the input channel is closed.
+// The returned channel is closed when this goroutine finishes.
+//
+// 🐞 BUG: The goroutine might not be cleaned up if
+// the input channel is closed but the goroutine is blocked
+// in attempt to write into the output channel.
+// To avoid the issue, make sure to consume all messages
+// from the output channel. In a future release, the function
+// might be changed to accept a context for better cancelation.
+//
+// ⏸️ The returned channel is unbuffered.
+// The goroutine will be blocked and won't consume elements
+// from the input channel until the value from the output channel
+// is consumed by another goroutine.
+func Flatten[T any](c <-chan <-chan T) chan T {
+	res := make(chan T)
+	go func() {
+		defer close(res)
+		for stream := range c {
+			for v := range stream {
+				res <- v
+			}
+		}
+	}()
+	return res
+}
+
 // IsEmpty returns true if there are no messages in the channel.
 //
 // For unbuffered channels, the result is always true.
@@ -577,11 +612,16 @@ func ToSlice[T any](c <-chan T) []T {
 // until the buffer size of pending messages is reached, assuming that all reads
 // will be done only from the channel that the function returns.
 //
+// ⏹️ Internally, the function starts a goroutine.
+// This goroutine finishes when the input channel is closed.
+// The returned channels are closed when this goroutine finishes.
+//
 // 🐞 BUG: The goroutine might not be cleaned up if
 // the input channel is closed but the goroutine is blocked
 // in attempt to write into the output channel.
 // To avoid the issue, make sure to consume all messages
-// from the output channel. In a future release, the function
+// from the output channel (or at least up to the buffer size).
+// In a future release, the function
 // might be changed to accept a context for better cancelation.
 //
 // ⏹️ Internally, the function starts a goroutine.

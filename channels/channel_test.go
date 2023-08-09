@@ -281,6 +281,24 @@ func TestFirst_Starvation(t *testing.T) {
 	}
 }
 
+func TestFlatten(t *testing.T) {
+	is := is.New(t)
+	chIn := make(chan (<-chan int))
+	go func() {
+		for i := 0; i < 3; i++ {
+			c := make(chan int)
+			chIn <- c
+			c <- i + 10
+			c <- i + 20
+			close(c)
+		}
+		close(chIn)
+	}()
+	chOut := channels.Flatten(chIn)
+	slOut := channels.ToSlice(chOut)
+	is.Equal(slOut, []int{10, 20, 11, 21, 12, 22})
+}
+
 func TestIsEmpty(t *testing.T) {
 	is := is.New(t)
 	is.True(channels.IsEmpty(make(chan int, 3)))
