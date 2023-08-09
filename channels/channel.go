@@ -9,6 +9,11 @@ import (
 )
 
 // Any returns true if f returns true for any element in channel.
+//
+// ⏹️ The function returns either when f returns true
+// or when the channel is closed. If you want to be able
+// to stop the function without closing the channel,
+// wrap the channel into [WithContext].
 func Any[T any](c <-chan T, f func(el T) bool) bool {
 	for el := range c {
 		if f(el) {
@@ -19,6 +24,11 @@ func Any[T any](c <-chan T, f func(el T) bool) bool {
 }
 
 // All returns true if f returns true for all elements in channel.
+//
+// ⏹️ The function returns either when f returns false
+// or when the channel is closed. If you want to be able
+// to stop the function without closing the channel,
+// wrap the channel into [WithContext].
 func All[T any](c <-chan T, f func(el T) bool) bool {
 	for el := range c {
 		if !f(el) {
@@ -38,7 +48,11 @@ func BufferSize[T any](c <-chan T) int {
 	return cap(c)
 }
 
-// ChunkEvery returns channel with slices containing count elements each.
+func ChunkEvery[T any](c <-chan T, count int) chan []T {
+	return ChunkEveryC(context.Background(), c, count)
+}
+
+// ChunkEveryC returns channel with slices containing count elements each.
 //
 // ⏹️ Internally, the function starts a goroutine.
 // This goroutine finishes when the input channel is closed.
@@ -55,23 +69,31 @@ func BufferSize[T any](c <-chan T) int {
 // The goroutine will be blocked and won't consume elements
 // from the input channel until the value from the output channel
 // is consumed by another goroutine.
-func ChunkEvery[T any](c <-chan T, count int) chan []T {
+func ChunkEveryC[T any](ctx context.Context, c <-chan T, count int) chan []T {
 	chunks := make(chan []T, 1)
 	go func() {
 		defer close(chunks)
 		chunk := make([]T, 0, count)
 		i := 0
-		for el := range c {
+		for el := range WithContext(c, ctx) {
 			chunk = append(chunk, el)
 			i++
 			if i%count == 0 {
 				i = 0
-				chunks <- chunk
+				select {
+				case chunks <- chunk:
+				case <-ctx.Done():
+					return
+				}
 				chunk = make([]T, 0, count)
 			}
 		}
 		if len(chunk) > 0 {
-			chunks <- chunk
+			select {
+			case chunks <- chunk:
+			case <-ctx.Done():
+				return
+			}
 		}
 	}()
 	return chunks
@@ -99,6 +121,10 @@ func Close[T any](c chan<- T) bool {
 }
 
 // Count return count of el occurrences in channel.
+//
+// ⏹️ The function returns only when the channel is closed.
+// If you want to be able to stop the function
+// without closing the channel, wrap the channel into [WithContext].
 func Count[T comparable](c <-chan T, el T) int {
 	count := 0
 	for val := range c {
