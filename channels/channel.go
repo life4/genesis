@@ -14,27 +14,11 @@ import (
 // to stop the function without closing the channel,
 // wrap the channel into [WithContext].
 func Any[T any](c <-chan T, f func(el T) bool) bool {
-	for el := range c {
-		if f(el) {
-			return true
-		}
-	}
-	return false
+	return AnyC(context.Background(), c, f)
 }
 
-// All returns true if f returns true for all elements in channel.
-//
-// ⏹️ The function returns either when f returns false
-// or when the channel is closed. If you want to be able
-// to stop the function without closing the channel,
-// wrap the channel into [WithContext].
 func All[T any](c <-chan T, f func(el T) bool) bool {
-	for el := range c {
-		if !f(el) {
-			return false
-		}
-	}
-	return true
+	return AllC(context.Background(), c, f)
 }
 
 // BufferSize returns how many messages a channel can hold before being blocked.
@@ -47,6 +31,11 @@ func BufferSize[T any](c <-chan T) int {
 	return cap(c)
 }
 
+// ChunkEvery is an alias for [ChunkEveryC] without a context.
+//
+// ⚠️ There scenarios in which the internal goroutine that the function starts
+// is not cleaned up even after the input channel is closed.
+// To avoid the issue, use [ChunkEveryC] instead.
 func ChunkEvery[T any](c <-chan T, count int) chan []T {
 	return ChunkEveryC(context.Background(), c, count)
 }
@@ -72,52 +61,12 @@ func Close[T any](c chan<- T) bool {
 	return true
 }
 
-// Count return count of el occurrences in channel.
-//
-// ⏹️ The function returns only when the channel is closed.
-// If you want to be able to stop the function
-// without closing the channel, wrap the channel into [WithContext].
 func Count[T comparable](c <-chan T, el T) int {
-	count := 0
-	for val := range c {
-		if val == el {
-			count++
-		}
-	}
-	return count
+	return CountC(context.Background(), c, el)
 }
 
-// Drop drops first n elements from channel c and returns a new channel with the rest.
-// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
-//
-// ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the input channel is closed.
-// The returned channel is closed when this goroutine finishes.
-//
-// 🐞 BUG: The goroutine might not be cleaned up if
-// the input channel is closed but the goroutine is blocked
-// in attempt to write into the output channel.
-// To avoid the issue, make sure to consume all messages
-// from the output channel. In a future release, the function
-// might be changed to accept a context for better cancelation.
-//
-// ⏸️ The returned channel is unbuffered.
-// The goroutine will be blocked and won't consume elements
-// from the input channel until the value from the output channel
-// is consumed by another goroutine.
 func Drop[T any](c <-chan T, n int) chan T {
-	result := make(chan T)
-	go func() {
-		defer close(result)
-		i := 0
-		for el := range c {
-			if i >= n {
-				result <- el
-			}
-			i++
-		}
-	}()
-	return result
+	return DropC(context.Background(), c, n)
 }
 
 // Each calls f for every element in the channel.
@@ -127,35 +76,8 @@ func Each[T any](c <-chan T, f func(el T)) {
 	}
 }
 
-// Filter returns a new channel with elements from input channel
-// for which f returns true.
-//
-// ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the input channel is closed.
-// The returned channel is closed when this goroutine finishes.
-//
-// 🐞 BUG: The goroutine might not be cleaned up if
-// the input channel is closed but the goroutine is blocked
-// in attempt to write into the output channel.
-// To avoid the issue, make sure to consume all messages
-// from the output channel. In a future release, the function
-// might be changed to accept a context for better cancelation.
-//
-// ⏸️ The returned channel is unbuffered.
-// The goroutine will be blocked and won't consume elements
-// from the input channel until the value from the output channel
-// is consumed by another goroutine.
 func Filter[T any](c <-chan T, f func(el T) bool) chan T {
-	result := make(chan T)
-	go func() {
-		defer close(result)
-		for el := range c {
-			if f(el) {
-				result <- el
-			}
-		}
-	}()
-	return result
+	return FilterC(context.Background(), c, f)
 }
 
 // First is an alias for [FirstC] without a context.
@@ -163,39 +85,8 @@ func First[T any](cs ...<-chan T) (T, error) {
 	return FirstC(context.Background(), cs...)
 }
 
-// Given a channel of channels of values, return a channel of values.
-//
-// This pattern is described in the "Concurrency in Go" book
-// as "the Bridge channel" pattern. It might be useful when you design
-// your system as a pipeline consisting of goroutines connected through
-// channels and you have steps producing new steps.
-//
-// ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the input channel is closed.
-// The returned channel is closed when this goroutine finishes.
-//
-// 🐞 BUG: The goroutine might not be cleaned up if
-// the input channel is closed but the goroutine is blocked
-// in attempt to write into the output channel.
-// To avoid the issue, make sure to consume all messages
-// from the output channel. In a future release, the function
-// might be changed to accept a context for better cancelation.
-//
-// ⏸️ The returned channel is unbuffered.
-// The goroutine will be blocked and won't consume elements
-// from the input channel until the value from the output channel
-// is consumed by another goroutine.
 func Flatten[T any](c <-chan <-chan T) chan T {
-	res := make(chan T)
-	go func() {
-		defer close(res)
-		for stream := range c {
-			for v := range stream {
-				res <- v
-			}
-		}
-	}()
-	return res
+	return FlattenC(context.Background(), c)
 }
 
 // IsEmpty returns true if there are no messages in the channel.
@@ -215,32 +106,8 @@ func IsFull[T any](c <-chan T) bool {
 	return len(c) == cap(c)
 }
 
-// Map applies f to all elements from channel and returns channel with results.
-//
-// ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the input channel is closed.
-// The returned channel is closed when this goroutine finishes.
-//
-// 🐞 BUG: The goroutine might not be cleaned up if
-// the input channel is closed but the goroutine is blocked
-// in attempt to write into the output channel.
-// To avoid the issue, make sure to consume all messages
-// from the output channel. In a future release, the function
-// might be changed to accept a context for better cancelation.
-//
-// ⏸️ The returned channel is unbuffered.
-// The goroutine will be blocked and won't consume elements
-// from the input channel until the value from the output channel
-// is consumed by another goroutine.
 func Map[T any, G any](c <-chan T, f func(el T) G) chan G {
-	result := make(chan G, 1)
-	go func() {
-		defer close(result)
-		for el := range c {
-			result <- f(el)
-		}
-	}()
-	return result
+	return MapC(context.Background(), c, f)
 }
 
 // Max returns the maximal element from channel.
@@ -249,16 +116,7 @@ func Map[T any, G any](c <-chan T, f func(el T) G) chan G {
 //
 // 😱 If a channel is closed without any elements being emitted, `ErrEmpty` is returned.
 func Max[T constraints.Ordered](c <-chan T) (T, error) {
-	max, ok := <-c
-	if !ok {
-		return max, ErrEmpty
-	}
-	for el := range c {
-		if el > max {
-			max = el
-		}
-	}
-	return max, nil
+	return MaxC(context.Background(), c)
 }
 
 // Merge is an alias for [MergeC] without a context.
@@ -266,22 +124,8 @@ func Merge[T any](cs ...<-chan T) chan T {
 	return MergeC(context.Background(), cs...)
 }
 
-// Min returns the minimal element from channel.
-//
-// ⏹️ The function is blocked until the channel is closed.
-//
-// 😱 If a channel is closed without any elements being emitted, `ErrEmpty` is returned.
 func Min[T constraints.Ordered](c <-chan T) (T, error) {
-	min, ok := <-c
-	if !ok {
-		return min, ErrEmpty
-	}
-	for el := range c {
-		if el < min {
-			min = el
-		}
-	}
-	return min, nil
+	return MinC(context.Background(), c)
 }
 
 // Reduce applies f to acc and every element from channel and returns acc.

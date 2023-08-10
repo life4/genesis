@@ -255,6 +255,7 @@ func TestWithContext_Cancellation(t *testing.T) {
 	c1 <- 12
 	c1 <- 13
 	wg.Wait()
+	// Race condition
 	is.Equal(r, []int{11, 12})
 	close(c1)
 }

@@ -4,20 +4,62 @@ import (
 	"context"
 	"reflect"
 	"sync"
+
+	"github.com/life4/genesis/constraints"
 )
+
+// Any returns true if f returns true for any element in channel.
+//
+// The function when one of the following happens:
+//
+// 1. The channel is closed
+// 2. ⏹️ The ctx context is canceled.
+// 3. The f function returns true.
+func AnyC[T any](ctx context.Context, c <-chan T, f func(el T) bool) bool {
+	for {
+		select {
+		case el, ok := <-c:
+			if !ok {
+				return false
+			}
+			if f(el) {
+				return true
+
+			}
+		case <-ctx.Done():
+			return false
+		}
+	}
+}
+
+// All returns true if f returns true for all elements in channel.
+//
+// ⏹️ The function returns either when f returns false
+// or when the channel is closed. If you want to be able
+// to stop the function without closing the channel,
+// wrap the channel into [WithContext].
+func AllC[T any](ctx context.Context, c <-chan T, f func(el T) bool) bool {
+	for {
+		select {
+		case el, ok := <-c:
+			if !ok {
+				return true
+			}
+			if !f(el) {
+				return false
+
+			}
+		case <-ctx.Done():
+			return true
+		}
+	}
+}
 
 // ChunkEveryC returns channel with slices containing count elements each.
 //
 // ⏹️ Internally, the function starts a goroutine.
 // This goroutine finishes when the input channel is closed.
 // The returned channel is closed when this goroutine finishes.
-//
-// 🐞 BUG: The goroutine might not be cleaned up if
-// the input channel is closed but the goroutine is blocked
-// in attempt to write into the output channel.
-// To avoid the issue, make sure to consume all messages
-// from the output channel. In a future release, the function
-// might be changed to accept a context for better cancelation.
 //
 // ⏸️ The returned channel is unbuffered.
 // The goroutine will be blocked and won't consume elements
@@ -51,6 +93,154 @@ func ChunkEveryC[T any](ctx context.Context, c <-chan T, count int) chan []T {
 		}
 	}()
 	return chunks
+}
+
+// Count return count of el occurrences in channel.
+//
+// ⏹️ The function returns only when the channel is closed.
+// If you want to be able to stop the function
+// without closing the channel, wrap the channel into [WithContext].
+func CountC[T comparable](ctx context.Context, c <-chan T, el T) int {
+	count := 0
+	for {
+		select {
+		case val, ok := <-c:
+			if !ok {
+				return count
+			}
+			if val == el {
+				count++
+			}
+		case <-ctx.Done():
+			return count
+		}
+	}
+}
+
+// Drop drops first n elements from channel c and returns a new channel with the rest.
+// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
+//
+// ⏹️ Internally, the function starts a goroutine.
+// This goroutine finishes when the input channel is closed.
+// The returned channel is closed when this goroutine finishes.
+//
+// 🐞 BUG: The goroutine might not be cleaned up if
+// the input channel is closed but the goroutine is blocked
+// in attempt to write into the output channel.
+// To avoid the issue, make sure to consume all messages
+// from the output channel. In a future release, the function
+// might be changed to accept a context for better cancelation.
+//
+// ⏸️ The returned channel is unbuffered.
+// The goroutine will be blocked and won't consume elements
+// from the input channel until the value from the output channel
+// is consumed by another goroutine.
+func DropC[T any](ctx context.Context, c <-chan T, n int) chan T {
+	result := make(chan T)
+	go func() {
+		defer close(result)
+		i := 0
+		for {
+			select {
+			case el, ok := <-c:
+				if !ok {
+					return
+				}
+				if i >= n {
+					select {
+					case result <- el:
+					case <-ctx.Done():
+						return
+					}
+				}
+				i++
+			case <-ctx.Done():
+				return
+			}
+		}
+	}()
+	return result
+}
+
+// Each calls f for every element in the channel.
+func EachC[T any](ctx context.Context, c <-chan T, f func(el T)) {
+	for {
+		select {
+		case el, ok := <-c:
+			if !ok {
+				return
+			}
+			f(el)
+		case <-ctx.Done():
+			return
+		}
+	}
+}
+
+// EchoC moves messages from one channel to the other.
+//
+// If you want to move messages from multiple channels into one, use [MergeC] instead.
+//
+// If you want to move messages from one channel into multiple, use [TeeC] instead.
+func EchoC[T any](ctx context.Context, from <-chan T, to chan<- T) {
+	for {
+		select {
+		case el, ok := <-from:
+			if !ok {
+				return
+			}
+			select {
+			case to <- el:
+			case <-ctx.Done():
+				return
+			}
+		case <-ctx.Done():
+			return
+		}
+	}
+}
+
+// Filter returns a new channel with elements from input channel
+// for which f returns true.
+//
+// ⏹️ Internally, the function starts a goroutine.
+// This goroutine finishes when the input channel is closed.
+// The returned channel is closed when this goroutine finishes.
+//
+// 🐞 BUG: The goroutine might not be cleaned up if
+// the input channel is closed but the goroutine is blocked
+// in attempt to write into the output channel.
+// To avoid the issue, make sure to consume all messages
+// from the output channel. In a future release, the function
+// might be changed to accept a context for better cancelation.
+//
+// ⏸️ The returned channel is unbuffered.
+// The goroutine will be blocked and won't consume elements
+// from the input channel until the value from the output channel
+// is consumed by another goroutine.
+func FilterC[T any](ctx context.Context, c <-chan T, f func(el T) bool) chan T {
+	result := make(chan T)
+	go func() {
+		defer close(result)
+		for {
+			select {
+			case el, ok := <-c:
+				if !ok {
+					return
+				}
+				if f(el) {
+					select {
+					case result <- el:
+					case <-ctx.Done():
+						return
+					}
+				}
+			case <-ctx.Done():
+				return
+			}
+		}
+	}()
+	return result
 }
 
 // FirstC selects the first available element from the given channels.
@@ -138,6 +328,117 @@ func FirstC[T any](ctx context.Context, cs ...<-chan T) (T, error) {
 	return val, nil
 }
 
+// Given a channel of channels of values, return a channel of values.
+//
+// This pattern is described in the "Concurrency in Go" book
+// as "the Bridge channel" pattern. It might be useful when you design
+// your system as a pipeline consisting of goroutines connected through
+// channels and you have steps producing new steps.
+//
+// ⏹️ Internally, the function starts a goroutine.
+// This goroutine finishes when the input channel is closed.
+// The returned channel is closed when this goroutine finishes.
+//
+// 🐞 BUG: The goroutine might not be cleaned up if
+// the input channel is closed but the goroutine is blocked
+// in attempt to write into the output channel.
+// To avoid the issue, make sure to consume all messages
+// from the output channel. In a future release, the function
+// might be changed to accept a context for better cancelation.
+//
+// ⏸️ The returned channel is unbuffered.
+// The goroutine will be blocked and won't consume elements
+// from the input channel until the value from the output channel
+// is consumed by another goroutine.
+func FlattenC[T any](ctx context.Context, c <-chan <-chan T) chan T {
+	result := make(chan T)
+	go func() {
+		defer close(result)
+		for {
+			select {
+			case stream, ok := <-c:
+				if !ok {
+					return
+				}
+				EchoC(ctx, stream, result)
+			case <-ctx.Done():
+				return
+			}
+		}
+	}()
+	return result
+}
+
+// Map applies f to all elements from channel and returns channel with results.
+//
+// ⏹️ Internally, the function starts a goroutine.
+// This goroutine finishes when the input channel is closed.
+// The returned channel is closed when this goroutine finishes.
+//
+// 🐞 BUG: The goroutine might not be cleaned up if
+// the input channel is closed but the goroutine is blocked
+// in attempt to write into the output channel.
+// To avoid the issue, make sure to consume all messages
+// from the output channel. In a future release, the function
+// might be changed to accept a context for better cancelation.
+//
+// ⏸️ The returned channel is unbuffered.
+// The goroutine will be blocked and won't consume elements
+// from the input channel until the value from the output channel
+// is consumed by another goroutine.
+func MapC[T any, G any](ctx context.Context, c <-chan T, f func(el T) G) chan G {
+	result := make(chan G, 1)
+	go func() {
+		defer close(result)
+		for {
+			select {
+			case el, ok := <-c:
+				if !ok {
+					return
+				}
+				select {
+				case result <- f(el):
+				case <-ctx.Done():
+					return
+				}
+			case <-ctx.Done():
+				return
+			}
+		}
+	}()
+	return result
+}
+
+// Max returns the maximal element from channel.
+//
+// ⏹️ The function is blocked until the channel is closed.
+//
+// 😱 If a channel is closed without any elements being emitted, `ErrEmpty` is returned.
+func MaxC[T constraints.Ordered](ctx context.Context, c <-chan T) (T, error) {
+	select {
+	case max, ok := <-c:
+		if !ok {
+			return max, ErrEmpty
+		}
+		for {
+			select {
+			case el, ok := <-c:
+				if !ok {
+					return max, nil
+				}
+				if el > max {
+					max = el
+				}
+			case <-ctx.Done():
+				return max, ctx.Err()
+			}
+		}
+	case <-ctx.Done():
+		var max T
+		return max, ctx.Err()
+	}
+}
+
 // MergeC merges multiple channels into one.
 //
 // The order in which elements are merged from different channels
@@ -165,7 +466,7 @@ func MergeC[T any](ctx context.Context, cs ...<-chan T) chan T {
 	}()
 
 	echo := func(c <-chan T) {
-		wg.Done()
+		defer wg.Done()
 		for {
 			select {
 			case v, ok := <-c:
@@ -187,6 +488,36 @@ func MergeC[T any](ctx context.Context, cs ...<-chan T) chan T {
 		go echo(c)
 	}
 	return res
+}
+
+// Min returns the minimal element from channel.
+//
+// ⏹️ The function is blocked until the channel is closed.
+//
+// 😱 If a channel is closed without any elements being emitted, `ErrEmpty` is returned.
+func MinC[T constraints.Ordered](ctx context.Context, c <-chan T) (T, error) {
+	select {
+	case min, ok := <-c:
+		if !ok {
+			return min, ErrEmpty
+		}
+		for {
+			select {
+			case el, ok := <-c:
+				if !ok {
+					return min, nil
+				}
+				if el < min {
+					min = el
+				}
+			case <-ctx.Done():
+				return min, ctx.Err()
+			}
+		}
+	case <-ctx.Done():
+		var min T
+		return min, ctx.Err()
+	}
 }
 
 // Pop reads a value from the channel (with context).
