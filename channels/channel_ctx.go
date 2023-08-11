@@ -558,6 +558,224 @@ func Push[T any](ctx context.Context, c chan<- T, v T) {
 	}
 }
 
+// Reduce applies f to acc and every element from channel and returns acc.
+func ReduceC[T any, G any](ctx context.Context, c <-chan T, acc G, f func(el T, acc G) G) G {
+	for {
+		select {
+		case el, ok := <-c:
+			if !ok {
+				return acc
+			}
+			acc = f(el, acc)
+		case <-ctx.Done():
+			return acc
+		}
+	}
+}
+
+// Scan is like Reduce, but returns slice of f results.
+//
+// ⏹️ Internally, the function starts a goroutine.
+// This goroutine finishes when the input channel is closed.
+// The returned channel is closed when this goroutine finishes.
+//
+// 🐞 BUG: The goroutine might not be cleaned up if
+// the input channel is closed but the goroutine is blocked
+// in attempt to write into the output channel.
+// To avoid the issue, make sure to consume all messages
+// from the output channel. In a future release, the function
+// might be changed to accept a context for better cancelation.
+//
+// ⏸️ The returned channel is unbuffered.
+// The goroutine will be blocked and won't consume elements
+// from the input channel until the value from the output channel
+// is consumed by another goroutine.
+func ScanC[T any, G any](ctx context.Context, c <-chan T, acc G, f func(el T, acc G) G) chan G {
+	result := make(chan G, 1)
+	go func() {
+		defer close(result)
+		for {
+			select {
+			case el, ok := <-c:
+				if !ok {
+					return
+				}
+				acc = f(el, acc)
+				select {
+				case result <- acc:
+				case <-ctx.Done():
+					return
+				}
+			case <-ctx.Done():
+				return
+			}
+		}
+	}()
+	return result
+}
+
+// Sum returns sum of all elements from channel.
+func SumC[T constraints.Ordered](ctx context.Context, c <-chan T) T {
+	var sum T
+	for {
+		select {
+		case el, ok := <-c:
+			if !ok {
+				return sum
+			}
+			sum += el
+		case <-ctx.Done():
+			return sum
+		}
+	}
+}
+
+// Take takes first count elements from the channel.
+//
+// ⏹️ Internally, the function starts a goroutine.
+// This goroutine finishes when the input channel is closed.
+// The returned channel is closed when this goroutine finishes.
+//
+// 🐞 BUG: The goroutine might not be cleaned up if
+// the input channel is closed but the goroutine is blocked
+// in attempt to write into the output channel.
+// To avoid the issue, make sure to consume all messages
+// from the output channel. In a future release, the function
+// might be changed to accept a context for better cancelation.
+//
+// ⏸️ The returned channel is unbuffered.
+// The goroutine will be blocked and won't consume elements
+// from the input channel until the value from the output channel
+// is consumed by another goroutine.
+func TakeC[T any](ctx context.Context, c <-chan T, count int) chan T {
+	result := make(chan T)
+	go func() {
+		defer close(result)
+		if count <= 0 {
+			return
+		}
+		i := 0
+		for {
+			select {
+			case el, ok := <-c:
+				if !ok {
+					return
+				}
+				select {
+				case result <- el:
+				case <-ctx.Done():
+					return
+				}
+				i++
+				if i == count {
+					return
+				}
+			case <-ctx.Done():
+				return
+			}
+		}
+	}()
+	return result
+}
+
+// Tee returns "count" number of channels with elements from the input channel.
+//
+// ⏹️ Internally, the function starts a goroutine.
+// This goroutine finishes when the input channel is closed.
+// The returned channels are closed when this goroutine finishes.
+//
+// 🐞 BUG: The goroutine might not be cleaned up if
+// the input channel is closed but the goroutine is blocked
+// in attempt to write into the output channel.
+// To avoid the issue, make sure to consume all messages
+// from the output channel. In a future release, the function
+// might be changed to accept a context for better cancelation.
+//
+// ⏸️ The returned channels are unbuffered.
+// The goroutine will be blocked and won't consume elements
+// from the input channel until the value from all the output channels
+// is consumed by another goroutine(s).
+func TeeC[T any](ctx context.Context, c <-chan T, count int) []chan T {
+	channels := make([]chan T, 0, count)
+	for i := 0; i < count; i++ {
+		channels = append(channels, make(chan T))
+	}
+	go func() {
+		defer func() {
+			for _, ch := range channels {
+				close(ch)
+			}
+		}()
+
+		for {
+			select {
+			case el, ok := <-c:
+				if !ok {
+					return
+				}
+				wg := sync.WaitGroup{}
+				putInto := func(ch chan T) {
+					defer wg.Done()
+					select {
+					case ch <- el:
+					case <-ctx.Done():
+					}
+				}
+				wg.Add(count)
+				for _, ch := range channels {
+					go putInto(ch)
+				}
+				wg.Wait()
+			case <-ctx.Done():
+				return
+			}
+		}
+	}()
+	return channels
+}
+
+// ToSlice returns slice with all elements from channel.
+func ToSliceC[T any](ctx context.Context, c <-chan T) []T {
+	result := make([]T, 0)
+	for {
+		select {
+		case el, ok := <-c:
+			if !ok {
+				return result
+			}
+			result = append(result, el)
+		case <-ctx.Done():
+			return result
+		}
+	}
+}
+
+// WithBuffer creates an echo channel of the given one with the given buffer size.
+//
+// This function effectively makes writes into the given channel non-blocking
+// until the buffer size of pending messages is reached, assuming that all reads
+// will be done only from the channel that the function returns.
+//
+// ⏹️ Internally, the function starts a goroutine.
+// This goroutine finishes when the input channel is closed.
+// The returned channel is closed when this goroutine finishes.
+//
+// 🐞 BUG: The goroutine might not be cleaned up if
+// the input channel is closed but the goroutine is blocked
+// in attempt to write into the output channel.
+// To avoid the issue, make sure to consume all messages
+// from the output channel (or at least up to the buffer size).
+// In a future release, the function
+// might be changed to accept a context for better cancelation.
+func WithBufferC[T any](ctx context.Context, c <-chan T, bufSize int) chan T {
+	result := make(chan T, bufSize)
+	go func() {
+		defer close(result)
+		EchoC(ctx, c, result)
+	}()
+	return result
+}
+
 // WithContext creates an echo channel of the given one that can be canceled with ctx.
 //
 // This can be useful in 2 scenarios:
