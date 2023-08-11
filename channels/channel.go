@@ -75,6 +75,10 @@ func Each[T any](c <-chan T, f func(el T)) {
 	}
 }
 
+func Echo[T any](from <-chan T, to chan<- T) {
+	EchoC(context.Background(), from, to)
+}
+
 func Filter[T any](c <-chan T, f func(el T) bool) chan T {
 	return FilterC(context.Background(), c, f)
 }
