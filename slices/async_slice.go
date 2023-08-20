@@ -265,13 +265,10 @@ func MapAsync[S ~[]T, T any, G any](items S, workers int, f func(el T) G) []G {
 //
 // An example for sum:
 //
-// ```
-// 1 2 3 4 5
-//  3   7  5
-//   10    5
-//      15
-// ```
-//
+//	1 2 3 4 5
+//	 3   7  5
+//	  10    5
+//	     15
 func ReduceAsync[S ~[]T, T any](items S, workers int, f func(left T, right T) T) T {
 	if len(items) == 0 {
 		var tmp T
@@ -279,7 +276,7 @@ func ReduceAsync[S ~[]T, T any](items S, workers int, f func(left T, right T) T)
 	}
 
 	state := make([]T, len(items))
-	state = append(state, items...)
+	copy(state, items)
 	wg := sync.WaitGroup{}
 
 	worker := func(jobs <-chan int, result chan<- T) {
