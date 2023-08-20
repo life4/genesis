@@ -9,12 +9,6 @@ import (
 )
 
 // Any returns true if f returns true for any element in channel.
-//
-// The function when one of the following happens:
-//
-// 1. The channel is closed
-// 2. ⏹️ The ctx context is canceled.
-// 3. The f function returns true.
 func AnyC[T any](ctx context.Context, c <-chan T, f func(el T) bool) bool {
 	for {
 		select {
@@ -33,11 +27,6 @@ func AnyC[T any](ctx context.Context, c <-chan T, f func(el T) bool) bool {
 }
 
 // All returns true if f returns true for all elements in channel.
-//
-// ⏹️ The function returns either when f returns false
-// or when the channel is closed. If you want to be able
-// to stop the function without closing the channel,
-// wrap the channel into [WithContext].
 func AllC[T any](ctx context.Context, c <-chan T, f func(el T) bool) bool {
 	for {
 		select {
@@ -56,15 +45,6 @@ func AllC[T any](ctx context.Context, c <-chan T, f func(el T) bool) bool {
 }
 
 // ChunkEveryC returns channel with slices containing count elements each.
-//
-// ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the input channel is closed.
-// The returned channel is closed when this goroutine finishes.
-//
-// ⏸️ The returned channel is unbuffered.
-// The goroutine will be blocked and won't consume elements
-// from the input channel until the value from the output channel
-// is consumed by another goroutine.
 func ChunkEveryC[T any](ctx context.Context, c <-chan T, count int) chan []T {
 	chunks := make(chan []T, 1)
 	go func() {
@@ -96,10 +76,6 @@ func ChunkEveryC[T any](ctx context.Context, c <-chan T, count int) chan []T {
 }
 
 // Count return count of el occurrences in channel.
-//
-// ⏹️ The function returns only when the channel is closed.
-// If you want to be able to stop the function
-// without closing the channel, wrap the channel into [WithContext].
 func CountC[T comparable](ctx context.Context, c <-chan T, el T) int {
 	count := 0
 	for {
@@ -119,22 +95,6 @@ func CountC[T comparable](ctx context.Context, c <-chan T, el T) int {
 
 // Drop drops first n elements from channel c and returns a new channel with the rest.
 // It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
-//
-// ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the input channel is closed.
-// The returned channel is closed when this goroutine finishes.
-//
-// 🐞 BUG: The goroutine might not be cleaned up if
-// the input channel is closed but the goroutine is blocked
-// in attempt to write into the output channel.
-// To avoid the issue, make sure to consume all messages
-// from the output channel. In a future release, the function
-// might be changed to accept a context for better cancelation.
-//
-// ⏸️ The returned channel is unbuffered.
-// The goroutine will be blocked and won't consume elements
-// from the input channel until the value from the output channel
-// is consumed by another goroutine.
 func DropC[T any](ctx context.Context, c <-chan T, n int) chan T {
 	result := make(chan T)
 	go func() {
@@ -200,24 +160,7 @@ func EchoC[T any](ctx context.Context, from <-chan T, to chan<- T) {
 	}
 }
 
-// Filter returns a new channel with elements from input channel
-// for which f returns true.
-//
-// ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the input channel is closed.
-// The returned channel is closed when this goroutine finishes.
-//
-// 🐞 BUG: The goroutine might not be cleaned up if
-// the input channel is closed but the goroutine is blocked
-// in attempt to write into the output channel.
-// To avoid the issue, make sure to consume all messages
-// from the output channel. In a future release, the function
-// might be changed to accept a context for better cancelation.
-//
-// ⏸️ The returned channel is unbuffered.
-// The goroutine will be blocked and won't consume elements
-// from the input channel until the value from the output channel
-// is consumed by another goroutine.
+// Filter returns a new channel with elements from input channel for which f returns true.
 func FilterC[T any](ctx context.Context, c <-chan T, f func(el T) bool) chan T {
 	result := make(chan T)
 	go func() {
@@ -249,7 +192,7 @@ func FilterC[T any](ctx context.Context, c <-chan T, f func(el T) bool) chan T {
 //
 //  1. One of the given channels is closed. In this case,
 //     [ErrClosed] is returned.
-//  2. ⏹️ The ctx context is canceled. In this case,
+//  2. The ctx context is canceled. In this case,
 //     the cancelation reason is returned as an error.
 //  3. One of the given channels returns a value. In this case,
 //     the error is nil.
@@ -257,12 +200,8 @@ func FilterC[T any](ctx context.Context, c <-chan T, f func(el T) bool) chan T {
 // If all channels are non-closed and empty and ctx is not canceled,
 // the function will block and wait for one of the above to occur.
 //
-// If multiple messages are received at the same time,
-// only one is chosen via a uniform pseudo-random selection (see below).
-// Other messages will stay in their queues untocuhed.
-//
-// In no scenario any messages are lost. A message is either
-// returned by a function or stays in the queue.
+// If a message available in multiple channels, only one is chosen
+// via a uniform pseudo-random selection to avoid [starvation].
 //
 // # 😱 Errors
 //
@@ -270,24 +209,7 @@ func FilterC[T any](ctx context.Context, c <-chan T, f func(el T) bool) chan T {
 //   - [ErrClosed]: a channel was closed.
 //   - Another: cancelation cause returned by ctx.Err().
 //
-// # 🍽 What is starvation
-//
-// Imagine that you iterate through a list of channels and return an element
-// from the first one that is available. Since the order of channels is always
-// the same, if a value is always available in a multiple channels, you'll be
-// selecting only from the first one. In other words, you never select from other
-// channels as long as the first one always has a value for you. It might result
-// in a situation when out of multiplt jobs you start only one is not blocked.
-//
-// This situation is called "[starvation]". To avoid that, the element in
-// select statement, according to the [Go specification],
-// "is chosen via a uniform pseudo-random selection".
-//
-// This function preserves that behavior by using internally
-// a dynamically created (using [reflect]) select statement.
-//
 // [starvation]: https://en.wikipedia.org/wiki/Starvation_(computer_science)
-// [Go specification]: https://go.dev/ref/spec#Select_statements
 func FirstC[T any](ctx context.Context, cs ...<-chan T) (T, error) {
 	// try to use a regular select if a small number of channels is passed
 	switch len(cs) {
@@ -334,22 +256,6 @@ func FirstC[T any](ctx context.Context, cs ...<-chan T) (T, error) {
 // as "the Bridge channel" pattern. It might be useful when you design
 // your system as a pipeline consisting of goroutines connected through
 // channels and you have steps producing new steps.
-//
-// ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the input channel is closed.
-// The returned channel is closed when this goroutine finishes.
-//
-// 🐞 BUG: The goroutine might not be cleaned up if
-// the input channel is closed but the goroutine is blocked
-// in attempt to write into the output channel.
-// To avoid the issue, make sure to consume all messages
-// from the output channel. In a future release, the function
-// might be changed to accept a context for better cancelation.
-//
-// ⏸️ The returned channel is unbuffered.
-// The goroutine will be blocked and won't consume elements
-// from the input channel until the value from the output channel
-// is consumed by another goroutine.
 func FlattenC[T any](ctx context.Context, c <-chan <-chan T) chan T {
 	result := make(chan T)
 	go func() {
@@ -370,22 +276,6 @@ func FlattenC[T any](ctx context.Context, c <-chan <-chan T) chan T {
 }
 
 // Map applies f to all elements from channel and returns channel with results.
-//
-// ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the input channel is closed.
-// The returned channel is closed when this goroutine finishes.
-//
-// 🐞 BUG: The goroutine might not be cleaned up if
-// the input channel is closed but the goroutine is blocked
-// in attempt to write into the output channel.
-// To avoid the issue, make sure to consume all messages
-// from the output channel. In a future release, the function
-// might be changed to accept a context for better cancelation.
-//
-// ⏸️ The returned channel is unbuffered.
-// The goroutine will be blocked and won't consume elements
-// from the input channel until the value from the output channel
-// is consumed by another goroutine.
 func MapC[T any, G any](ctx context.Context, c <-chan T, f func(el T) G) chan G {
 	result := make(chan G, 1)
 	go func() {
@@ -410,10 +300,6 @@ func MapC[T any, G any](ctx context.Context, c <-chan T, f func(el T) G) chan G 
 }
 
 // Max returns the maximal element from channel.
-//
-// ⏹️ The function is blocked until the channel is closed.
-//
-// 😱 If a channel is closed without any elements being emitted, `ErrEmpty` is returned.
 func MaxC[T constraints.Ordered](ctx context.Context, c <-chan T) (T, error) {
 	select {
 	case max, ok := <-c:
@@ -443,16 +329,6 @@ func MaxC[T constraints.Ordered](ctx context.Context, c <-chan T) (T, error) {
 //
 // The order in which elements are merged from different channels
 // is not guaranteed.
-//
-// ⏹️ Internally, the function starts a goroutine per input channel.
-// Each of these goroutines finishes either when their input channel is closed.
-// or when the ctx context is cancelled.
-// The returned channel is closed when all of these goroutines finish.
-//
-// ⏸️ The returned channel is unbuffered.
-// The goroutines will be blocked and won't consume elements
-// from the input channels until the value from the output channel
-// is consumed by another goroutine.
 func MergeC[T any](ctx context.Context, cs ...<-chan T) chan T {
 	res := make(chan T)
 
@@ -491,10 +367,6 @@ func MergeC[T any](ctx context.Context, cs ...<-chan T) chan T {
 }
 
 // Min returns the minimal element from channel.
-//
-// ⏹️ The function is blocked until the channel is closed.
-//
-// 😱 If a channel is closed without any elements being emitted, `ErrEmpty` is returned.
 func MinC[T constraints.Ordered](ctx context.Context, c <-chan T) (T, error) {
 	select {
 	case min, ok := <-c:
@@ -574,22 +446,6 @@ func ReduceC[T any, G any](ctx context.Context, c <-chan T, acc G, f func(el T, 
 }
 
 // Scan is like Reduce, but returns slice of f results.
-//
-// ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the input channel is closed.
-// The returned channel is closed when this goroutine finishes.
-//
-// 🐞 BUG: The goroutine might not be cleaned up if
-// the input channel is closed but the goroutine is blocked
-// in attempt to write into the output channel.
-// To avoid the issue, make sure to consume all messages
-// from the output channel. In a future release, the function
-// might be changed to accept a context for better cancelation.
-//
-// ⏸️ The returned channel is unbuffered.
-// The goroutine will be blocked and won't consume elements
-// from the input channel until the value from the output channel
-// is consumed by another goroutine.
 func ScanC[T any, G any](ctx context.Context, c <-chan T, acc G, f func(el T, acc G) G) chan G {
 	result := make(chan G, 1)
 	go func() {
@@ -631,22 +487,6 @@ func SumC[T constraints.Ordered](ctx context.Context, c <-chan T) T {
 }
 
 // Take takes first count elements from the channel.
-//
-// ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the input channel is closed.
-// The returned channel is closed when this goroutine finishes.
-//
-// 🐞 BUG: The goroutine might not be cleaned up if
-// the input channel is closed but the goroutine is blocked
-// in attempt to write into the output channel.
-// To avoid the issue, make sure to consume all messages
-// from the output channel. In a future release, the function
-// might be changed to accept a context for better cancelation.
-//
-// ⏸️ The returned channel is unbuffered.
-// The goroutine will be blocked and won't consume elements
-// from the input channel until the value from the output channel
-// is consumed by another goroutine.
 func TakeC[T any](ctx context.Context, c <-chan T, count int) chan T {
 	result := make(chan T)
 	go func() {
@@ -679,22 +519,6 @@ func TakeC[T any](ctx context.Context, c <-chan T, count int) chan T {
 }
 
 // Tee returns "count" number of channels with elements from the input channel.
-//
-// ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the input channel is closed.
-// The returned channels are closed when this goroutine finishes.
-//
-// 🐞 BUG: The goroutine might not be cleaned up if
-// the input channel is closed but the goroutine is blocked
-// in attempt to write into the output channel.
-// To avoid the issue, make sure to consume all messages
-// from the output channel. In a future release, the function
-// might be changed to accept a context for better cancelation.
-//
-// ⏸️ The returned channels are unbuffered.
-// The goroutine will be blocked and won't consume elements
-// from the input channel until the value from all the output channels
-// is consumed by another goroutine(s).
 func TeeC[T any](ctx context.Context, c <-chan T, count int) []chan T {
 	channels := make([]chan T, 0, count)
 	for i := 0; i < count; i++ {
@@ -755,18 +579,6 @@ func ToSliceC[T any](ctx context.Context, c <-chan T) []T {
 // This function effectively makes writes into the given channel non-blocking
 // until the buffer size of pending messages is reached, assuming that all reads
 // will be done only from the channel that the function returns.
-//
-// ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the input channel is closed.
-// The returned channel is closed when this goroutine finishes.
-//
-// 🐞 BUG: The goroutine might not be cleaned up if
-// the input channel is closed but the goroutine is blocked
-// in attempt to write into the output channel.
-// To avoid the issue, make sure to consume all messages
-// from the output channel (or at least up to the buffer size).
-// In a future release, the function
-// might be changed to accept a context for better cancelation.
 func WithBufferC[T any](ctx context.Context, c <-chan T, bufSize int) chan T {
 	result := make(chan T, bufSize)
 	go func() {
@@ -785,17 +597,6 @@ func WithBufferC[T any](ctx context.Context, c <-chan T, bufSize int) chan T {
 //  2. For simpler iteration through channels with support for cancellation.
 //     This pattern is descirbed in the "Concurrency in Go" book
 //     in "The or-done-channel" chapter (page 119).
-//
-// ⏹️ Internally, the function starts a goroutine
-// that copies values from the input channel into the output one.
-// This goroutine finishes when the input channel is closed
-// or the ctx context is canceled.
-// The returned channel is closed when this goroutine finishes.
-//
-// ⏸️ The returned channel is unbuffered.
-// The goroutine will be blocked and won't consume elements
-// from the input channel until the value from the output channel
-// is consumed by another goroutine.
 func WithContext[T any](c <-chan T, ctx context.Context) chan T {
 	result := make(chan T)
 	go func() {

@@ -70,7 +70,8 @@
 // In other languages this is done using iterators but in Go the only infinite iterator
 // we have is channel.
 //
-// If you want to stop a generator, cancel the context you have passed in it.
+// If you want to stop a generator (terminate the goroutine it started
+// and close the channel), cancel the context you have passed in it.
 //
 // Available functions:
 //
