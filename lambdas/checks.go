@@ -47,9 +47,9 @@ func IsNotEmpty[T any](items []T) bool {
 //
 // A few examples:
 //
-// 	 + 0 for int and float
-// 	 + "" for string
-// 	 + nil for slice
+//   - 0 for int and float
+//   - "" for string
+//   - nil for slice
 func IsDefault[T comparable](value T) bool {
 	var def T
 	return value == def
@@ -59,9 +59,9 @@ func IsDefault[T comparable](value T) bool {
 //
 // A few examples:
 //
-// 	 + 0 for int and float
-// 	 + "" for string
-// 	 + nil for slice
+//   - 0 for int and float
+//   - "" for string
+//   - nil for slice
 func IsNotDefault[T comparable](value T) bool {
 	var def T
 	return value != def

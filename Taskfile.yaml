@@ -2,10 +2,21 @@
 version: "3"
 
 tasks:
+  lint:
+    desc: Run Go linters
+    cmds:
+      - golangci-lint run
+
   test:
     desc: Run go tests with coverage and timeout and without cache
     cmds:
       - go test -count 1 -cover -timeout 1s ./...
+
+  all:
+    desc: Run all tests and linters
+    cmds:
+      - task: lint
+      - task: test
 
   release:
     desc: Tag and upload release

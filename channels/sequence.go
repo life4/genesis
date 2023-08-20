@@ -6,13 +6,7 @@ import (
 	"github.com/life4/genesis/constraints"
 )
 
-// Counter is like Range, but infinite.
-//
-// ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the ctx is canceled.
-// The returned channel is closed when this goroutine finishes.
-//
-// ⏸️ The returned channel is unbuffered.
+// Counter is like [Range], but infinite.
 func Counter[T constraints.Integer](ctx context.Context, start T, step T) chan T {
 	c := make(chan T)
 	go func() {
@@ -29,14 +23,7 @@ func Counter[T constraints.Integer](ctx context.Context, start T, step T) chan T
 	return c
 }
 
-// Exponential generates elements from start with
-// multiplication of value on factor on every step.
-//
-// ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the ctx is canceled.
-// The returned channel is closed when this goroutine finishes.
-//
-// ⏸️ The returned channel is unbuffered.
+// Exponential generates elements from start with multiplication of value by factor on every step.
 func Exponential[T constraints.Integer](ctx context.Context, start T, factor T) chan T {
 	c := make(chan T)
 	go func() {
@@ -54,12 +41,6 @@ func Exponential[T constraints.Integer](ctx context.Context, start T, factor T) 
 }
 
 // Iterate returns an infinite list of repeated applications of f to val.
-//
-// ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the ctx is canceled.
-// The returned channel is closed when this goroutine finishes.
-//
-// ⏸️ The returned channel is unbuffered.
 func Iterate[T constraints.Integer](ctx context.Context, val T, f func(val T) T) chan T {
 	c := make(chan T)
 	go func() {
@@ -77,12 +58,6 @@ func Iterate[T constraints.Integer](ctx context.Context, val T, f func(val T) T)
 }
 
 // Range generates elements from start to end with given step.
-//
-// ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the ctx is canceled.
-// The returned channel is closed when this goroutine finishes.
-//
-// ⏸️ The returned channel is unbuffered.
 func Range[T constraints.Integer](ctx context.Context, start T, end T, step T) chan T {
 	c := make(chan T)
 	pos := start <= end
@@ -97,12 +72,6 @@ func Range[T constraints.Integer](ctx context.Context, start T, end T, step T) c
 }
 
 // Repeat returns channel that produces val infinite times.
-//
-// ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the ctx is canceled.
-// The returned channel is closed when this goroutine finishes.
-//
-// ⏸️ The returned channel is unbuffered.
 func Repeat[T constraints.Integer](ctx context.Context, val T) chan T {
 	c := make(chan T)
 	go func() {
@@ -121,11 +90,7 @@ func Repeat[T constraints.Integer](ctx context.Context, val T) chan T {
 
 // Replicate returns channel that produces val n times.
 //
-// ⏹️ Internally, the function starts a goroutine.
-// This goroutine finishes when the ctx is canceled.
-// The returned channel is closed when this goroutine finishes.
-//
-// ⏸️ The returned channel is unbuffered.
+// Use [Repeat] if you need to generate the value forever.
 func Replicate[T constraints.Integer](ctx context.Context, val T, n int) chan T {
 	c := make(chan T)
 	go func() {
