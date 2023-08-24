@@ -13,6 +13,26 @@ func Concat[S ~[]T, T any](slices ...S) S {
 	return result
 }
 
+// Intersect2 returns items that appear in both slices.
+//
+// The items in the result slice appear in the same order as in the first given slice.
+// Each item appears only once.
+func Intersect2[S1 ~[]T, S2 ~[]T, T comparable](items1 S1, items2 S2) []T {
+	wanted := make(map[T]struct{})
+	for _, item := range items2 {
+		wanted[item] = struct{}{}
+	}
+	result := make([]T, 0)
+	for _, item := range items1 {
+		_, found := wanted[item]
+		if found {
+			result = append(result, item)
+			delete(wanted, item)
+		}
+	}
+	return result
+}
+
 // Product returns cortesian product of elements
 // {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 func Product2[T any](items ...[]T) chan []T {
