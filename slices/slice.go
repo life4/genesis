@@ -582,17 +582,6 @@ func ToMap[S ~[]V, V any](items S) map[int]V {
 	return result
 }
 
-// ToMapGroupedBy converts the given slice into a map where keys are values returned
-// from keyExtractor function and values are items from the given slice
-func ToMapGroupedBy[V any, T comparable](items []V, keyExtractor func(V) T) map[T][]V {
-	result := make(map[T][]V)
-	for _, item := range items {
-		key := keyExtractor(item)
-		result[key] = append(result[key], item)
-	}
-	return result
-}
-
 // ToKeys converts the given slice into a map where items from the slice are the keys
 // of the resulting map and all values are equal to the given `val` value.
 func ToKeys[S ~[]K, K comparable, V any](items S, val V) map[K]V {

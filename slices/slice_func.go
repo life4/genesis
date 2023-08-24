@@ -252,3 +252,14 @@ func TakeWhile[S ~[]T, T any](items S, f func(el T) bool) S {
 	}
 	return result
 }
+
+// ToMapGroupedBy converts the given slice into a map where keys are values returned
+// from keyExtractor function and values are items from the given slice
+func ToMapGroupedBy[V any, T comparable](items []V, keyExtractor func(V) T) map[T][]V {
+	result := make(map[T][]V)
+	for _, item := range items {
+		key := keyExtractor(item)
+		result[key] = append(result[key], item)
+	}
+	return result
+}
