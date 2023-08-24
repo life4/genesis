@@ -21,8 +21,8 @@ func Choice[S ~[]T, T any](items S, seed int64) (T, error) {
 	if seed == 0 {
 		seed = time.Now().UnixNano()
 	}
-	rand.Seed(seed)
-	i := rand.Intn(len(items))
+	r := rand.New(rand.NewSource(seed))
+	i := r.Intn(len(items))
 	return items[i], nil
 }
 
@@ -448,11 +448,11 @@ func Shuffle[S ~[]T, T any](items S, seed int64) {
 	if seed == 0 {
 		seed = time.Now().UnixNano()
 	}
-	rand.Seed(seed)
+	r := rand.New(rand.NewSource(seed))
 	swap := func(i, j int) {
 		items[i], items[j] = items[j], items[i]
 	}
-	rand.Shuffle(len(items), swap)
+	r.Shuffle(len(items), swap)
 }
 
 // Sort returns sorted slice
@@ -548,11 +548,11 @@ func TakeRandom[S ~[]T, T any](items S, count int, seed int64) (S, error) {
 	if seed == 0 {
 		seed = time.Now().UnixNano()
 	}
-	rand.Seed(seed)
+	r := rand.New(rand.NewSource(seed))
 	swap := func(i, j int) {
 		items[i], items[j] = items[j], items[i]
 	}
-	rand.Shuffle(len(items), swap)
+	r.Shuffle(len(items), swap)
 	return items[:count], nil
 }
 
