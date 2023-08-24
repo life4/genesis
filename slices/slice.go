@@ -469,10 +469,11 @@ func Sort[S ~[]T, T constraints.Ordered](items S) S {
 
 // Sorted returns true if slice is sorted
 func Sorted[S ~[]T, T constraints.Ordered](items S) bool {
-	if len(items) <= 1 {
+	l := len(items)
+	if l <= 1 {
 		return true
 	}
-	for i := 1; i < len(items); i++ {
+	for i := 1; i < l; i++ {
 		if items[i-1] > items[i] {
 			return false
 		}
@@ -622,6 +623,19 @@ func Uniq[S ~[]T, T comparable](items S) S {
 	}
 	return result
 
+}
+
+// Unique checks if each item in the given slice appears only once.
+func Unique[S ~[]T, T comparable](items S) bool {
+	seen := make(map[T]struct{})
+	for _, item := range items {
+		_, found := seen[item]
+		if found {
+			return false
+		}
+		seen[item] = struct{}{}
+	}
+	return true
 }
 
 // Window makes sliding window for a given slice:
