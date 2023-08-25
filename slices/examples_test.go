@@ -125,6 +125,49 @@ func ExampleDropEvery() {
 	// Output: [4 6 8]
 }
 
+func ExampleEndsWith() {
+	s := []int{3, 4, 5, 6, 7, 8}
+	result := slices.EndsWith(s, []int{7, 8})
+	fmt.Println(result)
+	// Output: true
+}
+
+func ExampleEqual() {
+	s1 := []int{3, 4, 5}
+	s2 := []int{3, 4, 5, 6}
+	result := slices.Equal(s1, s2)
+	fmt.Println(result)
+	// Output: false
+}
+
+func ExampleIndex() {
+	s := []int{3, 4, 5}
+	index, _ := slices.Index(s, 4)
+	fmt.Println(index)
+	// Output: 1
+}
+
+func ExampleInsertAt() {
+	s := []int{3, 4, 5}
+	result, _ := slices.InsertAt(s, 1, 6)
+	fmt.Println(result)
+	// Output: [3 6 4 5]
+}
+
+func ExampleJoin() {
+	s := []int{3, 4, 5}
+	result := slices.Join(s, "; ")
+	fmt.Println(result)
+	// Output: 3; 4; 5
+}
+
+func ExampleLast() {
+	s := []int{3, 4, 5}
+	result, _ := slices.Last(s)
+	fmt.Println(result)
+	// Output: 5
+}
+
 func ExampleMin() {
 	s := []int{42, 7, 13}
 	min, _ := slices.Min(s)
@@ -172,4 +215,18 @@ func ExampleMapAsync() {
 	)
 	fmt.Println(pages)
 	// [<web page for google.com> <web page for go.dev> <web page for golang.org>]
+}
+
+func ExampleReverse() {
+	s := []int{3, 4, 5}
+	result := slices.Reverse(s)
+	fmt.Println(result)
+	// Output: [5 4 3]
+}
+
+func ExampleStartsWith() {
+	s := []int{3, 4, 5, 6, 7, 8}
+	result := slices.StartsWith(s, []int{3, 4})
+	fmt.Println(result)
+	// Output: true
 }
