@@ -53,6 +53,14 @@ func ExampleChunkEvery() {
 	// Output: [[1 1 2] [3 5 8] [13]]
 }
 
+func ExampleConcat() {
+	s1 := []int{3, 4, 5}
+	s2 := []int{6, 7, 8}
+	result := slices.Concat(s1, s2)
+	fmt.Println(result)
+	// Output: [3 4 5 6 7 8]
+}
+
 func ExampleContains() {
 	s := []int{2, 4, 6, 8}
 	result := slices.Contains(s, 4)
@@ -94,6 +102,27 @@ func ExampleDedup() {
 	result := slices.Dedup(s)
 	fmt.Println(result)
 	// Output: [1 2 3 2 3 1]
+}
+
+func ExampleDelete() {
+	s := []int{3, 4, 5, 3, 4, 5}
+	result := slices.Delete(s, 4)
+	fmt.Println(result)
+	// Output: [3 5 3 4 5]
+}
+
+func ExampleDeleteAt() {
+	s := []int{3, 4, 5, 3, 4, 5}
+	result, _ := slices.DeleteAt(s, 1, 3)
+	fmt.Println(result)
+	// Output: [3 5 4 5]
+}
+
+func ExampleDropEvery() {
+	s := []int{3, 4, 5, 6, 7, 8}
+	result, _ := slices.DropEvery(s, 2, 0)
+	fmt.Println(result)
+	// Output: [4 6 8]
 }
 
 func ExampleMin() {
