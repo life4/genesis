@@ -334,3 +334,32 @@ func TestTakeWhile(t *testing.T) {
 	f([]int{2, 4, 6, 1, 8}, []int{2, 4, 6})
 	f([]int{1, 2, 3}, []int{})
 }
+
+func TestToMapGroupedBy(t *testing.T) {
+	is := is.New(t)
+
+	type employee struct {
+		Name       string
+		Department string
+	}
+
+	f := func(given []employee, expected map[string][]employee) {
+		actual := slices.ToMapGroupedBy(given, func(emp employee) string {
+			return emp.Department
+		})
+		is.Equal(expected, actual)
+	}
+
+	employeeJohn := employee{Name: "John", Department: "Engineering"}
+	employeeEva := employee{Name: "Eva", Department: "HR"}
+	employeeCarlos := employee{Name: "Carlos", Department: "Engineering"}
+
+	f([]employee{employeeJohn, employeeEva, employeeCarlos}, map[string][]employee{
+		"Engineering": {employeeJohn, employeeCarlos},
+		"HR":          {employeeEva},
+	})
+
+	f([]employee{}, map[string][]employee{})
+
+	f(nil, map[string][]employee{})
+}

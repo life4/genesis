@@ -194,6 +194,7 @@ func DropEvery[S ~[]T, T any](items S, nth int, from int) (S, error) {
 }
 
 // EndsWith returns true if slice ends with the given suffix slice.
+//
 // If suffix is empty, it returns true.
 func EndsWith[S ~[]T, T comparable](items S, suffix S) bool {
 	if len(suffix) > len(items) {
@@ -208,7 +209,7 @@ func EndsWith[S ~[]T, T comparable](items S, suffix S) bool {
 	return true
 }
 
-// Equal returns true if slices are equal
+// Equal returns true if slices are equal.
 func Equal[S1 ~[]T, S2 ~[]T, T comparable](items S1, other S2) bool {
 	if len(items) != len(other) {
 		return false
@@ -221,15 +222,21 @@ func Equal[S1 ~[]T, S2 ~[]T, T comparable](items S1, other S2) bool {
 	return true
 }
 
-// Grow increases the slice's by n elements.
+// Grow increases the slice capacity by n elements.
+//
 // So, for cap(slice)=8 and n=2, the result will have cap at least 10.
+//
 // The function can be used to reduce allocations when inserting more elements
 // into an existing slice.
+//
+// If the slice already has sufficient capacity, this slice is returned unmodified.
 func Grow[S ~[]T, T any](items S, n int) S {
 	return append(items, make(S, n)...)[:len(items)]
 }
 
 // Shrink removes unused capacity from the slice.
+//
+// In other words, the returned slice has capacity equal to length.
 func Shrink[S ~[]T, T any](items S) S {
 	return items[:len(items):len(items)]
 }
@@ -469,10 +476,11 @@ func Sort[S ~[]T, T constraints.Ordered](items S) S {
 
 // Sorted returns true if slice is sorted
 func Sorted[S ~[]T, T constraints.Ordered](items S) bool {
-	if len(items) <= 1 {
+	l := len(items)
+	if l <= 1 {
 		return true
 	}
-	for i := 1; i < len(items); i++ {
+	for i := 1; i < l; i++ {
 		if items[i-1] > items[i] {
 			return false
 		}
@@ -581,17 +589,6 @@ func ToMap[S ~[]V, V any](items S) map[int]V {
 	return result
 }
 
-// ToMapGroupedBy converts the given slice into a map where keys are values returned
-// from keyExtractor function and values are items from the given slice
-func ToMapGroupedBy[V any, T comparable](items []V, keyExtractor func(V) T) map[T][]V {
-	result := make(map[T][]V)
-	for _, item := range items {
-		key := keyExtractor(item)
-		result[key] = append(result[key], item)
-	}
-	return result
-}
-
 // ToKeys converts the given slice into a map where items from the slice are the keys
 // of the resulting map and all values are equal to the given `val` value.
 func ToKeys[S ~[]K, K comparable, V any](items S, val V) map[K]V {
@@ -622,6 +619,19 @@ func Uniq[S ~[]T, T comparable](items S) S {
 	}
 	return result
 
+}
+
+// Unique checks if each item in the given slice appears only once.
+func Unique[S ~[]T, T comparable](items S) bool {
+	seen := make(map[T]struct{})
+	for _, item := range items {
+		_, found := seen[item]
+		if found {
+			return false
+		}
+		seen[item] = struct{}{}
+	}
+	return true
 }
 
 // Window makes sliding window for a given slice:
