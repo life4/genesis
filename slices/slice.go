@@ -194,6 +194,7 @@ func DropEvery[S ~[]T, T any](items S, nth int, from int) (S, error) {
 }
 
 // EndsWith returns true if slice ends with the given suffix slice.
+//
 // If suffix is empty, it returns true.
 func EndsWith[S ~[]T, T comparable](items S, suffix S) bool {
 	if len(suffix) > len(items) {
@@ -208,7 +209,7 @@ func EndsWith[S ~[]T, T comparable](items S, suffix S) bool {
 	return true
 }
 
-// Equal returns true if slices are equal
+// Equal returns true if slices are equal.
 func Equal[S1 ~[]T, S2 ~[]T, T comparable](items S1, other S2) bool {
 	if len(items) != len(other) {
 		return false
@@ -221,15 +222,21 @@ func Equal[S1 ~[]T, S2 ~[]T, T comparable](items S1, other S2) bool {
 	return true
 }
 
-// Grow increases the slice's by n elements.
+// Grow increases the slice capacity by n elements.
+//
 // So, for cap(slice)=8 and n=2, the result will have cap at least 10.
+//
 // The function can be used to reduce allocations when inserting more elements
 // into an existing slice.
+//
+// If the slice already has sufficient capacity, this slice is returned unmodified.
 func Grow[S ~[]T, T any](items S, n int) S {
 	return append(items, make(S, n)...)[:len(items)]
 }
 
 // Shrink removes unused capacity from the slice.
+//
+// In other words, the returned slice has capacity equal to length.
 func Shrink[S ~[]T, T any](items S) S {
 	return items[:len(items):len(items)]
 }
