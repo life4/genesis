@@ -1,6 +1,7 @@
 package slices_test
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/life4/genesis/channels"
@@ -171,6 +172,22 @@ func ExampleEach() {
 	// 12
 }
 
+func ExampleEachErr() {
+	s := []int{4, 5, 6, 7, 8}
+	err := slices.EachErr(s, func(x int) error {
+		if x == 6 {
+			return errors.New("six found")
+		}
+		fmt.Println(x * 2)
+		return nil
+	})
+	fmt.Println(err)
+	// Output:
+	// 8
+	// 10
+	// six found
+}
+
 func ExampleEndsWith() {
 	s := []int{3, 4, 5, 6, 7, 8}
 	result := slices.EndsWith(s, []int{7, 8})
@@ -184,6 +201,23 @@ func ExampleEqual() {
 	result := slices.Equal(s1, s2)
 	fmt.Println(result)
 	// Output: false
+}
+
+func ExampleEqualBy() {
+	s1 := []int{3, 4, -5}
+	s2 := []int{3, -4, 5}
+	absEq := func(a, b int) bool {
+		if a < 0 {
+			a = -a
+		}
+		if b < 0 {
+			b = -b
+		}
+		return a == b
+	}
+	result := slices.EqualBy(s1, s2, absEq)
+	fmt.Println(result)
+	// Output: true
 }
 
 func ExampleFilter() {
@@ -210,6 +244,16 @@ func ExampleGroupBy() {
 	// Output: map[3:[3 13 23 33] 4:[4 14] 5:[5 15]]
 }
 
+func ExampleGrow() {
+	s := make([]int, 1, 4)
+	fmt.Printf("Before: len=%d, cap=%d\n", len(s), cap(s))
+	r := slices.Grow(s, 5)
+	fmt.Printf("After:  len=%d, cap=%d\n", len(r), cap(r))
+	// Output:
+	// Before: len=1, cap=4
+	// After:  len=1, cap=8
+}
+
 func ExampleIndex() {
 	s := []int{3, 4, 5}
 	index, _ := slices.Index(s, 4)
@@ -217,11 +261,34 @@ func ExampleIndex() {
 	// Output: 1
 }
 
+func ExampleIndexBy() {
+	s := []int{5, 7, 9, 8, 3, 6}
+	even := func(x int) bool { return x%2 == 0 }
+	result, _ := slices.IndexBy(s, even)
+	fmt.Println(result)
+	// Output: 3
+}
+
 func ExampleInsertAt() {
 	s := []int{3, 4, 5}
 	result, _ := slices.InsertAt(s, 1, 6)
 	fmt.Println(result)
 	// Output: [3 6 4 5]
+}
+
+func ExampleIntersect2() {
+	s1 := []int{3, 4, 5, 5, 6, 6, 7}
+	s2 := []int{6, 5, 5, 4, 8}
+	result := slices.Intersect2(s1, s2)
+	fmt.Println(result)
+	// Output: [4 5 6]
+}
+
+func ExampleIntersperse() {
+	s := []int{3, 4, 5}
+	result := slices.Intersperse(s, 1)
+	fmt.Println(result)
+	// Output: [3 1 4 1 5]
 }
 
 func ExampleJoin() {
@@ -287,6 +354,29 @@ func ExampleMapAsync() {
 	// [<web page for google.com> <web page for go.dev> <web page for golang.org>]
 }
 
+func ExampleReduce() {
+	s := []int{3, 4, 5}
+	sum := func(a, b int) int { return a + b }
+	result := slices.Reduce(s, 0, sum)
+	fmt.Println(result)
+	// Output: 12
+}
+
+func ExampleReject() {
+	s := []int{4, 5, 6, 7, 8, 10, 12, 13}
+	odd := func(x int) bool { return x%2 == 1 }
+	result := slices.Reject(s, odd)
+	fmt.Println(result)
+	// Output: [4 6 8 10 12]
+}
+
+func ExampleRepeat() {
+	s := []int{4, 5, 6}
+	result := slices.Repeat(s, 3)
+	fmt.Println(result)
+	// Output: [4 5 6 4 5 6 4 5 6]
+}
+
 func ExampleReverse() {
 	s := []int{3, 4, 5}
 	result := slices.Reverse(s)
@@ -294,11 +384,78 @@ func ExampleReverse() {
 	// Output: [5 4 3]
 }
 
+func ExampleSame() {
+	s := []int{3, 3, 3, 3}
+	result := slices.Same(s)
+	fmt.Println(result)
+	// Output: true
+}
+
+func ExampleScan() {
+	s := []int{3, 4, 5}
+	sum := func(a, b int) int { return a + b }
+	result := slices.Scan(s, 0, sum)
+	fmt.Println(result)
+	// Output: [3 7 12]
+}
+
+func ExampleShrink() {
+	s := make([]int, 1, 4)
+	fmt.Printf("Before: len=%d, cap=%d\n", len(s), cap(s))
+	r := slices.Shrink(s)
+	fmt.Printf("After:  len=%d, cap=%d\n", len(r), cap(r))
+	// Output:
+	// Before: len=1, cap=4
+	// After:  len=1, cap=1
+}
+
+func ExampleShuffle() {
+	s := []int{3, 4, 5, 6, 7, 8}
+	slices.Shuffle(s, 13)
+	fmt.Println(s)
+	// Output: [7 8 5 3 6 4]
+}
+
+func ExampleSort() {
+	s := []int{7, 8, 5, 3, 6, 4}
+	result := slices.Sort(s)
+	fmt.Println(result)
+	// Output: [3 4 5 6 7 8]
+}
+
+func ExampleSorted() {
+	s := []int{3, 4, 5, 6, 7, 8}
+	result := slices.Sorted(s)
+	fmt.Println(result)
+	// Output: true
+}
+
+func ExampleSplit() {
+	s := []int{3, 4, 1, 5, 1, 1, 6, 7, 1}
+	result := slices.Split(s, 1)
+	fmt.Println(result)
+	// Output: [[3 4] [5] [] [6 7] []]
+}
+
 func ExampleStartsWith() {
 	s := []int{3, 4, 5, 6, 7, 8}
 	result := slices.StartsWith(s, []int{3, 4})
 	fmt.Println(result)
 	// Output: true
+}
+
+func ExampleSum() {
+	s := []int{3, 4, 5}
+	result := slices.Sum(s)
+	fmt.Println(result)
+	// Output: 12
+}
+
+func ExampleTakeEvery() {
+	s := []int{3, 4, 5, 6, 7, 8}
+	result, _ := slices.TakeEvery(s, 2, 0)
+	fmt.Println(result)
+	// Output: [3 5 7]
 }
 
 func ExampleWithout() {

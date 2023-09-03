@@ -222,9 +222,9 @@ func Equal[S1 ~[]T, S2 ~[]T, T comparable](items S1, other S2) bool {
 	return true
 }
 
-// Grow increases the slice capacity by n elements.
+// Grow increases the slice capacity to fit at least n more elements.
 //
-// So, for cap(slice)=8 and n=2, the result will have cap at least 10.
+// So, for len(slice)=8 and n=2, the result will have cap at least 10.
 //
 // The function can be used to reduce allocations when inserting more elements
 // into an existing slice.
