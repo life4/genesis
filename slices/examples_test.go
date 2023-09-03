@@ -17,6 +17,13 @@ func ExampleAny() {
 	// true
 	// false
 }
+
+func ExampleChoice() {
+	result, _ := slices.Choice([]int{3, 4, 5, 6}, 13)
+	fmt.Println(result)
+	// Output: 3
+}
+
 func ExampleFindIndex() {
 	type UserId int
 	index := slices.FindIndex(
@@ -104,6 +111,19 @@ func ExampleDedup() {
 	// Output: [1 2 3 2 3 1]
 }
 
+func ExampleDedupBy() {
+	s := []int{1, 2, -2, -3, 3, -3, 2, 3, 1, 1}
+	abs := func(x int) int {
+		if x < 0 {
+			return -x
+		}
+		return x
+	}
+	result := slices.DedupBy(s, abs)
+	fmt.Println(result)
+	// Output: [1 2 -3 2 3 1]
+}
+
 func ExampleDelete() {
 	s := []int{3, 4, 5, 3, 4, 5}
 	result := slices.Delete(s, 4)
@@ -118,11 +138,37 @@ func ExampleDeleteAt() {
 	// Output: [3 5 4 5]
 }
 
+func ExampleDeleteAll() {
+	s := []int{3, 4, 5, 3, 4, 5}
+	result := slices.DeleteAll(s, 3)
+	fmt.Println(result)
+	// Output: [4 5 4 5]
+}
+
 func ExampleDropEvery() {
 	s := []int{3, 4, 5, 6, 7, 8}
 	result, _ := slices.DropEvery(s, 2, 0)
 	fmt.Println(result)
 	// Output: [4 6 8]
+}
+
+func ExampleDropWhile() {
+	s := []int{2, 4, 6, 7, 8, 9, 10}
+	even := func(x int) bool { return x%2 == 0 }
+	result := slices.DropWhile(s, even)
+	fmt.Println(result)
+	// Output: [7 8 9 10]
+}
+
+func ExampleEach() {
+	s := []int{4, 5, 6}
+	slices.Each(s, func(x int) {
+		fmt.Println(x * 2)
+	})
+	// Output:
+	// 8
+	// 10
+	// 12
 }
 
 func ExampleEndsWith() {
@@ -138,6 +184,30 @@ func ExampleEqual() {
 	result := slices.Equal(s1, s2)
 	fmt.Println(result)
 	// Output: false
+}
+
+func ExampleFilter() {
+	s := []int{4, 5, 6, 7, 8, 10, 12, 13}
+	even := func(x int) bool { return x%2 == 0 }
+	result := slices.Filter(s, even)
+	fmt.Println(result)
+	// Output: [4 6 8 10 12]
+}
+
+func ExampleFind() {
+	s := []int{5, 7, 9, 4, 3, 6}
+	even := func(x int) bool { return x%2 == 0 }
+	result, _ := slices.Find(s, even)
+	fmt.Println(result)
+	// Output: 4
+}
+
+func ExampleGroupBy() {
+	s := []int{3, 4, 5, 13, 14, 15, 23, 33}
+	even := func(x int) int { return x % 10 }
+	result := slices.GroupBy(s, even)
+	fmt.Println(result)
+	// Output: map[3:[3 13 23 33] 4:[4 14] 5:[5 15]]
 }
 
 func ExampleIndex() {
@@ -229,4 +299,17 @@ func ExampleStartsWith() {
 	result := slices.StartsWith(s, []int{3, 4})
 	fmt.Println(result)
 	// Output: true
+}
+
+func ExampleWithout() {
+	s := []int{3, 4, 5, 6, 3, 4, 5, 6, 7, 8}
+	result := slices.Without(s, 4, 5)
+	fmt.Println(result)
+	// Output: [3 6 3 6 7 8]
+}
+
+func ExampleWrap() {
+	result := slices.Wrap(4)
+	fmt.Println(result)
+	// Output: [4]
 }
