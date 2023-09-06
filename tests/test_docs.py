@@ -15,7 +15,7 @@ def get_funcs(pkg: str) -> Iterator[str]:
             if not line.startswith('func '):
                 continue
             line = line.removeprefix('func ')
-            fname = line.split('[')[0]
+            fname = line.split('[')[0].split('(')[0]
             if not fname[0].isupper():
                 continue
             yield fname
@@ -49,19 +49,32 @@ def get_examples(pkg: str) -> Iterator[str]:
 
 @pytest.mark.parametrize('pkg', ['slices'])
 def test_all_have_examples(pkg: str) -> None:
+    """Every function must have an example.
+    """
     funcs = set(get_funcs(pkg))
     examples = set(get_examples(pkg))
     assert funcs == examples
 
 
-@pytest.mark.parametrize('pkg', ['slices'])
+@pytest.mark.parametrize('pkg', [
+    'slices',
+    'maps',
+    'lambdas',
+    # channels need tests for context-aware versions
+    # 'channels',
+])
 def test_all_have_tests(pkg: str) -> None:
+    """Every function must have unit tests.
+    """
     funcs = set(get_funcs(pkg))
     tests = set(get_tests(pkg))
+    assert funcs
     assert funcs == tests
 
 
 @pytest.mark.parametrize('func', get_funcs('slices'))
 def test_slices_func_linked_in_docs(func: str) -> None:
+    """Every function in the slices package must be listed in the package docs.
+    """
     docs = Path('slices', 'doc.go').read_text()
     assert f'//   - [{func}](' in docs
