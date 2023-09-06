@@ -52,12 +52,12 @@ func ExampleChoice() {
 }
 
 func ExampleCopy() {
-	s1 := []int{3, 4}
-	s2 := slices.Copy(s1)
-	s1 = append(s1, 5)
-	s2 = append(s2, 6)
-	fmt.Println(s1)
-	fmt.Println(s2)
+	orig := []int{3, 4}
+	copy := slices.Copy(orig)
+	orig = append(orig, 5)
+	copy = append(copy, 6)
+	fmt.Println(orig)
+	fmt.Println(copy)
 	// Output:
 	// [3 4 5]
 	// [3 4 6]
@@ -186,6 +186,13 @@ func ExampleDropWhile() {
 	result := slices.DropWhile(s, even)
 	fmt.Println(result)
 	// Output: [7 8 9 10]
+}
+
+func ExampleDropZero() {
+	s := []int{4, 5, 0, 6, 0, 0}
+	result := slices.DropZero(s)
+	fmt.Println(result)
+	// Output: [4 5 6]
 }
 
 func ExampleEach() {
@@ -387,6 +394,7 @@ func ExampleMapFilter() {
 	fmt.Println(doubled)
 	// Output: [4 8 16 42]
 }
+
 func ExampleMapAsync() {
 	pages := slices.MapAsync(
 		[]string{"google.com", "go.dev", "golang.org"},
@@ -408,6 +416,13 @@ func ExamplePermutations() {
 	}
 	fmt.Println(result)
 	// Output: [[1 2] [1 3] [2 1] [2 3] [3 1] [3 2]]
+}
+
+func ExamplePrepend() {
+	s := []int{4, 5, 6}
+	result := slices.Prepend(s, 2, 3)
+	fmt.Println(result)
+	// Output: [2 3 4 5 6]
 }
 
 func ExampleProduct() {
@@ -490,6 +505,13 @@ func ExampleRepeat() {
 	result := slices.Repeat(s, 3)
 	fmt.Println(result)
 	// Output: [4 5 6 4 5 6 4 5 6]
+}
+
+func ExampleReplace() {
+	s := []int{4, 5, 6, 7}
+	result, _ := slices.Replace(s, 1, 3, 9)
+	fmt.Println(result)
+	// Output: [4 9 9 7]
 }
 
 func ExampleReverse() {

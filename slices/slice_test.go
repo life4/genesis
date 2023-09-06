@@ -126,6 +126,14 @@ func TestDelete(t *testing.T) {
 	f([]int{1, 2, 2, 3, 2}, 2, []int{1, 2, 3, 2})
 }
 
+func TestDropZero(t *testing.T) {
+	is := is.New(t)
+	is.Equal(slices.DropZero([]int{}), []int{})
+	is.Equal(slices.DropZero([]int{4, 5, 0, 6, 0, 0}), []int{4, 5, 6})
+	is.Equal(slices.DropZero([]string{"a", "", "bc"}), []string{"a", "bc"})
+	is.Equal(slices.DropZero([]*int{nil}), []*int{})
+}
+
 func TestDeleteAll(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, el int, expected []int) {
@@ -379,6 +387,20 @@ func TestPermutations(t *testing.T) {
 	f(2, []int{1, 2, 3}, [][]int{{1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}})
 }
 
+func TestPrepend(t *testing.T) {
+	is := is.New(t)
+	f := func(given []int, items []int, exp []int) {
+		act := slices.Prepend(given, items...)
+		is.Equal(act, exp)
+	}
+	f([]int{}, []int{}, []int{})
+	f([]int{}, []int{3}, []int{3})
+	f([]int{3}, []int{}, []int{3})
+	f([]int{3}, []int{4}, []int{4, 3})
+	f([]int{3, 4}, []int{5}, []int{5, 3, 4})
+	f([]int{3, 4}, []int{5, 6}, []int{5, 6, 3, 4})
+}
+
 func TestProduct(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, repeat int, expected [][]int) {
@@ -432,6 +454,31 @@ func TestRepeat(t *testing.T) {
 	is.Equal(slices.Repeat([]int{}, 3), []int{})
 	is.Equal(slices.Repeat([]int{1}, 3), []int{1, 1, 1})
 	is.Equal(slices.Repeat([]int{1, 2}, 3), []int{1, 2, 1, 2, 1, 2})
+}
+
+func TestReplace(t *testing.T) {
+	is := is.New(t)
+	f := func(given []int, start, end, v int, exp []int) {
+		act, err := slices.Replace(given, start, end, v)
+		is.Equal(len(act), len(given))
+		if exp == nil {
+			is.True(err != nil)
+		} else {
+			is.NoErr(err)
+			is.Equal(act, exp)
+		}
+	}
+	f([]int{}, 1, 3, 0, nil)
+	f([]int{}, 3, 1, 0, nil)
+	f([]int{1, 2, 3}, 0, 10, 0, nil)
+	f([]int{1, 2, 3}, 10, 12, 0, nil)
+	f([]int{1, 2, 3}, -1, 1, 0, nil)
+	f([]int{1, 2, 3}, -3, -1, 0, nil)
+	f([]int{1, 2, 3}, 1, -1, 0, nil)
+	f([]int{4, 5, 6, 7}, 1, 3, 9, []int{4, 9, 9, 7})
+	f([]int{4, 5, 6, 7}, 1, 4, 9, []int{4, 9, 9, 9})
+	f([]int{4, 5, 6, 7}, 0, 3, 9, []int{9, 9, 9, 7})
+	f([]int{4, 5, 6, 7}, 2, 3, 9, []int{4, 5, 9, 7})
 }
 
 func TestSame(t *testing.T) {

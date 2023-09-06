@@ -38,3 +38,9 @@ def test_all_have_examples(pkg: str) -> None:
     funcs = set(get_funcs(pkg))
     examples = set(get_examples(pkg))
     assert funcs == examples
+
+
+@pytest.mark.parametrize('func', get_funcs('slices'))
+def test_slices_func_linked_in_docs(func: str) -> None:
+    docs = Path('slices', 'doc.go').read_text()
+    assert f'//   - [{func}](' in docs

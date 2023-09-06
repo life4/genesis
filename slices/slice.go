@@ -26,7 +26,9 @@ func Choice[S ~[]T, T any](items S, seed int64) (T, error) {
 	return items[i], nil
 }
 
-// ChunkEvery returns slice of slices containing count elements each
+// ChunkEvery splits items into groups the length of count each.
+//
+// If items can't be split evenly, the final chunk will be the remaining elements.
 func ChunkEvery[S ~[]T, T any](items S, count int) ([]S, error) {
 	chunks := make([]S, 0)
 	if count <= 0 {
@@ -193,6 +195,22 @@ func DropEvery[S ~[]T, T any](items S, nth int, from int) (S, error) {
 	return result, nil
 }
 
+// DropZero returns a slice with every default value removed.
+//
+// For example, for a slice of pointers it will drop nils,
+// for a slice of ints it will drop zero,
+// and for a slice of strings it will drop empty strings.
+func DropZero[S ~[]T, T comparable](items S) S {
+	result := make(S, 0)
+	var zero T
+	for _, item := range items {
+		if item != zero {
+			result = append(result, item)
+		}
+	}
+	return result
+}
+
 // EndsWith returns true if slice ends with the given suffix slice.
 //
 // If suffix is empty, it returns true.
@@ -251,7 +269,7 @@ func Join[S ~[]T, T any](items S, sep string) string {
 }
 
 // Index returns the index of the first occurrence of item in items.
-func Index[S []T, T comparable](items S, item T) (int, error) {
+func Index[S ~[]T, T comparable](items S, item T) (int, error) {
 	for i, val := range items {
 		if val == item {
 			return i, nil
@@ -342,8 +360,8 @@ func Min[S ~[]T, T constraints.Ordered](items S) (T, error) {
 }
 
 // Permutations returns successive size-length permutations of elements from the slice.
-func Permutations[T any](items []T, size int) chan []T {
-	c := make(chan []T, 1)
+func Permutations[S ~[]T, T any](items S, size int) chan S {
+	c := make(chan S, 1)
 	go func() {
 		if len(items) > 0 {
 			permutations(items, c, size, []T{}, items)
@@ -354,7 +372,7 @@ func Permutations[T any](items []T, size int) chan []T {
 }
 
 // permutations is a core implementation for Permutations
-func permutations[T any](items []T, c chan []T, size int, left []T, right []T) {
+func permutations[S ~[]T, T any](items S, c chan S, size int, left []T, right []T) {
 	if len(left) == size || len(right) == 0 {
 		c <- left
 		return
@@ -373,6 +391,11 @@ func permutations[T any](items []T, c chan []T, size int, left []T, right []T) {
 		}
 		permutations(items, c, size, newLeft, newRight)
 	}
+}
+
+// Prepend returns the target slice with the given items added at the beginning.
+func Prepend[S ~[]T, T any](target S, items ...T) S {
+	return Concat(items, target)
 }
 
 // Product returns cortesian product of elements
@@ -428,6 +451,35 @@ func Repeat[S ~[]T, T any](items S, n int) S {
 		result = append(result, items...)
 	}
 	return result
+}
+
+// Replace replaces elements in items from start to end with the given item.
+//
+// The item with the end index is not replaced.
+//
+// Result:
+//
+//   - If start or end are negative, [ErrNegativeValue] is returned.
+// 	 - If start is greater or equal to end, [ErrOutOfRange] is returned.
+// 	 - If start or end is bigger than the slice len, [ErrOutOfRange] is returned.
+func Replace[S ~[]T, T comparable, I constraints.Integer](items S, start, end I, item T) (S, error) {
+	if start < 0 || end < 0 {
+		return items, ErrNegativeValue
+	}
+	if start >= end {
+		return items, ErrOutOfRange
+	}
+	l := I(len(items))
+	if start > l || end > l {
+		return items, ErrOutOfRange
+	}
+	result := make(S, 0, l)
+	result = append(result, items[:start]...)
+	for i := start; i < end; i++ {
+		result = append(result, item)
+	}
+	result = append(result, items[end:]...)
+	return result, nil
 }
 
 // Same returns true if all element in arr the same
