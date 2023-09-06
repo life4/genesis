@@ -65,6 +65,11 @@ func product2[T any](items [][]T, c chan []T, left []T, pos int) {
 	}
 }
 
+// Union returns a slice of unique values from both slices preserving their order.
+func Union[S ~[]T, T comparable](left S, right S) S {
+	return Uniq(Concat(left, right))
+}
+
 // Zip returns chan of arrays of elements from given arrs on the same position.
 func Zip[S ~[]T, T any](items ...S) chan S {
 	if len(items) == 0 {

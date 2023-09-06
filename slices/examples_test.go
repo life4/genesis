@@ -336,6 +336,14 @@ func ExampleIntersect2() {
 	// Output: [4 5 6]
 }
 
+func ExampleUnion() {
+	s1 := []int{3, 4, 5, 5, 6, 6, 7}
+	s2 := []int{6, 5, 5, 4, 8}
+	result := slices.Union(s1, s2)
+	fmt.Println(result)
+	// Output: [3 4 5 6 7 8]
+}
+
 func ExampleIntersperse() {
 	s := []int{3, 4, 5}
 	result := slices.Intersperse(s, 1)

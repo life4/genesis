@@ -38,6 +38,35 @@ func TestProduct2(t *testing.T) {
 	f([][]int{{1, 2}, {3}, {4, 5}}, [][]int{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
 }
 
+func TestIntersect2(t *testing.T) {
+	is := is.New(t)
+	f := func(left, right []int, exp []int) {
+		act := slices.Intersect2(left, right)
+		is.Equal(act, exp)
+	}
+	f([]int{}, []int{}, []int{})
+	f([]int{}, []int{4}, []int{})
+	f([]int{4}, []int{}, []int{})
+	f([]int{4}, []int{5}, []int{})
+	f([]int{4}, []int{4}, []int{4})
+	f([]int{1, 2, 2, 3, 1}, []int{2, 3, 4, 2, 5}, []int{2, 3})
+}
+
+func TestUnion(t *testing.T) {
+	is := is.New(t)
+	f := func(left, right []int, exp []int) {
+		act := slices.Union(left, right)
+		is.Equal(act, exp)
+	}
+	f([]int{}, []int{}, []int{})
+	f([]int{}, []int{4}, []int{4})
+	f([]int{4}, []int{}, []int{4})
+	f([]int{4}, []int{5}, []int{4, 5})
+	f([]int{4}, []int{4}, []int{4})
+	f([]int{5}, []int{4}, []int{5, 4})
+	f([]int{1, 2, 2, 3, 1}, []int{2, 3, 4, 2, 5}, []int{1, 2, 3, 4, 5})
+}
+
 func TestZip(t *testing.T) {
 	is := is.New(t)
 	f := func(given [][]int, expected [][]int) {
