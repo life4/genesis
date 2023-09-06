@@ -1,9 +1,5 @@
 package slices
 
-import (
-	"github.com/life4/genesis/constraints"
-)
-
 // Any returns true if f returns true for any element in arr
 func Any[S ~[]T, T any](items S, f func(el T) bool) bool {
 	for _, el := range items {
@@ -159,15 +155,11 @@ func FindIndex[S ~[]T, T any](items S, f func(el T) bool) int {
 }
 
 // GroupBy groups element from array by value returned by f
-func GroupBy[S ~[]T, T any, G constraints.Ordered](items S, f func(el T) G) map[G]S {
-	result := make(map[G]S)
+func GroupBy[S ~[]T, T any, K comparable](items S, f func(el T) K) map[K]S {
+	result := make(map[K]S)
 	for _, el := range items {
 		key := f(el)
-		val, ok := result[key]
-		if !ok {
-			result[key] = make(S, 1)
-		}
-		result[key] = append(val, el)
+		result[key] = append(result[key], el)
 	}
 	return result
 }
@@ -253,13 +245,9 @@ func TakeWhile[S ~[]T, T any](items S, f func(el T) bool) S {
 	return result
 }
 
-// ToMapGroupedBy converts the given slice into a map where keys are values returned
-// from keyExtractor function and values are items from the given slice
+// ToMapGroupedBy is an alias for [GroupBy].
+//
+// DEPRECATED. Use [GroupBy] instead.
 func ToMapGroupedBy[V any, T comparable](items []V, keyExtractor func(V) T) map[T][]V {
-	result := make(map[T][]V)
-	for _, item := range items {
-		key := keyExtractor(item)
-		result[key] = append(result[key], item)
-	}
-	return result
+	return GroupBy(items, keyExtractor)
 }

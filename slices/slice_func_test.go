@@ -217,6 +217,35 @@ func TestGroupBy(t *testing.T) {
 	f([]int{1, 3, 2, 4, 5}, map[int][]int{0: {2, 4}, 1: {1, 3, 5}})
 }
 
+func TestGroupBy_2(t *testing.T) {
+	is := is.New(t)
+
+	type employee struct {
+		Name       string
+		Department string
+	}
+
+	f := func(given []employee, expected map[string][]employee) {
+		actual := slices.GroupBy(given, func(emp employee) string {
+			return emp.Department
+		})
+		is.Equal(actual, expected)
+	}
+
+	employeeJohn := employee{Name: "John", Department: "Engineering"}
+	employeeEva := employee{Name: "Eva", Department: "HR"}
+	employeeCarlos := employee{Name: "Carlos", Department: "Engineering"}
+
+	f([]employee{employeeJohn, employeeEva, employeeCarlos}, map[string][]employee{
+		"Engineering": {employeeJohn, employeeCarlos},
+		"HR":          {employeeEva},
+	})
+
+	f([]employee{}, map[string][]employee{})
+
+	f(nil, map[string][]employee{})
+}
+
 func TestIndexBy(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, expectedInd int) {
@@ -333,33 +362,4 @@ func TestTakeWhile(t *testing.T) {
 	f([]int{2}, []int{2})
 	f([]int{2, 4, 6, 1, 8}, []int{2, 4, 6})
 	f([]int{1, 2, 3}, []int{})
-}
-
-func TestToMapGroupedBy(t *testing.T) {
-	is := is.New(t)
-
-	type employee struct {
-		Name       string
-		Department string
-	}
-
-	f := func(given []employee, expected map[string][]employee) {
-		actual := slices.ToMapGroupedBy(given, func(emp employee) string {
-			return emp.Department
-		})
-		is.Equal(actual, expected)
-	}
-
-	employeeJohn := employee{Name: "John", Department: "Engineering"}
-	employeeEva := employee{Name: "Eva", Department: "HR"}
-	employeeCarlos := employee{Name: "Carlos", Department: "Engineering"}
-
-	f([]employee{employeeJohn, employeeEva, employeeCarlos}, map[string][]employee{
-		"Engineering": {employeeJohn, employeeCarlos},
-		"HR":          {employeeEva},
-	})
-
-	f([]employee{}, map[string][]employee{})
-
-	f(nil, map[string][]employee{})
 }

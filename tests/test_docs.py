@@ -11,11 +11,15 @@ def get_funcs(pkg: str) -> Iterator[str]:
         if fpath.stem.endswith('_test'):
             continue
         content = fpath.read_text()
+        deprecated = False
         for line in content.splitlines():
             if not line.startswith('func '):
+                deprecated = line.startswith('// DEPRECATED')
                 continue
             line = line.removeprefix('func ')
             fname = line.split('[')[0].split('(')[0]
+            if deprecated:
+                continue
             if not fname[0].isupper():
                 continue
             yield fname
@@ -69,7 +73,7 @@ def test_all_have_tests(pkg: str) -> None:
     funcs = set(get_funcs(pkg))
     tests = set(get_tests(pkg))
     assert funcs
-    assert funcs == tests
+    assert not funcs - tests
 
 
 @pytest.mark.parametrize('func', get_funcs('slices'))

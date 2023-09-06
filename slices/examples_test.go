@@ -650,14 +650,6 @@ func ExampleToMap() {
 	// Output: map[0:3 1:4 2:5]
 }
 
-func ExampleToMapGroupedBy() {
-	s := []int{3, 4, 5, 13, 23, 14, 25, 34}
-	lastDigit := func(x int) int { return x % 10 }
-	result := slices.ToMapGroupedBy(s, lastDigit)
-	fmt.Println(result)
-	// Output: map[3:[3 13 23] 4:[4 14 34] 5:[5 25]]
-}
-
 func ExampleUniq() {
 	s := []int{3, 3, 4, 5, 4, 3, 3}
 	result := slices.Uniq(s)

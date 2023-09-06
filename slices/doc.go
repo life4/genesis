@@ -60,7 +60,6 @@
 //   - [GroupBy](📚, 💬) 🗺
 //   - [ToKeys](📚, 📕) 🗺
 //   - [ToMap](📚) 🗺
-//   - [ToMapGroupedBy](📚, 💬) 🗺
 //
 // 📺 Functions returning a channel:
 //
