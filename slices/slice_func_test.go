@@ -36,6 +36,7 @@ func TestAll(t *testing.T) {
 	f([]int{2, 4, 1}, false)
 	f([]int{1, 2, 4}, false)
 }
+
 func TestChunkBy(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, expected [][]int) {
@@ -291,6 +292,24 @@ func TestMapFilter(t *testing.T) {
 	f([]int{1}, []string{})
 	f([]int{1, 2, 3, 4}, []string{"2", "4"})
 }
+
+func TestPartition(t *testing.T) {
+	is := is.New(t)
+	f := func(given, exp1, exp2 []int) {
+		even := func(x int) bool { return x%2 == 0 }
+		act1, act2 := slices.Partition(given, even)
+		is.Equal(act1, exp1)
+		is.Equal(act2, exp2)
+		is.Equal(len(act1)+len(act2), len(given))
+	}
+	f([]int{}, []int{}, []int{})
+	f([]int{1}, []int{}, []int{1})
+	f([]int{2}, []int{2}, []int{})
+	f([]int{1, 2, 3, 4}, []int{2, 4}, []int{1, 3})
+	f([]int{2, 1, 4, 3}, []int{2, 4}, []int{1, 3})
+	f([]int{4, 3, 2, 1}, []int{4, 2}, []int{3, 1})
+}
+
 func TestReduce(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, expected int) {

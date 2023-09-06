@@ -195,6 +195,25 @@ func MapFilter[S ~[]T, T any, G any](items S, f func(el T) (G, bool)) []G {
 	return result
 }
 
+// Partition splits items into two slices based on if f returns true or false.
+//
+// The first returned slice contains the items for which the given function
+// returned true, in the order as they appear in the input slice.
+// The second returned slice contains the items for which the function
+// returned false.
+func Partition[S ~[]T, T any](items S, f func(el T) bool) (S, S) {
+	good := make(S, 0)
+	bad := make(S, 0)
+	for _, item := range items {
+		if f(item) {
+			good = append(good, item)
+		} else {
+			bad = append(bad, item)
+		}
+	}
+	return good, bad
+}
+
 // Reduce applies `f` to acc and every element in slice of `items` and returns `acc`.
 func Reduce[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) G) G {
 	for _, el := range items {

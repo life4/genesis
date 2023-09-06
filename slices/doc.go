@@ -138,6 +138,7 @@
 //   - [EachAsync](📚, 🧑‍🔧️, 💬)
 //   - [EachErr](📚, 💬) 💥
 //   - [Join](📚, string) string
+//   - [Partition](📚, 💬) (📚, 📚)
 //
 // [Enum]: https://hexdocs.pm/elixir/1.12/Enum.html
 // [List]: https://hexdocs.pm/elixir/1.12/List.html

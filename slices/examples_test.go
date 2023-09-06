@@ -412,7 +412,19 @@ func ExampleMapAsync() {
 		},
 	)
 	fmt.Println(pages)
+	// Output:
 	// [<web page for google.com> <web page for go.dev> <web page for golang.org>]
+}
+
+func ExamplePartition() {
+	s := []int{4, 5, 6, 7, 8, 8, 7}
+	isEven := func(x int) bool { return x%2 == 0 }
+	even, odd := slices.Partition(s, isEven)
+	fmt.Println(even)
+	fmt.Println(odd)
+	// Output:
+	// [4 6 8 8]
+	// [5 7 7]
 }
 
 func ExamplePermutations() {
