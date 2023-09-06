@@ -8,6 +8,25 @@ import (
 	"github.com/life4/genesis/slices"
 )
 
+func ExampleAll() {
+	even := func(item int) bool { return item%2 == 0 }
+	result := slices.All([]int{2, 4, 6}, even)
+	fmt.Println(result)
+	result = slices.All([]int{2, 4, 5}, even)
+	fmt.Println(result)
+
+	// Output:
+	// true
+	// false
+}
+
+func ExampleAllAsync() {
+	even := func(item int) bool { return item%2 == 0 }
+	result := slices.AllAsync([]int{2, 4, 6}, 0, even)
+	fmt.Println(result)
+	// Output: true
+}
+
 func ExampleAny() {
 	even := func(item int) bool { return item%2 == 0 }
 	result := slices.Any([]int{1, 2, 3}, even)
@@ -19,10 +38,29 @@ func ExampleAny() {
 	// false
 }
 
+func ExampleAnyAsync() {
+	even := func(item int) bool { return item%2 == 0 }
+	result := slices.AnyAsync([]int{1, 2, 3}, 0, even)
+	fmt.Println(result)
+	// Output: true
+}
+
 func ExampleChoice() {
 	result, _ := slices.Choice([]int{3, 4, 5, 6}, 13)
 	fmt.Println(result)
 	// Output: 3
+}
+
+func ExampleCopy() {
+	s1 := []int{3, 4}
+	s2 := slices.Copy(s1)
+	s1 = append(s1, 5)
+	s2 = append(s2, 6)
+	fmt.Println(s1)
+	fmt.Println(s2)
+	// Output:
+	// [3 4 5]
+	// [3 4 6]
 }
 
 func ExampleFindIndex() {
@@ -33,17 +71,6 @@ func ExampleFindIndex() {
 	)
 	fmt.Println(index)
 	// Output: 2
-}
-func ExampleAll() {
-	even := func(item int) bool { return item%2 == 0 }
-	result := slices.All([]int{2, 4, 6}, even)
-	fmt.Println(result)
-	result = slices.All([]int{2, 4, 5}, even)
-	fmt.Println(result)
-
-	// Output:
-	// true
-	// false
 }
 
 func ExampleChunkBy() {
@@ -172,6 +199,16 @@ func ExampleEach() {
 	// 12
 }
 
+func ExampleEachAsync() {
+	s := []int{4, 5, 6}
+	sum := 0
+	slices.EachAsync(s, 0, func(x int) {
+		sum += x
+	})
+	fmt.Println(sum)
+	// Output: 15
+}
+
 func ExampleEachErr() {
 	s := []int{4, 5, 6, 7, 8}
 	err := slices.EachErr(s, func(x int) error {
@@ -224,6 +261,14 @@ func ExampleFilter() {
 	s := []int{4, 5, 6, 7, 8, 10, 12, 13}
 	even := func(x int) bool { return x%2 == 0 }
 	result := slices.Filter(s, even)
+	fmt.Println(result)
+	// Output: [4 6 8 10 12]
+}
+
+func ExampleFilterAsync() {
+	s := []int{4, 5, 6, 7, 8, 10, 12, 13}
+	even := func(x int) bool { return x%2 == 0 }
+	result := slices.FilterAsync(s, 0, even)
 	fmt.Println(result)
 	// Output: [4 6 8 10 12]
 }
@@ -354,12 +399,82 @@ func ExampleMapAsync() {
 	// [<web page for google.com> <web page for go.dev> <web page for golang.org>]
 }
 
+func ExamplePermutations() {
+	s := []int{1, 2, 3}
+	ch := slices.Permutations(s, 2)
+	result := make([][]int, 0)
+	for x := range ch {
+		result = append(result, x)
+	}
+	fmt.Println(result)
+	// Output: [[1 2] [1 3] [2 1] [2 3] [3 1] [3 2]]
+}
+
+func ExampleProduct() {
+	s := []int{1, 2, 3}
+	ch := slices.Product(s, 2)
+	result := make([][]int, 0)
+	for x := range ch {
+		result = append(result, x)
+	}
+	fmt.Println(result)
+	// Output: [[1 1] [1 2] [1 3] [2 1] [2 2] [2 3] [3 1] [3 2] [3 3]]
+}
+
+func ExampleProduct2() {
+	s1 := []int{1, 2}
+	s2 := []int{3, 4}
+	ch := slices.Product2(s1, s2)
+	result := make([][]int, 0)
+	for x := range ch {
+		result = append(result, x)
+	}
+	fmt.Println(result)
+	// Output: [[1 3] [1 4] [2 3] [2 4]]
+}
+
 func ExampleReduce() {
 	s := []int{3, 4, 5}
-	sum := func(a, b int) int { return a + b }
+	sum := func(a, b int) int {
+		fmt.Printf("Received %d and %d\n", a, b)
+		return a + b
+	}
 	result := slices.Reduce(s, 0, sum)
+	fmt.Printf("Result is %d\n", result)
+	// Output:
+	// Received 3 and 0
+	// Received 4 and 3
+	// Received 5 and 7
+	// Result is 12
+}
+
+func ExampleReduceAsync() {
+	s := []int{3, 4, 5}
+	sum := func(a, b int) int { return a + b }
+	result := slices.ReduceAsync(s, 0, sum)
 	fmt.Println(result)
 	// Output: 12
+}
+
+func ExampleReduceWhile() {
+	s := []int{3, 4, 5, 6}
+	sum := func(a, b int) (int, error) {
+		fmt.Printf("Received %d and %d\n", a, b)
+		if a == 6 {
+			return b, errors.New("got six")
+		}
+		return a + b, nil
+	}
+	result, err := slices.ReduceWhile(s, 0, sum)
+	fmt.Printf("Result is %d\n", result)
+	fmt.Printf("Error is '%v'\n", err)
+	// Output:
+	// Received 3 and 0
+	// Received 4 and 3
+	// Received 5 and 7
+	// Received 6 and 12
+	// Result is 12
+	// Error is 'got six'
 }
 
 func ExampleReject() {
@@ -456,6 +571,13 @@ func ExampleTakeEvery() {
 	result, _ := slices.TakeEvery(s, 2, 0)
 	fmt.Println(result)
 	// Output: [3 5 7]
+}
+
+func ExampleTakeRandom() {
+	s := []int{3, 4, 5, 6, 7, 8}
+	result, _ := slices.TakeRandom(s, 3, 13)
+	fmt.Println(result)
+	// Output: [7 8 5]
 }
 
 func ExampleWithout() {
