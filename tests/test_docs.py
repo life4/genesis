@@ -21,6 +21,20 @@ def get_funcs(pkg: str) -> Iterator[str]:
             yield fname
 
 
+def get_tests(pkg: str) -> Iterator[str]:
+    for fpath in Path(pkg).iterdir():
+        if not fpath.name.endswith('_test.go'):
+            continue
+        content = fpath.read_text()
+        for line in content.splitlines():
+            if not line.startswith('func Test'):
+                continue
+            line = line.removeprefix('func Test')
+            fname = line.split('(')[0]
+            assert fname[0].isupper()
+            yield fname
+
+
 def get_examples(pkg: str) -> Iterator[str]:
     fpath = Path(pkg, 'examples_test.go')
     assert fpath.is_file()
@@ -38,6 +52,13 @@ def test_all_have_examples(pkg: str) -> None:
     funcs = set(get_funcs(pkg))
     examples = set(get_examples(pkg))
     assert funcs == examples
+
+
+@pytest.mark.parametrize('pkg', ['slices'])
+def test_all_have_tests(pkg: str) -> None:
+    funcs = set(get_funcs(pkg))
+    tests = set(get_tests(pkg))
+    assert funcs == tests
 
 
 @pytest.mark.parametrize('func', get_funcs('slices'))

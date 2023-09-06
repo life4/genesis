@@ -516,6 +516,20 @@ func TestShuffle(t *testing.T) {
 	is.True(!slices.Equal(s1, s2))
 }
 
+func TestSort(t *testing.T) {
+	is := is.New(t)
+	f := func(given []int, expected []int) {
+		actual := slices.Sort(given)
+		is.Equal(actual, expected)
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{1})
+	f([]int{1, 2}, []int{1, 2})
+	f([]int{2, 1}, []int{1, 2})
+	f([]int{2, 3, 1}, []int{1, 2, 3})
+	f([]int{2, 3, 1, 2}, []int{1, 2, 2, 3})
+}
+
 func TestSorted(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, expected bool) {
@@ -698,6 +712,21 @@ func TestWindow(t *testing.T) {
 	is.Equal(err, slices.ErrNonPositiveValue)
 	_, err = slices.Window([]int{1}, -3)
 	is.Equal(err, slices.ErrNonPositiveValue)
+}
+
+func TestUnique(t *testing.T) {
+	is := is.New(t)
+	f := func(given []int, expected bool) {
+		actual := slices.Unique(given)
+		is.Equal(expected, actual)
+	}
+	f([]int{}, true)
+	f([]int{1}, true)
+	f([]int{1, 1}, false)
+	f([]int{1, 2, 2}, false)
+	f([]int{1, 2, 3}, true)
+	f([]int{2, 1}, true)
+	f([]int{1, 2, 1}, false)
 }
 
 func TestWithout(t *testing.T) {
