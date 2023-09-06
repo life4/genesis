@@ -342,8 +342,6 @@ func Min[S ~[]T, T constraints.Ordered](items S) (T, error) {
 }
 
 // Permutations returns successive size-length permutations of elements from the slice.
-//
-//  {1 2 3} -> {1 2} {1 3} {2 1} {2 3} {3 1} {3 2}
 func Permutations[T any](items []T, size int) chan []T {
 	c := make(chan []T, 1)
 	go func() {
@@ -378,8 +376,6 @@ func permutations[T any](items []T, c chan []T, size int, left []T, right []T) {
 }
 
 // Product returns cortesian product of elements
-//
-//  {1 2 3} -> {1 1} {1 2} {1 3} {2 1} {2 2} {2 3} {3 1} {3 2} {3 3}
 func Product[S ~[]T, T any](items S, repeat int) chan []T {
 	c := make(chan []T, 1)
 	go func() {
@@ -637,8 +633,6 @@ func Unique[S ~[]T, T comparable](items S) bool {
 }
 
 // Window makes sliding window for the given slice
-//
-//  ({1,2,3}, 2) -> (1,2), (2,3)
 func Window[S ~[]T, T any](items S, size int) ([]S, error) {
 	if size <= 0 {
 		return nil, ErrNonPositiveValue
