@@ -222,9 +222,9 @@ func Equal[S1 ~[]T, S2 ~[]T, T comparable](items S1, other S2) bool {
 	return true
 }
 
-// Grow increases the slice capacity by n elements.
+// Grow increases the slice capacity to fit at least n more elements.
 //
-// So, for cap(slice)=8 and n=2, the result will have cap at least 10.
+// So, for len(slice)=8 and n=2, the result will have cap at least 10.
 //
 // The function can be used to reduce allocations when inserting more elements
 // into an existing slice.
@@ -342,7 +342,6 @@ func Min[S ~[]T, T constraints.Ordered](items S) (T, error) {
 }
 
 // Permutations returns successive size-length permutations of elements from the slice.
-// {1, 2, 3} -> {1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}
 func Permutations[T any](items []T, size int) chan []T {
 	c := make(chan []T, 1)
 	go func() {
@@ -377,7 +376,6 @@ func permutations[T any](items []T, c chan []T, size int, left []T, right []T) {
 }
 
 // Product returns cortesian product of elements
-// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
 func Product[S ~[]T, T any](items S, repeat int) chan []T {
 	c := make(chan []T, 1)
 	go func() {
@@ -634,8 +632,7 @@ func Unique[S ~[]T, T comparable](items S) bool {
 	return true
 }
 
-// Window makes sliding window for a given slice:
-// ({1,2,3}, 2) -> (1,2), (2,3)
+// Window makes sliding window for the given slice
 func Window[S ~[]T, T any](items S, size int) ([]S, error) {
 	if size <= 0 {
 		return nil, ErrNonPositiveValue

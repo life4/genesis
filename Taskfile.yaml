@@ -12,6 +12,12 @@ tasks:
     cmds:
       - go test -count 1 -cover -timeout 1s ./...
 
+  docs:
+    sources:
+      - "*/*.go"
+    cmds:
+      - pkgsite -http localhost:1338
+
   all:
     desc: Run all tests and linters
     cmds:

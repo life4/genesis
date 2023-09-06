@@ -33,8 +33,7 @@ func Intersect2[S1 ~[]T, S2 ~[]T, T comparable](items1 S1, items2 S2) []T {
 	return result
 }
 
-// Product returns cortesian product of elements
-// {{1, 2}, {3, 4}} -> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+// Product returns cortesian product of elements in the given slices.
 func Product2[T any](items ...[]T) chan []T {
 	c := make(chan []T, 1)
 	go product2(items, c, []T{}, 0)
