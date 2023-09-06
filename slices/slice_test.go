@@ -541,7 +541,26 @@ func TestSorted(t *testing.T) {
 	f([]int{1, 1}, true)
 	f([]int{1, 2, 2}, true)
 	f([]int{1, 2, 3}, true)
+	f([]int{1, 2, 3, 6, 9}, true)
 
+	f([]int{2, 1}, false)
+	f([]int{9, 1}, false)
+	f([]int{1, 2, 1}, false)
+}
+
+func TestSortedUnique(t *testing.T) {
+	is := is.New(t)
+	f := func(given []int, expected bool) {
+		actual := slices.SortedUnique(given)
+		is.Equal(expected, actual)
+	}
+	f([]int{}, true)
+	f([]int{1}, true)
+	f([]int{1, 2, 3}, true)
+	f([]int{1, 2, 6, 9}, true)
+
+	f([]int{1, 1}, false)
+	f([]int{1, 2, 2}, false)
 	f([]int{2, 1}, false)
 	f([]int{1, 2, 1}, false)
 }

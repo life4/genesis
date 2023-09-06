@@ -569,8 +569,15 @@ func ExampleSort() {
 }
 
 func ExampleSorted() {
-	s := []int{3, 4, 5, 6, 7, 8}
+	s := []int{3, 3, 4, 5, 5, 5, 6, 7, 7, 12, 15}
 	result := slices.Sorted(s)
+	fmt.Println(result)
+	// Output: true
+}
+
+func ExampleSortedUnique() {
+	s := []int{3, 4, 5, 6, 7, 8, 12, 16, 19}
+	result := slices.SortedUnique(s)
 	fmt.Println(result)
 	// Output: true
 }

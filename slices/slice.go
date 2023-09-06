@@ -538,6 +538,20 @@ func Sorted[S ~[]T, T constraints.Ordered](items S) bool {
 	return true
 }
 
+// SortedUnique returns true if the slice is sorted and all items are unique.
+func SortedUnique[S ~[]T, T constraints.Ordered](items S) bool {
+	l := len(items)
+	if l <= 1 {
+		return true
+	}
+	for i := 1; i < l; i++ {
+		if items[i-1] >= items[i] {
+			return false
+		}
+	}
+	return true
+}
+
 // Split splits arr by sep
 func Split[S ~[]T, T comparable](items S, sep T) []S {
 	result := make([]S, 0)
