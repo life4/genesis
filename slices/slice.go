@@ -636,8 +636,9 @@ func Unique[S ~[]T, T comparable](items S) bool {
 	return true
 }
 
-// Window makes sliding window for a given slice:
-// ({1,2,3}, 2) -> (1,2), (2,3)
+// Window makes sliding window for the given slice
+//
+//  ({1,2,3}, 2) -> (1,2), (2,3)
 func Window[S ~[]T, T any](items S, size int) ([]S, error) {
 	if size <= 0 {
 		return nil, ErrNonPositiveValue
