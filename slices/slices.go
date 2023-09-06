@@ -13,11 +13,18 @@ func Concat[S ~[]T, T any](slices ...S) S {
 	return result
 }
 
-// Intersect2 returns items that appear in both slices.
+// Intersect2 is an alias for [Intersect]
+//
+// DEPRECATED. Use [Intersect] instead.
+func Intersect2[S1 ~[]T, S2 ~[]T, T comparable](items1 S1, items2 S2) []T {
+	return Intersect(items1, items2)
+}
+
+// Intersect returns items that appear in both slices.
 //
 // The items in the result slice appear in the same order as in the first given slice.
 // Each item appears only once.
-func Intersect2[S1 ~[]T, S2 ~[]T, T comparable](items1 S1, items2 S2) []T {
+func Intersect[S1 ~[]T, S2 ~[]T, T comparable](items1 S1, items2 S2) []T {
 	wanted := make(map[T]struct{})
 	for _, item := range items2 {
 		wanted[item] = struct{}{}

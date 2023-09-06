@@ -38,10 +38,10 @@ func TestProduct2(t *testing.T) {
 	f([][]int{{1, 2}, {3}, {4, 5}}, [][]int{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
 }
 
-func TestIntersect2(t *testing.T) {
+func TestIntersect(t *testing.T) {
 	is := is.New(t)
 	f := func(left, right []int, exp []int) {
-		act := slices.Intersect2(left, right)
+		act := slices.Intersect(left, right)
 		is.Equal(act, exp)
 	}
 	f([]int{}, []int{}, []int{})
