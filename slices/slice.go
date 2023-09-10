@@ -460,8 +460,8 @@ func Repeat[S ~[]T, T any](items S, n int) S {
 // Result:
 //
 //   - If start or end are negative, [ErrNegativeValue] is returned.
-// 	 - If start is greater or equal to end, [ErrOutOfRange] is returned.
-// 	 - If start or end is bigger than the slice len, [ErrOutOfRange] is returned.
+//   - If start is greater or equal to end, [ErrOutOfRange] is returned.
+//   - If start or end is bigger than the slice len, [ErrOutOfRange] is returned.
 func Replace[S ~[]T, T comparable, I constraints.Integer](items S, start, end I, item T) (S, error) {
 	if start < 0 || end < 0 {
 		return items, ErrNegativeValue

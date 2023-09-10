@@ -574,10 +574,23 @@ func ExampleShuffle() {
 }
 
 func ExampleSort() {
-	s := []int{7, 8, 5, 3, 6, 4}
+	s := []int{7, 6, 8, 5, 3, 6, 4}
 	result := slices.Sort(s)
 	fmt.Println(result)
-	// Output: [3 4 5 6 7 8]
+	// Output: [3 4 5 6 6 7 8]
+}
+
+func ExampleSortBy() {
+	s := []int{7, -6, 6, 8, 5, 3, 6, 4}
+	abs := func(x int) int {
+		if x < 0 {
+			return -x
+		}
+		return x
+	}
+	result := slices.SortBy(s, abs)
+	fmt.Println(result)
+	// Output: [3 4 5 -6 6 6 7 8]
 }
 
 func ExampleSorted() {

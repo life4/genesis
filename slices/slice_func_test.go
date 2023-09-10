@@ -369,6 +369,35 @@ func TestScan(t *testing.T) {
 	f([]int{1, 2, 3, 4}, []int{1, 3, 6, 10})
 }
 
+func TestSortBy(t *testing.T) {
+	is := is.New(t)
+	f := func(given []int, expected []int) {
+		abs := func(x int) int {
+			if x < 0 {
+				return -x
+			}
+			return x
+		}
+		actual := slices.SortBy(given, abs)
+		is.Equal(actual, expected)
+	}
+	f([]int{}, []int{})
+	f([]int{1}, []int{1})
+	f([]int{1, 2}, []int{1, 2})
+	f([]int{1, -2}, []int{1, -2})
+	f([]int{-1, 2}, []int{-1, 2})
+	f([]int{-1, -2}, []int{-1, -2})
+	f([]int{2, -1}, []int{-1, 2})
+	f([]int{-2, 1}, []int{1, -2})
+	f([]int{-2, -1}, []int{-1, -2})
+	f([]int{2, 3, 1}, []int{1, 2, 3})
+	f([]int{2, -3, 1}, []int{1, 2, -3})
+	f([]int{2, -3, 3, 1}, []int{1, 2, -3, 3})
+	f([]int{2, 3, -3, 1}, []int{1, 2, 3, -3})
+	f([]int{2, 3, -1, -2}, []int{-1, 2, -2, 3})
+	f([]int{-2, -3, -1, -2}, []int{-1, -2, -2, -3})
+}
+
 func TestTakeWhile(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, expected []int) {

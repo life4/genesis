@@ -10,9 +10,6 @@ linters:
     - maligned
     - depguard
     - gofumpt
-    - gci
-    - gofmt
-    - goimports
   presets:
     - bugs
     # - comment

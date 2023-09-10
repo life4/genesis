@@ -11,7 +11,7 @@ tasks:
     desc: Run go tests with coverage and timeout and without cache
     cmds:
       - go test -count 1 -cover -timeout 1s ./...
-      - pytest ./scripts
+      - python3 -m pytest ./scripts
 
   docs:
     sources:

@@ -1,5 +1,11 @@
 package slices
 
+import (
+	"sort"
+
+	"github.com/life4/genesis/constraints"
+)
+
 // Any returns true if f returns true for any element in arr
 func Any[S ~[]T, T any](items S, f func(el T) bool) bool {
 	for _, el := range items {
@@ -250,6 +256,24 @@ func Scan[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) G) []G {
 		result = append(result, acc)
 	}
 	return result
+}
+
+// SortBy sorts the items using for exah element the value returned bu the given function.
+//
+// The function might be called more than once for the same element.
+// It expected to be fast and always produce the same result.
+//
+// The sort is stable. If two elements have the same ordering key,
+// they are not swapped.
+func SortBy[S ~[]T, T any, K constraints.Ordered](items S, f func(el T) K) S {
+	if len(items) <= 1 {
+		return items
+	}
+	less := func(i int, j int) bool {
+		return f(items[i]) < f(items[j])
+	}
+	sort.SliceStable(items, less)
+	return items
 }
 
 // TakeWhile takes elements from arr while f returns true
