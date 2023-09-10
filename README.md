@@ -4,7 +4,7 @@ Generic functions for Go. Bringing the beauty of functional programming in Go 1.
 
 **😎 Features:**
 
-+ 🛠️ Over 130 generic functions for channels, maps, and slices.
++ 🛠️ Over 170 generic functions for channels, maps, and slices.
 + 💪 Uses the power of Go 1.18+ generics.
 + 🧐 No code generation.
 + 🪶 No dependencies (except [is](https://github.com/matryer/is) for testing).

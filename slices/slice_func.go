@@ -1,6 +1,8 @@
 package slices
 
 import (
+	"sort"
+
 	"github.com/life4/genesis/constraints"
 )
 
@@ -159,15 +161,11 @@ func FindIndex[S ~[]T, T any](items S, f func(el T) bool) int {
 }
 
 // GroupBy groups element from array by value returned by f
-func GroupBy[S ~[]T, T any, G constraints.Ordered](items S, f func(el T) G) map[G]S {
-	result := make(map[G]S)
+func GroupBy[S ~[]T, T any, K comparable](items S, f func(el T) K) map[K]S {
+	result := make(map[K]S)
 	for _, el := range items {
 		key := f(el)
-		val, ok := result[key]
-		if !ok {
-			result[key] = make(S, 1)
-		}
-		result[key] = append(val, el)
+		result[key] = append(result[key], el)
 	}
 	return result
 }
@@ -201,6 +199,25 @@ func MapFilter[S ~[]T, T any, G any](items S, f func(el T) (G, bool)) []G {
 		}
 	}
 	return result
+}
+
+// Partition splits items into two slices based on if f returns true or false.
+//
+// The first returned slice contains the items for which the given function
+// returned true, in the order as they appear in the input slice.
+// The second returned slice contains the items for which the function
+// returned false.
+func Partition[S ~[]T, T any](items S, f func(el T) bool) (S, S) {
+	good := make(S, 0)
+	bad := make(S, 0)
+	for _, item := range items {
+		if f(item) {
+			good = append(good, item)
+		} else {
+			bad = append(bad, item)
+		}
+	}
+	return good, bad
 }
 
 // Reduce applies `f` to acc and every element in slice of `items` and returns `acc`.
@@ -241,6 +258,24 @@ func Scan[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) G) []G {
 	return result
 }
 
+// SortBy sorts the items using for exah element the value returned bu the given function.
+//
+// The function might be called more than once for the same element.
+// It expected to be fast and always produce the same result.
+//
+// The sort is stable. If two elements have the same ordering key,
+// they are not swapped.
+func SortBy[S ~[]T, T any, K constraints.Ordered](items S, f func(el T) K) S {
+	if len(items) <= 1 {
+		return items
+	}
+	less := func(i int, j int) bool {
+		return f(items[i]) < f(items[j])
+	}
+	sort.SliceStable(items, less)
+	return items
+}
+
 // TakeWhile takes elements from arr while f returns true
 func TakeWhile[S ~[]T, T any](items S, f func(el T) bool) S {
 	result := make(S, 0, len(items))
@@ -253,13 +288,9 @@ func TakeWhile[S ~[]T, T any](items S, f func(el T) bool) S {
 	return result
 }
 
-// ToMapGroupedBy converts the given slice into a map where keys are values returned
-// from keyExtractor function and values are items from the given slice
+// ToMapGroupedBy is an alias for [GroupBy].
+//
+// DEPRECATED. Use [GroupBy] instead.
 func ToMapGroupedBy[V any, T comparable](items []V, keyExtractor func(V) T) map[T][]V {
-	result := make(map[T][]V)
-	for _, item := range items {
-		key := keyExtractor(item)
-		result[key] = append(result[key], item)
-	}
-	return result
+	return GroupBy(items, keyExtractor)
 }

@@ -13,11 +13,38 @@ func Concat[S ~[]T, T any](slices ...S) S {
 	return result
 }
 
-// Intersect2 returns items that appear in both slices.
+// Difference returns target elements that
 //
 // The items in the result slice appear in the same order as in the first given slice.
 // Each item appears only once.
+func Difference[S1 ~[]T, S2 ~[]T, T comparable](target S1, exclude S2) []T {
+	excluded := make(map[T]struct{})
+	for _, item := range exclude {
+		excluded[item] = struct{}{}
+	}
+	result := make([]T, 0)
+	for _, item := range target {
+		_, found := excluded[item]
+		if !found {
+			result = append(result, item)
+			excluded[item] = struct{}{}
+		}
+	}
+	return result
+}
+
+// Intersect2 is an alias for [Intersect]
+//
+// DEPRECATED. Use [Intersect] instead.
 func Intersect2[S1 ~[]T, S2 ~[]T, T comparable](items1 S1, items2 S2) []T {
+	return Intersect(items1, items2)
+}
+
+// Intersect returns items that appear in both slices.
+//
+// The items in the result slice appear in the same order as in the first given slice.
+// Each item appears only once.
+func Intersect[S1 ~[]T, S2 ~[]T, T comparable](items1 S1, items2 S2) []T {
 	wanted := make(map[T]struct{})
 	for _, item := range items2 {
 		wanted[item] = struct{}{}
@@ -63,6 +90,11 @@ func product2[T any](items [][]T, c chan []T, left []T, pos int) {
 	if pos == 0 {
 		close(c)
 	}
+}
+
+// Union returns a slice of unique values from both slices preserving their order.
+func Union[S ~[]T, T comparable](left S, right S) S {
+	return Uniq(Concat(left, right))
 }
 
 // Zip returns chan of arrays of elements from given arrs on the same position.

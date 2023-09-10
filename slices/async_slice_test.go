@@ -83,6 +83,7 @@ func TestMapAsync(t *testing.T) {
 	f(double, []int{1}, []int{2})
 	f(double, []int{1, 2, 3}, []int{2, 4, 6})
 }
+
 func TestReduceAsync(t *testing.T) {
 	is := is.New(t)
 	f := func(reducer func(a int, b int) int, given []int, expected int) {

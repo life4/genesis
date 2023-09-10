@@ -52,12 +52,12 @@ func ExampleChoice() {
 }
 
 func ExampleCopy() {
-	s1 := []int{3, 4}
-	s2 := slices.Copy(s1)
-	s1 = append(s1, 5)
-	s2 = append(s2, 6)
-	fmt.Println(s1)
-	fmt.Println(s2)
+	orig := []int{3, 4}
+	copy := slices.Copy(orig)
+	orig = append(orig, 5)
+	copy = append(copy, 6)
+	fmt.Println(orig)
+	fmt.Println(copy)
 	// Output:
 	// [3 4 5]
 	// [3 4 6]
@@ -173,6 +173,14 @@ func ExampleDeleteAll() {
 	// Output: [4 5 4 5]
 }
 
+func ExampleDifference() {
+	s1 := []int{3, 4, 4, 5, 6, 6, 7}
+	s2 := []int{5, 5, 4, 8}
+	result := slices.Difference(s1, s2)
+	fmt.Println(result)
+	// Output: [3 6 7]
+}
+
 func ExampleDropEvery() {
 	s := []int{3, 4, 5, 6, 7, 8}
 	result, _ := slices.DropEvery(s, 2, 0)
@@ -186,6 +194,13 @@ func ExampleDropWhile() {
 	result := slices.DropWhile(s, even)
 	fmt.Println(result)
 	// Output: [7 8 9 10]
+}
+
+func ExampleDropZero() {
+	s := []int{4, 5, 0, 6, 0, 0}
+	result := slices.DropZero(s)
+	fmt.Println(result)
+	// Output: [4 5 6]
 }
 
 func ExampleEach() {
@@ -321,12 +336,20 @@ func ExampleInsertAt() {
 	// Output: [3 6 4 5]
 }
 
-func ExampleIntersect2() {
+func ExampleIntersect() {
 	s1 := []int{3, 4, 5, 5, 6, 6, 7}
 	s2 := []int{6, 5, 5, 4, 8}
-	result := slices.Intersect2(s1, s2)
+	result := slices.Intersect(s1, s2)
 	fmt.Println(result)
 	// Output: [4 5 6]
+}
+
+func ExampleUnion() {
+	s1 := []int{3, 4, 5, 5, 6, 6, 7}
+	s2 := []int{6, 5, 5, 4, 8}
+	result := slices.Union(s1, s2)
+	fmt.Println(result)
+	// Output: [3 4 5 6 7 8]
 }
 
 func ExampleIntersperse() {
@@ -387,6 +410,7 @@ func ExampleMapFilter() {
 	fmt.Println(doubled)
 	// Output: [4 8 16 42]
 }
+
 func ExampleMapAsync() {
 	pages := slices.MapAsync(
 		[]string{"google.com", "go.dev", "golang.org"},
@@ -396,7 +420,19 @@ func ExampleMapAsync() {
 		},
 	)
 	fmt.Println(pages)
+	// Output:
 	// [<web page for google.com> <web page for go.dev> <web page for golang.org>]
+}
+
+func ExamplePartition() {
+	s := []int{4, 5, 6, 7, 8, 8, 7}
+	isEven := func(x int) bool { return x%2 == 0 }
+	even, odd := slices.Partition(s, isEven)
+	fmt.Println(even)
+	fmt.Println(odd)
+	// Output:
+	// [4 6 8 8]
+	// [5 7 7]
 }
 
 func ExamplePermutations() {
@@ -408,6 +444,13 @@ func ExamplePermutations() {
 	}
 	fmt.Println(result)
 	// Output: [[1 2] [1 3] [2 1] [2 3] [3 1] [3 2]]
+}
+
+func ExamplePrepend() {
+	s := []int{4, 5, 6}
+	result := slices.Prepend(s, 2, 3)
+	fmt.Println(result)
+	// Output: [2 3 4 5 6]
 }
 
 func ExampleProduct() {
@@ -492,6 +535,13 @@ func ExampleRepeat() {
 	// Output: [4 5 6 4 5 6 4 5 6]
 }
 
+func ExampleReplace() {
+	s := []int{4, 5, 6, 7}
+	result, _ := slices.Replace(s, 1, 3, 9)
+	fmt.Println(result)
+	// Output: [4 9 9 7]
+}
+
 func ExampleReverse() {
 	s := []int{3, 4, 5}
 	result := slices.Reverse(s)
@@ -532,15 +582,35 @@ func ExampleShuffle() {
 }
 
 func ExampleSort() {
-	s := []int{7, 8, 5, 3, 6, 4}
+	s := []int{7, 6, 8, 5, 3, 6, 4}
 	result := slices.Sort(s)
 	fmt.Println(result)
-	// Output: [3 4 5 6 7 8]
+	// Output: [3 4 5 6 6 7 8]
+}
+
+func ExampleSortBy() {
+	s := []int{7, -6, 6, 8, 5, 3, 6, 4}
+	abs := func(x int) int {
+		if x < 0 {
+			return -x
+		}
+		return x
+	}
+	result := slices.SortBy(s, abs)
+	fmt.Println(result)
+	// Output: [3 4 5 -6 6 6 7 8]
 }
 
 func ExampleSorted() {
-	s := []int{3, 4, 5, 6, 7, 8}
+	s := []int{3, 3, 4, 5, 5, 5, 6, 7, 7, 12, 15}
 	result := slices.Sorted(s)
+	fmt.Println(result)
+	// Output: true
+}
+
+func ExampleSortedUnique() {
+	s := []int{3, 4, 5, 6, 7, 8, 12, 16, 19}
+	result := slices.SortedUnique(s)
 	fmt.Println(result)
 	// Output: true
 }
@@ -611,14 +681,6 @@ func ExampleToMap() {
 	result := slices.ToMap(s)
 	fmt.Println(result)
 	// Output: map[0:3 1:4 2:5]
-}
-
-func ExampleToMapGroupedBy() {
-	s := []int{3, 4, 5, 13, 23, 14, 25, 34}
-	lastDigit := func(x int) int { return x % 10 }
-	result := slices.ToMapGroupedBy(s, lastDigit)
-	fmt.Println(result)
-	// Output: map[3:[3 13 23] 4:[4 14 34] 5:[5 25]]
 }
 
 func ExampleUniq() {
