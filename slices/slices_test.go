@@ -20,6 +20,24 @@ func TestConcat(t *testing.T) {
 	f([][]int{{1, 2}, {3, 4, 5}}, []int{1, 2, 3, 4, 5})
 }
 
+func TestDifference(t *testing.T) {
+	is := is.New(t)
+	f := func(left, right []int, exp []int) {
+		act := slices.Difference(left, right)
+		is.Equal(act, exp)
+	}
+	f([]int{}, []int{}, []int{})
+	f([]int{}, []int{4}, []int{})
+	f([]int{4}, []int{}, []int{4})
+	f([]int{4}, []int{5}, []int{4})
+	f([]int{4}, []int{4}, []int{})
+	f([]int{4}, []int{4, 4}, []int{})
+	f([]int{4, 4}, []int{4}, []int{})
+	f([]int{4, 4}, []int{4, 4}, []int{})
+	f([]int{4, 4}, []int{3}, []int{4})
+	f([]int{4, 5, 3, 1, 2, 1}, []int{1, 5, 5}, []int{4, 3, 2})
+}
+
 func TestProduct2(t *testing.T) {
 	is := is.New(t)
 	f := func(given [][]int, expected [][]int) {
@@ -49,6 +67,9 @@ func TestIntersect(t *testing.T) {
 	f([]int{4}, []int{}, []int{})
 	f([]int{4}, []int{5}, []int{})
 	f([]int{4}, []int{4}, []int{4})
+	f([]int{4}, []int{4, 4}, []int{4})
+	f([]int{4, 4}, []int{4}, []int{4})
+	f([]int{4, 4}, []int{4, 4}, []int{4})
 	f([]int{1, 2, 2, 3, 1}, []int{2, 3, 4, 2, 5}, []int{2, 3})
 }
 

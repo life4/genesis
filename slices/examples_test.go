@@ -173,6 +173,14 @@ func ExampleDeleteAll() {
 	// Output: [4 5 4 5]
 }
 
+func ExampleDifference() {
+	s1 := []int{3, 4, 4, 5, 6, 6, 7}
+	s2 := []int{5, 5, 4, 8}
+	result := slices.Difference(s1, s2)
+	fmt.Println(result)
+	// Output: [3 6 7]
+}
+
 func ExampleDropEvery() {
 	s := []int{3, 4, 5, 6, 7, 8}
 	result, _ := slices.DropEvery(s, 2, 0)

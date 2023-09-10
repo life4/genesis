@@ -13,6 +13,26 @@ func Concat[S ~[]T, T any](slices ...S) S {
 	return result
 }
 
+// Difference returns target elements that
+//
+// The items in the result slice appear in the same order as in the first given slice.
+// Each item appears only once.
+func Difference[S1 ~[]T, S2 ~[]T, T comparable](target S1, exclude S2) []T {
+	excluded := make(map[T]struct{})
+	for _, item := range exclude {
+		excluded[item] = struct{}{}
+	}
+	result := make([]T, 0)
+	for _, item := range target {
+		_, found := excluded[item]
+		if !found {
+			result = append(result, item)
+			excluded[item] = struct{}{}
+		}
+	}
+	return result
+}
+
 // Intersect2 is an alias for [Intersect]
 //
 // DEPRECATED. Use [Intersect] instead.
