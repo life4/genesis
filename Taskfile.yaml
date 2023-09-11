@@ -10,7 +10,15 @@ tasks:
   test:
     desc: Run go tests with coverage and timeout and without cache
     cmds:
+      - task: test:go
+      - task: test:py
+
+  test:go:
+    cmds:
       - go test -count 1 -cover -timeout 1s ./...
+
+  test:py:
+    cmds:
       - python3 -m pytest ./scripts
 
   docs:

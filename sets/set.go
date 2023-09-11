@@ -64,6 +64,11 @@ func Map[S ~map[K]Z, K, R comparable](set S, f func(K) R) map[R]Z {
 	return result
 }
 
+// Set is a convenience function for constructing a set from a list of values.
+func Set[K comparable](values ...K) map[K]Z {
+	return FromSlice(values)
+}
+
 // SymmetricDifference returns a set containing elements that appear only in one set but not both.
 func SymmetricDifference[S1, S2 ~map[K]Z, K comparable](first S1, second S2) map[K]Z {
 	result := make(map[K]Z)
