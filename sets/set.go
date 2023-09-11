@@ -104,9 +104,3 @@ func UnionMany[S ~map[K]Z, K comparable](sets ...S) map[K]Z {
 	}
 	return result
 }
-
-// Add
-// Discard
-// Pop
-// Update
-// Clear
