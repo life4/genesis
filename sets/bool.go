@@ -54,6 +54,29 @@ func Equal[S1, S2 ~map[K]Z, K comparable](first S1, second S2) bool {
 	return true
 }
 
+// EqualMany returns true if all the given sets have the same elements.
+func EqualMany[S ~map[K]Z, K comparable](sets ...S) bool {
+	if len(sets) < 2 {
+		return true
+	}
+	first := sets[0]
+	lFirst := len(first)
+	for _, set := range sets {
+		if len(set) != lFirst {
+			return false
+		}
+	}
+	for _, set := range sets[1:] {
+		for k := range set {
+			_, found := first[k]
+			if !found {
+				return false
+			}
+		}
+	}
+	return true
+}
+
 // Intersect returns true if the two given sets have at least one common element.
 func Intersect[S1, S2 ~map[K]Z, K comparable](first S1, second S2) bool {
 	for k := range second {

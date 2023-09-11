@@ -47,6 +47,14 @@ func Min[S ~map[K]Z, K c.Ordered](set S) (K, error) {
 	return min, nil
 }
 
+// Reduce applies the function to acc and every set element and returns the acc.
+func Reduce[S ~map[K]Z, K comparable, R any](set S, acc R, f func(K, R) R) R {
+	for k := range set {
+		acc = f(k, acc)
+	}
+	return acc
+}
+
 // Sum returns the sum of all elements of the set.
 //
 // If the set is empty, 0 is returned.
