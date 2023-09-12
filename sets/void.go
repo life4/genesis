@@ -6,6 +6,8 @@ package sets
 //
 // If the element already in the set, nothing happens.
 //
+// If the set is nil, the function will panic.
+//
 // The set is modified in place.
 func Add[S ~map[K]Z, K comparable](set S, value K) {
 	set[value] = Z{}
@@ -44,6 +46,8 @@ func Pop[S ~map[K]Z, K comparable](set S) (K, error) {
 }
 
 // Update adds elements from the values set into the target set.
+//
+// If the target set is nil and the values set is not empty, the function will panic.
 //
 // The set is modified in place.
 func Update[S1, S2 ~map[K]Z, K comparable](target S1, values S2) {

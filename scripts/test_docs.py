@@ -78,7 +78,15 @@ def test_all_have_tests(pkg: str) -> None:
 
 @pytest.mark.parametrize('func', get_funcs('slices'))
 def test_slices_func_linked_in_docs(func: str) -> None:
-    """Every function in the slices package must be listed in the package docs.
+    """Every func in the slices package must be listed in the package docs.
     """
     docs = Path('slices', 'doc.go').read_text()
     assert f'//   - [{func}](' in docs
+
+
+@pytest.mark.parametrize('func', get_funcs('channels'))
+def test_channels_func_linked_in_docs(func: str) -> None:
+    """Every func in the channels package must be listed in the package docs.
+    """
+    docs = Path('channels', 'doc.go').read_text()
+    assert f' [{func}]' in docs

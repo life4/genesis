@@ -26,7 +26,7 @@ def count_funcs(pkg: str) -> int:
 
 
 total = 0
-pkgs = ('channels', 'lambdas', 'maps', 'slices')
+pkgs = ('channels', 'lambdas', 'maps', 'sets', 'slices')
 for pkg in pkgs:
     count = count_funcs(pkg)
     print(f'{pkg}: {count}')

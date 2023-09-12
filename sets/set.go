@@ -64,8 +64,8 @@ func Map[S ~map[K]Z, K, R comparable](set S, f func(K) R) map[R]Z {
 	return result
 }
 
-// Set is a convenience function for constructing a set from a list of values.
-func Set[K comparable](values ...K) map[K]Z {
+// New is a convenience function for constructing a set from a list of values.
+func New[K comparable](values ...K) map[K]Z {
 	return FromSlice(values)
 }
 
