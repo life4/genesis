@@ -9,7 +9,6 @@ import (
 
 func TestAdd(t *testing.T) {
 	is := is.NewRelaxed(t)
-
 	f := func(given map[int]sets.Z, val int, exp map[int]sets.Z) {
 		sets.Add(given, val)
 		is.Equal(given, exp)
@@ -21,7 +20,7 @@ func TestAdd(t *testing.T) {
 }
 
 func TestClear(t *testing.T) {
-	is := is.NewRelaxed(t)
+	is := is.New(t)
 	s := sets.New(3, 4, 5)
 	sets.Clear(s)
 	is.Equal(s, sets.New[int]())
@@ -37,7 +36,6 @@ func TestClear(t *testing.T) {
 
 func TestDiscard(t *testing.T) {
 	is := is.NewRelaxed(t)
-
 	f := func(given map[int]sets.Z, val int, exp map[int]sets.Z) {
 		sets.Discard(given, val)
 		is.Equal(given, exp)
@@ -49,7 +47,7 @@ func TestDiscard(t *testing.T) {
 }
 
 func TestPop(t *testing.T) {
-	is := is.NewRelaxed(t)
+	is := is.New(t)
 	s := sets.New(3)
 	val, err := sets.Pop(s)
 	is.NoErr(err)
@@ -67,7 +65,6 @@ func TestPop(t *testing.T) {
 
 func TestUpdate(t *testing.T) {
 	is := is.NewRelaxed(t)
-
 	f := func(target, values, exp map[int]sets.Z) {
 		sets.Update(target, values)
 		is.Equal(target, exp)
