@@ -4,6 +4,9 @@ package sets
 
 // Copy returns a shallow copy of the given set.
 func Copy[S ~map[K]Z, K comparable](set S) S {
+	if set == nil {
+		return nil
+	}
 	result := make(S)
 	for k := range set {
 		result[k] = Z{}
@@ -25,6 +28,9 @@ func Difference[S1, S2 ~map[K]Z, K comparable](first S1, second S2) map[K]Z {
 
 // Filter returns elements of the set for which the given function returns true.
 func Filter[S ~map[K]Z, K comparable](set S, f func(K) bool) S {
+	if set == nil {
+		return nil
+	}
 	result := make(S)
 	for k := range set {
 		if f(k) {
@@ -36,6 +42,9 @@ func Filter[S ~map[K]Z, K comparable](set S, f func(K) bool) S {
 
 // FromSlice converts a slice into a set.
 func FromSlice[S ~[]K, K comparable](items S) map[K]Z {
+	// if items == nil {
+	// 	return nil
+	// }
 	set := make(map[K]Z)
 	for _, item := range items {
 		set[item] = Z{}

@@ -70,6 +70,9 @@ func Sum[S ~map[K]Z, K c.Integer | c.Float](set S) K {
 //
 // The order of elements in the resulting set is semi-random.
 func ToSlice[S ~map[K]Z, K comparable](set S) []K {
+	if set == nil {
+		return nil
+	}
 	result := make([]K, 0, len(set))
 	for k := range set {
 		result = append(result, k)

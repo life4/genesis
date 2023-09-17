@@ -15,6 +15,8 @@ func TestCopy(t *testing.T) {
 	b[7] = struct{}{}
 	is.Equal(a, sets.New(4, 5, 6))
 	is.Equal(b, sets.New(4, 5, 7))
+
+	is.Equal(sets.Copy(nilSet), nil)
 }
 
 func TestDifference(t *testing.T) {
@@ -34,6 +36,7 @@ func TestFilter(t *testing.T) {
 	is.Equal(sets.Filter(sets.New(3, 4, 5), even), sets.New(4))
 	is.Equal(sets.Filter(sets.New(3, 4, 5, 6), even), sets.New(4, 6))
 	is.Equal(sets.Filter(sets.New(3, 4, 5, 6, 4, 4), even), sets.New(4, 6, 4, 4))
+	is.Equal(sets.Filter(nilSet, even), nilSet)
 }
 
 func TestFromSlice(t *testing.T) {
@@ -82,4 +85,20 @@ func TestUnion(t *testing.T) {
 	is.Equal(sets.Union(sets.New[int](), sets.New(3, 6, 7)), sets.New(3, 6, 7))
 	is.Equal(sets.Union(sets.New[int](), sets.New[int]()), sets.New[int]())
 	is.Equal(sets.Union(nilSet, sets.New(3, 6, 7)), sets.New[int](3, 6, 7))
+}
+
+func TestUnionMany(t *testing.T) {
+	is := is.NewRelaxed(t)
+
+	is.Equal(sets.UnionMany[map[int]struct{}](), sets.New[int]())
+	is.Equal(sets.UnionMany(sets.New(3, 4, 5)), sets.New(3, 4, 5))
+
+	is.Equal(sets.UnionMany(sets.New(3, 4, 5), sets.New(3, 4, 5)), sets.New(3, 4, 5))
+	is.Equal(sets.UnionMany(sets.New(3, 4, 5), sets.New(3)), sets.New[int](3, 4, 5))
+	is.Equal(sets.UnionMany(sets.New(3, 4, 5), sets.New(3, 6, 7)), sets.New[int](3, 4, 5, 6, 7))
+	is.Equal(sets.UnionMany(sets.New(3), sets.New(3, 6, 7)), sets.New[int](3, 6, 7))
+	is.Equal(sets.UnionMany(sets.New(3, 4), sets.New(6, 7)), sets.New[int](3, 4, 6, 7))
+	is.Equal(sets.UnionMany(sets.New[int](), sets.New(3, 6, 7)), sets.New(3, 6, 7))
+	is.Equal(sets.UnionMany(sets.New[int](), sets.New[int]()), sets.New[int]())
+	is.Equal(sets.UnionMany(nilSet, sets.New(3, 6, 7)), sets.New[int](3, 6, 7))
 }
