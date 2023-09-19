@@ -49,7 +49,7 @@ func Pop[S ~map[K]Z, K comparable](set S) (K, error) {
 //
 // If the target set is nil and the values set is not empty, the function will panic.
 //
-// The set is modified in place.
+// The set is modified in place. If you don't want to modify the set, use [Union] instead.
 func Update[S1, S2 ~map[K]Z, K comparable](target S1, values S2) {
 	for k := range values {
 		target[k] = Z{}
