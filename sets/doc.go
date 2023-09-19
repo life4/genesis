@@ -1,4 +1,4 @@
-// Package sets provides generic functions for sets.
+// ⚙️ Package sets provides generic functions for sets.
 //
 // By convention, a set in go is represented as map[T]struct{} where T
 // is the set element type. It allows to ensure that each element

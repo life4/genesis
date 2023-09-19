@@ -1,4 +1,4 @@
-// Package channels provides generic functions for channels.
+// 📺 Package channels provides generic functions for channels.
 //
 // # ☎️ Naming
 //
