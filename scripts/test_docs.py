@@ -4,25 +4,29 @@ from typing import Iterator
 import pytest
 
 
-def get_funcs(pkg: str) -> Iterator[str]:
+def get_funcs_for_pkg(pkg: str) -> Iterator[str]:
     for fpath in Path(pkg).iterdir():
         if fpath.suffix != '.go':
             continue
         if fpath.stem.endswith('_test'):
             continue
-        content = fpath.read_text()
-        deprecated = False
-        for line in content.splitlines():
-            if not line.startswith('func '):
-                deprecated = line.startswith('// DEPRECATED')
-                continue
-            line = line.removeprefix('func ')
-            fname = line.split('[')[0].split('(')[0]
-            if deprecated:
-                continue
-            if not fname[0].isupper():
-                continue
-            yield fname
+        yield from get_funcs_for_file(fpath)
+
+
+def get_funcs_for_file(fpath: Path) -> Iterator[str]:
+    content = fpath.read_text()
+    deprecated = False
+    for line in content.splitlines():
+        if not line.startswith('func '):
+            deprecated = line.startswith('// DEPRECATED')
+            continue
+        line = line.removeprefix('func ')
+        fname = line.split('[')[0].split('(')[0]
+        if deprecated:
+            continue
+        if not fname[0].isupper():
+            continue
+        yield fname
 
 
 def get_tests(pkg: str) -> Iterator[str]:
@@ -58,7 +62,7 @@ def get_examples(pkg: str) -> Iterator[str]:
 def test_all_have_examples(pkg: str) -> None:
     """Every function must have an example.
     """
-    funcs = set(get_funcs(pkg))
+    funcs = set(get_funcs_for_pkg(pkg))
     examples = set(get_examples(pkg))
     assert funcs == examples
 
@@ -74,14 +78,24 @@ def test_all_have_examples(pkg: str) -> None:
 def test_all_have_tests(pkg: str) -> None:
     """Every function must have unit tests.
     """
-    funcs = set(get_funcs(pkg))
+    funcs = set(get_funcs_for_pkg(pkg))
     tests = set(get_tests(pkg))
     assert funcs
     diff = funcs - tests
     assert not diff
 
 
-@pytest.mark.parametrize('func', get_funcs('slices'))
+@pytest.mark.parametrize('pkg', [
+    'maps',
+    'sets',
+])
+def test_all_funcs_sorted(pkg: str) -> None:
+    for fpath in Path(pkg).iterdir():
+        funcs = list(get_funcs_for_file(fpath))
+        assert funcs == sorted(funcs)
+
+
+@pytest.mark.parametrize('func', get_funcs_for_pkg('slices'))
 def test_slices_func_linked_in_docs(func: str) -> None:
     """Every func in the slices package must be listed in the package docs.
     """
@@ -89,7 +103,7 @@ def test_slices_func_linked_in_docs(func: str) -> None:
     assert f'//   - [{func}](' in docs
 
 
-@pytest.mark.parametrize('func', get_funcs('channels'))
+@pytest.mark.parametrize('func', get_funcs_for_pkg('channels'))
 def test_channels_func_linked_in_docs(func: str) -> None:
     """Every func in the channels package must be listed in the package docs.
     """
