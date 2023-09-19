@@ -72,9 +72,10 @@ codes := slices.MapAsync(
 
 Genesis contains the following packages:
 
-+ [🍞 slices](https://pkg.go.dev/github.com/life4/genesis/slices): generic functions for slices.
-+ [🗺 maps](https://pkg.go.dev/github.com/life4/genesis/maps): generic functions for maps.
-+ [📺 channels](https://pkg.go.dev/github.com/life4/genesis/channels): generic function for channels.
++ [🍞 slices](https://pkg.go.dev/github.com/life4/genesis/slices): generic functions for slices (`[]T`).
++ [🗺 maps](https://pkg.go.dev/github.com/life4/genesis/maps): generic functions for maps (`map[K]V`).
++ [📺 channels](https://pkg.go.dev/github.com/life4/genesis/channels): generic function for channels (`chan T`).
++ [⚙️ sets](https://pkg.go.dev/github.com/life4/genesis/sets): generic function for sets (`map[T]struct{}`).
 + [🛟 lambdas](https://pkg.go.dev/github.com/life4/genesis/lambdas): helper generic functions to work with `slices.Map` and similar.
 
 See [📄 DOCUMENTATION](https://pkg.go.dev/github.com/life4/genesis) for more info.

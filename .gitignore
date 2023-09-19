@@ -5,3 +5,4 @@ __pycache__/
 .vscode
 .swp
 *~
+.task

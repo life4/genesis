@@ -62,12 +62,48 @@ func ExampleIntersect() {
 	// Output: true
 }
 
+func ExampleMax() {
+	s := sets.New(3, 6, 4, 5)
+	result, _ := sets.Max(s)
+	fmt.Println(result)
+	// Output: 6
+}
+
+func ExampleMin() {
+	s := sets.New(4, 5, 3, 6)
+	result, _ := sets.Min(s)
+	fmt.Println(result)
+	// Output: 3
+}
+
+func ExampleReduce() {
+	s := sets.New(3, 4, 5)
+	add := func(x, acc int) int { return x + acc }
+	result := sets.Reduce(s, 0, add)
+	fmt.Println(result)
+	// Output: 12
+}
+
 func ExampleSubset() {
 	a := sets.New(4, 5)
 	b := sets.New(3, 4, 5, 6)
 	result := sets.Subset(a, b)
 	fmt.Println(result)
 	// Output: true
+}
+
+func ExampleSum() {
+	s := sets.New(3, 4, 5)
+	result := sets.Sum(s)
+	fmt.Println(result)
+	// Output: 12
+}
+
+func ExampleToSlice() {
+	s := sets.New(3)
+	result := sets.ToSlice(s)
+	fmt.Println(result)
+	// Output: [3]
 }
 
 func ExampleSuperset() {
