@@ -89,6 +89,7 @@ def test_all_have_tests(pkg: str) -> None:
     'maps',
     'sets',
     'lambdas',
+    'slices',
 ])
 def test_all_funcs_sorted(pkg: str) -> None:
     for fpath in Path(pkg).iterdir():

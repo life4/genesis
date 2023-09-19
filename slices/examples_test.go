@@ -51,28 +51,6 @@ func ExampleChoice() {
 	// Output: 3
 }
 
-func ExampleCopy() {
-	orig := []int{3, 4}
-	copy := slices.Copy(orig)
-	orig = append(orig, 5)
-	copy = append(copy, 6)
-	fmt.Println(orig)
-	fmt.Println(copy)
-	// Output:
-	// [3 4 5]
-	// [3 4 6]
-}
-
-func ExampleFindIndex() {
-	type UserId int
-	index := slices.FindIndex(
-		[]UserId{1, 2, 3, 4, 5},
-		func(el UserId) bool { return el == 3 },
-	)
-	fmt.Println(index)
-	// Output: 2
-}
-
 func ExampleChunkBy() {
 	s := []int{1, 3, 4, 6, 8, 9}
 	remainder := func(item int) int { return item % 2 }
@@ -106,6 +84,18 @@ func ExampleContains() {
 	// Output:
 	// true
 	// false
+}
+
+func ExampleCopy() {
+	orig := []int{3, 4}
+	copy := slices.Copy(orig)
+	orig = append(orig, 5)
+	copy = append(copy, 6)
+	fmt.Println(orig)
+	fmt.Println(copy)
+	// Output:
+	// [3 4 5]
+	// [3 4 6]
 }
 
 func ExampleCount() {
@@ -159,18 +149,18 @@ func ExampleDelete() {
 	// Output: [3 5 3 4 5]
 }
 
-func ExampleDeleteAt() {
-	s := []int{3, 4, 5, 3, 4, 5}
-	result, _ := slices.DeleteAt(s, 1, 3)
-	fmt.Println(result)
-	// Output: [3 5 4 5]
-}
-
 func ExampleDeleteAll() {
 	s := []int{3, 4, 5, 3, 4, 5}
 	result := slices.DeleteAll(s, 3)
 	fmt.Println(result)
 	// Output: [4 5 4 5]
+}
+
+func ExampleDeleteAt() {
+	s := []int{3, 4, 5, 3, 4, 5}
+	result, _ := slices.DeleteAt(s, 1, 3)
+	fmt.Println(result)
+	// Output: [3 5 4 5]
 }
 
 func ExampleDifference() {
@@ -296,6 +286,16 @@ func ExampleFind() {
 	// Output: 4
 }
 
+func ExampleFindIndex() {
+	type UserId int
+	index := slices.FindIndex(
+		[]UserId{1, 2, 3, 4, 5},
+		func(el UserId) bool { return el == 3 },
+	)
+	fmt.Println(index)
+	// Output: 2
+}
+
 func ExampleGroupBy() {
 	s := []int{3, 4, 5, 13, 14, 15, 23, 33}
 	even := func(x int) int { return x % 10 }
@@ -344,14 +344,6 @@ func ExampleIntersect() {
 	// Output: [4 5 6]
 }
 
-func ExampleUnion() {
-	s1 := []int{3, 4, 5, 5, 6, 6, 7}
-	s2 := []int{6, 5, 5, 4, 8}
-	result := slices.Union(s1, s2)
-	fmt.Println(result)
-	// Output: [3 4 5 6 7 8]
-}
-
 func ExampleIntersperse() {
 	s := []int{3, 4, 5}
 	result := slices.Intersperse(s, 1)
@@ -373,26 +365,25 @@ func ExampleLast() {
 	// Output: 5
 }
 
-func ExampleMin() {
-	s := []int{42, 7, 13}
-	min, _ := slices.Min(s)
-	fmt.Println(min)
-	// Output: 7
-}
-
-func ExampleMax() {
-	s := []int{7, 42, 13}
-	max, _ := slices.Max(s)
-	fmt.Println(max)
-	// Output: 42
-}
-
 func ExampleMap() {
 	s := []int{4, 8, 15, 16, 23, 42}
 	double := func(el int) int { return el * 2 }
 	doubled := slices.Map(s, double)
 	fmt.Println(doubled)
 	// Output: [8 16 30 32 46 84]
+}
+
+func ExampleMapAsync() {
+	pages := slices.MapAsync(
+		[]string{"google.com", "go.dev", "golang.org"},
+		0,
+		func(url string) string {
+			return fmt.Sprintf("<web page for %s>", url)
+		},
+	)
+	fmt.Println(pages)
+	// Output:
+	// [<web page for google.com> <web page for go.dev> <web page for golang.org>]
 }
 
 func ExampleMapFilter() {
@@ -411,17 +402,18 @@ func ExampleMapFilter() {
 	// Output: [4 8 16 42]
 }
 
-func ExampleMapAsync() {
-	pages := slices.MapAsync(
-		[]string{"google.com", "go.dev", "golang.org"},
-		0,
-		func(url string) string {
-			return fmt.Sprintf("<web page for %s>", url)
-		},
-	)
-	fmt.Println(pages)
-	// Output:
-	// [<web page for google.com> <web page for go.dev> <web page for golang.org>]
+func ExampleMax() {
+	s := []int{7, 42, 13}
+	max, _ := slices.Max(s)
+	fmt.Println(max)
+	// Output: 42
+}
+
+func ExampleMin() {
+	s := []int{42, 7, 13}
+	min, _ := slices.Min(s)
+	fmt.Println(min)
+	// Output: 7
 }
 
 func ExamplePartition() {
@@ -681,6 +673,14 @@ func ExampleToMap() {
 	result := slices.ToMap(s)
 	fmt.Println(result)
 	// Output: map[0:3 1:4 2:5]
+}
+
+func ExampleUnion() {
+	s1 := []int{3, 4, 5, 5, 6, 6, 7}
+	s2 := []int{6, 5, 5, 4, 8}
+	result := slices.Union(s1, s2)
+	fmt.Println(result)
+	// Output: [3 4 5 6 7 8]
 }
 
 func ExampleUniq() {

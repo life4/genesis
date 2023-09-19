@@ -9,19 +9,6 @@ import (
 	"github.com/matryer/is"
 )
 
-func TestAny(t *testing.T) {
-	is := is.New(t)
-	f := func(given []int, expected bool) {
-		even := func(t int) bool { return (t % 2) == 0 }
-		actual := slices.Any(given, even)
-		is.Equal(actual, expected)
-	}
-	f([]int{}, false)
-	f([]int{1, 3}, false)
-	f([]int{2}, true)
-	f([]int{1, 2}, true)
-}
-
 func TestAll(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, expected bool) {
@@ -35,6 +22,19 @@ func TestAll(t *testing.T) {
 	f([]int{2, 4}, true)
 	f([]int{2, 4, 1}, false)
 	f([]int{1, 2, 4}, false)
+}
+
+func TestAny(t *testing.T) {
+	is := is.New(t)
+	f := func(given []int, expected bool) {
+		even := func(t int) bool { return (t % 2) == 0 }
+		actual := slices.Any(given, even)
+		is.Equal(actual, expected)
+	}
+	f([]int{}, false)
+	f([]int{1, 3}, false)
+	f([]int{2}, true)
+	f([]int{1, 2}, true)
 }
 
 func TestChunkBy(t *testing.T) {

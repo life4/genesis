@@ -8,22 +8,6 @@ import (
 	"github.com/matryer/is"
 )
 
-func TestAnyAsync(t *testing.T) {
-	is := is.New(t)
-	f := func(check func(t int) bool, given []int, expected bool) {
-		is.Equal(slices.AnyAsync(given, 2, check), expected)
-	}
-	isEven := func(t int) bool { return (t % 2) == 0 }
-
-	f(isEven, []int{}, false)
-	f(isEven, []int{1}, false)
-	f(isEven, []int{1, 3}, false)
-	f(isEven, []int{2}, true)
-	f(isEven, []int{1, 2}, true)
-	f(isEven, []int{1, 3, 5, 7, 9, 11}, false)
-	f(isEven, []int{1, 3, 5, 7, 9, 12}, true)
-}
-
 func TestAllAsync(t *testing.T) {
 	is := is.New(t)
 	f := func(check func(t int) bool, given []int, expected bool) {
@@ -39,6 +23,22 @@ func TestAllAsync(t *testing.T) {
 	f(isEven, []int{2, 3}, false)
 	f(isEven, []int{2, 4, 6, 8, 10, 12}, true)
 	f(isEven, []int{2, 4, 6, 8, 10, 11}, false)
+}
+
+func TestAnyAsync(t *testing.T) {
+	is := is.New(t)
+	f := func(check func(t int) bool, given []int, expected bool) {
+		is.Equal(slices.AnyAsync(given, 2, check), expected)
+	}
+	isEven := func(t int) bool { return (t % 2) == 0 }
+
+	f(isEven, []int{}, false)
+	f(isEven, []int{1}, false)
+	f(isEven, []int{1, 3}, false)
+	f(isEven, []int{2}, true)
+	f(isEven, []int{1, 2}, true)
+	f(isEven, []int{1, 3, 5, 7, 9, 11}, false)
+	f(isEven, []int{1, 3, 5, 7, 9, 12}, true)
 }
 
 func TestEachAsync(t *testing.T) {

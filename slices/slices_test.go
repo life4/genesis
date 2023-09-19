@@ -38,6 +38,23 @@ func TestDifference(t *testing.T) {
 	f([]int{4, 5, 3, 1, 2, 1}, []int{1, 5, 5}, []int{4, 3, 2})
 }
 
+func TestIntersect(t *testing.T) {
+	is := is.New(t)
+	f := func(left, right []int, exp []int) {
+		act := slices.Intersect(left, right)
+		is.Equal(act, exp)
+	}
+	f([]int{}, []int{}, []int{})
+	f([]int{}, []int{4}, []int{})
+	f([]int{4}, []int{}, []int{})
+	f([]int{4}, []int{5}, []int{})
+	f([]int{4}, []int{4}, []int{4})
+	f([]int{4}, []int{4, 4}, []int{4})
+	f([]int{4, 4}, []int{4}, []int{4})
+	f([]int{4, 4}, []int{4, 4}, []int{4})
+	f([]int{1, 2, 2, 3, 1}, []int{2, 3, 4, 2, 5}, []int{2, 3})
+}
+
 func TestProduct2(t *testing.T) {
 	is := is.New(t)
 	f := func(given [][]int, expected [][]int) {
@@ -54,23 +71,6 @@ func TestProduct2(t *testing.T) {
 	}
 	f([][]int{{1, 2}, {3, 4}}, [][]int{{1, 3}, {1, 4}, {2, 3}, {2, 4}})
 	f([][]int{{1, 2}, {3}, {4, 5}}, [][]int{{1, 3, 4}, {1, 3, 5}, {2, 3, 4}, {2, 3, 5}})
-}
-
-func TestIntersect(t *testing.T) {
-	is := is.New(t)
-	f := func(left, right []int, exp []int) {
-		act := slices.Intersect(left, right)
-		is.Equal(act, exp)
-	}
-	f([]int{}, []int{}, []int{})
-	f([]int{}, []int{4}, []int{})
-	f([]int{4}, []int{}, []int{})
-	f([]int{4}, []int{5}, []int{})
-	f([]int{4}, []int{4}, []int{4})
-	f([]int{4}, []int{4, 4}, []int{4})
-	f([]int{4, 4}, []int{4}, []int{4})
-	f([]int{4, 4}, []int{4, 4}, []int{4})
-	f([]int{1, 2, 2, 3, 1}, []int{2, 3, 4, 2, 5}, []int{2, 3})
 }
 
 func TestUnion(t *testing.T) {

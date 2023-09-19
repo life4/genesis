@@ -58,6 +58,15 @@ func Contains[S ~[]T, T comparable](items S, el T) bool {
 	return false
 }
 
+// Copy creates a copy of the given slice.
+func Copy[S ~[]T, T any](items S) S {
+	if items == nil {
+		return nil
+	}
+	var res S
+	return append(res, items...)
+}
+
 // Count return count of el occurrences in arr.
 func Count[S ~[]T, T comparable](items S, el T) int {
 	count := 0
@@ -67,15 +76,6 @@ func Count[S ~[]T, T comparable](items S, el T) int {
 		}
 	}
 	return count
-}
-
-// Copy creates a copy of the given slice.
-func Copy[S ~[]T, T any](items S) S {
-	if items == nil {
-		return nil
-	}
-	var res S
-	return append(res, items...)
 }
 
 // Cycle is an infinite loop over slice
@@ -252,22 +252,6 @@ func Grow[S ~[]T, T any](items S, n int) S {
 	return append(items, make(S, n)...)[:len(items)]
 }
 
-// Shrink removes unused capacity from the slice.
-//
-// In other words, the returned slice has capacity equal to length.
-func Shrink[S ~[]T, T any](items S) S {
-	return items[:len(items):len(items)]
-}
-
-// Join concatenates elements of the slice to create a single string.
-func Join[S ~[]T, T any](items S, sep string) string {
-	strs := make([]string, 0, len(items))
-	for _, el := range items {
-		strs = append(strs, fmt.Sprintf("%v", el))
-	}
-	return strings.Join(strs, sep)
-}
-
 // Index returns the index of the first occurrence of item in items.
 func Index[S ~[]T, T comparable](items S, item T) (int, error) {
 	for i, val := range items {
@@ -316,6 +300,15 @@ func Intersperse[S ~[]T, T any](items S, el T) S {
 		result = append(result, el, val)
 	}
 	return result
+}
+
+// Join concatenates elements of the slice to create a single string.
+func Join[S ~[]T, T any](items S, sep string) string {
+	strs := make([]string, 0, len(items))
+	for _, el := range items {
+		strs = append(strs, fmt.Sprintf("%v", el))
+	}
+	return strings.Join(strs, sep)
 }
 
 // Last returns the last element from the slice
@@ -432,18 +425,6 @@ func product[S ~[]T, T any](items S, c chan []T, repeat int, left []T, pos int) 
 	}
 }
 
-// Reverse returns given arr in reversed order
-func Reverse[S ~[]T, T any](items S) S {
-	if len(items) <= 1 {
-		return items
-	}
-	result := make([]T, 0, len(items))
-	for i := len(items) - 1; i >= 0; i-- {
-		result = append(result, items[i])
-	}
-	return result
-}
-
 // Repeat repeats items slice n times.
 func Repeat[S ~[]T, T any](items S, n int) S {
 	result := make([]T, 0, len(items)*n)
@@ -482,6 +463,18 @@ func Replace[S ~[]T, T comparable, I constraints.Integer](items S, start, end I,
 	return result, nil
 }
 
+// Reverse returns given arr in reversed order
+func Reverse[S ~[]T, T any](items S) S {
+	if len(items) <= 1 {
+		return items
+	}
+	result := make([]T, 0, len(items))
+	for i := len(items) - 1; i >= 0; i-- {
+		result = append(result, items[i])
+	}
+	return result
+}
+
 // Same returns true if all element in arr the same
 func Same[S ~[]T, T comparable](items S) bool {
 	if len(items) <= 1 {
@@ -493,6 +486,13 @@ func Same[S ~[]T, T comparable](items S) bool {
 		}
 	}
 	return true
+}
+
+// Shrink removes unused capacity from the slice.
+//
+// In other words, the returned slice has capacity equal to length.
+func Shrink[S ~[]T, T any](items S) S {
+	return items[:len(items):len(items)]
 }
 
 // Shuffle in random order the given elements
@@ -640,19 +640,6 @@ func ToChannel[S ~[]T, T any](items S) chan T {
 	return c
 }
 
-// ToMap converts the given slice into a map where keys are indices and values are items
-// from the given slice.
-func ToMap[S ~[]V, V any](items S) map[int]V {
-	if items == nil {
-		return nil
-	}
-	result := make(map[int]V)
-	for index, item := range items {
-		result[index] = item
-	}
-	return result
-}
-
 // ToKeys converts the given slice into a map where items from the slice are the keys
 // of the resulting map and all values are equal to the given `val` value.
 func ToKeys[S ~[]K, K comparable, V any](items S, val V) map[K]V {
@@ -662,6 +649,19 @@ func ToKeys[S ~[]K, K comparable, V any](items S, val V) map[K]V {
 	result := make(map[K]V)
 	for _, item := range items {
 		result[item] = val
+	}
+	return result
+}
+
+// ToMap converts the given slice into a map where keys are indices and values are items
+// from the given slice.
+func ToMap[S ~[]V, V any](items S) map[int]V {
+	if items == nil {
+		return nil
+	}
+	result := make(map[int]V)
+	for index, item := range items {
+		result[index] = item
 	}
 	return result
 }
