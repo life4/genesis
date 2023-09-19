@@ -35,6 +35,13 @@ func TestEqual(t *testing.T) {
 	is.True(!maps.Equal(map[int]int{1: 2}, map[int]int{2: 1}))
 }
 
+func TestFromKeys(t *testing.T) {
+	is := is.New(t)
+	arr := []int{4, 5, 6}
+	exp := map[int]int{4: 7, 5: 7, 6: 7}
+	is.Equal(maps.FromKeys(arr, 7), exp)
+}
+
 func TestHasKey(t *testing.T) {
 	is := is.New(t)
 	m := map[int]int{1: 2, 3: 4}
@@ -59,11 +66,11 @@ func TestHasValue(t *testing.T) {
 	is.True(!maps.HasValue[map[int]int](nil, 3))
 }
 
-func TestFromKeys(t *testing.T) {
+func TestKeys(t *testing.T) {
 	is := is.New(t)
-	arr := []int{4, 5, 6}
-	exp := map[int]int{4: 7, 5: 7, 6: 7}
-	is.Equal(maps.FromKeys(arr, 7), exp)
+	m := map[int]int{1: 2, 3: 4, 5: 6}
+	act := maps.Keys(m)
+	is.Equal(maps.FromKeys(act, 0), map[int]int{1: 0, 3: 0, 5: 0})
 }
 
 func TestMap(t *testing.T) {
@@ -113,11 +120,10 @@ func TestMergeBy(t *testing.T) {
 	is.Equal(maps.MergeBy(m1, m2, f), exp)
 }
 
-func TestKeys(t *testing.T) {
+func TestTake(t *testing.T) {
 	is := is.New(t)
 	m := map[int]int{1: 2, 3: 4, 5: 6}
-	act := maps.Keys(m)
-	is.Equal(maps.FromKeys(act, 0), map[int]int{1: 0, 3: 0, 5: 0})
+	is.Equal(maps.Take(m, 1, 5), map[int]int{1: 2, 5: 6})
 }
 
 func TestValues(t *testing.T) {
@@ -125,12 +131,6 @@ func TestValues(t *testing.T) {
 	m := map[int]int{1: 2, 3: 4, 5: 6}
 	act := maps.Values(m)
 	is.Equal(maps.FromKeys(act, 0), map[int]int{2: 0, 4: 0, 6: 0})
-}
-
-func TestTake(t *testing.T) {
-	is := is.New(t)
-	m := map[int]int{1: 2, 3: 4, 5: 6}
-	is.Equal(maps.Take(m, 1, 5), map[int]int{1: 2, 5: 6})
 }
 
 func TestWithout(t *testing.T) {

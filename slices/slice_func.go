@@ -6,16 +6,6 @@ import (
 	"github.com/life4/genesis/constraints"
 )
 
-// Any returns true if f returns true for any element in arr
-func Any[S ~[]T, T any](items S, f func(el T) bool) bool {
-	for _, el := range items {
-		if f(el) {
-			return true
-		}
-	}
-	return false
-}
-
 // All returns true if f returns true for all elements in arr
 func All[S ~[]T, T any](items S, f func(el T) bool) bool {
 	for _, el := range items {
@@ -26,30 +16,14 @@ func All[S ~[]T, T any](items S, f func(el T) bool) bool {
 	return true
 }
 
-// CountBy returns how many times f returns true.
-func CountBy[S ~[]T, T any](items S, f func(el T) bool) int {
-	count := 0
+// Any returns true if f returns true for any element in arr
+func Any[S ~[]T, T any](items S, f func(el T) bool) bool {
 	for _, el := range items {
 		if f(el) {
-			count++
+			return true
 		}
 	}
-	return count
-}
-
-// EqualBy returns true if the cmp function returns true for any elements of the slices
-// in the matching positions. If len of the slices is different, false is returned.
-// It is similar to Any except it Zip's by two slices.
-func EqualBy[S1 ~[]E1, S2 ~[]E2, E1, E2 any](s1 S1, s2 S2, eq func(E1, E2) bool) bool {
-	if len(s1) != len(s2) {
-		return false
-	}
-	for i, v1 := range s1 {
-		if !eq(v1, s2[i]) {
-			return false
-		}
-	}
-	return true
+	return false
 }
 
 // ChunkBy splits arr on every element for which f returns a new value.
@@ -76,6 +50,17 @@ func ChunkBy[S ~[]T, T comparable, G comparable](items S, f func(el T) G) []S {
 		chunks = append(chunks, chunk)
 	}
 	return chunks
+}
+
+// CountBy returns how many times f returns true.
+func CountBy[S ~[]T, T any](items S, f func(el T) bool) int {
+	count := 0
+	for _, el := range items {
+		if f(el) {
+			count++
+		}
+	}
+	return count
 }
 
 // DedupBy returns a given slice without consecutive elements
@@ -125,6 +110,21 @@ func EachErr[S ~[]E, E any](items S, f func(el E) error) error {
 		}
 	}
 	return err
+}
+
+// EqualBy returns true if the cmp function returns true for any elements of the slices
+// in the matching positions. If len of the slices is different, false is returned.
+// It is similar to Any except it Zip's by two slices.
+func EqualBy[S1 ~[]E1, S2 ~[]E2, E1, E2 any](s1 S1, s2 S2, eq func(E1, E2) bool) bool {
+	if len(s1) != len(s2) {
+		return false
+	}
+	for i, v1 := range s1 {
+		if !eq(v1, s2[i]) {
+			return false
+		}
+	}
+	return true
 }
 
 // Filter returns slice of T for which F returned true

@@ -21,6 +21,38 @@ func Drop[M ~map[K]V, K comparable, V any](items M, keys ...K) {
 	}
 }
 
+// IMapValues applies the function to the map values.
+//
+// This is an in-place operation. It modifies `items` map in-place.
+// If you want to create a new map, use [MapValues] instead.
+func IMapValues[M ~map[K]V, K comparable, V any](items M, f func(V) V) {
+	for key, value := range items {
+		items[key] = f(value)
+	}
+}
+
+// IMerge adds items from the second map to the first one.
+//
+// This is an in-place operation. It modifies `target` map in-place.
+func IMerge[M1, M2 ~map[K]V, K, V comparable](target M1, items M2) {
+	for key, value := range items {
+		target[key] = value
+	}
+}
+
+// IMergeBy is like [IMerge] but conflicts are resolved by the function `f`.
+//
+// This is an in-place operation. It modifies `target` map in-place.
+func IMergeBy[M1, M2 ~map[K]V, K, V comparable](target M1, items M2, f func(K, V, V) V) {
+	for key, value2 := range items {
+		value1, contains := target[key]
+		if contains {
+			value2 = f(key, value1, value2)
+		}
+		target[key] = value2
+	}
+}
+
 // LeaveOnly leaves in the given map only the given keys.
 //
 // It is in-place operation, it modifies the original map.
@@ -68,37 +100,5 @@ func Replace[M ~map[K]V, K comparable, V any](items M, key K, value V) {
 func Update[M1, M2 ~map[K]V, K, V comparable](items M1, with M2) {
 	for key, value := range with {
 		items[key] = value
-	}
-}
-
-// IMerge adds items from the second map to the first one.
-//
-// This is an in-place operation. It modifies `target` map in-place.
-func IMerge[M1, M2 ~map[K]V, K, V comparable](target M1, items M2) {
-	for key, value := range items {
-		target[key] = value
-	}
-}
-
-// IMergeBy is like [IMerge] but conflicts are resolved by the function `f`.
-//
-// This is an in-place operation. It modifies `target` map in-place.
-func IMergeBy[M1, M2 ~map[K]V, K, V comparable](target M1, items M2, f func(K, V, V) V) {
-	for key, value2 := range items {
-		value1, contains := target[key]
-		if contains {
-			value2 = f(key, value1, value2)
-		}
-		target[key] = value2
-	}
-}
-
-// IMapValues applies the function to the map values.
-//
-// This is an in-place operation. It modifies `items` map in-place.
-// If you want to create a new map, use [MapValues] instead.
-func IMapValues[M ~map[K]V, K comparable, V any](items M, f func(V) V) {
-	for key, value := range items {
-		items[key] = f(value)
 	}
 }

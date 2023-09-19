@@ -6,14 +6,14 @@ import (
 	"github.com/life4/genesis/constraints"
 )
 
-// Any returns true if f returns true for any element in channel.
-func Any[T any](c <-chan T, f func(el T) bool) bool {
-	return AnyC(context.Background(), c, f)
-}
-
 // All is an alias for [AllC] without a context.
 func All[T any](c <-chan T, f func(el T) bool) bool {
 	return AllC(context.Background(), c, f)
+}
+
+// Any returns true if f returns true for any element in channel.
+func Any[T any](c <-chan T, f func(el T) bool) bool {
+	return AnyC(context.Background(), c, f)
 }
 
 // BufferSize returns how many messages a channel can hold before being blocked.

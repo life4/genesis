@@ -56,6 +56,18 @@ func HasValue[M ~map[K]V, K, V comparable](items M, val V) bool {
 	return false
 }
 
+// Keys returns the keys of the given map.
+//
+// The resulting keys order is unknown. You cannot rely on it in any way,
+// even on it being random.
+func Keys[M ~map[K]V, K comparable, V any](items M) []K {
+	result := make([]K, 0, len(items))
+	for key := range items {
+		result = append(result, key)
+	}
+	return result
+}
+
 // Map calls the given function `f` with each key and value and makes a new map
 // out of key-value pairs returned by the function.
 func Map[M ~map[K]V, K, RK comparable, V, RV any](items M, f func(K, V) (RK, RV)) map[RK]RV {
@@ -115,18 +127,6 @@ func MergeBy[M1, M2 ~map[K]V, K, V comparable](items1 M1, items2 M2, f func(K, V
 			value2 = f(key, value1, value2)
 		}
 		result[key] = value2
-	}
-	return result
-}
-
-// Keys returns the keys of the given map.
-//
-// The resulting keys order is unknown. You cannot rely on it in any way,
-// even on it being random.
-func Keys[M ~map[K]V, K comparable, V any](items M) []K {
-	result := make([]K, 0, len(items))
-	for key := range items {
-		result = append(result, key)
 	}
 	return result
 }

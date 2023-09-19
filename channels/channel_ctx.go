@@ -8,24 +8,6 @@ import (
 	"github.com/life4/genesis/constraints"
 )
 
-// Any returns true if f returns true for any element in channel.
-func AnyC[T any](ctx context.Context, c <-chan T, f func(el T) bool) bool {
-	for {
-		select {
-		case el, ok := <-c:
-			if !ok {
-				return false
-			}
-			if f(el) {
-				return true
-
-			}
-		case <-ctx.Done():
-			return false
-		}
-	}
-}
-
 // All returns true if f returns true for all elements in channel.
 func AllC[T any](ctx context.Context, c <-chan T, f func(el T) bool) bool {
 	for {
@@ -40,6 +22,24 @@ func AllC[T any](ctx context.Context, c <-chan T, f func(el T) bool) bool {
 			}
 		case <-ctx.Done():
 			return true
+		}
+	}
+}
+
+// Any returns true if f returns true for any element in channel.
+func AnyC[T any](ctx context.Context, c <-chan T, f func(el T) bool) bool {
+	for {
+		select {
+		case el, ok := <-c:
+			if !ok {
+				return false
+			}
+			if f(el) {
+				return true
+
+			}
+		case <-ctx.Done():
+			return false
 		}
 	}
 }

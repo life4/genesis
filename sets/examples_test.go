@@ -40,20 +40,20 @@ func ExampleCopy() {
 	// map[3:{} 4:{} 6:{}]
 }
 
-func ExampleDiscard() {
-	s := sets.New(3, 4)
-	sets.Discard(s, 4)
-	sets.Discard(s, 5)
-	fmt.Println(s)
-	// Output: map[3:{}]
-}
-
 func ExampleDifference() {
 	a := sets.New(3, 4, 5)
 	b := sets.New(5, 6, 7)
 	result := sets.Difference(a, b)
 	fmt.Println(result)
 	// Output: map[3:{} 4:{}]
+}
+
+func ExampleDiscard() {
+	s := sets.New(3, 4)
+	sets.Discard(s, 4)
+	sets.Discard(s, 5)
+	fmt.Println(s)
+	// Output: map[3:{}]
 }
 
 func ExampleDisjoint() {
@@ -186,6 +186,14 @@ func ExampleSum() {
 	// Output: 12
 }
 
+func ExampleSuperset() {
+	a := sets.New(3, 4, 5, 6)
+	b := sets.New(4, 5)
+	result := sets.Superset(a, b)
+	fmt.Println(result)
+	// Output: true
+}
+
 func ExampleSymmetricDifference() {
 	a := sets.New(3, 4, 5)
 	b := sets.New(5, 6, 7)
@@ -199,14 +207,6 @@ func ExampleToSlice() {
 	result := sets.ToSlice(s)
 	fmt.Println(result)
 	// Output: [3]
-}
-
-func ExampleSuperset() {
-	a := sets.New(3, 4, 5, 6)
-	b := sets.New(4, 5)
-	result := sets.Superset(a, b)
-	fmt.Println(result)
-	// Output: true
 }
 
 func ExampleUnion() {
