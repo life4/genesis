@@ -8,9 +8,10 @@ import (
 	"github.com/matryer/is"
 )
 
-func TestToSlice(t *testing.T) {
+func TestAll(t *testing.T) {
 	is := is.New(t)
-	f := func(given []int) {
+	f := func(given []int, expected bool) {
+		even := func(t int) bool { return t%2 == 0 }
 		c := make(chan int, 1)
 		go func() {
 			for _, el := range given {
@@ -18,12 +19,16 @@ func TestToSlice(t *testing.T) {
 			}
 			close(c)
 		}()
-		actual := channels.ToSlice(c)
-		is.Equal(given, actual)
+		actual := channels.All(c, even)
+		is.Equal(expected, actual)
 	}
-	f([]int{})
-	f([]int{1})
-	f([]int{1, 2, 3, 1, 2})
+	f([]int{}, true)
+	f([]int{1}, false)
+	f([]int{2}, true)
+	f([]int{1, 2}, false)
+	f([]int{2, 4}, true)
+	f([]int{2, 4, 6, 8, 10, 12}, true)
+	f([]int{2, 4, 6, 8, 11, 12}, false)
 }
 
 func TestAny(t *testing.T) {
@@ -50,66 +55,11 @@ func TestAny(t *testing.T) {
 	f([]int{1, 3, 5, 7, 10, 11}, true)
 }
 
-func TestAll(t *testing.T) {
-	is := is.New(t)
-	f := func(given []int, expected bool) {
-		even := func(t int) bool { return t%2 == 0 }
-		c := make(chan int, 1)
-		go func() {
-			for _, el := range given {
-				c <- el
-			}
-			close(c)
-		}()
-		actual := channels.All(c, even)
-		is.Equal(expected, actual)
-	}
-	f([]int{}, true)
-	f([]int{1}, false)
-	f([]int{2}, true)
-	f([]int{1, 2}, false)
-	f([]int{2, 4}, true)
-	f([]int{2, 4, 6, 8, 10, 12}, true)
-	f([]int{2, 4, 6, 8, 11, 12}, false)
-}
-
 func TestBufferSize(t *testing.T) {
 	is := is.New(t)
 	is.Equal(channels.BufferSize(make(chan int, 3)), 3)
 	is.Equal(channels.BufferSize(make(chan int)), 0)
 	is.Equal(channels.BufferSize[int](nil), 0)
-}
-
-func TestClose(t *testing.T) {
-	is := is.New(t)
-	is.True(!channels.Close[int](nil))
-	c := make(chan int)
-	is.True(channels.Close(c))
-	is.True(!channels.Close(c))
-}
-
-func TestEach(t *testing.T) {
-	is := is.New(t)
-	f := func(given []int) {
-		c := make(chan int, 1)
-		go func() {
-			for _, el := range given {
-				c <- el
-			}
-			close(c)
-		}()
-		result := make(chan int, len(given))
-		mapper := func(t int) { result <- t }
-		channels.Each(c, mapper)
-		close(result)
-		actual := channels.ToSlice(result)
-		is.Equal(given, actual)
-	}
-
-	f([]int{})
-	f([]int{1})
-	f([]int{1, 2, 3})
-	f([]int{1, 2, 3, 4, 5, 6, 7})
 }
 
 func TestChunkEvery(t *testing.T) {
@@ -134,6 +84,14 @@ func TestChunkEvery(t *testing.T) {
 	f(2, []int{1, 2}, [][]int{{1, 2}})
 	f(2, []int{1, 2, 3, 4}, [][]int{{1, 2}, {3, 4}})
 	f(2, []int{1, 2, 3, 4, 5}, [][]int{{1, 2}, {3, 4}, {5}})
+}
+
+func TestClose(t *testing.T) {
+	is := is.New(t)
+	is.True(!channels.Close[int](nil))
+	c := make(chan int)
+	is.True(channels.Close(c))
+	is.True(!channels.Close(c))
 }
 
 func TestCount(t *testing.T) {
@@ -179,6 +137,30 @@ func TestDrop(t *testing.T) {
 	f(0, []int{1, 2, 3}, []int{1, 2, 3})
 	f(3, []int{1, 2, 3, 4, 5, 6}, []int{4, 5, 6})
 	f(1, []int{1, 2, 3, 4, 5, 6}, []int{2, 3, 4, 5, 6})
+}
+
+func TestEach(t *testing.T) {
+	is := is.New(t)
+	f := func(given []int) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		result := make(chan int, len(given))
+		mapper := func(t int) { result <- t }
+		channels.Each(c, mapper)
+		close(result)
+		actual := channels.ToSlice(result)
+		is.Equal(given, actual)
+	}
+
+	f([]int{})
+	f([]int{1})
+	f([]int{1, 2, 3})
+	f([]int{1, 2, 3, 4, 5, 6, 7})
 }
 
 func TestFilter(t *testing.T) {
@@ -458,6 +440,24 @@ func TestTee(t *testing.T) {
 	f(2, []int{1, 2, 3, 1, 2})
 
 	f(10, []int{1, 2, 3, 1, 2})
+}
+
+func TestToSlice(t *testing.T) {
+	is := is.New(t)
+	f := func(given []int) {
+		c := make(chan int, 1)
+		go func() {
+			for _, el := range given {
+				c <- el
+			}
+			close(c)
+		}()
+		actual := channels.ToSlice(c)
+		is.Equal(given, actual)
+	}
+	f([]int{})
+	f([]int{1})
+	f([]int{1, 2, 3, 1, 2})
 }
 
 func TestWithBuffer(t *testing.T) {

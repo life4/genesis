@@ -90,10 +90,12 @@ def test_all_have_tests(pkg: str) -> None:
     'sets',
     'lambdas',
     'slices',
+    'channels',
 ])
 def test_all_funcs_sorted(pkg: str) -> None:
     for fpath in Path(pkg).iterdir():
         funcs = list(get_funcs_for_file(fpath))
+        funcs = [func.split('_')[0] for func in funcs]
         assert funcs == sorted(funcs)
 
 
