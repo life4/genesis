@@ -65,6 +65,12 @@ func TestMap(t *testing.T) {
 	is.Equal(sets.Map(nilSet, double), sets.New[int]())
 }
 
+func TestNew(t *testing.T) {
+	is := is.New(t)
+	s := sets.New(3, 4, 5)
+	is.Equal(s, map[int]struct{}{3: {}, 4: {}, 5: {}})
+}
+
 func TestSymmetricDifference(t *testing.T) {
 	is := is.NewRelaxed(t)
 	is.Equal(sets.SymmetricDifference(sets.New(3, 4, 5), sets.New(3, 4, 5)), sets.New[int]())

@@ -51,7 +51,10 @@ def get_examples(pkg: str) -> Iterator[str]:
         yield fname
 
 
-@pytest.mark.parametrize('pkg', ['slices', 'sets'])
+@pytest.mark.parametrize('pkg', [
+    'slices',
+    'sets',
+])
 def test_all_have_examples(pkg: str) -> None:
     """Every function must have an example.
     """
@@ -64,7 +67,7 @@ def test_all_have_examples(pkg: str) -> None:
     'slices',
     'maps',
     'lambdas',
-    # 'sets',
+    'sets',
     # channels need tests for context-aware versions
     # 'channels',
 ])
@@ -74,7 +77,8 @@ def test_all_have_tests(pkg: str) -> None:
     funcs = set(get_funcs(pkg))
     tests = set(get_tests(pkg))
     assert funcs
-    assert not funcs - tests
+    diff = funcs - tests
+    assert not diff
 
 
 @pytest.mark.parametrize('func', get_funcs('slices'))
