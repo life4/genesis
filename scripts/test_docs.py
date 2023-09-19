@@ -3,6 +3,14 @@ from pathlib import Path
 from typing import Iterator
 import pytest
 
+ALL_PACKAGES = (
+    'channels',
+    'lambdas',
+    'maps',
+    'sets',
+    'slices',
+)
+
 
 def get_funcs_for_pkg(pkg: str) -> Iterator[str]:
     for fpath in Path(pkg).iterdir():
@@ -67,14 +75,8 @@ def test_all_have_examples(pkg: str) -> None:
     assert funcs == examples
 
 
-@pytest.mark.parametrize('pkg', [
-    'slices',
-    'maps',
-    'lambdas',
-    'sets',
-    # channels need tests for context-aware versions
-    # 'channels',
-])
+# channels need tests for context-aware versions
+@pytest.mark.parametrize('pkg', sorted(set(ALL_PACKAGES) - {'channels'}))
 def test_all_have_tests(pkg: str) -> None:
     """Every function must have unit tests.
     """
@@ -85,18 +87,21 @@ def test_all_have_tests(pkg: str) -> None:
     assert not diff
 
 
-@pytest.mark.parametrize('pkg', [
-    'maps',
-    'sets',
-    'lambdas',
-    'slices',
-    'channels',
-])
+@pytest.mark.parametrize('pkg', ALL_PACKAGES)
 def test_all_funcs_sorted(pkg: str) -> None:
     for fpath in Path(pkg).iterdir():
         funcs = list(get_funcs_for_file(fpath))
         funcs = [func.split('_')[0] for func in funcs]
         assert funcs == sorted(funcs)
+
+
+@pytest.mark.parametrize('pkg', ALL_PACKAGES)
+def test_all_funcs_separated_by_newline(pkg: str) -> None:
+    for fpath in Path(pkg).iterdir():
+        content = fpath.read_text()
+        funcs = content.split('}\n')
+        for func in funcs:
+            assert not func.startswith('func'), 'must have an empty line'
 
 
 @pytest.mark.parametrize('func', get_funcs_for_pkg('slices'))

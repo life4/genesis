@@ -103,6 +103,7 @@ func TestIsNotZero(t *testing.T) {
 	is.True(lambdas.IsNotZero(float64(13)))
 	is.True(lambdas.IsNotZero(-1))
 }
+
 func TestIsZero(t *testing.T) {
 	is := is.New(t)
 	is.True(lambdas.IsZero(int(0)))

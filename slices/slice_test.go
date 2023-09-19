@@ -496,6 +496,7 @@ func TestShrink(t *testing.T) {
 	is.Equal(len(res), 3)
 	is.Equal(cap(res), 3)
 }
+
 func TestShuffle(t *testing.T) {
 	is := is.New(t)
 	f := func(given []int, seed int64, expected []int) {
