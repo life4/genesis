@@ -6,5 +6,6 @@ import (
 	_ "github.com/life4/genesis/channels"
 	_ "github.com/life4/genesis/lambdas"
 	_ "github.com/life4/genesis/maps"
+	_ "github.com/life4/genesis/sets"
 	_ "github.com/life4/genesis/slices"
 )
