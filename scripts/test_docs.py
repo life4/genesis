@@ -88,6 +88,7 @@ def test_all_have_tests(pkg: str) -> None:
 @pytest.mark.parametrize('pkg', [
     'maps',
     'sets',
+    'lambdas',
 ])
 def test_all_funcs_sorted(pkg: str) -> None:
     for fpath in Path(pkg).iterdir():

@@ -14,22 +14,6 @@ func Abs[T Number](a T) T {
 	return a
 }
 
-// Min returns minimal value
-func Min[T constraints.Ordered](a T, b T) T {
-	if a <= b {
-		return a
-	}
-	return b
-}
-
-// Max returns maximal value
-func Max[T constraints.Ordered](a T, b T) T {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 // Default returns the default value of the same type as the given value.
 //
 // A few examples:
@@ -40,4 +24,20 @@ func Max[T constraints.Ordered](a T, b T) T {
 func Default[T any](T) T {
 	var def T
 	return def
+}
+
+// Max returns maximal value
+func Max[T constraints.Ordered](a T, b T) T {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+// Min returns minimal value
+func Min[T constraints.Ordered](a T, b T) T {
+	if a <= b {
+		return a
+	}
+	return b
 }

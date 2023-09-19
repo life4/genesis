@@ -7,11 +7,11 @@ import (
 	"github.com/life4/genesis/slices"
 )
 
-func ExampleMust() {
-	res := lambdas.Must(slices.Min([]int{42, 7, 13}))
+func ExampleAbs() {
+	res := lambdas.Abs(-13)
 	fmt.Println(res)
 	//Output:
-	// 7
+	// 13
 }
 
 func ExampleDefaultTo() {
@@ -21,15 +21,8 @@ func ExampleDefaultTo() {
 	// 13
 }
 
-func ExampleSafe() {
-	res := lambdas.Safe(slices.Min([]int{}))
-	fmt.Println(res)
-	//Output:
-	// 0
-}
-
-func ExampleAbs() {
-	res := lambdas.Abs(-13)
+func ExampleMax() {
+	res := lambdas.Max(10, 13)
 	fmt.Println(res)
 	//Output:
 	// 13
@@ -42,9 +35,16 @@ func ExampleMin() {
 	// 13
 }
 
-func ExampleMax() {
-	res := lambdas.Max(10, 13)
+func ExampleMust() {
+	res := lambdas.Must(slices.Min([]int{42, 7, 13}))
 	fmt.Println(res)
 	//Output:
-	// 13
+	// 7
+}
+
+func ExampleSafe() {
+	res := lambdas.Safe(slices.Min([]int{}))
+	fmt.Println(res)
+	//Output:
+	// 0
 }
