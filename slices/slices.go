@@ -13,7 +13,7 @@ func Concat[S ~[]T, T any](slices ...S) S {
 	return result
 }
 
-// Difference returns target elements that
+// Difference returns a slice containing elements from target that are not in exclude.
 //
 // The items in the result slice appear in the same order as in the first given slice.
 // Each item appears only once.
