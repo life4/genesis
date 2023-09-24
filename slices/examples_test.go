@@ -207,11 +207,11 @@ func ExampleEach() {
 
 func ExampleEachAsync() {
 	s := []uint32{4, 5, 6}
-	var sum atomic.Uint32
+	var sum uint32
 	slices.EachAsync(s, 0, func(x uint32) {
-		sum.Add(x)
+		atomic.AddUint32(&sum, x)
 	})
-	fmt.Println(sum.Load())
+	fmt.Println(sum)
 	// Output: 15
 }
 
