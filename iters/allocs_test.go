@@ -19,9 +19,9 @@ func assertAllocs(t *testing.T, expected uint64, f func()) {
 func TestFromSlice_Allocs(t *testing.T) {
 	s := make([]int, 1000)
 	assertAllocs(t, 2, func() {
-		it := iters.FromSlice(s)
-		it.Next()
-		it.Next()
-		it.Next()
+		next := iters.FromSlice(s)
+		next()
+		next()
+		next()
 	})
 }

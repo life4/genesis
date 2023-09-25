@@ -9,7 +9,7 @@ import (
 
 var ts = iters.ToSlice[int]
 
-func new[T any](vs ...T) iters.Iter[T] {
+func new[T any](vs ...T) iters.Next[T] {
 	return iters.FromSlice(vs)
 }
 
@@ -32,19 +32,6 @@ func TestFromChannel(t *testing.T) {
 		close(ch)
 	}()
 	is.Equal(ts(iters.FromChannel(ch)), []int{3, 4, 5})
-}
-
-func TestFromFunc(t *testing.T) {
-	is := is.New(t)
-	c := 0
-	f := func() (int, bool) {
-		c += 1
-		if c <= 3 {
-			return c + 2, true
-		}
-		return 0, false
-	}
-	is.Equal(ts(iters.FromFunc(f)), []int{3, 4, 5})
 }
 
 func TestFromSlice(t *testing.T) {

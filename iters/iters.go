@@ -2,37 +2,31 @@ package iters
 
 import c "github.com/life4/genesis/constraints"
 
-// Iter is an interface describing a lazy iterator.
+// Next returns the next element from the iterator.
 //
-// It's very similar to channels except that it's not thread-safe
-// and so should be faster when you don't need concurrency.
-type Iter[T any] interface {
-	// Next returns the next element from the iterator.
-	//
-	// The second return value indicates if there are more values to pull.
-	// If the iterator is exhausted, the first value is the default value
-	// of the type and second is false. When the iterator is exhausted,
-	// repeated attempts to get the next value should produce the same
-	// default+false result.
-	//
-	// In other words, it should behave like pulling from a (closed) channel.
-	//
-	// The code using an iterator doesn't guarantee to exhaust it.
-	// For example, [Take] only takes the number of elements it needs
-	// and never calls Next again. Hence you shouldn't rely on Next
-	// for closing connections and cleaning up unused resources.
-	// If your iterator needs to provide logic like this, you should
-	// implement a Close method and defer it.
-	//
-	// An iterator is allowed to be infinite and never return false.
-	Next() (T, bool)
-}
+// The second return value indicates if there are more values to pull.
+// If the iterator is exhausted, the first value is the default value
+// of the type and second is false. When the iterator is exhausted,
+// repeated attempts to get the next value should produce the same
+// default+false result.
+//
+// In other words, it should behave like pulling from a (closed) channel.
+//
+// The code using an iterator doesn't guarantee to exhaust it.
+// For example, [Take] only takes the number of elements it needs
+// and never calls Next again. Hence you shouldn't rely on Next
+// for closing connections and cleaning up unused resources.
+// If your iterator needs to provide logic like this, you should
+// implement a Close method and defer it.
+//
+// An iterator is allowed to be infinite and never return false.
+type Next[T any] func() (T, bool)
 
 // Filter returns an iterator of elements from the given iterator for which the function returns true.
-func Filter[T any](it Iter[T], f func(T) bool) Iter[T] {
-	return FromFunc(func() (T, bool) {
+func Filter[T any](next Next[T], f func(T) bool) Next[T] {
+	return func() (T, bool) {
 		for {
-			val, more := it.Next()
+			val, more := next()
 			if !more {
 				return val, false
 			}
@@ -40,66 +34,51 @@ func Filter[T any](it Iter[T], f func(T) bool) Iter[T] {
 				return val, true
 			}
 		}
-	})
+	}
 }
 
 // FromChannel produces an iterator returning elements from the given channel.
 //
-// Each call to Iter.Next will pull from the channel, which means
+// Each call to Iter will pull from the channel, which means
 // you have to make sure it won't block forever. It's a good idea
 // to make the channel cancelable by using channels.WithContext.
-func FromChannel[T any](ch <-chan T) Iter[T] {
-	return FromFunc(func() (T, bool) {
+func FromChannel[T any](ch <-chan T) Next[T] {
+	return func() (T, bool) {
 		v, ok := <-ch
 		return v, ok
-	})
-}
-
-// FromFunc makes an iterator from the given function.
-//
-// Each time a new iterator element is requested, the function is called.
-func FromFunc[T any](f func() (T, bool)) Iter[T] {
-	return iFunc[T]{f}
-}
-
-type iFunc[T any] struct {
-	f func() (T, bool)
-}
-
-func (i iFunc[T]) Next() (T, bool) {
-	return i.f()
+	}
 }
 
 // FromSlice produces an iterator returning elements from the given slice.
-func FromSlice[S ~[]T, T any](slice S) Iter[T] {
+func FromSlice[S ~[]T, T any](slice S) Next[T] {
 	next := 0
-	return FromFunc(func() (T, bool) {
+	return func() (T, bool) {
 		if next >= len(slice) {
 			return *new(T), false
 		}
 		v := slice[next]
 		next += 1
 		return v, true
-	})
+	}
 }
 
 // Map returns an iterator of results of applying the function to each element of the given iterator.
-func Map[T, R any](it Iter[T], f func(T) R) Iter[R] {
-	return FromFunc(func() (R, bool) {
-		val, more := it.Next()
+func Map[T, R any](next Next[T], f func(T) R) Next[R] {
+	return func() (R, bool) {
+		val, more := next()
 		if !more {
 			var res R
 			return res, false
 		}
 		res := f(val)
 		return res, true
-	})
+	}
 }
 
 // Reduce applies the function to acc and every iterator element and returns the acc.
-func Reduce[T, R any](it Iter[T], acc R, f func(T, R) R) R {
+func Reduce[T, R any](next Next[T], acc R, f func(T, R) R) R {
 	for {
-		val, more := it.Next()
+		val, more := next()
 		if !more {
 			return acc
 		}
@@ -114,15 +93,15 @@ func Reduce[T, R any](it Iter[T], acc R, f func(T, R) R) R {
 //
 // If the input iterator returns fewer than n items, Take will just stop and
 // not generate additional items.
-func Take[T any, I c.Integer](it Iter[T], n I) Iter[T] {
-	return FromFunc(func() (T, bool) {
+func Take[T any, I c.Integer](next Next[T], n I) Next[T] {
+	return func() (T, bool) {
 		if n <= 0 {
 			var val T
 			return val, false
 		}
 		n -= 1
-		return it.Next()
-	})
+		return next()
+	}
 }
 
 // ToSlice converts the given iterator to a slice.
@@ -135,10 +114,10 @@ func Take[T any, I c.Integer](it Iter[T], n I) Iter[T] {
 // In particular, when creating an iterator from a channel using [FromChannel],
 // you may want to use channels.WithContext and set a deadline or cancelation
 // on that context.
-func ToSlice[T any](it Iter[T]) []T {
+func ToSlice[T any](next Next[T]) []T {
 	res := make([]T, 0)
 	for {
-		val, more := it.Next()
+		val, more := next()
 		if !more {
 			return res
 		}
