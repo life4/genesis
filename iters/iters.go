@@ -28,6 +28,28 @@ type Iter[T any] interface {
 	Next() (T, bool)
 }
 
+// Filter returns an iterator of elements from the given iterator for which the function returns true.
+func Filter[T any](it Iter[T], f func(T) bool) Iter[T] {
+	return iFilter[T]{it, f}
+}
+
+type iFilter[T any] struct {
+	iter Iter[T]
+	f    func(T) bool
+}
+
+func (i iFilter[T]) Next() (T, bool) {
+	for {
+		val, more := i.iter.Next()
+		if !more {
+			return val, false
+		}
+		if i.f(val) {
+			return val, true
+		}
+	}
+}
+
 // FromChannel produces an iterator returning elements from the given channel.
 //
 // Each call to Iter.Next will pull from the channel, which means

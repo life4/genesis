@@ -13,6 +13,14 @@ func new[T any](vs ...T) iters.Iter[T] {
 	return iters.FromSlice(vs)
 }
 
+func TestFilter(t *testing.T) {
+	is := is.NewRelaxed(t)
+	even := func(x int) bool { return x%2 == 0 }
+	is.Equal(ts(iters.Filter(new(3, 4, 5, 6), even)), []int{4, 6})
+	is.Equal(ts(iters.Filter(new(4, 6), even)), []int{4, 6})
+	is.Equal(ts(iters.Filter(new(3, 5), even)), []int{})
+	is.Equal(ts(iters.Filter(new[int](), even)), []int{})
+}
 func TestFromChannel(t *testing.T) {
 	is := is.New(t)
 	ch := make(chan int)

@@ -94,7 +94,6 @@ func CountC[T comparable](ctx context.Context, c <-chan T, el T) int {
 }
 
 // Drop drops first n elements from channel c and returns a new channel with the rest.
-// It returns channel do be unblocking. If you want array instead, wrap result into TakeAll.
 func DropC[T any](ctx context.Context, c <-chan T, n int) chan T {
 	result := make(chan T)
 	go func() {
