@@ -30,24 +30,17 @@ type Iter[T any] interface {
 
 // Filter returns an iterator of elements from the given iterator for which the function returns true.
 func Filter[T any](it Iter[T], f func(T) bool) Iter[T] {
-	return iFilter[T]{it, f}
-}
-
-type iFilter[T any] struct {
-	iter Iter[T]
-	f    func(T) bool
-}
-
-func (i iFilter[T]) Next() (T, bool) {
-	for {
-		val, more := i.iter.Next()
-		if !more {
-			return val, false
+	return FromFunc(func() (T, bool) {
+		for {
+			val, more := it.Next()
+			if !more {
+				return val, false
+			}
+			if f(val) {
+				return val, true
+			}
 		}
-		if i.f(val) {
-			return val, true
-		}
-	}
+	})
 }
 
 // FromChannel produces an iterator returning elements from the given channel.
@@ -56,16 +49,10 @@ func (i iFilter[T]) Next() (T, bool) {
 // you have to make sure it won't block forever. It's a good idea
 // to make the channel cancelable by using channels.WithContext.
 func FromChannel[T any](ch <-chan T) Iter[T] {
-	return &iChannel[T]{ch}
-}
-
-type iChannel[T any] struct {
-	ch <-chan T
-}
-
-func (i *iChannel[T]) Next() (T, bool) {
-	v, ok := <-i.ch
-	return v, ok
+	return FromFunc(func() (T, bool) {
+		v, ok := <-ch
+		return v, ok
+	})
 }
 
 // FromFunc makes an iterator from the given function.
@@ -85,41 +72,28 @@ func (i iFunc[T]) Next() (T, bool) {
 
 // FromSlice produces an iterator returning elements from the given slice.
 func FromSlice[S ~[]T, T any](slice S) Iter[T] {
-	return &iSlice[T]{slice, 0}
-}
-
-type iSlice[T any] struct {
-	slice []T
-	next  int
-}
-
-func (i *iSlice[T]) Next() (T, bool) {
-	if i.next >= len(i.slice) {
-		return *new(T), false
-	}
-	v := i.slice[i.next]
-	i.next += 1
-	return v, true
+	next := 0
+	return FromFunc(func() (T, bool) {
+		if next >= len(slice) {
+			return *new(T), false
+		}
+		v := slice[next]
+		next += 1
+		return v, true
+	})
 }
 
 // Map returns an iterator of results of applying the function to each element of the given iterator.
 func Map[T, R any](it Iter[T], f func(T) R) Iter[R] {
-	return iMap[T, R]{it, f}
-}
-
-type iMap[T, R any] struct {
-	iter Iter[T]
-	f    func(T) R
-}
-
-func (i iMap[T, R]) Next() (R, bool) {
-	val, more := i.iter.Next()
-	if !more {
-		var res R
-		return res, false
-	}
-	res := i.f(val)
-	return res, true
+	return FromFunc(func() (R, bool) {
+		val, more := it.Next()
+		if !more {
+			var res R
+			return res, false
+		}
+		res := f(val)
+		return res, true
+	})
 }
 
 // Take returns an iterator returning only the first n items from the given iterator.
@@ -130,21 +104,14 @@ func (i iMap[T, R]) Next() (R, bool) {
 // If the input iterator returns fewer than n items, Take will just stop and
 // not generate additional items.
 func Take[T any, I c.Integer](it Iter[T], n I) Iter[T] {
-	return &iTake[T, I]{it, n}
-}
-
-type iTake[T any, I c.Integer] struct {
-	iter Iter[T]
-	left I
-}
-
-func (i *iTake[T, I]) Next() (T, bool) {
-	if i.left <= 0 {
-		var val T
-		return val, false
-	}
-	i.left -= 1
-	return i.iter.Next()
+	return FromFunc(func() (T, bool) {
+		if n <= 0 {
+			var val T
+			return val, false
+		}
+		n -= 1
+		return it.Next()
+	})
 }
 
 // ToSlice converts the given iterator to a slice.
