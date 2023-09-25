@@ -3,6 +3,7 @@ package slices_test
 import (
 	"errors"
 	"fmt"
+	"sync/atomic"
 
 	"github.com/life4/genesis/channels"
 	"github.com/life4/genesis/slices"
@@ -205,10 +206,10 @@ func ExampleEach() {
 }
 
 func ExampleEachAsync() {
-	s := []int{4, 5, 6}
-	sum := 0
-	slices.EachAsync(s, 0, func(x int) {
-		sum += x
+	s := []uint32{4, 5, 6}
+	var sum uint32
+	slices.EachAsync(s, 0, func(x uint32) {
+		atomic.AddUint32(&sum, x)
 	})
 	fmt.Println(sum)
 	// Output: 15
