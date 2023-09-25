@@ -22,6 +22,26 @@ import c "github.com/life4/genesis/constraints"
 // An iterator is allowed to be infinite and never return false.
 type Next[T any] func() (T, bool)
 
+// Drop returns an iterator dropping the first n items from the given iterator.
+//
+// When the resulting iterator is called for the first time,
+// it will drop the first n item from the input iterator.
+// All consecutive calls to the iterator will be forwarded
+// to the input iterator.
+func Drop[T any, I c.Integer](next Next[T], n I) Next[T] {
+	return func() (T, bool) {
+		if n != 0 {
+			for ; n > 0; n-- {
+				val, more := next()
+				if !more {
+					return val, more
+				}
+			}
+		}
+		return next()
+	}
+}
+
 // Filter returns an iterator of elements from the given iterator for which the function returns true.
 func Filter[T any](next Next[T], f func(T) bool) Next[T] {
 	return func() (T, bool) {

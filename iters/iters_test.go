@@ -13,6 +13,16 @@ func new[T any](vs ...T) iters.Next[T] {
 	return iters.FromSlice(vs)
 }
 
+func TestDrop(t *testing.T) {
+	is := is.NewRelaxed(t)
+	is.Equal(ts(iters.Drop(new(3, 4, 5), 1)), []int{4, 5})
+	is.Equal(ts(iters.Drop(new(3, 4, 5), 2)), []int{5})
+	is.Equal(ts(iters.Drop(new(3, 4, 5), 0)), []int{3, 4, 5})
+	is.Equal(ts(iters.Drop(new(3, 4, 5), -5)), []int{3, 4, 5})
+	is.Equal(ts(iters.Drop(new(3, 4, 5), 3)), []int{})
+	is.Equal(ts(iters.Drop(new(3, 4, 5), 6)), []int{})
+}
+
 func TestFilter(t *testing.T) {
 	is := is.NewRelaxed(t)
 	even := func(x int) bool { return x%2 == 0 }
