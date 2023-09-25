@@ -62,6 +62,15 @@ func TestMap(t *testing.T) {
 	is.Equal(ts(iters.Map(new[int](), double)), []int{})
 }
 
+func TestReduce(t *testing.T) {
+	is := is.NewRelaxed(t)
+	add := func(x, a int) int { return x + a }
+	is.Equal(iters.Reduce(new(3, 4, 5), 0, add), 12)
+	is.Equal(iters.Reduce(new(3, 4, 5), 3, add), 15)
+	is.Equal(iters.Reduce(new[int](), 0, add), 0)
+	is.Equal(iters.Reduce(new[int](), 7, add), 7)
+}
+
 func TestTake(t *testing.T) {
 	is := is.NewRelaxed(t)
 	is.Equal(ts(iters.Take(new(3, 4, 5), 2)), []int{3, 4})

@@ -96,6 +96,17 @@ func Map[T, R any](it Iter[T], f func(T) R) Iter[R] {
 	})
 }
 
+// Reduce applies the function to acc and every iterator element and returns the acc.
+func Reduce[T, R any](it Iter[T], acc R, f func(T, R) R) R {
+	for {
+		val, more := it.Next()
+		if !more {
+			return acc
+		}
+		acc = f(val, acc)
+	}
+}
+
 // Take returns an iterator returning only the first n items from the given iterator.
 //
 // When n items are consumed, Take will not call Next on the input iterator again.
