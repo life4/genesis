@@ -21,6 +21,7 @@ func TestFilter(t *testing.T) {
 	is.Equal(ts(iters.Filter(new(3, 5), even)), []int{})
 	is.Equal(ts(iters.Filter(new[int](), even)), []int{})
 }
+
 func TestFromChannel(t *testing.T) {
 	is := is.New(t)
 	ch := make(chan int)
@@ -31,6 +32,19 @@ func TestFromChannel(t *testing.T) {
 		close(ch)
 	}()
 	is.Equal(ts(iters.FromChannel(ch)), []int{3, 4, 5})
+}
+
+func TestFromFunc(t *testing.T) {
+	is := is.New(t)
+	c := 0
+	f := func() (int, bool) {
+		c += 1
+		if c <= 3 {
+			return c + 2, true
+		}
+		return 0, false
+	}
+	is.Equal(ts(iters.FromFunc(f)), []int{3, 4, 5})
 }
 
 func TestFromSlice(t *testing.T) {

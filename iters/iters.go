@@ -68,6 +68,21 @@ func (i *iChannel[T]) Next() (T, bool) {
 	return v, ok
 }
 
+// FromFunc makes an iterator from the given function.
+//
+// Each time a new iterator element is requested, the function is called.
+func FromFunc[T any](f func() (T, bool)) Iter[T] {
+	return iFunc[T]{f}
+}
+
+type iFunc[T any] struct {
+	f func() (T, bool)
+}
+
+func (i iFunc[T]) Next() (T, bool) {
+	return i.f()
+}
+
 // FromSlice produces an iterator returning elements from the given slice.
 func FromSlice[S ~[]T, T any](slice S) Iter[T] {
 	return &iSlice[T]{slice, 0}
