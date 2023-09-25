@@ -76,6 +76,7 @@ Genesis contains the following packages:
 + [🗺 maps](https://pkg.go.dev/github.com/life4/genesis/maps): generic functions for maps (`map[K]V`).
 + [📺 channels](https://pkg.go.dev/github.com/life4/genesis/channels): generic function for channels (`chan T`).
 + [⚙️ sets](https://pkg.go.dev/github.com/life4/genesis/sets): generic function for sets (`map[T]struct{}`).
++ [🦥 iters](https://pkg.go.dev/github.com/life4/genesis/iters): generic function for lazy iteration.
 + [🛟 lambdas](https://pkg.go.dev/github.com/life4/genesis/lambdas): helper generic functions to work with `slices.Map` and similar.
 
 See [📄 DOCUMENTATION](https://pkg.go.dev/github.com/life4/genesis) for more info.
