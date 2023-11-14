@@ -3,6 +3,7 @@ package slices_test
 import (
 	"errors"
 	"fmt"
+	"strconv"
 
 	"github.com/life4/genesis/channels"
 	"github.com/life4/genesis/slices"
@@ -390,7 +391,7 @@ func ExampleMapFilter() {
 	s := []int{4, 8, 15, 16, 23, 42}
 	isEven := func(t int) (string, bool) {
 		if t%2 == 0 {
-			s := fmt.Sprintf("%d", t)
+			s := strconv.Itoa(t)
 			return s, true
 		} else {
 			return "", false
