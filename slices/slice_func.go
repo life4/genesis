@@ -223,7 +223,8 @@ func Partition[S ~[]T, T any](items S, f func(el T) bool) (S, S) {
 	return good, bad
 }
 
-// Reduce applies f to acc and every element in the slice of items and returns acc.
+// Reduce applies f to acc and each element in items, reducing the slice to a
+// single value.
 func Reduce[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) G) G {
 	for _, el := range items {
 		acc = f(el, acc)
@@ -231,7 +232,7 @@ func Reduce[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) G) G {
 	return acc
 }
 
-// ReduceWhile is like Reduce, but stops when f returns an error.
+// ReduceWhile is like [Reduce], but stops when f returns an error.
 func ReduceWhile[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) (G, error)) (G, error) {
 	var err error
 	for _, el := range items {
