@@ -83,7 +83,7 @@ func DedupBy[S ~[]T, T comparable, G comparable](items S, f func(el T) G) S {
 	return result
 }
 
-// DropWhile drops elements from items while f returns true.
+// DropWhile drops elements from the start of items while f returns true.
 func DropWhile[S ~[]T, T any](items S, f func(el T) bool) S {
 	for i, el := range items {
 		if !f(el) {
