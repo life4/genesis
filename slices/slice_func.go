@@ -112,9 +112,10 @@ func EachErr[S ~[]E, E any](items S, f func(el E) error) error {
 	return err
 }
 
-// EqualBy returns true if the cmp function returns true for any elements of the slices
-// in the matching positions. If len of the slices is different, false is returned.
-// It is similar to Any except it Zip's by two slices.
+// EqualBy returns true if the cmp function returns true for all element pairs
+// in the two slices.
+//
+// If the slices are different lengths, false is returned.
 func EqualBy[S1 ~[]E1, S2 ~[]E2, E1, E2 any](s1 S1, s2 S2, eq func(E1, E2) bool) bool {
 	if len(s1) != len(s2) {
 		return false
