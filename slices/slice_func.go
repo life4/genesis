@@ -6,7 +6,7 @@ import (
 	"github.com/life4/genesis/constraints"
 )
 
-// All returns true if f returns true for all elements in arr
+// All returns true if f returns true for all items.
 func All[S ~[]T, T any](items S, f func(el T) bool) bool {
 	for _, el := range items {
 		if !f(el) {
@@ -16,7 +16,7 @@ func All[S ~[]T, T any](items S, f func(el T) bool) bool {
 	return true
 }
 
-// Any returns true if f returns true for any element in arr
+// Any returns true if f returns true for any item in items.
 func Any[S ~[]T, T any](items S, f func(el T) bool) bool {
 	for _, el := range items {
 		if f(el) {
@@ -26,7 +26,7 @@ func Any[S ~[]T, T any](items S, f func(el T) bool) bool {
 	return false
 }
 
-// ChunkBy splits arr on every element for which f returns a new value.
+// ChunkBy splits items on every element for which f returns a new value.
 func ChunkBy[S ~[]T, T comparable, G comparable](items S, f func(el T) G) []S {
 	chunks := make([]S, 0)
 	if len(items) == 0 {
@@ -63,8 +63,8 @@ func CountBy[S ~[]T, T any](items S, f func(el T) bool) int {
 	return count
 }
 
-// DedupBy returns a given slice without consecutive elements
-// For which f returns the same result
+// DedupBy returns a copy of items, but without consecutive elements
+// for which f returns the same result.
 func DedupBy[S ~[]T, T comparable, G comparable](items S, f func(el T) G) S {
 	result := make(S, 0, len(items))
 	if len(items) == 0 {
@@ -83,7 +83,7 @@ func DedupBy[S ~[]T, T comparable, G comparable](items S, f func(el T) G) S {
 	return result
 }
 
-// DropWhile drops elements from arr while f returns true
+// DropWhile drops elements from the start of items while f returns true.
 func DropWhile[S ~[]T, T any](items S, f func(el T) bool) S {
 	for i, el := range items {
 		if !f(el) {
@@ -93,14 +93,14 @@ func DropWhile[S ~[]T, T any](items S, f func(el T) bool) S {
 	return []T{}
 }
 
-// Each calls f for every element from arr
+// Each calls f for each item in items.
 func Each[S ~[]T, T any](items S, f func(el T)) {
 	for _, el := range items {
 		f(el)
 	}
 }
 
-// EachErr calls f for every element from arr until f returns an error
+// EachErr calls f for each element in items until f returns an error.
 func EachErr[S ~[]E, E any](items S, f func(el E) error) error {
 	var err error
 	for _, el := range items {
@@ -112,9 +112,10 @@ func EachErr[S ~[]E, E any](items S, f func(el E) error) error {
 	return err
 }
 
-// EqualBy returns true if the cmp function returns true for any elements of the slices
-// in the matching positions. If len of the slices is different, false is returned.
-// It is similar to Any except it Zip's by two slices.
+// EqualBy returns true if the cmp function returns true for all element pairs
+// in the two slices.
+//
+// If the slices are different lengths, false is returned.
 func EqualBy[S1 ~[]E1, S2 ~[]E2, E1, E2 any](s1 S1, s2 S2, eq func(E1, E2) bool) bool {
 	if len(s1) != len(s2) {
 		return false
@@ -127,7 +128,7 @@ func EqualBy[S1 ~[]E1, S2 ~[]E2, E1, E2 any](s1 S1, s2 S2, eq func(E1, E2) bool)
 	return true
 }
 
-// Filter returns slice of T for which F returned true
+// Filter returns a slice containing only items where f returns true.
 func Filter[S ~[]T, T any](items S, f func(el T) bool) S {
 	result := make([]T, 0, len(items))
 	for _, el := range items {
@@ -138,7 +139,7 @@ func Filter[S ~[]T, T any](items S, f func(el T) bool) S {
 	return result
 }
 
-// Find returns the first element for which f returns true
+// Find returns the first element for which f returns true.
 func Find[S ~[]T, T any](items S, f func(el T) bool) (T, error) {
 	for _, el := range items {
 		if f(el) {
@@ -149,8 +150,8 @@ func Find[S ~[]T, T any](items S, f func(el T) bool) (T, error) {
 	return tmp, ErrNotFound
 }
 
-// FindIndex is like Find, but return element index instead of element itself.
-// Returns -1 if element not found
+// FindIndex returns the index of the first element for which f returns true.
+// Returns -1 if no matching element is found.
 func FindIndex[S ~[]T, T any](items S, f func(el T) bool) int {
 	for i, el := range items {
 		if f(el) {
@@ -160,7 +161,7 @@ func FindIndex[S ~[]T, T any](items S, f func(el T) bool) int {
 	return -1
 }
 
-// GroupBy groups element from array by value returned by f
+// GroupBy groups items by the value returned by f.
 func GroupBy[S ~[]T, T any, K comparable](items S, f func(el T) K) map[K]S {
 	result := make(map[K]S)
 	for _, el := range items {
@@ -180,7 +181,7 @@ func IndexBy[S []T, T comparable](items S, f func(T) bool) (int, error) {
 	return 0, ErrNotFound
 }
 
-// Map applies F to all elements in slice of T and returns slice of results
+// Map applies f to all elements in items and returns a slice of the results.
 func Map[S ~[]T, T any, G any](items S, f func(el T) G) []G {
 	result := make([]G, 0, len(items))
 	for _, el := range items {
@@ -189,7 +190,10 @@ func Map[S ~[]T, T any, G any](items S, f func(el T) G) []G {
 	return result
 }
 
-// MapFilter returns slice of `f` results for which `f` also returned true.
+// MapFilter applies f to all elements in items, and returns a filtered slice of the results.
+//
+// f returns two values: the mapped value, and a boolean indicating whether the
+// result should be included in the filtered slice.
 func MapFilter[S ~[]T, T any, G any](items S, f func(el T) (G, bool)) []G {
 	result := make([]G, 0, len(items))
 	for _, el := range items {
@@ -203,10 +207,9 @@ func MapFilter[S ~[]T, T any, G any](items S, f func(el T) (G, bool)) []G {
 
 // Partition splits items into two slices based on if f returns true or false.
 //
-// The first returned slice contains the items for which the given function
-// returned true, in the order as they appear in the input slice.
-// The second returned slice contains the items for which the function
-// returned false.
+// The first returned slice contains the items for which f returned true.
+// The second returned slice contains the remainder. Order is preserved in both
+// slices.
 func Partition[S ~[]T, T any](items S, f func(el T) bool) (S, S) {
 	good := make(S, 0)
 	bad := make(S, 0)
@@ -220,7 +223,8 @@ func Partition[S ~[]T, T any](items S, f func(el T) bool) (S, S) {
 	return good, bad
 }
 
-// Reduce applies `f` to acc and every element in slice of `items` and returns `acc`.
+// Reduce applies f to acc and each element in items, reducing the slice to a
+// single value.
 func Reduce[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) G) G {
 	for _, el := range items {
 		acc = f(el, acc)
@@ -228,7 +232,7 @@ func Reduce[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) G) G {
 	return acc
 }
 
-// ReduceWhile is like Reduce, but stops when f returns error
+// ReduceWhile is like [Reduce], but stops when f returns an error.
 func ReduceWhile[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) (G, error)) (G, error) {
 	var err error
 	for _, el := range items {
@@ -240,7 +244,8 @@ func ReduceWhile[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) (G, e
 	return acc, nil
 }
 
-// Reject is like filter but it returns slice of T for which F returned false
+// Reject returns a slice containing only items where f returns false.
+// It is the opposite of [Filter].
 func Reject[S ~[]T, T any](items S, f func(el T) bool) S {
 	notF := func(el T) bool {
 		return !f(el)
@@ -248,7 +253,11 @@ func Reject[S ~[]T, T any](items S, f func(el T) bool) S {
 	return Filter(items, notF)
 }
 
-// Scan is like Reduce, but returns slice of f results
+// Scan applies f to acc and each element in items, feeding the output of the
+// last call into the next call, and returning a slice of the results.
+//
+// Scan is like [Reduce], but it returns a slice of the results instead of a
+// single value.
 func Scan[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) G) []G {
 	result := make([]G, 0, len(items))
 	for _, el := range items {
@@ -258,10 +267,10 @@ func Scan[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) G) []G {
 	return result
 }
 
-// SortBy sorts the items using for exah element the value returned bu the given function.
+// SortBy sorts items using the values returned by f.
 //
 // The function might be called more than once for the same element.
-// It expected to be fast and always produce the same result.
+// It is expected to be fast and always produce the same result.
 //
 // The sort is stable. If two elements have the same ordering key,
 // they are not swapped.
@@ -276,7 +285,7 @@ func SortBy[S ~[]T, T any, K constraints.Ordered](items S, f func(el T) K) S {
 	return items
 }
 
-// TakeWhile takes elements from arr while f returns true
+// TakeWhile takes elements from items while f returns true.
 func TakeWhile[S ~[]T, T any](items S, f func(el T) bool) S {
 	result := make(S, 0, len(items))
 	for _, el := range items {

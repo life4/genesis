@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-// AllAsync returns true if f returns true for all elements in slice.
+// AllAsync returns true if f returns true for all elements in items.
 //
 // This is an asynchronous function. It will spawn as many goroutines as you specify
 // in the `workers` argument. Set it to zero to spawn a new goroutine for each item.
@@ -69,7 +69,7 @@ func AllAsync[S ~[]T, T any](items S, workers int, f func(el T) bool) bool {
 	return true
 }
 
-// AnyAsync returns true if f returns true for any element from slice
+// AnyAsync returns true if f returns true for any element in items.
 //
 // This is an asynchronous function. It will spawn as many goroutines as you specify
 // in the `workers` argument. Set it to zero to spawn a new goroutine for each item.
@@ -133,7 +133,7 @@ func AnyAsync[S ~[]T, T any](items S, workers int, f func(el T) bool) bool {
 	return false
 }
 
-// EachAsync calls f for every element from slice
+// EachAsync calls f for each element in items.
 //
 // This is an asynchronous function. It will spawn as many goroutines as you specify
 // in the `workers` argument. Set it to zero to spawn a new goroutine for each item.
@@ -167,7 +167,7 @@ func EachAsync[S ~[]T, T any](items S, workers int, f func(el T)) {
 	wg.Wait()
 }
 
-// FilterAsync returns slice of element for which f returns true
+// FilterAsync returns a slice containing only items where f returns true
 //
 // This is an asynchronous function. It will spawn as many goroutines as you specify
 // in the `workers` argument. Set it to zero to spawn a new goroutine for each item.
@@ -215,7 +215,7 @@ func FilterAsync[S ~[]T, T any](items S, workers int, f func(el T) bool) S {
 	return result
 }
 
-// MapAsync applies F to all elements in slice of T and returns slice of results
+// MapAsync applies f to all elements in items and returns a slice of the results.
 //
 // This is an asynchronous function. It will spawn as many goroutines as you specify
 // in the `workers` argument. Set it to zero to spawn a new goroutine for each item.
@@ -253,7 +253,7 @@ func MapAsync[S ~[]T, T any, G any](items S, workers int, f func(el T) G) []G {
 	return result
 }
 
-// ReduceAsync reduces slice to a single value with f.
+// ReduceAsync reduces items to a single value with f.
 //
 // This is an asynchronous function. It will spawn as many goroutines as you specify
 // in the `workers` argument. Set it to zero to spawn a new goroutine for each item.
