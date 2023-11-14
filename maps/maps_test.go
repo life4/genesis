@@ -2,6 +2,7 @@ package maps_test
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/life4/genesis/maps"
@@ -77,7 +78,7 @@ func TestMap(t *testing.T) {
 	is := is.New(t)
 	m := map[int32]int64{1: 2, 3: 4, 5: 6}
 	f := func(k int32, v int64) (int, string) {
-		return int(k + 1), fmt.Sprintf("%d", v)
+		return int(k + 1), strconv.FormatInt(v, 10)
 	}
 	is.Equal(maps.Map(m, f), map[int]string{2: "2", 4: "4", 6: "6"})
 }

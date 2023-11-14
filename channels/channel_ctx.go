@@ -612,6 +612,7 @@ func WithContext[T any](c <-chan T, ctx context.Context) chan T {
 				select {
 				case result <- val:
 				case <-ctx.Done():
+					return
 				}
 			}
 		}
