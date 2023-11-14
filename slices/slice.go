@@ -393,7 +393,7 @@ func Prepend[S ~[]T, T any](target S, items ...T) S {
 	return Concat(items, target)
 }
 
-// Product returns cortesian product of elements
+// Product returns the cartesian product of items to itself, repeat times.
 func Product[S ~[]T, T any](items S, repeat int) chan []T {
 	c := make(chan []T, 1)
 	go func() {
@@ -406,7 +406,7 @@ func Product[S ~[]T, T any](items S, repeat int) chan []T {
 	return c
 }
 
-// product is a core implementation for Product
+// product is a core implementation for [Product]
 func product[S ~[]T, T any](items S, c chan []T, repeat int, left []T, pos int) {
 	// iterate over the last array
 	if pos == repeat-1 {

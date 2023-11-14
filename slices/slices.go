@@ -60,14 +60,14 @@ func Intersect[S1 ~[]T, S2 ~[]T, T comparable](items1 S1, items2 S2) []T {
 	return result
 }
 
-// Product returns cortesian product of elements in the given slices.
+// Product2 returns the cartesian product of elements in the given slices.
 func Product2[T any](items ...[]T) chan []T {
 	c := make(chan []T, 1)
 	go product2(items, c, []T{}, 0)
 	return c
 }
 
-// product is a core implementation of Product
+// product2 is a core implementation of [Product2]
 func product2[T any](items [][]T, c chan []T, left []T, pos int) {
 	// iterate over the last array
 	if pos == len(items)-1 {
