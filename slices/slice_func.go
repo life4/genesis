@@ -6,7 +6,7 @@ import (
 	"github.com/life4/genesis/constraints"
 )
 
-// All returns true if f returns true for all elements in arr
+// All returns true if f returns true for all items.
 func All[S ~[]T, T any](items S, f func(el T) bool) bool {
 	for _, el := range items {
 		if !f(el) {
@@ -16,7 +16,7 @@ func All[S ~[]T, T any](items S, f func(el T) bool) bool {
 	return true
 }
 
-// Any returns true if f returns true for any element in arr
+// Any returns true if f returns true for any item in items.
 func Any[S ~[]T, T any](items S, f func(el T) bool) bool {
 	for _, el := range items {
 		if f(el) {
@@ -26,7 +26,7 @@ func Any[S ~[]T, T any](items S, f func(el T) bool) bool {
 	return false
 }
 
-// ChunkBy splits arr on every element for which f returns a new value.
+// ChunkBy splits items on every element for which f returns a new value.
 func ChunkBy[S ~[]T, T comparable, G comparable](items S, f func(el T) G) []S {
 	chunks := make([]S, 0)
 	if len(items) == 0 {
@@ -83,7 +83,7 @@ func DedupBy[S ~[]T, T comparable, G comparable](items S, f func(el T) G) S {
 	return result
 }
 
-// DropWhile drops elements from arr while f returns true
+// DropWhile drops elements from items while f returns true.
 func DropWhile[S ~[]T, T any](items S, f func(el T) bool) S {
 	for i, el := range items {
 		if !f(el) {
@@ -93,14 +93,14 @@ func DropWhile[S ~[]T, T any](items S, f func(el T) bool) S {
 	return []T{}
 }
 
-// Each calls f for every element from arr
+// Each calls f for each item in items.
 func Each[S ~[]T, T any](items S, f func(el T)) {
 	for _, el := range items {
 		f(el)
 	}
 }
 
-// EachErr calls f for every element from arr until f returns an error
+// EachErr calls f for each element in items until f returns an error.
 func EachErr[S ~[]E, E any](items S, f func(el E) error) error {
 	var err error
 	for _, el := range items {
@@ -160,7 +160,7 @@ func FindIndex[S ~[]T, T any](items S, f func(el T) bool) int {
 	return -1
 }
 
-// GroupBy groups element from array by value returned by f
+// GroupBy groups items by value returned by f.
 func GroupBy[S ~[]T, T any, K comparable](items S, f func(el T) K) map[K]S {
 	result := make(map[K]S)
 	for _, el := range items {
@@ -276,7 +276,7 @@ func SortBy[S ~[]T, T any, K constraints.Ordered](items S, f func(el T) K) S {
 	return items
 }
 
-// TakeWhile takes elements from arr while f returns true
+// TakeWhile takes elements from items while f returns true.
 func TakeWhile[S ~[]T, T any](items S, f func(el T) bool) S {
 	result := make(S, 0, len(items))
 	for _, el := range items {
