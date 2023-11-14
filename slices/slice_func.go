@@ -253,7 +253,11 @@ func Reject[S ~[]T, T any](items S, f func(el T) bool) S {
 	return Filter(items, notF)
 }
 
-// Scan is like Reduce, but returns a slice of f results.
+// Scan applies f to acc and each element in items, feeding the output of the
+// last call into the next call, and returning a slice of the results.
+//
+// Scan is like [Reduce], but it returns a slice of the results instead of a
+// single value.
 func Scan[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) G) []G {
 	result := make([]G, 0, len(items))
 	for _, el := range items {
