@@ -161,7 +161,7 @@ func FindIndex[S ~[]T, T any](items S, f func(el T) bool) int {
 	return -1
 }
 
-// GroupBy groups items by value returned by f.
+// GroupBy groups items by the value returned by f.
 func GroupBy[S ~[]T, T any, K comparable](items S, f func(el T) K) map[K]S {
 	result := make(map[K]S)
 	for _, el := range items {
@@ -181,7 +181,7 @@ func IndexBy[S []T, T comparable](items S, f func(T) bool) (int, error) {
 	return 0, ErrNotFound
 }
 
-// Map applies F to all elements in slice of T and returns slice of results
+// Map applies f to all elements in items and returns a slice of the results.
 func Map[S ~[]T, T any, G any](items S, f func(el T) G) []G {
 	result := make([]G, 0, len(items))
 	for _, el := range items {
@@ -190,7 +190,7 @@ func Map[S ~[]T, T any, G any](items S, f func(el T) G) []G {
 	return result
 }
 
-// MapFilter returns slice of `f` results for which `f` also returned true.
+// MapFilter returns a slice of f results for which f also returned true.
 func MapFilter[S ~[]T, T any, G any](items S, f func(el T) (G, bool)) []G {
 	result := make([]G, 0, len(items))
 	for _, el := range items {
@@ -221,7 +221,7 @@ func Partition[S ~[]T, T any](items S, f func(el T) bool) (S, S) {
 	return good, bad
 }
 
-// Reduce applies `f` to acc and every element in slice of `items` and returns `acc`.
+// Reduce applies f to acc and every element in the slice of items and returns acc.
 func Reduce[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) G) G {
 	for _, el := range items {
 		acc = f(el, acc)
@@ -229,7 +229,7 @@ func Reduce[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) G) G {
 	return acc
 }
 
-// ReduceWhile is like Reduce, but stops when f returns error
+// ReduceWhile is like Reduce, but stops when f returns an error.
 func ReduceWhile[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) (G, error)) (G, error) {
 	var err error
 	for _, el := range items {
@@ -241,7 +241,7 @@ func ReduceWhile[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) (G, e
 	return acc, nil
 }
 
-// Reject is like filter but it returns slice of T for which F returned false
+// Reject is like filter but it returns a slice of T for which f returned false.
 func Reject[S ~[]T, T any](items S, f func(el T) bool) S {
 	notF := func(el T) bool {
 		return !f(el)
@@ -249,7 +249,7 @@ func Reject[S ~[]T, T any](items S, f func(el T) bool) S {
 	return Filter(items, notF)
 }
 
-// Scan is like Reduce, but returns slice of f results
+// Scan is like Reduce, but returns a slice of f results.
 func Scan[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) G) []G {
 	result := make([]G, 0, len(items))
 	for _, el := range items {
