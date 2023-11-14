@@ -128,7 +128,7 @@ func EqualBy[S1 ~[]E1, S2 ~[]E2, E1, E2 any](s1 S1, s2 S2, eq func(E1, E2) bool)
 	return true
 }
 
-// Filter returns slice of T for which F returned true
+// Filter returns a slice containing only items where f returns true.
 func Filter[S ~[]T, T any](items S, f func(el T) bool) S {
 	result := make([]T, 0, len(items))
 	for _, el := range items {
