@@ -97,7 +97,10 @@ func Union[S ~[]T, T comparable](left S, right S) S {
 	return Uniq(Concat(left, right))
 }
 
-// Zip returns chan of arrays of elements from given arrs on the same position.
+// Zip returns a chan of slices each containing elements from consecutive positions in each input slice.
+// The first slice in the channel will contain items[0][0], items[1][0], ..., items[n-1][0].
+// The second slice in the channel will contain items[0][1], items[1][1], ..., items[n-1][1].
+// If the slices are of unequal length, the shortest slice length will be used.
 func Zip[S ~[]T, T any](items ...S) chan S {
 	if len(items) == 0 {
 		result := make(chan S)
