@@ -258,10 +258,10 @@ func Scan[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) G) []G {
 	return result
 }
 
-// SortBy sorts the items using for exah element the value returned bu the given function.
+// SortBy sorts items using the values returned by f.
 //
 // The function might be called more than once for the same element.
-// It expected to be fast and always produce the same result.
+// It is expected to be fast and always produce the same result.
 //
 // The sort is stable. If two elements have the same ordering key,
 // they are not swapped.
