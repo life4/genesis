@@ -244,7 +244,8 @@ func ReduceWhile[S ~[]T, T any, G any](items S, acc G, f func(el T, acc G) (G, e
 	return acc, nil
 }
 
-// Reject is like filter but it returns a slice of T for which f returned false.
+// Reject returns a slice containing only items where f returns false.
+// It is the opposite of [Filter].
 func Reject[S ~[]T, T any](items S, f func(el T) bool) S {
 	notF := func(el T) bool {
 		return !f(el)
