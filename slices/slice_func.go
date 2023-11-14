@@ -190,7 +190,10 @@ func Map[S ~[]T, T any, G any](items S, f func(el T) G) []G {
 	return result
 }
 
-// MapFilter returns a slice of f results for which f also returned true.
+// MapFilter applies f to all elements in items, and returns a filtered slice of the results.
+//
+// f returns two values: the mapped value, and a boolean indicating whether the
+// result should be included in the filtered slice.
 func MapFilter[S ~[]T, T any, G any](items S, f func(el T) (G, bool)) []G {
 	result := make([]G, 0, len(items))
 	for _, el := range items {
