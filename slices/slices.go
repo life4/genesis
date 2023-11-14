@@ -1,6 +1,6 @@
 package slices
 
-// Concat concatenates given slices into a single slice.
+// Concat concatenates the given slices into a single slice.
 func Concat[S ~[]T, T any](slices ...S) S {
 	size := 0
 	for _, items := range slices {
