@@ -139,7 +139,7 @@ func Filter[S ~[]T, T any](items S, f func(el T) bool) S {
 	return result
 }
 
-// Find returns the first element for which f returns true
+// Find returns the first element for which f returns true.
 func Find[S ~[]T, T any](items S, f func(el T) bool) (T, error) {
 	for _, el := range items {
 		if f(el) {
@@ -150,8 +150,8 @@ func Find[S ~[]T, T any](items S, f func(el T) bool) (T, error) {
 	return tmp, ErrNotFound
 }
 
-// FindIndex is like Find, but return element index instead of element itself.
-// Returns -1 if element not found
+// FindIndex returns the index of the first element for which f returns true.
+// Returns -1 if no matching element is found.
 func FindIndex[S ~[]T, T any](items S, f func(el T) bool) int {
 	for i, el := range items {
 		if f(el) {
