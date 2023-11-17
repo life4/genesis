@@ -63,6 +63,10 @@ func Intersect[S1 ~[]T, S2 ~[]T, T comparable](items1 S1, items2 S2) []T {
 // Product2 returns the cartesian product of elements in the given slices.
 func Product2[T any](items ...[]T) chan []T {
 	c := make(chan []T, 1)
+	if len(items) == 0 {
+		close(c)
+		return c
+	}
 	go product2(items, c, []T{}, 0)
 	return c
 }
@@ -77,14 +81,13 @@ func product2[T any](items [][]T, c chan []T, left []T, pos int) {
 			result = append(result, el)
 			c <- result
 		}
-		return
-	}
-
-	for _, el := range items[pos] {
-		result := make([]T, 0, len(left)+1)
-		result = append(result, left...)
-		result = append(result, el)
-		product2(items, c, result, pos+1)
+	} else {
+		for _, el := range items[pos] {
+			result := make([]T, 0, len(left)+1)
+			result = append(result, left...)
+			result = append(result, el)
+			product2(items, c, result, pos+1)
+		}
 	}
 
 	if pos == 0 {
