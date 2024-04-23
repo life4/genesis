@@ -65,7 +65,7 @@ func CountBy[S ~[]T, T any](items S, f func(el T) bool) int {
 
 // DedupBy returns a copy of items, but without consecutive elements
 // for which f returns the same result.
-func DedupBy[S ~[]T, T comparable, G comparable](items S, f func(el T) G) S {
+func DedupBy[S ~[]T, T any, G comparable](items S, f func(el T) G) S {
 	result := make(S, 0, len(items))
 	if len(items) == 0 {
 		return result
