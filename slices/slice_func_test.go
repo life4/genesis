@@ -78,6 +78,15 @@ func TestDedupBy(t *testing.T) {
 	f([]int{1, 2, 3}, []int{1, 2, 3})
 	f([]int{1, 2, 2, 3}, []int{1, 2, 3})
 	f([]int{1, 2, 4, 3, 5, 7, 10}, []int{1, 2, 3, 10})
+
+	// DedupBy supports non-comparable types.
+	g := func(given [][]int, expected [][]int) {
+		first := func(s []int) int { return s[0] }
+		actual := slices.DedupBy(given, first)
+		is.Equal(actual, expected)
+	}
+	g([][]int{{1}, {1}}, [][]int{{1}})
+	g([][]int{{1}, {1, 2}}, [][]int{{1}})
 }
 
 func TestDropWhile(t *testing.T) {
