@@ -1,6 +1,6 @@
 package lambdas
 
-// DefaultTo wraps a function invicotaion and returns the specified default value
+// DefaultTo wraps a function invocation and returns the specified default value
 // if it returned an error.
 func DefaultTo[T any](def T) func(val T, err error) T {
 	return func(val T, err error) T {
@@ -11,7 +11,7 @@ func DefaultTo[T any](def T) func(val T, err error) T {
 	}
 }
 
-// Ensure wraps a function invicotaion and panic if it returned an error.
+// Ensure wraps a function invocation and panic if it returned an error.
 // Compared to Must, in Ensure the called function only returns an error.
 func Ensure(err error) {
 	if err != nil {
@@ -19,7 +19,7 @@ func Ensure(err error) {
 	}
 }
 
-// Must wraps a function invicotaion and panic if it returned an error.
+// Must wraps a function invocation and panic if it returned an error.
 func Must[T any](val T, err error) T {
 	if err != nil {
 		panic(err)
@@ -27,7 +27,7 @@ func Must[T any](val T, err error) T {
 	return val
 }
 
-// Safe wraps a function invicotaion and returns the empty value if it returned an error.
+// Safe wraps a function invocation and returns the empty value if it returned an error.
 func Safe[T any](val T, err error) T {
 	if err != nil {
 		var res T
