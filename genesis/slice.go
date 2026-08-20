@@ -11,8 +11,8 @@ func NewSlice[S ~[]T, T any](s S) Slice[T] {
 	return Slice[T](s)
 }
 
-func (s Slice[T]) Iter() Iter[T] {
-	return NewIter(slices.Values(s))
+func (s Slice[T]) Seq() Seq[T] {
+	return NewSeq(slices.Values(s))
 }
 
 func (s Slice[T]) First() Option[T] {

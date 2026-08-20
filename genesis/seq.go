@@ -5,30 +5,17 @@ import (
 	"slices"
 )
 
-type Iter[T any] iter.Seq[T]
+type Seq[T any] iter.Seq[T]
 
-func NewIter[T any](s iter.Seq[T]) Iter[T] {
-	return Iter[T](s)
+func NewSeq[T any](s iter.Seq[T]) Seq[T] {
+	return Seq[T](s)
 }
 
-func (it Iter[T]) Seq() iter.Seq[T] {
-	return iter.Seq[T](it)
+func (it Seq[T]) Slice() Slice[T] {
+	return NewSlice(slices.Collect(iter.Seq[T](it)))
 }
 
-func (it Iter[T]) Slice() Slice[T] {
-	return NewSlice(slices.Collect(it.Seq()))
-}
-
-func (it Iter[T]) Next() Option[T] {
-	res := None[T]()
-	it(func(v T) bool {
-		res = Some(v)
-		return true
-	})
-	return res
-}
-
-func (it Iter[T]) Count() int {
+func (it Seq[T]) Count() int {
 	cnt := 0
 	for range it {
 		cnt++
@@ -36,7 +23,7 @@ func (it Iter[T]) Count() int {
 	return cnt
 }
 
-func (it Iter[T]) Last() Option[T] {
+func (it Seq[T]) Last() Option[T] {
 	var res T
 	empty := true
 	for v := range it {
@@ -49,21 +36,7 @@ func (it Iter[T]) Last() Option[T] {
 	return Some(res)
 }
 
-func (it Iter[T]) AdvanceBy(n int) int {
-	i := 0
-	if n == 0 {
-		return 0
-	}
-	for range it {
-		i++
-		if i >= n {
-			break
-		}
-	}
-	return i
-}
-
-func (it Iter[T]) Nth(n int) Option[T] {
+func (it Seq[T]) Nth(n int) Option[T] {
 	i := 0
 	for v := range it {
 		if i >= n {
@@ -74,7 +47,7 @@ func (it Iter[T]) Nth(n int) Option[T] {
 	return None[T]()
 }
 
-func (it Iter[T]) StepBy(n int) Iter[T] {
+func (it Seq[T]) StepBy(n int) Seq[T] {
 	return func(yield func(T) bool) {
 	loop:
 		i := 0
@@ -90,7 +63,7 @@ func (it Iter[T]) StepBy(n int) Iter[T] {
 	}
 }
 
-func (it Iter[T]) Chain(other Iter[T]) Iter[T] {
+func (it Seq[T]) Chain(other Seq[T]) Seq[T] {
 	return func(yield func(T) bool) {
 		for v := range it {
 			if !yield(v) {
@@ -105,23 +78,7 @@ func (it Iter[T]) Chain(other Iter[T]) Iter[T] {
 	}
 }
 
-// func (it Iter[T]) Zip[R any](other Iter[R]) Iter[Pair[T, R]] {
-// 	return func(yield func(Pair[T, R]) bool) {
-// 		for left := range it {
-// 			var right R
-// 			other(func(v R) bool {
-// 				right = v
-// 				return true
-// 			})
-// 			cont := yield(Pair[T, R]{left, right})
-// 			if !cont {
-// 				break
-// 			}
-// 		}
-// 	}
-// }
-
-func (it Iter[T]) Intersperse(other T) Iter[T] {
+func (it Seq[T]) Intersperse(other T) Seq[T] {
 	return func(yield func(T) bool) {
 		first := true
 		for v := range it {
@@ -138,7 +95,7 @@ func (it Iter[T]) Intersperse(other T) Iter[T] {
 	}
 }
 
-func (it Iter[T]) Map[R any](f func(T) R) Iter[R] {
+func (it Seq[T]) Map[R any](f func(T) R) Seq[R] {
 	return func(yield func(R) bool) {
 		for v := range it {
 			if !yield(f(v)) {
@@ -148,13 +105,13 @@ func (it Iter[T]) Map[R any](f func(T) R) Iter[R] {
 	}
 }
 
-func (it Iter[T]) Each(f func(T)) {
+func (it Seq[T]) Each(f func(T)) {
 	for v := range it {
 		f(v)
 	}
 }
 
-func (it Iter[T]) Filter(f func(T) bool) Iter[T] {
+func (it Seq[T]) Filter(f func(T) bool) Seq[T] {
 	return func(yield func(T) bool) {
 		for v := range it {
 			if f(v) {
@@ -166,7 +123,7 @@ func (it Iter[T]) Filter(f func(T) bool) Iter[T] {
 	}
 }
 
-func (it Iter[T]) FilterMap[R any](f func(T) Option[R]) Iter[R] {
+func (it Seq[T]) FilterMap[R any](f func(T) Option[R]) Seq[R] {
 	return func(yield func(R) bool) {
 		for v := range it {
 			res := f(v)
@@ -179,7 +136,7 @@ func (it Iter[T]) FilterMap[R any](f func(T) Option[R]) Iter[R] {
 	}
 }
 
-func (it Iter[T]) Skip(n int) Iter[T] {
+func (it Seq[T]) Skip(n int) Seq[T] {
 	return func(yield func(T) bool) {
 		i := 0
 		if n == 0 {
@@ -199,7 +156,7 @@ func (it Iter[T]) Skip(n int) Iter[T] {
 	}
 }
 
-func (it Iter[T]) Take(n int) Iter[T] {
+func (it Seq[T]) Take(n int) Seq[T] {
 	return func(yield func(T) bool) {
 		i := 0
 		if n == 0 {
@@ -217,7 +174,7 @@ func (it Iter[T]) Take(n int) Iter[T] {
 	}
 }
 
-func (it Iter[T]) FlatMap[R any](f func(T) Iter[R]) Iter[R] {
+func (it Seq[T]) FlatMap[R any](f func(T) Seq[R]) Seq[R] {
 	return func(yield func(R) bool) {
 		for v := range it {
 			for r := range f(v) {
@@ -229,7 +186,7 @@ func (it Iter[T]) FlatMap[R any](f func(T) Iter[R]) Iter[R] {
 	}
 }
 
-func (it Iter[T]) Fuse() Iter[T] {
+func (it Seq[T]) Fuse() Seq[T] {
 	return func(yield func(T) bool) {
 		for v := range it {
 			if !yield(v) {
@@ -239,7 +196,7 @@ func (it Iter[T]) Fuse() Iter[T] {
 	}
 }
 
-func (it Iter[T]) Inspect(f func(T)) Iter[T] {
+func (it Seq[T]) Inspect(f func(T)) Seq[T] {
 	return func(yield func(T) bool) {
 		for v := range it {
 			f(v)
@@ -250,26 +207,26 @@ func (it Iter[T]) Inspect(f func(T)) Iter[T] {
 	}
 }
 
-func (it Iter[T]) Fold[R any](init R, f func(R, T) R) R {
+func (it Seq[T]) Fold[R any](init R, f func(R, T) R) R {
 	for v := range it {
 		init = f(init, v)
 	}
 	return init
 }
 
-func (it Iter[T]) Reduce(f func(T, T) T) Option[T] {
-	opt := it.Next()
-	if !opt.ok {
-		return opt
-	}
-	init := opt.val
+func (it Seq[T]) Reduce(f func(T, T) T) Option[T] {
+	acc := None[T]()
 	for v := range it {
-		init = f(init, v)
+		if !acc.ok {
+			acc = Some(v)
+		} else {
+			acc = Some(f(acc.val, v))
+		}
 	}
-	return Some(init)
+	return acc
 }
 
-func (it Iter[T]) All(f func(T) bool) bool {
+func (it Seq[T]) All(f func(T) bool) bool {
 	for v := range it {
 		if !f(v) {
 			return false
@@ -278,7 +235,7 @@ func (it Iter[T]) All(f func(T) bool) bool {
 	return true
 }
 
-func (it Iter[T]) Any(f func(T) bool) bool {
+func (it Seq[T]) Any(f func(T) bool) bool {
 	for v := range it {
 		if f(v) {
 			return true
@@ -287,7 +244,7 @@ func (it Iter[T]) Any(f func(T) bool) bool {
 	return false
 }
 
-func (it Iter[T]) Find(f func(T) bool) Option[T] {
+func (it Seq[T]) Find(f func(T) bool) Option[T] {
 	for v := range it {
 		if f(v) {
 			return Some(v)
@@ -296,7 +253,7 @@ func (it Iter[T]) Find(f func(T) bool) Option[T] {
 	return None[T]()
 }
 
-func (it Iter[T]) FindMap(f func(T) Option[T]) Option[T] {
+func (it Seq[T]) FindMap(f func(T) Option[T]) Option[T] {
 	for v := range it {
 		r := f(v)
 		if r.ok {
@@ -306,7 +263,7 @@ func (it Iter[T]) FindMap(f func(T) Option[T]) Option[T] {
 	return None[T]()
 }
 
-func (it Iter[T]) Index(f func(T) bool) Option[int] {
+func (it Seq[T]) Index(f func(T) bool) Option[int] {
 	i := 0
 	for v := range it {
 		if f(v) {
