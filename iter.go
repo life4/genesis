@@ -1,6 +1,9 @@
 package genesis
 
-import "iter"
+import (
+	"iter"
+	"slices"
+)
 
 type Iter[T any] iter.Seq[T]
 
@@ -8,11 +11,18 @@ func NewIter[T any](s iter.Seq[T]) Iter[T] {
 	return Iter[T](s)
 }
 
+func (it Iter[T]) Seq() iter.Seq[T] {
+	return iter.Seq[T](it)
+}
+
+func (it Iter[T]) Slice() Slice[T] {
+	return NewSlice(slices.Collect(it.Seq()))
+}
+
 func (it Iter[T]) Next() Option[T] {
-	for v := range it {
-		return Some(v)
-	}
-	return None[T]()
+	pull, _ := iter.Pull(it.Seq())
+	v, ok := pull()
+	return Option[T]{v, ok}
 }
 
 func (it Iter[T]) Count() int {
@@ -135,7 +145,7 @@ func (it Iter[T]) Map[R any](f func(T) R) Iter[R] {
 	}
 }
 
-func (it Iter[T]) ForEach(f func(T)) {
+func (it Iter[T]) Each(f func(T)) {
 	for v := range it {
 		f(v)
 	}

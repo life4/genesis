@@ -1,14 +1,13 @@
 package genesis
 
 import (
+	"cmp"
 	"iter"
-
-	"github.com/life4/genesis/constraints"
 )
 
-type OrdIter[T constraints.Ordered] CmpIter[T]
+type OrdIter[T cmp.Ordered] CmpIter[T]
 
-func NewOrdIter[T constraints.Ordered](s iter.Seq[T]) OrdIter[T] {
+func NewOrdIter[T cmp.Ordered](s iter.Seq[T]) OrdIter[T] {
 	return OrdIter[T](s)
 }
 
