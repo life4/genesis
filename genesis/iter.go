@@ -5,17 +5,17 @@ import (
 	"slices"
 )
 
-type Seq[T any] iter.Seq[T]
+type Iter[T any] iter.Seq[T]
 
-func NewSeq[T any](s iter.Seq[T]) Seq[T] {
-	return Seq[T](s)
+func NewIter[T any](s iter.Seq[T]) Iter[T] {
+	return Iter[T](s)
 }
 
-func (it Seq[T]) Slice() Slice[T] {
+func (it Iter[T]) Slice() Slice[T] {
 	return NewSlice(slices.Collect(iter.Seq[T](it)))
 }
 
-func (it Seq[T]) Count() int {
+func (it Iter[T]) Count() int {
 	cnt := 0
 	for range it {
 		cnt++
@@ -23,7 +23,14 @@ func (it Seq[T]) Count() int {
 	return cnt
 }
 
-func (it Seq[T]) Last() Option[T] {
+func (it Iter[T]) First() Option[T] {
+	for v := range it {
+		return Some(v)
+	}
+	return None[T]()
+}
+
+func (it Iter[T]) Last() Option[T] {
 	var res T
 	empty := true
 	for v := range it {
@@ -36,7 +43,7 @@ func (it Seq[T]) Last() Option[T] {
 	return Some(res)
 }
 
-func (it Seq[T]) Nth(n int) Option[T] {
+func (it Iter[T]) Nth(n int) Option[T] {
 	i := 0
 	for v := range it {
 		if i >= n {
@@ -47,23 +54,21 @@ func (it Seq[T]) Nth(n int) Option[T] {
 	return None[T]()
 }
 
-func (it Seq[T]) StepBy(n int) Seq[T] {
+func (it Iter[T]) StepBy(n int) Iter[T] {
 	return func(yield func(T) bool) {
-	loop:
 		i := 0
 		for v := range it {
-			if i >= n {
+			if i == 0 {
 				if !yield(v) {
 					return
 				}
-				goto loop
 			}
-			i++
+			i = (i + 1) % n
 		}
 	}
 }
 
-func (it Seq[T]) Chain(other Seq[T]) Seq[T] {
+func (it Iter[T]) Chain(other Iter[T]) Iter[T] {
 	return func(yield func(T) bool) {
 		for v := range it {
 			if !yield(v) {
@@ -78,7 +83,7 @@ func (it Seq[T]) Chain(other Seq[T]) Seq[T] {
 	}
 }
 
-func (it Seq[T]) Intersperse(other T) Seq[T] {
+func (it Iter[T]) Intersperse(other T) Iter[T] {
 	return func(yield func(T) bool) {
 		first := true
 		for v := range it {
@@ -95,7 +100,7 @@ func (it Seq[T]) Intersperse(other T) Seq[T] {
 	}
 }
 
-func (it Seq[T]) Map[R any](f func(T) R) Seq[R] {
+func (it Iter[T]) Map[R any](f func(T) R) Iter[R] {
 	return func(yield func(R) bool) {
 		for v := range it {
 			if !yield(f(v)) {
@@ -105,13 +110,13 @@ func (it Seq[T]) Map[R any](f func(T) R) Seq[R] {
 	}
 }
 
-func (it Seq[T]) Each(f func(T)) {
+func (it Iter[T]) Each(f func(T)) {
 	for v := range it {
 		f(v)
 	}
 }
 
-func (it Seq[T]) Filter(f func(T) bool) Seq[T] {
+func (it Iter[T]) Filter(f func(T) bool) Iter[T] {
 	return func(yield func(T) bool) {
 		for v := range it {
 			if f(v) {
@@ -123,7 +128,7 @@ func (it Seq[T]) Filter(f func(T) bool) Seq[T] {
 	}
 }
 
-func (it Seq[T]) FilterMap[R any](f func(T) Option[R]) Seq[R] {
+func (it Iter[T]) FilterMap[R any](f func(T) Option[R]) Iter[R] {
 	return func(yield func(R) bool) {
 		for v := range it {
 			res := f(v)
@@ -136,45 +141,42 @@ func (it Seq[T]) FilterMap[R any](f func(T) Option[R]) Seq[R] {
 	}
 }
 
-func (it Seq[T]) Skip(n int) Seq[T] {
+func (it Iter[T]) Skip(n int) Iter[T] {
+	return func(yield func(T) bool) {
+		if n == 0 {
+			return
+		}
+		i := 0
+		for v := range it {
+			i++
+			if i >= n {
+				if !yield(v) {
+					break
+				}
+			}
+		}
+	}
+}
+
+func (it Iter[T]) Take(n int) Iter[T] {
 	return func(yield func(T) bool) {
 		i := 0
 		if n == 0 {
 			return
 		}
-		for range it {
-			i++
-			if i >= n {
-				break
-			}
-		}
 		for v := range it {
 			if !yield(v) {
+				break
+			}
+			i++
+			if i >= n {
 				break
 			}
 		}
 	}
 }
 
-func (it Seq[T]) Take(n int) Seq[T] {
-	return func(yield func(T) bool) {
-		i := 0
-		if n == 0 {
-			return
-		}
-		for v := range it {
-			if !yield(v) {
-				break
-			}
-			i++
-			if i >= n {
-				break
-			}
-		}
-	}
-}
-
-func (it Seq[T]) FlatMap[R any](f func(T) Seq[R]) Seq[R] {
+func (it Iter[T]) FlatMap[R any](f func(T) Iter[R]) Iter[R] {
 	return func(yield func(R) bool) {
 		for v := range it {
 			for r := range f(v) {
@@ -186,7 +188,7 @@ func (it Seq[T]) FlatMap[R any](f func(T) Seq[R]) Seq[R] {
 	}
 }
 
-func (it Seq[T]) Fuse() Seq[T] {
+func (it Iter[T]) Fuse() Iter[T] {
 	return func(yield func(T) bool) {
 		for v := range it {
 			if !yield(v) {
@@ -196,7 +198,7 @@ func (it Seq[T]) Fuse() Seq[T] {
 	}
 }
 
-func (it Seq[T]) Inspect(f func(T)) Seq[T] {
+func (it Iter[T]) Inspect(f func(T)) Iter[T] {
 	return func(yield func(T) bool) {
 		for v := range it {
 			f(v)
@@ -207,14 +209,14 @@ func (it Seq[T]) Inspect(f func(T)) Seq[T] {
 	}
 }
 
-func (it Seq[T]) Fold[R any](init R, f func(R, T) R) R {
+func (it Iter[T]) Fold[R any](init R, f func(R, T) R) R {
 	for v := range it {
 		init = f(init, v)
 	}
 	return init
 }
 
-func (it Seq[T]) Reduce(f func(T, T) T) Option[T] {
+func (it Iter[T]) Reduce(f func(T, T) T) Option[T] {
 	acc := None[T]()
 	for v := range it {
 		if !acc.ok {
@@ -226,7 +228,7 @@ func (it Seq[T]) Reduce(f func(T, T) T) Option[T] {
 	return acc
 }
 
-func (it Seq[T]) All(f func(T) bool) bool {
+func (it Iter[T]) All(f func(T) bool) bool {
 	for v := range it {
 		if !f(v) {
 			return false
@@ -235,7 +237,7 @@ func (it Seq[T]) All(f func(T) bool) bool {
 	return true
 }
 
-func (it Seq[T]) Any(f func(T) bool) bool {
+func (it Iter[T]) Any(f func(T) bool) bool {
 	for v := range it {
 		if f(v) {
 			return true
@@ -244,7 +246,7 @@ func (it Seq[T]) Any(f func(T) bool) bool {
 	return false
 }
 
-func (it Seq[T]) Find(f func(T) bool) Option[T] {
+func (it Iter[T]) Find(f func(T) bool) Option[T] {
 	for v := range it {
 		if f(v) {
 			return Some(v)
@@ -253,7 +255,7 @@ func (it Seq[T]) Find(f func(T) bool) Option[T] {
 	return None[T]()
 }
 
-func (it Seq[T]) FindMap(f func(T) Option[T]) Option[T] {
+func (it Iter[T]) FindMap(f func(T) Option[T]) Option[T] {
 	for v := range it {
 		r := f(v)
 		if r.ok {
@@ -263,7 +265,7 @@ func (it Seq[T]) FindMap(f func(T) Option[T]) Option[T] {
 	return None[T]()
 }
 
-func (it Seq[T]) Index(f func(T) bool) Option[int] {
+func (it Iter[T]) Index(f func(T) bool) Option[int] {
 	i := 0
 	for v := range it {
 		if f(v) {
