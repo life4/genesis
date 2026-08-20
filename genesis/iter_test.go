@@ -58,3 +58,35 @@ func TestIter_StepBy(t *testing.T) {
 	is.Equal(iter(4, 5, 6, 7, 8).StepBy(2).Slice(), genesis.NewSlice([]int{4, 6, 8}))
 	is.Equal(iter(4, 5, 6, 7, 8).StepBy(3).Slice(), genesis.NewSlice([]int{4, 7}))
 }
+
+func TestIter_Chain(t *testing.T) {
+	is := is.New(t)
+	is.Equal(len(iter[int]().Chain(iter[int]()).Slice()), 0)
+	is.Equal(iter(4, 5).Chain(iter(6, 7)).Slice(), genesis.NewSlice([]int{4, 5, 6, 7}))
+}
+
+func TestIter_Intersperse(t *testing.T) {
+	is := is.New(t)
+	is.Equal(len(iter[int]().Intersperse(4).Slice()), 0)
+	is.Equal(iter(4, 5, 6).Intersperse(8).Slice(), genesis.NewSlice([]int{4, 8, 5, 8, 6}))
+}
+
+func TestIter_Map(t *testing.T) {
+	is := is.New(t)
+	double := func(v int) int { return v * 2 }
+	is.Equal(iter(4, 5, 6).Map(double).Slice(), genesis.NewSlice([]int{8, 10, 12}))
+}
+
+func TestIter_Each(t *testing.T) {
+	is := is.New(t)
+	s := 0
+	f := func(v int) { s += v }
+	iter(4, 5, 6).Each(f)
+	is.Equal(s, 15)
+}
+
+func TestIter_Filter(t *testing.T) {
+	is := is.New(t)
+	even := func(v int) bool { return v%2 == 0 }
+	is.Equal(iter(4, 5, 6, 7, 8).Filter(even).Slice(), genesis.NewSlice([]int{4, 6, 8}))
+}

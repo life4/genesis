@@ -66,3 +66,9 @@ func (s Slice[T]) Copy() Slice[T] {
 	}
 	return append(Slice[T]{}, s...)
 }
+
+func (s Slice[T]) Each(f func(T)) {
+	for _, v := range s {
+		f(v)
+	}
+}
