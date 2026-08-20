@@ -20,9 +20,12 @@ func (it Iter[T]) Slice() Slice[T] {
 }
 
 func (it Iter[T]) Next() Option[T] {
-	pull, _ := iter.Pull(it.Seq())
-	v, ok := pull()
-	return Option[T]{v, ok}
+	res := None[T]()
+	it(func(v T) bool {
+		res = Some(v)
+		return true
+	})
+	return res
 }
 
 func (it Iter[T]) Count() int {
