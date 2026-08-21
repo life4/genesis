@@ -6,78 +6,22 @@ import (
 	"slices"
 )
 
-func FromSlice[S ~[]E, E any](s S) iter.Seq[E] {
-	return slices.Values(s)
-}
-
-func FromChannel[T any](ch <-chan T) iter.Seq[T] {
-	return func(yield func(T) bool) {
-		for v := range ch {
-			if !yield(v) {
-				return
-			}
+func All[T any](it iter.Seq[T], f func(T) bool) bool {
+	for v := range it {
+		if !f(v) {
+			return false
 		}
 	}
+	return true
 }
 
-func ToSlice[T any](it iter.Seq[T]) []T {
-	return slices.Collect(it)
-}
-
-func Count[T any](it iter.Seq[T]) int {
-	cnt := 0
-	for range it {
-		cnt++
-	}
-	return cnt
-}
-
-func First[T any](it iter.Seq[T]) (T, error) {
+func Any[T any](it iter.Seq[T], f func(T) bool) bool {
 	for v := range it {
-		return v, nil
-	}
-	var def T
-	return def, ErrEmpty
-}
-
-func Last[T any](it iter.Seq[T]) (T, error) {
-	var res T
-	empty := true
-	for v := range it {
-		res = v
-		empty = false
-	}
-	if empty {
-		var def T
-		return def, ErrEmpty
-	}
-	return res, nil
-}
-
-func Nth[T any](it iter.Seq[T], n int) (T, error) {
-	i := 0
-	for v := range it {
-		if i >= n {
-			return v, nil
-		}
-		i++
-	}
-	var def T
-	return def, ErrNotFound
-}
-
-func StepBy[T any](it iter.Seq[T], n int) iter.Seq[T] {
-	return func(yield func(T) bool) {
-		i := 0
-		for v := range it {
-			if i == 0 {
-				if !yield(v) {
-					return
-				}
-			}
-			i = (i + 1) % n
+		if f(v) {
+			return true
 		}
 	}
+	return false
 }
 
 func Chain[T any](it iter.Seq[T], other iter.Seq[T]) iter.Seq[T] {
@@ -95,37 +39,43 @@ func Chain[T any](it iter.Seq[T], other iter.Seq[T]) iter.Seq[T] {
 	}
 }
 
-func Intersperse[T any](it iter.Seq[T], other T) iter.Seq[T] {
-	return func(yield func(T) bool) {
-		first := true
-		for v := range it {
-			if !first {
-				if !yield(other) {
-					return
-				}
-			}
-			first = false
-			if !yield(v) {
-				return
-			}
+func Contains[T comparable](it iter.Seq[T], v T) bool {
+	for left := range it {
+		if left == v {
+			return true
 		}
 	}
+	return false
 }
 
-func Map[T, R any](it iter.Seq[T], f func(T) R) iter.Seq[R] {
-	return func(yield func(R) bool) {
-		for v := range it {
-			if !yield(f(v)) {
-				return
-			}
-		}
+func Count[T any](it iter.Seq[T]) int {
+	cnt := 0
+	for range it {
+		cnt++
 	}
+	return cnt
 }
 
 func Each[T any](it iter.Seq[T], f func(T)) {
 	for v := range it {
 		f(v)
 	}
+}
+
+func Eq[T comparable](lhs, rhs iter.Seq[T]) bool {
+	pull, stop := iter.Pull(iter.Seq[T](rhs))
+	defer stop()
+	for left := range lhs {
+		right, more := pull()
+		if !more {
+			return false
+		}
+		if left != right {
+			return false
+		}
+	}
+	_, more := pull()
+	return !more
 }
 
 func Filter[T any](it iter.Seq[T], f func(T) bool) iter.Seq[T] {
@@ -153,116 +103,6 @@ func FilterMap[T, R any](it iter.Seq[T], f func(T) (R, bool)) iter.Seq[R] {
 	}
 }
 
-func Skip[T any](it iter.Seq[T], n int) iter.Seq[T] {
-	return func(yield func(T) bool) {
-		if n == 0 {
-			return
-		}
-		i := 0
-		for v := range it {
-			i++
-			if i >= n {
-				if !yield(v) {
-					break
-				}
-			}
-		}
-	}
-}
-
-func Take[T any](it iter.Seq[T], n int) iter.Seq[T] {
-	return func(yield func(T) bool) {
-		i := 0
-		if n == 0 {
-			return
-		}
-		for v := range it {
-			if !yield(v) {
-				break
-			}
-			i++
-			if i >= n {
-				break
-			}
-		}
-	}
-}
-
-func FlatMap[T, R any](it iter.Seq[T], f func(T) iter.Seq[R]) iter.Seq[R] {
-	return func(yield func(R) bool) {
-		for v := range it {
-			for r := range f(v) {
-				if !yield(r) {
-					return
-				}
-			}
-		}
-	}
-}
-
-func Fuse[T any](it iter.Seq[T]) iter.Seq[T] {
-	return func(yield func(T) bool) {
-		for v := range it {
-			if !yield(v) {
-				break
-			}
-		}
-	}
-}
-
-func Inspect[T any](it iter.Seq[T], f func(T)) iter.Seq[T] {
-	return func(yield func(T) bool) {
-		for v := range it {
-			f(v)
-			if !yield(v) {
-				return
-			}
-		}
-	}
-}
-
-func Fold[T, R any](it iter.Seq[T], init R, f func(R, T) R) R {
-	for v := range it {
-		init = f(init, v)
-	}
-	return init
-}
-
-func Reduce[T any](it iter.Seq[T], f func(T, T) T) (T, error) {
-	var acc T
-	accSet := false
-	for v := range it {
-		if !accSet {
-			acc = v
-		} else {
-			acc = f(acc, v)
-		}
-	}
-	if !accSet {
-		var def T
-		return def, ErrEmpty
-	}
-	return acc, nil
-}
-
-func All[T any](it iter.Seq[T], f func(T) bool) bool {
-	for v := range it {
-		if !f(v) {
-			return false
-		}
-	}
-	return true
-}
-
-func Any[T any](it iter.Seq[T], f func(T) bool) bool {
-	for v := range it {
-		if f(v) {
-			return true
-		}
-	}
-	return false
-}
-
 func Find[T any](it iter.Seq[T], f func(T) bool) (T, error) {
 	for v := range it {
 		if f(v) {
@@ -284,6 +124,57 @@ func FindMap[T any](it iter.Seq[T], f func(T) (T, bool)) (T, error) {
 	return def, ErrNotFound
 }
 
+func First[T any](it iter.Seq[T]) (T, error) {
+	for v := range it {
+		return v, nil
+	}
+	var def T
+	return def, ErrEmpty
+}
+
+func FlatMap[T, R any](it iter.Seq[T], f func(T) iter.Seq[R]) iter.Seq[R] {
+	return func(yield func(R) bool) {
+		for v := range it {
+			for r := range f(v) {
+				if !yield(r) {
+					return
+				}
+			}
+		}
+	}
+}
+
+func Fold[T, R any](it iter.Seq[T], init R, f func(R, T) R) R {
+	for v := range it {
+		init = f(init, v)
+	}
+	return init
+}
+
+func FromChannel[T any](ch <-chan T) iter.Seq[T] {
+	return func(yield func(T) bool) {
+		for v := range ch {
+			if !yield(v) {
+				return
+			}
+		}
+	}
+}
+
+func FromSlice[S ~[]E, E any](s S) iter.Seq[E] {
+	return slices.Values(s)
+}
+
+func Fuse[T any](it iter.Seq[T]) iter.Seq[T] {
+	return func(yield func(T) bool) {
+		for v := range it {
+			if !yield(v) {
+				break
+			}
+		}
+	}
+}
+
 func Index[T any](it iter.Seq[T], f func(T) bool) (int, error) {
 	i := 0
 	for v := range it {
@@ -295,29 +186,69 @@ func Index[T any](it iter.Seq[T], f func(T) bool) (int, error) {
 	return 0, ErrOutOfRange
 }
 
-func Eq[T comparable](lhs, rhs iter.Seq[T]) bool {
-	pull, stop := iter.Pull(iter.Seq[T](rhs))
-	defer stop()
-	for left := range lhs {
-		right, more := pull()
-		if !more {
-			return false
-		}
-		if left != right {
-			return false
+func Inspect[T any](it iter.Seq[T], f func(T)) iter.Seq[T] {
+	return func(yield func(T) bool) {
+		for v := range it {
+			f(v)
+			if !yield(v) {
+				return
+			}
 		}
 	}
-	_, more := pull()
-	return !more
 }
 
-func Contains[T comparable](it iter.Seq[T], v T) bool {
-	for left := range it {
-		if left == v {
-			return true
+func Intersperse[T any](it iter.Seq[T], other T) iter.Seq[T] {
+	return func(yield func(T) bool) {
+		first := true
+		for v := range it {
+			if !first {
+				if !yield(other) {
+					return
+				}
+			}
+			first = false
+			if !yield(v) {
+				return
+			}
 		}
 	}
-	return false
+}
+
+func Join[T cmp.Ordered](it iter.Seq[T], sep T) T {
+	var sum T
+	first := true
+	for v := range it {
+		if !first {
+			sum += sep
+		}
+		sum += v
+		first = false
+	}
+	return sum
+}
+
+func Last[T any](it iter.Seq[T]) (T, error) {
+	var res T
+	empty := true
+	for v := range it {
+		res = v
+		empty = false
+	}
+	if empty {
+		var def T
+		return def, ErrEmpty
+	}
+	return res, nil
+}
+
+func Map[T, R any](it iter.Seq[T], f func(T) R) iter.Seq[R] {
+	return func(yield func(R) bool) {
+		for v := range it {
+			if !yield(f(v)) {
+				return
+			}
+		}
+	}
 }
 
 func Max[T cmp.Ordered](it iter.Seq[T]) (T, error) {
@@ -350,25 +281,50 @@ func Min[T cmp.Ordered](it iter.Seq[T]) (T, error) {
 	return min, nil
 }
 
-func Sum[T cmp.Ordered](it iter.Seq[T]) T {
-	var sum T
+func Nth[T any](it iter.Seq[T], n int) (T, error) {
+	i := 0
 	for v := range it {
-		sum += v
+		if i >= n {
+			return v, nil
+		}
+		i++
 	}
-	return sum
+	var def T
+	return def, ErrNotFound
 }
 
-func Join[T cmp.Ordered](it iter.Seq[T], sep T) T {
-	var sum T
-	first := true
+func Reduce[T any](it iter.Seq[T], f func(T, T) T) (T, error) {
+	var acc T
+	accSet := false
 	for v := range it {
-		if !first {
-			sum += sep
+		if !accSet {
+			acc = v
+		} else {
+			acc = f(acc, v)
 		}
-		sum += v
-		first = false
 	}
-	return sum
+	if !accSet {
+		var def T
+		return def, ErrEmpty
+	}
+	return acc, nil
+}
+
+func Skip[T any](it iter.Seq[T], n int) iter.Seq[T] {
+	return func(yield func(T) bool) {
+		if n == 0 {
+			return
+		}
+		i := 0
+		for v := range it {
+			i++
+			if i >= n {
+				if !yield(v) {
+					break
+				}
+			}
+		}
+	}
 }
 
 func Sorted[T cmp.Ordered](it iter.Seq[T]) bool {
@@ -382,4 +338,48 @@ func Sorted[T cmp.Ordered](it iter.Seq[T]) bool {
 		first = false
 	}
 	return true
+}
+
+func StepBy[T any](it iter.Seq[T], n int) iter.Seq[T] {
+	return func(yield func(T) bool) {
+		i := 0
+		for v := range it {
+			if i == 0 {
+				if !yield(v) {
+					return
+				}
+			}
+			i = (i + 1) % n
+		}
+	}
+}
+
+func Sum[T cmp.Ordered](it iter.Seq[T]) T {
+	var sum T
+	for v := range it {
+		sum += v
+	}
+	return sum
+}
+
+func Take[T any](it iter.Seq[T], n int) iter.Seq[T] {
+	return func(yield func(T) bool) {
+		i := 0
+		if n == 0 {
+			return
+		}
+		for v := range it {
+			if !yield(v) {
+				break
+			}
+			i++
+			if i >= n {
+				break
+			}
+		}
+	}
+}
+
+func ToSlice[T any](it iter.Seq[T]) []T {
+	return slices.Collect(it)
 }
