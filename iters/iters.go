@@ -3,7 +3,6 @@ package iters
 import (
 	"cmp"
 	"iter"
-	"slices"
 )
 
 func All[T any](it iter.Seq[T], f func(T) bool) bool {
@@ -162,7 +161,13 @@ func FromChannel[T any](ch <-chan T) iter.Seq[T] {
 }
 
 func FromSlice[S ~[]E, E any](s S) iter.Seq[E] {
-	return slices.Values(s)
+	return func(yield func(E) bool) {
+		for _, v := range s {
+			if !yield(v) {
+				return
+			}
+		}
+	}
 }
 
 func Fuse[T any](it iter.Seq[T]) iter.Seq[T] {
@@ -299,6 +304,7 @@ func Reduce[T any](it iter.Seq[T], f func(T, T) T) (T, error) {
 	for v := range it {
 		if !accSet {
 			acc = v
+			accSet = true
 		} else {
 			acc = f(acc, v)
 		}
@@ -312,17 +318,14 @@ func Reduce[T any](it iter.Seq[T], f func(T, T) T) (T, error) {
 
 func Skip[T any](it iter.Seq[T], n int) iter.Seq[T] {
 	return func(yield func(T) bool) {
-		if n == 0 {
-			return
-		}
 		i := 0
 		for v := range it {
-			i++
 			if i >= n {
 				if !yield(v) {
 					break
 				}
 			}
+			i++
 		}
 	}
 }
@@ -365,7 +368,7 @@ func Sum[T cmp.Ordered](it iter.Seq[T]) T {
 func Take[T any](it iter.Seq[T], n int) iter.Seq[T] {
 	return func(yield func(T) bool) {
 		i := 0
-		if n == 0 {
+		if n <= 0 {
 			return
 		}
 		for v := range it {
@@ -381,5 +384,9 @@ func Take[T any](it iter.Seq[T], n int) iter.Seq[T] {
 }
 
 func ToSlice[T any](it iter.Seq[T]) []T {
-	return slices.Collect(it)
+	res := make([]T, 0)
+	for v := range it {
+		res = append(res, v)
+	}
+	return res
 }
