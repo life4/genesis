@@ -4,8 +4,8 @@ Generic functions for Go. Bringing the beauty of functional programming in Go 1.
 
 **😎 Features:**
 
-+ 🛠️ Over 170 generic functions for channels, maps, and slices.
-+ 💪 Uses the power of Go 1.18+ generics.
++ 🛠️ Over 200 generic functions for channels, maps, and slices.
++ 💪 Uses the power of Go 1.18+ generics and Go 1.23+ iterators.
 + 🧐 No code generation.
 + 🪶 No dependencies (except [is](https://github.com/matryer/is) for testing).
 + 🏃 Pure Go.
@@ -13,7 +13,7 @@ Generic functions for Go. Bringing the beauty of functional programming in Go 1.
 
 **🔨 When to use:**
 
-+ 🐘 **In a big project**. More the project grows, more you find yourself writing boring generic code like "Min". Break the cycle.
++ 🐘 **In a big project**. More the project grows, more you find yourself writing boring generic functions like `Filter`. Break the cycle.
 + 🤝 **In a team project**. Each line of code you write means higher maintenance cost that in turn means loosing time and money.
 + 🐶 **In a pet project**. Leave the boring stuff to us, focus on the fun parts.
 + 📚 **When readability matters**. `slices.Shrink` is a function with a human-friendly name and documentation. `s[:len(s):len(s)]` is a jibberish and black magic. Prefer the former.
@@ -49,7 +49,8 @@ lambdas.Must(slices.Min([]int{42, 7, 13})) == 7
 Double values in a slice of ints:
 
 ```go
-slices.Map([]int{4, 8, 15}, func(el int) int { return el * 2 })
+double := func(el int) int { return el * 2 }
+slices.Map([]int{4, 8, 15}, double)
 ```
 
 Concurrently check status codes for multiple URLs:
@@ -76,6 +77,7 @@ Genesis contains the following packages:
 + [🗺 maps](https://pkg.go.dev/github.com/life4/genesis/maps): generic functions for maps (`map[K]V`).
 + [📺 channels](https://pkg.go.dev/github.com/life4/genesis/channels): generic function for channels (`chan T`).
 + [⚙️ sets](https://pkg.go.dev/github.com/life4/genesis/sets): generic function for sets (`map[T]struct{}`).
++ [🦥 iters](https://pkg.go.dev/github.com/life4/genesis/iters): generic function for lazy iteration.
 + [🛟 lambdas](https://pkg.go.dev/github.com/life4/genesis/lambdas): helper generic functions to work with `slices.Map` and similar.
 
 See [📄 DOCUMENTATION](https://pkg.go.dev/github.com/life4/genesis) for more info.
